@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_16_v2",
+  "status": "sections_2_to_17_v2",
   "supplier": "Kafu",
   "rawRows": 31,
-  "section16": 31,
-  "kept_prior": 1423,
-  "count": 1454,
+  "section17": 31,
+  "kept_prior": 1454,
+  "count": 1485,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -37,11 +37,13 @@
     "Eccentric Shaft Speed Sensor",
     "Electrical Controller",
     "Electrical Solenoid",
+    "Electromagnetic Coil",
     "Electronic Interface Module",
     "Electronic Relay",
     "Engine / Control Harness",
     "Engine Control Module",
     "Engine Safety Control Protection Block",
+    "Flameout / Fuel Shut-off",
     "Flameout / Shut-off Solenoid",
     "Fluid Level Sensor",
     "Fluid Temperature Sensor",
@@ -107,6 +109,8 @@
     "Sensor Connector / Plug Kit",
     "Solenoid Coil",
     "Solenoid Control Valve",
+    "Solenoid Manifold / Cartridge",
+    "Solenoid Valve",
     "Speed Sensor",
     "Starter / Control Relay",
     "Telematics Module",
@@ -29630,6 +29634,681 @@
       ],
       "section": "Section 16",
       "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A26-1",
+      "category": "Flameout / Fuel Shut-off",
+      "description": "Fuel Shut-off Solenoid Valve",
+      "name": "Fuel Shut-off Solenoid Valve — Caterpillar E320B",
+      "oemNumbers": [
+        "155-4654",
+        "111-4870"
+      ],
+      "compatibility": [
+        "Caterpillar E320B"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-10",
+      "category": "Solenoid Valve",
+      "description": "Proportional Pump Regulator Valve",
+      "name": "Proportional Pump Regulator Valve — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN35V00048F1",
+        "KDRDE5K-31"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-10A",
+      "category": "Solenoid Valve",
+      "description": "High-Pressure Safety Selector Solenoid",
+      "name": "High-Pressure Safety Selector Solenoid — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "YN35V00052F1",
+        "KDRDE5K-31",
+        "30C50"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-10B",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Pilot Block Cartridge Solenoid",
+      "name": "Pilot Block Cartridge Solenoid — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141",
+        "KHR17530"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-11",
+      "category": "Solenoid Valve",
+      "description": "Main Pump Displacement Solenoid",
+      "name": "Main Pump Displacement Solenoid — Volvo EC210B Hydraulic Block",
+      "oemNumbers": [
+        "VOE 14518342",
+        "14529298"
+      ],
+      "compatibility": [
+        "Volvo EC210B Hydraulic Block"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-11A",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Pilot Manifold Cartridge Solenoid",
+      "name": "Pilot Manifold Cartridge Solenoid — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736",
+        "21714265"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-12",
+      "category": "Flameout / Fuel Shut-off",
+      "description": "Automatic Fuel Stop Solenoid Actuator",
+      "name": "Automatic Fuel Stop Solenoid Actuator — Deutz 1011, 2011 Engines, Volvo",
+      "oemNumbers": [
+        "0428-7583",
+        "0427-2733"
+      ],
+      "compatibility": [
+        "Deutz 1011",
+        "2011 Engines",
+        "Volvo"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-13",
+      "category": "Flameout / Fuel Shut-off",
+      "description": "Fuel Supply Flameout Actuator",
+      "name": "Fuel Supply Flameout Actuator — Isuzu 4HK1, 6HK1, Hitachi EX200-5",
+      "oemNumbers": [
+        "1-82563-039-1",
+        "8-98132-9420"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1",
+        "6HK1",
+        "Hitachi EX200-5",
+        "ZAX200-3"
+      ],
+      "pages": [
+        "89"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-14",
+      "category": "Solenoid Valve",
+      "description": "Hydraulic Pump Dual Solenoid Block",
+      "name": "Hydraulic Pump Dual Solenoid Block — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4372497",
+        "4436535"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "89"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-14A",
+      "category": "Solenoid Valve",
+      "description": "Main Relief Proportional Valve Valve",
+      "name": "Main Relief Proportional Valve Valve — Hitachi ZAX200-3, ZAX240-3",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3"
+      ],
+      "pages": [
+        "89"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-14B",
+      "category": "Solenoid Valve",
+      "description": "Pilot Line Selector Solenoid Module",
+      "name": "Pilot Line Selector Solenoid Module — Hitachi ZAX-5A, ZAX-5G Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-5A",
+        "ZAX-5G Series"
+      ],
+      "pages": [
+        "89"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-15",
+      "category": "Flameout / Fuel Shut-off",
+      "description": "Heavy Inline Flameout Solenoid",
+      "name": "Heavy Inline Flameout Solenoid — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2523-9016"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "90"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-16",
+      "category": "Solenoid Valve",
+      "description": "Main Pilot Pump Solenoid Block",
+      "name": "Main Pilot Pump Solenoid Block — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021",
+        "537-00010"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "90"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-17",
+      "category": "Flameout / Fuel Shut-off",
+      "description": "Inline Engine Cutoff Solenoid Switch",
+      "name": "Inline Engine Cutoff Solenoid Switch — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-01272",
+        "21N6-01275"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "90"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-18",
+      "category": "Solenoid Valve",
+      "description": "Proportional Pressure Valve Assembly",
+      "name": "Proportional Pressure Valve Assembly — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30080"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "90"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-19",
+      "category": "Solenoid Valve",
+      "description": "Proportional Safety Lock Valve Block",
+      "name": "Proportional Safety Lock Valve Block — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "91"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-2",
+      "category": "Solenoid Valve",
+      "description": "Main Pump Control Solenoid",
+      "name": "Main Pump Control Solenoid — Caterpillar E320B, E325B",
+      "oemNumbers": [
+        "121-1491",
+        "121-1490"
+      ],
+      "compatibility": [
+        "Caterpillar E320B",
+        "E325B"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-20",
+      "category": "Electromagnetic Coil",
+      "description": "Hydraulic Manifold Regulator Coil",
+      "name": "Hydraulic Manifold Regulator Coil — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "91"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-21",
+      "category": "Solenoid Valve",
+      "description": "Travel Direction Selection Solenoid",
+      "name": "Travel Direction Selection Solenoid — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "91"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-22",
+      "category": "Solenoid Valve",
+      "description": "Transmission Fluid Direction Solenoid",
+      "name": "Transmission Fluid Direction Solenoid — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "92"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-23",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Pilot Line Control Cartridge Stack",
+      "name": "Pilot Line Control Cartridge Stack — John Deere Infrastructure Series",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Infrastructure Series"
+      ],
+      "pages": [
+        "92"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-3",
+      "category": "Solenoid Valve",
+      "description": "Proportional Solenoid Valve Block",
+      "name": "Proportional Solenoid Valve Block — Caterpillar E320C, E320D",
+      "oemNumbers": [
+        "259-5274",
+        "111-4871"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E320D"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-3A",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Hydraulic Lock Manifold Valve",
+      "name": "Hydraulic Lock Manifold Valve — Caterpillar E320D, E323D",
+      "oemNumbers": [
+        "312-5620",
+        "419-5574"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-4",
+      "category": "Solenoid Valve",
+      "description": "Rotational Electronic Governor Valve",
+      "name": "Rotational Electronic Governor Valve — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-4B",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Miniature Cartridge Solenoid Valve",
+      "name": "Miniature Cartridge Solenoid Valve — Caterpillar E307D",
+      "oemNumbers": [
+        "425-4893"
+      ],
+      "compatibility": [
+        "Caterpillar E307D"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-5",
+      "category": "Flameout / Fuel Shut-off",
+      "description": "Fuel Shut-off Solenoid Switch (24V)",
+      "name": "Fuel Shut-off Solenoid Switch (24V) — Komatsu PC200-6, PC220-6, PC300-6",
+      "oemNumbers": [
+        "600-815-2170",
+        "600-815-8940"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6",
+        "PC300-6"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-6",
+      "category": "Solenoid Valve",
+      "description": "Proportional EPC Solenoid Valve",
+      "name": "Proportional EPC Solenoid Valve — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "702-21-57400",
+        "702-21-55901"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-7",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Solenoid Manifold Array (5-Valve Set)",
+      "name": "Solenoid Manifold Array (5-Valve Set) — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "20Y-60-32121",
+        "20Y-60-32120"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "87"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-8",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Solenoid Manifold Array (6-Valve Set)",
+      "name": "Solenoid Manifold Array (6-Valve Set) — Komatsu PC200-8, PC220-8",
+      "oemNumbers": [
+        "20Y-60-41611",
+        "20Y-60-41621"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "PC220-8"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-8A",
+      "category": "Solenoid Manifold / Cartridge",
+      "description": "Variable Pilot Flow Valve Stem",
+      "name": "Variable Pilot Flow Valve Stem — Komatsu PC200-8, PC200-10",
+      "oemNumbers": [
+        "702-21-07010",
+        "702-21-07310"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "PC200-10"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A26-9",
+      "category": "Flameout / Fuel Shut-off",
+      "description": "Engine Shutdown Flameout Solenoid",
+      "name": "Engine Shutdown Flameout Solenoid — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN24C00114F2"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "88"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 17",
+      "confidence": "user-section17-v2"
     }
   ]
 }

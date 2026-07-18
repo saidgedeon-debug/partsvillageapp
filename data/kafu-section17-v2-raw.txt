@@ -1,0 +1,48 @@
+Section 17: Solenoid Valves, Flameout Activators, & Electromagnetic Coils (Pages 87–92)
+This final section indexes technical data for heavy duty multi-station hydraulic control solenoid manifolds, inline fuel system flameout switches, backup warning devices, and variable displacement pump coils from pages 87 to 92. All non-English syntax has been omitted, and Machine Compatibility is mapped to its own clear database field.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A26-1Fuel Shut-off Solenoid Valve155-4654 / 111-4870CAT E320BPage 87
+A26-2Main Pump Control Solenoid121-1491 / 121-1490CAT E320B, E325BPage 87
+A26-3Proportional Solenoid Valve Block259-5274 / 111-4871CAT E320C, E320DPage 87
+A26-3AHydraulic Lock Manifold Valve312-5620 / 419-5574CAT E320D, E323DPage 87
+A26-4Rotational Electronic Governor Valve386-3439 ModuleCAT E320D2 SeriesPage 87
+A26-4BMiniature Cartridge Solenoid Valve425-4893 ComponentCAT E307DPage 87
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A26-11Main Pump Displacement SolenoidVOE 14518342 / 14529298VOLVO EC210B Hydraulic BlockPage 88
+A26-11APilot Manifold Cartridge SolenoidVOE 14616736 / 21714265VOLVO EC210D, EC220DPage 88
+A26-12Automatic Fuel Stop Solenoid Actuator0428-7583 / 0427-2733Deutz 1011, 2011 Engines / VOLVOPage 88
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A26-5Fuel Shut-off Solenoid Switch (24V)600-815-2170 / 600-815-8940Komatsu PC200-6, PC220-6, PC300-6Page 87
+A26-6Proportional EPC Solenoid Valve702-21-57400 / 702-21-55901Komatsu PC200-7, PC220-7Page 87
+A26-7Solenoid Manifold Array (5-Valve Set)20Y-60-32121 / 20Y-60-32120Komatsu PC200-7, PC220-7Page 87
+A26-8Solenoid Manifold Array (6-Valve Set)20Y-60-41611 / 20Y-60-41621Komatsu PC200-8, PC220-8Page 88
+A26-8AVariable Pilot Flow Valve Stem702-21-07010 / 702-21-07310Komatsu PC200-8, PC200-10Page 88
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A26-13Fuel Supply Flameout Actuator1-82563-039-1 / 8-98132-9420Isuzu 4HK1, 6HK1 / Hitachi EX200-5, ZAX200-3Page 89
+A26-14Hydraulic Pump Dual Solenoid Block4372497 / 4436535Hitachi ZAX200-1, ZAX210, ZAX230Page 89
+A26-14AMain Relief Proportional Valve Valve4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 89
+A26-14BPilot Line Selector Solenoid Module4668260 Block SpecHitachi ZAX-5A, ZAX-5G SeriesPage 89
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A26-15Heavy Inline Flameout Solenoid2523-9014 / 2523-9016Daewoo Doosan DH220-5Page 90
+A26-16Main Pilot Pump Solenoid Block300513-00021 / 537-00010Doosan DX225, DX300Page 90
+A26-17Inline Engine Cutoff Solenoid Switch21N6-01272 / 21N6-01275Hyundai R210-5, R225-7Page 90
+A26-18Proportional Pressure Valve Assembly21Q6-30080 Panel UnitHyundai R210-9, R220-9Page 90
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A26-9Engine Shutdown Flameout SolenoidYN24C00114F2 Line SpecKobelco SK200-3, SK200-5Page 88
+A26-10Proportional Pump Regulator ValveYN35V00048F1 / KDRDE5K-31Kobelco SK200-6, SK200-6EPage 88
+A26-10AHigh-Pressure Safety Selector SolenoidYN35V00052F1 / KDRDE5K-31/30C50Kobelco SK200-8, SK350-8Page 88
+A26-10BPilot Block Cartridge SolenoidKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 88
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A26-19Proportional Safety Lock Valve Block60114798 / 60114799Sany SY215C, SY235C-9Page 91
+A26-20Hydraulic Manifold Regulator Coil10213169 Terminal UnitLiugong 920E, 925EPage 91
+A26-21Travel Direction Selection Solenoid1000168 ComponentXCMG XE215C, XE215DPage 91
+A26-22Transmission Fluid Direction Solenoid701/80184 Module SpecJCB 3CX, 4CX Backhoe LoadersPage 92
+A26-23Pilot Line Control Cartridge StackAT103035 / RE61812John Deere Infrastructure SeriesPage 92
