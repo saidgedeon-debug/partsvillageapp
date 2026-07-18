@@ -1,0 +1,20 @@
+---
+description: Always commit, push to GitHub, and deploy to Vercel after each edit
+alwaysApply: true
+---
+
+# Always push and deploy after edits
+
+After every code change that should ship:
+
+1. **Commit** relevant files (never commit secrets: `.env*`, `.vercel-token.local`, credentials).
+2. **Push** to GitHub: `origin` → `https://github.com/saidgedeon-debug/partsvillageapp` (`main`).
+3. **Deploy** production to Vercel team **parts-village-team** only:
+   - Project: `partsvillageapp`
+   - Scope: `parts-village-team`
+   - Use `VERCEL_TOKEN` from `.vercel-token.local` when needed
+   - Command pattern: `npx vercel --prod --yes --scope parts-village-team`
+4. Confirm the live URL: https://partsvillageapp.vercel.app
+
+Do not deploy to any other Vercel account/team (e.g. `said23`).
+Do not push to any other GitHub repo (e.g. `saidgedeon1/parts-pro-central`).
