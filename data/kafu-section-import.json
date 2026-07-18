@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_6_plus_8_v2",
+  "status": "sections_2_to_8_v2",
   "supplier": "Kafu",
-  "rawRows": 87,
-  "section8": 87,
-  "kept_prior": 925,
-  "count": 1012,
+  "rawRows": 185,
+  "section7": 185,
+  "kept_prior": 1012,
+  "count": 1197,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -17,6 +17,7 @@
     "Cabin Switch",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
+    "Circuit Protection",
     "Common Rail Sensor",
     "Common Rail Valve",
     "Coolant Temperature Sensor",
@@ -26,21 +27,26 @@
     "Differential Pressure Sensor",
     "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
+    "Electrical Solenoid",
     "Engine Control Module",
     "Fluid Level Sensor",
     "Fluid Temperature Sensor",
     "Flywheel Speed Sensor",
+    "Fuel Common Rail",
     "Fuel Pressure Limiter Valve",
     "Fuel Pump Speed Sensor",
     "Fuel Sensor Cable",
     "Fuel Temperature Sensor",
     "Fuel/Oil Temperature Sensor",
+    "Glow / Preheater Plug",
     "Glow Plug",
     "HVAC Controller",
+    "Heavy-Duty Resistor Block",
     "High Pressure Sensor",
     "High-Pressure Sensor",
     "High-Pressure Switch",
     "High-Pressure Valve",
+    "Horn / Alarm",
     "Hydraulic Fluid Sensor",
     "Hydraulic Oil Temperature Sensor",
     "Ignition Switch",
@@ -60,12 +66,14 @@
     "Oil/Water Temperature Sensor",
     "Overflow Valve",
     "Oxygen Sensor",
+    "Power Switch",
     "Pressure Reducing Valve",
     "Pressure Sensor",
     "Pressure Switch",
     "Pressure Switch Core",
     "Proximity Switch",
     "Pump Head Unit",
+    "Relay Base",
     "Revolution Sensor",
     "Rotary Switch Sensor",
     "SCU Control Valve",
@@ -74,12 +82,15 @@
     "Sensor Cable Assembly",
     "Solenoid Control Valve",
     "Speed Sensor",
+    "Starter / Control Relay",
     "Telematics Module",
     "Temperature Probe",
     "Temperature Sensor",
     "Temperature Switch",
+    "Throttle Drive Board",
     "Vacuum Pressure Sensor",
     "Vacuum Pressure Switch",
+    "Voltage Regulator",
     "Water Alarm Sensor",
     "Water Temperature Sensor"
   ],
@@ -18543,6 +18554,3754 @@
       "confidence": "user-section6-v2"
     },
     {
+      "catalogCode": "A13-1",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Komatsu PC200-8",
+      "oemNumbers": [
+        "6754-71-1210"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-10",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Volvo VOE210",
+      "oemNumbers": [
+        "D6E",
+        "0445226188"
+      ],
+      "compatibility": [
+        "Volvo VOE210"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-10A",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Volvo Platforms",
+      "oemNumbers": [
+        "D13",
+        "22578068"
+      ],
+      "compatibility": [
+        "Volvo Platforms"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-11A",
+      "category": "Fuel Common Rail",
+      "description": "Common Rail Pipe Log",
+      "name": "Common Rail Pipe Log — E312 Line CAT E312 Platforms",
+      "oemNumbers": [
+        "C4.4"
+      ],
+      "compatibility": [
+        "E312 Line CAT E312 Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-11B",
+      "category": "Fuel Common Rail",
+      "description": "Common Rail Pipe Log",
+      "name": "Common Rail Pipe Log — Perkins CAT Machinery Platforms",
+      "oemNumbers": [
+        "C4.4"
+      ],
+      "compatibility": [
+        "Perkins CAT Machinery Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-12",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Isuzu EC210D Platforms",
+      "oemNumbers": [
+        "Rail System"
+      ],
+      "compatibility": [
+        "Isuzu EC210D Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-13",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Isuzu SK140-8 Series",
+      "oemNumbers": [
+        "0445224040"
+      ],
+      "compatibility": [
+        "Isuzu SK140-8 Series"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-13A",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Doosan Machinery",
+      "oemNumbers": [
+        "D18",
+        "7249383"
+      ],
+      "compatibility": [
+        "Doosan Machinery"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-13B",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Doosan Machinery",
+      "oemNumbers": [
+        "D34",
+        "28263779",
+        "7256757"
+      ],
+      "compatibility": [
+        "Doosan Machinery"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-14",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "3219204519"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-15",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "3307",
+        "1J770-50600"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-16",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "1J600-50602"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-17",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "1J801-50600"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-18",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins V3307-CR-T Engines",
+      "oemNumbers": [
+        "Rail System"
+      ],
+      "compatibility": [
+        "Cummins V3307-CR-T Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-19",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins, Yuchai Platforms",
+      "oemNumbers": [
+        "095440-0540",
+        "0680"
+      ],
+      "compatibility": [
+        "Cummins",
+        "Yuchai Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-2",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Hitachi PC350-8 (6D114 Engine)",
+      "oemNumbers": [
+        "3963815"
+      ],
+      "compatibility": [
+        "Hitachi PC350-8 (6D114 Engine)"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-20",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins, Yuchai Engines",
+      "oemNumbers": [
+        "Rail System"
+      ],
+      "compatibility": [
+        "Cummins",
+        "Yuchai Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-21",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins, Yuchai Engines",
+      "oemNumbers": [
+        "Rail System"
+      ],
+      "compatibility": [
+        "Cummins",
+        "Yuchai Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-22",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins, Yuchai LX3310HSDC",
+      "oemNumbers": [
+        "Rail System"
+      ],
+      "compatibility": [
+        "Cummins",
+        "Yuchai LX3310HSDC"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-23",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins, Yuchai Platforms",
+      "oemNumbers": [
+        "095440-7060",
+        "1J070-50600"
+      ],
+      "compatibility": [
+        "Cummins",
+        "Yuchai Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-24",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "1J524-50590"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-25",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins, Yuchai Engines",
+      "oemNumbers": [
+        "095440-5710",
+        "M1715"
+      ],
+      "compatibility": [
+        "Cummins",
+        "Yuchai Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-26",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "1J508-50600",
+        "095600-5701"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-27",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "150120-00062A",
+        "28240435",
+        "7030409"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-3",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Komatsu PC400-7, PC400-8",
+      "oemNumbers": [
+        "6261-71-1211"
+      ],
+      "compatibility": [
+        "Komatsu PC400-7",
+        "PC400-8"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-4",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Isuzu SK200-8 (JO5E Engine)",
+      "oemNumbers": [
+        "VH23810E0060"
+      ],
+      "compatibility": [
+        "Isuzu SK200-8 (JO5E Engine)"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-5",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Isuzu JO8E Engine Platforms",
+      "oemNumbers": [
+        "YH23810E0020"
+      ],
+      "compatibility": [
+        "Isuzu JO8E Engine Platforms"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-6",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Isuzu 4HK1 Engines",
+      "oemNumbers": [
+        "Rail System"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1 Engines"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-8",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Isuzu 6WF1, 6WG1, 6UZ1 Engines",
+      "oemNumbers": [
+        "Rail System"
+      ],
+      "compatibility": [
+        "Isuzu 6WF1",
+        "6WG1",
+        "6UZ1 Engines"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A13-9",
+      "category": "Fuel Common Rail",
+      "description": "Fuel Common Rail Log",
+      "name": "Fuel Common Rail Log — Cummins Engines",
+      "oemNumbers": [
+        "0445224025",
+        "3977727"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-1",
+      "category": "Starter / Control Relay",
+      "description": "Ground Starter Relay",
+      "name": "Ground Starter Relay — Universal Heavy Machinery",
+      "oemNumbers": [
+        "BR266",
+        "BR22 Negative"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-10",
+      "category": "Starter / Control Relay",
+      "description": "Multi-Terminal Relay Set",
+      "name": "Multi-Terminal Relay Set — Universal Control Harnesses",
+      "oemNumbers": [
+        "Three-Part Pack (A, B, C)"
+      ],
+      "compatibility": [
+        "Universal Control Harnesses"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-11",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Heavy Machinery",
+      "oemNumbers": [
+        "Starter Relay"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-12",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Earthmoving Equipment",
+      "oemNumbers": [
+        "161-3168"
+      ],
+      "compatibility": [
+        "Caterpillar Earthmoving Equipment"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-13",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay Block",
+      "name": "Heavy-Duty Relay Block — Komatsu PC200-8",
+      "oemNumbers": [
+        "7861-74-5-100"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-13A",
+      "category": "Starter / Control Relay",
+      "description": "Isolated Starter Relay",
+      "name": "Isolated Starter Relay — Universal Platforms",
+      "oemNumbers": [
+        "ACB86221",
+        "60402-0308"
+      ],
+      "compatibility": [
+        "Universal Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-14",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Cab Configurations",
+      "oemNumbers": [
+        "AC Control Module"
+      ],
+      "compatibility": [
+        "Universal Cab Configurations"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-14A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Cabin Modules",
+      "oemNumbers": [
+        "95240-91130"
+      ],
+      "compatibility": [
+        "Universal Cabin Modules"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-15",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Yanmar Engine Infrastructure (4TNV94)",
+      "oemNumbers": [
+        "HC0108 801"
+      ],
+      "compatibility": [
+        "Yanmar Engine Infrastructure (4TNV94)"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-16",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Yanmar Engine Infrastructure (4TNV94)",
+      "oemNumbers": [
+        "HC0119 JJ125"
+      ],
+      "compatibility": [
+        "Yanmar Engine Infrastructure (4TNV94)"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-16B",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Doosan DX Series",
+      "oemNumbers": [
+        "537-00010"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-16C",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "15694-65992"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-17",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "21N4-00762"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-18",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "21N6-01272"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-19A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Hyundai Systems",
+      "oemNumbers": [
+        "21N6-01273"
+      ],
+      "compatibility": [
+        "Hyundai Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-2",
+      "category": "Starter / Control Relay",
+      "description": "Isolated Starter Relay",
+      "name": "Isolated Starter Relay — Universal Heavy Machinery",
+      "oemNumbers": [
+        "BR263",
+        "08088-30000"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-20",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — 1501-00252",
+      "oemNumbers": [
+        "1501-00252",
+        "20O6-50500R-9 Wheel Excavation Platforms"
+      ],
+      "compatibility": [],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-21",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Doosan DX Series",
+      "oemNumbers": [
+        "2531-1003"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-22",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Doosan DX Series",
+      "oemNumbers": [
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-23",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Daewoo Doosan Systems",
+      "oemNumbers": [
+        "2537-9008"
+      ],
+      "compatibility": [
+        "Daewoo Doosan Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-23A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "Control Module Unit",
+        "DX 12V"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-24",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Volvo Heavy Machinery",
+      "oemNumbers": [
+        "14382341"
+      ],
+      "compatibility": [
+        "Volvo Heavy Machinery"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-25",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "14616736"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-25A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Rain Control Units",
+      "oemNumbers": [
+        "DKB-SZI"
+      ],
+      "compatibility": [
+        "Universal Rain Control Units"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-26",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Equipment",
+      "oemNumbers": [
+        "104-3204"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-26B",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar E320C Platforms",
+      "oemNumbers": [
+        "176810-0050"
+      ],
+      "compatibility": [
+        "Caterpillar E320C Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-27",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Yanmar Engine Infrastructure",
+      "oemNumbers": [
+        "119802-77200"
+      ],
+      "compatibility": [
+        "Yanmar Engine Infrastructure"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-27A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "129930-77950"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-27B",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "129930-77970"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-27C",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "91A04-13200"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-27D",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "898132-9420"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-27E",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "119953-77900"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-27F",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "188-7681"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-28",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "056800-3130"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-28A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "ACA1223-2",
+        "41223",
+        "12"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-28B",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "ACA3223"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-29",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Platforms",
+      "oemNumbers": [
+        "111-4870"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-3",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay Block",
+      "name": "Heavy-Duty Relay Block — Komatsu PC200-8",
+      "oemNumbers": [
+        "Starter Relay Base"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-30",
+      "category": "Starter / Control Relay",
+      "description": "Time Delay Relay",
+      "name": "Time Delay Relay — Caterpillar 320C Models",
+      "oemNumbers": [
+        "Delay Line Unit"
+      ],
+      "compatibility": [
+        "Caterpillar 320C Models"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-31",
+      "category": "Starter / Control Relay",
+      "description": "Wiper Control Relay",
+      "name": "Wiper Control Relay — Komatsu SK200-6 Series",
+      "oemNumbers": [
+        "Front Control Node"
+      ],
+      "compatibility": [
+        "Komatsu SK200-6 Series"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-32",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Infrastructure",
+      "oemNumbers": [
+        "213-0772",
+        "AC Relay"
+      ],
+      "compatibility": [
+        "Caterpillar Infrastructure"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-32A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — E330D Climate Controls",
+      "oemNumbers": [
+        "461-6784",
+        "AC Relay"
+      ],
+      "compatibility": [
+        "E330D Climate Controls"
+      ],
+      "pages": [
+        "32"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-32B",
+      "category": "Starter / Control Relay",
+      "description": "Universal Starter Relay",
+      "name": "Universal Starter Relay — Universal CAT Equipment Platforms",
+      "oemNumbers": [],
+      "compatibility": [
+        "Universal CAT Equipment Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-33",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay Core",
+      "name": "Heavy-Duty Relay Core — Caterpillar Electronic Management",
+      "oemNumbers": [
+        "171-2210"
+      ],
+      "compatibility": [
+        "Caterpillar Electronic Management"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-33A",
+      "category": "Circuit Protection",
+      "description": "Circuit Breaker",
+      "name": "Circuit Breaker — Caterpillar Core Electrical Blocks",
+      "oemNumbers": [
+        "171-2208"
+      ],
+      "compatibility": [
+        "Caterpillar Core Electrical Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-33B",
+      "category": "Circuit Protection",
+      "description": "Circuit Breaker",
+      "name": "Circuit Breaker — Caterpillar Core Electrical Blocks",
+      "oemNumbers": [
+        "171-2212"
+      ],
+      "compatibility": [
+        "Caterpillar Core Electrical Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-33C",
+      "category": "Circuit Protection",
+      "description": "Circuit Breaker",
+      "name": "Circuit Breaker — Caterpillar Core Electrical Blocks",
+      "oemNumbers": [
+        "171-2205"
+      ],
+      "compatibility": [
+        "Caterpillar Core Electrical Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-33D",
+      "category": "Circuit Protection",
+      "description": "Circuit Breaker",
+      "name": "Circuit Breaker — Caterpillar Core Electrical Blocks",
+      "oemNumbers": [
+        "171-2211"
+      ],
+      "compatibility": [
+        "Caterpillar Core Electrical Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-33E",
+      "category": "Circuit Protection",
+      "description": "Heavy-Duty Fuse System",
+      "name": "Heavy-Duty Fuse System — Caterpillar 950H, 928G, 930G",
+      "oemNumbers": [
+        "216-4970"
+      ],
+      "compatibility": [
+        "Caterpillar 950H",
+        "928G",
+        "930G",
+        "D5G",
+        "D90T"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-34",
+      "category": "Starter / Control Relay",
+      "description": "Time Delay Relay",
+      "name": "Time Delay Relay — Hitachi, Yanmar Platforms",
+      "oemNumbers": [
+        "7851-13-60-1",
+        "1506"
+      ],
+      "compatibility": [
+        "Hitachi",
+        "Yanmar Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-35",
+      "category": "Starter / Control Relay",
+      "description": "Universal Relay",
+      "name": "Universal Relay — Hitachi, Yanmar Platforms",
+      "oemNumbers": [
+        "129150-77710",
+        "1752V183"
+      ],
+      "compatibility": [
+        "Hitachi",
+        "Yanmar Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-36",
+      "category": "Relay Base",
+      "description": "Relay Base Assembly",
+      "name": "Relay Base Assembly — E312 Platforms",
+      "oemNumbers": [
+        "16A11-17001",
+        "12"
+      ],
+      "compatibility": [
+        "E312 Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-36A",
+      "category": "Relay Base",
+      "description": "Relay Base Assembly",
+      "name": "Relay Base Assembly — E307 Platforms",
+      "oemNumbers": [
+        "ME409675",
+        "12"
+      ],
+      "compatibility": [
+        "E307 Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-36B",
+      "category": "Starter / Control Relay",
+      "description": "Electrical Relay Unit",
+      "name": "Electrical Relay Unit — Caterpillar Infrastructure Blocks",
+      "oemNumbers": [
+        "149-2612"
+      ],
+      "compatibility": [
+        "Caterpillar Infrastructure Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-37",
+      "category": "Relay Base",
+      "description": "Relay Base Assembly",
+      "name": "Relay Base Assembly — Kubota, Yanmar Platforms",
+      "oemNumbers": [
+        "15531-64603",
+        "6-Wire"
+      ],
+      "compatibility": [
+        "Kubota",
+        "Yanmar Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-37A",
+      "category": "Starter / Control Relay",
+      "description": "Windshield Wiper Relay",
+      "name": "Windshield Wiper Relay — Caterpillar E320D Units",
+      "oemNumbers": [
+        "564-4992"
+      ],
+      "compatibility": [
+        "Caterpillar E320D Units"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-37B",
+      "category": "Relay Base",
+      "description": "Relay Base Assembly",
+      "name": "Relay Base Assembly — Yanmar Engine Infrastructure",
+      "oemNumbers": [
+        "YM119640-77711",
+        "7-Wire"
+      ],
+      "compatibility": [
+        "Yanmar Engine Infrastructure"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-38",
+      "category": "Starter / Control Relay",
+      "description": "Power Relay Interface",
+      "name": "Power Relay Interface — Isuzu Infrastructure Blocks",
+      "oemNumbers": [
+        "182550-3250"
+      ],
+      "compatibility": [
+        "Isuzu Infrastructure Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-39",
+      "category": "Starter / Control Relay",
+      "description": "Power Relay Interface",
+      "name": "Power Relay Interface — Isuzu Infrastructure Blocks",
+      "oemNumbers": [
+        "182550-3251"
+      ],
+      "compatibility": [
+        "Isuzu Infrastructure Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-4",
+      "category": "Starter / Control Relay",
+      "description": "Starter Relay Component",
+      "name": "Starter Relay Component — Volvo Heavy Line",
+      "oemNumbers": [
+        "3987034"
+      ],
+      "compatibility": [
+        "Volvo Heavy Line"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-40",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Hyundai Systems",
+      "oemNumbers": [
+        "21Q4-20100"
+      ],
+      "compatibility": [
+        "Hyundai Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-40A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Hyundai Systems",
+      "oemNumbers": [
+        "2106-30300"
+      ],
+      "compatibility": [
+        "Hyundai Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-41",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay",
+      "name": "Heavy-Duty Relay — Komatsu Platforms",
+      "oemNumbers": [
+        "Chassis Ground Node"
+      ],
+      "compatibility": [
+        "Komatsu Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-41A",
+      "category": "Throttle Drive Board",
+      "description": "Throttle Drive Board",
+      "name": "Throttle Drive Board — Caterpillar 320 Platforms",
+      "oemNumbers": [
+        "Drive Line"
+      ],
+      "compatibility": [
+        "Caterpillar 320 Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-43",
+      "category": "Throttle Drive Board",
+      "description": "Throttle Drive Board",
+      "name": "Throttle Drive Board — Komatsu PC60-7",
+      "oemNumbers": [
+        "21W-06-21712"
+      ],
+      "compatibility": [
+        "Komatsu PC60-7"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-44",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Volvo Heavy Machinery",
+      "oemNumbers": [
+        "20724977"
+      ],
+      "compatibility": [
+        "Volvo Heavy Machinery"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-44B",
+      "category": "Throttle Drive Board",
+      "description": "Throttle Drive Board",
+      "name": "Throttle Drive Board — Caterpillar E312 Platforms",
+      "oemNumbers": [
+        "Base Board Unit"
+      ],
+      "compatibility": [
+        "Caterpillar E312 Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-45",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Hyundai Systems",
+      "oemNumbers": [
+        "21M9-31100"
+      ],
+      "compatibility": [
+        "Hyundai Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-45A",
+      "category": "Voltage Regulator",
+      "description": "Engine Voltage Regulator",
+      "name": "Engine Voltage Regulator — Volvo Platforms",
+      "oemNumbers": [
+        "14529298"
+      ],
+      "compatibility": [
+        "Volvo Platforms"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-45B",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay Block",
+      "name": "Heavy-Duty Relay Block — Universal Infrastructure Blocks",
+      "oemNumbers": [
+        "100-1248-17-00E-1"
+      ],
+      "compatibility": [
+        "Universal Infrastructure Blocks"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-45C",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay Block",
+      "name": "Heavy-Duty Relay Block — 100-1233-55-03-BDX Equipment Platforms",
+      "oemNumbers": [
+        "100-1233-55-03-BDX Equipment Platforms"
+      ],
+      "compatibility": [],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-45D",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay Block",
+      "name": "Heavy-Duty Relay Block — John Deere Systems",
+      "oemNumbers": [
+        "M70121"
+      ],
+      "compatibility": [
+        "John Deere Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-45E",
+      "category": "Voltage Regulator",
+      "description": "Engine Voltage Regulator",
+      "name": "Engine Voltage Regulator — Volvo Systems",
+      "oemNumbers": [
+        "Core"
+      ],
+      "compatibility": [
+        "Volvo Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-46",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Hyundai Systems",
+      "oemNumbers": [
+        "21FQ-60070"
+      ],
+      "compatibility": [
+        "Hyundai Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-46A",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "YC0027",
+        "YC0028"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-47",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Universal Systems",
+      "oemNumbers": [
+        "Terminal Control Node"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-48",
+      "category": "Horn / Alarm",
+      "description": "Chassis Electric Horn",
+      "name": "Chassis Electric Horn — Universal Heavy Machinery",
+      "oemNumbers": [
+        "Single Tone 24V Unit"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-48A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay",
+      "name": "Heavy-Duty Relay — Komatsu Infrastructure",
+      "oemNumbers": [
+        "7861-94-3000"
+      ],
+      "compatibility": [
+        "Komatsu Infrastructure"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-49",
+      "category": "Starter / Control Relay",
+      "description": "Electrical Relay",
+      "name": "Electrical Relay — Komatsu Systems",
+      "oemNumbers": [
+        "Chassis Control Node"
+      ],
+      "compatibility": [
+        "Komatsu Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-5",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Hitachi ZAX240-3G",
+      "oemNumbers": [
+        "240-3G"
+      ],
+      "compatibility": [
+        "Hitachi ZAX240-3G"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-50",
+      "category": "Horn / Alarm",
+      "description": "Chassis Electric Horn",
+      "name": "Chassis Electric Horn — Universal Excavation Rigs",
+      "oemNumbers": [
+        "Trumpet",
+        "Horn Unit"
+      ],
+      "compatibility": [
+        "Universal Excavation Rigs"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-51",
+      "category": "Starter / Control Relay",
+      "description": "Control Module Relay",
+      "name": "Control Module Relay — Hitachi EX200-2, EX200-3 Systems",
+      "oemNumbers": [
+        "4251588"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3 Systems"
+      ],
+      "pages": [
+        "33"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-52",
+      "category": "Horn / Alarm",
+      "description": "Heavy-Duty Audio Horn",
+      "name": "Heavy-Duty Audio Horn — Universal Industrial Sites",
+      "oemNumbers": [
+        "Large Loudspeaker"
+      ],
+      "compatibility": [
+        "Universal Industrial Sites"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-53",
+      "category": "Horn / Alarm",
+      "description": "Reverse Backup Alarm",
+      "name": "Reverse Backup Alarm — Universal Heavy Machinery",
+      "oemNumbers": [
+        "14X-06-11130"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-53A",
+      "category": "Horn / Alarm",
+      "description": "Reverse Backup Alarm",
+      "name": "Reverse Backup Alarm — Universal Heavy Machinery",
+      "oemNumbers": [
+        "415-06-22100"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-53B",
+      "category": "Horn / Alarm",
+      "description": "Chassis Electric Horn",
+      "name": "Chassis Electric Horn — Universal Equipment",
+      "oemNumbers": [
+        "Trumpet",
+        "Horn Unit"
+      ],
+      "compatibility": [
+        "Universal Equipment"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-53C",
+      "category": "Horn / Alarm",
+      "description": "Chassis Electric Horn",
+      "name": "Chassis Electric Horn — Universal Equipment",
+      "oemNumbers": [
+        "Trumpet",
+        "Horn Unit"
+      ],
+      "compatibility": [
+        "Universal Equipment"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-54",
+      "category": "Glow / Preheater Plug",
+      "description": "Ignition Preheater Plug",
+      "name": "Ignition Preheater Plug — Universal Engine Infrastructure",
+      "oemNumbers": [
+        "24V Preheater"
+      ],
+      "compatibility": [
+        "Universal Engine Infrastructure"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-55",
+      "category": "Glow / Preheater Plug",
+      "description": "Ignition Preheater Plug",
+      "name": "Ignition Preheater Plug — Universal Engine Lines",
+      "oemNumbers": [
+        "910H22"
+      ],
+      "compatibility": [
+        "Universal Engine Lines"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-56",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Ground Equipment",
+      "oemNumbers": [
+        "Control Harness System"
+      ],
+      "compatibility": [
+        "Universal Ground Equipment"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-57",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Kobelco SK Series Base",
+      "oemNumbers": [
+        "Chassis Relay Node"
+      ],
+      "compatibility": [
+        "Kobelco SK Series Base"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-58",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Komatsu PC200-8",
+      "oemNumbers": [
+        "177300-8892",
+        "20Y-810-1231"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-59",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Systems",
+      "oemNumbers": [
+        "PC-BMO",
+        "113900-730"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-5A",
+      "category": "Battery Disconnect Switch",
+      "description": "Power Isolator Relay",
+      "name": "Power Isolator Relay — Sany Equipment Platforms",
+      "oemNumbers": [
+        "Switch"
+      ],
+      "compatibility": [
+        "Sany Equipment Platforms"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-5B",
+      "category": "Battery Disconnect Switch",
+      "description": "Battery Disconnect Switch",
+      "name": "Battery Disconnect Switch — Universal Application Systems",
+      "oemNumbers": [
+        "21199003"
+      ],
+      "compatibility": [
+        "Universal Application Systems"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-6",
+      "category": "Electrical Solenoid",
+      "description": "Electrical Solenoid Valve",
+      "name": "Electrical Solenoid Valve — E312C Series",
+      "oemNumbers": [
+        "Dual Cylinder Setup Komatsu E320C,"
+      ],
+      "compatibility": [
+        "E312C Series"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-60",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Cummins Systems",
+      "oemNumbers": [
+        "Engine Relay Block"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-61",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Komatsu WA470-3 (417-43-26212)",
+      "oemNumbers": [
+        "350-0036 04"
+      ],
+      "compatibility": [
+        "Komatsu WA470-3 (417-43-26212)"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-62",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Liugong Systems",
+      "oemNumbers": [
+        "JQX100-12AC"
+      ],
+      "compatibility": [
+        "Liugong Systems"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-63",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Liugong Systems",
+      "oemNumbers": [
+        "JQX200-24AC"
+      ],
+      "compatibility": [
+        "Liugong Systems"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-64",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "418-4262"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-65",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Base Platforms",
+      "oemNumbers": [
+        "594-5630"
+      ],
+      "compatibility": [
+        "Universal Base Platforms"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-66",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Hitachi ZAX190W-3",
+      "oemNumbers": [
+        "3 YA00026994"
+      ],
+      "compatibility": [
+        "Hitachi ZAX190W-3"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-67",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Systems",
+      "oemNumbers": [
+        "Control Module Block"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-68",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Systems",
+      "oemNumbers": [
+        "Control Module Block"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-6A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay",
+      "name": "Heavy-Duty Relay — Volvo Infrastructure Systems",
+      "oemNumbers": [],
+      "compatibility": [
+        "Volvo Infrastructure Systems"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-6B",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay",
+      "name": "Heavy-Duty Relay — Doosan DX Series",
+      "oemNumbers": [
+        "301202-00087"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-6C",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Relay",
+      "name": "Heavy-Duty Relay — Doosan DX Series",
+      "oemNumbers": [
+        "MK5543443"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-6D",
+      "category": "Electrical Solenoid",
+      "description": "Electrical Solenoid Valve",
+      "name": "Electrical Solenoid Valve — Doosan, Isuzu Infrastructure",
+      "oemNumbers": [
+        "Cylinder Block Unit"
+      ],
+      "compatibility": [
+        "Doosan",
+        "Isuzu Infrastructure"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-7",
+      "category": "Heavy-Duty Resistor Block",
+      "description": "Heavy-Duty Resistor Block",
+      "name": "Heavy-Duty Resistor Block — Mitsu Heavy Systems",
+      "oemNumbers": [
+        "ME077148"
+      ],
+      "compatibility": [
+        "Mitsu Heavy Systems"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A14-8",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Machinery Platforms",
+      "oemNumbers": [
+        "ME049233"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery Platforms"
+      ],
+      "pages": [
+        "31"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-1",
+      "category": "Battery Disconnect Switch",
+      "description": "Master Battery Disconnect",
+      "name": "Master Battery Disconnect — Heavy-Duty Power Rails",
+      "oemNumbers": [
+        "48V DC100A"
+      ],
+      "compatibility": [
+        "Heavy-Duty Power Rails"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-10A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Komatsu Platforms",
+      "oemNumbers": [
+        "600-815-2690"
+      ],
+      "compatibility": [
+        "Komatsu Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-11",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Hino J05, J08 Engines",
+      "oemNumbers": [
+        "28620-1420A"
+      ],
+      "compatibility": [
+        "Hino J05",
+        "J08 Engines"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-12",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Hino J05, JO8E Engines",
+      "oemNumbers": [
+        "Starter Relay"
+      ],
+      "compatibility": [
+        "Hino J05",
+        "JO8E Engines"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-13",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Volvo Infrastructure Systems",
+      "oemNumbers": [
+        "Starter Relay"
+      ],
+      "compatibility": [
+        "Volvo Infrastructure Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-14",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Volvo 210, 240, 290",
+      "oemNumbers": [
+        "600-815-2690"
+      ],
+      "compatibility": [
+        "Volvo 210",
+        "240",
+        "290"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-15",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — E336D Platforms",
+      "oemNumbers": [],
+      "compatibility": [
+        "E336D Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-15A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — C9 Engines",
+      "oemNumbers": [
+        "209-5582"
+      ],
+      "compatibility": [
+        "C9 Engines"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-16",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Infrastructure",
+      "oemNumbers": [
+        "254-3783 Preheater"
+      ],
+      "compatibility": [
+        "Caterpillar Infrastructure"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-17",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Earthmoving Line",
+      "oemNumbers": [
+        "ME017625"
+      ],
+      "compatibility": [
+        "Universal Earthmoving Line"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-18",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — PC200-7 Platforms",
+      "oemNumbers": [
+        "600-815-2170",
+        "600-815-8940",
+        "41"
+      ],
+      "compatibility": [
+        "PC200-7 Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-19",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — PC300, EX200",
+      "oemNumbers": [
+        "24V KDO-25000-6080"
+      ],
+      "compatibility": [
+        "PC300",
+        "EX200"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-19A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — PC200 Platforms",
+      "oemNumbers": [
+        "Chassis Relay Node"
+      ],
+      "compatibility": [
+        "PC200 Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-2",
+      "category": "Battery Disconnect Switch",
+      "description": "Master Battery Disconnect",
+      "name": "Master Battery Disconnect — Heavy-Duty Power Rails",
+      "oemNumbers": [
+        "48V DC200A"
+      ],
+      "compatibility": [
+        "Heavy-Duty Power Rails"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-20",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Mitsubishi 6D24 Engines",
+      "oemNumbers": [
+        "ME049300"
+      ],
+      "compatibility": [
+        "Mitsubishi 6D24 Engines"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-21",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "0590-00-2114"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-22",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Mitsubishi 6HK1, 6WG1 Engines",
+      "oemNumbers": [
+        "1-82553-039-1"
+      ],
+      "compatibility": [
+        "Mitsubishi 6HK1",
+        "6WG1 Engines"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-22A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Ground Systems",
+      "oemNumbers": [
+        "0-25000-9290"
+      ],
+      "compatibility": [
+        "Universal Ground Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-23",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Core",
+      "oemNumbers": [
+        "Relay Core Unit Mitsu HD700"
+      ],
+      "compatibility": [
+        "Caterpillar Core"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-24",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — R60-7 Platforms",
+      "oemNumbers": [],
+      "compatibility": [
+        "R60-7 Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-25",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Liugong Platforms",
+      "oemNumbers": [
+        "Chassis Relay Block"
+      ],
+      "compatibility": [
+        "Liugong Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-26",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Isuzu 4HK1 Engines",
+      "oemNumbers": [
+        "Chassis Relay"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1 Engines"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-26A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Hitachi ZAX120",
+      "oemNumbers": [
+        "4BG1"
+      ],
+      "compatibility": [
+        "Hitachi ZAX120"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-28",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Doosan Earthmoving Equipment",
+      "oemNumbers": [
+        "7700-85-8327"
+      ],
+      "compatibility": [
+        "Doosan Earthmoving Equipment"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-29",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Doosan DX Series",
+      "oemNumbers": [],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-3",
+      "category": "Battery Disconnect Switch",
+      "description": "Master Battery Disconnect",
+      "name": "Master Battery Disconnect — Heavy-Duty Power Rails",
+      "oemNumbers": [
+        "48V DC200A"
+      ],
+      "compatibility": [
+        "Heavy-Duty Power Rails"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-30",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Doosan DX Series",
+      "oemNumbers": [
+        "Chassis Relay Block"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-31",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar E320D Platforms",
+      "oemNumbers": [
+        "118-3534"
+      ],
+      "compatibility": [
+        "Caterpillar E320D Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-32",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar E336D (C9 Engine)",
+      "oemNumbers": [
+        "241-8368",
+        "12"
+      ],
+      "compatibility": [
+        "Caterpillar E336D (C9 Engine)"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-33",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Mitsubishi Systems",
+      "oemNumbers": [
+        "21N6-30120"
+      ],
+      "compatibility": [
+        "Mitsubishi Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-34",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Power Blocks",
+      "oemNumbers": [
+        "259-5274"
+      ],
+      "compatibility": [
+        "Universal Power Blocks"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-35",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Systems",
+      "oemNumbers": [
+        "Chassis Relay"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-36",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Systems",
+      "oemNumbers": [
+        "3050692"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-37",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Volvo Platforms",
+      "oemNumbers": [
+        "14531201"
+      ],
+      "compatibility": [
+        "Volvo Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-38",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — E320D2 Platforms",
+      "oemNumbers": [
+        "Chassis Relay"
+      ],
+      "compatibility": [
+        "E320D2 Platforms"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-39",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Caterpillar Systems",
+      "oemNumbers": [
+        "239-1134"
+      ],
+      "compatibility": [
+        "Caterpillar Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-4",
+      "category": "Battery Disconnect Switch",
+      "description": "Master Battery Disconnect",
+      "name": "Master Battery Disconnect — Heavy-Duty Power Rails",
+      "oemNumbers": [
+        "48V DC400A"
+      ],
+      "compatibility": [
+        "Heavy-Duty Power Rails"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-5",
+      "category": "Battery Disconnect Switch",
+      "description": "Master Battery Disconnect",
+      "name": "Master Battery Disconnect — Heavy-Duty Power Rails",
+      "oemNumbers": [
+        "48V DC600A"
+      ],
+      "compatibility": [
+        "Heavy-Duty Power Rails"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-6",
+      "category": "Electrical Solenoid",
+      "description": "Relay Base Solenoid",
+      "name": "Relay Base Solenoid — Industrial Machinery Base",
+      "oemNumbers": [
+        "120-114751-2"
+      ],
+      "compatibility": [
+        "Industrial Machinery Base"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-7",
+      "category": "Power Switch",
+      "description": "Heavy-Duty Power Switch",
+      "name": "Heavy-Duty Power Switch — Cummins Heavy Engines (6CT)",
+      "oemNumbers": [
+        "3916301",
+        "3916302"
+      ],
+      "compatibility": [
+        "Cummins Heavy Engines (6CT)"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-8",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Power Assemblies",
+      "oemNumbers": [
+        "5139585",
+        "5269379",
+        "12"
+      ],
+      "compatibility": [
+        "Universal Power Assemblies"
+      ],
+      "pages": [
+        "34"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-9",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Universal Heavy Lines",
+      "oemNumbers": [],
+      "compatibility": [
+        "Universal Heavy Lines"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-9A",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Komatsu PC200-8",
+      "oemNumbers": [
+        "600-815-2170"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
+      "catalogCode": "A15-9B",
+      "category": "Starter / Control Relay",
+      "description": "Heavy-Duty Starter Relay",
+      "name": "Heavy-Duty Starter Relay — Sany Systems",
+      "oemNumbers": [
+        "Chassis Relay"
+      ],
+      "compatibility": [
+        "Sany Systems"
+      ],
+      "pages": [
+        "35"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 7",
+      "confidence": "user-section7-v2"
+    },
+    {
       "catalogCode": "A16-1",
       "category": "Ignition Switch",
       "description": "Ignition Key Switch",
@@ -20347,6 +24106,5 @@
       "section": "Section 8",
       "confidence": "user-section8-v2"
     }
-  ],
-  "note": "Section 7 not yet imported"
+  ]
 }

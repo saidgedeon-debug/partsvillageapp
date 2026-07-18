@@ -1,0 +1,199 @@
+Section 7: Common Rail Fuel Manifolds & Starter Relays (Pages 30–35)
+This section lists all high-pressure fuel rail logs, manifold lines, and heavy-duty starter relays.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A13-11ACommon Rail Pipe LogC4.4 E312 LineCAT E312 PlatformsPage 32
+A13-11BCommon Rail Pipe LogC4.4 / PerkinsCAT Machinery PlatformsPage 32
+A14-8Heavy-Duty Starter RelayME049233 LineCAT Machinery PlatformsPage 31
+A14-12Heavy-Duty Starter Relay161-3168CAT Earthmoving EquipmentPage 31
+A14-26Heavy-Duty Starter Relay104-3204CAT EquipmentPage 32
+A14-26BHeavy-Duty Starter Relay176810-0050CAT E320C PlatformsPage 32
+A14-29Heavy-Duty Starter Relay111-4870CAT PlatformsPage 32
+A14-30Time Delay RelayDelay Line UnitCAT 320C ModelsPage 32
+A14-32Heavy-Duty Starter Relay213-0772 / AC RelayCAT InfrastructurePage 32
+A14-32BUniversal Starter Relay12V/24V UniversalCAT Equipment PlatformsPage 33
+A14-33Heavy-Duty Relay Core171-2210 / 80ACAT Electronic ManagementPage 33
+A14-33ACircuit Breaker171-2208 / 60ACAT Core Electrical BlocksPage 33
+A14-33BCircuit Breaker171-2212 / 105ACAT Core Electrical BlocksPage 33
+A14-33CCircuit Breaker171-2205 / 40ACAT Core Electrical BlocksPage 33
+A14-33DCircuit Breaker171-2211 / 90ACAT Core Electrical BlocksPage 33
+A14-33EHeavy-Duty Fuse System216-4970 / 120ACAT 950H, 928G, 930G, D5G, D90TPage 33
+A14-36BElectrical Relay Unit149-2612CAT Infrastructure BlocksPage 33
+A14-37AWindshield Wiper Relay564-4992CAT E320D UnitsPage 33
+A14-41AThrottle Drive BoardDrive Line CoreCAT 320 PlatformsPage 33
+A14-44BThrottle Drive BoardBase Board UnitCAT E312 PlatformsPage 33
+A15-31Heavy-Duty Starter Relay118-3534CAT E320D PlatformsPage 35
+A15-32Heavy-Duty Starter Relay241-8368 / 12/24VCAT E336D (C9 Engine)Page 35
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A13-10Fuel Common Rail LogD6E / 0445226188VOLVO VOE210Page 30
+A13-10AFuel Common Rail LogD13 / 22578068VOLVO PlatformsPage 30
+A14-4Starter Relay Component3987034VOLVO Heavy LinePage 31
+A14-6AHeavy-Duty Relay24V ConfigurationVOLVO Infrastructure SystemsPage 31
+A14-24Control Module Relay14382341 / 24VVOLVO Heavy MachineryPage 32
+A14-44Control Module Relay20724977VOLVO Heavy MachineryPage 33
+A14-45AEngine Voltage Regulator14529298 / 60 ΩVOLVO PlatformsPage 33
+A14-45EEngine Voltage RegulatorCore LineVOLVO SystemsPage 33
+A15-13Heavy-Duty Starter RelayStarter Relay AssemblyVOLVO Infrastructure SystemsPage 35
+A15-14Heavy-Duty Starter Relay600-815-2690 / 24VVOLVO 210, 240, 290Page 35
+A15-37Heavy-Duty Starter Relay14531201VOLVO PlatformsPage 35
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A13-1Fuel Common Rail Log6754-71-1210Komatsu PC200-8Page 30
+A13-3Fuel Common Rail Log6261-71-1211Komatsu PC400-7, PC400-8Page 30
+A14-3Heavy-Duty Relay BlockStarter Relay BaseKomatsu PC200-8Page 31
+A14-6Electrical Solenoid ValveDual Cylinder SetupKomatsu E320C, E312C SeriesPage 31
+A14-13Heavy-Duty Relay Block7861-74-5-100Komatsu PC200-8Page 32
+A14-31Wiper Control RelayFront Control NodeKomatsu SK200-6 SeriesPage 32
+A14-41Heavy-Duty RelayChassis Ground NodeKomatsu PlatformsPage 33
+A14-43Throttle Drive Board21W-06-21712Komatsu PC60-7Page 33
+A14-48AHeavy-Duty Relay7861-94-3000Komatsu InfrastructurePage 33
+A14-49Electrical RelayChassis Control NodeKomatsu SystemsPage 33
+A14-58Heavy-Duty Starter Relay177300-8892 / 20Y-810-1231Komatsu PC200-8Page 34
+A14-61Heavy-Duty Starter Relay350-0036 04 / 24VKomatsu WA470-3 (417-43-26212)Page 34
+A15-9AHeavy-Duty Starter Relay600-815-2170Komatsu PC200-8Page 35
+A15-10AHeavy-Duty Starter Relay600-815-2690 / 24VKomatsu PlatformsPage 35
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A13-2Fuel Common Rail Log3963815Hitachi PC350-8 (6D114 Engine)Page 30
+A13-4Fuel Common Rail LogVH23810E0060Isuzu SK200-8 (JO5E Engine)Page 30
+A13-5Fuel Common Rail LogYH23810E0020Isuzu JO8E Engine PlatformsPage 30
+A13-6Fuel Common Rail LogRail System CoreIsuzu 4HK1 EnginesPage 30
+A13-8Fuel Common Rail LogRail System CoreIsuzu 6WF1, 6WG1, 6UZ1 EnginesPage 30
+A13-12Fuel Common Rail LogRail System CoreIsuzu EC210D PlatformsPage 32
+A13-13Fuel Common Rail Log0445224040Isuzu SK140-8 SeriesPage 32
+A14-5Heavy-Duty Starter Relay24V/240-3G LineHitachi ZAX240-3GPage 31
+A14-6DElectrical Solenoid ValveCylinder Block UnitDoosan / Isuzu InfrastructurePage 31
+A14-34Time Delay Relay7851-13-60-1 / 1506Hitachi / Yanmar PlatformsPage 33
+A14-35Universal Relay129150-77710 / 1752V183Hitachi / Yanmar PlatformsPage 33
+A14-38Power Relay Interface182550-3250Isuzu Infrastructure BlocksPage 33
+A14-39Power Relay Interface182550-3251Isuzu Infrastructure BlocksPage 33
+A14-51Control Module Relay4251588Hitachi EX200-2, EX200-3 SystemsPage 33
+A14-66Heavy-Duty Starter Relay3 YA00026994Hitachi ZAX190W-3Page 34
+A15-26Heavy-Duty Starter RelayChassis Relay LineIsuzu 4HK1 EnginesPage 35
+A15-26AHeavy-Duty Starter Relay4BG1 ConfigurationHitachi ZAX120Page 35
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A13-13AFuel Common Rail LogD18 / 7249383Doosan MachineryPage 32
+A13-13BFuel Common Rail LogD34 / 28263779 / 7256757Doosan MachineryPage 32
+A14-6BHeavy-Duty Relay301202-00087Doosan DX SeriesPage 31
+A14-6CHeavy-Duty RelayMK5543443Doosan DX SeriesPage 31
+A14-16BControl Module Relay537-00010Doosan DX SeriesPage 32
+A14-19AControl Module Relay21N6-01273HYUNDAI SystemsPage 32
+A14-21Control Module Relay2531-1003Doosan DX SeriesPage 32
+A14-22Control Module Relay2543-9015Doosan DX SeriesPage 32
+A14-23Control Module Relay2537-9008Daewoo Doosan SystemsPage 32
+A14-40Control Module Relay21Q4-20100HYUNDAI SystemsPage 33
+A14-40AControl Module Relay2106-30300 / 24VHYUNDAI SystemsPage 33
+A14-45Control Module Relay21M9-31100 / 12VHYUNDAI SystemsPage 33
+A14-46Control Module Relay21FQ-60070HYUNDAI SystemsPage 33
+A15-28Heavy-Duty Starter Relay7700-85-8327Doosan Earthmoving EquipmentPage 35
+A15-29Heavy-Duty Starter Relay12V ConfigurationDoosan DX SeriesPage 35
+A15-30Heavy-Duty Starter RelayChassis Relay BlockDoosan DX SeriesPage 35
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A13-9Fuel Common Rail Log0445224025 / 3977727Cummins EnginesPage 30
+A13-14Fuel Common Rail Log3219204519Cummins EnginesPage 32
+A13-15Fuel Common Rail Log3307 / 1J770-50600Cummins EnginesPage 32
+A13-16Fuel Common Rail Log1J600-50602Cummins EnginesPage 32
+A13-17Fuel Common Rail Log1J801-50600Cummins EnginesPage 32
+A13-18Fuel Common Rail LogRail System CoreCummins V3307-CR-T EnginesPage 32
+A13-19Fuel Common Rail Log095440-0540 / 0680Cummins / Yuchai PlatformsPage 32
+A13-20Fuel Common Rail LogRail System CoreCummins / Yuchai EnginesPage 32
+A13-21Fuel Common Rail LogRail System CoreCummins / Yuchai EnginesPage 32
+A13-22Fuel Common Rail LogRail System CoreCummins / Yuchai LX3310HSDCPage 32
+A13-23Fuel Common Rail Log095440-7060 / 1J070-50600Cummins / Yuchai PlatformsPage 32
+A13-24Fuel Common Rail Log1J524-50590Cummins EnginesPage 32
+A13-25Fuel Common Rail Log095440-5710 / M1715Cummins / Yuchai EnginesPage 32
+A13-26Fuel Common Rail Log1J508-50600 / 095600-5701Cummins EnginesPage 32
+A13-27Fuel Common Rail Log150120-00062A / 28240435 / 7030409Cummins EnginesPage 32
+A14-1Ground Starter RelayBR266 / BR22 NegativeUniversal Heavy MachineryPage 31
+A14-2Isolated Starter RelayBR263 / 08088-30000Universal Heavy MachineryPage 31
+A14-5APower Isolator RelaySwitch ConfigurationSany Equipment PlatformsPage 31
+A14-5BBattery Disconnect Switch21199003 Power SwitchUniversal Application SystemsPage 31
+A14-7Heavy-Duty Resistor BlockME077148Mitsu Heavy SystemsPage 31
+A14-10Multi-Terminal Relay SetThree-Part Pack (A, B, C)Universal Control HarnessesPage 31
+A14-11Heavy-Duty Starter RelayStarter Relay AssemblyUniversal Heavy MachineryPage 31
+A14-13AIsolated Starter RelayACB86221 / 60402-0308 / 12VUniversal PlatformsPage 32
+A14-14Control Module RelayAC Control ModuleUniversal Cab ConfigurationsPage 32
+A14-14AControl Module Relay95240-91130Universal Cabin ModulesPage 32
+A14-15Control Module RelayHC0108 801Yanmar Engine Infrastructure (4TNV94)Page 32
+A14-16Control Module RelayHC0119 JJ125Yanmar Engine Infrastructure (4TNV94)Page 32
+A14-16CControl Module Relay15694-65992 / 12VUniversal Ground SystemsPage 32
+A14-17Control Module Relay21N4-00762Universal Ground SystemsPage 32
+A14-18Control Module Relay21N6-01272Universal Ground SystemsPage 32
+A14-20Control Module Relay1501-00252 / 20O6-50500R-9 Wheel Excavation PlatformsPage 32
+A14-23AControl Module RelayControl Module Unit / DX 12VUniversal Ground SystemsPage 32
+A14-25Control Module Relay14616736Universal Ground SystemsPage 32
+A14-25AControl Module RelayDKB-SZI / 12VUniversal Rain Control UnitsPage 32
+A14-27Control Module Relay119802-77200Yanmar Engine InfrastructurePage 32
+A14-27AControl Module Relay129930-77950Universal Ground SystemsPage 32
+A14-27BControl Module Relay129930-77970Universal Ground SystemsPage 32
+A14-27CControl Module Relay91A04-13200Universal Ground SystemsPage 32
+A14-27DControl Module Relay898132-9420Universal Ground SystemsPage 32
+A14-27EControl Module Relay119953-77900Universal Ground SystemsPage 32
+A14-27FControl Module Relay188-7681Universal Ground SystemsPage 32
+A14-28Control Module Relay056800-3130 / 24VUniversal Ground SystemsPage 32
+A14-28AControl Module RelayACA1223-2 / 41223 / 12/24VUniversal Ground SystemsPage 32
+A14-28BControl Module RelayACA3223 / 24VUniversal Ground SystemsPage 32
+A14-32AControl Module Relay461-6784 / AC RelayE330D Climate ControlsPage 32
+A14-36Relay Base Assembly16A11-17001 / 12/24VE312 PlatformsPage 33
+A14-36ARelay Base AssemblyME409675 / 12/24VE307 PlatformsPage 33
+A14-37Relay Base Assembly15531-64603 / 6-Wire LineKubota / Yanmar PlatformsPage 33
+A14-37BRelay Base AssemblyYM119640-77711 / 7-Wire LineYanmar Engine InfrastructurePage 33
+A14-45BHeavy-Duty Relay Block100-1248-17-00E-1Universal Infrastructure BlocksPage 33
+A14-45CHeavy-Duty Relay Block100-1233-55-03-BDX Equipment PlatformsPage 33
+A14-45DHeavy-Duty Relay BlockM70121John Deere SystemsPage 33
+A14-46AControl Module RelayYC0027 / YC0028Universal Ground SystemsPage 33
+A14-47Control Module RelayTerminal Control NodeUniversal SystemsPage 33
+A14-48Chassis Electric HornSingle Tone 24V UnitUniversal Heavy MachineryPage 33
+A14-50Chassis Electric HornTrumpet / Horn UnitUniversal Excavation RigsPage 33
+A14-52Heavy-Duty Audio HornLarge LoudspeakerUniversal Industrial SitesPage 34
+A14-53Reverse Backup Alarm14X-06-11130Universal Heavy MachineryPage 34
+A14-53AReverse Backup Alarm415-06-22100 / 12V/24VUniversal Heavy MachineryPage 34
+A14-53BChassis Electric HornTrumpet / Horn UnitUniversal EquipmentPage 34
+A14-53CChassis Electric HornTrumpet / Horn UnitUniversal EquipmentPage 34
+A14-54Ignition Preheater Plug12V/24V PreheaterUniversal Engine InfrastructurePage 34
+A14-55Ignition Preheater Plug910H22 SpecUniversal Engine LinesPage 34
+A14-56Heavy-Duty Starter RelayControl Harness SystemUniversal Ground EquipmentPage 34
+A14-57Heavy-Duty Starter RelayChassis Relay NodeKobelco SK Series BasePage 34
+A14-59Heavy-Duty Starter RelayPC-BMO / 113900-730Universal SystemsPage 34
+A14-60Heavy-Duty Starter RelayEngine Relay BlockCummins SystemsPage 34
+A14-62Heavy-Duty Starter RelayJQX100-12ACLiugong SystemsPage 34
+A14-63Heavy-Duty Starter RelayJQX200-24ACLiugong SystemsPage 34
+A14-64Heavy-Duty Starter Relay418-4262 LineUniversal Ground SystemsPage 34
+A14-65Heavy-Duty Starter Relay594-5630Universal Base PlatformsPage 34
+A14-67Heavy-Duty Starter RelayControl Module BlockUniversal SystemsPage 34
+A14-68Heavy-Duty Starter RelayControl Module BlockUniversal SystemsPage 34
+A15-1Master Battery Disconnect48V DC100AHeavy-Duty Power RailsPage 34
+A15-2Master Battery Disconnect48V DC200AHeavy-Duty Power RailsPage 34
+A15-3Master Battery Disconnect48V DC200A NewHeavy-Duty Power RailsPage 34
+A15-4Master Battery Disconnect48V DC400AHeavy-Duty Power RailsPage 34
+A15-5Master Battery Disconnect48V DC600AHeavy-Duty Power RailsPage 34
+A15-6Relay Base Solenoid120-114751-2 / 24VIndustrial Machinery BasePage 34
+A15-7Heavy-Duty Power Switch3916301 / 3916302 / 12VCummins Heavy Engines (6CT)Page 34
+A15-8Heavy-Duty Starter Relay5139585 / 5269379 / 12/24VUniversal Power AssembliesPage 34
+A15-9Heavy-Duty Starter Relay12V/24V Base BlockUniversal Heavy LinesPage 35
+A15-9BHeavy-Duty Starter RelayChassis Relay ComponentSany SystemsPage 35
+A15-11Heavy-Duty Starter Relay28620-1420AHino J05, J08 EnginesPage 35
+A15-12Heavy-Duty Starter RelayStarter Relay AssemblyHino J05, JO8E EnginesPage 35
+A15-15Heavy-Duty Starter Relay24V Base BlockE336D PlatformsPage 35
+A15-15AHeavy-Duty Starter Relay209-5582C9 EnginesPage 35
+A15-16Heavy-Duty Starter Relay254-3783 Preheater ComponentCAT InfrastructurePage 35
+A15-17Heavy-Duty Starter RelayME017625Universal Earthmoving LinePage 35
+A15-18Heavy-Duty Starter Relay600-815-2170 / 600-815-8940/41PC200-7 PlatformsPage 35
+A15-19Heavy-Duty Starter Relay24V KDO-25000-6080PC300 / EX200Page 35
+A15-19AHeavy-Duty Starter RelayChassis Relay NodePC200 PlatformsPage 35
+A15-20Heavy-Duty Starter RelayME049300Mitsubishi 6D24 EnginesPage 35
+A15-21Heavy-Duty Starter Relay0590-00-2114 / 24VUniversal Ground SystemsPage 35
+A15-22Heavy-Duty Starter Relay1-82553-039-1 / 24VMitsubishi 6HK1, 6WG1 EnginesPage 35
+A15-22AHeavy-Duty Starter Relay0-25000-9290 / 24VUniversal Ground SystemsPage 35
+A15-23Heavy-Duty Starter RelayRelay Core UnitMitsu HD700 / CAT CorePage 35
+A15-24Heavy-Duty Starter Relay12V/24V Base BlockR60-7 PlatformsPage 35
+A15-25Heavy-Duty Starter RelayChassis Relay BlockLiugong PlatformsPage 35
+A15-33Heavy-Duty Starter Relay21N6-30120Mitsubishi SystemsPage 35
+A15-34Heavy-Duty Starter Relay259-5274 / 24VUniversal Power BlocksPage 35
+A15-35Heavy-Duty Starter RelayChassis Relay ComponentUniversal SystemsPage 35
+A15-36Heavy-Duty Starter Relay3050692Universal SystemsPage 35
+A15-38Heavy-Duty Starter RelayChassis Relay ComponentE320D2 PlatformsPage 35
+| A15-39 | Heavy-Duty Starter Relay | 239-1134 | CAT Systems | Page 35 |
