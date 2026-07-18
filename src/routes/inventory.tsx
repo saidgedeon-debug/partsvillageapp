@@ -115,7 +115,6 @@ function InventoryPage() {
     return sortParts(list, sortMode);
   }, [q, thickness, sortMode]);
 
-  const categories = useMemo(() => [...new Set(parts.map((p) => p.category))], []);
   const filterActive = Boolean(thickness.trim());
   const totalPieces = rows.reduce((s, p) => s + p.quantity, 0);
 
