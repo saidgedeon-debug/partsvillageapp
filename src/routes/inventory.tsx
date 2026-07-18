@@ -13,7 +13,10 @@ export const Route = createFileRoute("/inventory")({
   head: () => ({
     meta: [
       { title: "Inventory — Parts Village" },
-      { name: "description", content: "Stock levels, cost, selling price and machine compatibility for every part in the catalog." },
+      {
+        name: "description",
+        content: "Stock levels, dimensions, cost and selling price for every part in the catalog.",
+      },
     ],
   }),
   component: InventoryPage,
@@ -30,13 +33,22 @@ function InventoryPage() {
         p.partNumber.toLowerCase().includes(q) ||
         p.name.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
+        String(p.boxNumber ?? "").includes(q) ||
+        (p.insideDiameterMm ?? "").toLowerCase().includes(q) ||
+        (p.crossSectionMm ?? "").toLowerCase().includes(q) ||
+        (p.notes ?? "").toLowerCase().includes(q) ||
         p.compatibility.some((c) => c.toLowerCase().includes(q)),
     );
   }, [q]);
 
+  const categories = useMemo(() => [...new Set(parts.map((p) => p.category))], []);
+
   return (
     <>
-      <PageHeader title="Stock / Inventory" subtitle={`${rows.length} of ${parts.length} parts`} />
+      <PageHeader
+        title="Stock / Inventory"
+        subtitle={`${rows.length} of ${parts.length} parts · ${categories.join(", ") || "No categories"}`}
+      />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
@@ -44,9 +56,9 @@ function InventoryPage() {
               <Package className="h-4 w-4 text-accent" /> Parts Catalog
             </CardTitle>
             <div className="text-xs text-muted-foreground">
-              Total value:{" "}
+              Total pieces:{" "}
               <span className="font-semibold text-foreground">
-                {currency(parts.reduce((s, p) => s + p.cost * p.quantity, 0))}
+                {parts.reduce((s, p) => s + p.quantity, 0).toLocaleString()}
               </span>
             </div>
           </CardHeader>
@@ -54,46 +66,53 @@ function InventoryPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Box</TableHead>
                   <TableHead>Part #</TableHead>
-                  <TableHead>Name</TableHead>
+                  <TableHead>ID (mm)</TableHead>
+                  <TableHead>CS (mm)</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead className="text-right">Qty</TableHead>
                   <TableHead className="text-right">Cost</TableHead>
                   <TableHead className="text-right">Price</TableHead>
-                  <TableHead className="text-right">Margin</TableHead>
-                  <TableHead>Compatible With</TableHead>
+                  <TableHead>Notes</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {rows.map((p) => {
-                  const low = p.quantity <= p.reorderAt;
-                  const margin = Math.round(((p.price - p.cost) / p.price) * 100);
+                  const low = p.quantity > 0 && p.quantity <= p.reorderAt;
                   return (
                     <TableRow key={p.id}>
-                      <TableCell className="font-mono text-xs">{p.partNumber}</TableCell>
-                      <TableCell className="font-medium">{p.name}</TableCell>
+                      <TableCell className="font-mono text-xs text-muted-foreground">
+                        {p.boxNumber ?? "—"}
+                      </TableCell>
+                      <TableCell className="font-mono text-xs font-medium">{p.partNumber}</TableCell>
+                      <TableCell className="font-mono text-xs">{p.insideDiameterMm || "—"}</TableCell>
+                      <TableCell className="font-mono text-xs">{p.crossSectionMm || "—"}</TableCell>
                       <TableCell>
                         <Badge variant="secondary">{p.category}</Badge>
                       </TableCell>
                       <TableCell className="text-right">
                         <span className={`inline-flex items-center gap-1 font-semibold ${low ? "text-accent" : ""}`}>
                           {low && <AlertTriangle className="h-3.5 w-3.5" />}
-                          {p.quantity}
+                          {p.quantity.toLocaleString()}
                         </span>
                       </TableCell>
-                      <TableCell className="text-right text-muted-foreground">{currency(p.cost)}</TableCell>
-                      <TableCell className="text-right font-semibold">{currency(p.price)}</TableCell>
-                      <TableCell className="text-right text-accent">{margin}%</TableCell>
-                      <TableCell className="max-w-[260px] truncate text-xs text-muted-foreground">
-                        {p.compatibility.join(" · ")}
+                      <TableCell className="text-right text-muted-foreground">
+                        {p.cost > 0 ? currency(p.cost) : "—"}
+                      </TableCell>
+                      <TableCell className="text-right font-semibold">
+                        {p.price > 0 ? currency(p.price) : "—"}
+                      </TableCell>
+                      <TableCell className="max-w-[220px] truncate text-xs text-muted-foreground">
+                        {p.notes || "—"}
                       </TableCell>
                     </TableRow>
                   );
                 })}
                 {rows.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={8} className="py-12 text-center text-sm text-muted-foreground">
-                      No parts match “{query}”.
+                    <TableCell colSpan={9} className="py-12 text-center text-sm text-muted-foreground">
+                      {parts.length === 0 ? "No parts yet." : `No parts match “${query}”.`}
                     </TableCell>
                   </TableRow>
                 )}

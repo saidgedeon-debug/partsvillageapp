@@ -1,3 +1,5 @@
+import { oringParts } from "@/lib/orings-inventory";
+
 export type Part = {
   id: string;
   partNumber: string;
@@ -8,6 +10,14 @@ export type Part = {
   cost: number;
   price: number;
   compatibility: string[];
+  /** Storage box number (O-rings inventory). */
+  boxNumber?: number;
+  /** Inside diameter in mm (or "Metric ID" when unknown). */
+  insideDiameterMm?: string;
+  /** Cross-section / thickness in mm (or "Metric CS" when unknown). */
+  crossSectionMm?: string;
+  /** Bag breakdown or other notes. */
+  notes?: string;
 };
 
 export type Machine = {
@@ -62,7 +72,7 @@ export type SupplierInquiry = {
   status: "Open" | "Answered" | "Closed";
 };
 
-export const parts: Part[] = [];
+export const parts: Part[] = [...oringParts];
 
 export const clients: Client[] = [];
 

@@ -35,6 +35,10 @@ export type Database = {
           cost: number;
           price: number;
           compatibility: string[];
+          box_number: number | null;
+          inside_diameter_mm: string;
+          cross_section_mm: string;
+          notes: string;
           created_at: string;
         };
         Insert: {
@@ -47,6 +51,10 @@ export type Database = {
           cost?: number;
           price?: number;
           compatibility?: string[];
+          box_number?: number | null;
+          inside_diameter_mm?: string;
+          cross_section_mm?: string;
+          notes?: string;
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["parts"]["Insert"]>;
