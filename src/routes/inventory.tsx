@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
   ArrowUpNarrowWide,
@@ -155,6 +155,8 @@ function InventoryPage() {
     label: string;
     description?: string;
   } | null>(null);
+  const [scrollToListToken, setScrollToListToken] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const activeCategory =
     categories.find((c) => c.id === categoryId) ?? categories[0];
@@ -242,6 +244,26 @@ function InventoryPage() {
   const totalPieces = rows.reduce((s, p) => s + p.quantity, 0);
   const catalogCount = countForCategory(activeCategory?.matchCategory ?? null);
 
+  useEffect(() => {
+    if (!scrollToListToken) return;
+    const el = listRef.current;
+    if (!el) return;
+    // Wait a frame so filtered rows render, then scroll to the list / first item.
+    const id = window.requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => window.cancelAnimationFrame(id);
+  }, [scrollToListToken, categoryId, rows.length]);
+
+  const selectCategory = (catId: string, matchCategory: string | null) => {
+    setCategoryId(catId);
+    if (matchCategory !== "O-Rings") {
+      setThickness("");
+      setSearchOpen(false);
+    }
+    setScrollToListToken((n) => n + 1);
+  };
+
   // Keep dialog part in sync after edits
   const dialogPart = activePart
     ? (parts.find((p) => p.id === activePart.id) ?? activePart)
@@ -283,13 +305,7 @@ function InventoryPage() {
               >
                 <button
                   type="button"
-                  onClick={() => {
-                    setCategoryId(cat.id);
-                    if (cat.matchCategory !== "O-Rings") {
-                      setThickness("");
-                      setSearchOpen(false);
-                    }
-                  }}
+                  onClick={() => selectCategory(cat.id, cat.matchCategory)}
                   className="w-full px-4 py-4 text-left"
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -326,7 +342,7 @@ function InventoryPage() {
           })}
         </div>
 
-        <Card>
+        <Card ref={listRef} id="inventory-items">
           <CardHeader className="space-y-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle className="flex items-center gap-2 text-base">
