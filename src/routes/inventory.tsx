@@ -1,6 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { AlertTriangle, ArrowUpNarrowWide, Package, Boxes } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowUpNarrowWide,
+  ChevronDown,
+  Package,
+  Boxes,
+} from "lucide-react";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
@@ -12,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { parts, currency, type Part } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/inventory")({
   head: () => ({
@@ -70,6 +77,7 @@ function InventoryPage() {
   const q = query.trim().toLowerCase();
   const [thickness, setThickness] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("size");
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const thicknessPicks = useMemo(() => {
     const nums = new Set<number>();
@@ -130,92 +138,121 @@ function InventoryPage() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-border bg-muted/30 p-3 md:p-4">
-              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <p className="text-sm font-medium text-foreground">O-Ring advanced search</p>
+            <div className="rounded-lg border border-border bg-muted/30">
+              <button
+                type="button"
+                className="flex w-full items-center justify-between gap-3 px-3 py-3 text-left md:px-4"
+                onClick={() => setSearchOpen((v) => !v)}
+                aria-expanded={searchOpen}
+              >
+                <div className="min-w-0">
+                  <p className="flex items-center gap-2 text-sm font-medium text-foreground">
+                    O-Ring advanced search
+                    {filterActive && (
+                      <Badge variant="secondary" className="font-mono text-[10px]">
+                        CS {thickness.trim()}
+                      </Badge>
+                    )}
+                  </p>
                   <p className="text-xs text-muted-foreground">
-                    Filter by thickness (CS). Results default to size (ID) small → large.
+                    {searchOpen
+                      ? "Filter by thickness (CS). Results default to size (ID) small → large."
+                      : "Click to open thickness filters and sort"}
                   </p>
                 </div>
-                <div className="flex items-center gap-1 rounded-md border border-border bg-background p-0.5">
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant={sortMode === "size" ? "default" : "ghost"}
-                    className="h-8 gap-1.5"
-                    onClick={() => setSortMode("size")}
-                  >
-                    <ArrowUpNarrowWide className="h-3.5 w-3.5" />
-                    By size
-                  </Button>
-                  <Button
-                    type="button"
-                    size="sm"
-                    variant={sortMode === "box" ? "default" : "ghost"}
-                    className="h-8 gap-1.5"
-                    onClick={() => setSortMode("box")}
-                  >
-                    <Boxes className="h-3.5 w-3.5" />
-                    By box
-                  </Button>
-                </div>
-              </div>
+                <ChevronDown
+                  className={cn(
+                    "h-4 w-4 shrink-0 text-muted-foreground transition-transform",
+                    searchOpen && "rotate-180",
+                  )}
+                />
+              </button>
 
-              <div className="grid gap-3 md:grid-cols-[minmax(0,220px)_1fr] md:items-end">
-                <div className="space-y-1.5">
-                  <Label htmlFor="oring-thickness" className="text-xs">
-                    Thickness CS (mm)
-                  </Label>
-                  <Input
-                    id="oring-thickness"
-                    inputMode="decimal"
-                    placeholder="e.g. 3.00"
-                    value={thickness}
-                    onChange={(e) => setThickness(e.target.value)}
-                    className="h-10 font-mono"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <p className="text-xs text-muted-foreground">Quick thickness</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {thicknessPicks.map((n) => {
-                      const label = Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
-                      const active = matchesThickness(String(n), thickness);
-                      return (
-                        <Button
-                          key={n}
-                          type="button"
-                          size="sm"
-                          variant={active && thickness.trim() ? "default" : "outline"}
-                          className="h-8 font-mono text-xs"
-                          onClick={() => setThickness(active && thickness.trim() ? "" : label)}
-                        >
-                          {label}
-                        </Button>
-                      );
-                    })}
-                    {thickness.trim() && (
+              {searchOpen && (
+                <div className="space-y-3 border-t border-border px-3 pb-3 pt-3 md:px-4 md:pb-4">
+                  <div className="flex flex-wrap items-center justify-end gap-2">
+                    <div className="flex items-center gap-1 rounded-md border border-border bg-background p-0.5">
                       <Button
                         type="button"
                         size="sm"
-                        variant="ghost"
-                        className="h-8 text-xs"
-                        onClick={() => setThickness("")}
+                        variant={sortMode === "size" ? "default" : "ghost"}
+                        className="h-8 gap-1.5"
+                        onClick={() => setSortMode("size")}
                       >
-                        Clear
+                        <ArrowUpNarrowWide className="h-3.5 w-3.5" />
+                        By size
                       </Button>
-                    )}
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={sortMode === "box" ? "default" : "ghost"}
+                        className="h-8 gap-1.5"
+                        onClick={() => setSortMode("box")}
+                      >
+                        <Boxes className="h-3.5 w-3.5" />
+                        By box
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              {filterActive && (
-                <p className="mt-3 text-xs text-muted-foreground">
-                  {rows.length} O-ring{rows.length === 1 ? "" : "s"} with CS{" "}
-                  <span className="font-mono font-medium text-foreground">{thickness.trim()}</span>
-                  mm · sorted {sortMode === "size" ? "by ID (small → large)" : "by box, then ID"}
-                </p>
+                  <div className="grid gap-3 md:grid-cols-[minmax(0,220px)_1fr] md:items-end">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="oring-thickness" className="text-xs">
+                        Thickness CS (mm)
+                      </Label>
+                      <Input
+                        id="oring-thickness"
+                        inputMode="decimal"
+                        placeholder="e.g. 3.00"
+                        value={thickness}
+                        onChange={(e) => setThickness(e.target.value)}
+                        className="h-10 font-mono"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <p className="text-xs text-muted-foreground">Quick thickness</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {thicknessPicks.map((n) => {
+                          const label = Number.isInteger(n)
+                            ? String(n)
+                            : n.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+                          const active = matchesThickness(String(n), thickness);
+                          return (
+                            <Button
+                              key={n}
+                              type="button"
+                              size="sm"
+                              variant={active && thickness.trim() ? "default" : "outline"}
+                              className="h-8 font-mono text-xs"
+                              onClick={() => setThickness(active && thickness.trim() ? "" : label)}
+                            >
+                              {label}
+                            </Button>
+                          );
+                        })}
+                        {thickness.trim() && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 text-xs"
+                            onClick={() => setThickness("")}
+                          >
+                            Clear
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {filterActive && (
+                    <p className="text-xs text-muted-foreground">
+                      {rows.length} O-ring{rows.length === 1 ? "" : "s"} with CS{" "}
+                      <span className="font-mono font-medium text-foreground">{thickness.trim()}</span>
+                      mm · sorted {sortMode === "size" ? "by ID (small → large)" : "by box, then ID"}
+                    </p>
+                  )}
+                </div>
               )}
             </div>
           </CardHeader>
