@@ -46,3 +46,8 @@ supabase/.branches
 
 .vercel-token.local
 
+
+.tmp-catalog-pages/
+.tmp-catalog-preview/
+.tmp-ocr-test.png
+data/kafu-ocr-raw.json

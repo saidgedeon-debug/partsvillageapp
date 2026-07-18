@@ -1,0 +1,5367 @@
+{
+  "status": "approved_for_import",
+  "supplier": "Kafu Engineering Machine Fitting Co., Ltd.",
+  "rules": {
+    "partNumber": "kafu_code",
+    "categories": "per_section"
+  },
+  "count": 381,
+  "verifiedCount": 26,
+  "ocrCount": 355,
+  "pageMeta": [
+    {
+      "pdfPage": 5,
+      "section": "Revolution Sensor",
+      "codeCount": 1,
+      "codes": [
+        "A01-4"
+      ]
+    },
+    {
+      "pdfPage": 6,
+      "section": "Revolution Sensor",
+      "codeCount": 4,
+      "codes": [
+        "A01-278",
+        "A01-43A",
+        "A01-27K",
+        "A01-46"
+      ]
+    },
+    {
+      "pdfPage": 7,
+      "section": "Revolution Sensor",
+      "codeCount": 18,
+      "codes": [
+        "A01-47",
+        "A01-49",
+        "A01-50",
+        "A02-4A",
+        "A01-53",
+        "A01-54",
+        "A02-5A",
+        "A01-55",
+        "A02-10",
+        "A02-10A",
+        "A02-1A",
+        "A02-1B",
+        "A02-12",
+        "A02-12A",
+        "A02-13",
+        "A02-28",
+        "A02-44A",
+        "A02-15"
+      ]
+    },
+    {
+      "pdfPage": 8,
+      "section": "Camshaft Sensor",
+      "codeCount": 36,
+      "codes": [
+        "A02-17",
+        "A02-18",
+        "A02-19",
+        "A02-20",
+        "A02-298",
+        "A02-30",
+        "A02-31",
+        "A02-32",
+        "A02-21",
+        "A02-22",
+        "A02-32A",
+        "A02-33",
+        "A02-34",
+        "A02-35",
+        "A02-23",
+        "A02-23A",
+        "A02-24",
+        "A02-25",
+        "A02-36",
+        "A02-37",
+        "A02-39",
+        "A02-26",
+        "A02-26A",
+        "A02-27",
+        "A02-27A",
+        "A02-40",
+        "A02-41",
+        "A02-42",
+        "A02-28",
+        "A02-28A",
+        "A02-288",
+        "A02-29",
+        "A02-44",
+        "A02-45",
+        "A02-46",
+        "A02-47"
+      ]
+    },
+    {
+      "pdfPage": 9,
+      "section": "Air Pressure Sensor",
+      "codeCount": 34,
+      "codes": [
+        "A03-2",
+        "A03-128",
+        "A03-120",
+        "A03-13",
+        "A03-13A",
+        "A03-5",
+        "A03-5A",
+        "A03-6",
+        "A03-6A",
+        "A03-14",
+        "A03-14A",
+        "A03-15",
+        "A03-15A",
+        "A03-68",
+        "A03-8",
+        "A03-9",
+        "A03-16",
+        "A03-17",
+        "A03-18",
+        "A03-18A",
+        "A03-9A",
+        "A03-98",
+        "A03-10",
+        "A03-11",
+        "A03-19",
+        "A03-20",
+        "A03-21",
+        "A03-22",
+        "A03-11A",
+        "A03-118",
+        "A03-12A",
+        "A03-228",
+        "A03-23",
+        "A03-28"
+      ]
+    },
+    {
+      "pdfPage": 10,
+      "section": "Air Pressure Sensor",
+      "codeCount": 22,
+      "codes": [
+        "A03-25A",
+        "A03-26A",
+        "A03-28",
+        "A03-29",
+        "A04-6A",
+        "A04-7",
+        "A03-31",
+        "A03-32",
+        "A03-33",
+        "A04-7A",
+        "A04-78",
+        "A03-35",
+        "A03-36",
+        "A03-37",
+        "A03-38",
+        "A04-9A",
+        "A04-98",
+        "A04-10",
+        "A03-39",
+        "A03-40",
+        "A03-41",
+        "A04-13"
+      ]
+    },
+    {
+      "pdfPage": 11,
+      "section": "Oil Pressure Switch",
+      "codeCount": 6,
+      "codes": [
+        "A04-208",
+        "A04-188",
+        "A04-18F",
+        "A04-254",
+        "A04-18",
+        "A04-28"
+      ]
+    },
+    {
+      "pdfPage": 12,
+      "section": "Oil Pressure Switch",
+      "codeCount": 3,
+      "codes": [
+        "A04-49",
+        "A04-55B",
+        "A04-56B"
+      ]
+    },
+    {
+      "pdfPage": 13,
+      "section": "Oil Pressure Switch",
+      "codeCount": 4,
+      "codes": [
+        "A04-58A",
+        "A04-59",
+        "A04-75",
+        "A04-618"
+      ]
+    },
+    {
+      "pdfPage": 14,
+      "section": "Oil Pressure Switch",
+      "codeCount": 4,
+      "codes": [
+        "A05-10",
+        "A05-14",
+        "A05-168",
+        "A05-220"
+      ]
+    },
+    {
+      "pdfPage": 15,
+      "section": "Oil Pressure Switch",
+      "codeCount": 5,
+      "codes": [
+        "A05-228",
+        "A05-220",
+        "A05-22E",
+        "A05-22F",
+        "A05-226"
+      ]
+    },
+    {
+      "pdfPage": 16,
+      "section": "Water Temp Sensor",
+      "codeCount": 9,
+      "codes": [
+        "A06-9A",
+        "A06-20",
+        "A06-208",
+        "A06-21A",
+        "A06-98",
+        "A06-108",
+        "A06-228",
+        "A06-24N",
+        "A06-244"
+      ]
+    },
+    {
+      "pdfPage": 17,
+      "section": "Water Temp Sensor",
+      "codeCount": 2,
+      "codes": [
+        "R60-7",
+        "A06-44"
+      ]
+    },
+    {
+      "pdfPage": 18,
+      "section": "Water Temp Sensor",
+      "codeCount": 10,
+      "codes": [
+        "A06-84A",
+        "A06-848",
+        "A06-72A",
+        "A06-744",
+        "A06-850",
+        "A06-85",
+        "A06-868",
+        "A06-79",
+        "A06-79A",
+        "A06-86D"
+      ]
+    },
+    {
+      "pdfPage": 19,
+      "section": "Water Temp Sensor",
+      "codeCount": 6,
+      "codes": [
+        "A06-88A",
+        "A06-88",
+        "A06-102",
+        "A06-104",
+        "A06-208",
+        "A06-928"
+      ]
+    },
+    {
+      "pdfPage": 20,
+      "section": "Water Temp Sensor",
+      "codeCount": 10,
+      "codes": [
+        "A06-110",
+        "A06-130",
+        "A06-132",
+        "A06-114",
+        "A06-117",
+        "A06-134",
+        "A06-137",
+        "A06-118",
+        "A06-145",
+        "A06-129"
+      ]
+    },
+    {
+      "pdfPage": 21,
+      "section": "Water Temp Sensor",
+      "codeCount": 2,
+      "codes": [
+        "A07-23",
+        "A07-288"
+      ]
+    },
+    {
+      "pdfPage": 22,
+      "section": "Pressure Switch",
+      "codeCount": 11,
+      "codes": [
+        "A08-1",
+        "A08-6",
+        "A08-10",
+        "A08-12",
+        "A09-1",
+        "A09-2A",
+        "A08-13",
+        "A08-14",
+        "A09-3A",
+        "A09-6",
+        "A07-7A"
+      ]
+    },
+    {
+      "pdfPage": 23,
+      "section": "Pressure Switch",
+      "codeCount": 1,
+      "codes": [
+        "A09-15E"
+      ]
+    },
+    {
+      "pdfPage": 24,
+      "section": "Pressure Switch",
+      "codeCount": 2,
+      "codes": [
+        "A09-34",
+        "A09-344"
+      ]
+    },
+    {
+      "pdfPage": 25,
+      "section": "Pressure Switch",
+      "codeCount": 0,
+      "codes": []
+    },
+    {
+      "pdfPage": 26,
+      "section": "Pressure Switch",
+      "codeCount": 1,
+      "codes": [
+        "A10-628"
+      ]
+    },
+    {
+      "pdfPage": 27,
+      "section": "Pressure Switch",
+      "codeCount": 1,
+      "codes": [
+        "A10-738"
+      ]
+    },
+    {
+      "pdfPage": 28,
+      "section": "Common Rail Sensor",
+      "codeCount": 0,
+      "codes": []
+    },
+    {
+      "pdfPage": 29,
+      "section": "SCU Valve",
+      "codeCount": 1,
+      "codes": [
+        "A12-248"
+      ]
+    },
+    {
+      "pdfPage": 30,
+      "section": "SCU Valve",
+      "codeCount": 12,
+      "codes": [
+        "A12-288",
+        "A12-208",
+        "A13-1",
+        "A13-2",
+        "A13-3",
+        "A12-32A",
+        "A12-32B",
+        "A12-320",
+        "A12-32D",
+        "A13-6A",
+        "A12-33",
+        "A13-40A"
+      ]
+    },
+    {
+      "pdfPage": 31,
+      "section": "Solenoid Valve",
+      "codeCount": 2,
+      "codes": [
+        "A13-13A",
+        "A13-138"
+      ]
+    },
+    {
+      "pdfPage": 32,
+      "section": "Starter Relay",
+      "codeCount": 21,
+      "codes": [
+        "A14-13A",
+        "A14-14A",
+        "A14-254",
+        "A14-204",
+        "A14-268",
+        "A14-16A",
+        "A14-168",
+        "A14-27",
+        "A14-27A",
+        "A14-278",
+        "A14-270",
+        "A14-22",
+        "A14-23",
+        "A14-288",
+        "A14-29",
+        "A14-30",
+        "A14-23A",
+        "A14-244",
+        "A14-30A",
+        "A14-31",
+        "A14-328"
+      ]
+    },
+    {
+      "pdfPage": 33,
+      "section": "Starter Relay",
+      "codeCount": 27,
+      "codes": [
+        "A14-328",
+        "A14-330",
+        "A14-33A",
+        "A14-338",
+        "A14-41A",
+        "A14-42",
+        "A14-43",
+        "A14-44",
+        "A14-33",
+        "A14-33E",
+        "A14-34",
+        "A14-444",
+        "A14-448",
+        "A14-45",
+        "A14-45A",
+        "A14-368",
+        "A14-458",
+        "A14-450",
+        "A14-45E",
+        "A14-37A",
+        "A14-378",
+        "A14-38",
+        "A14-46A",
+        "A14-47",
+        "A14-40",
+        "A14-40A",
+        "A14-48A"
+      ]
+    },
+    {
+      "pdfPage": 34,
+      "section": "Starter Relay",
+      "codeCount": 7,
+      "codes": [
+        "A14-52",
+        "A14-53",
+        "A14-53A",
+        "A14-53B",
+        "A14-530",
+        "A14-57",
+        "A14-58"
+      ]
+    },
+    {
+      "pdfPage": 35,
+      "section": "Starter Relay",
+      "codeCount": 7,
+      "codes": [
+        "A15-228",
+        "A15-10A",
+        "A15-25",
+        "A15-268",
+        "A15-30",
+        "A15-16A",
+        "A15-198"
+      ]
+    },
+    {
+      "pdfPage": 36,
+      "section": "Spare Switch",
+      "codeCount": 4,
+      "codes": [
+        "A17-38",
+        "A17-13A",
+        "A17-138",
+        "A17-130"
+      ]
+    },
+    {
+      "pdfPage": 37,
+      "section": "Spare Switch",
+      "codeCount": 18,
+      "codes": [
+        "A17-130",
+        "A17-13E",
+        "A17-13F",
+        "A17-236",
+        "A17-23H",
+        "A17-24",
+        "A17-25",
+        "A17-20",
+        "A17-21",
+        "A17-22",
+        "A17-30",
+        "A17-22A",
+        "A17-230",
+        "A17-238",
+        "A17-34",
+        "A17-23",
+        "A17-23F",
+        "A17-38"
+      ]
+    },
+    {
+      "pdfPage": 38,
+      "section": "Controller",
+      "codeCount": 7,
+      "codes": [
+        "A17-42",
+        "A17-44",
+        "A18-2A",
+        "A18-28",
+        "A18-2",
+        "A18-2F",
+        "A18-3A"
+      ]
+    },
+    {
+      "pdfPage": 39,
+      "section": "Switch Ass'y",
+      "codeCount": 1,
+      "codes": [
+        "A20-44"
+      ]
+    },
+    {
+      "pdfPage": 40,
+      "section": "Hydraulic Lock Switch",
+      "codeCount": 3,
+      "codes": [
+        "A20-14",
+        "A21-5B",
+        "A20-17A"
+      ]
+    },
+    {
+      "pdfPage": 41,
+      "section": "Hydraulic Lock Switch",
+      "codeCount": 10,
+      "codes": [
+        "A21-16A",
+        "A21-25",
+        "A21-26",
+        "A21-198",
+        "A21-30",
+        "A21-204",
+        "A24-208",
+        "A21-368",
+        "A21-220",
+        "A21-39"
+      ]
+    },
+    {
+      "pdfPage": 42,
+      "section": "Throttle Motor Parts",
+      "codeCount": 1,
+      "codes": [
+        "A27-46A"
+      ]
+    },
+    {
+      "pdfPage": 43,
+      "section": "Accelerator Motor",
+      "codeCount": 17,
+      "codes": [
+        "A23-9",
+        "A23-10",
+        "A23-11",
+        "A23-12",
+        "A23-13",
+        "A23-14",
+        "A23-15",
+        "A23-4",
+        "A23-16",
+        "A23-17",
+        "A23-18",
+        "A23-19",
+        "A23-4A",
+        "A23-7",
+        "A23-20",
+        "A23-21",
+        "A23-23"
+      ]
+    },
+    {
+      "pdfPage": 44,
+      "section": "Accelerator Motor",
+      "codeCount": 6,
+      "codes": [
+        "A23-40",
+        "R60-9",
+        "A23-43",
+        "A23-45",
+        "A23-62",
+        "A23-36"
+      ]
+    },
+    {
+      "pdfPage": 45,
+      "section": "Motor Assy Parts",
+      "codeCount": 1,
+      "codes": [
+        "A24-4"
+      ]
+    },
+    {
+      "pdfPage": 46,
+      "section": "Solenoid Valve",
+      "codeCount": 14,
+      "codes": [
+        "A25-12",
+        "A25-13",
+        "A25-15",
+        "A25-16",
+        "A25-19",
+        "A25-20",
+        "A25-21",
+        "A25-22",
+        "A25-23",
+        "A25-28",
+        "A25-29",
+        "A25-30",
+        "A25-31",
+        "A26-5"
+      ]
+    },
+    {
+      "pdfPage": 47,
+      "section": "Solenoid Valve",
+      "codeCount": 4,
+      "codes": [
+        "A26-160",
+        "A26-148",
+        "A26-254",
+        "A26-27A"
+      ]
+    },
+    {
+      "pdfPage": 48,
+      "section": "Solenoid Valve",
+      "codeCount": 6,
+      "codes": [
+        "A26-41A",
+        "A26-42",
+        "A26-318",
+        "A26-43A",
+        "A26-44",
+        "A26-378"
+      ]
+    },
+    {
+      "pdfPage": 49,
+      "section": "Solenoid Valve",
+      "codeCount": 6,
+      "codes": [
+        "A26-53",
+        "A26-67A",
+        "A26-698",
+        "A26-69F",
+        "A26-738",
+        "A26-730"
+      ]
+    },
+    {
+      "pdfPage": 50,
+      "section": "Solenoid Valve",
+      "codeCount": 24,
+      "codes": [
+        "A26-744",
+        "A26-75",
+        "A26-88A",
+        "A26-888",
+        "A26-89",
+        "A26-77A",
+        "A26-778",
+        "A26-898",
+        "A26-90",
+        "A26-908",
+        "A26-80",
+        "A26-81",
+        "A26-91",
+        "A26-92",
+        "A26-93",
+        "A26-84",
+        "A26-84A",
+        "A26-24",
+        "A26-96",
+        "A26-86A",
+        "A26-868",
+        "A26-968",
+        "A26-966",
+        "A26-97"
+      ]
+    }
+  ],
+  "products": [
+    {
+      "catalogCode": "A01-1",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — PC200-7",
+      "oemNumbers": [
+        "7861-93-2330"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-10",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — SK200-6/6E",
+      "oemNumbers": [
+        "ME844577"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-10A",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — SANY",
+      "oemNumbers": [
+        "MC867505"
+      ],
+      "compatibility": [
+        "SANY"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-14",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — EX200 / EX120",
+      "oemNumbers": [
+        "4265372"
+      ],
+      "compatibility": [
+        "Hitachi EX200",
+        "Hitachi EX120"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-15",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — ZAX450",
+      "oemNumbers": [
+        "1-81510713-1"
+      ],
+      "compatibility": [
+        "Hitachi ZAX450"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-1A",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — Hitachi",
+      "oemNumbers": [
+        "2055358"
+      ],
+      "compatibility": [
+        "Hitachi"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-1B",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — WA500-1",
+      "oemNumbers": [
+        "7819-11-2315"
+      ],
+      "compatibility": [
+        "Komatsu WA500-1"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-2",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — PC200-5/6 PC220-6",
+      "oemNumbers": [
+        "7861-92-2330"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "Komatsu PC200-6",
+        "Komatsu PC220-6"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-21",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — Liugong",
+      "oemNumbers": [
+        "30T815",
+        "4884223"
+      ],
+      "compatibility": [
+        "Liugong"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-21C",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — PC1250-7 / ZAX1200",
+      "oemNumbers": [
+        "4327239",
+        "3408472"
+      ],
+      "compatibility": [
+        "Komatsu PC1250-7",
+        "Hitachi ZAX1200"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-278",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-278",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        6
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-27K",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-27K",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        6
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-2B",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — PC360-8",
+      "oemNumbers": [
+        "31121"
+      ],
+      "compatibility": [
+        "Komatsu PC360-8"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-4",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-4",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        5
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-43A",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-43A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        6
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-46",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-46",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        6
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-47",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-47",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-49",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-49",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-5",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — E329",
+      "oemNumbers": [
+        "193-2550",
+        "318-1178",
+        "318-1181"
+      ],
+      "compatibility": [
+        "Caterpillar E329"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A01-50",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-50",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-53",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-53",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-54",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-54",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-55",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — A01-55",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A01-9",
+      "category": "Revolution Sensor",
+      "name": "Revolution Sensor — SK200-3/5",
+      "oemNumbers": [
+        "ME845235"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "Kobelco SK200-5"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A02-10",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-10",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-10A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-10A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-12",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-12",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-12A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-12A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-13",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-13",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-15",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-15",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-17",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-17",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-18",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-18",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-19",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-19",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-1A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-1A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-1B",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-1B",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-20",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-20",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-21",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-21",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-22",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-22",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-23",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-23",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-23A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-23A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-24",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-24",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-25",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-25",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-26",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-26",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-26A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-26A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-27",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-27",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-27A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-27A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-28",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-28",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7,
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-288",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-288",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-28A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-28A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-29",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-29",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-298",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-298",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-30",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-30",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-31",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-31",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-32",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-32",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-32A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-32A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-33",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-33",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-34",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-34",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-35",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-35",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-36",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-36",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-37",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-37",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-39",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-39",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-40",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-40",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-41",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-41",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-42",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-42",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-44",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-44",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-44A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-44A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-45",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-45",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-46",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-46",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-47",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-47",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        8
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-4A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-4A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A02-5A",
+      "category": "Camshaft Sensor",
+      "name": "Camshaft Sensor — A02-5A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        7
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-10",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-10",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-11",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-11",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-118",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-118",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-11A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-11A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-120",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-120",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-128",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-128",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-12A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-12A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-13",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-13",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-13A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-13A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-14",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-14",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-14A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-14A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-15",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-15",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-15A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-15A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-16",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-16",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-17",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-17",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-18",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-18",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-18A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-18A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-19",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-19",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-2",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-2",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-20",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-20",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-21",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-21",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-22",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-22",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-228",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-228",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-23",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-23",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-25A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-25A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-26A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-26A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-28",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-28",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9,
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-29",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-29",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-31",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-31",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-32",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-32",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-33",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-33",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-35",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-35",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-36",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-36",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-37",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-37",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-38",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-38",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-39",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-39",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-40",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-40",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-41",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-41",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-5",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-5",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-5A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-5A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-6",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-6",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-68",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-68",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-6A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-6A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-8",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-8",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-9",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-9",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-98",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-98",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A03-9A",
+      "category": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — A03-9A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        9
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-10",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-10",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-13",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-13",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-18",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-18",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        11
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-188",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-188",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        11
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-18F",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-18F",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        11
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-208",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-208",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        11
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-254",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-254",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        11
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-28",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-28",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        11
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-49",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-49",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        12
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-55B",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-55B",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        12
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-56B",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-56B",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        12
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-58A",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-58A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        13
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-59",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-59",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        13
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-6A",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-6A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-7",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-7",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-75",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-75",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        13
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-78",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-78",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-7A",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-7A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-98",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-98",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A04-9A",
+      "category": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — A04-9A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        10
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-10",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-10",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        14
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-14",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-14",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        14
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-168",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-168",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        14
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-220",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-220",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        14,
+        15
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-226",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-226",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        15
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-228",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-228",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        15
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-22E",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-22E",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        15
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A05-22F",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — A05-22F",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        15
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-102",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-102",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        19
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-104",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-104",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        19
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-108",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-108",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-110",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-110",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-114",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-114",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-117",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-117",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-118",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-118",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-129",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-129",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-130",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-130",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-132",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-132",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-134",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-134",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-137",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-137",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-145",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-145",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        20
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-20",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-20",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-208",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-208",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16,
+        19
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-21A",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-21A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-228",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-228",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-244",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-244",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-24N",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-24N",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-44",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-44",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        17
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-72A",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-72A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        18
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-79",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-79",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        18
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-79A",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-79A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        18
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-84A",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-84A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        18
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-85",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-85",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        18
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-86D",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-86D",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        18
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-88",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-88",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        19
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-88A",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-88A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        19
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-98",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-98",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A06-9A",
+      "category": "Pressure Switch",
+      "name": "Pressure Switch — A06-9A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        16
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A07-23",
+      "category": "Common Rail Sensor",
+      "name": "Common Rail Sensor — A07-23",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        21
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A07-288",
+      "category": "Common Rail Sensor",
+      "name": "Common Rail Sensor — A07-288",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        21
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A07-7A",
+      "category": "Common Rail Sensor",
+      "name": "Common Rail Sensor — A07-7A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A08-1",
+      "category": "High-pressure Oil Pump",
+      "name": "High-pressure Oil Pump — A08-1",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A08-10",
+      "category": "High-pressure Oil Pump",
+      "name": "High-pressure Oil Pump — A08-10",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A08-12",
+      "category": "High-pressure Oil Pump",
+      "name": "High-pressure Oil Pump — A08-12",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A08-13",
+      "category": "High-pressure Oil Pump",
+      "name": "High-pressure Oil Pump — A08-13",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A08-14",
+      "category": "High-pressure Oil Pump",
+      "name": "High-pressure Oil Pump — A08-14",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A08-6",
+      "category": "High-pressure Oil Pump",
+      "name": "High-pressure Oil Pump — A08-6",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A09-1",
+      "category": "Starter Relay",
+      "name": "Starter Relay — A09-1",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A09-15E",
+      "category": "Starter Relay",
+      "name": "Starter Relay — A09-15E",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        23
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A09-2A",
+      "category": "Starter Relay",
+      "name": "Starter Relay — A09-2A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A09-34",
+      "category": "Starter Relay",
+      "name": "Starter Relay — A09-34",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        24
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A09-344",
+      "category": "Starter Relay",
+      "name": "Starter Relay — A09-344",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        24
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A09-3A",
+      "category": "Starter Relay",
+      "name": "Starter Relay — A09-3A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A09-6",
+      "category": "Starter Relay",
+      "name": "Starter Relay — A09-6",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        22
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-208",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-208",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-248",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-248",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        29
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-288",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-288",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-320",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-320",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-32A",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-32A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-32B",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-32B",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-32D",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-32D",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A12-33",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — A12-33",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A13-1",
+      "category": "Time Meter",
+      "name": "Time Meter — A13-1",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A13-138",
+      "category": "Time Meter",
+      "name": "Time Meter — A13-138",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        31
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A13-13A",
+      "category": "Time Meter",
+      "name": "Time Meter — A13-13A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        31
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A13-2",
+      "category": "Time Meter",
+      "name": "Time Meter — A13-2",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A13-3",
+      "category": "Time Meter",
+      "name": "Time Meter — A13-3",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A13-40A",
+      "category": "Time Meter",
+      "name": "Time Meter — A13-40A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A13-6A",
+      "category": "Time Meter",
+      "name": "Time Meter — A13-6A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        30
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-13A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-13A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-14A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-14A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-168",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-168",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-16A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-16A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-204",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-204",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-22",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-22",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-23",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-23",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-23A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-23A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-244",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-244",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-254",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-254",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-268",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-268",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-27",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-27",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-270",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-270",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-278",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-278",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-27A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-27A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-288",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-288",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-29",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-29",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-30",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-30",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-30A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-30A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-31",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-31",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-328",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-328",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        32,
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-33",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-33",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-330",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-330",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-338",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-338",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-33A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-33A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-33E",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-33E",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-34",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-34",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-368",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-368",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-378",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-378",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-37A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-37A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-38",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-38",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-40",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-40",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-40A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-40A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-41A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-41A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-42",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-42",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-43",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-43",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-44",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-44",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-45",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-45",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-45A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-45A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-45E",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-45E",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-46A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-46A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-47",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-47",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-48A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-48A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        33
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-52",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-52",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        34
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-53",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-53",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        34
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-53A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-53A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        34
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-53B",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-53B",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        34
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-57",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-57",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        34
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A14-58",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A14-58",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        34
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A15-10A",
+      "category": "Ignition Switch",
+      "name": "Ignition Switch — A15-10A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        35
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A15-16A",
+      "category": "Ignition Switch",
+      "name": "Ignition Switch — A15-16A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        35
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A15-198",
+      "category": "Ignition Switch",
+      "name": "Ignition Switch — A15-198",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        35
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A15-228",
+      "category": "Ignition Switch",
+      "name": "Ignition Switch — A15-228",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        35
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A15-25",
+      "category": "Ignition Switch",
+      "name": "Ignition Switch — A15-25",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        35
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A15-268",
+      "category": "Ignition Switch",
+      "name": "Ignition Switch — A15-268",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        35
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A15-30",
+      "category": "Ignition Switch",
+      "name": "Ignition Switch — A15-30",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        35
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-130",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-130",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        36,
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-138",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-138",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        36
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-13A",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-13A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        36
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-13E",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-13E",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-13F",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-13F",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-20",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-20",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-21",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-21",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-22",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-22",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-22A",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-22A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-23",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-23",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-230",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-230",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-236",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-236",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-238",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-238",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-23F",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-23F",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-23H",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-23H",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-24",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-24",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-25",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-25",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-30",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-30",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-34",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-34",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-38",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-38",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        36,
+        37
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-42",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-42",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        38
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A17-44",
+      "category": "Fan Clutch",
+      "name": "Fan Clutch — A17-44",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        38
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A18-2",
+      "category": "Monitor",
+      "name": "Monitor — A18-2",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        38
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A18-28",
+      "category": "Monitor",
+      "name": "Monitor — A18-28",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        38
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A18-2A",
+      "category": "Monitor",
+      "name": "Monitor — A18-2A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        38
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A18-2F",
+      "category": "Monitor",
+      "name": "Monitor — A18-2F",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        38
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A18-3A",
+      "category": "Monitor",
+      "name": "Monitor — A18-3A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        38
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A20-14",
+      "category": "Wiper Motor",
+      "name": "Wiper Motor — A20-14",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        40
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A20-17A",
+      "category": "Wiper Motor",
+      "name": "Wiper Motor — A20-17A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        40
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A20-44",
+      "category": "Wiper Motor",
+      "name": "Wiper Motor — A20-44",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        39
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-16A",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-16A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-198",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-198",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-204",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-204",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-220",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-220",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-25",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-25",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-26",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-26",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-30",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-30",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-368",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-368",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-39",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-39",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A21-5B",
+      "category": "Starting Motor",
+      "name": "Starting Motor — A21-5B",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        40
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-10",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-10",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-11",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-11",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-12",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-12",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-13",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-13",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-14",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-14",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-15",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-15",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-16",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-16",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-17",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-17",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-18",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-18",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-19",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-19",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-20",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-20",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-21",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-21",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-23",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-23",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-36",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-36",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        44
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-4",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-4",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-40",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-40",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        44
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-43",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-43",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        44
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-45",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-45",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        44
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-4A",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-4A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-62",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-62",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        44
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-7",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-7",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A23-9",
+      "category": "Air Filter",
+      "name": "Air Filter — A23-9",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        43
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A24-208",
+      "category": "Thermostat",
+      "name": "Thermostat — A24-208",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        41
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A24-4",
+      "category": "Thermostat",
+      "name": "Thermostat — A24-4",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        45
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-12",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-12",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-13",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-13",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-15",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-15",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-16",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-16",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-19",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-19",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-20",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-20",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-21",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-21",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-22",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-22",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-23",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-23",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-28",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-28",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-29",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-29",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-30",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-30",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A25-31",
+      "category": "Oil Pump",
+      "name": "Oil Pump — A25-31",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-148",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-148",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        47
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-160",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-160",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        47
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-24",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-24",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-254",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-254",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        47
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-27A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-27A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        47
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-318",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-318",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        48
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-378",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-378",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        48
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-41A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-41A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        48
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-42",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-42",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        48
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-43A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-43A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        48
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-44",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-44",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        48
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-5",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-5",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        46
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-53",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — Hitachi EX200-5 / ZAX200-3",
+      "oemNumbers": [],
+      "compatibility": [
+        "Hitachi EX200-5",
+        "Hitachi ZAX200-3"
+      ],
+      "voltage": null,
+      "sourcePages": [
+        49
+      ],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-54",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — Hitachi EX200-5",
+      "oemNumbers": [
+        "9218229"
+      ],
+      "compatibility": [
+        "Hitachi EX200-5"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-61",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — CAT",
+      "oemNumbers": [
+        "121-4036"
+      ],
+      "compatibility": [
+        "Caterpillar"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-67",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — E320C",
+      "oemNumbers": [],
+      "compatibility": [
+        "Caterpillar E320C"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-67A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — CAT",
+      "oemNumbers": [
+        "170-9419"
+      ],
+      "compatibility": [
+        "Caterpillar"
+      ],
+      "voltage": null,
+      "sourcePages": [
+        49
+      ],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-69F",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-69F",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        49
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-71",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — JCB 24V",
+      "oemNumbers": [],
+      "compatibility": [
+        "JCB"
+      ],
+      "voltage": "24V",
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-71B",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — Volvo 24V",
+      "oemNumbers": [
+        "11418522"
+      ],
+      "compatibility": [
+        "Volvo"
+      ],
+      "voltage": "24V",
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-73A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — CAT",
+      "oemNumbers": [
+        "225-0303"
+      ],
+      "compatibility": [
+        "Caterpillar"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-73B",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — JCB",
+      "oemNumbers": [
+        "25/974628"
+      ],
+      "compatibility": [
+        "JCB"
+      ],
+      "voltage": null,
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-75",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-75",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-77A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — Volvo",
+      "oemNumbers": [
+        "VDE15125649"
+      ],
+      "compatibility": [
+        "Volvo"
+      ],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-80",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-80",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-81",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-81",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-83",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve 12V/24V",
+      "oemNumbers": [
+        "3017993"
+      ],
+      "compatibility": [],
+      "voltage": "12V/24V",
+      "sourcePages": [],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-84",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-84",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-84A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-84A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-86A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-86A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-88A",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-88A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-89",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — DH220-5",
+      "oemNumbers": [],
+      "compatibility": [
+        "Doosan DH220-5"
+      ],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A26-90",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-90",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-91",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-91",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-92",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-92",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-93",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-93",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-96",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — A26-96",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "A26-97",
+      "category": "Solenoid Valve",
+      "name": "Solenoid Valve — Volvo",
+      "oemNumbers": [
+        "11709493"
+      ],
+      "compatibility": [
+        "Volvo"
+      ],
+      "voltage": null,
+      "sourcePages": [
+        50
+      ],
+      "confidence": "verified"
+    },
+    {
+      "catalogCode": "A27-46A",
+      "category": "Throttle Motor Parts",
+      "name": "Throttle Motor Parts — A27-46A",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": "24V",
+      "sourcePages": [
+        42
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "R60-7",
+      "category": "Water Temp Sensor",
+      "name": "Water Temp Sensor — R60-7",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        17
+      ],
+      "confidence": "ocr"
+    },
+    {
+      "catalogCode": "R60-9",
+      "category": "Accelerator Motor",
+      "name": "Accelerator Motor — R60-9",
+      "oemNumbers": [],
+      "compatibility": [],
+      "voltage": null,
+      "sourcePages": [
+        44
+      ],
+      "confidence": "ocr"
+    }
+  ]
+}

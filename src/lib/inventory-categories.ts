@@ -1,8 +1,20 @@
 import type { LucideIcon } from "lucide-react";
-import { CircleDot, LayoutGrid } from "lucide-react";
+import {
+  CircleDot,
+  LayoutGrid,
+  Cpu,
+  Gauge,
+  Zap,
+  Wrench,
+  Fan,
+  Disc,
+  Package,
+} from "lucide-react";
+
+import { parts } from "@/lib/mock-data";
 
 /**
- * Inventory category tiles. Add new entries here as catalogs grow.
+ * Inventory category tiles.
  * `matchCategory: null` = All items (no category filter).
  */
 export type InventoryCategoryDef = {
@@ -14,7 +26,27 @@ export type InventoryCategoryDef = {
   icon: LucideIcon;
 };
 
-export const inventoryCategories: InventoryCategoryDef[] = [
+function slug(label: string) {
+  return label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function iconFor(category: string): LucideIcon {
+  const c = category.toLowerCase();
+  if (c.includes("o-ring") || c.includes("oring")) return CircleDot;
+  if (c.includes("sensor")) return Gauge;
+  if (c.includes("solenoid") || c.includes("switch") || c.includes("relay")) return Zap;
+  if (c.includes("motor") || c.includes("alternator") || c.includes("fan")) return Fan;
+  if (c.includes("pump") || c.includes("valve")) return Disc;
+  if (c.includes("controller") || c.includes("monitor") || c.includes("harness")) return Cpu;
+  if (c.includes("filter") || c.includes("thermostat")) return Wrench;
+  return Package;
+}
+
+/** Pinned first tiles; remaining categories come from inventory data. */
+const pinned: InventoryCategoryDef[] = [
   {
     id: "all",
     label: "All items",
@@ -29,9 +61,32 @@ export const inventoryCategories: InventoryCategoryDef[] = [
     matchCategory: "O-Rings",
     icon: CircleDot,
   },
-  // Later examples:
-  // { id: "filters", label: "Filters", description: "…", matchCategory: "Filters", icon: … },
-  // { id: "hoses", label: "Hoses", description: "…", matchCategory: "Hoses", icon: … },
 ];
+
+function buildCategories(): InventoryCategoryDef[] {
+  const counts = new Map<string, number>();
+  for (const p of parts) {
+    counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
+  }
+
+  const pinnedLabels = new Set(
+    pinned.map((c) => c.matchCategory).filter((x): x is string => Boolean(x)),
+  );
+
+  const rest = [...counts.keys()]
+    .filter((c) => !pinnedLabels.has(c))
+    .sort((a, b) => a.localeCompare(b))
+    .map((label) => ({
+      id: slug(label),
+      label,
+      description: `${counts.get(label) ?? 0} parts`,
+      matchCategory: label,
+      icon: iconFor(label),
+    }));
+
+  return [...pinned, ...rest];
+}
+
+export const inventoryCategories: InventoryCategoryDef[] = buildCategories();
 
 export const defaultInventoryCategoryId = inventoryCategories[0]?.id ?? "all";

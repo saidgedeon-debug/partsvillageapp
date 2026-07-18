@@ -69,10 +69,22 @@ function loadStored(): { clients: PartyRecord[]; suppliers: PartyRecord[] } {
   }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
+    const seedSuppliers: PartyRecord[] = [
+      {
+        id: "sup-kafu",
+        name: "Kafu Engineering Machine Fitting Co., Ltd.",
+        contactName: "",
+        email: "kafu2009@163.com",
+        phone: "0086-18988918836",
+        address:
+          "No. 221, The 2nd Street, Guangzhou International Machinery Parts Center, NO. 36, Zhuji Road, Tianhe District, Guangzhou",
+        notes: "Catalog 2025 · www.kafu08.com · WhatsApp 0086-18102782293",
+      },
+    ];
     if (!raw) {
       return {
         clients: seedClients.map((c) => ({ ...c })),
-        suppliers: [],
+        suppliers: seedSuppliers,
       };
     }
     const parsed = JSON.parse(raw) as { clients?: PartyRecord[]; suppliers?: PartyRecord[] };
@@ -81,6 +93,10 @@ function loadStored(): { clients: PartyRecord[]; suppliers: PartyRecord[] } {
     const byName = new Set(clients.map((c) => c.name.toLowerCase()));
     for (const c of seedClients) {
       if (!byName.has(c.name.toLowerCase())) clients.push({ ...c });
+    }
+    const bySupName = new Set(suppliers.map((s) => s.name.toLowerCase()));
+    for (const s of seedSuppliers) {
+      if (!bySupName.has(s.name.toLowerCase())) suppliers.push(s);
     }
     return { clients, suppliers };
   } catch {

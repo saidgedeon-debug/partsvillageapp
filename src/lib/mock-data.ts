@@ -1,4 +1,5 @@
 import { oringParts } from "@/lib/orings-inventory";
+import { kafuParts } from "@/lib/kafu-inventory";
 
 export type Part = {
   id: string;
@@ -72,7 +73,7 @@ export type SupplierInquiry = {
   status: "Open" | "Answered" | "Closed";
 };
 
-export const parts: Part[] = [...oringParts];
+export const parts: Part[] = [...oringParts, ...(kafuParts as Part[])];
 
 export const clients: Client[] = [];
 
