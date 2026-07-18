@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_3_4_5_v2",
+  "status": "sections_2_to_6_v2",
   "supplier": "Kafu",
-  "rawRows": 178,
-  "section5": 177,
-  "kept_prior": 590,
-  "count": 767,
+  "rawRows": 159,
+  "section6": 158,
+  "kept_prior": 767,
+  "count": 925,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -15,6 +15,8 @@
     "Barometric Pressure Sensor",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
+    "Common Rail Sensor",
+    "Common Rail Valve",
     "Coolant Temperature Sensor",
     "Core Sensor Node",
     "Core Terminal Post",
@@ -25,33 +27,45 @@
     "Fluid Level Sensor",
     "Fluid Temperature Sensor",
     "Flywheel Speed Sensor",
+    "Fuel Pressure Limiter Valve",
     "Fuel Pump Speed Sensor",
     "Fuel Sensor Cable",
     "Fuel Temperature Sensor",
     "Fuel/Oil Temperature Sensor",
     "Glow Plug",
     "High Pressure Sensor",
+    "High-Pressure Sensor",
+    "High-Pressure Switch",
+    "High-Pressure Valve",
     "Hydraulic Fluid Sensor",
     "Hydraulic Oil Temperature Sensor",
     "Inductive Switch Sensor",
     "Intake Air Sensor",
     "Intake Pressure Sensor",
     "Intake Temperature Sensor",
+    "Kafu Part",
     "Low Pressure Sensor",
+    "Low-Pressure Sensor",
     "Oil Pressure Sensor",
     "Oil Pressure Switch",
     "Oil Temperature Sensor",
     "Oil-Water Separation Sensor",
     "Oil/Water Pressure Switch",
     "Oil/Water Temperature Sensor",
+    "Overflow Valve",
     "Oxygen Sensor",
+    "Pressure Reducing Valve",
     "Pressure Sensor",
     "Pressure Switch",
     "Pressure Switch Core",
     "Proximity Switch",
+    "Pump Head Unit",
     "Revolution Sensor",
     "Rotary Switch Sensor",
+    "SCU Control Valve",
+    "SCU Repair Seal Kit",
     "Sensor Cable Assembly",
+    "Solenoid Control Valve",
     "Speed Sensor",
     "Temperature Probe",
     "Temperature Sensor",
@@ -15208,6 +15222,326 @@
       "confidence": "user-section5-v2"
     },
     {
+      "catalogCode": "A10-42",
+      "category": "High-Pressure Switch",
+      "description": "High-Pressure Switch",
+      "name": "High-Pressure Switch — Volvo Excavators",
+      "oemNumbers": [
+        "17252660"
+      ],
+      "compatibility": [
+        "Volvo Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-43",
+      "category": "High-Pressure Switch",
+      "description": "High-Pressure Switch",
+      "name": "High-Pressure Switch — Volvo Excavators",
+      "oemNumbers": [
+        "17253748"
+      ],
+      "compatibility": [
+        "Volvo Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-44",
+      "category": "High-Pressure Switch",
+      "description": "High-Pressure Switch",
+      "name": "High-Pressure Switch — Volvo Excavators",
+      "oemNumbers": [
+        "17216318"
+      ],
+      "compatibility": [
+        "Volvo Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-44A",
+      "category": "High-Pressure Switch",
+      "description": "High-Pressure Switch",
+      "name": "High-Pressure Switch — Volvo Excavators",
+      "oemNumbers": [
+        "2094364"
+      ],
+      "compatibility": [
+        "Volvo Excavators",
+        "Sany Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Volvo",
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-44B",
+      "category": "High-Pressure Switch",
+      "description": "High-Pressure Switch",
+      "name": "High-Pressure Switch — Volvo Excavators",
+      "oemNumbers": [
+        "17202579"
+      ],
+      "compatibility": [
+        "Volvo Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-44C",
+      "category": "High-Pressure Switch",
+      "description": "High-Pressure Switch",
+      "name": "High-Pressure Switch — Volvo Excavators",
+      "oemNumbers": [
+        "17271141"
+      ],
+      "compatibility": [
+        "Volvo Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-45",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai Excavators",
+      "oemNumbers": [
+        "31Q4-40830"
+      ],
+      "compatibility": [
+        "Hyundai Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-46",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai Excavators",
+      "oemNumbers": [
+        "31Q4-40800"
+      ],
+      "compatibility": [
+        "Hyundai Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-47",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai Excavators",
+      "oemNumbers": [
+        "31Q4-40820"
+      ],
+      "compatibility": [
+        "Hyundai Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-48",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai Excavators",
+      "oemNumbers": [
+        "31Q4-40810"
+      ],
+      "compatibility": [
+        "Hyundai Excavators"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-48A",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai Machinery",
+      "oemNumbers": [
+        "26512-0343"
+      ],
+      "compatibility": [
+        "Hyundai Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-48B",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Sany Systems",
+      "oemNumbers": [],
+      "compatibility": [
+        "Sany Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-48C",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Hyundai R Series",
+      "oemNumbers": [
+        "21EG-32200"
+      ],
+      "compatibility": [
+        "Hyundai R Series"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-49",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Hyundai R Series",
+      "oemNumbers": [
+        "21EG-32210"
+      ],
+      "compatibility": [
+        "Hyundai R Series"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-49A",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Sany Systems",
+      "oemNumbers": [
+        "KM25-E32"
+      ],
+      "compatibility": [
+        "Sany Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-49B",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Sany Systems",
+      "oemNumbers": [
+        "0420641"
+      ],
+      "compatibility": [
+        "Sany Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
       "catalogCode": "A10-5",
       "category": "Low Pressure Sensor",
       "description": "New Style Low Pressure Sensor",
@@ -15228,6 +15562,251 @@
       "confidence": "user-section5-v2"
     },
     {
+      "catalogCode": "A10-50",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Sany Machinery",
+      "oemNumbers": [
+        "PX-SHNY-500BG",
+        "M5134-C2549X-500BG"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-51",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Sany Machinery",
+      "oemNumbers": [
+        "0312090132",
+        "M5134-C1952X-50BG"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-52",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Sany Machinery",
+      "oemNumbers": [
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-53",
+      "category": "High-Pressure Sensor",
+      "description": "High/Low Combined Unit",
+      "name": "High/Low Combined Unit — Sany Machinery",
+      "oemNumbers": [
+        "Combined Line"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-54",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Sany Machinery",
+      "oemNumbers": [
+        "60114798"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-55",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Sany Machinery",
+      "oemNumbers": [
+        "60114798"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-55A",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Sany Machinery",
+      "oemNumbers": [
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-55B",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Sany Machinery",
+      "oemNumbers": [
+        "223-16-0072"
+      ],
+      "compatibility": [
+        "Sany Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-56",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Daewoo DH Series",
+      "oemNumbers": [
+        "Low 60Bar",
+        "High 400Bar"
+      ],
+      "compatibility": [
+        "Daewoo DH Series"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-57",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai Systems",
+      "oemNumbers": [
+        "26512-0343 (Terminal Alt)"
+      ],
+      "compatibility": [
+        "Hyundai Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-583",
+      "category": "Kafu Part",
+      "description": "Kafu Part",
+      "name": "Kafu Part — Liugong, Zoomlion",
+      "oemNumbers": [
+        "Wire Pressure SensorMBS3050060G1411"
+      ],
+      "compatibility": [
+        "Liugong",
+        "Zoomlion"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-593",
+      "category": "Kafu Part",
+      "description": "Kafu Part",
+      "name": "Kafu Part — Liugong, Zoomlion",
+      "oemNumbers": [
+        "Wire Pressure SensorMBS3050060G1154"
+      ],
+      "compatibility": [
+        "Liugong",
+        "Zoomlion"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
       "catalogCode": "A10-6",
       "category": "Vacuum Pressure Sensor",
       "description": "Vacuum Pressure Sensor",
@@ -15246,6 +15825,248 @@
       ],
       "section": "Section 5",
       "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-60",
+      "category": "High-Pressure Sensor",
+      "description": "Valve Body Dual Sensor Unit",
+      "name": "Valve Body Dual Sensor Unit — Liugong, Zoomlion, Sany",
+      "oemNumbers": [
+        "2-Way High",
+        "Low Valve"
+      ],
+      "compatibility": [
+        "Liugong",
+        "Zoomlion",
+        "Sany"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-61",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor (Rexroth Series)",
+      "name": "Pressure Sensor (Rexroth Series) — Rexroth, Lovol Systems",
+      "oemNumbers": [
+        "High 400Bar",
+        "Low 60Bar (a:R902603031",
+        "b:R902603871)"
+      ],
+      "compatibility": [
+        "Rexroth",
+        "Lovol Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-62",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Lonking Systems",
+      "oemNumbers": [
+        "223-16-0072"
+      ],
+      "compatibility": [
+        "Lonking Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-62A",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Lonking Systems",
+      "oemNumbers": [],
+      "compatibility": [
+        "Lonking Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-63",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Lonking Systems",
+      "oemNumbers": [],
+      "compatibility": [
+        "Lonking Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-64",
+      "category": "Low-Pressure Sensor",
+      "description": "Low-Pressure Sensor",
+      "name": "Low-Pressure Sensor — Lonking Systems",
+      "oemNumbers": [
+        "20050096"
+      ],
+      "compatibility": [
+        "Lonking Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-65",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Lonking Systems",
+      "oemNumbers": [
+        "063G1801"
+      ],
+      "compatibility": [
+        "Lonking Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-65A",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — XCMG Machinery",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-66",
+      "category": "High-Pressure Sensor",
+      "description": "Small Thread High-Pressure Sensor",
+      "name": "Small Thread High-Pressure Sensor — XCMG-3-4-500Bar (13-Tooth) XCMG Machinery",
+      "oemNumbers": [
+        "LC"
+      ],
+      "compatibility": [
+        "XCMG-3-4-500Bar (13-Tooth) XCMG Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-67",
+      "category": "High-Pressure Sensor",
+      "description": "Large Thread High-Pressure Sensor",
+      "name": "Large Thread High-Pressure Sensor — XCMG-3-4-2 500Bar (16-Tooth) XCMG Machinery",
+      "oemNumbers": [
+        "LC"
+      ],
+      "compatibility": [
+        "XCMG-3-4-2 500Bar (16-Tooth) XCMG Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-68",
+      "category": "Low-Pressure Sensor",
+      "description": "Large Thread Low-Pressure Sensor",
+      "name": "Large Thread Low-Pressure Sensor — XCMG-3-4-2 50Bar (16.5-Tooth OEM) XCMG Machinery",
+      "oemNumbers": [
+        "LC"
+      ],
+      "compatibility": [
+        "XCMG-3-4-2 50Bar (16.5-Tooth OEM) XCMG Machinery"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-69",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Lonking Systems",
+      "oemNumbers": [
+        "063G1801"
+      ],
+      "compatibility": [
+        "Lonking Systems"
+      ],
+      "pages": [
+        "26"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
     },
     {
       "catalogCode": "A10-7",
@@ -15269,6 +16090,434 @@
       "confidence": "user-section5-v2"
     },
     {
+      "catalogCode": "A10-70",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Lonking Systems",
+      "oemNumbers": [
+        "063G1802"
+      ],
+      "compatibility": [
+        "Lonking Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-70A",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Shanhe Intelligent, Lovol Series",
+      "oemNumbers": [
+        "High-Pressure"
+      ],
+      "compatibility": [
+        "Shanhe Intelligent",
+        "Lovol Series"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-70B",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Shanhe Intelligent Systems",
+      "oemNumbers": [
+        "3200T0400S05ER00"
+      ],
+      "compatibility": [
+        "Shanhe Intelligent Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-70C",
+      "category": "High-Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Shanhe Intelligent Systems",
+      "oemNumbers": [],
+      "compatibility": [
+        "Shanhe Intelligent Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-70D",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Shanhe Intelligent Systems",
+      "oemNumbers": [],
+      "compatibility": [
+        "Shanhe Intelligent Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-70E",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — JCB Equipment",
+      "oemNumbers": [
+        "332",
+        "J2973"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-71",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Volvo, Shanhe Machinery",
+      "oemNumbers": [
+        "3200T0400S05ER00"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Shanhe Machinery"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-72",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu PC300",
+      "oemNumbers": [
+        "600Bar Series"
+      ],
+      "compatibility": [
+        "Komatsu PC300"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-73",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar Excavators",
+      "oemNumbers": [
+        "400Bar Series"
+      ],
+      "compatibility": [
+        "Caterpillar Excavators"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-73A",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Caterpillar Common Rail Engines",
+      "oemNumbers": [
+        "RE277647"
+      ],
+      "compatibility": [
+        "Caterpillar Common Rail Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-73B",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Caterpillar Engines",
+      "oemNumbers": [
+        "RE272647"
+      ],
+      "compatibility": [
+        "Caterpillar Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-73C",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Caterpillar Common Rail Engines",
+      "oemNumbers": [
+        "RE567839"
+      ],
+      "compatibility": [
+        "Caterpillar Common Rail Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-74",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso 6D140 Engines",
+      "oemNumbers": [
+        "3330600",
+        "6560-81-8500"
+      ],
+      "compatibility": [
+        "Denso 6D140 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-75",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso 6D140 Engines",
+      "oemNumbers": [
+        "3347907",
+        "6560-41-6100"
+      ],
+      "compatibility": [
+        "Denso 6D140 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-75A",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso QSK23 Engines",
+      "oemNumbers": [
+        "3330601"
+      ],
+      "compatibility": [
+        "Denso QSK23 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-75B",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso QSK23, QSK45 Engines",
+      "oemNumbers": [
+        "3330602"
+      ],
+      "compatibility": [
+        "Denso QSK23",
+        "QSK45 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-75C",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso QSK23, QSK45 Engines",
+      "oemNumbers": [
+        "3347905",
+        "6560-41-5100"
+      ],
+      "compatibility": [
+        "Denso QSK23",
+        "QSK45 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-76",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso 6D170 Engines",
+      "oemNumbers": [
+        "3408587",
+        "6216-84-9111",
+        "6560-61-7102"
+      ],
+      "compatibility": [
+        "Denso 6D170 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-77",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Cummins QSK45, QSK60 Engines",
+      "oemNumbers": [
+        "4088734"
+      ],
+      "compatibility": [
+        "Cummins QSK45",
+        "QSK60 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-78",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Cummins K50 Engines",
+      "oemNumbers": [
+        "3083727",
+        "3408591"
+      ],
+      "compatibility": [
+        "Cummins K50 Engines"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-79",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "2872254"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
       "catalogCode": "A10-8",
       "category": "Pressure Switch",
       "description": "Pressure Switch",
@@ -15290,6 +16539,206 @@
       "confidence": "user-section5-v2"
     },
     {
+      "catalogCode": "A10-80",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408566"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-81",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408564"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-82",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408560"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-83",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408515"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-84",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408517"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-85",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408519"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-86",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408583"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-87",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3408602"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-88",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "14395374"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-89",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "14395293"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
       "catalogCode": "A10-9",
       "category": "Pressure Switch",
       "description": "Pressure Switch",
@@ -15308,7 +16757,1782 @@
       ],
       "section": "Section 5",
       "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-90",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "14395374 (Alternative Variant)"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-91",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "14395426"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-92",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "14550404"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-93",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "14550410"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-94",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — XCMG Machinery",
+      "oemNumbers": [
+        "513454"
+      ],
+      "compatibility": [
+        "XCMG Machinery"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-95",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — XCMG Machinery",
+      "oemNumbers": [
+        "508576"
+      ],
+      "compatibility": [
+        "XCMG Machinery"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-96",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Zoomlion Machinery",
+      "oemNumbers": [
+        "510848"
+      ],
+      "compatibility": [
+        "Zoomlion Machinery"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A10-97",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Universal Systems",
+      "oemNumbers": [
+        "2Y-5797",
+        "738-2120"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "27"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-1",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Komatsu PC400-7, PC450-8",
+      "oemNumbers": [
+        "499000-4441"
+      ],
+      "compatibility": [
+        "Komatsu PC400-7",
+        "PC450-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-10",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso Rail Infrastructure",
+      "oemNumbers": [
+        "0281006364",
+        "6745-71-4 320"
+      ],
+      "compatibility": [
+        "Denso Rail Infrastructure"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-11",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso Rail Infrastructure",
+      "oemNumbers": [
+        "0281002909"
+      ],
+      "compatibility": [
+        "Denso Rail Infrastructure"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-2",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Hino J05, J08, Kobelco SK200-8",
+      "oemNumbers": [
+        "15P23198",
+        "6131"
+      ],
+      "compatibility": [
+        "Hino J05",
+        "J08",
+        "Kobelco SK200-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-3",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Hitachi ZAX200-3",
+      "oemNumbers": [
+        "15P23386",
+        "6160"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-3A",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso Infrastructure Engines",
+      "oemNumbers": [
+        "6340",
+        "A20N09B"
+      ],
+      "compatibility": [
+        "Denso Infrastructure Engines"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-3B",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Universal Heavy-Duty Lines",
+      "oemNumbers": [
+        "499000-6111"
+      ],
+      "compatibility": [
+        "Universal Heavy-Duty Lines"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-3C",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso New Style Fuel Rails",
+      "oemNumbers": [
+        "499000-6141",
+        "8-97318684-1"
+      ],
+      "compatibility": [
+        "Denso New Style Fuel Rails"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-3D",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Universal Denso Engines",
+      "oemNumbers": [
+        "89458-60010"
+      ],
+      "compatibility": [
+        "Universal Denso Engines"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-3F",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Universal Denso Rails",
+      "oemNumbers": [
+        "499000-6320"
+      ],
+      "compatibility": [
+        "Universal Denso Rails"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-4",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Core Fuel NodeSK140-8 Associated",
+      "oemNumbers": [
+        "Core Fuel NodeSK140-8 Associated"
+      ],
+      "compatibility": [],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-5",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Komatsu PC200-8",
+      "oemNumbers": [
+        "6261-81-1900",
+        "0281002937",
+        "6754-72-1210"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-5A",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso Common Rail Infrastructure",
+      "oemNumbers": [
+        "0281006327"
+      ],
+      "compatibility": [
+        "Denso Common Rail Infrastructure"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-5B",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Caterpillar E336GC",
+      "oemNumbers": [
+        "375-6988"
+      ],
+      "compatibility": [
+        "Caterpillar E336GC"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-6",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Volvo 210",
+      "oemNumbers": [
+        "0287006053"
+      ],
+      "compatibility": [
+        "Volvo 210"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-7",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Volvo Excavators",
+      "oemNumbers": [
+        "0281002851"
+      ],
+      "compatibility": [
+        "Volvo Excavators"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-8",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Kobelco SK130-8",
+      "oemNumbers": [
+        "0281006090"
+      ],
+      "compatibility": [
+        "Kobelco SK130-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A11-9",
+      "category": "Common Rail Sensor",
+      "description": "Common Rail Sensor",
+      "name": "Common Rail Sensor — Denso Common Rail Infrastructure",
+      "oemNumbers": [
+        "0281006244"
+      ],
+      "compatibility": [
+        "Denso Common Rail Infrastructure"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-1",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Control Valve",
+      "name": "High-Pressure SCU Control Valve — Isuzu 4HK1 / 6HK1, Kobelco SK130-8, SK140-8",
+      "oemNumbers": [
+        "0928400742"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1 / 6HK1",
+        "Kobelco SK130-8",
+        "SK140-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-10",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Valve Unit",
+      "name": "Solenoid Valve Unit — B3.3 Engine Base Variant",
+      "oemNumbers": [
+        "12V",
+        "24V Multi-Fit"
+      ],
+      "compatibility": [
+        "B3.3 Engine Base Variant"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-10A",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Denso Fuel Pump Lines",
+      "oemNumbers": [
+        "16382-55091"
+      ],
+      "compatibility": [
+        "Denso Fuel Pump Lines"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-10B",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Shanshan Machinery",
+      "oemNumbers": [
+        "60980002717"
+      ],
+      "compatibility": [
+        "Shanshan Machinery"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-11",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Denso Fuel Pump Lines",
+      "oemNumbers": [
+        "9307Z523B"
+      ],
+      "compatibility": [
+        "Denso Fuel Pump Lines"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-11A",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — JCB Engine Blocks",
+      "oemNumbers": [
+        "32",
+        "20126 0156"
+      ],
+      "compatibility": [
+        "JCB Engine Blocks"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-11B",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Denso Systems",
+      "oemNumbers": [
+        "2872550"
+      ],
+      "compatibility": [
+        "Denso Systems"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-11C",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Shanshan SUV Series (5630/5650/5740, S770, S850)",
+      "oemNumbers": [
+        "7256772"
+      ],
+      "compatibility": [
+        "Shanshan SUV Series (5630/5650/5740",
+        "S770",
+        "S850)"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-12",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — JCB Platforms",
+      "oemNumbers": [
+        "12V",
+        "24V"
+      ],
+      "compatibility": [
+        "JCB Platforms"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-13",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve (12V/24V)",
+      "name": "Solenoid Control Valve (12V/24V) — Caterpillar E 320D 2",
+      "oemNumbers": [
+        "Perkins"
+      ],
+      "compatibility": [
+        "Caterpillar E 320D 2"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-13A",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve (12V/24V)",
+      "name": "Solenoid Control Valve (12V/24V) — Caterpillar E 320D",
+      "oemNumbers": [
+        "JBC Series"
+      ],
+      "compatibility": [
+        "Caterpillar E 320D"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-14",
+      "category": "Overflow Valve",
+      "description": "Overflow Valve",
+      "name": "Overflow Valve — Volvo 210",
+      "oemNumbers": [
+        "PC200-8"
+      ],
+      "compatibility": [
+        "Volvo 210"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-15",
+      "category": "Pressure Reducing Valve",
+      "description": "Pressure Reducing Valve",
+      "name": "Pressure Reducing Valve — Komatsu PC300-8",
+      "oemNumbers": [
+        "3963908",
+        "6745-71-4330"
+      ],
+      "compatibility": [
+        "Komatsu PC300-8"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-15A",
+      "category": "Pressure Reducing Valve",
+      "description": "Pressure Reducing Valve",
+      "name": "Pressure Reducing Valve — Denso Common Rail Units",
+      "oemNumbers": [
+        "4383889"
+      ],
+      "compatibility": [
+        "Denso Common Rail Units"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-16",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Hino J05, J08, Isuzu 4HK1",
+      "oemNumbers": [
+        "095420-0260"
+      ],
+      "compatibility": [
+        "Hino J05",
+        "J08",
+        "Isuzu 4HK1",
+        "Mitsubishi 4M41"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-16A",
+      "category": "Common Rail Valve",
+      "description": "Common Rail Control Valve",
+      "name": "Common Rail Control Valve — Isuzu 4HK1 / 6HK1",
+      "oemNumbers": [
+        "S2274-01110"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1 / 6HK1"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-16B",
+      "category": "Fuel Pressure Limiter Valve",
+      "description": "Fuel Limiter Valve",
+      "name": "Fuel Limiter Valve — Denso Rail Implementations",
+      "oemNumbers": [
+        "095420-0670"
+      ],
+      "compatibility": [
+        "Denso Rail Implementations"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-17",
+      "category": "Fuel Pressure Limiter Valve",
+      "description": "Fuel Pressure Limiter Valve",
+      "name": "Fuel Pressure Limiter Valve — Hino, Komatsu Engines",
+      "oemNumbers": [
+        "095420-0440",
+        "02U01142",
+        "6261-71-1220"
+      ],
+      "compatibility": [
+        "Hino",
+        "Komatsu Engines"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-17A",
+      "category": "Fuel Pressure Limiter Valve",
+      "description": "Fuel Limiter Valve",
+      "name": "Fuel Limiter Valve — Denso Rail Implementations",
+      "oemNumbers": [
+        "095420-0281"
+      ],
+      "compatibility": [
+        "Denso Rail Implementations"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-17B",
+      "category": "Fuel Pressure Limiter Valve",
+      "description": "Common Rail Pressure Limiter",
+      "name": "Common Rail Pressure Limiter — Denso Systems",
+      "oemNumbers": [
+        "095420-0560"
+      ],
+      "compatibility": [
+        "Denso Systems"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-17C",
+      "category": "Common Rail Valve",
+      "description": "Common Rail Valve Component",
+      "name": "Common Rail Valve Component — Isuzu 6HK1 Systems",
+      "oemNumbers": [
+        "095420-0290"
+      ],
+      "compatibility": [
+        "Isuzu 6HK1 Systems"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-17D",
+      "category": "Common Rail Valve",
+      "description": "Common Rail Valve Component",
+      "name": "Common Rail Valve Component — Hino J05, JO8E Engines",
+      "oemNumbers": [
+        "RE520929"
+      ],
+      "compatibility": [
+        "Hino J05",
+        "JO8E Engines"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-18",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Universal Control Manifolds",
+      "oemNumbers": [
+        "Core Line Node"
+      ],
+      "compatibility": [
+        "Universal Control Manifolds"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-19",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Denso Fuel Injection Systems",
+      "oemNumbers": [
+        "2284",
+        "2641",
+        "312-5620"
+      ],
+      "compatibility": [
+        "Denso Fuel Injection Systems"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-2",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Komatsu PC200-8",
+      "oemNumbers": [
+        "0928400617",
+        "040H1003"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-20",
+      "category": "High-Pressure Valve",
+      "description": "High-Pressure Valve",
+      "name": "High-Pressure Valve — 320D C6.4 Fuel Configurations",
+      "oemNumbers": [
+        "312-5620 Block E"
+      ],
+      "compatibility": [
+        "320D C6.4 Fuel Configurations"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-21",
+      "category": "Pump Head Unit",
+      "description": "Pump Head Unit",
+      "name": "Pump Head Unit — 320D Common Rail Pumps",
+      "oemNumbers": [
+        "320D Block Unit"
+      ],
+      "compatibility": [
+        "320D Common Rail Pumps"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-22",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve Unit",
+      "name": "SCU Control Valve Unit — 320D Fuel Control Loops",
+      "oemNumbers": [
+        "E 320D Block Series E"
+      ],
+      "compatibility": [
+        "320D Fuel Control Loops"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-22A",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve Unit",
+      "name": "SCU Control Valve Unit — C9.3 Common Rail Engines",
+      "oemNumbers": [
+        "C9.3 Platform Series"
+      ],
+      "compatibility": [
+        "C9.3 Common Rail Engines"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-23",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Valve",
+      "name": "Solenoid Control Valve — Caterpillar Systems",
+      "oemNumbers": [
+        "Core Series"
+      ],
+      "compatibility": [
+        "Caterpillar Systems"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-24",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — 6D140 Fuel Implementations",
+      "oemNumbers": [
+        "095400-0240"
+      ],
+      "compatibility": [
+        "6D140 Fuel Implementations"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-24A",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Denso Injection Infrastructure",
+      "oemNumbers": [
+        "0220 03D000243"
+      ],
+      "compatibility": [
+        "Denso Injection Infrastructure"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-24B",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — a:20Y-62-41602",
+      "oemNumbers": [
+        "a:20Y-62-41602",
+        "b:20Y-62-41701Heavy Earthmoving Modules"
+      ],
+      "compatibility": [],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-25",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Caterpillar Excavators",
+      "oemNumbers": [
+        "416-7101"
+      ],
+      "compatibility": [
+        "Caterpillar Excavators"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-26",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Caterpillar Machinery",
+      "oemNumbers": [
+        "369-6662"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-27",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Denso Distribution Equipment",
+      "oemNumbers": [
+        "32F61-00062"
+      ],
+      "compatibility": [
+        "Denso Distribution Equipment"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-28",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Kobelco SK350-8",
+      "oemNumbers": [
+        "JO8"
+      ],
+      "compatibility": [
+        "Kobelco SK350-8"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-29",
+      "category": "Pressure Reducing Valve",
+      "description": "Pressure Reducing Valve",
+      "name": "Pressure Reducing Valve — Caterpillar E 320D",
+      "oemNumbers": [
+        "32F61-10050"
+      ],
+      "compatibility": [
+        "Caterpillar E 320D"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Volvo 210",
+      "oemNumbers": [
+        "0928 400670"
+      ],
+      "compatibility": [
+        "Volvo 210"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-30",
+      "category": "Pressure Reducing Valve",
+      "description": "Pressure Reducing Valve",
+      "name": "Pressure Reducing Valve — Komatsu PC400-7",
+      "oemNumbers": [
+        "MD094040-0380"
+      ],
+      "compatibility": [
+        "Komatsu PC400-7"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-31",
+      "category": "Pressure Reducing Valve",
+      "description": "Pressure Reducing Valve",
+      "name": "Pressure Reducing Valve — Komatsu PC400-7",
+      "oemNumbers": [
+        "MD094040-0081"
+      ],
+      "compatibility": [
+        "Komatsu PC400-7"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-32",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve (12V/24V)",
+      "name": "SCU Control Valve (12V/24V) — WG200 Transmission Units",
+      "oemNumbers": [
+        "0260 120 024",
+        "0501 313 3724"
+      ],
+      "compatibility": [
+        "WG200 Transmission Units"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-34",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Caterpillar Engines",
+      "oemNumbers": [
+        "C7",
+        "C9 Series"
+      ],
+      "compatibility": [
+        "Caterpillar Engines"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-38",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Komatsu PC450-8",
+      "oemNumbers": [
+        "6261-41-4900"
+      ],
+      "compatibility": [
+        "Komatsu PC450-8"
+      ],
+      "pages": [
+        "30"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3A",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Sany, Mitsubishi 235 Series",
+      "oemNumbers": [
+        "0928400779"
+      ],
+      "compatibility": [
+        "Sany",
+        "Mitsubishi 235 Series"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3B",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Mitsubishi R150-7 Systems",
+      "oemNumbers": [
+        "0928400779"
+      ],
+      "compatibility": [
+        "Mitsubishi R150-7 Systems"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3C",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Daewoo Doosan DX340",
+      "oemNumbers": [
+        "0928400760"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DX340"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3E",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Denso Fuel Metering Rails",
+      "oemNumbers": [
+        "Fuel Metering"
+      ],
+      "compatibility": [
+        "Denso Fuel Metering Rails"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3F",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Denso Control Modules",
+      "oemNumbers": [
+        "0928400644"
+      ],
+      "compatibility": [
+        "Denso Control Modules"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3G",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Denso Control Modules",
+      "oemNumbers": [
+        "0928400757"
+      ],
+      "compatibility": [
+        "Denso Control Modules"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-3H",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Chai-Diesel 4M50 Common Rail",
+      "oemNumbers": [
+        "0928400647"
+      ],
+      "compatibility": [
+        "Chai-Diesel 4M50 Common Rail"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-4",
+      "category": "SCU Control Valve",
+      "description": "SCU Control Valve",
+      "name": "SCU Control Valve — Volvo 210",
+      "oemNumbers": [
+        "4296846"
+      ],
+      "compatibility": [
+        "Volvo 210"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-4A",
+      "category": "Solenoid Control Valve",
+      "description": "Solenoid Control Block",
+      "name": "Solenoid Control Block — EC250D Excavation Series",
+      "oemNumbers": [
+        "21714265"
+      ],
+      "compatibility": [
+        "EC250D Excavation Series"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-5",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Valve (Long)",
+      "name": "High-Pressure SCU Valve (Long) — Hino J05E, J08E, Kobelco SK200-8",
+      "oemNumbers": [
+        "04226-E0061"
+      ],
+      "compatibility": [
+        "Hino J05E",
+        "J08E",
+        "Kobelco SK200-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-5A",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Valve",
+      "name": "High-Pressure SCU Valve — Komatsu PC200-8",
+      "oemNumbers": [
+        "294009-1221"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-6",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Valve (Short)",
+      "name": "High-Pressure SCU Valve (Short) — Hino J05E, J08E, Kobelco SK210-8",
+      "oemNumbers": [
+        "294200-0190"
+      ],
+      "compatibility": [
+        "Hino J05E",
+        "J08E",
+        "Kobelco SK210-8"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-6A",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Valve",
+      "name": "High-Pressure SCU Valve — Denso Infrastructure Pumps",
+      "oemNumbers": [
+        "8-98283485-0"
+      ],
+      "compatibility": [
+        "Denso Infrastructure Pumps"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-7",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Valve",
+      "name": "High-Pressure SCU Valve — Hino 4HK1 / 6HK1 Engines",
+      "oemNumbers": [
+        "Core Series"
+      ],
+      "compatibility": [
+        "Hino 4HK1 / 6HK1 Engines"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-7A",
+      "category": "SCU Repair Seal Kit",
+      "description": "SCU Repair Seal Kit",
+      "name": "SCU Repair Seal Kit — Isuzu 4HK1 / 6HK1, Hitachi ZAX330-5A",
+      "oemNumbers": [
+        "8-98145449-0"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1 / 6HK1",
+        "Hitachi ZAX330-5A"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-8",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Valve (Long)",
+      "name": "High-Pressure SCU Valve (Long) — Isuzu 4JJ1 / 4JK1, Mitsubishi 4M41",
+      "oemNumbers": [
+        "8-98145484-1",
+        "294200-2760"
+      ],
+      "compatibility": [
+        "Isuzu 4JJ1 / 4JK1",
+        "Mitsubishi 4M41"
+      ],
+      "pages": [
+        "28"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A12-9",
+      "category": "SCU Control Valve",
+      "description": "High-Pressure SCU Valve",
+      "name": "High-Pressure SCU Valve — 4D56 Pump Systems",
+      "oemNumbers": [
+        "294200-2750"
+      ],
+      "compatibility": [
+        "4D56 Pump Systems"
+      ],
+      "pages": [
+        "29"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 6",
+      "confidence": "user-section6-v2"
     }
-  ],
-  "note": "Page21 A05 Core Terminal Posts remapped to A07-1..A07-8"
+  ]
 }

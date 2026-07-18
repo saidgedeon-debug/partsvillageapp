@@ -1,0 +1,174 @@
+Section 6: High-Pressure Sensors, Common Rail Sensors, & SCU Control Valves (Pages 26–30)
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A10-73Pressure Switch400Bar SeriesCAT ExcavatorsPage 27
+A10-73ACommon Rail SensorRE277647CAT Common Rail EnginesPage 27
+A10-73BCommon Rail SensorRE272647CAT EnginesPage 27
+A10-73CCommon Rail SensorRE567839CAT Common Rail EnginesPage 27
+A11-5BCommon Rail Sensor375-6988CAT E336GCPage 28
+A12-13Solenoid Control Valve (12V/24V)Perkins Engine SeriesCAT E320D2Page 29
+A12-13ASolenoid Control Valve (12V/24V)JBC SeriesCAT E320DPage 29
+A12-23Solenoid Control ValveCore SeriesCAT SystemsPage 29
+A12-25SCU Control Valve416-7101CAT ExcavatorsPage 29
+A12-26SCU Control Valve369-6662CAT MachineryPage 29
+A12-29Pressure Reducing Valve32F61-10050CAT E320DPage 30
+A12-32SCU Control Valve (12V/24V)0260 120 024 / 0501 313 3724WG200 Transmission UnitsPage 30
+A12-34SCU Control ValveC7 / C9 SeriesCAT EnginesPage 30
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A10-42High-Pressure Switch17252660VOLVO ExcavatorsPage 26
+A10-43High-Pressure Switch17253748VOLVO ExcavatorsPage 26
+A10-44High-Pressure Switch17216318VOLVO ExcavatorsPage 26
+A10-44AHigh-Pressure Switch2094364VOLVO ExcavatorsPage 26
+A10-44BHigh-Pressure Switch17202579VOLVO ExcavatorsPage 26
+A10-44CHigh-Pressure Switch17271141VOLVO ExcavatorsPage 26
+A10-71Pressure Sensor3200T0400S05ER00 / 0-600barVOLVO / Shanhe MachineryPage 27
+A11-6Common Rail Sensor0287006053VOLVO 210Page 28
+A11-7Common Rail Sensor0281002851VOLVO ExcavatorsPage 28
+A12-3SCU Control Valve0928 400670VOLVO 210Page 28
+A12-4SCU Control Valve4296846VOLVO 210Page 28
+A12-14Overflow ValvePC200-8 Cross-Ref LineVOLVO 210Page 29
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A10-72Pressure Switch600Bar SeriesKomatsu PC300Page 27
+A11-1Common Rail Sensor499000-4441Komatsu PC400-7 / PC450-8Page 28
+A11-5Common Rail Sensor6261-81-1900 / 0281002937 / 6754-72-1210Komatsu PC200-8Page 28
+A12-2SCU Control Valve0928400617 / 040H1003Komatsu PC200-8Page 28
+A12-5AHigh-Pressure SCU Valve294009-1221Komatsu PC200-8Page 28
+A12-15Pressure Reducing Valve3963908 / 6745-71-4330Komatsu PC300-8Page 29
+A12-30Pressure Reducing ValveMD094040-0380Komatsu PC400-7Page 30
+A12-31Pressure Reducing ValveMD094040-0081Komatsu PC400-7Page 30
+A12-38SCU Control Valve6261-41-4900Komatsu PC450-8Page 30
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A11-3Common Rail Sensor15P23386 / 6160Hitachi ZAX200-3Page 28
+A12-1High-Pressure SCU Control Valve0928400742Isuzu 4HK1 / 6HK1 / Kobelco SK130-8 / SK140-8Page 28
+A12-7ASCU Repair Seal Kit8-98145449-0Isuzu 4HK1 / 6HK1 / Hitachi ZAX330-5APage 28
+A12-8High-Pressure SCU Valve (Long)8-98145484-1 / 294200-2760Isuzu 4JJ1 / 4JK1 / Mitsubishi 4M41Page 28
+A12-16ACommon Rail Control ValveS2274-01110Isuzu 4HK1 / 6HK1Page 29
+A12-17CCommon Rail Valve Component095420-0290Isuzu 6HK1 SystemsPage 29
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A10-45Pressure Switch31Q4-40830 / 50BarHYUNDAI ExcavatorsPage 26
+A10-46Pressure Switch31Q4-40800 / 500BarHYUNDAI ExcavatorsPage 26
+A10-47Pressure Switch31Q4-40820 / 100BarHYUNDAI ExcavatorsPage 26
+A10-48Pressure Switch31Q4-40810 / 200BarHYUNDAI ExcavatorsPage 26
+A10-48APressure Switch26512-0343HYUNDAI MachineryPage 26
+A10-48CHigh-Pressure Sensor21EG-32200 / 0-500barHyundai R SeriesPage 26
+A10-49Low-Pressure Sensor21EG-32210 / 0-50barHyundai R SeriesPage 26
+A10-56Pressure SwitchLow 60Bar / High 400BarDaewoo DH SeriesPage 26
+A10-57Pressure Switch26512-0343 (Terminal Alt)HYUNDAI SystemsPage 26
+A12-3CSCU Control Valve0928400760Daewoo Doosan DX340Page 28
+🇯🇵 Kobelco (SK Series) & Hino Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A11-2Common Rail Sensor15P23198 / 6131Hino J05 / J08 / Kobelco SK200-8Page 28
+A11-8Common Rail Sensor0281006090Kobelco SK130-8Page 28
+A12-5High-Pressure SCU Valve (Long)04226-E0061Hino J05E / J08E / Kobelco SK200-8Page 28
+A12-6High-Pressure SCU Valve (Short)294200-0190Hino J05E / J08E / Kobelco SK210-8Page 28
+A12-7High-Pressure SCU ValveCore SeriesHino 4HK1 / 6HK1 EnginesPage 28
+A12-16SCU Control Valve095420-0260Hino J05 / J08 / Isuzu 4HK1 / Mitsubishi 4M41Page 29
+A12-17Fuel Pressure Limiter Valve095420-0440 / 02U01142 / 6261-71-1220Hino / Komatsu EnginesPage 29
+A12-17DCommon Rail Valve ComponentRE520929 Cross-RefHino J05 / JO8E EnginesPage 29
+A12-28SCU Control ValveJO8 Engine SeriesKobelco SK350-8Page 29
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A10-44AHigh-Pressure Sensor500Bar Heavy LineSany SystemsPage 26
+A10-48BLow-Pressure Sensor50Bar Heavy LineSany SystemsPage 26
+A10-49ALow-Pressure SensorKM25-E32 / 50BarSany SystemsPage 26
+A10-49BLow-Pressure Sensor0420641 / 5MPaSany SystemsPage 26
+A10-50High-Pressure SensorPX-SHNY-500BG / M5134-C2549X-500BGSany MachineryPage 26
+A10-51Low-Pressure Sensor0312090132 / M5134-C1952X-50BGSany MachineryPage 26
+A10-52High-Pressure Sensor60114799 / 500BarSany MachineryPage 26
+A10-53High/Low Combined UnitCombined Line BlockSany MachineryPage 26
+A10-54High-Pressure Sensor60114798 / 500BarSany MachineryPage 26
+A10-55Low-Pressure Sensor60114798 / 50BarSany MachineryPage 26
+A10-55AHigh-Pressure Sensor60114799 BlockSany MachineryPage 26
+A10-55BLow-Pressure Sensor223-16-0072 / 60BarSany MachineryPage 26
+A10-583-Wire Pressure SensorMBS3050060G1411 / 60BarLiugong / ZoomlionPage 26
+A10-593-Wire Pressure SensorMBS3050060G1154 / 400BarLiugong / ZoomlionPage 26
+A10-60Valve Body Dual Sensor Unit2-Way High/Low Valve BlockLiugong / Zoomlion / SanyPage 26
+A10-61Pressure Sensor (Rexroth Series)High 400Bar / Low 60Bar (a:R902603031 / b:R902603871)Rexroth / Lovol SystemsPage 26
+A10-62Low-Pressure Sensor223-16-0072 / 60BarLonking SystemsPage 26
+A10-62ALow-Pressure Sensor50Bar Base LineLonking SystemsPage 26
+A10-63High-Pressure Sensor500Bar Heavy LineLonking SystemsPage 26
+A10-64Low-Pressure Sensor20050096 / 0-5MPaLonking SystemsPage 26
+A10-65High-Pressure Sensor063G1801 SpecLonking SystemsPage 26
+A10-65AHigh-Pressure Sensor1000168 Base SeriesXCMG MachineryPage 26
+A10-66Small Thread High-Pressure SensorLC-XCMG-3-4-500Bar (13-Tooth)XCMG MachineryPage 26
+A10-67Large Thread High-Pressure SensorLC-XCMG-3-4-2 500Bar (16-Tooth)XCMG MachineryPage 26
+A10-68Large Thread Low-Pressure SensorLC-XCMG-3-4-2 50Bar (16.5-Tooth OEM)XCMG MachineryPage 26
+A10-69Pressure Sensor063G1801Lonking SystemsPage 26
+A10-70Pressure Sensor063G1802Lonking SystemsPage 27
+A10-70AHigh-Pressure SensorHigh-Pressure Distribution NodeShanhe Intelligent / Lovol SeriesPage 27
+A10-70BHigh-Pressure Sensor3200T0400S05ER00 / 0-400barShanhe Intelligent SystemsPage 27
+A10-70CHigh-Pressure Sensor0-600bar Distribution BlockShanhe Intelligent SystemsPage 27
+A10-70DPressure Sensor0-400bar Heavy-Duty VariantShanhe Intelligent SystemsPage 27
+A10-70EPressure Switch332/J2973JCB EquipmentPage 27
+A10-74Common Rail Sensor3330600 / 6560-81-8500Denso 6D140 EnginesPage 27
+A10-75Common Rail Sensor3347907 / 6560-41-6100Denso 6D140 EnginesPage 27
+A10-75ACommon Rail Sensor3330601Denso QSK23 EnginesPage 27
+A10-75BCommon Rail Sensor3330602Denso QSK23 / QSK45 EnginesPage 27
+A10-75CCommon Rail Sensor3347905 / 6560-41-5100Denso QSK23 / QSK45 EnginesPage 27
+A10-76Common Rail Sensor3408587 / 6216-84-9111 / 6560-61-7102Denso 6D170 EnginesPage 27
+A10-77Common Rail Sensor4088734Cummins QSK45 / QSK60 EnginesPage 27
+A10-78Common Rail Sensor3083727 / 3408591Cummins K50 EnginesPage 27
+A10-79Pressure Switch2872254Cummins SystemsPage 27
+A10-80Pressure Switch3408566Cummins SystemsPage 27
+A10-81Pressure Switch3408564Cummins SystemsPage 27
+A10-82Pressure Switch3408560Cummins SystemsPage 27
+A10-83Pressure Switch3408515Cummins SystemsPage 27
+A10-84Pressure Switch3408517Cummins SystemsPage 27
+A10-85Pressure Switch3408519Cummins SystemsPage 27
+A10-86Pressure Switch3408583Cummins SystemsPage 27
+A10-87Pressure Switch3408602Cummins SystemsPage 27
+A10-88Pressure Switch14395374Cummins SystemsPage 27
+A10-89Pressure Switch14395293Cummins SystemsPage 27
+A10-90Pressure Switch14395374 (Alternative Variant)Cummins SystemsPage 27
+A10-91Pressure Switch14395426Cummins SystemsPage 27
+A10-92Pressure Switch14550404Cummins SystemsPage 27
+A10-93Pressure Switch14550410Cummins SystemsPage 27
+A10-94Pressure Switch513454XCMG MachineryPage 27
+A10-95Pressure Switch508576XCMG MachineryPage 27
+A10-96Pressure Switch510848Zoomlion MachineryPage 27
+A10-97Pressure Switch2Y-5797 / 738-2120Universal SystemsPage 27
+A11-3ACommon Rail Sensor6340 / A20N09BDenso Infrastructure EnginesPage 28
+A11-3BCommon Rail Sensor499000-6111Universal Heavy-Duty LinesPage 28
+A11-3CCommon Rail Sensor499000-6141 / 8-97318684-1Denso New Style Fuel RailsPage 28
+A11-3DCommon Rail Sensor89458-60010Universal Denso EnginesPage 28
+A11-3FCommon Rail Sensor499000-6320Universal Denso RailsPage 28
+A11-4Common Rail SensorCore Fuel NodeSK140-8 Associated Engine SeriesPage 28
+A11-5ACommon Rail Sensor0281006327Denso Common Rail InfrastructurePage 28
+A11-9Common Rail Sensor0281006244Denso Common Rail InfrastructurePage 28
+A11-10Common Rail Sensor0281006364 / 6745-71-4320Denso Rail InfrastructurePage 28
+A11-11Common Rail Sensor0281002909Denso Rail InfrastructurePage 28
+A12-3ASCU Control Valve0928400779Sany / Mitsubishi 235 SeriesPage 28
+A12-3BSCU Control Valve0928400779 VariantMitsubishi R150-7 SystemsPage 28
+A12-3ESCU Control ValveFuel Metering CoreDenso Fuel Metering RailsPage 28
+A12-3FSCU Control Valve0928400644Denso Control ModulesPage 28
+A12-3GSCU Control Valve0928400757Denso Control ModulesPage 28
+A12-3HSCU Control Valve0928400647Chai-Diesel 4M50 Common RailPage 28
+A12-4ASolenoid Control Block21714265EC250D Excavation SeriesPage 28
+A12-6AHigh-Pressure SCU Valve8-98283485-0Denso Infrastructure PumpsPage 28
+A12-9High-Pressure SCU Valve294200-27504D56 Pump SystemsPage 29
+A12-10Solenoid Valve Unit12V/24V Multi-FitB3.3 Engine Base VariantPage 29
+A12-10ASolenoid Control Valve16382-55091Denso Fuel Pump LinesPage 29
+A12-10BSolenoid Control Valve60980002717Shanshan MachineryPage 29
+A12-11Solenoid Control Valve9307Z523BDenso Fuel Pump LinesPage 29
+A12-11ASolenoid Control Valve32/20126 0156JCB Engine BlocksPage 29
+A12-11BSolenoid Control Valve2872550Denso SystemsPage 29
+A12-11CSolenoid Control Valve7256772Shanshan SUV Series (5630/5650/5740/S770/S850)Page 29
+A12-12Solenoid Control Valve12V/24V Distribution BlockJCB PlatformsPage 29
+A12-15APressure Reducing Valve4383889Denso Common Rail UnitsPage 29
+A12-16BFuel Limiter Valve095420-0670Denso Rail ImplementationsPage 29
+A12-17AFuel Limiter Valve095420-0281Denso Rail ImplementationsPage 29
+A12-17BCommon Rail Pressure Limiter095420-0560Denso SystemsPage 29
+A12-18Solenoid Control ValveCore Line NodeUniversal Control ManifoldsPage 29
+A12-19Solenoid Control Valve2284 / 2641 / 312-5620Denso Fuel Injection SystemsPage 29
+A12-20High-Pressure Valve312-5620 BlockE320D C6.4 Fuel ConfigurationsPage 29
+A12-21Pump Head Unit320D Block Unit320D Common Rail PumpsPage 29
+A12-22SCU Control Valve UnitE320D Block SeriesE320D Fuel Control LoopsPage 29
+A12-22ASCU Control Valve UnitC9.3 Platform SeriesC9.3 Common Rail EnginesPage 29
+A12-24SCU Control Valve095400-02406D140 Fuel ImplementationsPage 29
+A12-24ASCU Control Valve0220 03D000243Denso Injection InfrastructurePage 29
+A12-24BSCU Control Valvea:20Y-62-41602 / b:20Y-62-41701Heavy Earthmoving ModulesPage 29
+A12-27SCU Control Valve32F61-00062Denso Distribution EquipmentPage 29
