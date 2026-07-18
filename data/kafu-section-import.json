@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_6_v2",
+  "status": "sections_2_to_6_plus_8_v2",
   "supplier": "Kafu",
-  "rawRows": 159,
-  "section6": 158,
-  "kept_prior": 767,
-  "count": 925,
+  "rawRows": 87,
+  "section8": 87,
+  "kept_prior": 925,
+  "count": 1012,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -13,6 +13,8 @@
     "Air Temperature Sensor",
     "Angle Sensor",
     "Barometric Pressure Sensor",
+    "Battery Disconnect Switch",
+    "Cabin Switch",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
     "Common Rail Sensor",
@@ -24,6 +26,7 @@
     "Differential Pressure Sensor",
     "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
+    "Engine Control Module",
     "Fluid Level Sensor",
     "Fluid Temperature Sensor",
     "Flywheel Speed Sensor",
@@ -33,12 +36,14 @@
     "Fuel Temperature Sensor",
     "Fuel/Oil Temperature Sensor",
     "Glow Plug",
+    "HVAC Controller",
     "High Pressure Sensor",
     "High-Pressure Sensor",
     "High-Pressure Switch",
     "High-Pressure Valve",
     "Hydraulic Fluid Sensor",
     "Hydraulic Oil Temperature Sensor",
+    "Ignition Switch",
     "Inductive Switch Sensor",
     "Intake Air Sensor",
     "Intake Pressure Sensor",
@@ -46,6 +51,7 @@
     "Kafu Part",
     "Low Pressure Sensor",
     "Low-Pressure Sensor",
+    "Machine Controller",
     "Oil Pressure Sensor",
     "Oil Pressure Switch",
     "Oil Temperature Sensor",
@@ -64,9 +70,11 @@
     "Rotary Switch Sensor",
     "SCU Control Valve",
     "SCU Repair Seal Kit",
+    "Safety Switch",
     "Sensor Cable Assembly",
     "Solenoid Control Valve",
     "Speed Sensor",
+    "Telematics Module",
     "Temperature Probe",
     "Temperature Sensor",
     "Temperature Switch",
@@ -18533,6 +18541,1812 @@
       ],
       "section": "Section 6",
       "confidence": "user-section6-v2"
+    },
+    {
+      "catalogCode": "A16-1",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Komatsu PC200-3, PC200-5",
+      "oemNumbers": [
+        "08086-10000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-3",
+        "PC200-5"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-10",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN50S00002P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-10A",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN50S00026P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-10B",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "LC50S00010P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-10C",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-11",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Caterpillar E320B, E320C",
+      "oemNumbers": [
+        "114-5333"
+      ],
+      "compatibility": [
+        "Caterpillar E320B",
+        "E320C"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-11A",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — cat, Generic Skid Steer",
+      "oemNumbers": [
+        "1319158",
+        "6670705 Bob"
+      ],
+      "compatibility": [
+        "cat",
+        "Generic Skid Steer"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-11B",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — JCB 3CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184",
+        "45501"
+      ],
+      "compatibility": [
+        "JCB 3CX Backhoe Loaders"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-11C",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — John Deere Tractors, Machinery",
+      "oemNumbers": [
+        "RE61812",
+        "AT103035"
+      ],
+      "compatibility": [
+        "John Deere Tractors",
+        "Machinery"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-11D",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Yanmar Compact Excavators",
+      "oemNumbers": [
+        "119802-77200"
+      ],
+      "compatibility": [
+        "Yanmar Compact Excavators"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-11E",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Kubota KX Series Mini Excavators",
+      "oemNumbers": [
+        "15248-63591",
+        "RC411-53962"
+      ],
+      "compatibility": [
+        "Kubota KX Series Mini Excavators"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-12",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Caterpillar E320D, E320D2",
+      "oemNumbers": [
+        "204-9069",
+        "24V"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E320D2"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-12A",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch Unit",
+      "name": "Ignition Switch Unit — Caterpillar Equipment",
+      "oemNumbers": [
+        "504-2069"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-12B",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch Core",
+      "name": "Ignition Switch Core — Sany SY215, SY235",
+      "oemNumbers": [
+        "B240600000286"
+      ],
+      "compatibility": [
+        "Sany SY215",
+        "SY235"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-12C",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch Core",
+      "name": "Ignition Switch Core — Liugong 920D, 922D",
+      "oemNumbers": [
+        "30B0202"
+      ],
+      "compatibility": [
+        "Liugong 920D",
+        "922D"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-12D",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch Core",
+      "name": "Ignition Switch Core — XCMG XE215",
+      "oemNumbers": [
+        "510848"
+      ],
+      "compatibility": [
+        "XCMG XE215"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-13",
+      "category": "Battery Disconnect Switch",
+      "description": "Battery Relay Switch",
+      "name": "Battery Relay Switch — Komatsu PC-6, PC-7 Series",
+      "oemNumbers": [
+        "08088-30000"
+      ],
+      "compatibility": [
+        "Komatsu PC-6",
+        "PC-7 Series"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-14",
+      "category": "Battery Disconnect Switch",
+      "description": "Battery Relay Switch (New Style)",
+      "name": "Battery Relay Switch (New Style) — Komatsu PC-8 Series",
+      "oemNumbers": [
+        "7861-74-5100"
+      ],
+      "compatibility": [
+        "Komatsu PC-8 Series"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-15",
+      "category": "Battery Disconnect Switch",
+      "description": "Battery Disconnect Relay",
+      "name": "Battery Disconnect Relay — Volvo Heavy Platforms",
+      "oemNumbers": [
+        "14529298"
+      ],
+      "compatibility": [
+        "Volvo Heavy Platforms"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-16",
+      "category": "Cabin Switch",
+      "description": "Headlight Rocker Switch",
+      "name": "Headlight Rocker Switch — Volvo Cabin Dashboard",
+      "oemNumbers": [
+        "14518002"
+      ],
+      "compatibility": [
+        "Volvo Cabin Dashboard"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-17",
+      "category": "Cabin Switch",
+      "description": "Wiper Rocker Switch",
+      "name": "Wiper Rocker Switch — Volvo Cabin Dashboard",
+      "oemNumbers": [
+        "14527125"
+      ],
+      "compatibility": [
+        "Volvo Cabin Dashboard"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-18",
+      "category": "Cabin Switch",
+      "description": "Work Light Rocker Switch",
+      "name": "Work Light Rocker Switch — Volvo Cabin Dashboard",
+      "oemNumbers": [
+        "15038313"
+      ],
+      "compatibility": [
+        "Volvo Cabin Dashboard"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-19",
+      "category": "Cabin Switch",
+      "description": "Quick Coupler Safety Switch",
+      "name": "Quick Coupler Safety Switch — Volvo Systems",
+      "oemNumbers": [
+        "11170072"
+      ],
+      "compatibility": [
+        "Volvo Systems"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-2",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Komatsu PC200-6, PC220-6",
+      "oemNumbers": [
+        "7872-20-4100",
+        "7872-20-4101"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-20",
+      "category": "Cabin Switch",
+      "description": "Engine Stop Switch",
+      "name": "Engine Stop Switch — Hitachi EX Series",
+      "oemNumbers": [
+        "4251588"
+      ],
+      "compatibility": [
+        "Hitachi EX Series"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-21",
+      "category": "Cabin Switch",
+      "description": "Working Mode Selector Switch",
+      "name": "Working Mode Selector Switch — Komatsu PC200-6 Dashboard",
+      "oemNumbers": [
+        "7872-20-1110"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6 Dashboard"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-22",
+      "category": "Cabin Switch",
+      "description": "Travel Speed Switch Button",
+      "name": "Travel Speed Switch Button — Komatsu PC200-7 Console",
+      "oemNumbers": [
+        "7873-20-1210"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7 Console"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-23",
+      "category": "Safety Switch",
+      "description": "Emergency Pump Override Switch",
+      "name": "Emergency Pump Override Switch — Komatsu PC200-8",
+      "oemNumbers": [
+        "20Y-06-22710"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-24",
+      "category": "Battery Disconnect Switch",
+      "description": "Master Battery Disconnect Switch",
+      "name": "Master Battery Disconnect Switch — Caterpillar Heavy Duty Systems",
+      "oemNumbers": [
+        "7N-4160"
+      ],
+      "compatibility": [
+        "Caterpillar Heavy Duty Systems"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-24A",
+      "category": "Cabin Switch",
+      "description": "Toggle Switch Panel",
+      "name": "Toggle Switch Panel — Caterpillar Equipment Panels",
+      "oemNumbers": [
+        "panel"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment Panels"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-25",
+      "category": "Safety Switch",
+      "description": "Emergency Stop Switch",
+      "name": "Emergency Stop Switch — Caterpillar Machinery",
+      "oemNumbers": [
+        "9X-4411"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-26",
+      "category": "Cabin Switch",
+      "description": "Toggle Switch Unit",
+      "name": "Toggle Switch Unit — Caterpillar Cabin Consoles",
+      "oemNumbers": [
+        "3E-6477"
+      ],
+      "compatibility": [
+        "Caterpillar Cabin Consoles"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-27",
+      "category": "Safety Switch",
+      "description": "Hydraulic Lock Switch",
+      "name": "Hydraulic Lock Switch — Caterpillar E320 Series",
+      "oemNumbers": [
+        "102-2244"
+      ],
+      "compatibility": [
+        "Caterpillar E320 Series"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-28",
+      "category": "Cabin Switch",
+      "description": "Dashboard Switch Button",
+      "name": "Dashboard Switch Button — Caterpillar 320C Cabin Layouts",
+      "oemNumbers": [
+        "111-4869"
+      ],
+      "compatibility": [
+        "Caterpillar 320C Cabin Layouts"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-29",
+      "category": "Cabin Switch",
+      "description": "Rocker Switch (Window/Wiper)",
+      "name": "Rocker Switch (Window/Wiper) — Caterpillar E320D Platforms",
+      "oemNumbers": [
+        "164-1621"
+      ],
+      "compatibility": [
+        "Caterpillar E320D Platforms"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-2A",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "7873-20-5100"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-2B",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Komatsu PC200-8, PC240-8",
+      "oemNumbers": [
+        "22B-06-11910"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "PC240-8"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-3",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Volvo EC210, EC240, EC290",
+      "oemNumbers": [
+        "14529143"
+      ],
+      "compatibility": [
+        "Volvo EC210",
+        "EC240",
+        "EC290"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-30",
+      "category": "Cabin Switch",
+      "description": "Toggle Switch Core",
+      "name": "Toggle Switch Core — Caterpillar Industrial Rigs",
+      "oemNumbers": [
+        "4W-9972"
+      ],
+      "compatibility": [
+        "Caterpillar Industrial Rigs"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-31",
+      "category": "Cabin Switch",
+      "description": "Horn Button Switch",
+      "name": "Horn Button Switch — Caterpillar Control Joysticks",
+      "oemNumbers": [
+        "3E-6453"
+      ],
+      "compatibility": [
+        "Caterpillar Control Joysticks"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-32",
+      "category": "Cabin Switch",
+      "description": "Wiper Control Module",
+      "name": "Wiper Control Module — Hitachi ZAX Series",
+      "oemNumbers": [
+        "4325432"
+      ],
+      "compatibility": [
+        "Hitachi ZAX Series"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-33",
+      "category": "Cabin Switch",
+      "description": "Dashboard Light Switch",
+      "name": "Dashboard Light Switch — Hitachi ZAX Consoles",
+      "oemNumbers": [
+        "4353686"
+      ],
+      "compatibility": [
+        "Hitachi ZAX Consoles"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-34",
+      "category": "Cabin Switch",
+      "description": "Mode Switch Panel",
+      "name": "Mode Switch Panel — Kobelco SK-6 Cabin Panel",
+      "oemNumbers": [
+        "console setup"
+      ],
+      "compatibility": [
+        "Kobelco SK-6 Cabin Panel"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-34A",
+      "category": "Cabin Switch",
+      "description": "Buzzer Warning Module",
+      "name": "Buzzer Warning Module — Kobelco SK Series Cabin",
+      "oemNumbers": [
+        "YN50S00007P1"
+      ],
+      "compatibility": [
+        "Kobelco SK Series Cabin"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-35",
+      "category": "Cabin Switch",
+      "description": "Control Toggle Set",
+      "name": "Control Toggle Set — Doosan DH Series Cabin Panel",
+      "oemNumbers": [
+        "panel components"
+      ],
+      "compatibility": [
+        "Doosan DH Series Cabin Panel"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-36",
+      "category": "Cabin Switch",
+      "description": "Console Rocker Switch",
+      "name": "Console Rocker Switch — Hyundai R-7 Cabin Layouts",
+      "oemNumbers": [
+        "21N8-30010"
+      ],
+      "compatibility": [
+        "Hyundai R-7 Cabin Layouts"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-37",
+      "category": "Battery Disconnect Switch",
+      "description": "Universal Battery Master Relay",
+      "name": "Universal Battery Master Relay — Universal Heavy Machinery Ground",
+      "oemNumbers": [
+        "12V",
+        "24V"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery Ground"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-38",
+      "category": "Safety Switch",
+      "description": "Safety Cut-Off Switch",
+      "name": "Safety Cut-Off Switch — Universal Industrial Sites",
+      "oemNumbers": [
+        "Lever Style Red"
+      ],
+      "compatibility": [
+        "Universal Industrial Sites"
+      ],
+      "pages": [
+        "37"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-3A",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch",
+      "name": "Ignition Switch — Volvo B-Series Equipment",
+      "oemNumbers": [
+        "VOE 11442694"
+      ],
+      "compatibility": [
+        "Volvo B-Series Equipment"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-4",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Hitachi EX200-1, EX200-2, EX200-3",
+      "oemNumbers": [
+        "4250350",
+        "4148415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-1",
+        "EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-4A",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Hitachi ZAX200, ZAX230, ZAX240",
+      "oemNumbers": [
+        "4360068",
+        "4448371"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200",
+        "ZAX230",
+        "ZAX240"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-4B",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Hitachi ZAX-3, ZAX-5 Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-3",
+        "ZAX-5 Series"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-5",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch (With Key)",
+      "name": "Ignition Switch (With Key) — Caterpillar Equipment",
+      "oemNumbers": [
+        "9G-7641",
+        "4N-3181"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-6",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch (Round Cap)",
+      "name": "Ignition Switch (Round Cap) — Caterpillar Machinery Platforms",
+      "oemNumbers": [
+        "7N-0718"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery Platforms"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-7",
+      "category": "Ignition Switch",
+      "description": "Ignition Switch Assembly",
+      "name": "Ignition Switch Assembly — Caterpillar Excavators, Loaders",
+      "oemNumbers": [
+        "3E-0156"
+      ],
+      "compatibility": [
+        "Caterpillar Excavators",
+        "Loaders"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-8",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-8A",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Doosan DX225, DX300",
+      "oemNumbers": [
+        "30152378"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-9",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-01272",
+        "21N6-01273"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A16-9A",
+      "category": "Ignition Switch",
+      "description": "Ignition Key Switch",
+      "name": "Ignition Key Switch — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q4-20100"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "36"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-1",
+      "category": "Machine Controller",
+      "description": "Main Pump Controller Module",
+      "name": "Main Pump Controller Module — Komatsu PC200-6",
+      "oemNumbers": [
+        "7834-20-5000",
+        "7834-20-6000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-10",
+      "category": "Machine Controller",
+      "description": "Central Controller (ECU)",
+      "name": "Central Controller (ECU) — Caterpillar E320C Main Computer",
+      "oemNumbers": [
+        "213-0677"
+      ],
+      "compatibility": [
+        "Caterpillar E320C Main Computer"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-11",
+      "category": "Machine Controller",
+      "description": "Pump Controller Module",
+      "name": "Pump Controller Module — Caterpillar E320B Main Computer",
+      "oemNumbers": [
+        "191-6587"
+      ],
+      "compatibility": [
+        "Caterpillar E320B Main Computer"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-12",
+      "category": "Engine Control Module",
+      "description": "Engine Control Module (ECM)",
+      "name": "Engine Control Module (ECM) — Caterpillar E320D (C6.4 Engine)",
+      "oemNumbers": [
+        "C6.4",
+        "331-7531"
+      ],
+      "compatibility": [
+        "Caterpillar E320D (C6.4 Engine)"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-12A",
+      "category": "Engine Control Module",
+      "description": "Engine Control Module (ECM)",
+      "name": "Engine Control Module (ECM) — Caterpillar E312D (C4.4 Engine)",
+      "oemNumbers": [
+        "C4.4"
+      ],
+      "compatibility": [
+        "Caterpillar E312D (C4.4 Engine)"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-12B",
+      "category": "Engine Control Module",
+      "description": "Engine Control Module (ECM)",
+      "name": "Engine Control Module (ECM) — Caterpillar Heavy Excavators",
+      "oemNumbers": [
+        "C7",
+        "C9 Series"
+      ],
+      "compatibility": [
+        "Caterpillar Heavy Excavators"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-12C",
+      "category": "Engine Control Module",
+      "description": "Engine Control Module (ECM)",
+      "name": "Engine Control Module (ECM) — Caterpillar Mining Equipment",
+      "oemNumbers": [
+        "C13",
+        "C15"
+      ],
+      "compatibility": [
+        "Caterpillar Mining Equipment"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-13",
+      "category": "Machine Controller",
+      "description": "Main Machine Controller",
+      "name": "Main Machine Controller — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN22E00037F4",
+        "YN22E00123F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-13A",
+      "category": "Machine Controller",
+      "description": "Main Machine Controller",
+      "name": "Main Machine Controller — Kobelco SK200-8",
+      "oemNumbers": [
+        "YN22E00257F1",
+        "LQ22E00103F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-13B",
+      "category": "Machine Controller",
+      "description": "Main Machine Controller",
+      "name": "Main Machine Controller — Sumitomo SH210-5, SH240-5",
+      "oemNumbers": [
+        "KHR17530"
+      ],
+      "compatibility": [
+        "Sumitomo SH210-5",
+        "SH240-5"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-14",
+      "category": "HVAC Controller",
+      "description": "Air Conditioning Controller",
+      "name": "Air Conditioning Controller — Caterpillar E320D Cabin HVAC",
+      "oemNumbers": [
+        "239-4457"
+      ],
+      "compatibility": [
+        "Caterpillar E320D Cabin HVAC"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-15",
+      "category": "Telematics Module",
+      "description": "GPS Monitoring Module",
+      "name": "GPS Monitoring Module — Caterpillar Telematics Fleet",
+      "oemNumbers": [
+        "321-1234"
+      ],
+      "compatibility": [
+        "Caterpillar Telematics Fleet"
+      ],
+      "pages": [
+        "39"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-16",
+      "category": "Machine Controller",
+      "description": "Main ECU Computer",
+      "name": "Main ECU Computer — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2521-1003",
+        "537-00010"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "40"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-17",
+      "category": "Machine Controller",
+      "description": "Main Controller Module",
+      "name": "Main Controller Module — Doosan DX225-9, DX300-9",
+      "oemNumbers": [
+        "300413-00087"
+      ],
+      "compatibility": [
+        "Doosan DX225-9",
+        "DX300-9"
+      ],
+      "pages": [
+        "40"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-18",
+      "category": "Machine Controller",
+      "description": "Central Controller CPU",
+      "name": "Central Controller CPU — Hyundai R225-7",
+      "oemNumbers": [
+        "21N6-43101",
+        "21N6-44101"
+      ],
+      "compatibility": [
+        "Hyundai R225-7"
+      ],
+      "pages": [
+        "40"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-19",
+      "category": "Machine Controller",
+      "description": "Central Controller CPU",
+      "name": "Central Controller CPU — Hyundai R220-9",
+      "oemNumbers": [
+        "21Q6-30102",
+        "21Q6-32103"
+      ],
+      "compatibility": [
+        "Hyundai R220-9"
+      ],
+      "pages": [
+        "40"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-2",
+      "category": "Machine Controller",
+      "description": "Controller Unit (Main computer)",
+      "name": "Controller Unit (Main computer) — Komatsu PC200-7",
+      "oemNumbers": [
+        "7835-26-1007",
+        "7835-26-1009"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-20",
+      "category": "Machine Controller",
+      "description": "Main Controller Unit",
+      "name": "Main Controller Unit — Sany SY215C-9, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C-9",
+        "SY235C-9"
+      ],
+      "pages": [
+        "40"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-21",
+      "category": "Machine Controller",
+      "description": "Main Controller Unit",
+      "name": "Main Controller Unit — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "40"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-22",
+      "category": "Machine Controller",
+      "description": "Main Controller Unit",
+      "name": "Main Controller Unit — XCMG XE215C",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C"
+      ],
+      "pages": [
+        "40"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-3",
+      "category": "Engine Control Module",
+      "description": "Engine Controller (ECM)",
+      "name": "Engine Controller (ECM) — Komatsu PC200-8 (6D107 Engine)",
+      "oemNumbers": [
+        "600-467-1100",
+        "6261-81-1900"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 (6D107 Engine)"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-4",
+      "category": "HVAC Controller",
+      "description": "Air Conditioning Controller Panel",
+      "name": "Air Conditioning Controller Panel — Komatsu PC200-7, PC200-8 HVAC",
+      "oemNumbers": [
+        "17A-979-1150"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC200-8 HVAC"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-5",
+      "category": "Engine Control Module",
+      "description": "Main Engine Controller (V-ECU)",
+      "name": "Main Engine Controller (V-ECU) — Volvo EC210B, EC240B",
+      "oemNumbers": [
+        "VOE 14518342"
+      ],
+      "compatibility": [
+        "Volvo EC210B",
+        "EC240B"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-5A",
+      "category": "Machine Controller",
+      "description": "Cabin Controller Module (I-ECU)",
+      "name": "Cabin Controller Module (I-ECU) — Volvo B-Series Excavators",
+      "oemNumbers": [
+        "VOE 14531313"
+      ],
+      "compatibility": [
+        "Volvo B-Series Excavators"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-6",
+      "category": "HVAC Controller",
+      "description": "Climate Control Panel",
+      "name": "Climate Control Panel — Volvo EC210, EC290 Cabin HVAC",
+      "oemNumbers": [
+        "VOE 14541342"
+      ],
+      "compatibility": [
+        "Volvo EC210",
+        "EC290 Cabin HVAC"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-7",
+      "category": "Machine Controller",
+      "description": "Main Computer Board (PVC)",
+      "name": "Main Computer Board (PVC) — Hitachi EX200-2, EX200-3",
+      "oemNumbers": [
+        "9123432",
+        "9164210"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-8",
+      "category": "Machine Controller",
+      "description": "Main Machine Controller (MC)",
+      "name": "Main Machine Controller (MC) — Hitachi ZAX200-1, ZAX200-3",
+      "oemNumbers": [
+        "4372497",
+        "4436535"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX200-3"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A17-9",
+      "category": "Engine Control Module",
+      "description": "Engine ECM",
+      "name": "Engine ECM — Isuzu 4HK1, 6HK1, Hitachi ZAX200-3",
+      "oemNumbers": [
+        "8-98014831-0"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1",
+        "6HK1",
+        "Hitachi ZAX200-3"
+      ],
+      "pages": [
+        "38"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 8",
+      "confidence": "user-section8-v2"
     }
-  ]
+  ],
+  "note": "Section 7 not yet imported"
 }

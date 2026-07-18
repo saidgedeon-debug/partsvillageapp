@@ -1,0 +1,103 @@
+Section 8: Ignition Modules, Spare Switches, & Cabin Controllers (Pages 36–40)
+This section outlines all ignition start switches, toggle switches, relays, and central processing units (ECUs/Controllers) housed inside or near the cabin dashboard.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A16-5Ignition Switch (With Key)9G-7641 / 4N-3181CAT EquipmentPage 36
+A16-6Ignition Switch (Round Cap)7N-0718CAT Machinery PlatformsPage 36
+A16-7Ignition Switch Assembly3E-0156CAT Excavators / LoadersPage 36
+A16-11Ignition Key Switch114-5333CAT E320B, E320CPage 36
+A16-12Ignition Key Switch204-9069 / 24VCAT E320D, E320D2Page 36
+A16-12AIgnition Switch Unit504-2069CAT EquipmentPage 36
+A16-24Master Battery Disconnect Switch7N-4160CAT Heavy Duty SystemsPage 37
+A16-24AToggle Switch Panelpanel core nodeCAT Equipment PanelsPage 37
+A16-25Emergency Stop Switch9X-4411CAT MachineryPage 37
+A16-26Toggle Switch Unit3E-6477CAT Cabin ConsolesPage 37
+A16-27Hydraulic Lock Switch102-2244CAT E320 SeriesPage 37
+A16-28Dashboard Switch Button111-4869CAT 320C Cabin LayoutsPage 37
+A16-29Rocker Switch (Window/Wiper)164-1621CAT E320D PlatformsPage 37
+A16-30Toggle Switch Core4W-9972CAT Industrial RigsPage 37
+A16-31Horn Button Switch3E-6453CAT Control JoysticksPage 37
+A17-10Central Controller (ECU)213-0677CAT E320C Main ComputerPage 39
+A17-11Pump Controller Module191-6587CAT E320B Main ComputerPage 39
+A17-12Engine Control Module (ECM)C6.4 / 331-7531CAT E320D (C6.4 Engine)Page 39
+A17-12AEngine Control Module (ECM)C4.4 Core UnitCAT E312D (C4.4 Engine)Page 39
+A17-12BEngine Control Module (ECM)C7 / C9 SeriesCAT Heavy ExcavatorsPage 39
+A17-12CEngine Control Module (ECM)C13 / C15 PlatformsCAT Mining EquipmentPage 39
+A17-14Air Conditioning Controller239-4457CAT E320D Cabin HVACPage 39
+A17-15GPS Monitoring Module321-1234CAT Telematics FleetPage 39
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A16-3Ignition Key Switch14529143VOLVO EC210, EC240, EC290Page 36
+A16-3AIgnition SwitchVOE 11442694VOLVO B-Series EquipmentPage 36
+A16-15Battery Disconnect Relay14529298VOLVO Heavy PlatformsPage 36
+A16-16Headlight Rocker Switch14518002VOLVO Cabin DashboardPage 37
+A16-17Wiper Rocker Switch14527125VOLVO Cabin DashboardPage 37
+A16-18Work Light Rocker Switch15038313VOLVO Cabin DashboardPage 37
+A16-19Quick Coupler Safety Switch11170072VOLVO SystemsPage 37
+A17-5Main Engine Controller (V-ECU)VOE 14518342VOLVO EC210B, EC240BPage 38
+A17-5ACabin Controller Module (I-ECU)VOE 14531313VOLVO B-Series ExcavatorsPage 38
+A17-6Climate Control PanelVOE 14541342VOLVO EC210, EC290 Cabin HVACPage 38
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A16-1Ignition Key Switch08086-10000Komatsu PC200-3, PC200-5Page 36
+A16-2Ignition Key Switch7872-20-4100 / 7872-20-4101Komatsu PC200-6, PC220-6Page 36
+A16-2AIgnition Key Switch7873-20-5100Komatsu PC200-7, PC220-7Page 36
+A16-2BIgnition Key Switch22B-06-11910Komatsu PC200-8, PC240-8Page 36
+A16-13Battery Relay Switch08088-30000Komatsu PC-6, PC-7 SeriesPage 36
+A16-14Battery Relay Switch (New Style)7861-74-5100Komatsu PC-8 SeriesPage 36
+A16-21Working Mode Selector Switch7872-20-1110Komatsu PC200-6 DashboardPage 37
+A16-22Travel Speed Switch Button7873-20-1210Komatsu PC200-7 ConsolePage 37
+A16-23Emergency Pump Override Switch20Y-06-22710Komatsu PC200-8Page 37
+A17-1Main Pump Controller Module7834-20-5000 / 7834-20-6000Komatsu PC200-6Page 38
+A17-2Controller Unit (Main computer)7835-26-1007 / 7835-26-1009Komatsu PC200-7Page 38
+A17-3Engine Controller (ECM)600-467-1100 / 6261-81-1900Komatsu PC200-8 (6D107 Engine)Page 38
+A17-4Air Conditioning Controller Panel17A-979-1150Komatsu PC200-7, PC200-8 HVACPage 38
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A16-4Ignition Key Switch4250350 / 4148415Hitachi EX200-1, EX200-2, EX200-3, EX200-5Page 36
+A16-4AIgnition Key Switch4360068 / 4448371Hitachi ZAX200, ZAX230, ZAX240Page 36
+A16-4BIgnition Key Switch4668260Hitachi ZAX-3, ZAX-5 SeriesPage 36
+A16-20Engine Stop Switch4251588Hitachi EX SeriesPage 37
+A16-32Wiper Control Module4325432Hitachi ZAX SeriesPage 37
+A16-33Dashboard Light Switch4353686Hitachi ZAX ConsolesPage 37
+A17-7Main Computer Board (PVC)9123432 / 9164210Hitachi EX200-2, EX200-3Page 38
+A17-8Main Machine Controller (MC)4372497 / 4436535Hitachi ZAX200-1, ZAX200-3Page 38
+A17-9Engine ECM8-98014831-0Isuzu 4HK1, 6HK1 / Hitachi ZAX200-3Page 38
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A16-8Ignition Key Switch2543-9015Daewoo Doosan DH220-5Page 36
+A16-8AIgnition Key Switch30152378Doosan DX225, DX300Page 36
+A16-9Ignition Key Switch21N6-01272 / 21N6-01273Hyundai R210-5, R225-7Page 36
+A16-9AIgnition Key Switch21Q4-20100Hyundai R210-9, R220-9Page 36
+A16-35Control Toggle Setpanel componentsDoosan DH Series Cabin PanelPage 37
+A16-36Console Rocker Switch21N8-30010Hyundai R-7 Cabin LayoutsPage 37
+A17-16Main ECU Computer2521-1003 / 537-00010Daewoo Doosan DH220-5Page 40
+A17-17Main Controller Module300413-00087Doosan DX225-9, DX300-9Page 40
+A17-18Central Controller CPU21N6-43101 / 21N6-44101Hyundai R225-7Page 40
+A17-19Central Controller CPU21Q6-30102 / 21Q6-32103Hyundai R220-9Page 40
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A16-10Ignition Key SwitchYN50S00002P1Kobelco SK200-3, SK200-5Page 36
+A16-10AIgnition Key SwitchYN50S00026P1Kobelco SK200-6, SK200-6EPage 36
+A16-10BIgnition Key SwitchLC50S00010P1Kobelco SK200-8, SK350-8Page 36
+A16-10CIgnition Key SwitchKHR1141Sumitomo SH200A3, SH210-5Page 36
+A16-34Mode Switch Panelconsole setupKobelco SK-6 Cabin PanelPage 37
+A16-34ABuzzer Warning ModuleYN50S00007P1Kobelco SK Series CabinPage 37
+A17-13Main Machine ControllerYN22E00037F4 / YN22E00123F1Kobelco SK200-6, SK200-6EPage 39
+A17-13AMain Machine ControllerYN22E00257F1 / LQ22E00103F1Kobelco SK200-8Page 39
+A17-13BMain Machine ControllerKHR17530Sumitomo SH210-5, SH240-5Page 39
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A16-11AIgnition Key Switch1319158 / 6670705Bobcat / Generic Skid SteerPage 36
+A16-11BIgnition Key Switch701/80184 / 701/45501JCB 3CX Backhoe LoadersPage 36
+A16-11CIgnition Key SwitchRE61812 / AT103035John Deere Tractors / MachineryPage 36
+A16-11DIgnition Key Switch119802-77200Yanmar Compact ExcavatorsPage 36
+A16-11EIgnition Key Switch15248-63591 / RC411-53962Kubota KX Series Mini ExcavatorsPage 36
+A16-12BIgnition Switch CoreB240600000286Sany SY215, SY235Page 36
+A16-12CIgnition Switch Core30B0202Liugong 920D, 922DPage 36
+A16-12DIgnition Switch Core510848XCMG XE215Page 36
+A16-37Universal Battery Master Relay12V/24V Multi-FitUniversal Heavy Machinery GroundPage 37
+A16-38Safety Cut-Off SwitchLever Style RedUniversal Industrial SitesPage 37
+A17-20Main Controller Unit60114798 / 60114799Sany SY215C-9, SY235C-9Page 40
+A17-21Main Controller Unit10213169Liugong 920E, 925EPage 40
+A17-22Main Controller Unit1000168XCMG XE215CPage 40
