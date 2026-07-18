@@ -5,9 +5,11 @@ import {
   ArrowUpNarrowWide,
   ChevronDown,
   Eye,
+  FolderPlus,
   Package,
   Boxes,
   Pencil,
+  Plus,
   ShoppingCart,
 } from "lucide-react";
 
@@ -16,16 +18,14 @@ import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { PartDetailDialog } from "@/components/app/part-detail-dialog";
+import { CategoryFormDialog } from "@/components/app/category-form-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import {
-  defaultInventoryCategoryId,
-  inventoryCategories,
-} from "@/lib/inventory-categories";
+import { defaultInventoryCategoryId } from "@/lib/inventory-categories";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import {
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/inventory")({
 });
 
 type SortMode = "size" | "box";
-type DialogMode = "view" | "edit";
+type DialogMode = "view" | "edit" | "create";
 
 function PartNumbersCell({ part }: { part: Part }) {
   const numbers = partNumbersOf(part);
@@ -140,7 +140,7 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
-  const { parts } = useInventory();
+  const { parts, categories } = useInventory();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
   const [thickness, setThickness] = useState("");
@@ -149,9 +149,15 @@ function InventoryPage() {
   const [activePart, setActivePart] = useState<Part | null>(null);
   const [dialogMode, setDialogMode] = useState<DialogMode>("view");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<{
+    id: string;
+    label: string;
+    description?: string;
+  } | null>(null);
 
   const activeCategory =
-    inventoryCategories.find((c) => c.id === categoryId) ?? inventoryCategories[0];
+    categories.find((c) => c.id === categoryId) ?? categories[0];
   const isORings = activeCategory?.matchCategory === "O-Rings";
 
   const countForCategory = (matchCategory: string | null) => {
@@ -163,6 +169,32 @@ function InventoryPage() {
     setActivePart(part);
     setDialogMode(mode);
     setDialogOpen(true);
+  };
+
+  const openCreatePart = () => {
+    setActivePart(null);
+    setDialogMode("create");
+    setDialogOpen(true);
+  };
+
+  const openCreateCategory = () => {
+    setEditingCategory(null);
+    setCategoryDialogOpen(true);
+  };
+
+  const openEditCategory = (cat: {
+    id: string;
+    label: string;
+    description: string;
+    matchCategory: string | null;
+  }) => {
+    if (!cat.matchCategory) return;
+    setEditingCategory({
+      id: cat.id,
+      label: cat.label,
+      description: cat.description,
+    });
+    setCategoryDialogOpen(true);
   };
 
   const thicknessPicks = useMemo(() => {
@@ -219,41 +251,77 @@ function InventoryPage() {
     <>
       <PageHeader
         title="Stock / Inventory"
-        subtitle={`View, edit, or add to cart · ${rows.length} of ${catalogCount} parts`}
+        subtitle={`Add, edit, or cart · ${rows.length} of ${catalogCount} parts`}
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button type="button" variant="outline" className="gap-1.5" onClick={openCreateCategory}>
+            <FolderPlus className="h-4 w-4" />
+            Add category
+          </Button>
+          <Button type="button" className="gap-1.5" onClick={openCreatePart}>
+            <Plus className="h-4 w-4" />
+            Add item
+          </Button>
+        </div>
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {inventoryCategories.map((cat) => {
+          {categories.map((cat) => {
             const Icon = cat.icon;
             const count = countForCategory(cat.matchCategory);
             const selected = cat.id === categoryId;
+            const canEdit = Boolean(cat.matchCategory);
             return (
-              <button
+              <div
                 key={cat.id}
-                type="button"
-                onClick={() => {
-                  setCategoryId(cat.id);
-                  if (cat.matchCategory !== "O-Rings") {
-                    setThickness("");
-                    setSearchOpen(false);
-                  }
-                }}
                 className={cn(
-                  "rounded-xl border px-4 py-4 text-left transition-colors",
+                  "relative rounded-xl border text-left transition-colors",
                   selected
                     ? "border-accent bg-accent/10 shadow-sm"
                     : "border-border bg-card hover:bg-muted/40",
                 )}
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-                    <Icon className={cn("h-5 w-5", selected ? "text-accent" : "text-muted-foreground")} />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCategoryId(cat.id);
+                    if (cat.matchCategory !== "O-Rings") {
+                      setThickness("");
+                      setSearchOpen(false);
+                    }
+                  }}
+                  className="w-full px-4 py-4 text-left"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
+                      <Icon
+                        className={cn(
+                          "h-5 w-5",
+                          selected ? "text-accent" : "text-muted-foreground",
+                        )}
+                      />
+                    </div>
+                    <Badge variant={selected ? "default" : "secondary"}>{count}</Badge>
                   </div>
-                  <Badge variant={selected ? "default" : "secondary"}>{count}</Badge>
-                </div>
-                <p className="mt-3 text-sm font-semibold text-foreground">{cat.label}</p>
-                <p className="text-xs text-muted-foreground">{cat.description}</p>
-              </button>
+                  <p className="mt-3 text-sm font-semibold text-foreground">{cat.label}</p>
+                  <p className="text-xs text-muted-foreground">{cat.description}</p>
+                </button>
+                {canEdit && (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className="absolute bottom-2 right-2 h-7 gap-1 px-2 text-xs"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openEditCategory(cat);
+                    }}
+                  >
+                    <Pencil className="h-3 w-3" />
+                    Edit
+                  </Button>
+                )}
+              </div>
             );
           })}
         </div>
@@ -535,6 +603,13 @@ function InventoryPage() {
         part={dialogPart}
         mode={dialogMode}
         onModeChange={setDialogMode}
+        defaultCategory={activeCategory?.matchCategory ?? ""}
+      />
+      <CategoryFormDialog
+        open={categoryDialogOpen}
+        onOpenChange={setCategoryDialogOpen}
+        category={editingCategory}
+        onSaved={(cat) => setCategoryId(cat.id)}
       />
     </>
   );

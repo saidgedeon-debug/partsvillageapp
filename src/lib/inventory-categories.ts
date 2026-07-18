@@ -11,7 +11,7 @@ import {
   Package,
 } from "lucide-react";
 
-import { parts } from "@/lib/mock-data";
+import type { Part } from "@/lib/mock-data";
 
 /**
  * Inventory category tiles.
@@ -24,9 +24,17 @@ export type InventoryCategoryDef = {
   /** Part.category value to filter by, or null for all */
   matchCategory: string | null;
   icon: LucideIcon;
+  /** True when category was user-created / renamed (editable). */
+  custom?: boolean;
 };
 
-function slug(label: string) {
+export type CustomCategoryInput = {
+  id: string;
+  label: string;
+  description?: string;
+};
+
+export function slugCategory(label: string) {
   return label
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
@@ -63,30 +71,48 @@ const pinned: InventoryCategoryDef[] = [
   },
 ];
 
-function buildCategories(): InventoryCategoryDef[] {
+export function buildInventoryCategories(
+  parts: Part[],
+  customCategories: CustomCategoryInput[] = [],
+): InventoryCategoryDef[] {
   const counts = new Map<string, number>();
   for (const p of parts) {
     counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
   }
 
+  const customByLabel = new Map(
+    customCategories.map((c) => [c.label.toLowerCase(), c]),
+  );
+
   const pinnedLabels = new Set(
     pinned.map((c) => c.matchCategory).filter((x): x is string => Boolean(x)),
   );
 
-  const rest = [...counts.keys()]
+  const labels = new Set<string>([...counts.keys()]);
+  for (const c of customCategories) labels.add(c.label);
+
+  const rest = [...labels]
     .filter((c) => !pinnedLabels.has(c))
     .sort((a, b) => a.localeCompare(b))
-    .map((label) => ({
-      id: slug(label),
-      label,
-      description: `${counts.get(label) ?? 0} parts`,
-      matchCategory: label,
-      icon: iconFor(label),
-    }));
+    .map((label) => {
+      const custom = customByLabel.get(label.toLowerCase());
+      return {
+        id: custom?.id ?? slugCategory(label),
+        label,
+        description:
+          custom?.description?.trim() ||
+          `${counts.get(label) ?? 0} part${(counts.get(label) ?? 0) === 1 ? "" : "s"}`,
+        matchCategory: label,
+        icon: iconFor(label),
+        custom: Boolean(custom),
+      };
+    });
 
   return [...pinned, ...rest];
 }
 
-export const inventoryCategories: InventoryCategoryDef[] = buildCategories();
+/** Static snapshot for non-reactive callers (seed / SSR). Prefer useInventory().categories. */
+export const inventoryCategories: InventoryCategoryDef[] =
+  buildInventoryCategories([]);
 
-export const defaultInventoryCategoryId = inventoryCategories[0]?.id ?? "all";
+export const defaultInventoryCategoryId = "all";

@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 
-type Mode = "view" | "edit";
+type Mode = "view" | "edit" | "create";
 
 type Props = {
   open: boolean;
@@ -25,6 +25,8 @@ type Props = {
   part: Part | null;
   mode: Mode;
   onModeChange?: (mode: Mode) => void;
+  /** Prefill category when creating. */
+  defaultCategory?: string;
 };
 
 type FormState = {
@@ -41,6 +43,21 @@ type FormState = {
   compatibility: string;
   notes: string;
 };
+
+const emptyForm = (category = ""): FormState => ({
+  partNumbers: "",
+  name: "",
+  category,
+  quantity: "0",
+  reorderAt: "0",
+  cost: "0",
+  price: "0",
+  boxNumber: "",
+  insideDiameterMm: "",
+  crossSectionMm: "",
+  compatibility: "",
+  notes: "",
+});
 
 function partToForm(part: Part): FormState {
   return {
@@ -59,13 +76,7 @@ function partToForm(part: Part): FormState {
   };
 }
 
-function Field({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function Field({ label, value }: { label: string; value: string }) {
   return (
     <div className="space-y-1">
       <p className="text-xs text-muted-foreground">{label}</p>
@@ -80,29 +91,39 @@ export function PartDetailDialog({
   part,
   mode,
   onModeChange,
+  defaultCategory = "",
 }: Props) {
-  const { updatePart } = useInventory();
+  const { addPart, updatePart, categoryLabels } = useInventory();
   const { askDocumentForPart } = useCart();
-  const [form, setForm] = useState<FormState | null>(null);
+  const [form, setForm] = useState<FormState>(emptyForm());
+  const creating = mode === "create";
+  const editing = mode === "edit" || creating;
 
   useEffect(() => {
-    if (!open || !part) return;
-    setForm(partToForm(part));
-  }, [open, part]);
+    if (!open) return;
+    if (creating || !part) {
+      setForm(emptyForm(defaultCategory));
+    } else {
+      setForm(partToForm(part));
+    }
+  }, [open, part, creating, defaultCategory]);
 
   const set =
     (key: keyof FormState) =>
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => (f ? { ...f, [key]: e.target.value } : f));
+      setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const save = () => {
-    if (!part || !form) return;
     const numbers = form.partNumbers
       .split(/[\n,;]+/)
       .map((s) => s.trim())
       .filter(Boolean);
     if (numbers.length === 0) {
       toast.error("At least one part number is required");
+      return;
+    }
+    if (!form.category.trim()) {
+      toast.error("Category is required");
       return;
     }
     const qty = Number(form.quantity);
@@ -120,11 +141,11 @@ export function PartDetailDialog({
       return;
     }
 
-    updatePart(part.id, {
+    const payload = {
       partNumber: numbers[0],
       partNumbers: numbers,
       name: form.name.trim() || numbers[0],
-      category: form.category.trim() || part.category,
+      category: form.category.trim(),
       quantity: qty,
       reorderAt: reorder,
       cost,
@@ -137,7 +158,17 @@ export function PartDetailDialog({
         .map((s) => s.trim())
         .filter(Boolean),
       notes: form.notes.trim() || undefined,
-    });
+    };
+
+    if (creating) {
+      addPart(payload);
+      toast.success(`Added ${numbers[0]}`);
+      onOpenChange(false);
+      return;
+    }
+
+    if (!part) return;
+    updatePart(part.id, payload);
     toast.success(`Updated ${numbers[0]}`);
     onModeChange?.("view");
     onOpenChange(false);
@@ -149,30 +180,36 @@ export function PartDetailDialog({
     onOpenChange(false);
   };
 
+  const showORingFields =
+    form.category === "O-Rings" || part?.category === "O-Rings";
+  const dialogOpen = open && (creating || Boolean(part));
+
   return (
-    <Dialog open={open && Boolean(part)} onOpenChange={onOpenChange}>
+    <Dialog open={dialogOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
-        {part && form ? (
-          <>
         <DialogHeader>
           <DialogTitle>
-            {mode === "edit" ? "Edit part" : "View part"}
+            {creating ? "Add part" : mode === "edit" ? "Edit part" : "View part"}
           </DialogTitle>
           <DialogDescription>
-            {mode === "edit"
-              ? "Update stock, pricing, and catalog details."
-              : `${part.partNumber} · ${part.category}`}
+            {creating
+              ? "Create a new inventory item."
+              : mode === "edit"
+                ? "Update stock, pricing, and catalog details."
+                : part
+                  ? `${part.partNumber} · ${part.category}`
+                  : ""}
           </DialogDescription>
         </DialogHeader>
 
-        {mode === "view" ? (
+        {!editing && part ? (
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
               <Field label="Part numbers" value={partNumbersOf(part).join(" · ")} />
             </div>
             <Field label="Category" value={part.category} />
             <div className="sm:col-span-2">
-              <Field label="Name" value={part.name} />
+              <Field label="Name / description" value={part.name} />
             </div>
             {part.category === "O-Rings" && (
               <>
@@ -183,15 +220,17 @@ export function PartDetailDialog({
               </>
             )}
             {part.category !== "O-Rings" && (
-              <Field label="Qty" value={part.quantity.toLocaleString()} />
+              <>
+                <Field label="Qty" value={part.quantity.toLocaleString()} />
+                <Field
+                  label="Machine"
+                  value={part.compatibility.length ? part.compatibility.join(", ") : ""}
+                />
+              </>
             )}
             <Field label="Cost" value={part.cost > 0 ? currency(part.cost) : ""} />
             <Field label="Price" value={part.price > 0 ? currency(part.price) : ""} />
             <Field label="Reorder at" value={String(part.reorderAt)} />
-            <Field
-              label="Compatibility"
-              value={part.compatibility.length ? part.compatibility.join(", ") : ""}
-            />
             <div className="sm:col-span-2">
               <Field label="Notes" value={part.notes ?? ""} />
             </div>
@@ -208,23 +247,36 @@ export function PartDetailDialog({
                 value={form.partNumbers}
                 onChange={set("partNumbers")}
               />
-              <p className="text-[11px] text-muted-foreground">
-                First line is primary. Extra numbers show as +N in the inventory list.
-              </p>
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="part-category">Category</Label>
               <Input
                 id="part-category"
+                list="inventory-category-options"
                 value={form.category}
                 onChange={set("category")}
+                placeholder="Select or type a category"
               />
+              <datalist id="inventory-category-options">
+                {categoryLabels.map((c) => (
+                  <option key={c} value={c} />
+                ))}
+              </datalist>
             </div>
             <div className="space-y-1.5 sm:col-span-2">
-              <Label htmlFor="part-name">Name</Label>
+              <Label htmlFor="part-name">Description / name</Label>
               <Input id="part-name" value={form.name} onChange={set("name")} />
             </div>
-            {part.category === "O-Rings" && (
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="part-compat">Machine (comma-separated)</Label>
+              <Input
+                id="part-compat"
+                value={form.compatibility}
+                onChange={set("compatibility")}
+                placeholder="e.g. Komatsu PC200-7, Hitachi EX200"
+              />
+            </div>
+            {showORingFields && (
               <>
                 <div className="space-y-1.5">
                   <Label htmlFor="part-box">Box</Label>
@@ -264,7 +316,7 @@ export function PartDetailDialog({
                 </div>
               </>
             )}
-            {part.category !== "O-Rings" && (
+            {!showORingFields && (
               <div className="space-y-1.5">
                 <Label htmlFor="part-qty">Qty</Label>
                 <Input
@@ -303,18 +355,10 @@ export function PartDetailDialog({
               />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
-              <Label htmlFor="part-compat">Compatibility (comma-separated)</Label>
-              <Input
-                id="part-compat"
-                value={form.compatibility}
-                onChange={set("compatibility")}
-              />
-            </div>
-            <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="part-notes">Notes</Label>
               <Textarea
                 id="part-notes"
-                rows={3}
+                rows={2}
                 value={form.notes}
                 onChange={set("notes")}
               />
@@ -323,7 +367,7 @@ export function PartDetailDialog({
         )}
 
         <DialogFooter className="gap-2 sm:gap-2">
-          {mode === "view" ? (
+          {!editing && part ? (
             <>
               <Button type="button" variant="outline" onClick={() => onModeChange?.("edit")}>
                 Edit
@@ -338,20 +382,21 @@ export function PartDetailDialog({
                 type="button"
                 variant="outline"
                 onClick={() => {
-                  setForm(partToForm(part));
-                  onModeChange?.("view");
+                  if (creating) onOpenChange(false);
+                  else if (part) {
+                    setForm(partToForm(part));
+                    onModeChange?.("view");
+                  }
                 }}
               >
                 Cancel
               </Button>
               <Button type="button" onClick={save}>
-                Save
+                {creating ? "Create" : "Save"}
               </Button>
             </>
           )}
         </DialogFooter>
-          </>
-        ) : null}
       </DialogContent>
     </Dialog>
   );
