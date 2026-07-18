@@ -1,0 +1,48 @@
+Section 16: Electronic Relays, Timing Modules, & Cabin Control Interfaces (Pages 81–86)
+This section contains the precise technical data extraction for automated timing relays, engine grid preheater elements, dashboard blinker modules, and micro-controlled interior switches from pages 81 to 86 of the product catalog. Foreign characters have been removed, and the Machine Compatibility maps to its own separate database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A25-1Glow Plug Timer Delay Relay114-5333 / 111-4870CAT E320BPage 81
+A25-2Intake Grid Preheater Element221-8859 / 171-2210CAT E320C, E312CPage 81
+A25-3Windshield Wiper Delay Control Module309-5769 / 564-4992CAT E320D, E323DPage 81
+A25-3AAutomated Throttle Safety Relay386-3439 ModuleCAT E320D2 SeriesPage 81
+A25-4Smart Cab Lighting Control Card425-4893 ComponentCAT Heavy MachineryPage 81
+A25-15Heavy Duty Battery Isolation Switch164-3692 Unit SpecCAT Ground SystemsPage 83
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A25-11Interior Fan Step Controller RelayVOE 14518342 / 14382341VOLVO EC210B Cabin HVACPage 82
+A25-11AMain Engine Safety Shutdown ModuleVOE 14616736 BoardVOLVO EC210D, EC220DPage 82
+A25-12Flame Preheat Fuel Control Relay0428-7583 Unit SpecVOLVO / Deutz Power PlantsPage 82
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A25-5Battery Relay Solenoid Actuator08088-30000 / 7834-40-2000Komatsu PC200-5, PC220-5Page 81
+A25-6Central Timing & Safety Relay7834-52-2003 / 7861-74-5100Komatsu PC200-6, PC220-6Page 81
+A25-7Air Conditioner Fan Power Amplifier7873-20-5100 / 17A-979-1150Komatsu PC200-7, PC220-7Page 82
+A25-8Intake Air Preheater Control Node600-467-1100 CoreKomatsu PC200-8 (6D107 Engine)Page 82
+A25-8AElectronic Monitoring Logic Gateway7835-35-2000 Line SpecKomatsu PC200-10Page 82
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A25-13Time Delay Flameout Relay Unit4251588 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 82
+A25-14Wiper Step Frequency Controller4360297 Control NodeHitachi ZAX200-1, ZAX210, ZAX230Page 83
+A25-14AMain Console Safety Relay Block4614911 / 4448332Hitachi ZAX200-3, ZAX240-3 Main CabinPage 83
+A25-14BTemperature Relay Override Circuit4668260 Module SpecHitachi ZAX-5A, ZAX-5G SeriesPage 83
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A25-16Air Conditioner High-Speed Relay2523-9014 / 2543-9015Daewoo Doosan DH220-5Page 83
+A25-17Complete Main Cabin Relay Panel300513-00021 BoardDoosan DX225, DX300Page 83
+A25-18Main Interconnect Battery Disconnect Relay21N6-43101 / 21N6-44101Hyundai R210-5, R225-7Page 83
+A25-19Digital Climate Control Interface Relay21Q6-30102 PanelHyundai R210-9, R220-9Page 83
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A25-9Main Pump Safety Interlock RelayYN50S00002P1 UnitKobelco SK200-3, SK200-5Page 82
+A25-10Electronic Intermittent Wiper RelayYN50S00026P1 ModuleKobelco SK200-6, SK200-6EPage 82
+A25-10AAuto-Wiper Control Timing UnitLC50S00010P1 UnitKobelco SK200-8, SK350-8Page 82
+A25-10BEngine Idle-Speed Shutdown RelayKHR1141 Module SpecSumitomo SH200A3, SH210-5Page 82
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A25-20Engine Safety Monitoring Relay Block60114798 / 60114799Sany SY215C, SY235C-9Page 84
+A25-21Digital HVAC Calibration Circuit Board10213169 PanelLiugong 920E, 925EPage 84
+A25-22High-Amperage Solenoid Starter Switch1000168 UnitXCMG XE215C, XE215DPage 85
+A25-23Heavy Vehicle Flash & Blinker Relay701/80184 Board SpecJCB 3CX, 4CX Backhoe LoadersPage 86
+A25-24Central Safety Electronic Timing RelayAT103035 / RE61812John Deere Infrastructure SeriesPage 86

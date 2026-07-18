@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_15_v2",
+  "status": "sections_2_to_16_v2",
   "supplier": "Kafu",
   "rawRows": 31,
-  "section15": 31,
-  "kept_prior": 1392,
-  "count": 1423,
+  "section16": 31,
+  "kept_prior": 1423,
+  "count": 1454,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -14,6 +14,7 @@
     "Angle Sensor",
     "Barometric Pressure Sensor",
     "Battery Disconnect Switch",
+    "Cabin Control Interface",
     "Cabin Switch",
     "Cabin Wiring Harness",
     "Camshaft Sensor",
@@ -37,6 +38,7 @@
     "Electrical Controller",
     "Electrical Solenoid",
     "Electronic Interface Module",
+    "Electronic Relay",
     "Engine / Control Harness",
     "Engine Control Module",
     "Engine Safety Control Protection Block",
@@ -84,6 +86,7 @@
     "Overflow Valve",
     "Oxygen Sensor",
     "Power Switch",
+    "Preheater / Glow Control",
     "Pressure / Control Switch",
     "Pressure Reducing Valve",
     "Pressure Sensor",
@@ -114,6 +117,7 @@
     "Throttle Drive Board",
     "Throttle Motor",
     "Throttle Position Sensor",
+    "Timing Module / Relay",
     "Vacuum Pressure Sensor",
     "Vacuum Pressure Switch",
     "Voltage Regulator",
@@ -28968,6 +28972,664 @@
       ],
       "section": "Section 15",
       "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A25-1",
+      "category": "Preheater / Glow Control",
+      "description": "Glow Plug Timer Delay Relay",
+      "name": "Glow Plug Timer Delay Relay — Caterpillar E320B",
+      "oemNumbers": [
+        "114-5333",
+        "111-4870"
+      ],
+      "compatibility": [
+        "Caterpillar E320B"
+      ],
+      "pages": [
+        "81"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-10",
+      "category": "Cabin Control Interface",
+      "description": "Electronic Intermittent Wiper Relay",
+      "name": "Electronic Intermittent Wiper Relay — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN50S00026P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-10A",
+      "category": "Cabin Control Interface",
+      "description": "Auto-Wiper Control Timing Unit",
+      "name": "Auto-Wiper Control Timing Unit — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "LC50S00010P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-10B",
+      "category": "Electronic Relay",
+      "description": "Engine Idle-Speed Shutdown Relay",
+      "name": "Engine Idle-Speed Shutdown Relay — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-11",
+      "category": "Cabin Control Interface",
+      "description": "Interior Fan Step Controller Relay",
+      "name": "Interior Fan Step Controller Relay — Volvo EC210B Cabin HVAC",
+      "oemNumbers": [
+        "VOE 14518342",
+        "14382341"
+      ],
+      "compatibility": [
+        "Volvo EC210B Cabin HVAC"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-11A",
+      "category": "Electronic Relay",
+      "description": "Main Engine Safety Shutdown Module",
+      "name": "Main Engine Safety Shutdown Module — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-12",
+      "category": "Preheater / Glow Control",
+      "description": "Flame Preheat Fuel Control Relay",
+      "name": "Flame Preheat Fuel Control Relay — Volvo, Deutz Power Plants",
+      "oemNumbers": [
+        "0428-7583"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz Power Plants"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-13",
+      "category": "Preheater / Glow Control",
+      "description": "Time Delay Flameout Relay Unit",
+      "name": "Time Delay Flameout Relay Unit — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4251588",
+        "4148415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-14",
+      "category": "Cabin Control Interface",
+      "description": "Wiper Step Frequency Controller",
+      "name": "Wiper Step Frequency Controller — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4360297"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-14A",
+      "category": "Electronic Relay",
+      "description": "Main Console Safety Relay Block",
+      "name": "Main Console Safety Relay Block — Hitachi ZAX200-3, ZAX240-3 Main Cabin",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3 Main Cabin"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-14B",
+      "category": "Electronic Relay",
+      "description": "Temperature Relay Override Circuit",
+      "name": "Temperature Relay Override Circuit — Hitachi ZAX-5A, ZAX-5G Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-5A",
+        "ZAX-5G Series"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-15",
+      "category": "Electronic Relay",
+      "description": "Heavy Duty Battery Isolation Switch",
+      "name": "Heavy Duty Battery Isolation Switch — Caterpillar Ground Systems",
+      "oemNumbers": [
+        "164-3692"
+      ],
+      "compatibility": [
+        "Caterpillar Ground Systems"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-16",
+      "category": "Electronic Relay",
+      "description": "Air Conditioner High-Speed Relay",
+      "name": "Air Conditioner High-Speed Relay — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-17",
+      "category": "Cabin Control Interface",
+      "description": "Complete Main Cabin Relay Panel",
+      "name": "Complete Main Cabin Relay Panel — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-18",
+      "category": "Electronic Relay",
+      "description": "Main Interconnect Battery Disconnect Relay",
+      "name": "Main Interconnect Battery Disconnect Relay — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-43101",
+        "21N6-44101"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-19",
+      "category": "Cabin Control Interface",
+      "description": "Digital Climate Control Interface Relay",
+      "name": "Digital Climate Control Interface Relay — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30102"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "83"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-2",
+      "category": "Preheater / Glow Control",
+      "description": "Intake Grid Preheater Element",
+      "name": "Intake Grid Preheater Element — Caterpillar E320C, E312C",
+      "oemNumbers": [
+        "221-8859",
+        "171-2210"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E312C"
+      ],
+      "pages": [
+        "81"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-20",
+      "category": "Electronic Relay",
+      "description": "Engine Safety Monitoring Relay Block",
+      "name": "Engine Safety Monitoring Relay Block — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "84"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-21",
+      "category": "Cabin Control Interface",
+      "description": "Digital HVAC Calibration Circuit Board",
+      "name": "Digital HVAC Calibration Circuit Board — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "84"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-22",
+      "category": "Electronic Relay",
+      "description": "High-Amperage Solenoid Starter Switch",
+      "name": "High-Amperage Solenoid Starter Switch — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "85"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-23",
+      "category": "Cabin Control Interface",
+      "description": "Heavy Vehicle Flash & Blinker Relay",
+      "name": "Heavy Vehicle Flash & Blinker Relay — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "86"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-24",
+      "category": "Timing Module / Relay",
+      "description": "Central Safety Electronic Timing Relay",
+      "name": "Central Safety Electronic Timing Relay — John Deere Infrastructure Series",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Infrastructure Series"
+      ],
+      "pages": [
+        "86"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-3",
+      "category": "Cabin Control Interface",
+      "description": "Windshield Wiper Delay Control Module",
+      "name": "Windshield Wiper Delay Control Module — Caterpillar E320D, E323D",
+      "oemNumbers": [
+        "309-5769",
+        "564-4992"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D"
+      ],
+      "pages": [
+        "81"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-3A",
+      "category": "Electronic Relay",
+      "description": "Automated Throttle Safety Relay",
+      "name": "Automated Throttle Safety Relay — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "81"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-4",
+      "category": "Cabin Control Interface",
+      "description": "Smart Cab Lighting Control Card",
+      "name": "Smart Cab Lighting Control Card — Caterpillar Heavy Machinery",
+      "oemNumbers": [
+        "425-4893"
+      ],
+      "compatibility": [
+        "Caterpillar Heavy Machinery"
+      ],
+      "pages": [
+        "81"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-5",
+      "category": "Electronic Relay",
+      "description": "Battery Relay Solenoid Actuator",
+      "name": "Battery Relay Solenoid Actuator — Komatsu PC200-5, PC220-5",
+      "oemNumbers": [
+        "08088-30000",
+        "7834-40-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5"
+      ],
+      "pages": [
+        "81"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-6",
+      "category": "Timing Module / Relay",
+      "description": "Central Timing & Safety Relay",
+      "name": "Central Timing & Safety Relay — Komatsu PC200-6, PC220-6",
+      "oemNumbers": [
+        "7834-52-2003",
+        "7861-74-5100"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "81"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-7",
+      "category": "Cabin Control Interface",
+      "description": "Air Conditioner Fan Power Amplifier",
+      "name": "Air Conditioner Fan Power Amplifier — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "7873-20-5100",
+        "17A-979-1150"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-8",
+      "category": "Preheater / Glow Control",
+      "description": "Intake Air Preheater Control Node",
+      "name": "Intake Air Preheater Control Node — Komatsu PC200-8 (6D107 Engine)",
+      "oemNumbers": [
+        "600-467-1100"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 (6D107 Engine)"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-8A",
+      "category": "Cabin Control Interface",
+      "description": "Electronic Monitoring Logic Gateway",
+      "name": "Electronic Monitoring Logic Gateway — Komatsu PC200-10",
+      "oemNumbers": [
+        "7835-35-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-10"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
+    },
+    {
+      "catalogCode": "A25-9",
+      "category": "Electronic Relay",
+      "description": "Main Pump Safety Interlock Relay",
+      "name": "Main Pump Safety Interlock Relay — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN50S00002P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "82"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 16",
+      "confidence": "user-section16-v2"
     }
   ]
 }
