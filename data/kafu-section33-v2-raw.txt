@@ -1,0 +1,48 @@
+Section 33: Under-Carriage Track Chains, Rollers, Idlers, & Drive Sprockets (Pages 183–188)
+This section contains the precise technical data extraction for crawler undercarriage traction elements, tracking chains, upper carrier rollers, dual-flanged bottom track rollers, front guide idler wheels, and drive sprockets from pages 183 to 188 of the master catalog. All non-English definitions have been filtered out, and Machine Compatibility is isolated into its own relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A42-1Track Chain Assembly (45-Section Link)118-3534 / 151-3168CAT E320BPage 183
+A42-2Bottom Track Roller (Dual-Flanged)221-8859 / 241-8368CAT E320C, E325CPage 183
+A42-3Top Carrier Roller Assembly309-5769 / 320-3060CAT E320D, E323DPage 183
+A42-3AFront Tensioner Guide Idler Assembly386-3439 / 375-6988CAT E320D2 SeriesPage 183
+A42-4Hardened Drive Sprocket Rim Segment105-2240 Component SpecCAT Crawler TracksPage 184
+A42-5Track Tension Recoil Spring Assembly131-0427 Component KitCAT Track TensionersPage 184
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A42-11Lubricated Track Link Chain AssemblyVOE 14518342 / 11423761VOLVO EC210B Base LinePage 184
+A42-11AHeavy Carrier Top Roller ArrayVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 184
+A42-12Heavy-Duty Drive Sprocket Segment0118-2850 Core SpecVOLVO Undercarriage RigsPage 184
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A42-6Polyurethane Sealed Track Link Chain20Y-30-00110 / 6732-81-3140Komatsu PC200-5, PC220-5Page 183
+A42-7Heavy Bottom Track Roller Assembly20Y-30-00221 / 6732-81-3380Komatsu PC200-6, PC220-6Page 183
+A42-8Front Guide Idler Wheeled Drum Unit20Y-30-00311 / 22U-06-22380Komatsu PC200-7, PC220-7Page 183
+A42-9Segmented Tooth Drive Sprocket Rim20Y-30-00411 / 6D107 EngineKomatsu PC200-8, PC240-8Page 184
+A42-9ATrack Shoe Hex Fastener Bolt & Nut Pack7861-94-3000 Line SpecKomatsu Undercarriage LoopsPage 184
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A42-13Heavy Duty Track Link Assembly Set4257163 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 185
+A42-14Dual Flange Lower Bottom Roller Unit4360297 / 4443849Hitachi ZAX200-1, ZAX210, ZAX230Page 185
+A42-14AFront Idler Yoke Tensioner Spring Block4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 185
+A42-14BHardened Drive Sprocket Core Wheel1-82550-3250 Component SpecHitachi Crawler FrameworksPage 185
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A42-16Grease-Sealed Track Chain Array Pack2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 185
+A42-17Double-Flanged Track Roller Core Block300513-00021 / 537-00010Doosan DX225, DX300Page 186
+A42-18Complete Upper Structure Carrier Roller21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 186
+A42-19Cast Hardened Drive Sprocket Segment Array21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 186
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A42-10Heavy Duty Track Link Assembly RailME049233 / ME049300Kobelco SK200-3, SK200-5Page 184
+A42-10ATop Carrier Roller Mount Bracket SetupME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 184
+A42-10BFront Recoil Idler Wheel Cushion UnitS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8Page 184
+A42-10CToothed Drive Sprocket Rim Segment UnitKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 184
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A42-20Crawler Underframe Track Chain Rail Assembly60114798 / 60114799Sany SY215C, SY235C-9Page 186
+A42-21Lower Ground Track Roller Array Block10213169 Terminal UnitLiugong 920E, 925EPage 187
+A42-22Hardened Cast Segmented Drive Sprocket Pack1000168 Component UnitXCMG XE215C, XE215DPage 187
+A42-23Complete Heavy Track Link & Recoil Setup Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 188
+A42-24Top Track Alignment Roller Sub-AssemblyAT103035 / RE61812John Deere Crawler FrameworksPage 188

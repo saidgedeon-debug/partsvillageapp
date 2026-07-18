@@ -1,0 +1,48 @@
+Section 26: Water Pumps, Oil Pumps, & Cooling System Parts (Pages 141–146)
+This section contains the comprehensive data extraction for engine cooling water pumps, high-volume lubrication oil pumps, fan clutches, and thermostat regulators from pages 141 to 146 of the catalog. Foreign characters have been entirely stripped, and Machine Compatibility maps to its own separate field for clean database import.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A35-1Centrifugal Cooling Water Pump125-2966 / 5I-7578CAT E320B (3066 Engine)Page 141
+A35-2Gear-Driven Engine Lubrication Oil Pump221-8859 / 241-8368CAT E320C, E325CPage 141
+A35-3Viscous Fan Clutch Assembly309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 141
+A35-3ADual-Valve Thermostat Unit (82°C)386-3439 / 375-6988CAT E320D2 SeriesPage 141
+A35-4Oil Pump Relief Valve Spring Pack105-2240 Component SpecCAT EnginesPage 142
+A35-5Water Pump Impeller Repair Seal Kit131-0427 Component KitCAT Engine Cooling LoopsPage 142
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A35-11Heavy Duty Water Pump AssemblyVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 142
+A35-11AHigh-Pressure Lubrication Gear PumpVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 142
+A35-12Cooling System Thermostat Housing0118-2850 Core SpecVOLVO / Deutz Power PlantsPage 142
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A35-6Belt-Driven Cooling Water Pump600-610-1110 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 141
+A35-7Main Journal Lubrication Oil Pump6754-72-1210 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 141
+A35-8Bi-Metal Fan Clutch Drive Unit6741-81-9220 / 22U-06-22380Komatsu PC200-7, PC220-7Page 141
+A35-9High-Efficiency Flow Water Pump6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 142
+A35-9AThermostat Regulator Valve Core (76.5°C)7861-94-3000 Line SpecKomatsu Thermal LoopsPage 142
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A35-13Heavy Mechanical Water Pump Unit1-13650-017-1 / 1-81200-471-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 143
+A35-14Rotary Trochoid Engine Oil Pump8-97306-113-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 143
+A35-14AHigh-Flow Water Pump System8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 143
+A35-14BViscous Drive Radiator Fan Clutch1-82550-3250 Component SpecIsuzu Engine Thermal LinesPage 143
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A35-16Cooling Water Pump Setup Array2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 143
+A35-17Lubricating Internal Sump Oil Pump300613-00021 / 537-00010Doosan DX225, DX300Page 144
+A35-18Heavy Water Pump Assembly21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 144
+A35-19Sump Lubrication Oil Pump Rig21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 144
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A35-10High-Delivery Coolant Water PumpME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 142
+A35-10ASump Lubrication Oil PumpME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 142
+A35-10BIntegrated Water Pump UnitS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 142
+A35-10CHigh-Capacity Lubricant Oil PumpKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 142
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A35-20Engine Cooling Water Pump Block Set60114798 / 60114799Sany SY215C, SY235C-9Page 144
+A35-21Lubricating Sump Engine Oil Pump Rig10213169 Terminal UnitLiugong 920E, 925EPage 145
+A35-22Viscous Fan Clutch Drive Component Unit1000168 Component UnitXCMG XE215C, XE215DPage 145
+A35-23Heavy Duty Water Pump & Thermostat Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 146
+A35-24Internal Engine Gear Lubrication PumpAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 146

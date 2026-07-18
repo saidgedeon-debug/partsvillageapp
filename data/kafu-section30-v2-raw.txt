@@ -1,0 +1,48 @@
+Section 30: Hydraulic Pumps, Main Relief Valves, & Regulator Series (Pages 165–170)
+This section logs core heavy-duty hydraulic power assemblies, including primary axial piston pumps, pilot gear pumps, main control relief valves, pump regulators, and internal swashplate rotary kits extracted from pages 165 to 170 of the catalog. Foreign language entries are fully filtered out, and Machine Compatibility is isolated into its own dedicated relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A39-1Main Hydraulic Axial Piston Pump125-2966 / 5I-7578CAT E320B (SBS120 Pump)Page 165
+A39-2Main Control Relief Valve (350 Bar)221-8859 / 241-8368CAT E320C, E325CPage 165
+A39-3Hydraulic Pump Electronic Regulator309-5769 / 320-3060CAT E320D, E323DPage 165
+A39-3APilot Gear Pump Assembly386-3439 / 375-6988CAT E320D2 SeriesPage 165
+A39-4Swashplate & Cradle Support Block105-2240 Component SpecCAT Hydraulic Pump InternalsPage 166
+A39-5Piston Shoe & Cylinder Block Rotary Kit131-0427 Component KitCAT Pump Overhaul KitsPage 166
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A39-11Main Tandem Hydraulic Pump UnitVOE 14518342 / 11423761VOLVO EC210B (K3V112DT)Page 166
+A39-11AProportional Pump Regulator ControlVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 166
+A39-12Pilot Line Main Relief Valve Stem0118-2850 Core SpecVOLVO Control Valve ManifoldsPage 166
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A39-6Variable Displacement Hydraulic Pump708-2L-00300 / 6732-81-3140Komatsu PC200-5, PC220-5 (HPV95)Page 165
+A39-7Main Hydraulic Pump (Dual Stream)708-2L-00400 / 6732-81-3380Komatsu PC200-6, PC220-6 (HPV95)Page 165
+A39-8Main Control Valve Relief Cartridge702-21-57400 / 22U-06-22380Komatsu PC200-7, PC220-7Page 165
+A39-9Main Pump Assembly (HPV112 Series)708-2L-00600 / 6D107 EngineKomatsu PC200-8, PC240-8Page 166
+A39-9AHydraulic Pump PC/LS Regulator Valve708-2L-23340 Line SpecKomatsu Hydraulic RegulatorsPage 166
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A39-13Main Hydraulic Pump Assembly4257163 / 4148415Hitachi EX200-2, EX200-3, EX200-5 (HPV116)Page 167
+A39-14Main Pump Regulator Assembly4360297 / 4443849Hitachi ZAX200-1, ZAX210, ZAX230Page 167
+A39-14AMain Control Overload Relief Valve4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 167
+A39-14BPilot Gear Pump (Triple Stage)1-82550-3250 Component SpecHitachi ZAX System Pilot BlocksPage 167
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A39-16Tandem Axial Piston Main Hydraulic Pump2522-9014 / 2542-9015Daewoo Doosan DH220-5 (K3V112)Page 167
+A39-17Main Control Block Relief Valve Cartridge300513-00021 / 537-00010Doosan DX225, DX300Page 168
+A39-18Main Pump Variable Displacement Assembly21N6-20010 / 21N6-20011Hyundai R210-5, R225-7 (K3V112)Page 168
+A39-19Hydraulic Pump Electro-Proportional Regulator21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 168
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A39-10Twin Axial Piston Main Hydraulic Pump2441U825F3 / ME049300Kobelco SK200-3, SK200-5 (K3V112)Page 166
+A39-10AMain Control Block Relief ValveYN22E00037F4 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 166
+A39-10BVariable Displacement Main Hydraulic PumpLQ22E00103F1 / LC50S00010P1Kobelco SK200-8, SK350-8 (K3V112)Page 166
+A39-10CHydraulic Pump Regulator Valve UnitKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 166
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A39-20Variable Axial Hydraulic Pump Unit60114798 / 60114799Sany SY215C, SY235C-9Page 168
+A39-21Main Control Valve Primary Relief Stack10213169 Terminal UnitLiugong 920E, 925EPage 169
+A39-22Pilot Gear Charging Pump Assembly1000168 Component UnitXCMG XE215C, XE215DPage 169
+A39-23Main Piston Pump & Port Relief Valve Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 170
+A39-24Hydraulic Pump Flow Controller RegulatorAT103035 / RE61812John Deere Infrastructure System EnginesPage 170

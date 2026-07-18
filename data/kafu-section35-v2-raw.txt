@@ -1,0 +1,48 @@
+Section 35: Electrical Solenoid Valves, Engine Diodes, & Heavy Switching Relays (Pages 195–200)
+This section maps technical data for auxiliary pump regulator solenoid blocks, inline vehicle diode blocks, safety cutout ground relays, and secondary wiring harness couplers from pages 195 to 200 of the product catalog. Chinese text has been completely filtered out, and Machine Compatibility is isolated into its own dedicated column for clean import into your database.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A44-1Hydraulic Pump Proportional Solenoid121-1491 / 121-1490CAT E320B, E320CPage 195
+A44-2Primary Fuel Shut-off Switch Actuator155-4654 / 111-4870CAT 3116, 3126 EnginesPage 195
+A44-3Safety Manifold Lock Solenoid Valve164-3692 Block SpecCAT E320C SeriesPage 195
+A44-3AMain Pump Flow Regulator Solenoid312-5620 / 419-5574CAT E320D, E323DPage 195
+A44-4Rotational Electronic Governor Core386-3439 UnitCAT E320D2 SeriesPage 195
+A44-5Miniature Cartridge Solenoid Stem425-4893 ComponentCAT E307D PlatformsPage 196
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A44-11Main Displacement Control SolenoidVOE 14518342 / 14529298VOLVO EC210B Hydraulic BlockPage 196
+A44-11APilot Block Manifold Cartridge SolenoidVOE 14616736 / 21714265VOLVO EC210D, EC220DPage 196
+A44-12Automatic Fuel Cut-off Solenoid0428-7583 / 0427-2733Deutz 1011, 2011 Engines / VOLVOPage 196
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A44-6Engine Flameout Solenoid Switch (24V)600-815-2170 / 600-815-8940Komatsu PC200-6, PC220-6, PC300-6Page 195
+A44-7Proportional EPC Solenoid Core Valve702-21-57400 / 702-21-55901Komatsu PC200-7, PC220-7Page 195
+A44-8Multi-Station Solenoid Block (5-Spool)20Y-60-32121 / 20Y-60-32120Komatsu PC200-7, PC220-7Page 195
+A44-9Multi-Station Solenoid Block (6-Spool)20Y-60-41611 / 20Y-60-41621Komatsu PC200-8, PC220-8Page 196
+A44-9AVariable Displacement Regulator Stem702-21-07010 / 702-21-07310Komatsu PC200-8, PC200-10Page 196
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A44-13Fuel Supply Shut-off Solenoid Assembly1-82563-039-1 / 8-98132-9420Isuzu 4HK1, 6HK1 / EX200-5, ZAX200-3Page 197
+A44-14Hydraulic Pump Dual Solenoid Valve Block4372497 / 4436535Hitachi ZAX200-1, ZAX210, ZAX230Page 197
+A44-14AMain System Relief Proportional Valve4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 197
+A44-14BPilot Line Selector Valve Interface Core4668260 Block SpecHitachi ZAX-5A, ZAX-5G SeriesPage 197
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A44-15Heavy Inline Engine Flameout Solenoid2523-9014 / 2523-9016Daewoo Doosan DH220-5Page 197
+A44-16Pilot Line Fluid Distribution Solenoid Block300513-00021 / 537-00010Doosan DX225, DX300Page 198
+A44-17Engine Fuel Manifold Shut-off Switch21N6-01272 / 21N6-01275Hyundai R210-5, R225-7Page 198
+A44-18Proportional Pilot Pressure Reducing Valve21Q6-30080 Block NodeHyundai R210-9, R220-9Page 198
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A44-10Engine Governor Shut-off Solenoid UnitYN24C00114F2 Spec LineKobelco SK200-3, SK200-5Page 196
+A44-10APump Regulator Proportional Valve ShellYN35V00048F1 / KDRDE5K-31Kobelco SK200-6, SK200-6EPage 196
+A44-10BHigh-Pressure Safety Selector Solenoid CoreYN35V00052F1 / KDRDE5K-31/30C50Kobelco SK200-8, SK350-8Page 196
+A44-10CPilot Manifold Cartridge Solenoid ValveKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 196
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A44-19Proportional Safety Lock Valve Assembly60114798 / 60114799Sany SY215C, SY235C-9Page 199
+A44-20Hydraulic Main Manifold Regulator Coil10213169 Terminal BlockLiugong 920E, 925EPage 199
+A44-21Travel Track Direction Selector Valve1000168 Component NodeXCMG XE215C, XE215DPage 199
+A44-22Transmission Fluid Control Solenoid Unit701/80184 Module SpecJCB 3CX, 4CX Backhoe LoadersPage 200
+A44-23Pilot Accumulator Line Cartridge ValveAT103035 / RE61812John Deere Infrastructure SeriesPage 200

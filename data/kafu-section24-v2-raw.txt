@@ -1,0 +1,48 @@
+Section 24: Crankshaft Bearings, Connecting Rod Bearings, & Thrust Washers (Pages 129–134)
+This section indexes critical engine bottom-end friction components, including main crankshaft bearings, connecting rod shell bearings, and semi-circular thrust washers extracted from pages 129 to 134 of the master catalog. Foreign language entries are fully filtered out, and Machine Compatibility is isolated into its own dedicated relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A33-1Main Crankshaft Bearings Set (STD)5I-7578 / 114-5333CAT E320B (3066 Engine)Page 129
+A33-2Connecting Rod Bearings Shell Set221-8859 / 241-8368CAT E320C, E325CPage 129
+A33-3Crankshaft Thrust Washers (Pair)309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 129
+A33-3AMain Bearings Set (.25mm Oversize)386-3439 / 375-6988CAT E320D2 SeriesPage 129
+A33-4Rod Bearings Shell Set (.25mm Oversize)105-2240 Component SpecCAT EnginesPage 130
+A33-5Flanged Main Journal Bearing Unit131-0427 Component KitCAT Crankcase AssembliesPage 130
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A33-11Main & Rod Bearings Overhaul KitVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 130
+A33-11ATri-Metal High-Load Rod BearingsVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 130
+A33-12Crankshaft Thrust Bearing Matrix0118-2850 Core SpecVOLVO / Deutz Power PlantsPage 130
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A33-6Main Bearings Set (Bi-Metal Copper)600-011-3721 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 129
+A33-7Connecting Rod Bearing Pair6754-72-1210 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 129
+A33-8Crankshaft Thrust Plate Washer Set6741-81-9220 / 22U-06-22380Komatsu PC200-7, PC220-7Page 129
+A33-9Heavy Duty Main Journal Shell Kit6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 130
+A33-9AConnecting Rod Small-End Bushing7861-94-3000 Line SpecKomatsu Crankcase LoopsPage 130
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A33-13Bottom-End Engine Bearing Overhaul Kit1-87811-002-5 / 1-81200-471-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 131
+A33-14Main Bearings Kit (Standard Set)8-97306-113-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 131
+A33-14AConnecting Rod Bearings (Standard Set)8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 131
+A33-14BThrust Washer Alignment Block Set1-82550-3250 Component SpecIsuzu Engine Crankcase BlocksPage 131
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A33-16Crankshaft Main Bearing Segment Array2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 131
+A33-17Hardened Tri-Metal Rod Bearing Shell Set300613-00021 / 537-00010Doosan DX225, DX300Page 132
+A33-18Crankshaft Axial Thrust Washer Pack21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 132
+A33-19Main & Rod Journal Friction Shell Array21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 132
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A33-10High-Alloy Main Crankshaft Bearing PackME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 130
+A33-10AConnecting Rod Bearing Matrix SetME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 130
+A33-10BPremium Main & Rod Overhaul Journal KitS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 130
+A33-10CSemi-Circular Thrust Plate Washer MatrixKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 130
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A33-20Crankshaft Journal Bearing Component Set60114798 / 60114799Sany SY215C, SY235C-9Page 132
+A33-21Main Bearing & Thrust Washer Integration Rig10213169 Terminal UnitLiugong 920E, 925EPage 133
+A33-22Connecting Rod Shell Bearing Repair Sub-Pack1000168 Component UnitXCMG XE215C, XE215DPage 133
+A33-23Heavy Duty Crankshaft & Rod Bearing Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 134
+A33-24Crankshaft Main Thrust Washer Repair PackAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 134

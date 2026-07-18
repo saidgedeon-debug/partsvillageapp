@@ -1,0 +1,48 @@
+Section 31: Swing Motors, Travel Motors, & Final Drive Components (Pages 171–176)
+This section logs core heavy-duty planetary gear tracks, upper structure swing distribution machinery, dual-displacement track motors, mechanical parking brake discs, and internal replacement rotary carrier groups from pages 171 to 176 of the master catalog. All non-English definitions have been completely filtered out, and Machine Compatibility is isolated into its own dedicated data field.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A40-1Hydraulic Upper Structure Swing Motor125-2966 / 5I-7578CAT E320B (M2X120)Page 171
+A40-2Dual-Displacement Final Drive Travel Motor221-8859 / 241-8368CAT E320C, E325CPage 171
+A40-3Travel Motor Dynamic Relief Valve Stem309-5769 / 320-3060CAT E320D, E323DPage 171
+A40-3APlanetary Gear Reduction Carrier Block386-3439 / 375-6988CAT E320D2 Final DrivePage 171
+A40-4Mechanical Parking Brake Friction Disc105-2240 Component SpecCAT Swing / Travel BrakesPage 172
+A40-5Rotary Barrel & Piston Shoe Repair Kit131-0427 Overhaul UnitCAT Motor Rebuild KitsPage 172
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A40-11Upper Frame Swing Motor AssemblyVOE 14518342 / 11423761VOLVO EC210B (M5X130)Page 172
+A40-11ATrack Assembly Final Drive Travel MotorVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 172
+A40-12Motor Brake Release Valve Cartridge0118-2850 Core SpecVOLVO Motor Valve ManifoldsPage 172
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A40-6Upper Structure Swing Motor Assembly706-7G-00300 / 6732-81-3140Komatsu PC200-5, PC220-5 (KMF90)Page 171
+A40-7Final Drive Track Travel Motor Unit708-2L-00400 / 6732-81-3380Komatsu PC200-6, PC220-6Page 171
+A40-8Swing Motor Safety Relief Valve Cartridge702-21-57400 / 22U-06-22380Komatsu PC200-7, PC220-7Page 171
+A40-9Complete Final Drive Motor & Gearbox Unit708-2L-00600 / 6D107 EngineKomatsu PC200-8, PC240-8Page 172
+A40-9ATravel Motor Speed Selection Valve708-2L-23340 Line SpecKomatsu Travel RegulatorsPage 172
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A40-13Swing Motor Rotary Group Assembly4257163 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 173
+A40-14Track Travel Motor Assembly Unit4360297 / 4443849Hitachi ZAX200-1, ZAX210, ZAX230Page 173
+A40-14ADual Mechanical Swing Relief Valve Block4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 173
+A40-14BPlanetary First-Stage Sun Gear Hub1-82550-3250 Component SpecHitachi Final Drive GearboxesPage 173
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A40-16Upper Structure Hydraulic Swing Motor2522-9014 / 2542-9015Daewoo Doosan DH220-5 (M2X120)Page 173
+A40-17Track Drive Travel Motor Assembly Block300513-00021 / 537-00010Doosan DX225, DX300Page 174
+A40-18High-Torque Axial Piston Swing Motor21N6-20010 / 21N6-20011Hyundai R210-5, R225-7 (M2X120)Page 174
+A40-19Travel Motor Anti-Cavitation Valve Stem21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 174
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A40-10Upper Frame Hydraulic Swing Motor2441U825F3 / ME049300Kobelco SK200-3, SK200-5 (M2X120)Page 172
+A40-10AFinal Drive Track Travel Motor UnitYN22E00037F4 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 172
+A40-10BHigh-Displacement Travel Motor CoreLQ22E00103F1 / LC50S00010P1Kobelco SK200-8, SK350-8Page 172
+A40-10CSwing Motor Parking Brake Disc SetKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 172
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A40-20Dual Displacement Track Motor Block Unit60114798 / 60114799Sany SY215C, SY235C-9Page 174
+A40-21Upper Frame Swing Drive Motor Rig10213169 Terminal UnitLiugong 920E, 925EPage 175
+A40-22Final Drive Planetary Reduction Gear Set1000168 Component UnitXCMG XE215C, XE215DPage 175
+A40-23Track Final Drive Motor & Reduction Assembly701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 176
+A40-24Swing Drive Overload Brake Valve UnitAT103035 / RE61812John Deere Infrastructure MachineryPage 176

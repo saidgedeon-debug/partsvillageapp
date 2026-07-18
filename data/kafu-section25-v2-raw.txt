@@ -1,0 +1,48 @@
+Section 25: Camshafts, Lifters, & Valve Train Timing Components (Pages 135–140)
+This section indexes heavy-duty engine timing infrastructure, including induction-hardened camshafts, mechanical valve lifters/tappets, pushrods, camshaft timing gears, and integrated rocker shaft clips extracted from pages 135 to 140 of the catalog. Foreign language descriptions have been completely removed, and Machine Compatibility is mapped to its own clear database field.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A34-1Induction-Hardened Camshaft5I-7578 / 114-5333CAT E320B (3066 Engine)Page 135
+A34-2Mechanical Valve Lifter / Tappet221-8859 / 241-8368CAT E320C, E325CPage 135
+A34-3High-Strength Engine Pushrod Set309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 135
+A34-3ACamshaft Timing Helical Gear386-3439 / 375-6988CAT E320D2 SeriesPage 135
+A34-4Camshaft Journal Bearing Shell Pack105-2240 Component SpecCAT EnginesPage 136
+A34-5Rocker Arm Shaft Support Retainer131-0427 Component KitCAT Valve Train AssembliesPage 136
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A34-11Camshaft & Solid Lifter Overhaul SetVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 136
+A34-11AOverhead Camshaft Assembly (4-Valve Head)VOE 14616736 / 15048183VOLVO EC210D, EC220DPage 136
+A34-12Helical Timing Gear Train Sub-Assembly0118-2850 Core SpecVOLVO / Deutz Valve TrainsPage 136
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A34-6Billet Camshaft (Standard Journal Profile)600-011-3721 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 135
+A34-7Roller Valve Tappet / Lifter Set6754-72-1210 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 135
+A34-8Solid Core Valve Pushrod Array6741-81-9220 / 22U-06-22380Komatsu PC200-7, PC220-7Page 135
+A34-9Camshaft Drive Gear (Keyway Alignment)6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 136
+A34-9ACamshaft Thrust Plate Alignment Washer7861-94-3000 Line SpecKomatsu Timing EnclosuresPage 136
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A34-13Camshaft & Rocker Gear Complete Overhaul Kit1-87811-002-5 / 1-81200-471-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 137
+A34-14Overhead Camshaft Unit (Single Profile)8-97306-113-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 137
+A34-14AValve Pushrod Assembly Set (16 Pieces)8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 137
+A34-14BValve Lifter Sintered Guide Shell Array1-82550-3250 Component SpecIsuzu Cyl Head EnclosuresPage 137
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A34-16Mid-Block Camshaft Segment Set2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 137
+A34-17Mechanical Valve Lifter Hardware Array300613-00021 / 537-00010Doosan DX225, DX300Page 138
+A34-18High-Modulus Engine Valve Pushrod Set21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 138
+A34-19Gear Train Timing System Core Module21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 138
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A34-10Heat-Treated Alloy Steel CamshaftME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 136
+A34-10ASolid Valve Tappet Mechanical InterfaceME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 136
+A34-10BOverhead Valve Train Camshaft ArrayS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 136
+A34-10CPrecision Crank-to-Cam Idler Timing GearKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 136
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A34-20Valve Timing Camshaft Hardware Block Set60114798 / 60114799Sany SY215C, SY235C-9Page 138
+A34-21Valve Tappet & Cam Bushing Rebuild Rig10213169 Terminal UnitLiugong 920E, 925EPage 139
+A34-22Timing Idler Gear Hub Repair Sub-Pack1000168 Component UnitXCMG XE215C, XE215DPage 139
+A34-23Heavy Duty Overhead Camshaft & Lifter Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 140
+A34-24Overhead Valve Train Mechanical Pushrod SetAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 140

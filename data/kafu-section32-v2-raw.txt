@@ -1,0 +1,48 @@
+Section 32: Hydraulic Cylinders, Piston Rods, Seal Kits, & Bushing Bearings (Pages 177–182)
+This section indexes structural hydraulic actuation and link linkage components, including boom, arm, and bucket cylinder assemblies, hardened induction piston rods, heavy-duty polyurethane hydraulic seal arrays, bucket lip bushings, and track link spacer bearings extracted from pages 177 to 182 of the catalog. Foreign language entries are fully filtered out, and Machine Compatibility is isolated into its own dedicated relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A41-1Boom Cylinder Rebuild Seal Kit151-3168 / 114-5333CAT E320BPage 177
+A41-2Hardened Chrome Bucket Piston Rod221-8859 / 241-8368CAT E320C, E325CPage 177
+A41-3High-Pressure Arm Cylinder Assembly309-5769 / 320-3060CAT E320D, E323DPage 177
+A41-3AHardened Steel Bucket Link Bushing386-3439 / 375-6988CAT E320D2 SeriesPage 177
+A41-4Arm Cylinder Wear Ring Array105-2240 Component SpecCAT Hydraulic ActuatorsPage 178
+A41-5Dust Lip Wiper Seal Configuration Pack131-0427 Component KitCAT Cylinder Gland PacksPage 178
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A41-11Arm Cylinder Total Rebuild Seal KitVOE 14518342 / 11423761VOLVO EC210B Base LinePage 178
+A41-11AHardened Manganese H-Link Bushing BearingVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 178
+A41-12Cushion Valve Piston Seal Configuration0118-2850 Core SpecVOLVO Cylinder End CapsPage 178
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A41-6Complete Boom Hydraulic Cylinder707-99-44110 / 6732-81-3140Komatsu PC200-5, PC220-5Page 177
+A41-7Arm Cylinder Buffer Seal Ring Set707-99-52111 / 6732-81-3380Komatsu PC200-6, PC220-6Page 177
+A41-8Hardened Floating Pin Bushing Set707-99-61211 / 22U-06-22380Komatsu PC200-7, PC220-7Page 177
+A41-9Induction Hardened Arm Cylinder Rod707-99-71111 / 6D107 EngineKomatsu PC200-8, PC240-8Page 178
+A41-9ABucket Cylinder Complete Repair Seal Array7861-94-3000 Line SpecKomatsu Hydraulic TracksPage 178
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A41-13Complete Cylinder Packing Gland Kit4257163 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 179
+A41-14Bucket Linkage Steel Spacer Bushing Set4360297 / 4443849Hitachi ZAX200-1, ZAX210, ZAX230Page 179
+A41-14AHigh-Pressure Boom Cylinder Array4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 179
+A41-14BNitrile Rubber U-Cup Rod Seal Unit1-82550-3250 Component SpecHitachi Cylinder Gland TracksPage 179
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A41-16Boom Cylinder Polyurethane Seal Array2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 179
+A41-17Arm Attachment Link Bushing Repair Set300513-00021 / 537-00010Doosan DX225, DX300Page 180
+A41-18Complete Bucket Hydraulic Cylinder Set21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 180
+A41-19Hardened Gland Nut End Cap Assembly Array21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 180
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A41-10Arm Cylinder Dynamic Packing Rebuild SetME049233 / ME049300Kobelco SK200-3, SK200-5Page 178
+A41-10AInduction Hardened Boom Cylinder Piston RodME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 178
+A41-10BPremium Hardened Steel Bucket Bushing PackS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8Page 178
+A41-10CDual-Lip Polyurethane Hydraulic Rod SealKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 178
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A41-20Boom Attachment Arm Seal Array Kit60114798 / 60114799Sany SY215C, SY235C-9Page 180
+A41-21Manganese Steel Linkage Bushing Rig10213169 Terminal UnitLiugong 920E, 925EPage 181
+A41-22Hardened Chrome Bucket Piston Rod Unit1000168 Component UnitXCMG XE215C, XE215DPage 181
+A41-23Heavy Duty Ram Cylinder & Bushing Line Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 182
+A41-24Cylinder End Gland Dynamic Buffer SealAT103035 / RE61812John Deere Infrastructure MachineryPage 182

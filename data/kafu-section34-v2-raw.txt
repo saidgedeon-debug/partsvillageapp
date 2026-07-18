@@ -1,0 +1,48 @@
+Section 34: Hydraulic Filters, Cabin Air Elements, & Fuel-Water Separator Cartridges (Pages 189–194)
+This final section details the comprehensive fluid and air filtration infrastructure components, including high-pressure hydraulic return filters, pilot line filters, primary and secondary engine air elements, inner/outer cabin micro-filters, and spin-on fuel-water separator canisters from pages 189 to 194 of the master catalog. Foreign language entries are fully filtered out, and Machine Compatibility is isolated into its own dedicated relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A43-1High-Pressure Hydraulic Return Filter1R-0722 / 114-5333CAT E320BPage 189
+A43-2Primary Engine Air Filter Element6I-2501 / 6I-2502 SetCAT E320C, E325CPage 189
+A43-3Spin-On Fuel-Water Separator Canister326-1644 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 189
+A43-3AAdvanced High-Efficiency Oil Filter1R-1808 / 375-6988CAT E320D2 SeriesPage 189
+A43-4Cabin Recirculation Air Micro-Filter293-1135 Component SpecCAT Cabin HVAC EnclosuresPage 190
+A43-5Pilot Line In-Line Hydraulic Filter093-7522 Element KitCAT Pilot Manifold LoopsPage 190
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A43-11Pleated Hydraulic Return Filter CartridgeVOE 14556342 / 11423761VOLVO EC210B Tank LinesPage 190
+A43-11APrimary Spin-On Fuel Filter ElementVOE 21380475 / 15048183VOLVO EC210D, EC220DPage 190
+A43-12Charcoal Infused Cabin Air ElementVOE 14503813 Core SpecVOLVO Climate Control BlocksPage 190
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A43-6Hydraulic Tank Return Filter Element20Y-60-21121 / 20Y-60-21120Komatsu PC200-5, PC220-5Page 189
+A43-7Dual-Stage Engine Air Cleaner Set600-185-4100 / 600-185-4110Komatsu PC200-6, PC220-6Page 189
+A43-8Spin-On Fuel Pre-Filter & Separator600-311-8291 / 22U-06-22380Komatsu PC200-7, PC220-7Page 189
+A43-9Eco-Friendly Cartridge Oil Filter Unit6754-71-6130 / 6D107 EngineKomatsu PC200-8, PC240-8Page 190
+A43-9APilot Valve Circuit Hydraulic Element702-21-07010 Line SpecKomatsu Pilot InfrastructurePage 190
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A43-13Glass-Fiber Hydraulic Return Filter4243106 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 191
+A43-14Spin-On Secondary Fuel Filter Canister4616544 / 4443849Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 191
+A43-14AHigh-Capacity Outer/Inner Air Element Set4294136 / 4448332Hitachi ZAX200-3, ZAX240-3Page 191
+A43-14BPleated Fiber Cabin Fresh Air Filter4668260 Component SpecHitachi ZAX-5A, ZAX-5G CabinPage 191
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A43-16Hydraulic Oil Suction Strainer Block2523-9014 / 2542-9015Daewoo Doosan DH220-5Page 191
+A43-17Fuel Filter & Separator Rebuild Core Set300513-00021 / 537-00010Doosan DX225, DX300Page 192
+A43-18High-Pressure Hydraulic Pilot Line Element21N6-43101 / 21N6-44101Hyundai R210-5, R225-7Page 192
+A43-19Combined Inner/Outer HVAC Filter Pack21Q6-30102 Panel ArrayHyundai R210-9, R220-9Page 192
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A43-10High-Density Hydraulic Return ElementYN52S00019P1 / ME049300Kobelco SK200-3, SK200-5Page 190
+A43-10AFuel-Water Separator Bowl Spin-On CanisterYN21P01010R100 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 190
+A43-10BPrimary Engine Air Induction Cleaner SetYN11P00029S002 / LC50S00010P1Kobelco SK200-8, SK350-8Page 190
+A43-10CHydraulic Tank Breather Filter CapKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 190
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A43-20Integrated Hydraulic Return Filter Element60114798 / 60114799Sany SY215C, SY235C-9Page 192
+A43-21Spin-On Engine Lube Oil Filter Canister10213169 Terminal UnitLiugong 920E, 925EPage 193
+A43-22Primary Air Induction Cleaner Filter Drum1000168 Component UnitXCMG XE215C, XE215DPage 193
+A43-23Hydraulic, Fuel, & Air Filter Complete Kit701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 194
+A43-24Fuel Water Separator Cartridge SystemAT103035 / RE61812John Deere Infrastructure MachineryPage 194

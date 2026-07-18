@@ -1,0 +1,48 @@
+Section 29: Radiators, Hydraulic Oil Coolers, & Intercoolers (Pages 159–164)
+This section indexes cooling system cores, including aluminum or copper engine radiators, high-pressure hydraulic oil coolers, intercoolers/aftercoolers, fan blades, shroud assemblies, and structural rubber vibration isolator mounts from pages 159 to 164 of the catalog. Foreign language entries are fully filtered out, and Machine Compatibility is isolated into its own dedicated relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A38-1Heavy-Duty Engine Radiator (Copper Core)125-2966 / 5I-7578CAT E320B (3066 Engine)Page 159
+A38-2High-Pressure Hydraulic Oil Cooler221-8859 / 241-8368CAT E320C, E325CPage 159
+A38-3Turbocharged Air Intercooler / Aftercooler309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 159
+A38-3ARadiator Cooling Fan Blade (6-Blade Nylon)386-3439 / 375-6988CAT E320D2 SeriesPage 159
+A38-4Anti-Vibration Radiator Rubber Mount105-2240 Component SpecCAT EnginesPage 160
+A38-5Hydraulic Oil Cooler Guard / Shroud131-0427 Component KitCAT Cooling AssembliesPage 160
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A38-11Combined Radiator & Oil Cooler Core UnitVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 160
+A38-11AHigh-Efficiency Aluminum Intercooler CoreVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 160
+A38-12Viscous Cooling Fan Shroud Assembly0118-2850 Core SpecVOLVO / Deutz Power PlantsPage 160
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A38-6Heavy Aluminum Fin Engine Radiator20Y-03-21110 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 159
+A38-7Heavy-Duty Hydraulic Oil Cooler Core20Y-03-31111 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 159
+A38-8Air-to-Air Charge Air Cooler / Intercooler20Y-03-41121 / 22U-06-22380Komatsu PC200-7, PC220-7Page 159
+A38-9Radiator Expansion Water Tank Assembly6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 160
+A38-9AMulti-Wing Heavy Radiator Fan Blade7861-94-3000 Line SpecKomatsu Fan AssembliesPage 160
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A38-13Copper Core Engine Radiator Assembly4257163 / 4148415Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 161
+A38-14Parallel-Flow Hydraulic Oil Cooler4360297 / 4443849Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 161
+A38-14AHigh-Capacity Turbo Intercooler Unit4614911 / 4448332Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 161
+A38-14BDurable Polyurethane Radiator Fan Blade1-82550-3250 Component SpecIsuzu Engine Cooling TracksPage 161
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A38-16Aluminum Fin Solder Radiator Assembly2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 161
+A38-17Dual-Circuit Hydraulic Oil Cooler Core300613-00021 / 537-00010Doosan DX225, DX300Page 162
+A38-18High-Pressure Turbo Intercooler Assembly21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 162
+A38-19Heavy Duty Radiator Fan Shroud & Blade21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 162
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A38-10Dual-Row Aluminum Engine RadiatorME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 160
+A38-10ACopper Fin Tube Hydraulic Oil CoolerME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 160
+A38-10BIntegrated Radiator, Cooler, & IntercoolerS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 160
+A38-10CHeavy Duty Multi-Blade Radiator FanKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 160
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A38-20Engine Core Radiator & Fan Assembly Unit60114798 / 60114799Sany SY215C, SY235C-9Page 162
+A38-21Heavy Plate-Fin Hydraulic Oil Cooler10213169 Terminal UnitLiugong 920E, 925EPage 163
+A38-22Core Air Aftercooler / Intercooler Module1000168 Component UnitXCMG XE215C, XE215DPage 163
+A38-23Complete Interlocking Radiator & Fan Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 164
+A38-24Heavy Equipment Oil Cooler Mount Gasket SetAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 164

@@ -1,0 +1,48 @@
+Section 28: Fuel Injection Pumps, Injectors, & High-Pressure Fuel Lines (Pages 153–158)
+This section logs the mechanical fuel delivery and common rail injection hardware components, including high-pressure inline fuel pumps, diesel injectors, fuel rail relief valves, feed pumps, and dual-wall high-pressure lines extracted from pages 153 to 158 of the catalog. Foreign language entries are fully filtered out, and Machine Compatibility is isolated into its own dedicated relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A37-1High-Pressure Fuel Injection Pump125-2966 / 5I-7578CAT E320B (3066 Engine)Page 153
+A37-2Mechanical Fuel Injector Assembly221-8859 / 241-8368CAT E320C, E325CPage 153
+A37-3Common Rail Electronic Fuel Injector309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 153
+A37-3AHigh-Pressure Common Rail Pump386-3439 / 375-6988CAT E320D2 SeriesPage 153
+A37-4Fuel Primary Transfer Feed Pump105-2240 Component SpecCAT EnginesPage 154
+A37-5High-Pressure Fuel Line Steel Tube Set131-0427 Component KitCAT Fuel Delivery LoopsPage 154
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A37-11Unit Injector / Common Rail Injector SetVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 154
+A37-11AHigh-Pressure Fuel Injection Pump UnitVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 154
+A37-12Fuel Rail Pressure Limiter / Relief Valve0118-2850 Core SpecVOLVO / Deutz Power PlantsPage 154
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A37-6Inline Mechanical Fuel Injection Pump6205-71-1110 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 153
+A37-7Fuel Injector Nozzle Core Assembly6754-72-1210 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 153
+A37-8Common Rail Electronic Fuel Injector6741-81-9220 / 22U-06-22380Komatsu PC200-7, PC220-7Page 153
+A37-9High-Pressure Fuel Injection Pump (HP3)6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 154
+A37-9APriming Pump / Hand Fuel Feed Actuator7861-94-3000 Line SpecKomatsu Fuel LinesPage 154
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A37-13Mechanical Fuel Injection Pump Assembly1-15600-017-1 / 1-81200-471-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 155
+A37-14Common Rail Electronic Injector Valve8-97306-113-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 155
+A37-14AHigh-Pressure Supply Fuel Pump Assembly8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 155
+A37-14BHigh-Pressure Fuel Rail Injection Line Set1-82550-3250 Component SpecIsuzu Engine Fuel TracksPage 155
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A37-16High-Pressure Injection Pump Rebuild Unit2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 155
+A37-17Common Rail Fuel Injector System Array300613-00021 / 537-00010Doosan DX225, DX300Page 156
+A37-18High-Pressure Common Rail Supply Pump21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 156
+A37-19Steel Fuel Feed Line & Tube Set Array21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 156
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A37-10High-Pressure Mechanical Fuel PumpME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 154
+A37-10AFuel Injection Nozzle Valve ArrayME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 154
+A37-10BDenso Common Rail Fuel Injector UnitS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 154
+A37-10CHigh-Pressure Common Rail Pump UnitKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 154
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A37-20Common Rail Fuel Injection Pump Unit60114798 / 60114799Sany SY215C, SY235C-9Page 156
+A37-21High-Pressure Fuel Injector Array Rig10213169 Terminal UnitLiugong 920E, 925EPage 157
+A37-22Hand Primer Fuel Transfer Feed Pump1000168 Component UnitXCMG XE215C, XE215DPage 157
+A37-23Mechanical Fuel Injection Pump & Line Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 158
+A37-24Common Rail Electronically Controlled InjectorAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 158

@@ -1,0 +1,48 @@
+Section 37: Hydraulic Control Valves, Manifolds, & Pressure Management Systems (Pages 207–212)
+This final catalog block outlines multi-station main control valve components, inline pressure reducing blocks, anti-cavitation check valves, and manual override safety actuators from pages 207 to 212. Non-English phrasing is completely omitted, and Machine Compatibility maps to its own separate database column for your Cursor inventory app.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A46-1Main Control Valve Primary Relief Valve111-4871 / 121-1490CAT E320BPage 207
+A46-2Boom Regeneration Valve Assembly221-8859 / 259-5274CAT E320C, E325CPage 207
+A46-3Line Anti-Cavitation Relief Valve (350 Bar)309-5769 / 419-5574CAT E320D, E323DPage 207
+A46-3APilot Pressure Reducing Valve Block386-3439 ModuleCAT E320D2 SeriesPage 207
+A46-4Hydraulic Travel Speed Selection Valve425-4893 ComponentCAT Heavy ExcavatorsPage 207
+A46-15Quick Coupler Auxiliary Control Block164-3692 Unit SpecCAT System ManifoldsPage 209
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A46-11Main System Safety Relief Valve CartridgeVOE 14518342 / 14531342VOLVO EC210B Control BlocksPage 208
+A46-11APilot Manifold Pressure Logic BlockVOE 14616736 ArrayVOLVO EC210D, EC220DPage 208
+A46-12Inline Fluid Non-Return Check Valve0428-7583 Unit SpecVOLVO / Deutz Hydraulic LinesPage 208
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A46-6Main Control Valve Port Relief Switch702-21-57400 / 702-21-55901Komatsu PC200-5, PC220-5Page 207
+A46-7Travel Speed Selection Selector Block7834-52-2003 / 7861-92-1610Komatsu PC200-6, PC220-6Page 207
+A46-8Main Line Pressure Safety Accumulator7873-20-5100 / 7861-93-2310Komatsu PC200-7, PC220-7Page 208
+A46-9Pilot Line Logical EPC Reducing Valve600-467-1100 Core NodeKomatsu PC200-8 SeriesPage 208
+A46-9AMain Hydraulic Control Block Override7835-35-2000 Line SpecKomatsu PC200-10Page 208
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A46-13Main Overload Port Relief Valve Cartridge4251588 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 208
+A46-14Hydraulic Signal Convergence Manifold Block4360297 Terminal CoreHitachi ZAX200-1, ZAX210, ZAX230Page 209
+A46-14APilot Circuit Pressure Control Valve4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 209
+A46-14BBoom Hold-back Safety Valve Component4668260 Module SpecHitachi ZAX-5A, ZAX-5G SeriesPage 209
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A46-16Main Port Dual Stage Relief Switch2523-9014 / 2543-9015Daewoo Doosan DH220-5Page 209
+A46-17Pilot Pressure Accumifold Terminal Block300513-00021 BoardDoosan DX225, DX300Page 209
+A46-18High-Pressure Main Line Safety Bypass Valve21N6-43101 / 21N6-44101Hyundai R210-5, R225-7Page 209
+A46-19Proportional Pressure Control Logic Block21Q6-30102 Panel UnitHyundai R210-9, R220-9Page 209
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A46-10Pilot Circuit Low Pressure Reducing ValveYN50S00002P1 UnitKobelco SK200-3, SK200-5Page 208
+A46-10AStraight Travel Logic Control Valve BlockYN50S00026P1 ModuleKobelco SK200-6, SK200-6EPage 208
+A46-10BMain Port Overload Relief Valve assemblyLC50S00010P1 UnitKobelco SK200-8, SK350-8Page 208
+A46-10CAuxiliary Hydraulic Spool Selector BlockKHR1141 Module SpecSumitomo SH200A3, SH210-5Page 208
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A46-20Hydraulic Overpressure Release Valve Node60114798 / 60114799Sany SY215C, SY235C-9Page 210
+A46-21Main Valve Spool Pilot Interconnect Block10213169 ControllerLiugong 920E, 925EPage 210
+A46-22High-Flow Two-Way Selector Control Valve1000168 UnitXCMG XE215C, XE215DPage 211
+A46-23Circuit Flow Regulator Valve Module701/80184 Board SpecJCB 3CX, 4CX Backhoe LoadersPage 212
+A46-24Central Logic Proportional Relief BlockAT103035 / RE61812John Deere Industrial SeriesPage 212

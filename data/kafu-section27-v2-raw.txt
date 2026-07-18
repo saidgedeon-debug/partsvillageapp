@@ -1,0 +1,48 @@
+Section 27: Turbochargers, Mufflers, & Exhaust System Parts (Pages 147–152)
+This final section details the mechanical exhaust and air-induction infrastructure components, including raw turbocharger units, back-pressure mufflers, exhaust manifolds, wastegate actuators, and thermal exhaust mounting gaskets from pages 147 to 152 of the catalog. All non-English syntax has been filtered out, and Machine Compatibility is isolated into its own dedicated column for your application database script.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A36-1Turbocharger Unit (Wastegate-Regulated)125-2966 / 5I-7578CAT E320B (3066 Engine)Page 147
+A36-2Engine Silencer / Back-Pressure Muffler221-8859 / 241-8368CAT E320C, E325CPage 147
+A36-3High-Temperature Exhaust Manifold Log309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 147
+A36-3ATurbocharger Actuator Diaphragm386-3439 / 375-6988CAT E320D2 SeriesPage 147
+A36-4Exhaust Pipe Clamp Connection Ring105-2240 Component SpecCAT EnginesPage 148
+A36-5Multi-Layer Exhaust Insulation Gasket131-0427 Component KitCAT Engine Turbo MountsPage 148
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A36-11Heavy-Duty Turbocharger SystemVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 148
+A36-11AReplacement Exhaust Silencer MufflerVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 148
+A36-12High-Temp Manifold Ingestion Gasket Set0118-2850 Core SpecVOLVO / Deutz Power PlantsPage 148
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A36-6Oil-Cooled Turbocharger Core6505-51-5000 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 147
+A36-7Heavy Carbon Steel Exhaust Muffler6754-72-1210 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 147
+A36-8Exhaust Manifold Stud & Nut Fastener Set6741-81-9220 / 22U-06-22380Komatsu PC200-7, PC220-7Page 147
+A36-9High-Pressure Wastegate Turbocharger6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 148
+A36-9AFlexible Exhaust Expansion Joint Bellows7861-94-3000 Line SpecKomatsu Exhaust LinesPage 148
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A36-13Twin-Scroll Engine Turbocharger Unit1-14400-210-0 / 1-81200-471-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 149
+A36-14Expansion Muffler Silencer Box8-97306-113-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 149
+A36-14AHigh-Efficiency Water-Cooled Turbocharger8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 149
+A36-14BCast Iron Segmented Exhaust Manifold Log1-82550-3250 Component SpecIsuzu Engine Exhaust TracksPage 149
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A36-16Forced Induction Turbocharger System2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 149
+A36-17Cylindrical Cabin Exhaust Silencer Unit300613-00021 / 537-00010Doosan DX225, DX300Page 150
+A36-18High-Pressure Engine Turbo Unit Assembly21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 150
+A36-19Cast Steel Multi-Port Exhaust Manifold Rig21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 150
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A36-10High-Output Lubricated Turbocharger SetupME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 148
+A36-10ASpark-Arrestor Exhaust Silencer CoreME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 148
+A36-10BPremium Turbocharger Rebuild InternalsS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 148
+A36-10CHeavy Machinery Low-Noise Exhaust MufflerKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 148
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A36-20Engine Air Intake Turbocharger Array60114798 / 60114799Sany SY215C, SY235C-9Page 150
+A36-21Structural Exhaust Silencer Muffler Rig10213169 Terminal UnitLiugong 920E, 925EPage 151
+A36-22Flexible Stainless Steel Exhaust Pipe Tube1000168 Component UnitXCMG XE215C, XE215DPage 151
+A36-23Heavy Duty Turbocharger & Gasket Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 152
+A36-24Cast Exhaust Manifold Log StructureAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 152

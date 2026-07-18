@@ -1,0 +1,48 @@
+Section 21: Engine Gasket Sets, Seal Kits, & Overhaul Components (Pages 111–116)
+This section indexes full engine overhaul gasket sets, cylinder head seals, dynamic o-ring repair kits, and critical mechanical joint compound components from pages 111 to 116. Foreign characters have been removed, and the Machine Compatibility maps to its own separate field for database normalization.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A30-1Full Engine Overhaul Gasket Set5I-7578 / 114-5333CAT E320B (3066 Engine)Page 111
+A30-2Cylinder Head Gasket (Steel)221-8859 / 241-8368CAT E320C, E325CPage 111
+A30-3Turbocharger Mounting Gasket Kit309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 111
+A30-3AFuel System Injector O-Ring Pack386-3439 / 375-6988CAT E320D2 SeriesPage 111
+A30-4Valve Chamber Cover Gasket105-2240 Component SpecCAT EnginesPage 112
+A30-5Crankshaft Front/Rear Oil Seal Kit131-0427 Seals PackCAT Engine CrankshaftsPage 112
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A30-11Full Engine Overhaul Gasket SetVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 112
+A30-11ACylinder Head Gasket (Multi-Layer Steel)VOE 14616736 / 15048183VOLVO EC210D, EC220DPage 112
+A30-12Exhaust Manifold Gasket Set0118-2850 Core SpecVOLVO / Deutz Engine ManifoldsPage 112
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A30-6Full Engine Overhaul Gasket Set600-011-3721 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 111
+A30-7Full Engine Overhaul Gasket Set6754-72-1210 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 111
+A30-8Cylinder Head Gasket Composition Block6741-81-9220 / 22U-06-22380Komatsu PC200-7, PC220-7Page 111
+A30-9Multi-Layer Steel Head Gasket Set6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 112
+A30-9AValve Stem Seal Kit Array7861-94-3000 Line SpecKomatsu Engine Overhaul LoopsPage 112
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A30-13Full Engine Gasket Ingestion Set1-87811-002-5 / 1-87811-343-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 113
+A30-14Complete Motor Seals Rebuild Kit8-97306-113-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 113
+A30-14ACylinder Head Rebuild Gasket Pack8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 113
+A30-14BOil Pan Isolation Rubber Gasket1-82550-3250 Component SpecIsuzu Engine Sump AssembliesPage 113
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A30-16Rebuild Gasket Component Array2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 113
+A30-17Block Overhaul Full Gasket Set300613-00021 / 537-00010Doosan DX225, DX300Page 114
+A30-18Complete Engine Gasket Set21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 114
+A30-19Cylindrical Component Seal Assembly21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 114
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A30-10Overhaul Head Gasket Repair PackME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 112
+A30-10AFull Engine Gasket Rebuild ArrayME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 112
+A30-10BPremium Cylinder Overhaul Seal KitS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 112
+A30-10CMechanical Engine Gasket ArrayKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 112
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A30-20Engine Blocks Full Overhaul Set60114798 / 60114799Sany SY215C, SY235C-9Page 114
+A30-21Total Block Integration Seal Rig10213169 Terminal UnitLiugong 920E, 925EPage 115
+A30-22Mechanical Gasket Sub-Assembly Pack1000168 Component UnitXCMG XE215C, XE215DPage 115
+A30-23Heavy Duty Head & Valve Gasket Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 116
+A30-24Cylinder Core Dynamic Fluid SealAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 116

@@ -1,0 +1,48 @@
+Section 23: Engine Valves, Valve Guides, & Cylinder Head Train Components (Pages 123–128)
+This section indexes structural top-end valve train components, including intake and exhaust valves, hardened valve guides, valve seat inserts, spring retainers, and overhead rocker arm components extracted from pages 123 to 128 of the master catalog. Foreign language entries are fully filtered out, and Machine Compatibility is isolated into its own dedicated relational database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A32-1Intake Valve (Hardened Stem)5I-7578 / 114-5333CAT E320B (3066 Engine)Page 123
+A32-2Exhaust Valve (Stellite Faced)221-8859 / 241-8368CAT E320C, E325CPage 123
+A32-3Manganese Bronze Valve Guide309-5769 / 320-3060CAT E320D, E323D (C6.4 Engine)Page 123
+A32-3AIntake Valve Seat Insert386-3439 / 375-6988CAT E320D2 SeriesPage 123
+A32-4Exhaust Valve Seat Insert105-2240 Component SpecCAT EnginesPage 124
+A32-5Overhead Rocker Arm Shaft Bushing131-0427 Component KitCAT Valve Train AssembliesPage 124
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A32-11Intake & Exhaust Valve Rebuild KitVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 124
+A32-11AValve Train Spring & Retainer SetVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 124
+A32-12Overhead Rocker Arm Assembly0118-2850 Core SpecVOLVO / Deutz Power PlantsPage 124
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A32-6Intake Valve (Heat Resistant Alloy)600-011-3721 / 6732-81-3140Komatsu PC200-5, PC220-5 (6D95)Page 123
+A32-7Exhaust Valve (Sodium Cooled Stem)6754-72-1210 / 6732-81-3380Komatsu PC200-6, PC220-6 (6D102)Page 123
+A32-8Valve Guide Assembly (Intake/Exhaust)6741-81-9220 / 22U-06-22380Komatsu PC200-7, PC220-7Page 123
+A32-9Heavy Duty Dual Valve Spring Set6261-81-1900 / 6D107 EngineKomatsu PC200-8, PC240-8Page 124
+A32-9AValve Stem Collet / Cotter Pack7861-94-3000 Line SpecKomatsu Top End LoopsPage 124
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A32-13Top-End Valve Train Overhaul Kit1-87811-002-5 / 1-81200-471-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 125
+A32-14Intake Valve Set (8 Pieces)8-97306-113-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 125
+A32-14AExhaust Valve Set (8 Pieces)8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 125
+A32-14BValve Guide Array (16 Pieces)1-82550-3250 Component SpecIsuzu Engine Cyl HeadsPage 125
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A32-16Cylinder Head Valve Segment Array2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 125
+A32-17Hardened Valve Seat Insert Rebuild Set300613-00021 / 537-00010Doosan DX225, DX300Page 126
+A32-18Valve Lifter / Tappet Guide Assembly21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 126
+A32-19Overhead Bridge/Crosshead Guide Array21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 126
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A32-10High-Alloy Intake/Exhaust Valve PackME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 124
+A32-10ASintered Valve Guide MatrixME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 124
+A32-10BPremium Cylinder Head Valve Train KitS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 124
+A32-10CStellite Valve Face Replacement MatrixKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 124
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A32-20Top End Valve Train Component Set60114798 / 60114799Sany SY215C, SY235C-9Page 126
+A32-21Valve Guide & Seat Integration Rig10213169 Terminal UnitLiugong 920E, 925EPage 127
+A32-22Overhead Rocker Arm Bridge Repair Sub-Pack1000168 Component UnitXCMG XE215C, XE215DPage 127
+A32-23Heavy Duty Intake Valve & Guide Set701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 128
+A32-24Valve Stem Seal & Guide Compression KitAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 128
