@@ -1,0 +1,202 @@
+Section 3: Air Pressure Sensors & Oil Pressure Switches (Pages 9–13)
+This dataset lists the comprehensive data extraction for Air Pressure, Intake Sensors, and Oil Pressure Switches. All Chinese definitions have been omitted, and Machine Compatibility is isolated into its own dedicated column for your application database schema.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A03-12Air Pressure Sensor266-0136CAT E312DPage 9
+A03-12AAir Pressure Sensor381-9064CAT ExcavatorsPage 9
+A03-14AAir Intake Sensor381-9064CAT MachineryPage 9
+A04-8Oil Pressure Sensor266-0210 / 51-8005 / 3451-40200CAT E320CPage 10
+A04-15Oil Pressure Switch161-1703CAT EquipmentPage 10
+A04-16Pressure Sensor161-1704 / 04-0249ACAT EquipmentPage 11
+A04-17Pressure Sensor161-1705-04CAT EquipmentPage 11
+A04-18Oil Pressure Switch194-6722CAT MachineryPage 11
+A04-18AOil Pressure Switch131-9203CAT 3116 EnginePage 11
+A04-18BOil Pressure Sensor459-2584 / 459-2597CAT EnginesPage 11
+A04-18COil Pressure Sensor459-2595CAT EnginesPage 11
+A04-18FOil Pressure Sensor459-2591CAT EnginesPage 11
+A04-18GOil Pressure Sensor304-5666CAT PlatformsPage 11
+A04-19Oil Pressure Switch3E-6455CAT E330BPage 11
+A04-19AOil Pressure Switch107-0612CAT MachineryPage 11
+A04-19BOil Pressure Switch107-0613CAT MachineryPage 11
+A04-19COil Pressure Switch9X4276CAT MachineryPage 11
+A04-19DOil Pressure Switch107-0611CAT MachineryPage 11
+A04-20Fuel/Oil Pressure Sensor107-0614CAT 3408E, 3208E EnginesPage 11
+A04-20APressure Sensor313-5104CAT EquipmentPage 11
+A04-20CPressure Sensor202-9002CAT EquipmentPage 11
+A04-55AOil Pressure Sensor208-1093 / 171-7570CAT SystemsPage 12
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A03-2Intake Temperature Sensor (Old)20450095VOLVO SystemsPage 9
+A03-4Air Intake SensorVOE 20450693VOLVO SystemsPage 9
+A03-6Air Intake Sensor0281002566 / 0281002576VOLVO EC210Page 9
+A03-6AAir Intake Sensor22422785VOLVO SystemsPage 9
+A03-6BAir Intake Sensor24527125VOLVO SystemsPage 9
+A03-8Air Intake Sensor441050080VOLVO SystemsPage 9
+A03-9Vacuum Switch21304786 / 22181342VOLVO EC210, EC240, EC290, EC360Page 9
+A03-9AAir Intake Sensor15038313VOLVO PlatformsPage 9
+A03-9BAir Intake Sensor22172068VOLVO PlatformsPage 9
+A03-10Air Intake Sensor20542128VOLVO EC480Page 9
+A03-11Air Intake Sensor (5-Wire Line)208935035VOLVO SystemsPage 9
+A03-11AAir Intake Sensor (6-Wire Line)208935036VOLVO SystemsPage 9
+A03-11BAir Intake Sensor21442662VOLVO SystemsPage 9
+A03-12BAir Pressure Sensor21304786 / 22181342VOLVO SystemsPage 9
+A04-18EOil Pressure Sensor421-06-35111VOLVO MachineryPage 11
+A04-23Oil Pressure SensorDeutz Base LineDeutz 240 (Old Models)Page 11
+A04-24Oil Pressure Sensor04215774ED / 21291011VOLVO EC210 (D6D Engine)Page 11
+A04-25Oil Pressure Sensor20450687VOLVO SystemsPage 11
+A04-26Oil Pressure SensorVOE 21634021VOLVO SystemsPage 11
+A04-26AOil Pressure Sensor22899626VOLVO 460Page 11
+A04-26BOil Pressure SensorVolvo Core SeriesVOLVO PlatformsPage 11
+A04-27Oil Pressure SensorVOE 034774 / 2132639 / 20484678VOLVO PlatformsPage 11
+A04-28Oil Pressure Sensor11039574VOLVO PlatformsPage 11
+A04-29Oil Pressure Sensor1077574VOLVO 480Page 11
+A04-30Oil Pressure Sensor21634017VOLVO PlatformsPage 11
+A04-31Oil Pressure Sensor11170072VOLVO SystemsPage 11
+A04-32Oil Pressure Sensor11170071VOLVO SystemsPage 11
+A04-33Oil Pressure Sensor11170090VOLVO SystemsPage 11
+A04-34Oil Pressure Sensor11170075VOLVO SystemsPage 11
+A04-35Oil Pressure Sensor11170079 / 11170076VOLVO SystemsPage 12
+A04-36Oil Pressure Sensor11038813VOLVO SystemsPage 12
+A04-36AOil Pressure Sensor11039549 / 21302639 / 11170259 / 11039721VOLVO PlatformsPage 12
+A04-36BOil Pressure Sensor11039577VOLVO PlatformsPage 12
+A04-39Oil Pressure SensorVolvo Master LineVOLVO SystemsPage 12
+A04-41Oil Pressure Sensor15180002VOLVO PlatformsPage 12
+A04-42Oil Pressure SensorVOE 15090261VOLVO PlatformsPage 12
+A04-43Oil Pressure Sensor5090257VOLVO PlatformsPage 12
+A04-43BOil Pressure Sensor11419327VOLVO PlatformsPage 12
+A04-43COil Pressure Sensor11039376VOLVO PlatformsPage 12
+A04-62Oil Pressure Sensor11039617VOLVO SystemsPage 13
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A03-3Air Pressure Sensor4076493 / 6261-81-1900Komatsu PC200-8Page 9
+A03-5Air Pressure Sensor4921322 / 6754-81-2701Komatsu PC200-8Page 9
+A03-13Air Pressure Sensor7861-91-1420Komatsu PC200-7Page 9
+A03-15AC Pressure SwitchPC200-7 Line SpecKomatsu PC200-7Page 9
+A03-15AAir Pressure SwitchPC200-8 Line SpecKomatsu PC200-8Page 9
+A03-17Air Pressure Sensor6261-81-2600Komatsu PC400-8Page 9
+A03-26Air Pressure Sensor6261-81-2700Komatsu PC400-8Page 10
+A03-27Air Intake Sensor4984590Komatsu PC350-10Page 10
+A04-2Oil Pressure Switch6732-81-3140 / 08073-10505Komatsu PC200-6Page 10
+A04-5Oil Pressure Switch (Dual-Pin)6732-81-3140 / 08073-10505Komatsu PC200-5, PC200-6 / Hitachi EX200-5Page 10
+A04-10Oil Pressure Switch83530E0220Komatsu SK200-8, SK350-8 (J05/J08E Hino Engine)Page 10
+A04-22Oil Pressure Switch4921517Komatsu PC450-7Page 11
+A04-58Low Pressure Switch421-43-22942 / 6040Komatsu PC200-8Page 13
+A04-58ALow Pressure Switch (New Model)663-5545 / 5545Komatsu PC200-8Page 13
+A04-59Pressure Switch421-43-22922 / 4537 / 40BarKomatsu PC200-8Page 13
+A04-60Low Pressure Switch421-43-22910 / 771-1409Komatsu PC200-8Page 13
+A04-61Pressure Switch (Small Plug)421-43-32912 / 50BarKomatsu MachineryPage 13
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A03-1Air Pressure Switch8-12146830-0Isuzu MachineryPage 9
+A03-5AAir Intake Sensor8-97601-9670Hitachi SystemsPage 9
+A03-14Air Intake SensorHitachi Core SeriesHitachi ExcavatorsPage 9
+A03-19Barometric Pressure SensorVH893901080AHitachi ZAX200-3 (Isuzu Engine)Page 9
+A03-20Air Intake Sensor8-98121697-0Hitachi ZAX490-5A (Isuzu 4UZ1 Engine)Page 9
+A03-21Air Intake Sensor8-98065377-0Isuzu SystemsPage 9
+A04-1Oil Pressure Switch (Single-Pin)EX200-5 CoreHitachi EX200-5Page 10
+A04-4Oil Pressure Switch8-98086433-0Isuzu 4-Cylinder EnginesPage 10
+A04-11Oil Pressure Switch6BD1 Engine LineHitachi EX200-1, EX200-2, EX200-3, EX200-5Page 10
+A04-13Oil Pressure Switch8-98027456-0 / 499000-7341Hitachi ZAX330-3 (6HK1 Engine)Page 10
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A03-22Intake Pressure SensorScania Engine LineDoosan DX380Page 9
+A03-25AIntake Pressure Sensor129978-12700Doosan / Hyundai LinePage 10
+A04-9BOil Pressure SwitchDaewoo Core LineDoosan SystemsPage 10
+A04-53Oil Pressure Switch31NA-20080Hyundai ExcavatorsPage 12
+A04-61BOil Pressure SensorDoosan Engine VariantDoosan DH80, DX80Page 13
+A04-63Oil Pressure SensorDoosan Core SeriesDoosan DX SeriesPage 13
+A04-64Oil Pressure Sensor30143-00151Daewoo MachineryPage 13
+A04-67Oil Pressure Sensor301309-00022Daewoo DH SeriesPage 13
+⚙️ Miscellaneous Engines & Machinery
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A03-7Air Pressure Sensor4076493Cummins EnginesPage 9
+A03-12CAir Temp Sensor107-8618Universal SystemsPage 9
+A03-13AAir Pressure Sensor002254Universal InfrastructurePage 9
+A03-16Air Alarm SensorSH200 SeriesSumitomo ExcavatorsPage 9
+A03-18Differential Pressure Sensor1MPP2-1Cummins / Yuchai EnginesPage 9
+A03-18ADifferential Pressure Sensor314-9772Universal SystemsPage 9
+A03-23Intake Pressure Sensor4902720Cummins EnginesPage 9
+A03-24Barometric Pressure SensorYuchai Base LineKobelco SK210-10 (Yuchai Engine)Page 9
+A03-25Intake Pressure SensorJohn Deere RailJohn Deere SeriesPage 9
+A03-26AIntake Pressure Sensor6520-81-1010Universal SystemsPage 10
+A03-28Sensor Cable Assembly266-1466Excavator EquipmentPage 10
+A03-29Sensor Cable Assembly266-1467Excavator EquipmentPage 10
+A03-29ASensor Cable Assembly266-1468Excavator EquipmentPage 10
+A03-30Sensor Cable Assembly266-1475Excavator EquipmentPage 10
+A03-31Sensor Cable Assembly266-1477Excavator EquipmentPage 10
+A03-32Sensor Cable Assembly266-1478Excavator EquipmentPage 10
+A03-33Sensor Cable Assembly266-1481Excavator EquipmentPage 10
+A03-34Sensor Cable Assembly266-2337Excavator EquipmentPage 10
+A03-35Sensor Cable Assembly266-1484Excavator EquipmentPage 10
+A03-36Sensor Cable Assembly266-1492Excavator EquipmentPage 10
+A03-37Angle Sensor269-1983Heavy Machinery ComponentsPage 10
+A03-38Angle Sensor204-7949Heavy Machinery ComponentsPage 10
+A03-39Angle Sensor266-1473Heavy Machinery ComponentsPage 10
+A03-40Rotary Switch SensorCabin Rotary LineExcavator Cab SeriesPage 10
+A03-41Door Lamp SwitchCabin Electrical LineExcavator Cab SeriesPage 10
+A04-3Oil Pressure SwitchYanmar 4JG1Yanmar EnginesPage 10
+A04-6Oil Pressure SwitchYanmar Base LineYanmar EnginesPage 10
+A04-6AOil Pressure Sensor7W1238Universal MachineryPage 10
+A04-7Oil Pressure SensorUniversal Component LineGeneral Machinery EnginesPage 10
+A04-7AOil Pressure SensorUniversal Component LineGeneral Machinery EnginesPage 10
+A04-7BOil Pressure SensorUniversal Component LineGeneral Machinery EnginesPage 10
+A04-9Oil Pressure SwitchYanmar System LineKobelco SK230-6 (Yanmar Engine)Page 10
+A04-9APressure Switch418-43-37681Komatsu WA380-6Page 10
+A04-12Oil Pressure Switch6BG1 Engine LineGeneral Isuzu EnginesPage 10
+A04-14Air Pressure SwitchMD176361Mitsubishi 4M50 EnginesPage 10
+A04-21Oil Pressure Switch6744-81-4010Komatsu PC200-8 SeriesPage 11
+A04-37Oil Pressure Switch1771230Universal InfrastructurePage 12
+A04-37AOil Pressure Switch11418080Universal InfrastructurePage 12
+A04-38Oil Pressure Sensor3481008 / 100096 / 34BarLiugong PlatformsPage 12
+A04-40Oil Pressure Sensor4780941Universal MachineryPage 12
+A04-43AOil Pressure Sensor11039662Universal SystemsPage 12
+A04-44Oil Pressure Switch661203Sany Series ExcavatorsPage 12
+A04-45Oil Pressure Sensor661204Sany / Cummins SeriesPage 12
+A04-46Oil Pressure Sensor661003Sany / Cummins SeriesPage 12
+A04-47Oil Pressure Switch660404Sany Series ExcavatorsPage 12
+A04-48Oil Pressure Sensor631003Sany / Cummins SeriesPage 12
+A04-49Oil Pressure Sensor34B1008 / 100096 / 34BarLiugong MachineryPage 12
+A04-49AOil Pressure Sensor30B0897 / 10096Liugong MachineryPage 12
+A04-49BOil Pressure Sensor10316 / 523144 / 11BarUniversal Mechanical LinesPage 12
+A04-49COil Pressure Sensor01723Universal Mechanical LinesPage 12
+A04-49DOil Pressure Sensor3080804Liugong MachineryPage 12
+A04-49EOil Pressure Sensor180030 / 17530 / 1.5Bar / 2.0BarLiugong MachineryPage 12
+A04-50Oil Pressure Sensor11039557 / 1008100096Liugong MachineryPage 12
+A04-51Oil Pressure SensorZmpar 101103XCMG EquipmentPage 12
+A04-51AOil Pressure Sensor100096 / 34B1072 / 3.8BarXCMG EquipmentPage 12
+A04-52Oil Pressure SensorP165-5183General MachineryPage 12
+A04-52AOil Pressure Sensor87036787 / 770988General MachineryPage 12
+A04-54Oil Pressure SensorB240600000286Sany / Shanshan / CumminsPage 12
+A04-55Oil Pressure SensorYuchai Engine CoreYuchai MachineryPage 12
+A04-55BOil Pressure Switch150-1240Cummins SystemsPage 12
+A04-56Oil Pressure SwitchMetal Dome InterfaceUniversal Mechanical LinePage 12
+A04-56AOil Pressure Switch3846N-010-C1Cummins SystemsPage 12
+A04-56BOil Pressure SwitchCummins ComponentCummins SystemsPage 12
+A04-56COil Pressure Switch30152378Murphy Systems (Single-Pin)Page 12
+A04-56DOil Pressure SwitchMurphy VariantMurphy Systems (Single-Pin Alt)Page 12
+A04-56FOil Pressure SwitchMurphy Dual-PinMurphy Systems (Dual-Pin)Page 13
+A04-57Oil Pressure Sensor32216 / 142011Universal Heavy-Duty LinesPage 13
+A04-61AOil Pressure Sensor10213169Liugong MachineryPage 13
+A04-65Oil Pressure Sensor13617-433026 / 0.7BarUniversal LinesPage 13
+A04-66Oil Pressure Sensor10213169Liugong MachineryPage 13
+A04-66AOil Pressure Sensor09617360017 / 0.7BarUniversal LinesPage 13
+A04-66BOil Pressure Sensor13617433026 / 0.7BarUniversal LinesPage 13
+A04-66COil Pressure Sensor16312310 / 0.4BarUniversal LinesPage 13
+A04-66DOil Pressure SensorZoomlion Engine CoreZoomlion MachineryPage 13
+A04-68Oil Pressure Sensor06912019Universal Mechanical LinesPage 13
+A04-69Oil Pressure Sensor32216 142011Universal Mechanical LinesPage 13
+A04-70Oil Pressure Sensor09812682Universal Mechanical LinesPage 13
+A04-71Oil Pressure Sensor3451 310Universal Mechanical LinesPage 13
+A04-72Oil Pressure Sensor01818 201005Universal Mechanical LinesPage 13
+A04-73Oil Pressure SensorLonking Oil CoreLonking MachineryPage 13
+A04-74Oil Pressure SensorRE154966John Deere MachineryPage 13
+A04-75Oil Pressure SensorRE25658John Deere MachineryPage 13
+A04-76Oil Pressure Sensor12-00309-04Universal SystemsPage 13
+A04-77Oil Pressure SensorJohn Deere RailJohn Deere SeriesPage 13
+A04-78Oil Pressure SensorRE63291John Deere MachineryPage 13
+A04-79Oil Pressure SensorRE212880John Deere MachineryPage 13
+A04-80Oil Pressure SensorRE212876John Deere MachineryPage 13
+A04-81Oil Pressure SensorRE212878John Deere MachineryPage 13
+A04-82Oil Pressure SensorRE212870John Deere MachineryPage 13
+A04-83Oil Pressure SensorRE55145John Deere MachineryPage 13
+A04-84Oil Pressure Sensor1807369C2International DT466E, 1530EPage 13

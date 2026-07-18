@@ -1,18 +1,23 @@
 {
-  "status": "section_2_v2_plus_section_3",
+  "status": "section_2_v2_plus_section_3_v2",
   "supplier": "Kafu",
-  "rawRows": 153,
+  "rawRows": 188,
   "section2": 153,
-  "section3": 96,
-  "count": 249,
+  "section3": 188,
+  "count": 341,
   "categories": [
+    "Air Alarm Sensor",
     "Air Intake Sensor",
     "Air Pressure Sensor",
     "Air Pressure Switch",
+    "Air Temperature Sensor",
+    "Angle Sensor",
     "Barometric Pressure Sensor",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
     "Crankshaft Sensor",
+    "Differential Pressure Sensor",
+    "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
     "Flywheel Speed Sensor",
     "Fuel Pump Speed Sensor",
@@ -25,6 +30,8 @@
     "Pressure Switch",
     "Pressure Switch Core",
     "Revolution Sensor",
+    "Rotary Switch Sensor",
+    "Sensor Cable Assembly",
     "Vacuum Pressure Switch"
   ],
   "products": [
@@ -2835,13 +2842,12 @@
       "catalogCode": "A03-1",
       "category": "Air Pressure Switch",
       "description": "Air Pressure Switch",
-      "name": "Air Pressure Switch — Isuzu Utility Trucks, Hitachi EX",
+      "name": "Air Pressure Switch — Isuzu Machinery",
       "oemNumbers": [
         "8-12146830-0"
       ],
       "compatibility": [
-        "Isuzu Utility Trucks",
-        "Hitachi EX"
+        "Isuzu Machinery"
       ],
       "pages": [
         "9"
@@ -2850,7 +2856,7 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-10",
@@ -2870,18 +2876,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-11",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor (5-Wire Line)",
-      "name": "Air Intake Sensor (5-Wire Line) — Volvo General",
+      "name": "Air Intake Sensor (5-Wire Line) — Volvo Systems",
       "oemNumbers": [
         "208935035"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -2890,18 +2896,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-11A",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor (6-Wire Line)",
-      "name": "Air Intake Sensor (6-Wire Line) — Volvo General",
+      "name": "Air Intake Sensor (6-Wire Line) — Volvo Systems",
       "oemNumbers": [
         "208935036"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -2910,18 +2916,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-11B",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo General",
+      "name": "Air Intake Sensor — Volvo Systems",
       "oemNumbers": [
         "21442662"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -2930,18 +2936,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-12",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — Caterpillar 312D",
+      "name": "Air Pressure Sensor — Caterpillar E312D",
       "oemNumbers": [
         "266-0136"
       ],
       "compatibility": [
-        "Caterpillar 312D"
+        "Caterpillar E312D"
       ],
       "pages": [
         "9"
@@ -2950,18 +2956,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-12A",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — Caterpillar General",
+      "name": "Air Pressure Sensor — Caterpillar Excavators",
       "oemNumbers": [
         "381-9064"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Excavators"
       ],
       "pages": [
         "9"
@@ -2970,19 +2976,19 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-12B",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — Volvo Construction Line",
+      "name": "Air Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "21304786",
         "22181342"
       ],
       "compatibility": [
-        "Volvo Construction Line"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -2991,7 +2997,27 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-12C",
+      "category": "Air Temperature Sensor",
+      "description": "Air Temp Sensor",
+      "name": "Air Temp Sensor — Universal Systems",
+      "oemNumbers": [
+        "107-8618"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-13",
@@ -3011,16 +3037,38 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-13A",
+      "category": "Air Pressure Sensor",
+      "description": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — Universal Infrastructure",
+      "oemNumbers": [
+        "002254"
+      ],
+      "compatibility": [
+        "Universal Infrastructure"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-14",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Hitachi Systems Base Hitachi Machinery",
-      "oemNumbers": [],
+      "name": "Air Intake Sensor — Hitachi Excavators",
+      "oemNumbers": [
+        "Hitachi"
+      ],
       "compatibility": [
-        "Hitachi Systems Base Hitachi Machinery"
+        "Hitachi Excavators"
       ],
       "pages": [
         "9"
@@ -3029,18 +3077,18 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-14A",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Caterpillar General",
+      "name": "Air Intake Sensor — Caterpillar Machinery",
       "oemNumbers": [
         "381-9064"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Machinery"
       ],
       "pages": [
         "9"
@@ -3049,19 +3097,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
-      "catalogCode": "A03-15A",
+      "catalogCode": "A03-15",
       "category": "Air Pressure Switch",
-      "description": "Air Pressure Switch",
-      "name": "Air Pressure Switch — Komatsu Air Conditioning Systems",
+      "description": "AC Pressure Switch",
+      "name": "AC Pressure Switch — Komatsu PC200-7",
       "oemNumbers": [
-        "PC200-7",
-        "PC200-8"
+        "PC200-7 Line Spec"
       ],
       "compatibility": [
-        "Komatsu Air Conditioning Systems"
+        "Komatsu PC200-7"
       ],
       "pages": [
         "9"
@@ -3070,7 +3117,47 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-15A",
+      "category": "Air Pressure Switch",
+      "description": "Air Pressure Switch",
+      "name": "Air Pressure Switch — Komatsu PC200-8",
+      "oemNumbers": [
+        "PC200-8 Line Spec"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-16",
+      "category": "Air Alarm Sensor",
+      "description": "Air Alarm Sensor",
+      "name": "Air Alarm Sensor — Sumitomo Excavators",
+      "oemNumbers": [
+        "SH200 Series"
+      ],
+      "compatibility": [
+        "Sumitomo Excavators"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-17",
@@ -3090,20 +3177,59 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-18",
+      "category": "Differential Pressure Sensor",
+      "description": "Differential Pressure Sensor",
+      "name": "Differential Pressure Sensor — Cummins, Yuchai Engines",
+      "oemNumbers": [
+        "1MPP2-1"
+      ],
+      "compatibility": [
+        "Cummins",
+        "Yuchai Engines"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-18A",
+      "category": "Differential Pressure Sensor",
+      "description": "Differential Pressure Sensor",
+      "name": "Differential Pressure Sensor — Universal Systems",
+      "oemNumbers": [
+        "314-9772"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-19",
       "category": "Barometric Pressure Sensor",
       "description": "Barometric Pressure Sensor",
-      "name": "Barometric Pressure Sensor — Isuzu Engine Systems, Hitachi ZAX200-3",
+      "name": "Barometric Pressure Sensor — Hitachi ZAX200-3 (Isuzu Engine)",
       "oemNumbers": [
-        "4UZ1 Engine Spec",
         "VH893901080A"
       ],
       "compatibility": [
-        "Isuzu Engine Systems",
-        "Hitachi ZAX200-3"
+        "Hitachi ZAX200-3 (Isuzu Engine)"
       ],
       "pages": [
         "9"
@@ -3112,18 +3238,18 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-2",
       "category": "Intake Temperature Sensor",
       "description": "Intake Temperature Sensor (Old)",
-      "name": "Intake Temperature Sensor (Old) — Volvo Heavy Duty",
+      "name": "Intake Temperature Sensor (Old) — Volvo Systems",
       "oemNumbers": [
         "20450095"
       ],
       "compatibility": [
-        "Volvo Heavy Duty"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -3132,19 +3258,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-20",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Isuzu Engines, Hitachi ZAX490-5A",
+      "name": "Air Intake Sensor — Hitachi ZAX490-5A (Isuzu 4UZ1 Engine)",
       "oemNumbers": [
         "8-98121697-0"
       ],
       "compatibility": [
-        "Isuzu Engines",
-        "Hitachi ZAX490-5A"
+        "Hitachi ZAX490-5A (Isuzu 4UZ1 Engine)"
       ],
       "pages": [
         "9"
@@ -3153,18 +3278,18 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-21",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Isuzu Engines",
+      "name": "Air Intake Sensor — Isuzu Systems",
       "oemNumbers": [
         "8-98065377-0"
       ],
       "compatibility": [
-        "Isuzu Engines"
+        "Isuzu Systems"
       ],
       "pages": [
         "9"
@@ -3173,18 +3298,18 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-22",
       "category": "Intake Pressure Sensor",
       "description": "Intake Pressure Sensor",
-      "name": "Intake Pressure Sensor — Scania Variant)",
+      "name": "Intake Pressure Sensor — Doosan DX380",
       "oemNumbers": [
-        "Scania Engine Block Spec Doosan DX380 ("
+        "Scania"
       ],
       "compatibility": [
-        "Scania Variant)"
+        "Doosan DX380"
       ],
       "pages": [
         "9"
@@ -3193,19 +3318,79 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-23",
+      "category": "Intake Pressure Sensor",
+      "description": "Intake Pressure Sensor",
+      "name": "Intake Pressure Sensor — Cummins Engines",
+      "oemNumbers": [
+        "4902720"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-24",
+      "category": "Barometric Pressure Sensor",
+      "description": "Barometric Pressure Sensor",
+      "name": "Barometric Pressure Sensor — Yuchai Engine)",
+      "oemNumbers": [
+        "Yuchai Base Line Kobelco SK210-10 ("
+      ],
+      "compatibility": [
+        "Yuchai Engine)"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-25",
+      "category": "Intake Pressure Sensor",
+      "description": "Intake Pressure Sensor",
+      "name": "Intake Pressure Sensor — John Deere Series",
+      "oemNumbers": [
+        "John Deere"
+      ],
+      "compatibility": [
+        "John Deere Series"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-25A",
       "category": "Intake Pressure Sensor",
       "description": "Intake Pressure Sensor",
-      "name": "Intake Pressure Sensor — Doosan Heavy, Infracore",
+      "name": "Intake Pressure Sensor — Doosan, Hyundai Line",
       "oemNumbers": [
         "129978-12700"
       ],
       "compatibility": [
-        "Doosan Heavy",
-        "Infracore"
+        "Doosan",
+        "Hyundai Line"
       ],
       "pages": [
         "10"
@@ -3214,7 +3399,7 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-26",
@@ -3234,7 +3419,27 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-26A",
+      "category": "Intake Pressure Sensor",
+      "description": "Intake Pressure Sensor",
+      "name": "Intake Pressure Sensor — Universal Systems",
+      "oemNumbers": [
+        "6520-81-1010"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-27",
@@ -3254,7 +3459,67 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-28",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1466"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-29",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1467"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-29A",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1468"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-3",
@@ -3275,18 +3540,218 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-30",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1475"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-31",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1477"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-32",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1478"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-33",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1481"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-34",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-2337"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-35",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1484"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-36",
+      "category": "Sensor Cable Assembly",
+      "description": "Sensor Cable Assembly",
+      "name": "Sensor Cable Assembly — Excavator Equipment",
+      "oemNumbers": [
+        "266-1492"
+      ],
+      "compatibility": [
+        "Excavator Equipment"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-37",
+      "category": "Angle Sensor",
+      "description": "Angle Sensor",
+      "name": "Angle Sensor — Heavy Machinery Components",
+      "oemNumbers": [
+        "269-1983"
+      ],
+      "compatibility": [
+        "Heavy Machinery Components"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-38",
+      "category": "Angle Sensor",
+      "description": "Angle Sensor",
+      "name": "Angle Sensor — Heavy Machinery Components",
+      "oemNumbers": [
+        "204-7949"
+      ],
+      "compatibility": [
+        "Heavy Machinery Components"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-39",
+      "category": "Angle Sensor",
+      "description": "Angle Sensor",
+      "name": "Angle Sensor — Heavy Machinery Components",
+      "oemNumbers": [
+        "266-1473"
+      ],
+      "compatibility": [
+        "Heavy Machinery Components"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-4",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo Infrastructure Equipment",
+      "name": "Air Intake Sensor — Volvo Systems",
       "oemNumbers": [
         "VOE 20450693"
       ],
       "compatibility": [
-        "Volvo Infrastructure Equipment"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -3295,7 +3760,47 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-40",
+      "category": "Rotary Switch Sensor",
+      "description": "Rotary Switch Sensor",
+      "name": "Rotary Switch Sensor — Excavator Cab Series",
+      "oemNumbers": [
+        "Cabin Rotary Line"
+      ],
+      "compatibility": [
+        "Excavator Cab Series"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-41",
+      "category": "Door Lamp Switch",
+      "description": "Door Lamp Switch",
+      "name": "Door Lamp Switch — Excavator Cab Series",
+      "oemNumbers": [
+        "Cabin Electrical Line"
+      ],
+      "compatibility": [
+        "Excavator Cab Series"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-5",
@@ -3316,18 +3821,18 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-5A",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Hitachi Construction Core",
+      "name": "Air Intake Sensor — Hitachi Systems",
       "oemNumbers": [
         "8-97601-9670"
       ],
       "compatibility": [
-        "Hitachi Construction Core"
+        "Hitachi Systems"
       ],
       "pages": [
         "9"
@@ -3336,7 +3841,7 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-6",
@@ -3357,18 +3862,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-6A",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo Machinery Core",
+      "name": "Air Intake Sensor — Volvo Systems",
       "oemNumbers": [
         "22422785"
       ],
       "compatibility": [
-        "Volvo Machinery Core"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -3377,18 +3882,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-6B",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo Machinery Core",
+      "name": "Air Intake Sensor — Volvo Systems",
       "oemNumbers": [
         "24527125"
       ],
       "compatibility": [
-        "Volvo Machinery Core"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -3397,18 +3902,38 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A03-7",
+      "category": "Air Pressure Sensor",
+      "description": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — Cummins Engines",
+      "oemNumbers": [
+        "4076493"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-8",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo Heavy Transport",
+      "name": "Air Intake Sensor — Volvo Systems",
       "oemNumbers": [
         "441050080"
       ],
       "compatibility": [
-        "Volvo Heavy Transport"
+        "Volvo Systems"
       ],
       "pages": [
         "9"
@@ -3417,7 +3942,7 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-9",
@@ -3441,18 +3966,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-9A",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo General",
+      "name": "Air Intake Sensor — Volvo Platforms",
       "oemNumbers": [
         "15038313"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "9"
@@ -3461,18 +3986,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A03-9B",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo General",
+      "name": "Air Intake Sensor — Volvo Platforms",
       "oemNumbers": [
         "22172068"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "9"
@@ -3481,7 +4006,7 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-1",
@@ -3501,20 +4026,20 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-10",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Komatsu PC200-8, SK350-8 (J05, J08E)",
+      "name": "Oil Pressure Switch — Komatsu SK200-8, SK350-8 (J05, J08E Hino Engine)",
       "oemNumbers": [
-        "HINO 83530E0220"
+        "83530E0220"
       ],
       "compatibility": [
-        "Komatsu PC200-8",
+        "Komatsu SK200-8",
         "SK350-8 (J05",
-        "J08E)"
+        "J08E Hino Engine)"
       ],
       "pages": [
         "10"
@@ -3523,7 +4048,7 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-11",
@@ -3546,20 +4071,39 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-12",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — General Isuzu Engines",
+      "oemNumbers": [
+        "6BG1"
+      ],
+      "compatibility": [
+        "General Isuzu Engines"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-13",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Isuzu 6HK1 Engine, Hitachi ZAX330-3",
+      "name": "Oil Pressure Switch — Hitachi ZAX330-3 (6HK1 Engine)",
       "oemNumbers": [
         "8-98027456-0",
         "499000-7341"
       ],
       "compatibility": [
-        "Isuzu 6HK1 Engine",
-        "Hitachi ZAX330-3"
+        "Hitachi ZAX330-3 (6HK1 Engine)"
       ],
       "pages": [
         "10"
@@ -3568,18 +4112,38 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-14",
+      "category": "Air Pressure Switch",
+      "description": "Air Pressure Switch",
+      "name": "Air Pressure Switch — Mitsubishi 4M50 Engines",
+      "oemNumbers": [
+        "MD176361"
+      ],
+      "compatibility": [
+        "Mitsubishi 4M50 Engines"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-15",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Caterpillar General",
+      "name": "Oil Pressure Switch — Caterpillar Equipment",
       "oemNumbers": [
         "161-1703"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Equipment"
       ],
       "pages": [
         "10"
@@ -3588,19 +4152,19 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-16",
       "category": "Pressure Sensor",
       "description": "Pressure Sensor",
-      "name": "Pressure Sensor — Caterpillar General",
+      "name": "Pressure Sensor — Caterpillar Equipment",
       "oemNumbers": [
         "161-1704",
         "04-0249A"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Equipment"
       ],
       "pages": [
         "11"
@@ -3609,18 +4173,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-17",
       "category": "Pressure Sensor",
       "description": "Pressure Sensor",
-      "name": "Pressure Sensor — Caterpillar General",
+      "name": "Pressure Sensor — Caterpillar Equipment",
       "oemNumbers": [
         "161-1705-04"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Equipment"
       ],
       "pages": [
         "11"
@@ -3629,18 +4193,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-18",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Caterpillar Heavy Equipment",
+      "name": "Oil Pressure Switch — Caterpillar Machinery",
       "oemNumbers": [
         "194-6722"
       ],
       "compatibility": [
-        "Caterpillar Heavy Equipment"
+        "Caterpillar Machinery"
       ],
       "pages": [
         "11"
@@ -3649,20 +4213,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-18A",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Caterpillar Gensets, Graders",
+      "name": "Oil Pressure Switch — Caterpillar 3116 Engine",
       "oemNumbers": [
-        "3116 Engine Spec",
         "131-9203"
       ],
       "compatibility": [
-        "Caterpillar Gensets",
-        "Graders"
+        "Caterpillar 3116 Engine"
       ],
       "pages": [
         "11"
@@ -3671,19 +4233,19 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-18B",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Caterpillar General",
+      "name": "Oil Pressure Sensor — Caterpillar Engines",
       "oemNumbers": [
         "459-2584",
         "459-2597"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Engines"
       ],
       "pages": [
         "11"
@@ -3692,18 +4254,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-18C",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Caterpillar General",
+      "name": "Oil Pressure Sensor — Caterpillar Engines",
       "oemNumbers": [
         "459-2595"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Engines"
       ],
       "pages": [
         "11"
@@ -3712,19 +4274,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-18E",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo, Deutz Systems",
+      "name": "Oil Pressure Sensor — Volvo Machinery",
       "oemNumbers": [
         "421-06-35111"
       ],
       "compatibility": [
-        "Volvo",
-        "Deutz Systems"
+        "Volvo Machinery"
       ],
       "pages": [
         "11"
@@ -3733,18 +4294,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-18F",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Caterpillar General",
+      "name": "Oil Pressure Sensor — Caterpillar Engines",
       "oemNumbers": [
         "459-2591"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Engines"
       ],
       "pages": [
         "11"
@@ -3753,18 +4314,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-18G",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Caterpillar General",
+      "name": "Oil Pressure Sensor — Caterpillar Platforms",
       "oemNumbers": [
         "304-5666"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Platforms"
       ],
       "pages": [
         "11"
@@ -3773,7 +4334,7 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-19",
@@ -3793,18 +4354,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-19A",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Caterpillar General",
+      "name": "Oil Pressure Switch — Caterpillar Machinery",
       "oemNumbers": [
         "107-0612"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Machinery"
       ],
       "pages": [
         "11"
@@ -3813,18 +4374,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-19B",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Caterpillar General",
+      "name": "Oil Pressure Switch — Caterpillar Machinery",
       "oemNumbers": [
         "107-0613"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Machinery"
       ],
       "pages": [
         "11"
@@ -3833,18 +4394,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-19C",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Caterpillar General",
+      "name": "Oil Pressure Switch — Caterpillar Machinery",
       "oemNumbers": [
         "9X4276"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Machinery"
       ],
       "pages": [
         "11"
@@ -3853,18 +4414,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-19D",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Caterpillar General",
+      "name": "Oil Pressure Switch — Caterpillar Machinery",
       "oemNumbers": [
         "107-0611"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Machinery"
       ],
       "pages": [
         "11"
@@ -3873,7 +4434,7 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-2",
@@ -3894,19 +4455,19 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-20",
       "category": "Oil Pressure Sensor",
       "description": "Fuel/Oil Pressure Sensor",
-      "name": "Fuel/Oil Pressure Sensor — Caterpillar 3408E, 3208E",
+      "name": "Fuel/Oil Pressure Sensor — Caterpillar 3408E, 3208E Engines",
       "oemNumbers": [
         "107-0614"
       ],
       "compatibility": [
         "Caterpillar 3408E",
-        "3208E"
+        "3208E Engines"
       ],
       "pages": [
         "11"
@@ -3915,18 +4476,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-20A",
       "category": "Pressure Sensor",
       "description": "Pressure Sensor",
-      "name": "Pressure Sensor — Caterpillar General",
+      "name": "Pressure Sensor — Caterpillar Equipment",
       "oemNumbers": [
         "313-5104"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Equipment"
       ],
       "pages": [
         "11"
@@ -3935,18 +4496,18 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-20C",
       "category": "Pressure Sensor",
       "description": "Pressure Sensor",
-      "name": "Pressure Sensor — Caterpillar General",
+      "name": "Pressure Sensor — Caterpillar Equipment",
       "oemNumbers": [
         "202-9002"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Equipment"
       ],
       "pages": [
         "11"
@@ -3955,7 +4516,27 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-21",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Komatsu PC200-8 Series",
+      "oemNumbers": [
+        "6744-81-4010"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 Series"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-22",
@@ -3975,16 +4556,18 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-23",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Deutz Series Core Volvo with Deutz 240 Engines (Old)",
-      "oemNumbers": [],
+      "name": "Oil Pressure Sensor — Deutz 240 (Old Models)",
+      "oemNumbers": [
+        "Deutz"
+      ],
       "compatibility": [
-        "Deutz Series Core Volvo with Deutz 240 Engines (Old)"
+        "Deutz 240 (Old Models)"
       ],
       "pages": [
         "11"
@@ -3993,7 +4576,7 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-24",
@@ -4014,18 +4597,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-25",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "20450687"
       ],
       "compatibility": [
-        "Volvo Construction Line"
+        "Volvo Systems"
       ],
       "pages": [
         "11"
@@ -4034,18 +4617,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-26",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "VOE 21634021"
       ],
       "compatibility": [
-        "Volvo Construction Line"
+        "Volvo Systems"
       ],
       "pages": [
         "11"
@@ -4054,18 +4637,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-26A",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo EC460",
+      "name": "Oil Pressure Sensor — Volvo 460",
       "oemNumbers": [
         "22899626"
       ],
       "compatibility": [
-        "Volvo EC460"
+        "Volvo 460"
       ],
       "pages": [
         "11"
@@ -4074,16 +4657,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-26B",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo OEM Standard Node Volvo General",
-      "oemNumbers": [],
+      "name": "Oil Pressure Sensor — Volvo Platforms",
+      "oemNumbers": [
+        "Volvo"
+      ],
       "compatibility": [
-        "Volvo OEM Standard Node Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "11"
@@ -4092,20 +4677,20 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-27",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "VOE 034774",
         "2132639",
         "20484678"
       ],
       "compatibility": [
-        "Volvo Construction Line"
+        "Volvo Platforms"
       ],
       "pages": [
         "11"
@@ -4114,18 +4699,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-28",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "11039574"
       ],
       "compatibility": [
-        "Volvo Construction Line"
+        "Volvo Platforms"
       ],
       "pages": [
         "11"
@@ -4134,18 +4719,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-29",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo EC480",
+      "name": "Oil Pressure Sensor — Volvo 480",
       "oemNumbers": [
         "1077574"
       ],
       "compatibility": [
-        "Volvo EC480"
+        "Volvo 480"
       ],
       "pages": [
         "11"
@@ -4154,18 +4739,38 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-3",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Yanmar Engines",
+      "oemNumbers": [
+        "Yanmar 4JG1"
+      ],
+      "compatibility": [
+        "Yanmar Engines"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-30",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo General",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "21634017"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "11"
@@ -4174,18 +4779,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-31",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "11170072"
       ],
       "compatibility": [
-        "Volvo Fleet"
+        "Volvo Systems"
       ],
       "pages": [
         "11"
@@ -4194,18 +4799,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-32",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "11170071"
       ],
       "compatibility": [
-        "Volvo Fleet"
+        "Volvo Systems"
       ],
       "pages": [
         "11"
@@ -4214,18 +4819,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-33",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "11170090"
       ],
       "compatibility": [
-        "Volvo Fleet"
+        "Volvo Systems"
       ],
       "pages": [
         "11"
@@ -4234,18 +4839,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-34",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "11170075"
       ],
       "compatibility": [
-        "Volvo Fleet"
+        "Volvo Systems"
       ],
       "pages": [
         "11"
@@ -4254,19 +4859,19 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-35",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Equipment",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "11170079",
         "11170076"
       ],
       "compatibility": [
-        "Volvo Equipment"
+        "Volvo Systems"
       ],
       "pages": [
         "12"
@@ -4275,18 +4880,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-36",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Equipment",
+      "name": "Oil Pressure Sensor — Volvo Systems",
       "oemNumbers": [
         "11038813"
       ],
       "compatibility": [
-        "Volvo Equipment"
+        "Volvo Systems"
       ],
       "pages": [
         "12"
@@ -4295,20 +4900,21 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-36A",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Fleet Systems",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "11039549",
         "21302639",
-        "11170259"
+        "11170259",
+        "11039721"
       ],
       "compatibility": [
-        "Volvo Fleet Systems"
+        "Volvo Platforms"
       ],
       "pages": [
         "12"
@@ -4317,18 +4923,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-36B",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Fleet Systems",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "11039577"
       ],
       "compatibility": [
-        "Volvo Fleet Systems"
+        "Volvo Platforms"
       ],
       "pages": [
         "12"
@@ -4337,16 +4943,79 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-37",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Universal Infrastructure",
+      "oemNumbers": [
+        "1771230"
+      ],
+      "compatibility": [
+        "Universal Infrastructure"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-37A",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Universal Infrastructure",
+      "oemNumbers": [
+        "11418080"
+      ],
+      "compatibility": [
+        "Universal Infrastructure"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-38",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Platforms",
+      "oemNumbers": [
+        "3481008",
+        "100096"
+      ],
+      "compatibility": [
+        "Liugong Platforms"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-39",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo Core Node Volvo Fleet Systems",
-      "oemNumbers": [],
+      "name": "Oil Pressure Sensor — Volvo Systems",
+      "oemNumbers": [
+        "Volvo"
+      ],
       "compatibility": [
-        "Volvo Core Node Volvo Fleet Systems"
+        "Volvo Systems"
       ],
       "pages": [
         "12"
@@ -4355,18 +5024,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-4",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Isuzu 4-Cylinder Power Units",
+      "name": "Oil Pressure Switch — Isuzu 4-Cylinder Engines",
       "oemNumbers": [
         "8-98086433-0"
       ],
       "compatibility": [
-        "Isuzu 4-Cylinder Power Units"
+        "Isuzu 4-Cylinder Engines"
       ],
       "pages": [
         "10"
@@ -4375,18 +5044,38 @@
         "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-40",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Machinery",
+      "oemNumbers": [
+        "4780941"
+      ],
+      "compatibility": [
+        "Universal Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-41",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo General",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "15180002"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "12"
@@ -4395,18 +5084,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-42",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo General",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "VOE 15090261"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "12"
@@ -4415,18 +5104,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-43",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo General",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "5090257"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "12"
@@ -4435,18 +5124,38 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-43A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Systems",
+      "oemNumbers": [
+        "11039662"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-43B",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo General",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "11419327"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "12"
@@ -4455,18 +5164,18 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-43C",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Volvo General",
+      "name": "Oil Pressure Sensor — Volvo Platforms",
       "oemNumbers": [
         "11039376"
       ],
       "compatibility": [
-        "Volvo General"
+        "Volvo Platforms"
       ],
       "pages": [
         "12"
@@ -4475,19 +5184,247 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-44",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Sany Series Excavators",
+      "oemNumbers": [
+        "661203"
+      ],
+      "compatibility": [
+        "Sany Series Excavators"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-45",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Sany, Cummins Series",
+      "oemNumbers": [
+        "661204"
+      ],
+      "compatibility": [
+        "Sany",
+        "Cummins Series"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-46",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Sany, Cummins Series",
+      "oemNumbers": [
+        "661003"
+      ],
+      "compatibility": [
+        "Sany",
+        "Cummins Series"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-47",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Sany Series Excavators",
+      "oemNumbers": [
+        "660404"
+      ],
+      "compatibility": [
+        "Sany Series Excavators"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-48",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Sany, Cummins Series",
+      "oemNumbers": [
+        "631003"
+      ],
+      "compatibility": [
+        "Sany",
+        "Cummins Series"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-49",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "34B1008",
+        "100096"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-49A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "30B0897",
+        "10096"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-49B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Mechanical Lines",
+      "oemNumbers": [
+        "10316",
+        "523144"
+      ],
+      "compatibility": [
+        "Universal Mechanical Lines"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-49C",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Mechanical Lines",
+      "oemNumbers": [
+        "01723"
+      ],
+      "compatibility": [
+        "Universal Mechanical Lines"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-49D",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "3080804"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-49E",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "180030",
+        "17530"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-5",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch (Dual-Pin)",
-      "name": "Oil Pressure Switch (Dual-Pin) — Komatsu General, Hitachi EX200-5",
+      "name": "Oil Pressure Switch (Dual-Pin) — Komatsu PC200-5, PC200-6, Hitachi EX200-5",
       "oemNumbers": [
         "6732-81-3140",
         "08073-10505"
       ],
       "compatibility": [
-        "Komatsu General",
+        "Komatsu PC200-5",
+        "PC200-6",
         "Hitachi EX200-5"
       ],
       "pages": [
@@ -4497,18 +5434,121 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-50",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "11039557",
+        "1008100096"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-51",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — XCMG Equipment",
+      "oemNumbers": [
+        "Zmpar 101103"
+      ],
+      "compatibility": [
+        "XCMG Equipment"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-51A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — XCMG Equipment",
+      "oemNumbers": [
+        "100096",
+        "34B1072"
+      ],
+      "compatibility": [
+        "XCMG Equipment"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-52",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — General Machinery",
+      "oemNumbers": [
+        "P165-5183"
+      ],
+      "compatibility": [
+        "General Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-52A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — General Machinery",
+      "oemNumbers": [
+        "87036787",
+        "770988"
+      ],
+      "compatibility": [
+        "General Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-53",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Hyundai Equipment",
+      "name": "Oil Pressure Switch — Hyundai Excavators",
       "oemNumbers": [
         "31NA-20080"
       ],
       "compatibility": [
-        "Hyundai Equipment"
+        "Hyundai Excavators"
       ],
       "pages": [
         "12"
@@ -4517,19 +5557,61 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-54",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Sany, Shanshan, Cummins",
+      "oemNumbers": [
+        "B240600000286"
+      ],
+      "compatibility": [
+        "Sany",
+        "Shanshan",
+        "Cummins"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-55",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Yuchai Machinery",
+      "oemNumbers": [
+        "Yuchai"
+      ],
+      "compatibility": [
+        "Yuchai Machinery"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-55A",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Caterpillar General",
+      "name": "Oil Pressure Sensor — Caterpillar Systems",
       "oemNumbers": [
         "208-1093",
         "171-7570"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Systems"
       ],
       "pages": [
         "12"
@@ -4538,7 +5620,168 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-55B",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "150-1240"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-56",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Universal Mechanical Line",
+      "oemNumbers": [
+        "Metal Dome Interface"
+      ],
+      "compatibility": [
+        "Universal Mechanical Line"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-56A",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "3846N-010-C1"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-56B",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Cummins Systems",
+      "oemNumbers": [
+        "Cummins"
+      ],
+      "compatibility": [
+        "Cummins Systems"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-56C",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Murphy Systems (Single-Pin)",
+      "oemNumbers": [
+        "30152378"
+      ],
+      "compatibility": [
+        "Murphy Systems (Single-Pin)"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-56D",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Murphy Systems (Single-Pin Alt)",
+      "oemNumbers": [
+        "Murphy"
+      ],
+      "compatibility": [
+        "Murphy Systems (Single-Pin Alt)"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-56F",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Murphy Systems (Dual-Pin)",
+      "oemNumbers": [
+        "Murphy"
+      ],
+      "compatibility": [
+        "Murphy Systems (Dual-Pin)"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-57",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Heavy-Duty Lines",
+      "oemNumbers": [
+        "32216",
+        "142011"
+      ],
+      "compatibility": [
+        "Universal Heavy-Duty Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-58",
@@ -4546,8 +5789,8 @@
       "description": "Low Pressure Switch",
       "name": "Low Pressure Switch — Komatsu PC200-8",
       "oemNumbers": [
-        "6040",
-        "421-43-22942"
+        "421-43-22942",
+        "6040"
       ],
       "compatibility": [
         "Komatsu PC200-8"
@@ -4559,7 +5802,7 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-58A",
@@ -4567,8 +5810,8 @@
       "description": "Low Pressure Switch (New Model)",
       "name": "Low Pressure Switch (New Model) — Komatsu PC200-8",
       "oemNumbers": [
-        "5545",
-        "663-5545"
+        "663-5545",
+        "5545"
       ],
       "compatibility": [
         "Komatsu PC200-8"
@@ -4580,16 +5823,16 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-59",
       "category": "Pressure Switch",
-      "description": "Pressure Switch (40Bar)",
-      "name": "Pressure Switch (40Bar) — Komatsu PC200-8",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu PC200-8",
       "oemNumbers": [
-        "9Y2-4537",
-        "421-43-22922"
+        "421-43-22922",
+        "4537"
       ],
       "compatibility": [
         "Komatsu PC200-8"
@@ -4601,7 +5844,27 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-6",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Yanmar Engines",
+      "oemNumbers": [
+        "Yanmar"
+      ],
+      "compatibility": [
+        "Yanmar Engines"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-60",
@@ -4609,8 +5872,8 @@
       "description": "Low Pressure Switch",
       "name": "Low Pressure Switch — Komatsu PC200-8",
       "oemNumbers": [
-        "771-1409",
-        "421-43-22910"
+        "421-43-22910",
+        "771-1409"
       ],
       "compatibility": [
         "Komatsu PC200-8"
@@ -4622,19 +5885,18 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-61",
       "category": "Pressure Switch",
       "description": "Pressure Switch (Small Plug)",
-      "name": "Pressure Switch (Small Plug) — Komatsu Main Pumps",
+      "name": "Pressure Switch (Small Plug) — Komatsu Machinery",
       "oemNumbers": [
-        "421-43-32912",
-        "50Bar"
+        "421-43-32912"
       ],
       "compatibility": [
-        "Komatsu Main Pumps"
+        "Komatsu Machinery"
       ],
       "pages": [
         "13"
@@ -4643,16 +5905,38 @@
         "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-61A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-61B",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Doosan Fleet Doosan DH80, DX80",
-      "oemNumbers": [],
+      "name": "Oil Pressure Sensor — Doosan DH80, DX80",
+      "oemNumbers": [
+        "Doosan"
+      ],
       "compatibility": [
-        "Doosan Fleet Doosan DH80",
+        "Doosan DH80",
         "DX80"
       ],
       "pages": [
@@ -4662,7 +5946,7 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-62",
@@ -4682,7 +5966,7 @@
         "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-63",
@@ -4690,7 +5974,7 @@
       "description": "Oil Pressure Sensor",
       "name": "Oil Pressure Sensor — Doosan DX Series",
       "oemNumbers": [
-        "Doosan DX"
+        "Doosan"
       ],
       "compatibility": [
         "Doosan DX Series"
@@ -4702,18 +5986,18 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-64",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Daewoo Engines",
+      "name": "Oil Pressure Sensor — Daewoo Machinery",
       "oemNumbers": [
         "30143-00151"
       ],
       "compatibility": [
-        "Daewoo Engines"
+        "Daewoo Machinery"
       ],
       "pages": [
         "13"
@@ -4722,18 +6006,138 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-65",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Lines",
+      "oemNumbers": [
+        "13617-433026"
+      ],
+      "compatibility": [
+        "Universal Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-66",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-66A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Lines",
+      "oemNumbers": [
+        "09617360017"
+      ],
+      "compatibility": [
+        "Universal Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-66B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Lines",
+      "oemNumbers": [
+        "13617433026"
+      ],
+      "compatibility": [
+        "Universal Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-66C",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Lines",
+      "oemNumbers": [
+        "16312310"
+      ],
+      "compatibility": [
+        "Universal Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-66D",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Zoomlion Machinery",
+      "oemNumbers": [
+        "Zoomlion"
+      ],
+      "compatibility": [
+        "Zoomlion Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-67",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Daewoo DH Equipment",
+      "name": "Oil Pressure Sensor — Daewoo DH Series",
       "oemNumbers": [
         "301309-00022"
       ],
       "compatibility": [
-        "Daewoo DH Equipment"
+        "Daewoo DH Series"
       ],
       "pages": [
         "13"
@@ -4742,7 +6146,327 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-68",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Mechanical Lines",
+      "oemNumbers": [
+        "06912019"
+      ],
+      "compatibility": [
+        "Universal Mechanical Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-69",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Mechanical Lines",
+      "oemNumbers": [
+        "32216 142011"
+      ],
+      "compatibility": [
+        "Universal Mechanical Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-6A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Machinery",
+      "oemNumbers": [
+        "7W1238"
+      ],
+      "compatibility": [
+        "Universal Machinery"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-7",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — General Machinery Engines",
+      "oemNumbers": [
+        "Universal"
+      ],
+      "compatibility": [
+        "General Machinery Engines"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-70",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Mechanical Lines",
+      "oemNumbers": [
+        "09812682"
+      ],
+      "compatibility": [
+        "Universal Mechanical Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-71",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Mechanical Lines",
+      "oemNumbers": [
+        "3451 310"
+      ],
+      "compatibility": [
+        "Universal Mechanical Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-72",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Mechanical Lines",
+      "oemNumbers": [
+        "01818 201005"
+      ],
+      "compatibility": [
+        "Universal Mechanical Lines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-73",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Lonking Machinery",
+      "oemNumbers": [
+        "Lonking Oil"
+      ],
+      "compatibility": [
+        "Lonking Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-74",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE154966"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-75",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE25658"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-76",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Universal Systems",
+      "oemNumbers": [
+        "12-00309-04"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-77",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Series",
+      "oemNumbers": [
+        "John Deere"
+      ],
+      "compatibility": [
+        "John Deere Series"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-78",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE63291"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-79",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE212880"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-7A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — General Machinery Engines",
+      "oemNumbers": [
+        "Universal"
+      ],
+      "compatibility": [
+        "General Machinery Engines"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-7B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — General Machinery Engines",
+      "oemNumbers": [
+        "Universal"
+      ],
+      "compatibility": [
+        "General Machinery Engines"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-8",
@@ -4764,16 +6488,159 @@
         "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-80",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE212876"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-81",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE212878"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-82",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE212870"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-83",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE55145"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-84",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — International DT466E, 1530E",
+      "oemNumbers": [
+        "1807369C2"
+      ],
+      "compatibility": [
+        "International DT466E",
+        "1530E"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-9",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Yanmar Engine)",
+      "oemNumbers": [
+        "Yanmar System Line Kobelco SK230-6 ("
+      ],
+      "compatibility": [
+        "Yanmar Engine)"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A04-9A",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu WA380-6",
+      "oemNumbers": [
+        "418-43-37681"
+      ],
+      "compatibility": [
+        "Komatsu WA380-6"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section3-v2"
     },
     {
       "catalogCode": "A04-9B",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — Daewoo Core Line Doosan Daewoo Construction",
-      "oemNumbers": [],
+      "name": "Oil Pressure Switch — Doosan Systems",
+      "oemNumbers": [
+        "Daewoo"
+      ],
       "compatibility": [
-        "Daewoo Core Line Doosan Daewoo Construction"
+        "Doosan Systems"
       ],
       "pages": [
         "10"
@@ -4782,7 +6649,7 @@
         "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section-clean"
+      "confidence": "user-section3-v2"
     }
   ]
 }
