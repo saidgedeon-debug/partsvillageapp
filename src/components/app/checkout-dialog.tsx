@@ -3,14 +3,13 @@ import { FileSpreadsheet, FileText, HardDrive, Mail, MessageCircle } from "lucid
 import { toast } from "sonner";
 
 import { useCart, type PartyKind } from "@/components/app/cart-context";
+import { PartySearchPicker } from "@/components/app/party-search-picker";
 import {
   exportAndDeliver,
   type DeliveryMethod,
   type ExportFormat,
 } from "@/lib/document-export";
-import { clients } from "@/lib/mock-data";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Dialog,
@@ -84,8 +83,7 @@ export function CheckoutDialog() {
         <DialogHeader>
           <DialogTitle>Finish document</DialogTitle>
           <DialogDescription>
-            Choose party, file format
-            {isInquiry ? ", cost visibility," : ","} and how to send or save.
+            Search a saved client/supplier or create a new one, then choose format and delivery.
           </DialogDescription>
         </DialogHeader>
 
@@ -97,7 +95,10 @@ export function CheckoutDialog() {
                 type="button"
                 className="flex-1"
                 variant={partyKind === "client" ? "default" : "outline"}
-                onClick={() => setPartyKind("client")}
+                onClick={() => {
+                  setPartyKind("client");
+                  setPartyName("");
+                }}
               >
                 Client
               </Button>
@@ -105,27 +106,19 @@ export function CheckoutDialog() {
                 type="button"
                 className="flex-1"
                 variant={partyKind === "supplier" ? "default" : "outline"}
-                onClick={() => setPartyKind("supplier")}
+                onClick={() => {
+                  setPartyKind("supplier");
+                  setPartyName("");
+                }}
               >
                 Supplier
               </Button>
             </div>
-            <Input
-              id="party-name"
-              value={partyName}
-              onChange={(e) => setPartyName(e.target.value)}
-              placeholder={
-                partyKind === "client" ? "e.g. Ironclad Excavation" : "e.g. Caterpillar Global Parts"
-              }
-              list="party-suggestions"
+            <PartySearchPicker
+              kind={partyKind}
+              selectedName={partyName}
+              onSelect={(p) => setPartyName(p.name)}
             />
-            {partyKind === "client" && clients.length > 0 && (
-              <datalist id="party-suggestions">
-                {clients.map((c) => (
-                  <option key={c.id} value={c.name} />
-                ))}
-              </datalist>
-            )}
           </section>
 
           {isInquiry && (
