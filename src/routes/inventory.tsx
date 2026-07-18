@@ -4,13 +4,18 @@ import {
   AlertTriangle,
   ArrowUpNarrowWide,
   ChevronDown,
+  Eye,
   Package,
   Boxes,
+  Pencil,
+  ShoppingCart,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
+import { useInventory } from "@/components/app/inventory-context";
+import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,7 +26,7 @@ import {
   defaultInventoryCategoryId,
   inventoryCategories,
 } from "@/lib/inventory-categories";
-import { parts, currency, type Part } from "@/lib/mock-data";
+import { currency, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/inventory")({
@@ -38,6 +43,7 @@ export const Route = createFileRoute("/inventory")({
 });
 
 type SortMode = "size" | "box";
+type DialogMode = "view" | "edit";
 
 function parseMm(value?: string): number | null {
   if (!value) return null;
@@ -75,23 +81,33 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
   });
 }
 
-function countForCategory(matchCategory: string | null): number {
-  if (!matchCategory) return parts.length;
-  return parts.filter((p) => p.category === matchCategory).length;
-}
-
 function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
+  const { parts } = useInventory();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
   const [thickness, setThickness] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("size");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [activePart, setActivePart] = useState<Part | null>(null);
+  const [dialogMode, setDialogMode] = useState<DialogMode>("view");
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const activeCategory =
     inventoryCategories.find((c) => c.id === categoryId) ?? inventoryCategories[0];
   const isORings = activeCategory?.matchCategory === "O-Rings";
+
+  const countForCategory = (matchCategory: string | null) => {
+    if (!matchCategory) return parts.length;
+    return parts.filter((p) => p.category === matchCategory).length;
+  };
+
+  const openPart = (part: Part, mode: DialogMode) => {
+    setActivePart(part);
+    setDialogMode(mode);
+    setDialogOpen(true);
+  };
 
   const thicknessPicks = useMemo(() => {
     const nums = new Set<number>();
@@ -101,7 +117,7 @@ function InventoryPage() {
       if (n != null) nums.add(n);
     }
     return [...nums].sort((a, b) => a - b);
-  }, []);
+  }, [parts]);
 
   const rows = useMemo(() => {
     let list = parts;
@@ -129,17 +145,22 @@ function InventoryPage() {
     }
 
     return sortParts(list, isORings ? sortMode : "box");
-  }, [q, thickness, sortMode, activeCategory, isORings]);
+  }, [q, thickness, sortMode, activeCategory, isORings, parts]);
 
   const filterActive = isORings && Boolean(thickness.trim());
   const totalPieces = rows.reduce((s, p) => s + p.quantity, 0);
   const catalogCount = countForCategory(activeCategory?.matchCategory ?? null);
 
+  // Keep dialog part in sync after edits
+  const dialogPart = activePart
+    ? (parts.find((p) => p.id === activePart.id) ?? activePart)
+    : null;
+
   return (
     <>
       <PageHeader
         title="Stock / Inventory"
-        subtitle={`Click a row to quote / invoice / inquire · ${rows.length} of ${catalogCount} parts`}
+        subtitle={`View, edit, or add to cart · ${rows.length} of ${catalogCount} parts`}
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -333,17 +354,14 @@ function InventoryPage() {
                   <TableHead className="text-right">Cost</TableHead>
                   <TableHead className="text-right">Price</TableHead>
                   <TableHead>Notes</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {rows.map((p) => {
                   const low = p.quantity > 0 && p.quantity <= p.reorderAt;
                   return (
-                    <TableRow
-                      key={p.id}
-                      className="cursor-pointer hover:bg-muted/50"
-                      onClick={() => askDocumentForPart(p)}
-                    >
+                    <TableRow key={p.id}>
                       <TableCell className="font-mono text-xs text-muted-foreground">
                         {p.boxNumber ?? "—"}
                       </TableCell>
@@ -367,15 +385,48 @@ function InventoryPage() {
                       <TableCell className="text-right font-semibold">
                         {p.price > 0 ? currency(p.price) : "—"}
                       </TableCell>
-                      <TableCell className="max-w-[220px] truncate text-xs text-muted-foreground">
+                      <TableCell className="max-w-[180px] truncate text-xs text-muted-foreground">
                         {p.notes || "—"}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex flex-wrap items-center justify-end gap-1">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="h-8 gap-1 px-2"
+                            onClick={() => openPart(p, "view")}
+                          >
+                            <Eye className="h-3.5 w-3.5" />
+                            View
+                          </Button>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="h-8 gap-1 px-2"
+                            onClick={() => openPart(p, "edit")}
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                            Edit
+                          </Button>
+                          <Button
+                            type="button"
+                            size="sm"
+                            className="h-8 gap-1 px-2"
+                            onClick={() => askDocumentForPart(p)}
+                          >
+                            <ShoppingCart className="h-3.5 w-3.5" />
+                            Add to cart
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );
                 })}
                 {rows.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={9} className="py-12 text-center text-sm text-muted-foreground">
+                    <TableCell colSpan={10} className="py-12 text-center text-sm text-muted-foreground">
                       {parts.length === 0
                         ? "No parts yet."
                         : filterActive
@@ -391,6 +442,14 @@ function InventoryPage() {
           </CardContent>
         </Card>
       </main>
+
+      <PartDetailDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        part={dialogPart}
+        mode={dialogMode}
+        onModeChange={setDialogMode}
+      />
     </>
   );
 }

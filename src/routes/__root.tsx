@@ -15,6 +15,7 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { SearchProvider } from "@/components/app/search-context";
 import { CartProvider } from "@/components/app/cart-context";
 import { PartiesProvider } from "@/components/app/parties-context";
+import { InventoryProvider } from "@/components/app/inventory-context";
 import { DocumentTypeDialog } from "@/components/app/document-type-dialog";
 import { CartSheet } from "@/components/app/cart-sheet";
 import { CheckoutDialog } from "@/components/app/checkout-dialog";
@@ -126,20 +127,22 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <SearchProvider>
         <PartiesProvider>
-          <CartProvider>
-            <SidebarProvider>
-              <div className="flex min-h-screen w-full bg-background">
-                <AppSidebar />
-                <SidebarInset className="min-w-0">
-                  <Outlet />
-                </SidebarInset>
-              </div>
-              <DocumentTypeDialog />
-              <CartSheet />
-              <CheckoutDialog />
-              <Toaster />
-            </SidebarProvider>
-          </CartProvider>
+          <InventoryProvider>
+            <CartProvider>
+              <SidebarProvider>
+                <div className="flex min-h-screen w-full bg-background">
+                  <AppSidebar />
+                  <SidebarInset className="min-w-0">
+                    <Outlet />
+                  </SidebarInset>
+                </div>
+                <DocumentTypeDialog />
+                <CartSheet />
+                <CheckoutDialog />
+                <Toaster />
+              </SidebarProvider>
+            </CartProvider>
+          </InventoryProvider>
         </PartiesProvider>
       </SearchProvider>
     </QueryClientProvider>
