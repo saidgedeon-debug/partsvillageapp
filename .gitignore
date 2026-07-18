@@ -51,3 +51,7 @@ supabase/.branches
 .tmp-catalog-preview/
 .tmp-ocr-test.png
 data/kafu-ocr-raw.json
+
+.tessdata/
+.tmp-ocr-page.png
+
