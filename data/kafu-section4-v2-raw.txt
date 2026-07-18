@@ -1,0 +1,265 @@
+﻿Section 4: Water Temperature & Fluid Level Sensors (Pages 14–20)
+This section covers the data extraction for Water Temperature, Coolant, and Fluid Level Sensors.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A05-18Water Temperature Sensor (Small)WA380-3 LineKomatsu WA380-3 Cross-ReferencePage 14
+A05-19Water Temperature Sensor (Large)7861-92-4500Komatsu WA470-3 Cross-ReferencePage 14
+A05-21Temperature Sensor295-3099CAT Excavators / EnginesPage 14
+A05-22BTemperature Sensor196-2150CAT Excavators / EnginesPage 15
+A05-22DTemperature Sensor383-2989CAT 3512 EnginesPage 15
+A05-24Temperature Sensor418-6597CAT Machinery PlatformsPage 15
+A05-36Temperature Sensor441-5128CAT Machinery PlatformsPage 15
+A06-1Water Temperature Sensor5I-7578 / 34390-00800CAT Excavators (Thread 16)Page 15
+A06-4Water Temperature Sensor196-7975 / 34390-02200CAT ExcavatorsPage 15
+A06-4AWater Temp SensorCAT Core LineCAT EquipmentPage 15
+A06-4CWater Temp Sensor3E2028CAT EquipmentPage 15
+A06-6Water Temp Sensor256-6453CAT C7, C9 Engines (Φ19 Thread)Page 15
+A06-6AFuel/Oil Temperature Sensor256-6454CAT C7 Engines (Φ18 Thread)Page 15
+A06-7Water Temp Sensor238-0112CAT E320D (Φ18 Thread)Page 15
+A06-9Water Temp Sensor125-4812CAT EquipmentPage 16
+A06-9AWater Temp Sensor244-3106CAT EquipmentPage 16
+A06-10Water Temp Sensor2848A127CAT E320D2 (Perkins Engine)Page 16
+A06-14Oil Temperature Switch2848A126Perkins EnginesPage 16
+A06-15Water Temp Sensor185246280Perkins EnginesPage 16
+A06-16Water Temp Sensor2848A129Perkins EnginesPage 16
+A06-16AWater Temp Sensor2848A116Perkins EnginesPage 16
+A06-18Water Temp Sensor7861-93-2310 / 7861-93-3320Komatsu PC200-7 Cross-ReferencePage 16
+A06-19Water Temp Sensor7861-92-3380Komatsu PC200-6, PC220-6 Cross-ReferencePage 16
+A06-22AWater Temp Sensor6560-61-7300Komatsu 6D140, 6D170 Engines / PC600-8 CrossPage 16
+A06-44AWater Temp Sensor366869CAT 307 (4M40 Engine)Page 17
+A06-84Water Temp Sensor3E5370CAT 3116 EnginePage 18
+A06-84AWater Temp Sensor102-3190 / 102-0050CAT EquipmentPage 18
+A06-85Water Temp Sensor131-0427CAT EquipmentPage 18
+A06-85AWater Temp Sensor130-8299CAT EquipmentPage 18
+A06-85BWater Temp Sensor371-9531CAT EquipmentPage 18
+A06-85DWater Temp Sensor275-1253CAT EquipmentPage 18
+A06-85EWater Temp Sensor227-6744CAT EquipmentPage 18
+A06-86Water Temp Sensor102-2240CAT EquipmentPage 18
+A06-86AWater Temp Sensor195-2150CAT EquipmentPage 18
+A06-86BWater Temp Sensor145-7028CAT EquipmentPage 18
+A06-86COil/Water Temp Sensor191-6587CAT EquipmentPage 18
+A06-86DWater Temp Sensor106-0735CAT EquipmentPage 18
+A06-86EWater Temp Sensor108-3190CAT EquipmentPage 18
+A06-87Water Temp Sensor171-8708CAT EquipmentPage 19
+A06-87AWater Temp Sensor171-8710CAT EquipmentPage 19
+A06-88Water Temp Sensor118-7226CAT 3508 EnginesPage 19
+A06-88AWater Temp Sensor3E-8700CAT EquipmentPage 19
+A06-88BWater Temp Sensor100-3055CAT EquipmentPage 19
+A06-88CWater Temp Sensor134-2252CAT EquipmentPage 19
+A06-88DWater Temp Sensor131-0784CAT EquipmentPage 19
+A06-88EWater Temp Sensor430-9449CAT EquipmentPage 19
+A06-88FWater Temp Sensor430-9451CAT EquipmentPage 19
+A06-88GWater Temp Sensor130-9811CAT E330C, E325DPage 19
+A06-95Water Temp Sensor178-2335CAT E320C, E330CPage 19
+A06-119Coolant Temp SensorHM-W3202 / 5108205CAT SystemsPage 20
+A06-120Modulated Temp Sensor4W-9972 / AP-1050BCAT PlatformsPage 20
+A06-121Water Temp Sensor196460C1Kato Variant Cross-ReferencePage 20
+A06-138Fuel/Oil Temperature SensorCummins Core LineCummins Engine Cross-ReferencePage 20
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A05-1Water Temp Sensor24424110VOLVO 360Page 14
+A05-1AWater Temp Sensor15193875 / 15001761VOLVO SystemsPage 14
+A05-2Water Temp Sensor (200mm)21391697 / 20840227VOLVO 210, 210BPage 14
+A05-2AWater Temp Sensor (180mm)22383381VOLVO 210, 210BPage 14
+A05-3Water Temp Sensor (140mm)11423761VOLVO EC360, EC460, EC380, EC480Page 14
+A05-4Water Temp Sensor (220mm)VOE 22383318 / 21391695VOLVO EC290Page 14
+A05-5Water Temp Sensor17202022VOLVO SystemsPage 14
+A05-5AWater Temp Sensor17202021VOLVO SystemsPage 14
+A05-16Fluid Level/Water SensorLevel Core UnitVOLVO EC360 SeriesPage 14
+A05-16AFluid Level/Water SensorLevel Core UnitVOLVO 210B SeriesPage 14
+A05-16BFluid Level/Water SensorLevel Core UnitVOLVO 210D / Liugong CrossPage 14
+A05-17Water Temp SensorVOE 14541720VOLVO EquipmentPage 14
+A05-22Water Temp Sensor21285163VOLVO PlatformsPage 14
+A06-36Water Temp Sensor11419186VOLVO 480DPage 17
+A06-42Water Temp Sensor205-76614VOLVO 360Page 17
+A06-46AWater Temp SensorVolvo Core LineVOLVO 210 SeriesPage 17
+A06-47Water Temp SensorVOE 14505855VOLVO EquipmentPage 17
+A06-48Water Temp Sensor15048183 / 11144494VOLVO PlatformsPage 17
+A06-49AWater Temp Sensor11039219VOLVO PlatformsPage 17
+A06-51Water Temp SensorVOE 11039193VOLVO EC210B, EC290B (Φ16 Thread)Page 17
+A06-52Water Temp Sensor205-76614 AlternativeVOLVO 360Page 17
+A06-52AWater Temp Sensor20429966VOLVO EquipmentPage 17
+A06-52BWater Temp Sensor2096397VOLVO EquipmentPage 17
+A06-52CWater Temp Sensor15153124VOLVO EquipmentPage 17
+A06-53Water Temp Sensor3915329Komatsu PC400-6 Cross-ReferencePage 17
+A06-99Water Temp Sensor01182700DEUTZ EnginesPage 19
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A05-6Oil/Water Pressure Switch7861-92-4210Komatsu PC200-5Page 14
+A05-7Oil/Water Pressure Switch6741-81-9220Komatsu PC200-7Page 14
+A05-20Water Temp Sensor7861-93-4520Komatsu PlatformsPage 14
+A05-20BWater Temp Sensor7861-91-4510Komatsu PlatformsPage 14
+A06-10AWater Temp Sensor2848A121Komatsu Equipment PlatformsPage 16
+A06-11Water Temp Sensor2848A071 / 237-4894Perkins Engines / Komatsu CrossPage 16
+A06-17Water Temp Sensor08620-00000Komatsu Small ExcavatorsPage 16
+A06-22Water Temp Sensor6D107 Engine LineKomatsu PC200-8Page 16
+A06-102Water Temp Sensor232-06-52410Komatsu Small EnginesPage 19
+A06-143Proximity Switch / Cable35820-80080Kawasaki SystemsPage 20
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A05-9Water Temp Sensor4371903Hitachi EX, ZAX SeriesPage 14
+A05-15Oil/Water SensorZAX Core LineHitachi ZAX200, ZAX210, ZAX240Page 14
+A06-17AWater Temp Sensor8-97078592-9Isuzu 4W500 EnginesPage 16
+A06-20Water Temp Sensor129927-44900Hitachi ZAX170-5GPage 16
+A06-20AWater Temp Sensor729-11-41000Hitachi / Isuzu SystemsPage 16
+A06-24Water Temp Sensor4257129Hitachi EX200-2, EX200-5Page 16
+A06-24AWater Temp Sensor4436537Hitachi ZAX SeriesPage 16
+A06-26Water Alarm SensorElectrical Plug LineZAX MachineryPage 16
+A06-30Water Temp Sensor1-83161019-1Hitachi EX200-2, EX200-3 (6BD1 Engine w/ Line)Page 16
+A06-33Water Temp SensorSWZ489U268F1Kobelco SK200-6 Cross-ReferencePage 17
+A06-37Water Temp SensorUniversal Single-PinIsuzu / Toyota Engine LayoutsPage 17
+A06-41Common Rail Fuel Temp SensorHigh-Pressure Common RailJ05E / 4HK1 EnginesPage 17
+A06-100Water Temp Sensor8-98156648-0Isuzu EnginesPage 19
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A06-35Water Temp SensorKHR2433Sumitomo SH200-3, SH200A3 Cross-ReferencePage 17
+A06-54Water Temp SensorDH220-5 Core LineDoosan DH220-5Page 17
+A06-55Water Temp Sensor21EA-62010Hyundai R60-7Page 17
+A06-56Water Temp Sensor21EN-40100Hyundai R225-7Page 17
+A06-29Water Temp SensorHyundai Core LineHyundai R265-7 SeriesPage 18
+A06-29AWater Temp SensorScania Engine LineDoosan DX380, DX470Page 18
+A06-29BWater Temp SensorDoosan DX-9 LineDoosan DX260-9 SeriesPage 18
+A06-97Water Temp SensorDX470 Scania LineDoosan DX470 SeriesPage 19
+A06-103AWater Temp SensorDaewoo 12V LineDaewoo Doosan 12V SeriesPage 19
+🇯🇵 Kobelco (SK Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A05-8Water Temp SensorKobelco Core UnitKobelco SK200-6Page 14
+A05-11Oil/Water Temp SensorKobelco Core UnitKobelco SK200-6 SeriesPage 14
+A06-31Water Alarm Sensor (Twin)ME049265 TwinKobelco SK200-6 / Kato HD700-7 (6D31, 6D34 Engines)Page 16
+A06-32Water Alarm Sensor (Single)ME049265 SingleKobelco SK200-6 / Kato HD700-7 (6D31, 6D34 Engines)Page 16
+A06-34Water Temp SensorKobelco -8 LineKobelco SK-8 SeriesPage 17
+A06-39Water Alarm SwitchS8346-01510Kobelco SK350-8 (Hino Engine)Page 17
+A06-39AWater Alarm SensorSK Variant CoreKobelco SK Series VariantPage 17
+A06-40Water Temp Sensor32G90-00201Kobelco SK130-8, SK140-8 (D04FR Engine)Page 17
+A06-43Water Alarm SwitchFine Thread UnitKobelco SK SeriesPage 17
+A06-82Fluid Temp SensorSumitomo CoreSumitomo / Kobelco MachineryPage 18
+A06-83Fluid Temp SensorSumitomo CoreSumitomo / Kobelco MachineryPage 18
+A06-89Water Temp SensorKobelco Engine LineKobelco EquipmentPage 19
+A06-101Water Temp SensorSK130-8 VariantKobelco SK130-8Page 19
+⚙️ Miscellaneous Engines & Machinery
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A05-10Oil/Water Temp Sensor213-0677CAT E320C Cross-ReferencePage 14
+A05-12Fluid Level / Water SensorJ213-04A-041000Shanshan J213-04APage 14
+A05-13Fluid Level Sensor7288690Universal Heavy MachineryPage 14
+A05-14Fluid Level / Water SensorLiugong Core ComponentLiugong MachineryPage 14
+A05-16CFluid Sensor Core21396128Universal InfrastructurePage 14
+A05-20AWater Temp Sensor213-0676General Machinery UnitsPage 14
+A05-22AWater Temp Sensor8980316051General Machinery UnitsPage 14
+A05-21AIgnition/Glow Plug430-4521Engine Glow Plug RailsPage 14
+A05-23Engine Temp SensorL33C-18-8G1Heavy Equipment EnginesPage 15
+A05-25Temperature Sensor716-30071JCB EquipmentPage 15
+A05-26Temperature Sensor6219-11-8820Heavy Duty InfrastructurePage 15
+A05-27Temperature Sensor418-43-37230Komatsu WA200-6 Cross-ReferencePage 15
+A05-28Temperature Sensor415-2432Industrial Engine SystemsPage 15
+A05-29Temperature Sensor164-3692Industrial Engine SystemsPage 15
+A05-30Carbon Fiber Temp Sensor600-816-2720High-Spec EquipmentPage 15
+A05-31Temperature Sensor4326766 / 22219283Industrial Engine SystemsPage 15
+A05-32Speed Sensor4326862 / 89463-E0480Sany / Kobelco SystemsPage 15
+A05-33Oxygen Sensor539-0117Emission Management LinesPage 15
+A05-34Oxygen Sensor441-5127Emission Management LinesPage 15
+A05-35Temperature Sensor441-5128Heavy Equipment PlatformsPage 15
+A06-2Water Temp Sensor394-4837General Machinery Engines (Thread 18)Page 15
+A06-3Water Temp Sensor41-5394CAT 330C Hyd Oil Temp Cross-Reference (Thread 19)Page 15
+A06-5AWater Temp Sensor203-3219General Machinery EnginesPage 15
+A06-8Water Temp Sensor341-360D / 487-5859CAT E311C, E330CPage 16
+A06-8AWater Temp Sensor395-1838General Machinery UnitsPage 16
+A06-12Water Temp Sensor385720510Perkins EnginesPage 16
+A06-13Water Temp Sensor185246290Perkins EnginesPage 16
+A06-21Water Temp Sensor7861-93-3520Komatsu PC450-7, PC450-8 Cross-ReferencePage 16
+A06-21AWater Temp Sensor7861-92-3410Komatsu Cross-Reference LinePage 16
+A06-21BWater Temp Sensor7861-93-1930Komatsu HD325 Cross-ReferencePage 16
+A06-23Water Temp Sensor1-82450013-0Hitachi ZAX200-5 Cross-ReferencePage 16
+A06-25Water Temp SensorZAX Plug NodeHitachi ZAX Series CorePage 16
+A06-27Water Alarm Switch1-83161033-0Hitachi ZAX 200 Cross-ReferencePage 16
+A06-28Water Temp Sensor8-97217444-1Hitachi ZAXIS330 / Sumitomo SH200A3 CrossPage 16
+A06-32AWater Alarm SwitchME049209 / 105°Mitsubishi E200B Engine CrossPage 16
+A06-36AWater Temp Sensor3DA1223 / 179730-0040General Machinery UnitsPage 17
+A06-38Water Temp SensorDual-Terminal CoreUniversal Dual-Plug EnginesPage 17
+A06-44Water Temp SensorFine/A-Thread SpecYanmar Engine SeriesPage 17
+A06-45Water Temp SensorCoarse/B-Thread SpecYanmar Engine SeriesPage 17
+A06-46Water Temp SensorEngine Core UnitYanmar Engine SeriesPage 17
+A06-49Water Temp SensorEngine Core UnitYanmar Engine SeriesPage 17
+A06-50Water Temp SensorVOE 11039194VOLVO EC210B, EC290B Cross (Φ18 Thread)Page 17
+A06-57Water Temp Sensor4921477Cummins EnginesPage 17
+A06-58Water Temp Sensor4921475Cummins EnginesPage 17
+A06-59Water Temp Sensor4921473Cummins EnginesPage 17
+A06-60Temperature SensorWG2704G / 3080260Liugong 205, 225Page 17
+A06-61Water Temp Sensor3015238 SpecUniversal Heavy-Duty LinesPage 17
+A06-62Water Temp Sensor3080316Liugong MachineryPage 17
+A06-63Water Temp Sensor3080252Liugong MachineryPage 17
+A06-64Water Temp Switch Component30B0409Liugong 906Page 17
+A06-65Water Temp Sensor30B0289Liugong 906CPage 18
+A06-66Water Temp Sensor30B0260Liugong 908C, 200Page 18
+A06-67Water Temp Sensor30B0321Liugong MachineryPage 18
+A06-68Temperature SensorWGP3343 / 30B0322Liugong 205, 225 (With Wire Line)Page 18
+A06-69Temperature SensorXE150-001Lishide 150Page 18
+A06-70Water Temp Sensor30B0264 Hydraulic UnitLiugong Machinery (Hydraulic Oil Variant)Page 18
+A06-71Temperature Sensor30B0322 Core UnitHeavy Equipment ComponentsPage 18
+A06-72Water Temp SensorZoomlion Core LineZoomlion MachineryPage 18
+A06-72AWater Temp SensorYuchai Core UnitYuchai EnginesPage 18
+A06-73Water Temp SensorJET00015Ishikawa MachineryPage 18
+A06-74Water Temp Sensor4327021Universal Heavy MachineryPage 18
+A06-74AWater Temp Sensor3408627Universal Heavy MachineryPage 18
+A06-75Water Temp Sensor14NPTF-M22X1.5Longking / XCMG MachineryPage 18
+A06-76Water Temp SensorLongking Core LineLongking MachineryPage 18
+A06-77Temperature SensorDomestic Machinery LineDomestic 235, 255 SeriesPage 18
+A06-78Temperature Control Switch30B0271Liugong MachineryPage 18
+A06-79Oil Temp Sensor7240-A-015Sany Equipment PlatformsPage 18
+A06-79AHydraulic Oil Temp SensorMBT3560 / 084Z4232Sany Equipment PlatformsPage 18
+A06-79BHydraulic Oil Temp SensorSany New Style LineSany New Variant EquipmentPage 18
+A06-80Fluid Temp SensorMBT3270 / 084Z4185Sany Equipment PlatformsPage 18
+A06-80AFluid Temp Sensor339-8822CAT E336E Cross-ReferencePage 18
+A06-81Fluid Temp SensorXCMG Core LineXCMG MachineryPage 18
+A06-86FFluid Temp Sensor2W8916 SpecUniversal Engine LayoutsPage 18
+A06-90Fluid Temp Sensor239-9957 / 4903489Liugong MachineryPage 19
+A06-90AFluid Temp Sensor430-9455Universal Heavy DutyPage 19
+A06-90BFluid Temp Sensor4358900 / 3408653 / 4065972Universal Heavy DutyPage 19
+A06-91Fluid Temp SensorLiugong Base LineLiugong MachineryPage 19
+A06-92Fluid Temp SensorXCMG 470D UnitXCMG 470DPage 19
+A06-92AFluid Temp SensorXCMG Large UnitXCMG Large Core VariantPage 19
+A06-93Fluid Temp Sensor4383933Cummins EnginesPage 19
+A06-94Fluid Temp Sensor178-2334-00Coolant SystemsPage 19
+A06-95ATemperature Sensor276-8172-02Heavy Equipment ComponentsPage 19
+A06-96Fluid Temp SensorJohn Deere Rail LineJohn Deere SeriesPage 19
+A06-98Fluid Temp Sensor2479R546Universal System LinesPage 19
+A06-103Fluid Temp SensorTargeted Order SpecCustom Machinery OrdersPage 19
+A06-104Fluid Temp Sensor8-97063301-0Isuzu 4LE2 EnginesPage 19
+A06-104AFluid Temp Sensor31351-32830Kubota MachineryPage 19
+A06-105Fluid Temp SensorKubota Core LineKubota MachineryPage 19
+A06-105AFluid Temp Sensor129A00-13752John Deere PlatformsPage 19
+A06-105BFluid Temp Sensor129A00-12721John Deere PlatformsPage 19
+A06-106Fluid Temp Sensor3085185XCummins QM11 EnginesPage 19
+A06-107Fluid Temp Sensor3085198Cummins M11, L10 EnginesPage 19
+A06-108Fluid Temp SensorRE1516336John Deere MachineryPage 19
+A06-109Fluid Temp SensorRE52722John Deere MachineryPage 19
+A06-110Fluid Temp SensorRE51774John Deere MachineryPage 20
+A06-111Fluid Temp Sensor3865312Universal SystemsPage 20
+A06-112Fluid Temp SensorCore Interface SpecUniversal SystemsPage 20
+A06-113Fluid Temp Sensor236-8757Coolant AssembliesPage 20
+A06-114Fluid Temp Sensor349-2458Coolant AssembliesPage 20
+A06-115Fluid Temp Sensor395-1838Coolant AssembliesPage 20
+A06-116Fluid Temp Sensor622-337Coolant AssembliesPage 20
+A06-117Fluid Temp Sensor622-340Coolant AssembliesPage 20
+A06-118Fluid Temp Sensor385720500Perkins EnginesPage 20
+A06-122Camshaft Speed Sensor4032068Cummins ISX, ISM (6.0L Engines)Page 20
+A06-123Fluid Temp Sensor41-6538Coolant AssembliesPage 20
+A06-124Fluid Temp Sensor41-6539Coolant AssembliesPage 20
+A06-125Fluid Temp SensorW85720580Coolant AssembliesPage 20
+A06-126Fluid Temp SensorRE537637John Deere Machinery CrossPage 20
+A06-127Fluid Temp Sensor4897224 / 5801960832Universal Application SystemsPage 20
+A06-128Fluid Temp Sensor12-01145-04Cummins B50, B70, 444, 450, 550 EnginesPage 20
+A06-129Fluid Temp Sensor6718414Shanshan Machinery Cross-ReferencePage 20
+A06-130Fuel/Oil Temperature Sensor6718417John Deere Machinery Cross-ReferencePage 20
+A06-131Fuel/Oil Temperature Sensor6727869Shanshan Machinery Cross-ReferencePage 20
+| A06-132 | Fuel/Oil Temperature Sensor | 2755A006 | Universal Mechanical Blocks | Page 20 |
+| A06-133 | Temperature Sensor | 3967250 / 3845N05-010 | Cummins Engine Blocks | Page 20 |
+| A06-134 | Fuel/Oil Temperature Sensor | RE503242 | John Deere Machinery | Page 20 |
+| A06-135 | Fuel/Oil Temperature Sensor | RE517130 | John Deere Machinery | Page 20 |
+| A06-136 | Fuel/Oil Temperature Sensor | RE61812 | John Deere Machinery | Page 20 |
+| A06-137 | Fuel/Oil Temperature Sensor | RE506424 | John Deere Machinery | Page 20 |
+| A06-139 | Fuel/Oil Temperature Sensor | AI178071 | John Deere Machinery | Page 20 |
+| A06-140 | Fuel/Oil Temperature Sensor | RE48419 | John Deere Machinery | Page 20 |
+| A06-141 | Intake Pressure/Air Sensor | RE525016 | John Deere Machinery | Page 20 |
+| A06-142 | Proximity Switch / Cable | AT360574 | Heavy Infrastructure Controls | Page 20 |
+| A06-144 | Temperature Probe Rod | 354-6758 | Heavy Industry Probes | Page 20 |
+| A06-145 | Proximity Switch / Cable | Base Cable Core | General Control Modules | Page 20 |

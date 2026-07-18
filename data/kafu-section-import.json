@@ -1,10 +1,10 @@
 {
-  "status": "section_2_v2_plus_section_3_v2",
+  "status": "sections_2_3_4_v2",
   "supplier": "Kafu",
-  "rawRows": 188,
-  "section2": 153,
-  "section3": 188,
-  "count": 341,
+  "rawRows": 249,
+  "section4": 249,
+  "kept_2_3": 341,
+  "count": 590,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -15,24 +15,42 @@
     "Barometric Pressure Sensor",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
+    "Coolant Temperature Sensor",
     "Crankshaft Sensor",
     "Differential Pressure Sensor",
     "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
+    "Fluid Level Sensor",
+    "Fluid Temperature Sensor",
     "Flywheel Speed Sensor",
     "Fuel Pump Speed Sensor",
+    "Fuel Temperature Sensor",
+    "Fuel/Oil Temperature Sensor",
+    "Glow Plug",
+    "Hydraulic Oil Temperature Sensor",
     "Inductive Switch Sensor",
     "Intake Pressure Sensor",
     "Intake Temperature Sensor",
     "Oil Pressure Sensor",
     "Oil Pressure Switch",
+    "Oil Temperature Sensor",
+    "Oil/Water Pressure Switch",
+    "Oil/Water Temperature Sensor",
+    "Oxygen Sensor",
     "Pressure Sensor",
     "Pressure Switch",
     "Pressure Switch Core",
+    "Proximity Switch",
     "Revolution Sensor",
     "Rotary Switch Sensor",
     "Sensor Cable Assembly",
-    "Vacuum Pressure Switch"
+    "Speed Sensor",
+    "Temperature Probe",
+    "Temperature Sensor",
+    "Temperature Switch",
+    "Vacuum Pressure Switch",
+    "Water Alarm Sensor",
+    "Water Temperature Sensor"
   ],
   "products": [
     {
@@ -6650,6 +6668,5046 @@
       ],
       "section": "Section 3",
       "confidence": "user-section3-v2"
+    },
+    {
+      "catalogCode": "A05-1",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo 360",
+      "oemNumbers": [
+        "24424110"
+      ],
+      "compatibility": [
+        "Volvo 360"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-10",
+      "category": "Oil/Water Temperature Sensor",
+      "description": "Oil/Water Temperature Sensor",
+      "name": "Oil/Water Temperature Sensor — Caterpillar E320C Cross-Reference",
+      "oemNumbers": [
+        "213-0677"
+      ],
+      "compatibility": [
+        "Caterpillar E320C Cross-Reference"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-11",
+      "category": "Oil/Water Temperature Sensor",
+      "description": "Oil/Water Temperature Sensor",
+      "name": "Oil/Water Temperature Sensor — Kobelco SK200-6 Series",
+      "oemNumbers": [
+        "Kobelco"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6 Series"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-12",
+      "category": "Fluid Level Sensor",
+      "description": "Fluid Level / Water Sensor",
+      "name": "Fluid Level / Water Sensor — Shanshan J213-04A",
+      "oemNumbers": [
+        "J213-04A-041000"
+      ],
+      "compatibility": [
+        "Shanshan J213-04A"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-13",
+      "category": "Fluid Level Sensor",
+      "description": "Fluid Level Sensor",
+      "name": "Fluid Level Sensor — Universal Heavy Machinery",
+      "oemNumbers": [
+        "7288690"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-14",
+      "category": "Fluid Level Sensor",
+      "description": "Fluid Level / Water Sensor",
+      "name": "Fluid Level / Water Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "Liugong"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-15",
+      "category": "Oil/Water Temperature Sensor",
+      "description": "Oil/Water Sensor",
+      "name": "Oil/Water Sensor — Hitachi ZAX200, ZAX210, ZAX240",
+      "oemNumbers": [
+        "ZAX"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200",
+        "ZAX210",
+        "ZAX240"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-16",
+      "category": "Fluid Level Sensor",
+      "description": "Fluid Level/Water Sensor",
+      "name": "Fluid Level/Water Sensor — Volvo EC360 Series",
+      "oemNumbers": [
+        "Level"
+      ],
+      "compatibility": [
+        "Volvo EC360 Series"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-16A",
+      "category": "Fluid Level Sensor",
+      "description": "Fluid Level/Water Sensor",
+      "name": "Fluid Level/Water Sensor — Volvo 210B Series",
+      "oemNumbers": [
+        "Level"
+      ],
+      "compatibility": [
+        "Volvo 210B Series"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-16B",
+      "category": "Fluid Level Sensor",
+      "description": "Fluid Level/Water Sensor",
+      "name": "Fluid Level/Water Sensor — Liugong Cross",
+      "oemNumbers": [
+        "Level Core Unit VOLVO 210D"
+      ],
+      "compatibility": [
+        "Liugong Cross"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-16C",
+      "category": "Fluid Level Sensor",
+      "description": "Fluid Sensor Core",
+      "name": "Fluid Sensor Core — Universal Infrastructure",
+      "oemNumbers": [
+        "21396128"
+      ],
+      "compatibility": [
+        "Universal Infrastructure"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-17",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Equipment",
+      "oemNumbers": [
+        "VOE 14541720"
+      ],
+      "compatibility": [
+        "Volvo Equipment"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-18",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor (Small)",
+      "name": "Water Temperature Sensor (Small) — Komatsu WA380-3 Cross-Reference",
+      "oemNumbers": [
+        "WA380-3 Line"
+      ],
+      "compatibility": [
+        "Komatsu WA380-3 Cross-Reference"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-19",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor (Large)",
+      "name": "Water Temperature Sensor (Large) — Komatsu WA470-3 Cross-Reference",
+      "oemNumbers": [
+        "7861-92-4500"
+      ],
+      "compatibility": [
+        "Komatsu WA470-3 Cross-Reference"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-1A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Systems",
+      "oemNumbers": [
+        "15193875",
+        "15001761"
+      ],
+      "compatibility": [
+        "Volvo Systems"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-2",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo 210, 210B",
+      "oemNumbers": [
+        "(200mm)21391697",
+        "20840227"
+      ],
+      "compatibility": [
+        "Volvo 210",
+        "210B"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-20",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu Platforms",
+      "oemNumbers": [
+        "7861-93-4520"
+      ],
+      "compatibility": [
+        "Komatsu Platforms"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-20A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — General Machinery Units",
+      "oemNumbers": [
+        "213-0676"
+      ],
+      "compatibility": [
+        "General Machinery Units"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-20B",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu Platforms",
+      "oemNumbers": [
+        "7861-91-4510"
+      ],
+      "compatibility": [
+        "Komatsu Platforms"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-21",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Caterpillar Excavators, Engines",
+      "oemNumbers": [
+        "295-3099"
+      ],
+      "compatibility": [
+        "Caterpillar Excavators",
+        "Engines"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-21A",
+      "category": "Glow Plug",
+      "description": "Ignition/Glow Plug",
+      "name": "Ignition/Glow Plug — 430-4521Engine Glow Plug Rails",
+      "oemNumbers": [
+        "430-4521Engine Glow Plug Rails"
+      ],
+      "compatibility": [],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-22",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Platforms",
+      "oemNumbers": [
+        "21285163"
+      ],
+      "compatibility": [
+        "Volvo Platforms"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-22A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — General Machinery Units",
+      "oemNumbers": [
+        "8980316051"
+      ],
+      "compatibility": [
+        "General Machinery Units"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-22B",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Caterpillar Excavators, Engines",
+      "oemNumbers": [
+        "196-2150"
+      ],
+      "compatibility": [
+        "Caterpillar Excavators",
+        "Engines"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-22D",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Caterpillar 3512 Engines",
+      "oemNumbers": [
+        "383-2989"
+      ],
+      "compatibility": [
+        "Caterpillar 3512 Engines"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-23",
+      "category": "Temperature Sensor",
+      "description": "Engine Temp Sensor",
+      "name": "Engine Temp Sensor — Heavy Equipment Engines",
+      "oemNumbers": [
+        "L33C-18-8G1"
+      ],
+      "compatibility": [
+        "Heavy Equipment Engines"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-24",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Caterpillar Machinery Platforms",
+      "oemNumbers": [
+        "418-6597"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery Platforms"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-25",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — JCB Equipment",
+      "oemNumbers": [
+        "716-30071"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-26",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Heavy Duty Infrastructure",
+      "oemNumbers": [
+        "6219-11-8820"
+      ],
+      "compatibility": [
+        "Heavy Duty Infrastructure"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-27",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Komatsu WA200-6 Cross-Reference",
+      "oemNumbers": [
+        "418-43-37230"
+      ],
+      "compatibility": [
+        "Komatsu WA200-6 Cross-Reference"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-28",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — 415-2432Industrial Engine Systems",
+      "oemNumbers": [
+        "415-2432Industrial Engine Systems"
+      ],
+      "compatibility": [],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-29",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — 164-3692Industrial Engine Systems",
+      "oemNumbers": [
+        "164-3692Industrial Engine Systems"
+      ],
+      "compatibility": [],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-2A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo 210, 210B",
+      "oemNumbers": [
+        "(180mm)22383381"
+      ],
+      "compatibility": [
+        "Volvo 210",
+        "210B"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-3",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo EC360, EC460, EC380",
+      "oemNumbers": [
+        "(140mm)11423761"
+      ],
+      "compatibility": [
+        "Volvo EC360",
+        "EC460",
+        "EC380",
+        "EC480"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-30",
+      "category": "Temperature Sensor",
+      "description": "Carbon Fiber Temp Sensor",
+      "name": "Carbon Fiber Temp Sensor — 600-816-2720High-Spec Equipment",
+      "oemNumbers": [
+        "600-816-2720High-Spec Equipment"
+      ],
+      "compatibility": [],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-31",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — 4326766",
+      "oemNumbers": [
+        "4326766",
+        "22219283Industrial Engine Systems"
+      ],
+      "compatibility": [],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-32",
+      "category": "Speed Sensor",
+      "description": "Speed Sensor",
+      "name": "Speed Sensor — Sany, Kobelco Systems",
+      "oemNumbers": [
+        "4326862",
+        "89463-E0480"
+      ],
+      "compatibility": [
+        "Sany",
+        "Kobelco Systems"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-33",
+      "category": "Oxygen Sensor",
+      "description": "Oxygen Sensor",
+      "name": "Oxygen Sensor — 539-0117Emission Management Lines",
+      "oemNumbers": [
+        "539-0117Emission Management Lines"
+      ],
+      "compatibility": [],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-34",
+      "category": "Oxygen Sensor",
+      "description": "Oxygen Sensor",
+      "name": "Oxygen Sensor — 441-5127Emission Management Lines",
+      "oemNumbers": [
+        "441-5127Emission Management Lines"
+      ],
+      "compatibility": [],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-35",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Heavy Equipment Platforms",
+      "oemNumbers": [
+        "441-5128"
+      ],
+      "compatibility": [
+        "Heavy Equipment Platforms"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-36",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Caterpillar Machinery Platforms",
+      "oemNumbers": [
+        "441-5128"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery Platforms"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-4",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo EC290",
+      "oemNumbers": [
+        "(220mm)VOE 22383318",
+        "21391695"
+      ],
+      "compatibility": [
+        "Volvo EC290"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-5",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Systems",
+      "oemNumbers": [
+        "17202022"
+      ],
+      "compatibility": [
+        "Volvo Systems"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-5A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Systems",
+      "oemNumbers": [
+        "17202021"
+      ],
+      "compatibility": [
+        "Volvo Systems"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-6",
+      "category": "Oil/Water Pressure Switch",
+      "description": "Oil/Water Pressure Switch",
+      "name": "Oil/Water Pressure Switch — Komatsu PC200-5",
+      "oemNumbers": [
+        "7861-92-4210"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-7",
+      "category": "Oil/Water Pressure Switch",
+      "description": "Oil/Water Pressure Switch",
+      "name": "Oil/Water Pressure Switch — Komatsu PC200-7",
+      "oemNumbers": [
+        "6741-81-9220"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-8",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Kobelco SK200-6",
+      "oemNumbers": [
+        "Kobelco"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A05-9",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi EX, ZAX Series",
+      "oemNumbers": [
+        "4371903"
+      ],
+      "compatibility": [
+        "Hitachi EX",
+        "ZAX Series"
+      ],
+      "pages": [
+        "14"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-1",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Excavators (Thread 16)",
+      "oemNumbers": [
+        "5I-7578",
+        "34390-00800"
+      ],
+      "compatibility": [
+        "Caterpillar Excavators (Thread 16)"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-10",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar E320D2 (Perkins Engine)",
+      "oemNumbers": [
+        "2848A127"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 (Perkins Engine)"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-100",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Isuzu Engines",
+      "oemNumbers": [
+        "8-98156648-0"
+      ],
+      "compatibility": [
+        "Isuzu Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-101",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Kobelco SK130-8",
+      "oemNumbers": [
+        "SK130-8"
+      ],
+      "compatibility": [
+        "Kobelco SK130-8"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-102",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu Small Engines",
+      "oemNumbers": [
+        "232-06-52410"
+      ],
+      "compatibility": [
+        "Komatsu Small Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-103",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Custom Machinery Orders",
+      "oemNumbers": [
+        "Targeted"
+      ],
+      "compatibility": [
+        "Custom Machinery Orders"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-103A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Daewoo Doosan 12V Series",
+      "oemNumbers": [
+        "Daewoo 12V Line"
+      ],
+      "compatibility": [
+        "Daewoo Doosan 12V Series"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-104",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Isuzu 4LE2 Engines",
+      "oemNumbers": [
+        "8-97063301-0"
+      ],
+      "compatibility": [
+        "Isuzu 4LE2 Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-104A",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Kubota Machinery",
+      "oemNumbers": [
+        "31351-32830"
+      ],
+      "compatibility": [
+        "Kubota Machinery"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-105",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Kubota Machinery",
+      "oemNumbers": [
+        "Kubota"
+      ],
+      "compatibility": [
+        "Kubota Machinery"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-105A",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — John Deere Platforms",
+      "oemNumbers": [
+        "129A00-13752"
+      ],
+      "compatibility": [
+        "John Deere Platforms"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-105B",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — John Deere Platforms",
+      "oemNumbers": [
+        "129A00-12721"
+      ],
+      "compatibility": [
+        "John Deere Platforms"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-106",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Cummins QM11 Engines",
+      "oemNumbers": [
+        "3085185X"
+      ],
+      "compatibility": [
+        "Cummins QM11 Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-107",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Cummins M11, L10 Engines",
+      "oemNumbers": [
+        "3085198"
+      ],
+      "compatibility": [
+        "Cummins M11",
+        "L10 Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-108",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE1516336"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-109",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE52722"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-10A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu Equipment Platforms",
+      "oemNumbers": [
+        "2848A121"
+      ],
+      "compatibility": [
+        "Komatsu Equipment Platforms"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-11",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Perkins Engines, Komatsu Cross",
+      "oemNumbers": [
+        "2848A071",
+        "237-4894"
+      ],
+      "compatibility": [
+        "Perkins Engines",
+        "Komatsu Cross"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-110",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE51774"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-111",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Universal Systems",
+      "oemNumbers": [
+        "3865312"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-112",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Universal Systems",
+      "oemNumbers": [
+        "Core"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-113",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "236-8757"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-114",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "349-2458"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-115",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "395-1838"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-116",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "622-337"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-117",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "622-340"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-118",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Perkins Engines",
+      "oemNumbers": [
+        "385720500"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-119",
+      "category": "Coolant Temperature Sensor",
+      "description": "Coolant Temp Sensor",
+      "name": "Coolant Temp Sensor — Caterpillar Systems",
+      "oemNumbers": [
+        "HM-W3202",
+        "5108205"
+      ],
+      "compatibility": [
+        "Caterpillar Systems"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-12",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Perkins Engines",
+      "oemNumbers": [
+        "385720510"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-120",
+      "category": "Coolant Temperature Sensor",
+      "description": "Modulated Temp Sensor",
+      "name": "Modulated Temp Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "4W-9972",
+        "AP-1050B"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-121",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Kato Variant Cross-Reference",
+      "oemNumbers": [
+        "196460C1"
+      ],
+      "compatibility": [
+        "Kato Variant Cross-Reference"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-122",
+      "category": "Speed Sensor",
+      "description": "Camshaft Speed Sensor",
+      "name": "Camshaft Speed Sensor — Cummins ISX, ISM (6.0L Engines)",
+      "oemNumbers": [
+        "4032068"
+      ],
+      "compatibility": [
+        "Cummins ISX",
+        "ISM (6.0L Engines)"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-123",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "41-6538"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-124",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "41-6539"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-125",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Assemblies",
+      "oemNumbers": [
+        "W85720580"
+      ],
+      "compatibility": [
+        "Coolant Assemblies"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-126",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — John Deere Machinery Cross",
+      "oemNumbers": [
+        "RE537637"
+      ],
+      "compatibility": [
+        "John Deere Machinery Cross"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-127",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Universal Application Systems",
+      "oemNumbers": [
+        "4897224",
+        "5801960832"
+      ],
+      "compatibility": [
+        "Universal Application Systems"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-128",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Cummins B50, B70, 444",
+      "oemNumbers": [
+        "12-01145-04"
+      ],
+      "compatibility": [
+        "Cummins B50",
+        "B70",
+        "444",
+        "450",
+        "550 Engines"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-129",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Shanshan Machinery Cross-Reference",
+      "oemNumbers": [
+        "6718414"
+      ],
+      "compatibility": [
+        "Shanshan Machinery Cross-Reference"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-13",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Perkins Engines",
+      "oemNumbers": [
+        "185246290"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-130",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — John Deere Machinery Cross-Reference",
+      "oemNumbers": [
+        "6718417"
+      ],
+      "compatibility": [
+        "John Deere Machinery Cross-Reference"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-131",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — Shanshan Machinery Cross-Reference",
+      "oemNumbers": [
+        "6727869"
+      ],
+      "compatibility": [
+        "Shanshan Machinery Cross-Reference"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-132",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — Universal Mechanical Blocks",
+      "oemNumbers": [
+        "2755A006"
+      ],
+      "compatibility": [
+        "Universal Mechanical Blocks"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-133",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Cummins Engine Blocks",
+      "oemNumbers": [
+        "3967250",
+        "3845N05-010"
+      ],
+      "compatibility": [
+        "Cummins Engine Blocks"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-134",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE503242"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-135",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE517130"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-136",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-137",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE506424"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-138",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — Cummins Engine Cross-Reference",
+      "oemNumbers": [
+        "Cummins"
+      ],
+      "compatibility": [
+        "Cummins Engine Cross-Reference"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-139",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "AI178071"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-14",
+      "category": "Oil Temperature Sensor",
+      "description": "Oil Temperature Switch",
+      "name": "Oil Temperature Switch — Perkins Engines",
+      "oemNumbers": [
+        "2848A126"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-140",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE48419"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-141",
+      "category": "Intake Pressure Sensor",
+      "description": "Intake Pressure/Air Sensor",
+      "name": "Intake Pressure/Air Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "RE525016"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-142",
+      "category": "Proximity Switch",
+      "description": "Proximity Switch / Cable",
+      "name": "Proximity Switch / Cable — Heavy Infrastructure Controls",
+      "oemNumbers": [
+        "AT360574"
+      ],
+      "compatibility": [
+        "Heavy Infrastructure Controls"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-143",
+      "category": "Proximity Switch",
+      "description": "Proximity Switch / Cable",
+      "name": "Proximity Switch / Cable — Kawasaki Systems",
+      "oemNumbers": [
+        "35820-80080"
+      ],
+      "compatibility": [
+        "Kawasaki Systems"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-144",
+      "category": "Temperature Probe",
+      "description": "Temperature Probe Rod",
+      "name": "Temperature Probe Rod — Heavy Industry Probes",
+      "oemNumbers": [
+        "354-6758"
+      ],
+      "compatibility": [
+        "Heavy Industry Probes"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-145",
+      "category": "Proximity Switch",
+      "description": "Proximity Switch / Cable",
+      "name": "Proximity Switch / Cable — General Control Modules",
+      "oemNumbers": [
+        "Base"
+      ],
+      "compatibility": [
+        "General Control Modules"
+      ],
+      "pages": [
+        "20"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-15",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Perkins Engines",
+      "oemNumbers": [
+        "185246280"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-16",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Perkins Engines",
+      "oemNumbers": [
+        "2848A129"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-16A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Perkins Engines",
+      "oemNumbers": [
+        "2848A116"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-17",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu Small Excavators",
+      "oemNumbers": [
+        "08620-00000"
+      ],
+      "compatibility": [
+        "Komatsu Small Excavators"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-17A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Isuzu 4W500 Engines",
+      "oemNumbers": [
+        "8-97078592-9"
+      ],
+      "compatibility": [
+        "Isuzu 4W500 Engines"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-18",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu PC200-7 Cross-Reference",
+      "oemNumbers": [
+        "7861-93-2310",
+        "7861-93-3320"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7 Cross-Reference"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-19",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu PC200-6, PC220-6 Cross-Reference",
+      "oemNumbers": [
+        "7861-92-3380"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6 Cross-Reference"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-2",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — General Machinery Engines (Thread 18)",
+      "oemNumbers": [
+        "394-4837"
+      ],
+      "compatibility": [
+        "General Machinery Engines (Thread 18)"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-20",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi ZAX170-5G",
+      "oemNumbers": [
+        "129927-44900"
+      ],
+      "compatibility": [
+        "Hitachi ZAX170-5G"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-20A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi, Isuzu Systems",
+      "oemNumbers": [
+        "729-11-41000"
+      ],
+      "compatibility": [
+        "Hitachi",
+        "Isuzu Systems"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-21",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu PC450-7, PC450-8 Cross-Reference",
+      "oemNumbers": [
+        "7861-93-3520"
+      ],
+      "compatibility": [
+        "Komatsu PC450-7",
+        "PC450-8 Cross-Reference"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-21A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu Cross-Reference Line",
+      "oemNumbers": [
+        "7861-92-3410"
+      ],
+      "compatibility": [
+        "Komatsu Cross-Reference Line"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-21B",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu HD325 Cross-Reference",
+      "oemNumbers": [
+        "7861-93-1930"
+      ],
+      "compatibility": [
+        "Komatsu HD325 Cross-Reference"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-22",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu PC200-8",
+      "oemNumbers": [
+        "6D107"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-22A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu 6D140, 6D170 Engines, PC600-8 Cross",
+      "oemNumbers": [
+        "6560-61-7300"
+      ],
+      "compatibility": [
+        "Komatsu 6D140",
+        "6D170 Engines",
+        "PC600-8 Cross"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-23",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi ZAX200-5 Cross-Reference",
+      "oemNumbers": [
+        "1-82450013-0"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-5 Cross-Reference"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-24",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi EX200-2, EX200-5",
+      "oemNumbers": [
+        "4257129"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-5"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-24A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi ZAX Series",
+      "oemNumbers": [
+        "4436537"
+      ],
+      "compatibility": [
+        "Hitachi ZAX Series"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-25",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi ZAX Series Core",
+      "oemNumbers": [
+        "ZAX"
+      ],
+      "compatibility": [
+        "Hitachi ZAX Series Core"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-26",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Sensor",
+      "name": "Water Alarm Sensor — ZAX Machinery",
+      "oemNumbers": [
+        "Electrical Plug Line"
+      ],
+      "compatibility": [
+        "ZAX Machinery"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-27",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Switch",
+      "name": "Water Alarm Switch — Hitachi ZAX 200 Cross-Reference",
+      "oemNumbers": [
+        "1-83161033-0"
+      ],
+      "compatibility": [
+        "Hitachi ZAX 200 Cross-Reference"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-28",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi ZAXIS330, Sumitomo SH200A3 Cross",
+      "oemNumbers": [
+        "8-97217444-1"
+      ],
+      "compatibility": [
+        "Hitachi ZAXIS330",
+        "Sumitomo SH200A3 Cross"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-29",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hyundai R265-7 Series",
+      "oemNumbers": [
+        "Hyundai"
+      ],
+      "compatibility": [
+        "Hyundai R265-7 Series"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-29A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Doosan DX380, DX470",
+      "oemNumbers": [
+        "Scania"
+      ],
+      "compatibility": [
+        "Doosan DX380",
+        "DX470"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-29B",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Doosan DX260-9 Series",
+      "oemNumbers": [
+        "Doosan DX-9 Line"
+      ],
+      "compatibility": [
+        "Doosan DX260-9 Series"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-3",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar 330C Hyd Oil Temp Cross-Reference (Thread 19)",
+      "oemNumbers": [
+        "41-5394"
+      ],
+      "compatibility": [
+        "Caterpillar 330C Hyd Oil Temp Cross-Reference (Thread 19)"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-30",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hitachi EX200-2, EX200-3 (6BD1 Engine w, Line)",
+      "oemNumbers": [
+        "1-83161019-1"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3 (6BD1 Engine w",
+        "Line)"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-31",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Sensor (Twin)",
+      "name": "Water Alarm Sensor (Twin) — Kobelco SK200-6, Kato HD700-7 (6D31, 6D34 Engines)",
+      "oemNumbers": [
+        "ME049265"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "Kato HD700-7 (6D31",
+        "6D34 Engines)"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-32",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Sensor (Single)",
+      "name": "Water Alarm Sensor (Single) — Kobelco SK200-6, Kato HD700-7 (6D31, 6D34 Engines)",
+      "oemNumbers": [
+        "ME049265"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "Kato HD700-7 (6D31",
+        "6D34 Engines)"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-32A",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Switch",
+      "name": "Water Alarm Switch — Mitsubishi E200B Engine Cross",
+      "oemNumbers": [
+        "ME049209",
+        "105°"
+      ],
+      "compatibility": [
+        "Mitsubishi E200B Engine Cross"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-33",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Kobelco SK200-6 Cross-Reference",
+      "oemNumbers": [
+        "SWZ489U268F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6 Cross-Reference"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-34",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Kobelco SK-8 Series",
+      "oemNumbers": [
+        "Kobelco -8 Line"
+      ],
+      "compatibility": [
+        "Kobelco SK-8 Series"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-35",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Sumitomo SH200-3, SH200A3 Cross-Reference",
+      "oemNumbers": [
+        "KHR2433"
+      ],
+      "compatibility": [
+        "Sumitomo SH200-3",
+        "SH200A3 Cross-Reference"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-36",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo 480D",
+      "oemNumbers": [
+        "11419186"
+      ],
+      "compatibility": [
+        "Volvo 480D"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-36A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — General Machinery Units",
+      "oemNumbers": [
+        "3DA1223",
+        "179730-0040"
+      ],
+      "compatibility": [
+        "General Machinery Units"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-37",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Isuzu, Toyota Engine Layouts",
+      "oemNumbers": [
+        "Universal Single-Pin"
+      ],
+      "compatibility": [
+        "Isuzu",
+        "Toyota Engine Layouts"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-38",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Universal Dual-Plug Engines",
+      "oemNumbers": [
+        "Dual-Terminal"
+      ],
+      "compatibility": [
+        "Universal Dual-Plug Engines"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-39",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Switch",
+      "name": "Water Alarm Switch — Kobelco SK350-8 (Hino Engine)",
+      "oemNumbers": [
+        "S8346-01510"
+      ],
+      "compatibility": [
+        "Kobelco SK350-8 (Hino Engine)"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-39A",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Sensor",
+      "name": "Water Alarm Sensor — Kobelco SK Series Variant",
+      "oemNumbers": [
+        "SK Variant"
+      ],
+      "compatibility": [
+        "Kobelco SK Series Variant"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-4",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Excavators",
+      "oemNumbers": [
+        "196-7975",
+        "34390-02200"
+      ],
+      "compatibility": [
+        "Caterpillar Excavators"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-40",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Kobelco SK130-8, SK140-8 (D04FR Engine)",
+      "oemNumbers": [
+        "32G90-00201"
+      ],
+      "compatibility": [
+        "Kobelco SK130-8",
+        "SK140-8 (D04FR Engine)"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-41",
+      "category": "Fuel Temperature Sensor",
+      "description": "Common Rail Fuel Temp Sensor",
+      "name": "Common Rail Fuel Temp Sensor — High-Pressure Common RailJ05E",
+      "oemNumbers": [
+        "High-Pressure Common RailJ05E",
+        "4HK1 Engines"
+      ],
+      "compatibility": [],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-42",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo 360",
+      "oemNumbers": [
+        "205-76614"
+      ],
+      "compatibility": [
+        "Volvo 360"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-43",
+      "category": "Water Alarm Sensor",
+      "description": "Water Alarm Switch",
+      "name": "Water Alarm Switch — Kobelco SK Series",
+      "oemNumbers": [
+        "Fine Thread Unit"
+      ],
+      "compatibility": [
+        "Kobelco SK Series"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-44",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Yanmar Engine Series",
+      "oemNumbers": [
+        "Fine",
+        "A-Thread"
+      ],
+      "compatibility": [
+        "Yanmar Engine Series"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-44A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar 307 (4M40 Engine)",
+      "oemNumbers": [
+        "366869"
+      ],
+      "compatibility": [
+        "Caterpillar 307 (4M40 Engine)"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-45",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Yanmar Engine Series",
+      "oemNumbers": [
+        "Coarse",
+        "B-Thread"
+      ],
+      "compatibility": [
+        "Yanmar Engine Series"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-46",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Yanmar Engine Series",
+      "oemNumbers": [
+        "Engine"
+      ],
+      "compatibility": [
+        "Yanmar Engine Series"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-46A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo 210 Series",
+      "oemNumbers": [
+        "Volvo"
+      ],
+      "compatibility": [
+        "Volvo 210 Series"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-47",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Equipment",
+      "oemNumbers": [
+        "VOE 14505855"
+      ],
+      "compatibility": [
+        "Volvo Equipment"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-48",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Platforms",
+      "oemNumbers": [
+        "15048183",
+        "11144494"
+      ],
+      "compatibility": [
+        "Volvo Platforms"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-49",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Yanmar Engine Series",
+      "oemNumbers": [
+        "Engine"
+      ],
+      "compatibility": [
+        "Yanmar Engine Series"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-49A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Platforms",
+      "oemNumbers": [
+        "11039219"
+      ],
+      "compatibility": [
+        "Volvo Platforms"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-4A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "CAT"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-4C",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "3E2028"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-50",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo EC210B, EC290B Cross (Φ18 Thread)",
+      "oemNumbers": [
+        "VOE 11039194"
+      ],
+      "compatibility": [
+        "Volvo EC210B",
+        "EC290B Cross (Φ18 Thread)"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-51",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo EC210B, EC290B (Φ16 Thread)",
+      "oemNumbers": [
+        "VOE 11039193"
+      ],
+      "compatibility": [
+        "Volvo EC210B",
+        "EC290B (Φ16 Thread)"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-52",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo 360",
+      "oemNumbers": [
+        "205-76614"
+      ],
+      "compatibility": [
+        "Volvo 360"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-52A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Equipment",
+      "oemNumbers": [
+        "20429966"
+      ],
+      "compatibility": [
+        "Volvo Equipment"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-52B",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Equipment",
+      "oemNumbers": [
+        "2096397"
+      ],
+      "compatibility": [
+        "Volvo Equipment"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-52C",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Volvo Equipment",
+      "oemNumbers": [
+        "15153124"
+      ],
+      "compatibility": [
+        "Volvo Equipment"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-53",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Komatsu PC400-6 Cross-Reference",
+      "oemNumbers": [
+        "3915329"
+      ],
+      "compatibility": [
+        "Komatsu PC400-6 Cross-Reference"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-54",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Doosan DH220-5",
+      "oemNumbers": [
+        "DH220-5"
+      ],
+      "compatibility": [
+        "Doosan DH220-5"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-55",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hyundai R60-7",
+      "oemNumbers": [
+        "21EA-62010"
+      ],
+      "compatibility": [
+        "Hyundai R60-7"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-56",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Hyundai R225-7",
+      "oemNumbers": [
+        "21EN-40100"
+      ],
+      "compatibility": [
+        "Hyundai R225-7"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-57",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Cummins Engines",
+      "oemNumbers": [
+        "4921477"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-58",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Cummins Engines",
+      "oemNumbers": [
+        "4921475"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-59",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Cummins Engines",
+      "oemNumbers": [
+        "4921473"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-5A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — General Machinery Engines",
+      "oemNumbers": [
+        "203-3219"
+      ],
+      "compatibility": [
+        "General Machinery Engines"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-6",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar C7, C9 Engines (Φ19 Thread)",
+      "oemNumbers": [
+        "256-6453"
+      ],
+      "compatibility": [
+        "Caterpillar C7",
+        "C9 Engines (Φ19 Thread)"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-60",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Liugong 205, 225",
+      "oemNumbers": [
+        "WG2704G",
+        "3080260"
+      ],
+      "compatibility": [
+        "Liugong 205",
+        "225"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-61",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Universal Heavy-Duty Lines",
+      "oemNumbers": [
+        "3015238"
+      ],
+      "compatibility": [
+        "Universal Heavy-Duty Lines"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-62",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "3080316"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-63",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "3080252"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-64",
+      "category": "Temperature Switch",
+      "description": "Water Temp Switch Component",
+      "name": "Water Temp Switch Component — Liugong 906",
+      "oemNumbers": [
+        "30B0409"
+      ],
+      "compatibility": [
+        "Liugong 906"
+      ],
+      "pages": [
+        "17"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-65",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Liugong 906C",
+      "oemNumbers": [
+        "30B0289"
+      ],
+      "compatibility": [
+        "Liugong 906C"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-66",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Liugong 908C, 200",
+      "oemNumbers": [
+        "30B0260"
+      ],
+      "compatibility": [
+        "Liugong 908C",
+        "200"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-67",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "30B0321"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-68",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Liugong 205, 225 (With Wire Line)",
+      "oemNumbers": [
+        "WGP3343",
+        "30B0322"
+      ],
+      "compatibility": [
+        "Liugong 205",
+        "225 (With Wire Line)"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-69",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Lishide 150",
+      "oemNumbers": [
+        "XE150-001"
+      ],
+      "compatibility": [
+        "Lishide 150"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-6A",
+      "category": "Fuel/Oil Temperature Sensor",
+      "description": "Fuel/Oil Temperature Sensor",
+      "name": "Fuel/Oil Temperature Sensor — Caterpillar C7 Engines (Φ18 Thread)",
+      "oemNumbers": [
+        "256-6454"
+      ],
+      "compatibility": [
+        "Caterpillar C7 Engines (Φ18 Thread)"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-7",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar E320D (Φ18 Thread)",
+      "oemNumbers": [
+        "238-0112"
+      ],
+      "compatibility": [
+        "Caterpillar E320D (Φ18 Thread)"
+      ],
+      "pages": [
+        "15"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-70",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Liugong Machinery (Hydraulic Oil Variant)",
+      "oemNumbers": [
+        "30B0264 Hydraulic Unit"
+      ],
+      "compatibility": [
+        "Liugong Machinery (Hydraulic Oil Variant)"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-71",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Heavy Equipment Components",
+      "oemNumbers": [
+        "30B0322"
+      ],
+      "compatibility": [
+        "Heavy Equipment Components"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-72",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Zoomlion Machinery",
+      "oemNumbers": [
+        "Zoomlion"
+      ],
+      "compatibility": [
+        "Zoomlion Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-72A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Yuchai Engines",
+      "oemNumbers": [
+        "Yuchai"
+      ],
+      "compatibility": [
+        "Yuchai Engines"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-73",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Ishikawa Machinery",
+      "oemNumbers": [
+        "JET00015"
+      ],
+      "compatibility": [
+        "Ishikawa Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-74",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Universal Heavy Machinery",
+      "oemNumbers": [
+        "4327021"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-74A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Universal Heavy Machinery",
+      "oemNumbers": [
+        "3408627"
+      ],
+      "compatibility": [
+        "Universal Heavy Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-75",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Longking, XCMG Machinery",
+      "oemNumbers": [
+        "14NPTF-M22X1.5"
+      ],
+      "compatibility": [
+        "Longking",
+        "XCMG Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-76",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Longking Machinery",
+      "oemNumbers": [
+        "Longking"
+      ],
+      "compatibility": [
+        "Longking Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-77",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Domestic 235, 255 Series",
+      "oemNumbers": [
+        "Domestic Machinery Line"
+      ],
+      "compatibility": [
+        "Domestic 235",
+        "255 Series"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-78",
+      "category": "Temperature Switch",
+      "description": "Temperature Control Switch",
+      "name": "Temperature Control Switch — Liugong Machinery",
+      "oemNumbers": [
+        "30B0271"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-79",
+      "category": "Oil Temperature Sensor",
+      "description": "Oil Temp Sensor",
+      "name": "Oil Temp Sensor — Sany Equipment Platforms",
+      "oemNumbers": [
+        "7240-A-015"
+      ],
+      "compatibility": [
+        "Sany Equipment Platforms"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-79A",
+      "category": "Hydraulic Oil Temperature Sensor",
+      "description": "Hydraulic Oil Temp Sensor",
+      "name": "Hydraulic Oil Temp Sensor — Sany Equipment Platforms",
+      "oemNumbers": [
+        "MBT3560",
+        "084Z4232"
+      ],
+      "compatibility": [
+        "Sany Equipment Platforms"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-79B",
+      "category": "Hydraulic Oil Temperature Sensor",
+      "description": "Hydraulic Oil Temp Sensor",
+      "name": "Hydraulic Oil Temp Sensor — Sany New Variant Equipment",
+      "oemNumbers": [
+        "Sany"
+      ],
+      "compatibility": [
+        "Sany New Variant Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-8",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar E311C, E330C",
+      "oemNumbers": [
+        "341-360D",
+        "487-5859"
+      ],
+      "compatibility": [
+        "Caterpillar E311C",
+        "E330C"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-80",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Sany Equipment Platforms",
+      "oemNumbers": [
+        "MBT3270",
+        "084Z4185"
+      ],
+      "compatibility": [
+        "Sany Equipment Platforms"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-80A",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Caterpillar E336E Cross-Reference",
+      "oemNumbers": [
+        "339-8822"
+      ],
+      "compatibility": [
+        "Caterpillar E336E Cross-Reference"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-81",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — XCMG Machinery",
+      "oemNumbers": [
+        "XCMG"
+      ],
+      "compatibility": [
+        "XCMG Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-82",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Sumitomo, Kobelco Machinery",
+      "oemNumbers": [
+        "Sumitomo"
+      ],
+      "compatibility": [
+        "Sumitomo",
+        "Kobelco Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-83",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Sumitomo, Kobelco Machinery",
+      "oemNumbers": [
+        "Sumitomo"
+      ],
+      "compatibility": [
+        "Sumitomo",
+        "Kobelco Machinery"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-84",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar 3116 Engine",
+      "oemNumbers": [
+        "3E5370"
+      ],
+      "compatibility": [
+        "Caterpillar 3116 Engine"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-84A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "102-3190",
+        "102-0050"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-85",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "131-0427"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-85A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "130-8299"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-85B",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "371-9531"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-85D",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "275-1253"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-85E",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "227-6744"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-86",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "102-2240"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-86A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "195-2150"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-86B",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "145-7028"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-86C",
+      "category": "Oil/Water Temperature Sensor",
+      "description": "Oil/Water Temperature Sensor",
+      "name": "Oil/Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "191-6587"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-86D",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "106-0735"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-86E",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "108-3190"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-86F",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Universal Engine Layouts",
+      "oemNumbers": [
+        "2W8916"
+      ],
+      "compatibility": [
+        "Universal Engine Layouts"
+      ],
+      "pages": [
+        "18"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-87",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "171-8708"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-87A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "171-8710"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar 3508 Engines",
+      "oemNumbers": [
+        "118-7226"
+      ],
+      "compatibility": [
+        "Caterpillar 3508 Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "3E-8700"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88B",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "100-3055"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88C",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "134-2252"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88D",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "131-0784"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88E",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "430-9449"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88F",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "430-9451"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-88G",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar E330C, E325D",
+      "oemNumbers": [
+        "130-9811"
+      ],
+      "compatibility": [
+        "Caterpillar E330C",
+        "E325D"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-89",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Kobelco Equipment",
+      "oemNumbers": [
+        "Kobelco"
+      ],
+      "compatibility": [
+        "Kobelco Equipment"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-8A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — General Machinery Units",
+      "oemNumbers": [
+        "395-1838"
+      ],
+      "compatibility": [
+        "General Machinery Units"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-9",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "125-4812"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-90",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "239-9957",
+        "4903489"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-90A",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Universal Heavy Duty",
+      "oemNumbers": [
+        "430-9455"
+      ],
+      "compatibility": [
+        "Universal Heavy Duty"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-90B",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Universal Heavy Duty",
+      "oemNumbers": [
+        "4358900",
+        "3408653",
+        "4065972"
+      ],
+      "compatibility": [
+        "Universal Heavy Duty"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-91",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Liugong Machinery",
+      "oemNumbers": [
+        "Liugong"
+      ],
+      "compatibility": [
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-92",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — XCMG 470D",
+      "oemNumbers": [
+        "XCMG 470D Unit"
+      ],
+      "compatibility": [
+        "XCMG 470D"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-92A",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — XCMG Large Core Variant",
+      "oemNumbers": [
+        "XCMG"
+      ],
+      "compatibility": [
+        "XCMG Large Core Variant"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-93",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Cummins Engines",
+      "oemNumbers": [
+        "4383933"
+      ],
+      "compatibility": [
+        "Cummins Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-94",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Coolant Systems",
+      "oemNumbers": [
+        "178-2334-00"
+      ],
+      "compatibility": [
+        "Coolant Systems"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-95",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar E320C, E330C",
+      "oemNumbers": [
+        "178-2335"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E330C"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-95A",
+      "category": "Temperature Sensor",
+      "description": "Temperature Sensor",
+      "name": "Temperature Sensor — Heavy Equipment Components",
+      "oemNumbers": [
+        "276-8172-02"
+      ],
+      "compatibility": [
+        "Heavy Equipment Components"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-96",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — John Deere Series",
+      "oemNumbers": [
+        "John Deere"
+      ],
+      "compatibility": [
+        "John Deere Series"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-97",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Scania Line Doosan DX470 Series",
+      "oemNumbers": [
+        "DX470"
+      ],
+      "compatibility": [
+        "Scania Line Doosan DX470 Series"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-98",
+      "category": "Fluid Temperature Sensor",
+      "description": "Fluid Temp Sensor",
+      "name": "Fluid Temp Sensor — Universal System Lines",
+      "oemNumbers": [
+        "2479R546"
+      ],
+      "compatibility": [
+        "Universal System Lines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-99",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Deutz Engines",
+      "oemNumbers": [
+        "01182700"
+      ],
+      "compatibility": [
+        "Deutz Engines"
+      ],
+      "pages": [
+        "19"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A06-9A",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "244-3106"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "16"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 4",
+      "confidence": "user-section4-v2"
     }
   ]
 }
