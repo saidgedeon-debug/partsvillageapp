@@ -1,0 +1,48 @@
+Section 14: Relays, Fuses, & Temperature Controllers (Pages 69–74)
+This section tracks high-capacity electrical protection components, cabin heater controllers, glow plug relays, and electronic fuse matrices from pages 69 to 74 of the product catalog. Non-English phrasing has been completely omitted, and the Machine Compatibility maps to its own separate structural column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A23-1Glow Plug Heating Relay114-5333 / 125-4812CAT E320BPage 69
+A23-2Main Cabinet Fuse Panel Module221-8859 Box SpecCAT E320C, E312CPage 69
+A23-3Cabin Climate Control Resistor309-5769 / 419-5574CAT E320D, E323DPage 69
+A23-3AAir Conditioning Controller Module386-3439 UnitCAT E320D2 SeriesPage 69
+A23-4High-Current Safety Circuit Fuse425-4893 Block SpecCAT Processing NodesPage 69
+A23-15Heavy Duty Battery Relay164-3692 Unit SpecCAT Grounding RailsPage 71
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A23-11Climate Control Step ResistorVOE 14518342 / 14529298VOLVO EC210B Cabin HVACPage 70
+A23-11AMain Cabinet Electronic Fuse MatrixVOE 14616736 BoardVOLVO EC210D, EC220DPage 70
+A23-12Preheating System Glow Relay0428-7583 Unit SpecVOLVO / Deutz InfrastructurePage 70
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A23-5Battery Relay Solenoid Switch08088-30000 / 7834-40-2000Komatsu PC200-5, PC220-5Page 69
+A23-6Central Safety Relay Control Module7834-52-2003 ModuleKomatsu PC200-6, PC220-6Page 69
+A23-7Electronic Air Conditioner Amplifier7873-20-5100 / 7861-93-2310Komatsu PC200-7, PC220-7Page 70
+A23-8Glow Plug Preheater Controller600-467-1100 UnitKomatsu PC200-8 (6D107 Engine)Page 70
+A23-8AIntegrated System Protection Resistor7835-35-2000 Line SpecKomatsu PC200-10Page 70
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A23-13Time Delay Safety Glow Relay4251588 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 70
+A23-14Air Conditioner Step Motor Controller4360297 Panel CoreHitachi ZAX200-1, ZAX210, ZAX230Page 71
+A23-14AElectronic Fuse Distribution Unit4614911 / 4448332Hitachi ZAX200-3, ZAX240-3 Main CabinPage 71
+A23-14BTemperature Monitoring Circuit Board4668260 Module SpecHitachi ZAX-5A, ZAX-5G SeriesPage 71
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A23-16Air Conditioner Fan Control Resistor2523-9014 / 2543-9015Daewoo Doosan DH220-5Page 71
+A23-17Complete Electronic Fuse Panel300513-00021 BoardDoosan DX225, DX300Page 71
+A23-18Main Interconnect Safety Switch Relay21N6-43101 / 21N6-44101Hyundai R210-5, R225-7Page 71
+A23-19Digital Climate Temperature Amplifier21Q6-30102 PanelHyundai R210-9, R220-9Page 71
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A23-9Main Safety Start Cutoff RelayYN50S00002P1 UnitKobelco SK200-3, SK200-5Page 70
+A23-10Electronic Ignition Safety Relay ModuleYN50S00026P1 ModuleKobelco SK200-6, SK200-6EPage 70
+A23-10AAutomated Wiper Control Module PanelLC50S00010P1 UnitKobelco SK200-8, SK350-8Page 70
+A23-10BIntegrated Thermal Cutout RelayKHR1141 Module SpecSumitomo SH200A3, SH210-5Page 70
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A23-20Engine Safety Control Protection Block60114798 / 60114799Sany SY215C, SY235C-9Page 72
+A23-21Digital HVAC Calibration Module10213169 PanelLiugong 920E, 925EPage 72
+A23-22High-Amperage Main Switch Relay1000168 UnitXCMG XE215C, XE215DPage 73
+A23-23Complete Heavy Vehicle Fuse Harness701/80184 Board SpecJCB 3CX, 4CX Backhoe LoadersPage 74
+A23-24Central Safety Logic Circuit RelayAT103035 / RE61812John Deere Infrastructure SeriesPage 74

@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_13_v2",
+  "status": "sections_2_to_14_v2",
   "supplier": "Kafu",
   "rawRows": 31,
-  "section13": 31,
-  "kept_prior": 1330,
-  "count": 1361,
+  "section14": 31,
+  "kept_prior": 1361,
+  "count": 1392,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -21,6 +21,7 @@
     "Cartridge / Pilot Valve",
     "Circuit Diode",
     "Circuit Protection",
+    "Climate / Temperature Control",
     "Common Rail / Injection Harness",
     "Common Rail Sensor",
     "Common Rail Valve",
@@ -32,9 +33,11 @@
     "Differential Pressure Sensor",
     "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
+    "Electrical Controller",
     "Electrical Solenoid",
     "Engine / Control Harness",
     "Engine Control Module",
+    "Engine Safety Control Protection Block",
     "Flameout / Shut-off Solenoid",
     "Fluid Level Sensor",
     "Fluid Temperature Sensor",
@@ -45,6 +48,7 @@
     "Fuel Sensor Cable",
     "Fuel Temperature Sensor",
     "Fuel/Oil Temperature Sensor",
+    "Fuse / Protection",
     "Gauge Cluster",
     "Glow / Preheater Plug",
     "Glow Plug",
@@ -85,6 +89,7 @@
     "Proportional Solenoid Valve",
     "Proximity Switch",
     "Pump Head Unit",
+    "Relay / Glow Control",
     "Relay Base",
     "Revolution Sensor",
     "Rotary Switch Sensor",
@@ -27645,6 +27650,662 @@
       ],
       "section": "Section 13",
       "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A23-1",
+      "category": "Relay / Glow Control",
+      "description": "Glow Plug Heating Relay",
+      "name": "Glow Plug Heating Relay — Caterpillar E320B",
+      "oemNumbers": [
+        "114-5333",
+        "125-4812"
+      ],
+      "compatibility": [
+        "Caterpillar E320B"
+      ],
+      "pages": [
+        "69"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-10",
+      "category": "Relay / Glow Control",
+      "description": "Electronic Ignition Safety Relay Module",
+      "name": "Electronic Ignition Safety Relay Module — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN50S00026P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-10A",
+      "category": "Electrical Controller",
+      "description": "Automated Wiper Control Module Panel",
+      "name": "Automated Wiper Control Module Panel — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "LC50S00010P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-10B",
+      "category": "Relay / Glow Control",
+      "description": "Integrated Thermal Cutout Relay",
+      "name": "Integrated Thermal Cutout Relay — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-11",
+      "category": "Climate / Temperature Control",
+      "description": "Climate Control Step Resistor",
+      "name": "Climate Control Step Resistor — Volvo EC210B Cabin HVAC",
+      "oemNumbers": [
+        "VOE 14518342",
+        "14529298"
+      ],
+      "compatibility": [
+        "Volvo EC210B Cabin HVAC"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-11A",
+      "category": "Fuse / Protection",
+      "description": "Main Cabinet Electronic Fuse Matrix",
+      "name": "Main Cabinet Electronic Fuse Matrix — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-12",
+      "category": "Relay / Glow Control",
+      "description": "Preheating System Glow Relay",
+      "name": "Preheating System Glow Relay — Volvo, Deutz Infrastructure",
+      "oemNumbers": [
+        "0428-7583"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz Infrastructure"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-13",
+      "category": "Relay / Glow Control",
+      "description": "Time Delay Safety Glow Relay",
+      "name": "Time Delay Safety Glow Relay — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4251588",
+        "4148415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-14",
+      "category": "Climate / Temperature Control",
+      "description": "Air Conditioner Step Motor Controller",
+      "name": "Air Conditioner Step Motor Controller — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4360297"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-14A",
+      "category": "Fuse / Protection",
+      "description": "Electronic Fuse Distribution Unit",
+      "name": "Electronic Fuse Distribution Unit — Hitachi ZAX200-3, ZAX240-3 Main Cabin",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3 Main Cabin"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-14B",
+      "category": "Climate / Temperature Control",
+      "description": "Temperature Monitoring Circuit Board",
+      "name": "Temperature Monitoring Circuit Board — Hitachi ZAX-5A, ZAX-5G Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-5A",
+        "ZAX-5G Series"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-15",
+      "category": "Relay / Glow Control",
+      "description": "Heavy Duty Battery Relay",
+      "name": "Heavy Duty Battery Relay — Caterpillar Grounding Rails",
+      "oemNumbers": [
+        "164-3692"
+      ],
+      "compatibility": [
+        "Caterpillar Grounding Rails"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-16",
+      "category": "Climate / Temperature Control",
+      "description": "Air Conditioner Fan Control Resistor",
+      "name": "Air Conditioner Fan Control Resistor — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-17",
+      "category": "Fuse / Protection",
+      "description": "Complete Electronic Fuse Panel",
+      "name": "Complete Electronic Fuse Panel — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-18",
+      "category": "Relay / Glow Control",
+      "description": "Main Interconnect Safety Switch Relay",
+      "name": "Main Interconnect Safety Switch Relay — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-43101",
+        "21N6-44101"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-19",
+      "category": "Climate / Temperature Control",
+      "description": "Digital Climate Temperature Amplifier",
+      "name": "Digital Climate Temperature Amplifier — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30102"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "71"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-2",
+      "category": "Fuse / Protection",
+      "description": "Main Cabinet Fuse Panel Module",
+      "name": "Main Cabinet Fuse Panel Module — Caterpillar E320C, E312C",
+      "oemNumbers": [
+        "221-8859"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E312C"
+      ],
+      "pages": [
+        "69"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-20",
+      "category": "Engine Safety Control Protection Block",
+      "description": "Engine Safety Control Protection Block",
+      "name": "Engine Safety Control Protection Block — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "72"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-21",
+      "category": "Climate / Temperature Control",
+      "description": "Digital HVAC Calibration Module",
+      "name": "Digital HVAC Calibration Module — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "72"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-22",
+      "category": "Relay / Glow Control",
+      "description": "High-Amperage Main Switch Relay",
+      "name": "High-Amperage Main Switch Relay — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "73"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-23",
+      "category": "Fuse / Protection",
+      "description": "Complete Heavy Vehicle Fuse Harness",
+      "name": "Complete Heavy Vehicle Fuse Harness — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "74"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-24",
+      "category": "Relay / Glow Control",
+      "description": "Central Safety Logic Circuit Relay",
+      "name": "Central Safety Logic Circuit Relay — John Deere Infrastructure Series",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Infrastructure Series"
+      ],
+      "pages": [
+        "74"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-3",
+      "category": "Climate / Temperature Control",
+      "description": "Cabin Climate Control Resistor",
+      "name": "Cabin Climate Control Resistor — Caterpillar E320D, E323D",
+      "oemNumbers": [
+        "309-5769",
+        "419-5574"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D"
+      ],
+      "pages": [
+        "69"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-3A",
+      "category": "Climate / Temperature Control",
+      "description": "Air Conditioning Controller Module",
+      "name": "Air Conditioning Controller Module — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "69"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-4",
+      "category": "Fuse / Protection",
+      "description": "High-Current Safety Circuit Fuse",
+      "name": "High-Current Safety Circuit Fuse — Caterpillar Processing Nodes",
+      "oemNumbers": [
+        "425-4893"
+      ],
+      "compatibility": [
+        "Caterpillar Processing Nodes"
+      ],
+      "pages": [
+        "69"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-5",
+      "category": "Relay / Glow Control",
+      "description": "Battery Relay Solenoid Switch",
+      "name": "Battery Relay Solenoid Switch — Komatsu PC200-5, PC220-5",
+      "oemNumbers": [
+        "08088-30000",
+        "7834-40-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5"
+      ],
+      "pages": [
+        "69"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-6",
+      "category": "Relay / Glow Control",
+      "description": "Central Safety Relay Control Module",
+      "name": "Central Safety Relay Control Module — Komatsu PC200-6, PC220-6",
+      "oemNumbers": [
+        "7834-52-2003"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "69"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-7",
+      "category": "Climate / Temperature Control",
+      "description": "Electronic Air Conditioner Amplifier",
+      "name": "Electronic Air Conditioner Amplifier — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "7873-20-5100",
+        "7861-93-2310"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-8",
+      "category": "Relay / Glow Control",
+      "description": "Glow Plug Preheater Controller",
+      "name": "Glow Plug Preheater Controller — Komatsu PC200-8 (6D107 Engine)",
+      "oemNumbers": [
+        "600-467-1100"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 (6D107 Engine)"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-8A",
+      "category": "Climate / Temperature Control",
+      "description": "Integrated System Protection Resistor",
+      "name": "Integrated System Protection Resistor — Komatsu PC200-10",
+      "oemNumbers": [
+        "7835-35-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-10"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A23-9",
+      "category": "Relay / Glow Control",
+      "description": "Main Safety Start Cutoff Relay",
+      "name": "Main Safety Start Cutoff Relay — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN50S00002P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "70"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 14",
+      "confidence": "user-section14-v2"
     }
   ]
 }
