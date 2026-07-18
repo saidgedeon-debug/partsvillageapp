@@ -249,10 +249,10 @@ function InventoryPage() {
                       </div>
                     </div>
 
-                    <div className="grid gap-3 md:grid-cols-[minmax(0,220px)_1fr] md:items-end">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="oring-thickness" className="text-xs">
-                          Thickness CS (mm)
+                    <div className="grid gap-3 md:grid-cols-[minmax(220px,280px)_1fr] md:items-start">
+                      <div className="space-y-1.5 rounded-md border border-border bg-background p-3">
+                        <Label htmlFor="oring-thickness" className="text-xs font-medium">
+                          Thickness search (CS mm)
                         </Label>
                         <Input
                           id="oring-thickness"
@@ -261,7 +261,11 @@ function InventoryPage() {
                           value={thickness}
                           onChange={(e) => setThickness(e.target.value)}
                           className="h-10 font-mono"
+                          autoComplete="off"
                         />
+                        <p className="text-[11px] text-muted-foreground">
+                          Type a CS thickness to filter O-rings
+                        </p>
                       </div>
                       <div className="space-y-1.5">
                         <p className="text-xs text-muted-foreground">Quick thickness</p>
