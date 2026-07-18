@@ -21,7 +21,10 @@ export type CartLine = {
   boxNumber?: number;
   insideDiameterMm?: string;
   crossSectionMm?: string;
+  /** Selling price (quotations / invoices). */
   unitPrice: number;
+  /** Supplier / purchase cost (inquiries). */
+  unitCost: number;
   qty: number;
 };
 
@@ -56,6 +59,7 @@ function partToLine(part: Part, qty = 1): CartLine {
     insideDiameterMm: part.insideDiameterMm,
     crossSectionMm: part.crossSectionMm,
     unitPrice: part.price,
+    unitCost: part.cost,
     qty,
   };
 }
