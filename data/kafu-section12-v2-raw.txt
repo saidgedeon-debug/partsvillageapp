@@ -1,0 +1,47 @@
+Section 12: Wiring Harnesses, Plug Series, & Electronic Control Cables (Pages 57–62)
+This section contains the precise technical data extraction for complete engine wiring assemblies, main cabin connection harnesses, dynamic sensor plug kits, and electronic controller communication links from pages 57 to 62.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A21-1Main Cab Wiring Harness118-3534 / 151-3168CAT E320BPage 57
+A21-2Engine Electronic Harness221-8859 / 241-8368CAT E320C (3066 Engine)Page 57
+A21-3Injector Component Harness309-5769 / 320-3060CAT E320D (C6.4 Engine)Page 57
+A21-3ACommon Rail Wiring Assembly386-3439 / 375-6988CAT E320D2 SeriesPage 57
+A21-4Dynamic Fuel Injection Cable425-4893 Block SpecCAT C7, C9 Common Rail EnginesPage 57
+A21-15Heavy Sensor Connector Plug KitDeutsch 2-Pin to 12-Pin AssortmentCAT Sensor InterfacesPage 59
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A21-11Main Engine Control HarnessVOE 14518342 / 14529298VOLVO EC210B (D6E Engine)Page 58
+A21-11ACommon Rail Injection HarnessVOE 14616736 / 21714265VOLVO EC210D, EC220DPage 58
+A21-12Governor Link Communication Cable0428-7583 Unit SpecVOLVO / Deutz 2011 Engine BlocksPage 58
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A21-5Main Pump Control Wiring Loop7834-40-2000 / 7834-50-2000Komatsu PC200-5, PC220-5Page 57
+A21-6Cabinet Dashboard Assembly Harness7834-52-2003 / 20Y-06-21710Komatsu PC200-6, PC220-6Page 57
+A21-7Main Controller Ingestion Harness7835-10-2005 / 7861-93-2310Komatsu PC200-7, PC220-7Page 58
+A21-8High-Pressure Common Rail Wire Loom600-467-1100 / 7835-31-1002Komatsu PC200-8 (6D107 Engine)Page 58
+A21-8AEngine Overhaul Terminal Wire Kit7835-35-2000 Line SpecKomatsu PC200-10Page 58
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A21-13External Pump Control Wire Set4257163 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 58
+A21-14Multi-Function Cabin Console Harness4360297 / 4443849Hitachi ZAX200-1, ZAX210, ZAX230Page 59
+A21-14AInterconnect Engine Control Loom4614911 / 4448332Hitachi ZAX200-3, ZAX240-3 (6HK1 Engine)Page 59
+A21-14BSensor Distribution Extension Lead4668260 Interface SetHitachi ZAX-5A, ZAX-5G SeriesPage 59
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A21-16Cabinet Interface Connection Cable2523-9014 / 2543-9015Daewoo Doosan DH220-5Page 59
+A21-17Digital Common Rail Engine Harness300513-00021 / 537-00010Doosan DX225, DX300Page 59
+A21-18Processing Unit Core Wire Loom21N6-43101 / 21N6-44101Hyundai R210-5, R225-7Page 59
+A21-19Smart System Integration Harness21Q6-30102 / 21Q6-32103Hyundai R210-9, R220-9Page 59
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A21-9Engine Frame Harness ArrayYN50S00002P1 / YN24C00114F2Kobelco SK200-3, SK200-5Page 58
+A21-10Electronic Governor Connector CableYN50S00026P1 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 58
+A21-10AMain Frame Electrical Control LoomLC50S00010P1 / YN52S00103P1Kobelco SK200-8, SK350-8Page 58
+A21-10BMain System Distribution Wire LoomKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 58
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A21-20Engine Electrical Junction Loom60114798 / 60114799Sany SY215C, SY235C-9Page 60
+A21-21Machine Integration Wire Harness10213169Liugong 920E, 925EPage 60
+A21-22Core Frame Electrical Array1000168XCMG XE215C, XE215DPage 61
+A21-23Alternator & Starter Heavy Cable Set701/80184 Line SpecJCB 3CX, 4CX Backhoe LoadersPage 62
+A21-24Sensor Bus Interconnect LineAT103035 / RE61812John Deere Industrial EquipmentPage 62

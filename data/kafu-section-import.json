@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_11_v2",
+  "status": "sections_2_to_12_v2",
   "supplier": "Kafu",
-  "rawRows": 30,
-  "section11": 30,
-  "kept_prior": 1269,
-  "count": 1299,
+  "rawRows": 31,
+  "section12": 31,
+  "kept_prior": 1299,
+  "count": 1330,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -15,10 +15,12 @@
     "Barometric Pressure Sensor",
     "Battery Disconnect Switch",
     "Cabin Switch",
+    "Cabin Wiring Harness",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
     "Circuit Diode",
     "Circuit Protection",
+    "Common Rail / Injection Harness",
     "Common Rail Sensor",
     "Common Rail Valve",
     "Coolant Temperature Sensor",
@@ -30,6 +32,7 @@
     "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
     "Electrical Solenoid",
+    "Engine / Control Harness",
     "Engine Control Module",
     "Flameout / Shut-off Solenoid",
     "Fluid Level Sensor",
@@ -87,7 +90,9 @@
     "SCU Control Valve",
     "SCU Repair Seal Kit",
     "Safety Switch",
+    "Sensor Bus Interconnect Line",
     "Sensor Cable Assembly",
+    "Sensor Connector / Plug Kit",
     "Solenoid Coil",
     "Solenoid Control Valve",
     "Speed Sensor",
@@ -104,7 +109,8 @@
     "Vacuum Pressure Switch",
     "Voltage Regulator",
     "Water Alarm Sensor",
-    "Water Temperature Sensor"
+    "Water Temperature Sensor",
+    "Wiring Harness"
   ],
   "products": [
     {
@@ -26301,6 +26307,673 @@
       ],
       "section": "Section 11",
       "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A21-1",
+      "category": "Cabin Wiring Harness",
+      "description": "Main Cab Wiring Harness",
+      "name": "Main Cab Wiring Harness — Caterpillar E320B",
+      "oemNumbers": [
+        "118-3534",
+        "151-3168"
+      ],
+      "compatibility": [
+        "Caterpillar E320B"
+      ],
+      "pages": [
+        "57"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-10",
+      "category": "Sensor Connector / Plug Kit",
+      "description": "Electronic Governor Connector Cable",
+      "name": "Electronic Governor Connector Cable — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN50S00026P1",
+        "YT24C00014F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-10A",
+      "category": "Engine / Control Harness",
+      "description": "Main Frame Electrical Control Loom",
+      "name": "Main Frame Electrical Control Loom — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "LC50S00010P1",
+        "YN52S00103P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-10B",
+      "category": "Wiring Harness",
+      "description": "Main System Distribution Wire Loom",
+      "name": "Main System Distribution Wire Loom — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141",
+        "KHR17530"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-11",
+      "category": "Engine / Control Harness",
+      "description": "Main Engine Control Harness",
+      "name": "Main Engine Control Harness — Volvo EC210B (D6E Engine)",
+      "oemNumbers": [
+        "VOE 14518342",
+        "14529298"
+      ],
+      "compatibility": [
+        "Volvo EC210B (D6E Engine)"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-11A",
+      "category": "Common Rail / Injection Harness",
+      "description": "Common Rail Injection Harness",
+      "name": "Common Rail Injection Harness — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736",
+        "21714265"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-12",
+      "category": "Cabin Wiring Harness",
+      "description": "Governor Link Communication Cable",
+      "name": "Governor Link Communication Cable — Volvo, Deutz 2011 Engine Blocks",
+      "oemNumbers": [
+        "0428-7583"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz 2011 Engine Blocks"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-13",
+      "category": "Engine / Control Harness",
+      "description": "External Pump Control Wire Set",
+      "name": "External Pump Control Wire Set — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4257163",
+        "4148415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-14",
+      "category": "Cabin Wiring Harness",
+      "description": "Multi-Function Cabin Console Harness",
+      "name": "Multi-Function Cabin Console Harness — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4360297",
+        "4443849"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-14A",
+      "category": "Engine / Control Harness",
+      "description": "Interconnect Engine Control Loom",
+      "name": "Interconnect Engine Control Loom — Hitachi ZAX200-3, ZAX240-3 (6HK1 Engine)",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3 (6HK1 Engine)"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-14B",
+      "category": "Sensor Connector / Plug Kit",
+      "description": "Sensor Distribution Extension Lead",
+      "name": "Sensor Distribution Extension Lead — Hitachi ZAX-5A, ZAX-5G Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-5A",
+        "ZAX-5G Series"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-15",
+      "category": "Sensor Connector / Plug Kit",
+      "description": "Heavy Sensor Connector Plug Kit",
+      "name": "Heavy Sensor Connector Plug Kit — Caterpillar Sensor Interfaces",
+      "oemNumbers": [
+        "Deutsch 2-Pin to 12-Pin"
+      ],
+      "compatibility": [
+        "Caterpillar Sensor Interfaces"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-16",
+      "category": "Cabin Wiring Harness",
+      "description": "Cabinet Interface Connection Cable",
+      "name": "Cabinet Interface Connection Cable — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-17",
+      "category": "Common Rail / Injection Harness",
+      "description": "Digital Common Rail Engine Harness",
+      "name": "Digital Common Rail Engine Harness — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021",
+        "537-00010"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-18",
+      "category": "Wiring Harness",
+      "description": "Processing Unit Core Wire Loom",
+      "name": "Processing Unit Core Wire Loom — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-43101",
+        "21N6-44101"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-19",
+      "category": "Wiring Harness",
+      "description": "Smart System Integration Harness",
+      "name": "Smart System Integration Harness — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30102",
+        "21Q6-32103"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "59"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-2",
+      "category": "Engine / Control Harness",
+      "description": "Engine Electronic Harness",
+      "name": "Engine Electronic Harness — Caterpillar E320C (3066 Engine)",
+      "oemNumbers": [
+        "221-8859",
+        "241-8368"
+      ],
+      "compatibility": [
+        "Caterpillar E320C (3066 Engine)"
+      ],
+      "pages": [
+        "57"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-20",
+      "category": "Engine / Control Harness",
+      "description": "Engine Electrical Junction Loom",
+      "name": "Engine Electrical Junction Loom — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "60"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-21",
+      "category": "Wiring Harness",
+      "description": "Machine Integration Wire Harness",
+      "name": "Machine Integration Wire Harness — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "60"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-22",
+      "category": "Engine / Control Harness",
+      "description": "Core Frame Electrical Array",
+      "name": "Core Frame Electrical Array — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "61"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-23",
+      "category": "Cabin Wiring Harness",
+      "description": "Alternator & Starter Heavy Cable Set",
+      "name": "Alternator & Starter Heavy Cable Set — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "62"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-24",
+      "category": "Sensor Bus Interconnect Line",
+      "description": "Sensor Bus Interconnect Line",
+      "name": "Sensor Bus Interconnect Line — John Deere Industrial Equipment",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Industrial Equipment"
+      ],
+      "pages": [
+        "62"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-3",
+      "category": "Common Rail / Injection Harness",
+      "description": "Injector Component Harness",
+      "name": "Injector Component Harness — Caterpillar E320D (C6.4 Engine)",
+      "oemNumbers": [
+        "309-5769",
+        "320-3060"
+      ],
+      "compatibility": [
+        "Caterpillar E320D (C6.4 Engine)"
+      ],
+      "pages": [
+        "57"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-3A",
+      "category": "Common Rail / Injection Harness",
+      "description": "Common Rail Wiring Assembly",
+      "name": "Common Rail Wiring Assembly — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439",
+        "375-6988"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "57"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-4",
+      "category": "Common Rail / Injection Harness",
+      "description": "Dynamic Fuel Injection Cable",
+      "name": "Dynamic Fuel Injection Cable — Caterpillar C7, C9 Common Rail Engines",
+      "oemNumbers": [
+        "425-4893"
+      ],
+      "compatibility": [
+        "Caterpillar C7",
+        "C9 Common Rail Engines"
+      ],
+      "pages": [
+        "57"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-5",
+      "category": "Engine / Control Harness",
+      "description": "Main Pump Control Wiring Loop",
+      "name": "Main Pump Control Wiring Loop — Komatsu PC200-5, PC220-5",
+      "oemNumbers": [
+        "7834-40-2000",
+        "7834-50-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5"
+      ],
+      "pages": [
+        "57"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-6",
+      "category": "Cabin Wiring Harness",
+      "description": "Cabinet Dashboard Assembly Harness",
+      "name": "Cabinet Dashboard Assembly Harness — Komatsu PC200-6, PC220-6",
+      "oemNumbers": [
+        "7834-52-2003",
+        "20Y-06-21710"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "57"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-7",
+      "category": "Engine / Control Harness",
+      "description": "Main Controller Ingestion Harness",
+      "name": "Main Controller Ingestion Harness — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "7835-10-2005",
+        "7861-93-2310"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-8",
+      "category": "Common Rail / Injection Harness",
+      "description": "High-Pressure Common Rail Wire Loom",
+      "name": "High-Pressure Common Rail Wire Loom — Komatsu PC200-8 (6D107 Engine)",
+      "oemNumbers": [
+        "600-467-1100",
+        "7835-31-1002"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 (6D107 Engine)"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-8A",
+      "category": "Engine / Control Harness",
+      "description": "Engine Overhaul Terminal Wire Kit",
+      "name": "Engine Overhaul Terminal Wire Kit — Komatsu PC200-10",
+      "oemNumbers": [
+        "7835-35-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-10"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A21-9",
+      "category": "Engine / Control Harness",
+      "description": "Engine Frame Harness Array",
+      "name": "Engine Frame Harness Array — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN50S00002P1",
+        "YN24C00114F2"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "58"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 12",
+      "confidence": "user-section12-v2"
     }
   ]
 }
