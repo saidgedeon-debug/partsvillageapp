@@ -1,0 +1,53 @@
+Section 9: Throttle Motors, Accelerator Actuators, & Stepper Units (Pages 41–44)
+This section contains the precise technical extraction for electronic governor control units, throttle stepper motors, and replacement accelerator cables from pages 41 to 44.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A18-1Throttle Stepper Motor106-0062 / 132-7783CAT E320B, E320APage 41
+A18-2Throttle Stepper Motor (Dual Cable)106-0063 / 126-3019CAT E320B, E325BPage 41
+A18-3Throttle Motor Assembly247-5231 / 247-5229CAT E320C, E312CPage 41
+A18-4Throttle Actuator Motor305-4893 / 247-5212CAT E320D, E323DPage 41
+A18-4AElectronic Governor Actuator386-3439CAT E320D2 SeriesPage 41
+A18-4BThrottle Actuator (Small Core)425-4893CAT E307DPage 41
+A18-5Governor Control CableCable Link NodeCAT 320B Throttle LinkPage 41
+A18-5AGovernor Control CableCable Link NodeCAT 320C Throttle LinkPage 41
+A18-5BGovernor Control CableCable Link NodeCAT 320D Throttle LinkPage 41
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A18-12Electronic Throttle Actuator14518342 / 14531342VOLVO EC210B, EC240B, EC290BPage 42
+A18-12AThrottle Motor Assembly14556342VOLVO EC210DPage 42
+A18-13Stepper Motor Core20450693 / Deutz RailVOLVO EC210 (D6D Engine)Page 42
+A18-14Accelerator Control Cable14531201VOLVO ExcavatorsPage 42
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A18-6Throttle Motor Assembly7834-40-2000 / 7834-40-2001Komatsu PC200-6, PC220-6, PC300-6Page 41
+A18-7Throttle Motor Assembly (7-Pin)7834-41-2000 / 7834-41-3000Komatsu PC200-7, PC220-7Page 41
+A18-8Throttle Motor Core Unit7835-46-2000Komatsu PC200-8, PC220-8Page 42
+A18-9Throttle Position Sensor7861-92-4110Komatsu PC200-6 SensorPage 42
+A18-10Throttle Position Sensor7861-93-4130Komatsu PC200-7 SensorPage 42
+A18-11Accelerator Pedal Potentiometer22U-06-22380Komatsu PC200-8 Cabin FloorPage 42
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A18-15Throttle Stepper Motor4257163 / 4188414Hitachi EX200-2, EX200-3, EX200-5Page 43
+A18-16Throttle Motor Assembly4360297 / 4443849Hitachi ZAX200, ZAX210, ZAX230Page 43
+A18-17Electronic Governor Actuator4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 43
+A18-18Throttle Sensor Core4257164Hitachi EX SeriesPage 43
+A18-19Throttle Stepper MotorIsuzu Engine CoreIsuzu 4HK1, 6HK1 EnginesPage 43
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A18-20Throttle Motor Assembly2523-9014 / 2523-9015Daewoo Doosan DH220-5Page 43
+A18-21Throttle Motor Assembly300513-00021Doosan DX225, DX300Page 43
+A18-22Throttle Motor Unit21N6-01272Hyundai R210-5, R220-5Page 43
+A18-23Throttle Motor Unit21N6-01275 / 21N6-01280Hyundai R215-7, R225-7Page 44
+A18-24Electronic Throttle Actuator21Q6-30080Hyundai R210-9, R220-9Page 44
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A18-25Throttle Stepper MotorYN24C00114F2Kobelco SK200-3, SK200-5Page 44
+A18-26Throttle Motor AssemblyYN24C00114F1 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 44
+A18-27Electronic Throttle ActuatorLQ24C00020F1Kobelco SK200-8, SK350-8Page 44
+A18-28Throttle Stepper MotorKHR1313 / KHR24000Sumitomo SH200A3, SH210-5Page 44
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A18-29Throttle Motor Unit60114798Sany SY215, SY235Page 44
+A18-30Throttle Motor Unit10213169Liugong 920D, 922DPage 44
+A18-31Throttle Motor Unit1000168XCMG XE215CPage 44
+A18-32Universal Accelerator CableMulti-Fit Ball Joint HeadUniversal Engineering ProjectsPage 44

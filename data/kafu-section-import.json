@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_8_v2",
+  "status": "sections_2_to_9_v2",
   "supplier": "Kafu",
-  "rawRows": 185,
-  "section7": 185,
-  "kept_prior": 1012,
-  "count": 1197,
+  "rawRows": 37,
+  "section9": 37,
+  "kept_prior": 1197,
+  "count": 1234,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -40,6 +40,7 @@
     "Fuel/Oil Temperature Sensor",
     "Glow / Preheater Plug",
     "Glow Plug",
+    "Governor / Accelerator Cable",
     "HVAC Controller",
     "Heavy-Duty Resistor Block",
     "High Pressure Sensor",
@@ -87,7 +88,10 @@
     "Temperature Probe",
     "Temperature Sensor",
     "Temperature Switch",
+    "Throttle Actuator",
     "Throttle Drive Board",
+    "Throttle Motor",
+    "Throttle Position Sensor",
     "Vacuum Pressure Sensor",
     "Vacuum Pressure Switch",
     "Voltage Regulator",
@@ -24105,6 +24109,786 @@
       ],
       "section": "Section 8",
       "confidence": "user-section8-v2"
+    },
+    {
+      "catalogCode": "A18-1",
+      "category": "Throttle Motor",
+      "description": "Throttle Stepper Motor",
+      "name": "Throttle Stepper Motor — Caterpillar E320B, E320A",
+      "oemNumbers": [
+        "106-0062",
+        "132-7783"
+      ],
+      "compatibility": [
+        "Caterpillar E320B",
+        "E320A"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-10",
+      "category": "Throttle Position Sensor",
+      "description": "Throttle Position Sensor",
+      "name": "Throttle Position Sensor — Komatsu PC200-7 Sensor",
+      "oemNumbers": [
+        "7861-93-4130"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7 Sensor"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-11",
+      "category": "Throttle Position Sensor",
+      "description": "Accelerator Pedal Potentiometer",
+      "name": "Accelerator Pedal Potentiometer — Komatsu PC200-8 Cabin Floor",
+      "oemNumbers": [
+        "22U-06-22380"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 Cabin Floor"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-12",
+      "category": "Throttle Actuator",
+      "description": "Electronic Throttle Actuator",
+      "name": "Electronic Throttle Actuator — Volvo EC210B, EC240B, EC290B",
+      "oemNumbers": [
+        "14518342",
+        "14531342"
+      ],
+      "compatibility": [
+        "Volvo EC210B",
+        "EC240B",
+        "EC290B"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-12A",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly",
+      "name": "Throttle Motor Assembly — Volvo EC210D",
+      "oemNumbers": [
+        "14556342"
+      ],
+      "compatibility": [
+        "Volvo EC210D"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-13",
+      "category": "Throttle Motor",
+      "description": "Stepper Motor Core",
+      "name": "Stepper Motor Core — Deutz Rail VOLVO EC210 (D6D Engine)",
+      "oemNumbers": [
+        "20450693"
+      ],
+      "compatibility": [
+        "Deutz Rail VOLVO EC210 (D6D Engine)"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-14",
+      "category": "Governor / Accelerator Cable",
+      "description": "Accelerator Control Cable",
+      "name": "Accelerator Control Cable — Volvo Excavators",
+      "oemNumbers": [
+        "14531201"
+      ],
+      "compatibility": [
+        "Volvo Excavators"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-15",
+      "category": "Throttle Motor",
+      "description": "Throttle Stepper Motor",
+      "name": "Throttle Stepper Motor — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4257163",
+        "4188414"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-16",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly",
+      "name": "Throttle Motor Assembly — Hitachi ZAX200, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4360297",
+        "4443849"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-17",
+      "category": "Throttle Actuator",
+      "description": "Electronic Governor Actuator",
+      "name": "Electronic Governor Actuator — Hitachi ZAX200-3, ZAX240-3",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-18",
+      "category": "Throttle Position Sensor",
+      "description": "Throttle Sensor Core",
+      "name": "Throttle Sensor Core — Hitachi EX Series",
+      "oemNumbers": [
+        "4257164"
+      ],
+      "compatibility": [
+        "Hitachi EX Series"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-19",
+      "category": "Throttle Motor",
+      "description": "Throttle Stepper Motor",
+      "name": "Throttle Stepper Motor — Isuzu 4HK1, 6HK1 Engines",
+      "oemNumbers": [
+        "Isuzu"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1",
+        "6HK1 Engines"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-2",
+      "category": "Governor / Accelerator Cable",
+      "description": "Throttle Stepper Motor (Dual Cable)",
+      "name": "Throttle Stepper Motor (Dual Cable) — Caterpillar E320B, E325B",
+      "oemNumbers": [
+        "106-0063",
+        "126-3019"
+      ],
+      "compatibility": [
+        "Caterpillar E320B",
+        "E325B"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-20",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly",
+      "name": "Throttle Motor Assembly — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2523-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-21",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly",
+      "name": "Throttle Motor Assembly — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-22",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Unit",
+      "name": "Throttle Motor Unit — Hyundai R210-5, R220-5",
+      "oemNumbers": [
+        "21N6-01272"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R220-5"
+      ],
+      "pages": [
+        "43"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-23",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Unit",
+      "name": "Throttle Motor Unit — Hyundai R215-7, R225-7",
+      "oemNumbers": [
+        "21N6-01275",
+        "21N6-01280"
+      ],
+      "compatibility": [
+        "Hyundai R215-7",
+        "R225-7"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-24",
+      "category": "Throttle Actuator",
+      "description": "Electronic Throttle Actuator",
+      "name": "Electronic Throttle Actuator — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30080"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-25",
+      "category": "Throttle Motor",
+      "description": "Throttle Stepper Motor",
+      "name": "Throttle Stepper Motor — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN24C00114F2"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-26",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly",
+      "name": "Throttle Motor Assembly — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN24C00114F1",
+        "YT24C00014F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-27",
+      "category": "Throttle Actuator",
+      "description": "Electronic Throttle Actuator",
+      "name": "Electronic Throttle Actuator — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "LQ24C00020F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-28",
+      "category": "Throttle Motor",
+      "description": "Throttle Stepper Motor",
+      "name": "Throttle Stepper Motor — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1313",
+        "KHR24000"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-29",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Unit",
+      "name": "Throttle Motor Unit — Sany SY215, SY235",
+      "oemNumbers": [
+        "60114798"
+      ],
+      "compatibility": [
+        "Sany SY215",
+        "SY235"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-3",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly",
+      "name": "Throttle Motor Assembly — Caterpillar E320C, E312C",
+      "oemNumbers": [
+        "247-5231",
+        "247-5229"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E312C"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-30",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Unit",
+      "name": "Throttle Motor Unit — Liugong 920D, 922D",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920D",
+        "922D"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-31",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Unit",
+      "name": "Throttle Motor Unit — XCMG XE215C",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-32",
+      "category": "Governor / Accelerator Cable",
+      "description": "Universal Accelerator Cable",
+      "name": "Universal Accelerator Cable — Universal Engineering Projects",
+      "oemNumbers": [
+        "Multi-Fit Ball Joint Head"
+      ],
+      "compatibility": [
+        "Universal Engineering Projects"
+      ],
+      "pages": [
+        "44"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-4",
+      "category": "Throttle Actuator",
+      "description": "Throttle Actuator Motor",
+      "name": "Throttle Actuator Motor — Caterpillar E320D, E323D",
+      "oemNumbers": [
+        "305-4893",
+        "247-5212"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-4A",
+      "category": "Throttle Actuator",
+      "description": "Electronic Governor Actuator",
+      "name": "Electronic Governor Actuator — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-4B",
+      "category": "Throttle Actuator",
+      "description": "Throttle Actuator (Small Core)",
+      "name": "Throttle Actuator (Small Core) — Caterpillar E307D",
+      "oemNumbers": [
+        "425-4893"
+      ],
+      "compatibility": [
+        "Caterpillar E307D"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-5",
+      "category": "Governor / Accelerator Cable",
+      "description": "Governor Control Cable",
+      "name": "Governor Control Cable — Caterpillar 320B Throttle Link",
+      "oemNumbers": [
+        "Cable"
+      ],
+      "compatibility": [
+        "Caterpillar 320B Throttle Link"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-5A",
+      "category": "Governor / Accelerator Cable",
+      "description": "Governor Control Cable",
+      "name": "Governor Control Cable — Caterpillar 320C Throttle Link",
+      "oemNumbers": [
+        "Cable"
+      ],
+      "compatibility": [
+        "Caterpillar 320C Throttle Link"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-5B",
+      "category": "Governor / Accelerator Cable",
+      "description": "Governor Control Cable",
+      "name": "Governor Control Cable — Caterpillar 320D Throttle Link",
+      "oemNumbers": [
+        "Cable"
+      ],
+      "compatibility": [
+        "Caterpillar 320D Throttle Link"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-6",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly",
+      "name": "Throttle Motor Assembly — Komatsu PC200-6, PC220-6, PC300-6",
+      "oemNumbers": [
+        "7834-40-2000",
+        "7834-40-2001"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6",
+        "PC300-6"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-7",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Assembly (7-Pin)",
+      "name": "Throttle Motor Assembly (7-Pin) — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "7834-41-2000",
+        "7834-41-3000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "41"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-8",
+      "category": "Throttle Motor",
+      "description": "Throttle Motor Core Unit",
+      "name": "Throttle Motor Core Unit — Komatsu PC200-8, PC220-8",
+      "oemNumbers": [
+        "7835-46-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "PC220-8"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
+    },
+    {
+      "catalogCode": "A18-9",
+      "category": "Throttle Position Sensor",
+      "description": "Throttle Position Sensor",
+      "name": "Throttle Position Sensor — Komatsu PC200-6 Sensor",
+      "oemNumbers": [
+        "7861-92-4110"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6 Sensor"
+      ],
+      "pages": [
+        "42"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 9",
+      "confidence": "user-section9-v2"
     }
   ]
 }
