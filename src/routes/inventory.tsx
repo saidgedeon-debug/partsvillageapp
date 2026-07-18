@@ -488,6 +488,7 @@ function InventoryPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  {!isORings && <TableHead className="w-14">Photo</TableHead>}
                   {isORings && <TableHead>Box</TableHead>}
                   <TableHead>Part #</TableHead>
                   {isORings && <TableHead>ID (mm)</TableHead>}
@@ -514,6 +515,29 @@ function InventoryPage() {
                         : "";
                   return (
                     <TableRow key={p.id}>
+                      {!isORings && (
+                        <TableCell>
+                          {p.imageUrl ? (
+                            <button
+                              type="button"
+                              className="block overflow-hidden rounded-md border border-border bg-muted/30"
+                              onClick={() => openPart(p, "view")}
+                              title="View part"
+                            >
+                              <img
+                                src={p.imageUrl}
+                                alt={p.partNumber}
+                                className="h-11 w-11 object-contain"
+                                loading="lazy"
+                              />
+                            </button>
+                          ) : (
+                            <div className="flex h-11 w-11 items-center justify-center rounded-md border border-dashed border-border text-[10px] text-muted-foreground">
+                              —
+                            </div>
+                          )}
+                        </TableCell>
+                      )}
                       {isORings && (
                         <TableCell className="font-mono text-xs text-muted-foreground">
                           {p.boxNumber ?? "—"}
@@ -594,7 +618,7 @@ function InventoryPage() {
                 {rows.length === 0 && (
                   <TableRow>
                     <TableCell
-                      colSpan={isORings ? 9 : 8}
+                      colSpan={isORings ? 9 : 9}
                       className="py-12 text-center text-sm text-muted-foreground"
                     >
                       {parts.length === 0

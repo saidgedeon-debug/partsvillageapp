@@ -204,6 +204,15 @@ export function PartDetailDialog({
 
         {!editing && part ? (
           <div className="grid gap-4 sm:grid-cols-2">
+            {part.imageUrl ? (
+              <div className="sm:col-span-2 flex justify-center rounded-lg border border-border bg-muted/20 p-3">
+                <img
+                  src={part.imageUrl}
+                  alt={part.partNumber}
+                  className="max-h-56 w-auto object-contain"
+                />
+              </div>
+            ) : null}
             <div className="sm:col-span-2">
               <Field label="Part numbers" value={partNumbersOf(part).join(" · ")} />
             </div>

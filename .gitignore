@@ -54,4 +54,8 @@ data/kafu-ocr-raw.json
 
 .tessdata/
 .tmp-ocr-page.png
+.tmp-ocr-sample.png
+data/kafu-image-preview/
+data/kafu-ocr-sample-page5.txt
+scripts/__pycache__/
 

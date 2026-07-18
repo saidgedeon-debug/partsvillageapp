@@ -21,6 +21,8 @@ export type Part = {
   crossSectionMm?: string;
   /** Bag breakdown or other notes. */
   notes?: string;
+  /** Public URL for product photo (e.g. /kafu-parts/A01-1.jpg). */
+  imageUrl?: string;
 };
 
 /** Primary + OEM / alternate part numbers for display. */

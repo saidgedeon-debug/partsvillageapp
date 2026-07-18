@@ -1,6 +1,6 @@
 import type { Part } from "@/lib/mock-data";
 
-/** Kafu 2025 catalog — part #, description, machine from RapidOCR spatial extract. */
+/** Kafu 2025 catalog — part #, description, machine, product photo. */
 export const kafuParts: Part[] = [
   {
     id: "kafu-a01-1",
@@ -14,6 +14,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Komatsu PC200-7"],
     notes: "OEM: 7861-93-2330 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-1.jpg",
   },
   {
     id: "kafu-a01-10",
@@ -27,6 +28,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Kobelco SK200-6"],
     notes: "OEM: ME844577 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-10.jpg",
   },
   {
     id: "kafu-a01-10a",
@@ -40,6 +42,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "OEM: MC867505 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-10A.jpg",
   },
   {
     id: "kafu-a01-11",
@@ -53,6 +56,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-11.jpg",
   },
   {
     id: "kafu-a01-11a",
@@ -66,6 +70,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-8", "SK350-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-11A.jpg",
   },
   {
     id: "kafu-a01-12",
@@ -79,6 +84,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["6D24"],
     notes: "OEM: 9443612071 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-12.jpg",
   },
   {
     id: "kafu-a01-12a",
@@ -92,6 +98,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["6D16"],
     notes: "OEM: 9443613465 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-12A.jpg",
   },
   {
     id: "kafu-a01-13",
@@ -105,6 +112,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-13.jpg",
   },
   {
     id: "kafu-a01-14",
@@ -118,6 +126,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Hitachi EX200", "Hitachi EX120"],
     notes: "OEM: 4265372 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-14.jpg",
   },
   {
     id: "kafu-a01-15",
@@ -131,6 +140,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Hitachi ZAX450"],
     notes: "OEM: 1-81510713-1 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-15.jpg",
   },
   {
     id: "kafu-a01-16",
@@ -144,6 +154,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH220-5"],
     notes: "OEM: 25471015 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-16.jpg",
   },
   {
     id: "kafu-a01-17",
@@ -157,6 +168,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R2205"],
     notes: "OEM: 3034572 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-17.jpg",
   },
   {
     id: "kafu-a01-18",
@@ -170,6 +182,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R2257"],
     notes: "OEM: 9434072411 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-18.jpg",
   },
   {
     id: "kafu-a01-19",
@@ -183,6 +196,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH200A3"],
     notes: "OEM: 1815105531 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-19.jpg",
   },
   {
     id: "kafu-a01-1a",
@@ -196,6 +210,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Hitachi"],
     notes: "OEM: 2055358 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-1A.jpg",
   },
   {
     id: "kafu-a01-1b",
@@ -209,6 +224,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Komatsu WA500-1"],
     notes: "OEM: 7819-11-2315 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-1B.jpg",
   },
   {
     id: "kafu-a01-2",
@@ -222,6 +238,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Komatsu PC200-5", "Komatsu PC200-6", "Komatsu PC220-6"],
     notes: "OEM: 7861-92-2330 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-2.jpg",
   },
   {
     id: "kafu-a01-20",
@@ -235,6 +252,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-20.jpg",
   },
   {
     id: "kafu-a01-21",
@@ -248,6 +266,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Liugong"],
     notes: "OEM: 30T815, 4884223 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-21.jpg",
   },
   {
     id: "kafu-a01-21a",
@@ -261,6 +280,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-21A.jpg",
   },
   {
     id: "kafu-a01-21b",
@@ -274,6 +294,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "OEM: 4327233 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-21B.jpg",
   },
   {
     id: "kafu-a01-21c",
@@ -287,6 +308,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Komatsu PC1250-7", "Hitachi ZAX1200"],
     notes: "OEM: 4327239, 3408472 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-21C.jpg",
   },
   {
     id: "kafu-a01-22",
@@ -300,6 +322,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-22.jpg",
   },
   {
     id: "kafu-a01-23",
@@ -313,6 +336,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "OEM: 2872361 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-23.jpg",
   },
   {
     id: "kafu-a01-24",
@@ -326,6 +350,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-24.jpg",
   },
   {
     id: "kafu-a01-25",
@@ -339,6 +364,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 240001 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-25.jpg",
   },
   {
     id: "kafu-a01-26",
@@ -352,6 +378,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-26.jpg",
   },
   {
     id: "kafu-a01-27",
@@ -365,6 +392,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 290-5792 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27.jpg",
   },
   {
     id: "kafu-a01-271",
@@ -378,6 +406,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 391-7125 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-271.jpg",
   },
   {
     id: "kafu-a01-27a",
@@ -391,6 +420,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 196-1185 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27A.jpg",
   },
   {
     id: "kafu-a01-27b",
@@ -404,6 +434,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 2276744 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27B.jpg",
   },
   {
     id: "kafu-a01-27c",
@@ -417,6 +448,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27C.jpg",
   },
   {
     id: "kafu-a01-27d",
@@ -430,6 +462,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 258-4521 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27D.jpg",
   },
   {
     id: "kafu-a01-27e",
@@ -443,6 +476,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 504-9586 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27E.jpg",
   },
   {
     id: "kafu-a01-27f",
@@ -456,6 +490,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 253-2673 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27F.jpg",
   },
   {
     id: "kafu-a01-27g",
@@ -469,6 +504,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 440-0257 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27G.jpg",
   },
   {
     id: "kafu-a01-27h",
@@ -482,6 +518,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 458-0219 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27H.jpg",
   },
   {
     id: "kafu-a01-27j",
@@ -495,6 +532,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 574-8674 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27J.jpg",
   },
   {
     id: "kafu-a01-27k",
@@ -508,6 +546,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 122-8863 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-27K.jpg",
   },
   {
     id: "kafu-a01-28",
@@ -521,6 +560,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-28.jpg",
   },
   {
     id: "kafu-a01-29",
@@ -534,6 +574,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-29.jpg",
   },
   {
     id: "kafu-a01-2a",
@@ -547,6 +588,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA47-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-2A.jpg",
   },
   {
     id: "kafu-a01-2b",
@@ -560,6 +602,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Komatsu PC360-8"],
     notes: "OEM: 31121 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-2B.jpg",
   },
   {
     id: "kafu-a01-2c",
@@ -573,6 +616,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-2C.jpg",
   },
   {
     id: "kafu-a01-3",
@@ -586,6 +630,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E32-0"],
     notes: "OEM: 196-7973, 125-2966 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-3.jpg",
   },
   {
     id: "kafu-a01-30",
@@ -599,6 +644,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-30.jpg",
   },
   {
     id: "kafu-a01-31",
@@ -612,6 +658,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-31.jpg",
   },
   {
     id: "kafu-a01-32",
@@ -625,6 +672,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-32.jpg",
   },
   {
     id: "kafu-a01-33",
@@ -638,6 +686,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-33.jpg",
   },
   {
     id: "kafu-a01-34",
@@ -651,6 +700,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-34.jpg",
   },
   {
     id: "kafu-a01-35",
@@ -664,6 +714,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-35.jpg",
   },
   {
     id: "kafu-a01-36",
@@ -677,6 +728,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-36.jpg",
   },
   {
     id: "kafu-a01-37",
@@ -690,6 +742,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-37.jpg",
   },
   {
     id: "kafu-a01-38",
@@ -703,6 +756,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-38.jpg",
   },
   {
     id: "kafu-a01-39",
@@ -716,6 +770,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-39.jpg",
   },
   {
     id: "kafu-a01-3a",
@@ -729,6 +784,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320D"],
     notes: "OEM: 3244131 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-3A.jpg",
   },
   {
     id: "kafu-a01-4",
@@ -742,6 +798,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C"],
     notes: "OEM: 517579 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-4.jpg",
   },
   {
     id: "kafu-a01-40",
@@ -755,6 +812,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 266-8576 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-40.jpg",
   },
   {
     id: "kafu-a01-41",
@@ -768,6 +826,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 522-1643 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-41.jpg",
   },
   {
     id: "kafu-a01-41a",
@@ -781,6 +840,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-41A.jpg",
   },
   {
     id: "kafu-a01-42",
@@ -794,6 +854,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-42.jpg",
   },
   {
     id: "kafu-a01-42a",
@@ -807,6 +868,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-42A.jpg",
   },
   {
     id: "kafu-a01-43",
@@ -820,6 +882,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-43.jpg",
   },
   {
     id: "kafu-a01-43a",
@@ -833,6 +896,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-43A.jpg",
   },
   {
     id: "kafu-a01-43b",
@@ -846,6 +910,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 6658260 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-43B.jpg",
   },
   {
     id: "kafu-a01-44",
@@ -859,6 +924,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-44.jpg",
   },
   {
     id: "kafu-a01-45",
@@ -872,6 +938,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-45.jpg",
   },
   {
     id: "kafu-a01-46",
@@ -885,6 +952,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-46.jpg",
   },
   {
     id: "kafu-a01-47",
@@ -898,6 +966,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-47.jpg",
   },
   {
     id: "kafu-a01-48",
@@ -911,6 +980,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-48.jpg",
   },
   {
     id: "kafu-a01-49",
@@ -924,6 +994,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-49.jpg",
   },
   {
     id: "kafu-a01-5",
@@ -937,6 +1008,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Caterpillar E329"],
     notes: "OEM: 193-2550, 318-1178, 318-1181 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-5.jpg",
   },
   {
     id: "kafu-a01-50",
@@ -950,6 +1022,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-50.jpg",
   },
   {
     id: "kafu-a01-51",
@@ -963,6 +1036,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 171-232 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-51.jpg",
   },
   {
     id: "kafu-a01-52",
@@ -976,6 +1050,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-52.jpg",
   },
   {
     id: "kafu-a01-53",
@@ -989,6 +1064,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-53.jpg",
   },
   {
     id: "kafu-a01-54",
@@ -1002,6 +1078,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-54.jpg",
   },
   {
     id: "kafu-a01-55",
@@ -1015,6 +1092,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 701-80312 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-55.jpg",
   },
   {
     id: "kafu-a01-6",
@@ -1028,6 +1106,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E330C/325C", "4P582"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-6.jpg",
   },
   {
     id: "kafu-a01-6a",
@@ -1041,6 +1120,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 262-4806 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-6A.jpg",
   },
   {
     id: "kafu-a01-7",
@@ -1054,6 +1134,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E200B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-7.jpg",
   },
   {
     id: "kafu-a01-7a",
@@ -1067,6 +1148,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-7A.jpg",
   },
   {
     id: "kafu-a01-7b",
@@ -1080,6 +1162,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 212-3426 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-7B.jpg",
   },
   {
     id: "kafu-a01-8",
@@ -1093,6 +1176,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK130-8", "SK140-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-8.jpg",
   },
   {
     id: "kafu-a01-9",
@@ -1106,6 +1190,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Kobelco SK200-3", "Kobelco SK200-5"],
     notes: "OEM: ME845235 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A01-9.jpg",
   },
   {
     id: "kafu-a02-1",
@@ -1119,6 +1204,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 6301693300 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-1.jpg",
   },
   {
     id: "kafu-a02-10",
@@ -1132,6 +1218,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 97306113 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-10.jpg",
   },
   {
     id: "kafu-a02-10a",
@@ -1145,6 +1232,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-10A.jpg",
   },
   {
     id: "kafu-a02-11",
@@ -1158,6 +1246,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 971223240 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-11.jpg",
   },
   {
     id: "kafu-a02-12",
@@ -1171,6 +1260,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 8943705810 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-12.jpg",
   },
   {
     id: "kafu-a02-12a",
@@ -1184,6 +1274,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 98019024 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-12A.jpg",
   },
   {
     id: "kafu-a02-13",
@@ -1197,6 +1288,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 01182850 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-13.jpg",
   },
   {
     id: "kafu-a02-14",
@@ -1210,6 +1302,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 0118-2834 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-14.jpg",
   },
   {
     id: "kafu-a02-14a",
@@ -1223,6 +1316,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-14A.jpg",
   },
   {
     id: "kafu-a02-15",
@@ -1236,6 +1330,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-15.jpg",
   },
   {
     id: "kafu-a02-16",
@@ -1249,6 +1344,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-16.jpg",
   },
   {
     id: "kafu-a02-17",
@@ -1262,6 +1358,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-17.jpg",
   },
   {
     id: "kafu-a02-18",
@@ -1275,6 +1372,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-18.jpg",
   },
   {
     id: "kafu-a02-19",
@@ -1288,6 +1386,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 4123840, 0281002315 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-19.jpg",
   },
   {
     id: "kafu-a02-1a",
@@ -1301,6 +1400,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 384-3887 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-1A.jpg",
   },
   {
     id: "kafu-a02-1b",
@@ -1314,6 +1414,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 499-9117 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-1B.jpg",
   },
   {
     id: "kafu-a02-1c",
@@ -1327,6 +1428,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 481-5928 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-1C.jpg",
   },
   {
     id: "kafu-a02-2",
@@ -1340,6 +1442,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320D"],
     notes: "OEM: 238-0120 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-2.jpg",
   },
   {
     id: "kafu-a02-20",
@@ -1353,6 +1456,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R265-7492"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-20.jpg",
   },
   {
     id: "kafu-a02-21",
@@ -1366,6 +1470,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R265-7492"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-21.jpg",
   },
   {
     id: "kafu-a02-22",
@@ -1379,6 +1484,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 6754819410 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-22.jpg",
   },
   {
     id: "kafu-a02-22a",
@@ -1392,6 +1498,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 5594275 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-22A.jpg",
   },
   {
     id: "kafu-a02-22b",
@@ -1405,6 +1512,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3405529 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-22B.jpg",
   },
   {
     id: "kafu-a02-23",
@@ -1418,6 +1526,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-8"],
     notes: "OEM: 626181 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-23.jpg",
   },
   {
     id: "kafu-a02-23a",
@@ -1431,6 +1540,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "OEM: 4921601 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-23A.jpg",
   },
   {
     id: "kafu-a02-24",
@@ -1444,6 +1554,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-7"],
     notes: "OEM: 6217819210 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-24.jpg",
   },
   {
     id: "kafu-a02-25",
@@ -1457,6 +1568,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK35-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-25.jpg",
   },
   {
     id: "kafu-a02-26",
@@ -1470,6 +1582,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK350-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-26.jpg",
   },
   {
     id: "kafu-a02-26a",
@@ -1483,6 +1596,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 949979 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-26A.jpg",
   },
   {
     id: "kafu-a02-27",
@@ -1496,6 +1610,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK140-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-27.jpg",
   },
   {
     id: "kafu-a02-27a",
@@ -1509,6 +1624,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK13-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-27A.jpg",
   },
   {
     id: "kafu-a02-28",
@@ -1522,6 +1638,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-28.jpg",
   },
   {
     id: "kafu-a02-28a",
@@ -1535,6 +1652,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PERKINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-28A.jpg",
   },
   {
     id: "kafu-a02-28b",
@@ -1548,6 +1666,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PERKINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-28B.jpg",
   },
   {
     id: "kafu-a02-29",
@@ -1561,6 +1680,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 716-30123 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-29.jpg",
   },
   {
     id: "kafu-a02-29a",
@@ -1574,6 +1694,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 238-4676 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-29A.jpg",
   },
   {
     id: "kafu-a02-2a",
@@ -1587,6 +1708,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 384-3888 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-2A.jpg",
   },
   {
     id: "kafu-a02-2b",
@@ -1600,6 +1722,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-2B.jpg",
   },
   {
     id: "kafu-a02-2c",
@@ -1613,6 +1736,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-2C.jpg",
   },
   {
     id: "kafu-a02-3",
@@ -1626,6 +1750,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-3.jpg",
   },
   {
     id: "kafu-a02-30",
@@ -1639,6 +1764,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-30.jpg",
   },
   {
     id: "kafu-a02-31",
@@ -1652,6 +1778,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-31.jpg",
   },
   {
     id: "kafu-a02-32",
@@ -1665,6 +1792,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-32.jpg",
   },
   {
     id: "kafu-a02-32a",
@@ -1678,6 +1806,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-32A.jpg",
   },
   {
     id: "kafu-a02-33",
@@ -1691,6 +1820,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-33.jpg",
   },
   {
     id: "kafu-a02-34",
@@ -1704,6 +1834,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-34.jpg",
   },
   {
     id: "kafu-a02-35",
@@ -1717,6 +1848,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-35.jpg",
   },
   {
     id: "kafu-a02-36",
@@ -1730,6 +1862,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-36.jpg",
   },
   {
     id: "kafu-a02-37",
@@ -1743,6 +1876,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE51944 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-37.jpg",
   },
   {
     id: "kafu-a02-38",
@@ -1756,6 +1890,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-38.jpg",
   },
   {
     id: "kafu-a02-39",
@@ -1769,6 +1904,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-39.jpg",
   },
   {
     id: "kafu-a02-4",
@@ -1782,6 +1918,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E33-6"],
     notes: "OEM: 201-6616, 2016617 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-4.jpg",
   },
   {
     id: "kafu-a02-40",
@@ -1795,6 +1932,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4327230 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-40.jpg",
   },
   {
     id: "kafu-a02-41",
@@ -1808,6 +1946,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-41.jpg",
   },
   {
     id: "kafu-a02-42",
@@ -1821,6 +1960,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-42.jpg",
   },
   {
     id: "kafu-a02-43",
@@ -1834,6 +1974,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R9014"],
     notes: "OEM: 14438458 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-43.jpg",
   },
   {
     id: "kafu-a02-44",
@@ -1847,6 +1988,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 320-09650 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-44.jpg",
   },
   {
     id: "kafu-a02-45",
@@ -1860,6 +2002,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-45.jpg",
   },
   {
     id: "kafu-a02-46",
@@ -1873,6 +2016,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-46.jpg",
   },
   {
     id: "kafu-a02-47",
@@ -1886,6 +2030,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA150-5"],
     notes: "OEM: 418-18 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-47.jpg",
   },
   {
     id: "kafu-a02-4a",
@@ -1899,6 +2044,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-4A.jpg",
   },
   {
     id: "kafu-a02-5",
@@ -1912,6 +2058,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-5.jpg",
   },
   {
     id: "kafu-a02-5a",
@@ -1925,6 +2072,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2163446 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-5A.jpg",
   },
   {
     id: "kafu-a02-5b",
@@ -1938,6 +2086,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 204-6204 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-5B.jpg",
   },
   {
     id: "kafu-a02-6",
@@ -1951,6 +2100,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1815103432 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-6.jpg",
   },
   {
     id: "kafu-a02-7",
@@ -1964,6 +2114,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 897240790 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-7.jpg",
   },
   {
     id: "kafu-a02-8",
@@ -1977,6 +2128,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH16-0"],
     notes: "OEM: 8973121081 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-8.jpg",
   },
   {
     id: "kafu-a02-9",
@@ -1990,6 +2142,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH210-5"],
     notes: "OEM: 98014831 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A02-9.jpg",
   },
   {
     id: "kafu-a03-1",
@@ -2003,6 +2156,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 12146830 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-1.jpg",
   },
   {
     id: "kafu-a03-10",
@@ -2016,6 +2170,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 0542128 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-10.jpg",
   },
   {
     id: "kafu-a03-11",
@@ -2029,6 +2184,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-11.jpg",
   },
   {
     id: "kafu-a03-11a",
@@ -2042,6 +2198,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-11A.jpg",
   },
   {
     id: "kafu-a03-11b",
@@ -2055,6 +2212,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 385-1173 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-11B.jpg",
   },
   {
     id: "kafu-a03-12",
@@ -2068,6 +2226,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 2660136 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-12.jpg",
   },
   {
     id: "kafu-a03-12a",
@@ -2081,6 +2240,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 21442662 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-12A.jpg",
   },
   {
     id: "kafu-a03-12b",
@@ -2094,6 +2254,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 21304786, 22181342 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-12B.jpg",
   },
   {
     id: "kafu-a03-12c",
@@ -2107,6 +2268,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1078618 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-12C.jpg",
   },
   {
     id: "kafu-a03-13",
@@ -2120,6 +2282,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-13.jpg",
   },
   {
     id: "kafu-a03-13a",
@@ -2133,6 +2296,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 002254 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-13A.jpg",
   },
   {
     id: "kafu-a03-14",
@@ -2146,6 +2310,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-14.jpg",
   },
   {
     id: "kafu-a03-14a",
@@ -2159,6 +2324,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 3819064 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-14A.jpg",
   },
   {
     id: "kafu-a03-15",
@@ -2172,6 +2338,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 7861911420 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-15.jpg",
   },
   {
     id: "kafu-a03-15a",
@@ -2185,6 +2352,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-15A.jpg",
   },
   {
     id: "kafu-a03-16",
@@ -2198,6 +2366,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-16.jpg",
   },
   {
     id: "kafu-a03-17",
@@ -2211,6 +2380,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-8"],
     notes: "OEM: 6261812600 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-17.jpg",
   },
   {
     id: "kafu-a03-18",
@@ -2224,6 +2394,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-18.jpg",
   },
   {
     id: "kafu-a03-18a",
@@ -2237,6 +2408,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 314-9772 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-18A.jpg",
   },
   {
     id: "kafu-a03-19",
@@ -2250,6 +2422,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-8", "E320C", "ZAX20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-19.jpg",
   },
   {
     id: "kafu-a03-2",
@@ -2263,6 +2436,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 20450095 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-2.jpg",
   },
   {
     id: "kafu-a03-20",
@@ -2276,6 +2450,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 8981216970 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-20.jpg",
   },
   {
     id: "kafu-a03-21",
@@ -2289,6 +2464,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ISUZU"],
     notes: "OEM: 898065377 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-21.jpg",
   },
   {
     id: "kafu-a03-22",
@@ -2302,6 +2478,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "OEM: 230112 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-22.jpg",
   },
   {
     id: "kafu-a03-22a",
@@ -2315,6 +2492,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0281002953 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-22A.jpg",
   },
   {
     id: "kafu-a03-23",
@@ -2328,6 +2506,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "OEM: 4902720 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-23.jpg",
   },
   {
     id: "kafu-a03-24",
@@ -2341,6 +2520,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK21-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-24.jpg",
   },
   {
     id: "kafu-a03-25",
@@ -2354,6 +2534,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-25.jpg",
   },
   {
     id: "kafu-a03-25a",
@@ -2367,6 +2548,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 129978 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-25A.jpg",
   },
   {
     id: "kafu-a03-26",
@@ -2380,6 +2562,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-8"],
     notes: "OEM: 626181 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-26.jpg",
   },
   {
     id: "kafu-a03-26a",
@@ -2393,6 +2576,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 6520-81-1010 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-26A.jpg",
   },
   {
     id: "kafu-a03-27",
@@ -2406,6 +2590,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC350-10"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-27.jpg",
   },
   {
     id: "kafu-a03-28",
@@ -2419,6 +2604,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 266-1466 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-28.jpg",
   },
   {
     id: "kafu-a03-29",
@@ -2432,6 +2618,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2661467 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-29.jpg",
   },
   {
     id: "kafu-a03-29a",
@@ -2445,6 +2632,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 266-1468 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-29A.jpg",
   },
   {
     id: "kafu-a03-3",
@@ -2458,6 +2646,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200/84076493"],
     notes: "OEM: 84076493, 6261811900 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-3.jpg",
   },
   {
     id: "kafu-a03-30",
@@ -2471,6 +2660,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2661475 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-30.jpg",
   },
   {
     id: "kafu-a03-31",
@@ -2484,6 +2674,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 266-1477 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-31.jpg",
   },
   {
     id: "kafu-a03-32",
@@ -2497,6 +2688,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2661478 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-32.jpg",
   },
   {
     id: "kafu-a03-33",
@@ -2510,6 +2702,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2661481 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-33.jpg",
   },
   {
     id: "kafu-a03-34",
@@ -2523,6 +2716,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 266-2337 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-34.jpg",
   },
   {
     id: "kafu-a03-35",
@@ -2536,6 +2730,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2661484 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-35.jpg",
   },
   {
     id: "kafu-a03-36",
@@ -2549,6 +2744,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 266-1492 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-36.jpg",
   },
   {
     id: "kafu-a03-37",
@@ -2562,6 +2758,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-37.jpg",
   },
   {
     id: "kafu-a03-38",
@@ -2575,6 +2772,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-38.jpg",
   },
   {
     id: "kafu-a03-39",
@@ -2588,6 +2786,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-39.jpg",
   },
   {
     id: "kafu-a03-4",
@@ -2601,6 +2800,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 4921322, 6754812701 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-4.jpg",
   },
   {
     id: "kafu-a03-40",
@@ -2614,6 +2814,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-40.jpg",
   },
   {
     id: "kafu-a03-41",
@@ -2627,6 +2828,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-41.jpg",
   },
   {
     id: "kafu-a03-42",
@@ -2640,6 +2842,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-42.jpg",
   },
   {
     id: "kafu-a03-5",
@@ -2653,6 +2856,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "OEM: 8972177780 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-5.jpg",
   },
   {
     id: "kafu-a03-5a",
@@ -2666,6 +2870,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-5A.jpg",
   },
   {
     id: "kafu-a03-6",
@@ -2679,6 +2884,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-6.jpg",
   },
   {
     id: "kafu-a03-6a",
@@ -2692,6 +2898,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 22422785 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-6A.jpg",
   },
   {
     id: "kafu-a03-6b",
@@ -2705,6 +2912,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 24527125 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-6B.jpg",
   },
   {
     id: "kafu-a03-7",
@@ -2718,6 +2926,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-7.jpg",
   },
   {
     id: "kafu-a03-8",
@@ -2731,6 +2940,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 441050080 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-8.jpg",
   },
   {
     id: "kafu-a03-9",
@@ -2744,6 +2954,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 20565673 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-9.jpg",
   },
   {
     id: "kafu-a03-9a",
@@ -2757,6 +2968,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 15038313 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-9A.jpg",
   },
   {
     id: "kafu-a03-9b",
@@ -2770,6 +2982,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 22172068 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A03-9B.jpg",
   },
   {
     id: "kafu-a04-1",
@@ -2783,6 +2996,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-1.jpg",
   },
   {
     id: "kafu-a04-10",
@@ -2796,6 +3010,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-8", "SK350-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-10.jpg",
   },
   {
     id: "kafu-a04-11",
@@ -2809,6 +3024,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-11.jpg",
   },
   {
     id: "kafu-a04-12",
@@ -2822,6 +3038,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-12.jpg",
   },
   {
     id: "kafu-a04-13",
@@ -2835,6 +3052,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX33-0"],
     notes: "OEM: 8980274560, 4990007341 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-13.jpg",
   },
   {
     id: "kafu-a04-14",
@@ -2848,6 +3066,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-14.jpg",
   },
   {
     id: "kafu-a04-15",
@@ -2861,6 +3080,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1611703 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-15.jpg",
   },
   {
     id: "kafu-a04-16",
@@ -2874,6 +3094,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 161170404 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-16.jpg",
   },
   {
     id: "kafu-a04-17",
@@ -2887,6 +3108,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 161170504 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-17.jpg",
   },
   {
     id: "kafu-a04-18",
@@ -2900,6 +3122,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 194-6722 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18.jpg",
   },
   {
     id: "kafu-a04-181",
@@ -2913,6 +3136,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: C13216-8684 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-181.jpg",
   },
   {
     id: "kafu-a04-18a",
@@ -2926,6 +3150,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 3116131 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18A.jpg",
   },
   {
     id: "kafu-a04-18b",
@@ -2939,6 +3164,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 2594459 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18B.jpg",
   },
   {
     id: "kafu-a04-18c",
@@ -2952,6 +3178,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 459-2595 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18C.jpg",
   },
   {
     id: "kafu-a04-18d",
@@ -2965,6 +3192,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18D.jpg",
   },
   {
     id: "kafu-a04-18e",
@@ -2978,6 +3206,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 421-06-35111 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18E.jpg",
   },
   {
     id: "kafu-a04-18f",
@@ -2991,6 +3220,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 459-2591 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18F.jpg",
   },
   {
     id: "kafu-a04-18g",
@@ -3004,6 +3234,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 304-5666 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18G.jpg",
   },
   {
     id: "kafu-a04-18h",
@@ -3017,6 +3248,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 163-8516 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18H.jpg",
   },
   {
     id: "kafu-a04-18j",
@@ -3030,6 +3262,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 103-4977 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18J.jpg",
   },
   {
     id: "kafu-a04-18k",
@@ -3043,6 +3276,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 149-6371 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-18K.jpg",
   },
   {
     id: "kafu-a04-19",
@@ -3056,6 +3290,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-19.jpg",
   },
   {
     id: "kafu-a04-19a",
@@ -3069,6 +3304,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1070612 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-19A.jpg",
   },
   {
     id: "kafu-a04-19b",
@@ -3082,6 +3318,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 107-0613 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-19B.jpg",
   },
   {
     id: "kafu-a04-19c",
@@ -3095,6 +3332,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-19C.jpg",
   },
   {
     id: "kafu-a04-19d",
@@ -3108,6 +3346,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 107-0611 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-19D.jpg",
   },
   {
     id: "kafu-a04-2",
@@ -3121,6 +3360,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "OEM: 6732813140, 0807310505 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-2.jpg",
   },
   {
     id: "kafu-a04-20",
@@ -3134,6 +3374,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E107-0614"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-20.jpg",
   },
   {
     id: "kafu-a04-20a",
@@ -3147,6 +3388,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 313-5104 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-20A.jpg",
   },
   {
     id: "kafu-a04-20b",
@@ -3160,6 +3402,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 327-4608 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-20B.jpg",
   },
   {
     id: "kafu-a04-20c",
@@ -3173,6 +3416,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-20C.jpg",
   },
   {
     id: "kafu-a04-21",
@@ -3186,6 +3430,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200/8"],
     notes: "OEM: 6744814010 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-21.jpg",
   },
   {
     id: "kafu-a04-22",
@@ -3199,6 +3444,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC450-7"],
     notes: "OEM: 4921517 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-22.jpg",
   },
   {
     id: "kafu-a04-23",
@@ -3212,6 +3458,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-23.jpg",
   },
   {
     id: "kafu-a04-24",
@@ -3225,6 +3472,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 21291011 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-24.jpg",
   },
   {
     id: "kafu-a04-25",
@@ -3238,6 +3486,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 20450687 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-25.jpg",
   },
   {
     id: "kafu-a04-25a",
@@ -3251,6 +3500,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 11039575 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-25A.jpg",
   },
   {
     id: "kafu-a04-26",
@@ -3264,6 +3514,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-26.jpg",
   },
   {
     id: "kafu-a04-26a",
@@ -3277,6 +3528,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-26A.jpg",
   },
   {
     id: "kafu-a04-26b",
@@ -3290,6 +3542,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-26B.jpg",
   },
   {
     id: "kafu-a04-27",
@@ -3303,6 +3556,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 034774, 2132639, 20484678 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-27.jpg",
   },
   {
     id: "kafu-a04-28",
@@ -3316,6 +3570,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11039574 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-28.jpg",
   },
   {
     id: "kafu-a04-29",
@@ -3329,6 +3584,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 1077574 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-29.jpg",
   },
   {
     id: "kafu-a04-3",
@@ -3342,6 +3598,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-3.jpg",
   },
   {
     id: "kafu-a04-30",
@@ -3355,6 +3612,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 21634017 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-30.jpg",
   },
   {
     id: "kafu-a04-31",
@@ -3368,6 +3626,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11170072 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-31.jpg",
   },
   {
     id: "kafu-a04-32",
@@ -3381,6 +3640,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11170071 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-32.jpg",
   },
   {
     id: "kafu-a04-33",
@@ -3394,6 +3654,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11170090 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-33.jpg",
   },
   {
     id: "kafu-a04-34",
@@ -3407,6 +3668,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11170075 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-34.jpg",
   },
   {
     id: "kafu-a04-35",
@@ -3420,6 +3682,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11170079, 11170076 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-35.jpg",
   },
   {
     id: "kafu-a04-36",
@@ -3433,6 +3696,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 11038813 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-36.jpg",
   },
   {
     id: "kafu-a04-36a",
@@ -3446,6 +3710,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11039549, 21302639, 15163008 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-36A.jpg",
   },
   {
     id: "kafu-a04-36b",
@@ -3459,6 +3724,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11039577 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-36B.jpg",
   },
   {
     id: "kafu-a04-37",
@@ -3472,6 +3738,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1771230 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-37.jpg",
   },
   {
     id: "kafu-a04-37a",
@@ -3485,6 +3752,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 11418080 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-37A.jpg",
   },
   {
     id: "kafu-a04-38",
@@ -3498,6 +3766,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-38.jpg",
   },
   {
     id: "kafu-a04-39",
@@ -3511,6 +3780,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-39.jpg",
   },
   {
     id: "kafu-a04-4",
@@ -3524,6 +3794,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 898086433 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-4.jpg",
   },
   {
     id: "kafu-a04-40",
@@ -3537,6 +3808,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4780941 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-40.jpg",
   },
   {
     id: "kafu-a04-41",
@@ -3550,6 +3822,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 180002, 15180002 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-41.jpg",
   },
   {
     id: "kafu-a04-42",
@@ -3563,6 +3836,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-42.jpg",
   },
   {
     id: "kafu-a04-43",
@@ -3576,6 +3850,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 5090257 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-43.jpg",
   },
   {
     id: "kafu-a04-43a",
@@ -3589,6 +3864,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 11039662 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-43A.jpg",
   },
   {
     id: "kafu-a04-43b",
@@ -3602,6 +3878,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11419327 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-43B.jpg",
   },
   {
     id: "kafu-a04-43c",
@@ -3615,6 +3892,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11039376 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-43C.jpg",
   },
   {
     id: "kafu-a04-44",
@@ -3628,6 +3906,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "OEM: 661203 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-44.jpg",
   },
   {
     id: "kafu-a04-45",
@@ -3641,6 +3920,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-45.jpg",
   },
   {
     id: "kafu-a04-46",
@@ -3654,6 +3934,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-46.jpg",
   },
   {
     id: "kafu-a04-47",
@@ -3667,6 +3948,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "OEM: 660404 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-47.jpg",
   },
   {
     id: "kafu-a04-48",
@@ -3680,6 +3962,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-48.jpg",
   },
   {
     id: "kafu-a04-49",
@@ -3693,6 +3976,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "OEM: 100096 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-49.jpg",
   },
   {
     id: "kafu-a04-49a",
@@ -3706,6 +3990,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-49A.jpg",
   },
   {
     id: "kafu-a04-49b",
@@ -3719,6 +4004,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-49B.jpg",
   },
   {
     id: "kafu-a04-49c",
@@ -3732,6 +4018,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-49C.jpg",
   },
   {
     id: "kafu-a04-49d",
@@ -3745,6 +4032,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "OEM: 3080804 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-49D.jpg",
   },
   {
     id: "kafu-a04-5",
@@ -3758,6 +4046,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-5"],
     notes: "OEM: 6732813140, 0807310505 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-5.jpg",
   },
   {
     id: "kafu-a04-50",
@@ -3771,6 +4060,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-50.jpg",
   },
   {
     id: "kafu-a04-51",
@@ -3784,6 +4074,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-51.jpg",
   },
   {
     id: "kafu-a04-51a",
@@ -3797,6 +4088,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-51A.jpg",
   },
   {
     id: "kafu-a04-52",
@@ -3810,6 +4102,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-52.jpg",
   },
   {
     id: "kafu-a04-52a",
@@ -3823,6 +4116,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-52A.jpg",
   },
   {
     id: "kafu-a04-53",
@@ -3836,6 +4130,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-53.jpg",
   },
   {
     id: "kafu-a04-54",
@@ -3849,6 +4144,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS", "SANY"],
     notes: "OEM: 00000286 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-54.jpg",
   },
   {
     id: "kafu-a04-55",
@@ -3862,6 +4158,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-55.jpg",
   },
   {
     id: "kafu-a04-55a",
@@ -3875,6 +4172,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1093171 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-55A.jpg",
   },
   {
     id: "kafu-a04-55b",
@@ -3888,6 +4186,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 150-1240 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-55B.jpg",
   },
   {
     id: "kafu-a04-56",
@@ -3901,6 +4200,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-56.jpg",
   },
   {
     id: "kafu-a04-56a",
@@ -3914,6 +4214,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-56A.jpg",
   },
   {
     id: "kafu-a04-56b",
@@ -3927,6 +4228,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-56B.jpg",
   },
   {
     id: "kafu-a04-56c",
@@ -3940,6 +4242,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-56C.jpg",
   },
   {
     id: "kafu-a04-56d",
@@ -3953,6 +4256,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-56D.jpg",
   },
   {
     id: "kafu-a04-56f",
@@ -3966,6 +4270,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-56F.jpg",
   },
   {
     id: "kafu-a04-57",
@@ -3979,6 +4284,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 421-43 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-57.jpg",
   },
   {
     id: "kafu-a04-58",
@@ -3992,6 +4298,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 6635545, 4214332912 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-58.jpg",
   },
   {
     id: "kafu-a04-58a",
@@ -4005,6 +4312,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 421-43 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-58A.jpg",
   },
   {
     id: "kafu-a04-59",
@@ -4018,6 +4326,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-845"],
     notes: "OEM: 4214322922 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-59.jpg",
   },
   {
     id: "kafu-a04-6",
@@ -4031,6 +4340,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-6.jpg",
   },
   {
     id: "kafu-a04-60",
@@ -4044,6 +4354,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC20-0"],
     notes: "OEM: 771-1409, 4214322910 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-60.jpg",
   },
   {
     id: "kafu-a04-61",
@@ -4057,6 +4368,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-61.jpg",
   },
   {
     id: "kafu-a04-61a",
@@ -4070,6 +4382,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-61A.jpg",
   },
   {
     id: "kafu-a04-61b",
@@ -4083,6 +4396,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-61B.jpg",
   },
   {
     id: "kafu-a04-62",
@@ -4096,6 +4410,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11039617 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-62.jpg",
   },
   {
     id: "kafu-a04-63",
@@ -4109,6 +4424,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "OEM: 064530 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-63.jpg",
   },
   {
     id: "kafu-a04-64",
@@ -4122,6 +4438,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-64.jpg",
   },
   {
     id: "kafu-a04-65",
@@ -4135,6 +4452,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-65.jpg",
   },
   {
     id: "kafu-a04-66",
@@ -4148,6 +4466,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "OEM: 10213169 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-66.jpg",
   },
   {
     id: "kafu-a04-66a",
@@ -4161,6 +4480,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-66A.jpg",
   },
   {
     id: "kafu-a04-66b",
@@ -4174,6 +4494,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-66B.jpg",
   },
   {
     id: "kafu-a04-66c",
@@ -4187,6 +4508,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-66C.jpg",
   },
   {
     id: "kafu-a04-66d",
@@ -4200,6 +4522,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-66D.jpg",
   },
   {
     id: "kafu-a04-67",
@@ -4213,6 +4536,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2031626877 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-67.jpg",
   },
   {
     id: "kafu-a04-68",
@@ -4226,6 +4550,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 06912019 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-68.jpg",
   },
   {
     id: "kafu-a04-69",
@@ -4239,6 +4564,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 142011 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-69.jpg",
   },
   {
     id: "kafu-a04-6a",
@@ -4252,6 +4578,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-6A.jpg",
   },
   {
     id: "kafu-a04-7",
@@ -4265,6 +4592,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-7.jpg",
   },
   {
     id: "kafu-a04-70",
@@ -4278,6 +4606,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 09812682 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-70.jpg",
   },
   {
     id: "kafu-a04-71",
@@ -4291,6 +4620,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3451310 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-71.jpg",
   },
   {
     id: "kafu-a04-72",
@@ -4304,6 +4634,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 201005 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-72.jpg",
   },
   {
     id: "kafu-a04-73",
@@ -4317,6 +4648,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-73.jpg",
   },
   {
     id: "kafu-a04-74",
@@ -4330,6 +4662,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-74.jpg",
   },
   {
     id: "kafu-a04-75",
@@ -4343,6 +4676,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE25658 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-75.jpg",
   },
   {
     id: "kafu-a04-76",
@@ -4356,6 +4690,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-76.jpg",
   },
   {
     id: "kafu-a04-77",
@@ -4369,6 +4704,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-77.jpg",
   },
   {
     id: "kafu-a04-78",
@@ -4382,6 +4718,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE63291 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-78.jpg",
   },
   {
     id: "kafu-a04-79",
@@ -4395,6 +4732,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-79.jpg",
   },
   {
     id: "kafu-a04-7a",
@@ -4408,6 +4746,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-7A.jpg",
   },
   {
     id: "kafu-a04-7b",
@@ -4421,6 +4760,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-7B.jpg",
   },
   {
     id: "kafu-a04-8",
@@ -4434,6 +4774,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-8.jpg",
   },
   {
     id: "kafu-a04-80",
@@ -4447,6 +4788,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-80.jpg",
   },
   {
     id: "kafu-a04-81",
@@ -4460,6 +4802,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-81.jpg",
   },
   {
     id: "kafu-a04-82",
@@ -4473,6 +4816,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-82.jpg",
   },
   {
     id: "kafu-a04-83",
@@ -4486,6 +4830,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE55145 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-83.jpg",
   },
   {
     id: "kafu-a04-84",
@@ -4499,6 +4844,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH30"],
     notes: "OEM: 1309-00022 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-84.jpg",
   },
   {
     id: "kafu-a04-9",
@@ -4512,6 +4858,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK230-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-9.jpg",
   },
   {
     id: "kafu-a04-9a",
@@ -4525,6 +4872,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA380-6418"],
     notes: "OEM: 6418-43-37681 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-9A.jpg",
   },
   {
     id: "kafu-a04-9b",
@@ -4538,6 +4886,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A04-9B.jpg",
   },
   {
     id: "kafu-a05-1",
@@ -4551,6 +4900,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-1.jpg",
   },
   {
     id: "kafu-a05-10",
@@ -4564,6 +4914,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-10.jpg",
   },
   {
     id: "kafu-a05-11",
@@ -4577,6 +4928,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-11.jpg",
   },
   {
     id: "kafu-a05-12",
@@ -4590,6 +4942,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 041000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-12.jpg",
   },
   {
     id: "kafu-a05-13",
@@ -4603,6 +4956,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7288690 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-13.jpg",
   },
   {
     id: "kafu-a05-14",
@@ -4616,6 +4970,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-14.jpg",
   },
   {
     id: "kafu-a05-15",
@@ -4629,6 +4984,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "ZAX20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-15.jpg",
   },
   {
     id: "kafu-a05-16",
@@ -4642,6 +4998,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-16.jpg",
   },
   {
     id: "kafu-a05-16a",
@@ -4655,6 +5012,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-16A.jpg",
   },
   {
     id: "kafu-a05-16b",
@@ -4668,6 +5026,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-16B.jpg",
   },
   {
     id: "kafu-a05-16c",
@@ -4681,6 +5040,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 21396128 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-16C.jpg",
   },
   {
     id: "kafu-a05-17",
@@ -4694,6 +5054,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-17.jpg",
   },
   {
     id: "kafu-a05-18",
@@ -4707,6 +5068,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-18.jpg",
   },
   {
     id: "kafu-a05-19",
@@ -4720,6 +5082,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-92 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-19.jpg",
   },
   {
     id: "kafu-a05-1a",
@@ -4733,6 +5096,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 15193875, 15001761 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-1A.jpg",
   },
   {
     id: "kafu-a05-2",
@@ -4746,6 +5110,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-2.jpg",
   },
   {
     id: "kafu-a05-20",
@@ -4759,6 +5124,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861934520 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-20.jpg",
   },
   {
     id: "kafu-a05-20a",
@@ -4772,6 +5138,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 213-0676 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-20A.jpg",
   },
   {
     id: "kafu-a05-20b",
@@ -4785,6 +5152,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-91-4510 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-20B.jpg",
   },
   {
     id: "kafu-a05-21",
@@ -4798,6 +5166,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 2953099 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-21.jpg",
   },
   {
     id: "kafu-a05-21a",
@@ -4811,6 +5180,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-21A.jpg",
   },
   {
     id: "kafu-a05-22",
@@ -4824,6 +5194,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 21285163 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22.jpg",
   },
   {
     id: "kafu-a05-22a",
@@ -4837,6 +5208,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 8980316051 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22A.jpg",
   },
   {
     id: "kafu-a05-22b",
@@ -4850,6 +5222,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 8981867621 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22B.jpg",
   },
   {
     id: "kafu-a05-22c",
@@ -4863,6 +5236,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22C.jpg",
   },
   {
     id: "kafu-a05-22d",
@@ -4876,6 +5250,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 3512383 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22D.jpg",
   },
   {
     id: "kafu-a05-22e",
@@ -4889,6 +5264,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 383-2982 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22E.jpg",
   },
   {
     id: "kafu-a05-22f",
@@ -4902,6 +5278,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 383-2981 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22F.jpg",
   },
   {
     id: "kafu-a05-22g",
@@ -4915,6 +5292,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 320-06233 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-22G.jpg",
   },
   {
     id: "kafu-a05-23",
@@ -4928,6 +5306,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-23.jpg",
   },
   {
     id: "kafu-a05-24",
@@ -4941,6 +5320,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 418-6597 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-24.jpg",
   },
   {
     id: "kafu-a05-25",
@@ -4954,6 +5334,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 71630071 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-25.jpg",
   },
   {
     id: "kafu-a05-26",
@@ -4967,6 +5348,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 6219-11-8820 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-26.jpg",
   },
   {
     id: "kafu-a05-27",
@@ -4980,6 +5362,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA200-6418"],
     notes: "OEM: 6418-43-37230 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-27.jpg",
   },
   {
     id: "kafu-a05-28",
@@ -4993,6 +5376,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 415-2432 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-28.jpg",
   },
   {
     id: "kafu-a05-29",
@@ -5006,6 +5390,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 164-3692 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-29.jpg",
   },
   {
     id: "kafu-a05-2a",
@@ -5019,6 +5404,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-2A.jpg",
   },
   {
     id: "kafu-a05-3",
@@ -5032,6 +5418,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-3.jpg",
   },
   {
     id: "kafu-a05-30",
@@ -5045,6 +5432,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 816-2720 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-30.jpg",
   },
   {
     id: "kafu-a05-31",
@@ -5058,6 +5446,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-31.jpg",
   },
   {
     id: "kafu-a05-32",
@@ -5071,6 +5460,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "E048-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-32.jpg",
   },
   {
     id: "kafu-a05-33",
@@ -5084,6 +5474,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-33.jpg",
   },
   {
     id: "kafu-a05-34",
@@ -5097,6 +5488,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 441-5127 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-34.jpg",
   },
   {
     id: "kafu-a05-35",
@@ -5110,6 +5502,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-35.jpg",
   },
   {
     id: "kafu-a05-36",
@@ -5123,6 +5516,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-36.jpg",
   },
   {
     id: "kafu-a05-4",
@@ -5136,6 +5530,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-4.jpg",
   },
   {
     id: "kafu-a05-5",
@@ -5149,6 +5544,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17202022 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-5.jpg",
   },
   {
     id: "kafu-a05-5a",
@@ -5162,6 +5558,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17202021 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-5A.jpg",
   },
   {
     id: "kafu-a05-6",
@@ -5175,6 +5572,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5"],
     notes: "OEM: 786192 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-6.jpg",
   },
   {
     id: "kafu-a05-7",
@@ -5188,6 +5586,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 6741819220 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-7.jpg",
   },
   {
     id: "kafu-a05-8",
@@ -5201,6 +5600,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK200-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-8.jpg",
   },
   {
     id: "kafu-a05-9",
@@ -5214,6 +5614,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A05-9.jpg",
   },
   {
     id: "kafu-a06-1",
@@ -5227,6 +5628,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 517578, 3439000800 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-1.jpg",
   },
   {
     id: "kafu-a06-10",
@@ -5240,6 +5642,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-10.jpg",
   },
   {
     id: "kafu-a06-100",
@@ -5253,6 +5656,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 98156648 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-100.jpg",
   },
   {
     id: "kafu-a06-101",
@@ -5266,6 +5670,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK130-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-101.jpg",
   },
   {
     id: "kafu-a06-102",
@@ -5279,6 +5684,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-102.jpg",
   },
   {
     id: "kafu-a06-103",
@@ -5292,6 +5698,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-103.jpg",
   },
   {
     id: "kafu-a06-104",
@@ -5305,6 +5712,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 970633010 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-104.jpg",
   },
   {
     id: "kafu-a06-104a",
@@ -5318,6 +5726,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-104A.jpg",
   },
   {
     id: "kafu-a06-105",
@@ -5331,6 +5740,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-105.jpg",
   },
   {
     id: "kafu-a06-105a",
@@ -5344,6 +5754,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-105A.jpg",
   },
   {
     id: "kafu-a06-105b",
@@ -5357,6 +5768,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-105B.jpg",
   },
   {
     id: "kafu-a06-106",
@@ -5370,6 +5782,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-106.jpg",
   },
   {
     id: "kafu-a06-107",
@@ -5383,6 +5796,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-107.jpg",
   },
   {
     id: "kafu-a06-108",
@@ -5396,6 +5810,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-108.jpg",
   },
   {
     id: "kafu-a06-109",
@@ -5409,6 +5824,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE52722 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-109.jpg",
   },
   {
     id: "kafu-a06-10a",
@@ -5422,6 +5838,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-10A.jpg",
   },
   {
     id: "kafu-a06-10b",
@@ -5435,6 +5852,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 203-3221 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-10B.jpg",
   },
   {
     id: "kafu-a06-10c",
@@ -5448,6 +5866,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-10C.jpg",
   },
   {
     id: "kafu-a06-11",
@@ -5461,6 +5880,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 237-4894 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-11.jpg",
   },
   {
     id: "kafu-a06-110",
@@ -5474,6 +5894,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE51774 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-110.jpg",
   },
   {
     id: "kafu-a06-111",
@@ -5487,6 +5908,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3865312 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-111.jpg",
   },
   {
     id: "kafu-a06-112",
@@ -5500,6 +5922,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-112.jpg",
   },
   {
     id: "kafu-a06-113",
@@ -5513,6 +5936,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-113.jpg",
   },
   {
     id: "kafu-a06-114",
@@ -5526,6 +5950,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-114.jpg",
   },
   {
     id: "kafu-a06-115",
@@ -5539,6 +5964,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-115.jpg",
   },
   {
     id: "kafu-a06-116",
@@ -5552,6 +5978,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-116.jpg",
   },
   {
     id: "kafu-a06-117",
@@ -5565,6 +5992,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-117.jpg",
   },
   {
     id: "kafu-a06-118",
@@ -5578,6 +6006,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-118.jpg",
   },
   {
     id: "kafu-a06-119",
@@ -5591,6 +6020,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-119.jpg",
   },
   {
     id: "kafu-a06-12",
@@ -5604,6 +6034,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 385720510 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-12.jpg",
   },
   {
     id: "kafu-a06-120",
@@ -5617,6 +6048,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-120.jpg",
   },
   {
     id: "kafu-a06-121",
@@ -5630,6 +6062,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-121.jpg",
   },
   {
     id: "kafu-a06-122",
@@ -5643,6 +6076,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-122.jpg",
   },
   {
     id: "kafu-a06-123",
@@ -5656,6 +6090,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-123.jpg",
   },
   {
     id: "kafu-a06-124",
@@ -5669,6 +6104,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-124.jpg",
   },
   {
     id: "kafu-a06-125",
@@ -5682,6 +6118,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-125.jpg",
   },
   {
     id: "kafu-a06-126",
@@ -5695,6 +6132,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-126.jpg",
   },
   {
     id: "kafu-a06-127",
@@ -5708,6 +6146,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-127.jpg",
   },
   {
     id: "kafu-a06-128",
@@ -5721,6 +6160,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 45055012, 0114504 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-128.jpg",
   },
   {
     id: "kafu-a06-129",
@@ -5734,6 +6174,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-129.jpg",
   },
   {
     id: "kafu-a06-13",
@@ -5747,6 +6188,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-13.jpg",
   },
   {
     id: "kafu-a06-130",
@@ -5760,6 +6202,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-130.jpg",
   },
   {
     id: "kafu-a06-131",
@@ -5773,6 +6216,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-131.jpg",
   },
   {
     id: "kafu-a06-132",
@@ -5786,6 +6230,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-132.jpg",
   },
   {
     id: "kafu-a06-133",
@@ -5799,6 +6244,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-133.jpg",
   },
   {
     id: "kafu-a06-134",
@@ -5812,6 +6258,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-134.jpg",
   },
   {
     id: "kafu-a06-135",
@@ -5825,6 +6272,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-135.jpg",
   },
   {
     id: "kafu-a06-136",
@@ -5838,6 +6286,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE61812 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-136.jpg",
   },
   {
     id: "kafu-a06-137",
@@ -5851,6 +6300,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-137.jpg",
   },
   {
     id: "kafu-a06-138",
@@ -5864,6 +6314,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE65836 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-138.jpg",
   },
   {
     id: "kafu-a06-139",
@@ -5877,6 +6328,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-139.jpg",
   },
   {
     id: "kafu-a06-14",
@@ -5890,6 +6342,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PERKINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-14.jpg",
   },
   {
     id: "kafu-a06-140",
@@ -5903,6 +6356,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: RE48419 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-140.jpg",
   },
   {
     id: "kafu-a06-141",
@@ -5916,6 +6370,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-141.jpg",
   },
   {
     id: "kafu-a06-142",
@@ -5929,6 +6384,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-142.jpg",
   },
   {
     id: "kafu-a06-143",
@@ -5942,6 +6398,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-143.jpg",
   },
   {
     id: "kafu-a06-144",
@@ -5955,6 +6412,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 354-6758 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-144.jpg",
   },
   {
     id: "kafu-a06-145",
@@ -5968,6 +6426,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-145.jpg",
   },
   {
     id: "kafu-a06-15",
@@ -5981,6 +6440,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 185246280 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-15.jpg",
   },
   {
     id: "kafu-a06-16",
@@ -5994,6 +6454,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PERKINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-16.jpg",
   },
   {
     id: "kafu-a06-16a",
@@ -6007,6 +6468,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-16A.jpg",
   },
   {
     id: "kafu-a06-17",
@@ -6020,6 +6482,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-17.jpg",
   },
   {
     id: "kafu-a06-17a",
@@ -6033,6 +6496,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 97078592 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-17A.jpg",
   },
   {
     id: "kafu-a06-18",
@@ -6046,6 +6510,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 7861932310, 7861-93 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-18.jpg",
   },
   {
     id: "kafu-a06-19",
@@ -6059,6 +6524,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6", "PC220-6"],
     notes: "OEM: 923380 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-19.jpg",
   },
   {
     id: "kafu-a06-2",
@@ -6072,6 +6538,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E312D"],
     notes: "OEM: 3944837 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-2.jpg",
   },
   {
     id: "kafu-a06-20",
@@ -6085,6 +6552,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5"],
     notes: "OEM: 923320 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-20.jpg",
   },
   {
     id: "kafu-a06-20a",
@@ -6098,6 +6566,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 729-11-41000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-20A.jpg",
   },
   {
     id: "kafu-a06-21",
@@ -6111,6 +6580,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC450-7/8"],
     notes: "OEM: 7861933520 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-21.jpg",
   },
   {
     id: "kafu-a06-21a",
@@ -6124,6 +6594,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-92-3410 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-21A.jpg",
   },
   {
     id: "kafu-a06-21b",
@@ -6137,6 +6608,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-93-1930 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-21B.jpg",
   },
   {
     id: "kafu-a06-22",
@@ -6150,6 +6622,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-22.jpg",
   },
   {
     id: "kafu-a06-22a",
@@ -6163,6 +6636,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC600-8"],
     notes: "OEM: 6560-61-7300 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-22A.jpg",
   },
   {
     id: "kafu-a06-23",
@@ -6176,6 +6650,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX200-5"],
     notes: "OEM: 1824500130 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-23.jpg",
   },
   {
     id: "kafu-a06-23a",
@@ -6189,6 +6664,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 129927 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-23A.jpg",
   },
   {
     id: "kafu-a06-24",
@@ -6202,6 +6678,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "EX200-2/54257129"],
     notes: "OEM: 54257129 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-24.jpg",
   },
   {
     id: "kafu-a06-24a",
@@ -6215,6 +6692,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX44-3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-24A.jpg",
   },
   {
     id: "kafu-a06-25",
@@ -6228,6 +6706,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-25.jpg",
   },
   {
     id: "kafu-a06-26",
@@ -6241,6 +6720,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-26.jpg",
   },
   {
     id: "kafu-a06-27",
@@ -6254,6 +6734,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX20-0"],
     notes: "OEM: 83161033 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-27.jpg",
   },
   {
     id: "kafu-a06-28",
@@ -6267,6 +6748,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH200A3"],
     notes: "OEM: 8972174441 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-28.jpg",
   },
   {
     id: "kafu-a06-29",
@@ -6280,6 +6762,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-29.jpg",
   },
   {
     id: "kafu-a06-3",
@@ -6293,6 +6776,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-3.jpg",
   },
   {
     id: "kafu-a06-30",
@@ -6306,6 +6790,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-2"],
     notes: "OEM: 83161019 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-30.jpg",
   },
   {
     id: "kafu-a06-31",
@@ -6319,6 +6804,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-6", "6D31", "6D34"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-31.jpg",
   },
   {
     id: "kafu-a06-32",
@@ -6332,6 +6818,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-6", "6D31", "6D34"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-32.jpg",
   },
   {
     id: "kafu-a06-32a",
@@ -6345,6 +6832,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E200B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-32A.jpg",
   },
   {
     id: "kafu-a06-33",
@@ -6358,6 +6846,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-33.jpg",
   },
   {
     id: "kafu-a06-34",
@@ -6371,6 +6860,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-34.jpg",
   },
   {
     id: "kafu-a06-35",
@@ -6384,6 +6874,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-35.jpg",
   },
   {
     id: "kafu-a06-36",
@@ -6397,6 +6888,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 179730 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-36.jpg",
   },
   {
     id: "kafu-a06-37",
@@ -6410,6 +6902,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-37.jpg",
   },
   {
     id: "kafu-a06-38",
@@ -6423,6 +6916,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-38.jpg",
   },
   {
     id: "kafu-a06-39",
@@ -6436,6 +6930,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK350-8S"],
     notes: "OEM: 8346-01510 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-39.jpg",
   },
   {
     id: "kafu-a06-39a",
@@ -6449,6 +6944,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-39A.jpg",
   },
   {
     id: "kafu-a06-4",
@@ -6462,6 +6958,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C"],
     notes: "OEM: 797534390 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-4.jpg",
   },
   {
     id: "kafu-a06-40",
@@ -6475,6 +6972,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-40.jpg",
   },
   {
     id: "kafu-a06-41",
@@ -6488,6 +6986,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-41.jpg",
   },
   {
     id: "kafu-a06-42",
@@ -6501,6 +7000,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-42.jpg",
   },
   {
     id: "kafu-a06-43",
@@ -6514,6 +7014,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-43.jpg",
   },
   {
     id: "kafu-a06-44",
@@ -6527,6 +7028,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-44.jpg",
   },
   {
     id: "kafu-a06-44a",
@@ -6540,6 +7042,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-44A.jpg",
   },
   {
     id: "kafu-a06-45",
@@ -6553,6 +7056,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-45.jpg",
   },
   {
     id: "kafu-a06-46",
@@ -6566,6 +7070,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-46.jpg",
   },
   {
     id: "kafu-a06-46a",
@@ -6579,6 +7084,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4250-49351 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-46A.jpg",
   },
   {
     id: "kafu-a06-47",
@@ -6592,6 +7098,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-47.jpg",
   },
   {
     id: "kafu-a06-47a",
@@ -6605,6 +7112,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-47A.jpg",
   },
   {
     id: "kafu-a06-48",
@@ -6618,6 +7126,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 15048183, 11144494 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-48.jpg",
   },
   {
     id: "kafu-a06-49",
@@ -6631,6 +7140,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11419186 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-49.jpg",
   },
   {
     id: "kafu-a06-49a",
@@ -6644,6 +7154,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11039219 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-49A.jpg",
   },
   {
     id: "kafu-a06-4a",
@@ -6657,6 +7168,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-4A.jpg",
   },
   {
     id: "kafu-a06-4b",
@@ -6670,6 +7182,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 118-5144 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-4B.jpg",
   },
   {
     id: "kafu-a06-4c",
@@ -6683,6 +7196,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-4C.jpg",
   },
   {
     id: "kafu-a06-5",
@@ -6696,6 +7210,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E325-2"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-5.jpg",
   },
   {
     id: "kafu-a06-50",
@@ -6709,6 +7224,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-50.jpg",
   },
   {
     id: "kafu-a06-51",
@@ -6722,6 +7238,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-51.jpg",
   },
   {
     id: "kafu-a06-52",
@@ -6735,6 +7252,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 360205 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-52.jpg",
   },
   {
     id: "kafu-a06-52a",
@@ -6748,6 +7266,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 20429956 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-52A.jpg",
   },
   {
     id: "kafu-a06-52b",
@@ -6761,6 +7280,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 2096397 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-52B.jpg",
   },
   {
     id: "kafu-a06-52c",
@@ -6774,6 +7294,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 15153124 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-52C.jpg",
   },
   {
     id: "kafu-a06-53",
@@ -6787,6 +7308,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-6391"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-53.jpg",
   },
   {
     id: "kafu-a06-54",
@@ -6800,6 +7322,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH22-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-54.jpg",
   },
   {
     id: "kafu-a06-55",
@@ -6813,6 +7336,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI", "R607"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-55.jpg",
   },
   {
     id: "kafu-a06-56",
@@ -6826,6 +7350,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R2257"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-56.jpg",
   },
   {
     id: "kafu-a06-57",
@@ -6839,6 +7364,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921477 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-57.jpg",
   },
   {
     id: "kafu-a06-58",
@@ -6852,6 +7378,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921475 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-58.jpg",
   },
   {
     id: "kafu-a06-59",
@@ -6865,6 +7392,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921473 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-59.jpg",
   },
   {
     id: "kafu-a06-5a",
@@ -6878,6 +7406,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 203-3219 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-5A.jpg",
   },
   {
     id: "kafu-a06-6",
@@ -6891,6 +7420,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-6.jpg",
   },
   {
     id: "kafu-a06-60",
@@ -6904,6 +7434,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-60.jpg",
   },
   {
     id: "kafu-a06-61",
@@ -6917,6 +7448,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3015238 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-61.jpg",
   },
   {
     id: "kafu-a06-62",
@@ -6930,6 +7462,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-62.jpg",
   },
   {
     id: "kafu-a06-63",
@@ -6943,6 +7476,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-63.jpg",
   },
   {
     id: "kafu-a06-64",
@@ -6956,6 +7490,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-64.jpg",
   },
   {
     id: "kafu-a06-65",
@@ -6969,6 +7504,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-65.jpg",
   },
   {
     id: "kafu-a06-66",
@@ -6982,6 +7518,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-66.jpg",
   },
   {
     id: "kafu-a06-67",
@@ -6995,6 +7532,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-67.jpg",
   },
   {
     id: "kafu-a06-68",
@@ -7008,6 +7546,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-68.jpg",
   },
   {
     id: "kafu-a06-69",
@@ -7021,6 +7560,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-69.jpg",
   },
   {
     id: "kafu-a06-6a",
@@ -7034,6 +7574,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-6A.jpg",
   },
   {
     id: "kafu-a06-7",
@@ -7047,6 +7588,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-7.jpg",
   },
   {
     id: "kafu-a06-70",
@@ -7060,6 +7602,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-70.jpg",
   },
   {
     id: "kafu-a06-71",
@@ -7073,6 +7616,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-71.jpg",
   },
   {
     id: "kafu-a06-72",
@@ -7086,6 +7630,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-72.jpg",
   },
   {
     id: "kafu-a06-72a",
@@ -7099,6 +7644,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-72A.jpg",
   },
   {
     id: "kafu-a06-73",
@@ -7112,6 +7658,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: JET00015 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-73.jpg",
   },
   {
     id: "kafu-a06-74",
@@ -7125,6 +7672,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4327021 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-74.jpg",
   },
   {
     id: "kafu-a06-74a",
@@ -7138,6 +7686,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408627 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-74A.jpg",
   },
   {
     id: "kafu-a06-75",
@@ -7151,6 +7700,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-75.jpg",
   },
   {
     id: "kafu-a06-76",
@@ -7164,6 +7714,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: JET00018 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-76.jpg",
   },
   {
     id: "kafu-a06-77",
@@ -7177,6 +7728,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-77.jpg",
   },
   {
     id: "kafu-a06-78",
@@ -7190,6 +7742,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-78.jpg",
   },
   {
     id: "kafu-a06-79",
@@ -7203,6 +7756,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-79.jpg",
   },
   {
     id: "kafu-a06-79a",
@@ -7216,6 +7770,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-79A.jpg",
   },
   {
     id: "kafu-a06-79b",
@@ -7229,6 +7784,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-79B.jpg",
   },
   {
     id: "kafu-a06-8",
@@ -7242,6 +7798,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E311C"],
     notes: "OEM: 3413600 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-8.jpg",
   },
   {
     id: "kafu-a06-80",
@@ -7255,6 +7812,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-80.jpg",
   },
   {
     id: "kafu-a06-80a",
@@ -7268,6 +7826,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E33-6", "E339-8822"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-80A.jpg",
   },
   {
     id: "kafu-a06-81",
@@ -7281,6 +7840,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-81.jpg",
   },
   {
     id: "kafu-a06-82",
@@ -7294,6 +7854,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-82.jpg",
   },
   {
     id: "kafu-a06-83",
@@ -7307,6 +7868,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-83.jpg",
   },
   {
     id: "kafu-a06-84",
@@ -7320,6 +7882,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-84.jpg",
   },
   {
     id: "kafu-a06-84a",
@@ -7333,6 +7896,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-84A.jpg",
   },
   {
     id: "kafu-a06-84b",
@@ -7346,6 +7910,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 288-8390 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-84B.jpg",
   },
   {
     id: "kafu-a06-85",
@@ -7359,6 +7924,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1310427 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-85.jpg",
   },
   {
     id: "kafu-a06-85a",
@@ -7372,6 +7938,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 130-8299 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-85A.jpg",
   },
   {
     id: "kafu-a06-85b",
@@ -7385,6 +7952,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 3719531 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-85B.jpg",
   },
   {
     id: "kafu-a06-85c",
@@ -7398,6 +7966,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 339-8822 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-85C.jpg",
   },
   {
     id: "kafu-a06-85d",
@@ -7411,6 +7980,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 275-1253 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-85D.jpg",
   },
   {
     id: "kafu-a06-85e",
@@ -7424,6 +7994,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 227-6744 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-85E.jpg",
   },
   {
     id: "kafu-a06-86",
@@ -7437,6 +8008,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 102-2240 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86.jpg",
   },
   {
     id: "kafu-a06-86a",
@@ -7450,6 +8022,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1952150 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86A.jpg",
   },
   {
     id: "kafu-a06-86b",
@@ -7463,6 +8036,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1457028 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86B.jpg",
   },
   {
     id: "kafu-a06-86c",
@@ -7476,6 +8050,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86C.jpg",
   },
   {
     id: "kafu-a06-86d",
@@ -7489,6 +8064,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1060735 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86D.jpg",
   },
   {
     id: "kafu-a06-86e",
@@ -7502,6 +8078,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1083190 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86E.jpg",
   },
   {
     id: "kafu-a06-86f",
@@ -7515,6 +8092,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86F.jpg",
   },
   {
     id: "kafu-a06-86g",
@@ -7528,6 +8106,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-86G.jpg",
   },
   {
     id: "kafu-a06-87",
@@ -7541,6 +8120,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1718708 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-87.jpg",
   },
   {
     id: "kafu-a06-87a",
@@ -7554,6 +8134,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 171-8710 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-87A.jpg",
   },
   {
     id: "kafu-a06-88",
@@ -7567,6 +8148,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 118-7226 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88.jpg",
   },
   {
     id: "kafu-a06-88a",
@@ -7580,6 +8162,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88A.jpg",
   },
   {
     id: "kafu-a06-88b",
@@ -7593,6 +8176,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1003055 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88B.jpg",
   },
   {
     id: "kafu-a06-88c",
@@ -7606,6 +8190,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1342252 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88C.jpg",
   },
   {
     id: "kafu-a06-88d",
@@ -7619,6 +8204,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1310784 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88D.jpg",
   },
   {
     id: "kafu-a06-88e",
@@ -7632,6 +8218,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 4309449 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88E.jpg",
   },
   {
     id: "kafu-a06-88f",
@@ -7645,6 +8232,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 4309451 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88F.jpg",
   },
   {
     id: "kafu-a06-88g",
@@ -7658,6 +8246,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-88G.jpg",
   },
   {
     id: "kafu-a06-89",
@@ -7671,6 +8260,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-89.jpg",
   },
   {
     id: "kafu-a06-8a",
@@ -7684,6 +8274,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 395-1838 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-8A.jpg",
   },
   {
     id: "kafu-a06-9",
@@ -7697,6 +8288,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 125-4812 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-9.jpg",
   },
   {
     id: "kafu-a06-90",
@@ -7710,6 +8302,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-90.jpg",
   },
   {
     id: "kafu-a06-90a",
@@ -7723,6 +8316,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 430-9455 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-90A.jpg",
   },
   {
     id: "kafu-a06-90b",
@@ -7736,6 +8330,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-90B.jpg",
   },
   {
     id: "kafu-a06-91",
@@ -7749,6 +8344,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-91.jpg",
   },
   {
     id: "kafu-a06-92",
@@ -7762,6 +8358,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-92.jpg",
   },
   {
     id: "kafu-a06-92a",
@@ -7775,6 +8372,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-92A.jpg",
   },
   {
     id: "kafu-a06-93",
@@ -7788,6 +8386,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "OEM: 4383933 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-93.jpg",
   },
   {
     id: "kafu-a06-94",
@@ -7801,6 +8400,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2334-00 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-94.jpg",
   },
   {
     id: "kafu-a06-95",
@@ -7814,6 +8414,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-95.jpg",
   },
   {
     id: "kafu-a06-95a",
@@ -7827,6 +8428,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 276-8172-02 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-95A.jpg",
   },
   {
     id: "kafu-a06-96",
@@ -7840,6 +8442,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JOHNDEERE"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-96.jpg",
   },
   {
     id: "kafu-a06-97",
@@ -7853,6 +8456,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-97.jpg",
   },
   {
     id: "kafu-a06-98",
@@ -7866,6 +8470,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-98.jpg",
   },
   {
     id: "kafu-a06-99",
@@ -7879,6 +8484,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 01182700 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-99.jpg",
   },
   {
     id: "kafu-a06-99a",
@@ -7892,6 +8498,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 8033173 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-99A.jpg",
   },
   {
     id: "kafu-a06-9a",
@@ -7905,6 +8512,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 244-3106 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-9A.jpg",
   },
   {
     id: "kafu-a06-9b",
@@ -7918,6 +8526,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A06-9B.jpg",
   },
   {
     id: "kafu-a07-1",
@@ -7931,6 +8540,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921511 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-1.jpg",
   },
   {
     id: "kafu-a07-10",
@@ -7944,6 +8554,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408607 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-10.jpg",
   },
   {
     id: "kafu-a07-10a",
@@ -7957,6 +8568,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 23527829 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-10A.jpg",
   },
   {
     id: "kafu-a07-10b",
@@ -7970,6 +8582,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 23527828 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-10B.jpg",
   },
   {
     id: "kafu-a07-11",
@@ -7983,6 +8596,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921505 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-11.jpg",
   },
   {
     id: "kafu-a07-12",
@@ -7996,6 +8610,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921499 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-12.jpg",
   },
   {
     id: "kafu-a07-13",
@@ -8009,6 +8624,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4928593 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-13.jpg",
   },
   {
     id: "kafu-a07-14",
@@ -8022,6 +8638,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921519 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-14.jpg",
   },
   {
     id: "kafu-a07-15",
@@ -8035,6 +8652,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921493 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-15.jpg",
   },
   {
     id: "kafu-a07-16",
@@ -8048,6 +8666,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/80389 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-16.jpg",
   },
   {
     id: "kafu-a07-17",
@@ -8061,6 +8680,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/80317 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-17.jpg",
   },
   {
     id: "kafu-a07-18",
@@ -8074,6 +8694,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 716/24200 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-18.jpg",
   },
   {
     id: "kafu-a07-19",
@@ -8087,6 +8708,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/80324 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-19.jpg",
   },
   {
     id: "kafu-a07-2",
@@ -8100,6 +8722,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921487 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-2.jpg",
   },
   {
     id: "kafu-a07-20",
@@ -8113,6 +8736,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 716/12800 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-20.jpg",
   },
   {
     id: "kafu-a07-21",
@@ -8126,6 +8750,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/37400 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-21.jpg",
   },
   {
     id: "kafu-a07-22",
@@ -8139,6 +8764,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 716/30126 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-22.jpg",
   },
   {
     id: "kafu-a07-23",
@@ -8152,6 +8778,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/80627 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-23.jpg",
   },
   {
     id: "kafu-a07-24",
@@ -8165,6 +8792,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/43700 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-24.jpg",
   },
   {
     id: "kafu-a07-25",
@@ -8178,6 +8806,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/80591 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-25.jpg",
   },
   {
     id: "kafu-a07-26",
@@ -8191,6 +8820,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/41700 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-26.jpg",
   },
   {
     id: "kafu-a07-27",
@@ -8204,6 +8834,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/80225 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-27.jpg",
   },
   {
     id: "kafu-a07-27a",
@@ -8217,6 +8848,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-27A.jpg",
   },
   {
     id: "kafu-a07-28",
@@ -8230,6 +8862,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 320/04046 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-28.jpg",
   },
   {
     id: "kafu-a07-28a",
@@ -8243,6 +8876,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-28A.jpg",
   },
   {
     id: "kafu-a07-28b",
@@ -8256,6 +8890,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-28B.jpg",
   },
   {
     id: "kafu-a07-29",
@@ -8269,6 +8904,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701/41600 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-29.jpg",
   },
   {
     id: "kafu-a07-3",
@@ -8282,6 +8918,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921501 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-3.jpg",
   },
   {
     id: "kafu-a07-30",
@@ -8295,6 +8932,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 320/04588 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-30.jpg",
   },
   {
     id: "kafu-a07-31",
@@ -8308,6 +8946,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-31.jpg",
   },
   {
     id: "kafu-a07-32",
@@ -8321,6 +8960,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-32.jpg",
   },
   {
     id: "kafu-a07-33",
@@ -8334,6 +8974,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-33.jpg",
   },
   {
     id: "kafu-a07-34",
@@ -8347,6 +8988,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-34.jpg",
   },
   {
     id: "kafu-a07-35",
@@ -8360,6 +9002,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-35.jpg",
   },
   {
     id: "kafu-a07-4",
@@ -8373,6 +9016,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4928594 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-4.jpg",
   },
   {
     id: "kafu-a07-5",
@@ -8386,6 +9030,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921503 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-5.jpg",
   },
   {
     id: "kafu-a07-6",
@@ -8399,6 +9044,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2897690 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-6.jpg",
   },
   {
     id: "kafu-a07-7",
@@ -8412,6 +9058,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921519 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-7.jpg",
   },
   {
     id: "kafu-a07-8",
@@ -8425,6 +9072,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921489 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-8.jpg",
   },
   {
     id: "kafu-a07-9",
@@ -8438,6 +9086,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921495 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A07-9.jpg",
   },
   {
     id: "kafu-a08-1",
@@ -8451,6 +9100,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC2208/220"],
     notes: "OEM: 6003113721 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-1.jpg",
   },
   {
     id: "kafu-a08-10",
@@ -8464,6 +9114,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-10.jpg",
   },
   {
     id: "kafu-a08-11",
@@ -8477,6 +9128,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-11.jpg",
   },
   {
     id: "kafu-a08-12",
@@ -8490,6 +9142,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 9301308 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-12.jpg",
   },
   {
     id: "kafu-a08-13",
@@ -8503,6 +9156,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-13.jpg",
   },
   {
     id: "kafu-a08-14",
@@ -8516,6 +9170,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-14.jpg",
   },
   {
     id: "kafu-a08-15",
@@ -8529,6 +9184,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "OEM: 215-10 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-15.jpg",
   },
   {
     id: "kafu-a08-2",
@@ -8542,6 +9198,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 4236643401 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-2.jpg",
   },
   {
     id: "kafu-a08-3",
@@ -8555,6 +9212,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 382-2001 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-3.jpg",
   },
   {
     id: "kafu-a08-4",
@@ -8568,6 +9226,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-4.jpg",
   },
   {
     id: "kafu-a08-5",
@@ -8581,6 +9240,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-5.jpg",
   },
   {
     id: "kafu-a08-6",
@@ -8594,6 +9254,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-6.jpg",
   },
   {
     id: "kafu-a08-7",
@@ -8607,6 +9268,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 439-5039 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-7.jpg",
   },
   {
     id: "kafu-a08-8",
@@ -8620,6 +9282,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-8.jpg",
   },
   {
     id: "kafu-a08-9",
@@ -8633,6 +9296,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A08-9.jpg",
   },
   {
     id: "kafu-a09-1",
@@ -8646,6 +9310,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7206"],
     notes: "OEM: 0661130 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-1.jpg",
   },
   {
     id: "kafu-a09-10",
@@ -8659,6 +9324,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E30-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-10.jpg",
   },
   {
     id: "kafu-a09-11",
@@ -8672,6 +9338,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E30-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-11.jpg",
   },
   {
     id: "kafu-a09-12",
@@ -8685,6 +9352,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1060180, 1673466 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-12.jpg",
   },
   {
     id: "kafu-a09-13",
@@ -8698,6 +9366,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 106-0179, 3095768 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-13.jpg",
   },
   {
     id: "kafu-a09-14",
@@ -8711,6 +9380,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E32-0"],
     notes: "OEM: 106-0180 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-14.jpg",
   },
   {
     id: "kafu-a09-15",
@@ -8724,6 +9394,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-15.jpg",
   },
   {
     id: "kafu-a09-15a",
@@ -8737,6 +9408,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-15A.jpg",
   },
   {
     id: "kafu-a09-15b",
@@ -8750,6 +9422,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-15B.jpg",
   },
   {
     id: "kafu-a09-15c",
@@ -8763,6 +9436,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-15C.jpg",
   },
   {
     id: "kafu-a09-15d",
@@ -8776,6 +9450,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-15D.jpg",
   },
   {
     id: "kafu-a09-15e",
@@ -8789,6 +9464,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 114-9284 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-15E.jpg",
   },
   {
     id: "kafu-a09-16",
@@ -8802,6 +9478,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320D"],
     notes: "OEM: 309-5769 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-16.jpg",
   },
   {
     id: "kafu-a09-17",
@@ -8815,6 +9492,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-17.jpg",
   },
   {
     id: "kafu-a09-17a",
@@ -8828,6 +9506,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E32-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-17A.jpg",
   },
   {
     id: "kafu-a09-17b",
@@ -8841,6 +9520,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-17B.jpg",
   },
   {
     id: "kafu-a09-17c",
@@ -8854,6 +9534,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1413-00287 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-17C.jpg",
   },
   {
     id: "kafu-a09-17d",
@@ -8867,6 +9548,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 453-5523-02 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-17D.jpg",
   },
   {
     id: "kafu-a09-17e",
@@ -8880,6 +9562,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E32-0", "E319-4407"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-17E.jpg",
   },
   {
     id: "kafu-a09-18",
@@ -8893,6 +9576,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320D", "CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-18.jpg",
   },
   {
     id: "kafu-a09-18a",
@@ -8906,6 +9590,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 380-1882 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-18A.jpg",
   },
   {
     id: "kafu-a09-19",
@@ -8919,6 +9604,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-19.jpg",
   },
   {
     id: "kafu-a09-2",
@@ -8932,6 +9618,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "OEM: 0621710 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-2.jpg",
   },
   {
     id: "kafu-a09-20",
@@ -8945,6 +9632,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 2746717 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-20.jpg",
   },
   {
     id: "kafu-a09-21",
@@ -8958,6 +9646,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 2746718 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-21.jpg",
   },
   {
     id: "kafu-a09-21a",
@@ -8971,6 +9660,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 305-6873 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-21A.jpg",
   },
   {
     id: "kafu-a09-22",
@@ -8984,6 +9674,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 3203060 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-22.jpg",
   },
   {
     id: "kafu-a09-22a",
@@ -8997,6 +9688,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 320-3061 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-22A.jpg",
   },
   {
     id: "kafu-a09-23",
@@ -9010,6 +9702,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-23.jpg",
   },
   {
     id: "kafu-a09-24",
@@ -9023,6 +9716,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 296-8060 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-24.jpg",
   },
   {
     id: "kafu-a09-25",
@@ -9036,6 +9730,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 161-9926 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-25.jpg",
   },
   {
     id: "kafu-a09-26",
@@ -9049,6 +9744,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 276-6793 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-26.jpg",
   },
   {
     id: "kafu-a09-26a",
@@ -9062,6 +9758,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3497378 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-26A.jpg",
   },
   {
     id: "kafu-a09-26b",
@@ -9075,6 +9772,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 320-3062 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-26B.jpg",
   },
   {
     id: "kafu-a09-26c",
@@ -9088,6 +9786,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 320-3063 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-26C.jpg",
   },
   {
     id: "kafu-a09-27",
@@ -9101,6 +9800,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-27.jpg",
   },
   {
     id: "kafu-a09-28",
@@ -9114,6 +9814,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-28.jpg",
   },
   {
     id: "kafu-a09-29",
@@ -9127,6 +9828,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-5438"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-29.jpg",
   },
   {
     id: "kafu-a09-2a",
@@ -9140,6 +9842,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA380-45"],
     notes: "OEM: 0423-43-22120 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-2A.jpg",
   },
   {
     id: "kafu-a09-3",
@@ -9153,6 +9856,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 7861-93 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-3.jpg",
   },
   {
     id: "kafu-a09-30",
@@ -9166,6 +9870,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-2/3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-30.jpg",
   },
   {
     id: "kafu-a09-31",
@@ -9179,6 +9884,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "OEM: 4353686 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-31.jpg",
   },
   {
     id: "kafu-a09-32",
@@ -9192,6 +9898,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "ZAX23-0"],
     notes: "OEM: 2404332040 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-32.jpg",
   },
   {
     id: "kafu-a09-33",
@@ -9205,6 +9912,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-33.jpg",
   },
   {
     id: "kafu-a09-34",
@@ -9218,6 +9926,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "OEM: 4436535 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-34.jpg",
   },
   {
     id: "kafu-a09-34a",
@@ -9231,6 +9940,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-34A.jpg",
   },
   {
     id: "kafu-a09-35",
@@ -9244,6 +9954,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-35.jpg",
   },
   {
     id: "kafu-a09-36",
@@ -9257,6 +9968,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH220-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-36.jpg",
   },
   {
     id: "kafu-a09-37",
@@ -9270,6 +9982,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-37.jpg",
   },
   {
     id: "kafu-a09-38",
@@ -9283,6 +9996,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-38.jpg",
   },
   {
     id: "kafu-a09-38a",
@@ -9296,6 +10010,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-38A.jpg",
   },
   {
     id: "kafu-a09-39",
@@ -9309,6 +10024,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-39.jpg",
   },
   {
     id: "kafu-a09-3a",
@@ -9322,6 +10038,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-8"],
     notes: "OEM: 2080671140 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-3A.jpg",
   },
   {
     id: "kafu-a09-3b",
@@ -9335,6 +10052,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-8"],
     notes: "OEM: 208-06-71130 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-3B.jpg",
   },
   {
     id: "kafu-a09-4",
@@ -9348,6 +10066,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5", "KOMATSU"],
     notes: "OEM: 207-06 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-4.jpg",
   },
   {
     id: "kafu-a09-40",
@@ -9361,6 +10080,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-40.jpg",
   },
   {
     id: "kafu-a09-41",
@@ -9374,6 +10094,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-41.jpg",
   },
   {
     id: "kafu-a09-42",
@@ -9387,6 +10108,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-42.jpg",
   },
   {
     id: "kafu-a09-43",
@@ -9400,6 +10122,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-43.jpg",
   },
   {
     id: "kafu-a09-44",
@@ -9413,6 +10136,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 332-10671 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-44.jpg",
   },
   {
     id: "kafu-a09-45",
@@ -9426,6 +10150,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-45.jpg",
   },
   {
     id: "kafu-a09-46",
@@ -9439,6 +10164,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-46.jpg",
   },
   {
     id: "kafu-a09-47",
@@ -9452,6 +10178,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-47.jpg",
   },
   {
     id: "kafu-a09-48",
@@ -9465,6 +10192,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2393478 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-48.jpg",
   },
   {
     id: "kafu-a09-5",
@@ -9478,6 +10206,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC20-0"],
     notes: "OEM: 9093203 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-5.jpg",
   },
   {
     id: "kafu-a09-6",
@@ -9491,6 +10220,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4921497 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-6.jpg",
   },
   {
     id: "kafu-a09-7",
@@ -9504,6 +10234,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-7.jpg",
   },
   {
     id: "kafu-a09-7a",
@@ -9517,6 +10248,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 163-8516 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-7A.jpg",
   },
   {
     id: "kafu-a09-8",
@@ -9530,6 +10262,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1946724 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-8.jpg",
   },
   {
     id: "kafu-a09-8a",
@@ -9543,6 +10276,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-8A.jpg",
   },
   {
     id: "kafu-a09-8b",
@@ -9556,6 +10290,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-8B.jpg",
   },
   {
     id: "kafu-a09-9",
@@ -9569,6 +10304,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A09-9.jpg",
   },
   {
     id: "kafu-a10-1",
@@ -9582,6 +10318,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-1.jpg",
   },
   {
     id: "kafu-a10-10",
@@ -9595,6 +10332,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 7861-93 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-10.jpg",
   },
   {
     id: "kafu-a10-10a",
@@ -9608,6 +10346,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-93-1870 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-10A.jpg",
   },
   {
     id: "kafu-a10-10b",
@@ -9621,6 +10360,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-10"],
     notes: "OEM: 7861-93-1890 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-10B.jpg",
   },
   {
     id: "kafu-a10-10c",
@@ -9634,6 +10374,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-93-1880 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-10C.jpg",
   },
   {
     id: "kafu-a10-11",
@@ -9647,6 +10388,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "OEM: 786192 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-11.jpg",
   },
   {
     id: "kafu-a10-11a",
@@ -9660,6 +10402,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-93-1620 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-11A.jpg",
   },
   {
     id: "kafu-a10-11b",
@@ -9673,6 +10416,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 418-06-36210 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-11B.jpg",
   },
   {
     id: "kafu-a10-11c",
@@ -9686,6 +10430,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 411-06-35121 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-11C.jpg",
   },
   {
     id: "kafu-a10-11d",
@@ -9699,6 +10444,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-11D.jpg",
   },
   {
     id: "kafu-a10-12",
@@ -9712,6 +10458,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5"],
     notes: "OEM: 786192 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-12.jpg",
   },
   {
     id: "kafu-a10-13",
@@ -9725,6 +10472,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 9503670 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-13.jpg",
   },
   {
     id: "kafu-a10-14",
@@ -9738,6 +10486,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX2002/3"],
     notes: "OEM: 4436271 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-14.jpg",
   },
   {
     id: "kafu-a10-14a",
@@ -9751,6 +10500,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX200-5G"],
     notes: "OEM: 4703324 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-14A.jpg",
   },
   {
     id: "kafu-a10-15",
@@ -9764,6 +10514,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-15.jpg",
   },
   {
     id: "kafu-a10-15a",
@@ -9777,6 +10528,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-15A.jpg",
   },
   {
     id: "kafu-a10-16",
@@ -9790,6 +10542,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-16.jpg",
   },
   {
     id: "kafu-a10-17",
@@ -9803,6 +10556,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SUMITOMO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-17.jpg",
   },
   {
     id: "kafu-a10-17a",
@@ -9816,6 +10570,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2107744 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-17A.jpg",
   },
   {
     id: "kafu-a10-17b",
@@ -9829,6 +10584,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-17B.jpg",
   },
   {
     id: "kafu-a10-18",
@@ -9842,6 +10598,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E330D"],
     notes: "OEM: 260-2180 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-18.jpg",
   },
   {
     id: "kafu-a10-18a",
@@ -9855,6 +10612,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 125-9859 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-18A.jpg",
   },
   {
     id: "kafu-a10-19",
@@ -9868,6 +10626,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-19.jpg",
   },
   {
     id: "kafu-a10-19a",
@@ -9881,6 +10640,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7247998 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-19A.jpg",
   },
   {
     id: "kafu-a10-19b",
@@ -9894,6 +10654,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 366-9312 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-19B.jpg",
   },
   {
     id: "kafu-a10-2",
@@ -9907,6 +10668,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-2.jpg",
   },
   {
     id: "kafu-a10-20",
@@ -9920,6 +10682,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-20.jpg",
   },
   {
     id: "kafu-a10-20a",
@@ -9933,6 +10696,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-20A.jpg",
   },
   {
     id: "kafu-a10-21",
@@ -9946,6 +10710,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 224-4536 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-21.jpg",
   },
   {
     id: "kafu-a10-21a",
@@ -9959,6 +10724,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1946726 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-21A.jpg",
   },
   {
     id: "kafu-a10-22",
@@ -9972,6 +10738,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-22.jpg",
   },
   {
     id: "kafu-a10-23",
@@ -9985,6 +10752,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-23.jpg",
   },
   {
     id: "kafu-a10-24",
@@ -9998,6 +10766,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-24.jpg",
   },
   {
     id: "kafu-a10-25",
@@ -10011,6 +10780,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-25.jpg",
   },
   {
     id: "kafu-a10-26",
@@ -10024,6 +10794,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-26.jpg",
   },
   {
     id: "kafu-a10-27",
@@ -10037,6 +10808,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-27.jpg",
   },
   {
     id: "kafu-a10-28",
@@ -10050,6 +10822,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-28.jpg",
   },
   {
     id: "kafu-a10-29",
@@ -10063,6 +10836,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-29.jpg",
   },
   {
     id: "kafu-a10-3",
@@ -10076,6 +10850,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-3.jpg",
   },
   {
     id: "kafu-a10-30",
@@ -10089,6 +10864,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-30.jpg",
   },
   {
     id: "kafu-a10-31",
@@ -10102,6 +10878,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-31.jpg",
   },
   {
     id: "kafu-a10-32",
@@ -10115,6 +10892,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-32.jpg",
   },
   {
     id: "kafu-a10-33",
@@ -10128,6 +10906,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-33.jpg",
   },
   {
     id: "kafu-a10-34",
@@ -10141,6 +10920,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-34.jpg",
   },
   {
     id: "kafu-a10-35",
@@ -10154,6 +10934,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-35.jpg",
   },
   {
     id: "kafu-a10-36",
@@ -10167,6 +10948,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-36.jpg",
   },
   {
     id: "kafu-a10-37",
@@ -10180,6 +10962,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-37.jpg",
   },
   {
     id: "kafu-a10-38",
@@ -10193,6 +10976,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-38.jpg",
   },
   {
     id: "kafu-a10-39",
@@ -10206,6 +10990,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-39.jpg",
   },
   {
     id: "kafu-a10-39a",
@@ -10219,6 +11004,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-39A.jpg",
   },
   {
     id: "kafu-a10-39b",
@@ -10232,6 +11018,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-39B.jpg",
   },
   {
     id: "kafu-a10-39c",
@@ -10245,6 +11032,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-39C.jpg",
   },
   {
     id: "kafu-a10-4",
@@ -10258,6 +11046,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-4.jpg",
   },
   {
     id: "kafu-a10-40",
@@ -10271,6 +11060,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-40.jpg",
   },
   {
     id: "kafu-a10-41",
@@ -10284,6 +11074,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17252661 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-41.jpg",
   },
   {
     id: "kafu-a10-42",
@@ -10297,6 +11088,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17252660 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-42.jpg",
   },
   {
     id: "kafu-a10-43",
@@ -10310,6 +11102,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17253748 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-43.jpg",
   },
   {
     id: "kafu-a10-44",
@@ -10323,6 +11116,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17216318 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-44.jpg",
   },
   {
     id: "kafu-a10-44a",
@@ -10336,6 +11130,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 2094364 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-44A.jpg",
   },
   {
     id: "kafu-a10-44b",
@@ -10349,6 +11144,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17202579 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-44B.jpg",
   },
   {
     id: "kafu-a10-44c",
@@ -10362,6 +11158,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 17271141 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-44C.jpg",
   },
   {
     id: "kafu-a10-45",
@@ -10375,6 +11172,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-45.jpg",
   },
   {
     id: "kafu-a10-46",
@@ -10388,6 +11186,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-46.jpg",
   },
   {
     id: "kafu-a10-47",
@@ -10401,6 +11200,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-47.jpg",
   },
   {
     id: "kafu-a10-48",
@@ -10414,6 +11214,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-48.jpg",
   },
   {
     id: "kafu-a10-48a",
@@ -10427,6 +11228,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-48A.jpg",
   },
   {
     id: "kafu-a10-48b",
@@ -10440,6 +11242,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 322000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-48B.jpg",
   },
   {
     id: "kafu-a10-48c",
@@ -10453,6 +11256,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 322100 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-48C.jpg",
   },
   {
     id: "kafu-a10-49",
@@ -10466,6 +11270,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-49.jpg",
   },
   {
     id: "kafu-a10-49a",
@@ -10479,6 +11284,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-49A.jpg",
   },
   {
     id: "kafu-a10-49b",
@@ -10492,6 +11298,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-49B.jpg",
   },
   {
     id: "kafu-a10-5",
@@ -10505,6 +11312,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-5.jpg",
   },
   {
     id: "kafu-a10-50",
@@ -10518,6 +11326,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-50.jpg",
   },
   {
     id: "kafu-a10-51",
@@ -10531,6 +11340,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-51.jpg",
   },
   {
     id: "kafu-a10-52",
@@ -10544,6 +11354,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-52.jpg",
   },
   {
     id: "kafu-a10-53",
@@ -10557,6 +11368,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-53.jpg",
   },
   {
     id: "kafu-a10-54",
@@ -10570,6 +11382,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-54.jpg",
   },
   {
     id: "kafu-a10-55",
@@ -10583,6 +11396,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-55.jpg",
   },
   {
     id: "kafu-a10-55a",
@@ -10596,6 +11410,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY", "E32"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-55A.jpg",
   },
   {
     id: "kafu-a10-55b",
@@ -10609,6 +11424,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-55B.jpg",
   },
   {
     id: "kafu-a10-56",
@@ -10622,6 +11438,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-56.jpg",
   },
   {
     id: "kafu-a10-57",
@@ -10635,6 +11452,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-57.jpg",
   },
   {
     id: "kafu-a10-58",
@@ -10648,6 +11466,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-58.jpg",
   },
   {
     id: "kafu-a10-59",
@@ -10661,6 +11480,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-59.jpg",
   },
   {
     id: "kafu-a10-6",
@@ -10674,6 +11494,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-6.jpg",
   },
   {
     id: "kafu-a10-60",
@@ -10687,6 +11508,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-60.jpg",
   },
   {
     id: "kafu-a10-61",
@@ -10700,6 +11522,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R9026"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-61.jpg",
   },
   {
     id: "kafu-a10-62",
@@ -10713,6 +11536,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-62.jpg",
   },
   {
     id: "kafu-a10-62a",
@@ -10726,6 +11550,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-62A.jpg",
   },
   {
     id: "kafu-a10-63",
@@ -10739,6 +11564,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 223-16 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-63.jpg",
   },
   {
     id: "kafu-a10-64",
@@ -10752,6 +11578,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-64.jpg",
   },
   {
     id: "kafu-a10-65",
@@ -10765,6 +11592,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-65.jpg",
   },
   {
     id: "kafu-a10-65a",
@@ -10778,6 +11606,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 200500960 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-65A.jpg",
   },
   {
     id: "kafu-a10-66",
@@ -10791,6 +11620,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-66.jpg",
   },
   {
     id: "kafu-a10-67",
@@ -10804,6 +11634,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-67.jpg",
   },
   {
     id: "kafu-a10-68",
@@ -10817,6 +11648,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-68.jpg",
   },
   {
     id: "kafu-a10-69",
@@ -10830,6 +11662,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-69.jpg",
   },
   {
     id: "kafu-a10-7",
@@ -10843,6 +11676,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-7.jpg",
   },
   {
     id: "kafu-a10-70",
@@ -10856,6 +11690,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-70.jpg",
   },
   {
     id: "kafu-a10-70a",
@@ -10869,6 +11704,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-70A.jpg",
   },
   {
     id: "kafu-a10-70b",
@@ -10882,6 +11718,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-70B.jpg",
   },
   {
     id: "kafu-a10-70c",
@@ -10895,6 +11732,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-70C.jpg",
   },
   {
     id: "kafu-a10-70d",
@@ -10908,6 +11746,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-70D.jpg",
   },
   {
     id: "kafu-a10-70e",
@@ -10921,6 +11760,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-70E.jpg",
   },
   {
     id: "kafu-a10-71",
@@ -10934,6 +11774,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-71.jpg",
   },
   {
     id: "kafu-a10-72",
@@ -10947,6 +11788,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC30"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-72.jpg",
   },
   {
     id: "kafu-a10-73",
@@ -10960,6 +11802,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-73.jpg",
   },
   {
     id: "kafu-a10-73a",
@@ -10973,6 +11816,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-73A.jpg",
   },
   {
     id: "kafu-a10-73b",
@@ -10986,6 +11830,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-73B.jpg",
   },
   {
     id: "kafu-a10-73c",
@@ -10999,6 +11844,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-73C.jpg",
   },
   {
     id: "kafu-a10-74",
@@ -11012,6 +11858,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-74.jpg",
   },
   {
     id: "kafu-a10-75",
@@ -11025,6 +11872,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3347907, 6560416100 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-75.jpg",
   },
   {
     id: "kafu-a10-75a",
@@ -11038,6 +11886,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-75A.jpg",
   },
   {
     id: "kafu-a10-75b",
@@ -11051,6 +11900,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-75B.jpg",
   },
   {
     id: "kafu-a10-75c",
@@ -11064,6 +11914,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3347905, 6560-41-5100 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-75C.jpg",
   },
   {
     id: "kafu-a10-76",
@@ -11077,6 +11928,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 6560-61-7102, 3408587, 6216849111 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-76.jpg",
   },
   {
     id: "kafu-a10-77",
@@ -11090,6 +11942,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-77.jpg",
   },
   {
     id: "kafu-a10-78",
@@ -11103,6 +11956,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-78.jpg",
   },
   {
     id: "kafu-a10-79",
@@ -11116,6 +11970,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "OEM: 2872254 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-79.jpg",
   },
   {
     id: "kafu-a10-8",
@@ -11129,6 +11984,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 7861931651 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-8.jpg",
   },
   {
     id: "kafu-a10-80",
@@ -11142,6 +11998,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "OEM: 3408566 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-80.jpg",
   },
   {
     id: "kafu-a10-81",
@@ -11155,6 +12012,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408564 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-81.jpg",
   },
   {
     id: "kafu-a10-82",
@@ -11168,6 +12026,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408560 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-82.jpg",
   },
   {
     id: "kafu-a10-83",
@@ -11181,6 +12040,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408515 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-83.jpg",
   },
   {
     id: "kafu-a10-84",
@@ -11194,6 +12054,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408517 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-84.jpg",
   },
   {
     id: "kafu-a10-85",
@@ -11207,6 +12068,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408519 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-85.jpg",
   },
   {
     id: "kafu-a10-86",
@@ -11220,6 +12082,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408583 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-86.jpg",
   },
   {
     id: "kafu-a10-87",
@@ -11233,6 +12096,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3408602 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-87.jpg",
   },
   {
     id: "kafu-a10-88",
@@ -11246,6 +12110,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 14395374 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-88.jpg",
   },
   {
     id: "kafu-a10-89",
@@ -11259,6 +12124,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 14395293 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-89.jpg",
   },
   {
     id: "kafu-a10-9",
@@ -11272,6 +12138,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC360-7786193"],
     notes: "OEM: 7786193 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-9.jpg",
   },
   {
     id: "kafu-a10-90",
@@ -11285,6 +12152,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 14395374 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-90.jpg",
   },
   {
     id: "kafu-a10-91",
@@ -11298,6 +12166,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 14395426 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-91.jpg",
   },
   {
     id: "kafu-a10-92",
@@ -11311,6 +12180,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 14550404 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-92.jpg",
   },
   {
     id: "kafu-a10-93",
@@ -11324,6 +12194,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 14550410 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-93.jpg",
   },
   {
     id: "kafu-a10-94",
@@ -11337,6 +12208,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-94.jpg",
   },
   {
     id: "kafu-a10-95",
@@ -11350,6 +12222,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-95.jpg",
   },
   {
     id: "kafu-a10-96",
@@ -11363,6 +12236,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-96.jpg",
   },
   {
     id: "kafu-a10-97",
@@ -11376,6 +12250,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 738-2120 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-97.jpg",
   },
   {
     id: "kafu-a10-98",
@@ -11389,6 +12264,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A10-98.jpg",
   },
   {
     id: "kafu-a11-1",
@@ -11402,6 +12278,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC400-7", "PC450-8"],
     notes: "OEM: 499000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-1.jpg",
   },
   {
     id: "kafu-a11-10",
@@ -11415,6 +12292,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-10.jpg",
   },
   {
     id: "kafu-a11-11",
@@ -11428,6 +12306,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-11.jpg",
   },
   {
     id: "kafu-a11-12",
@@ -11441,6 +12320,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-12.jpg",
   },
   {
     id: "kafu-a11-13",
@@ -11454,6 +12334,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-13.jpg",
   },
   {
     id: "kafu-a11-2",
@@ -11467,6 +12348,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-2.jpg",
   },
   {
     id: "kafu-a11-3",
@@ -11480,6 +12362,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX200-3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-3.jpg",
   },
   {
     id: "kafu-a11-3a",
@@ -11493,6 +12376,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-3A.jpg",
   },
   {
     id: "kafu-a11-3b",
@@ -11506,6 +12390,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-3B.jpg",
   },
   {
     id: "kafu-a11-3c",
@@ -11519,6 +12404,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 499000, 97318684 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-3C.jpg",
   },
   {
     id: "kafu-a11-3d",
@@ -11532,6 +12418,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-3D.jpg",
   },
   {
     id: "kafu-a11-3f",
@@ -11545,6 +12432,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 499000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-3F.jpg",
   },
   {
     id: "kafu-a11-4",
@@ -11558,6 +12446,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK140-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-4.jpg",
   },
   {
     id: "kafu-a11-5",
@@ -11571,6 +12460,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 6261811900, 0281002937, 675472 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-5.jpg",
   },
   {
     id: "kafu-a11-5a",
@@ -11584,6 +12474,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0281006327 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-5A.jpg",
   },
   {
     id: "kafu-a11-5b",
@@ -11597,6 +12488,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-5B.jpg",
   },
   {
     id: "kafu-a11-6",
@@ -11610,6 +12502,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-6.jpg",
   },
   {
     id: "kafu-a11-7",
@@ -11623,6 +12516,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 0281002851 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-7.jpg",
   },
   {
     id: "kafu-a11-8",
@@ -11636,6 +12530,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK130-8"],
     notes: "OEM: 0281006090 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-8.jpg",
   },
   {
     id: "kafu-a11-9",
@@ -11649,6 +12544,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A11-9.jpg",
   },
   {
     id: "kafu-a12-1",
@@ -11662,6 +12558,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK130/1408"],
     notes: "OEM: 0928400742 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-1.jpg",
   },
   {
     id: "kafu-a12-10",
@@ -11675,6 +12572,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-10.jpg",
   },
   {
     id: "kafu-a12-10a",
@@ -11688,6 +12586,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-10A.jpg",
   },
   {
     id: "kafu-a12-10b",
@@ -11701,6 +12600,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-10B.jpg",
   },
   {
     id: "kafu-a12-11",
@@ -11714,6 +12614,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-11.jpg",
   },
   {
     id: "kafu-a12-11a",
@@ -11727,6 +12628,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-11A.jpg",
   },
   {
     id: "kafu-a12-11b",
@@ -11740,6 +12642,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2872550 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-11B.jpg",
   },
   {
     id: "kafu-a12-11c",
@@ -11753,6 +12656,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 256772 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-11C.jpg",
   },
   {
     id: "kafu-a12-12",
@@ -11766,6 +12670,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Voltage: 12V/24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-12.jpg",
   },
   {
     id: "kafu-a12-13",
@@ -11779,6 +12684,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-13.jpg",
   },
   {
     id: "kafu-a12-13a",
@@ -11792,6 +12698,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-13A.jpg",
   },
   {
     id: "kafu-a12-13b",
@@ -11805,6 +12712,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC160-0"],
     notes: "OEM: 330001003 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-13B.jpg",
   },
   {
     id: "kafu-a12-14",
@@ -11818,6 +12726,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-14.jpg",
   },
   {
     id: "kafu-a12-15",
@@ -11831,6 +12740,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC300-8"],
     notes: "OEM: 3963908, 714330 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-15.jpg",
   },
   {
     id: "kafu-a12-15a",
@@ -11844,6 +12754,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4383889 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-15A.jpg",
   },
   {
     id: "kafu-a12-16",
@@ -11857,6 +12768,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4200260 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-16.jpg",
   },
   {
     id: "kafu-a12-16a",
@@ -11870,6 +12782,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-16A.jpg",
   },
   {
     id: "kafu-a12-16b",
@@ -11883,6 +12796,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 095420 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-16B.jpg",
   },
   {
     id: "kafu-a12-17",
@@ -11896,6 +12810,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 095420 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-17.jpg",
   },
   {
     id: "kafu-a12-17a",
@@ -11909,6 +12824,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 095420, 6261711220 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-17A.jpg",
   },
   {
     id: "kafu-a12-17b",
@@ -11922,6 +12838,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-17B.jpg",
   },
   {
     id: "kafu-a12-17c",
@@ -11935,6 +12852,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-17C.jpg",
   },
   {
     id: "kafu-a12-17d",
@@ -11948,6 +12866,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 095420 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-17D.jpg",
   },
   {
     id: "kafu-a12-18",
@@ -11961,6 +12880,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-18.jpg",
   },
   {
     id: "kafu-a12-19",
@@ -11974,6 +12894,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3125620 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-19.jpg",
   },
   {
     id: "kafu-a12-2",
@@ -11987,6 +12908,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-2.jpg",
   },
   {
     id: "kafu-a12-20",
@@ -12000,6 +12922,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3125620 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-20.jpg",
   },
   {
     id: "kafu-a12-21",
@@ -12013,6 +12936,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-21.jpg",
   },
   {
     id: "kafu-a12-22",
@@ -12026,6 +12950,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320D"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-22.jpg",
   },
   {
     id: "kafu-a12-22a",
@@ -12039,6 +12964,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-22A.jpg",
   },
   {
     id: "kafu-a12-23",
@@ -12052,6 +12978,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-23.jpg",
   },
   {
     id: "kafu-a12-24",
@@ -12065,6 +12992,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0954000240 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-24.jpg",
   },
   {
     id: "kafu-a12-24a",
@@ -12078,6 +13006,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-24A.jpg",
   },
   {
     id: "kafu-a12-24b",
@@ -12091,6 +13020,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-24B.jpg",
   },
   {
     id: "kafu-a12-25",
@@ -12104,6 +13034,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 4167101 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-25.jpg",
   },
   {
     id: "kafu-a12-25a",
@@ -12117,6 +13048,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 281-2725 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-25A.jpg",
   },
   {
     id: "kafu-a12-26",
@@ -12130,6 +13062,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 369-6662 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-26.jpg",
   },
   {
     id: "kafu-a12-26a",
@@ -12143,6 +13076,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 294-1767 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-26A.jpg",
   },
   {
     id: "kafu-a12-26b",
@@ -12156,6 +13090,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 372-5196 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-26B.jpg",
   },
   {
     id: "kafu-a12-27",
@@ -12169,6 +13104,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-27.jpg",
   },
   {
     id: "kafu-a12-28",
@@ -12182,6 +13118,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 090310 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-28.jpg",
   },
   {
     id: "kafu-a12-28a",
@@ -12195,6 +13132,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 11704362 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-28A.jpg",
   },
   {
     id: "kafu-a12-29",
@@ -12208,6 +13146,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-29.jpg",
   },
   {
     id: "kafu-a12-29a",
@@ -12221,6 +13160,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2206260098 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-29A.jpg",
   },
   {
     id: "kafu-a12-29b",
@@ -12234,6 +13174,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2206260272 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-29B.jpg",
   },
   {
     id: "kafu-a12-29c",
@@ -12247,6 +13188,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-29C.jpg",
   },
   {
     id: "kafu-a12-3",
@@ -12260,6 +13202,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3.jpg",
   },
   {
     id: "kafu-a12-30",
@@ -12273,6 +13216,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-30.jpg",
   },
   {
     id: "kafu-a12-31",
@@ -12286,6 +13230,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-31.jpg",
   },
   {
     id: "kafu-a12-32",
@@ -12299,6 +13244,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-32.jpg",
   },
   {
     id: "kafu-a12-32a",
@@ -12312,6 +13258,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-32A.jpg",
   },
   {
     id: "kafu-a12-32b",
@@ -12325,6 +13272,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-32B.jpg",
   },
   {
     id: "kafu-a12-32c",
@@ -12338,6 +13286,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 314770 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-32C.jpg",
   },
   {
     id: "kafu-a12-32d",
@@ -12351,6 +13300,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0260130036 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-32D.jpg",
   },
   {
     id: "kafu-a12-33",
@@ -12364,6 +13314,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-33.jpg",
   },
   {
     id: "kafu-a12-34",
@@ -12377,6 +13328,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-34.jpg",
   },
   {
     id: "kafu-a12-35",
@@ -12390,6 +13342,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-35.jpg",
   },
   {
     id: "kafu-a12-36",
@@ -12403,6 +13356,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-36.jpg",
   },
   {
     id: "kafu-a12-37",
@@ -12416,6 +13370,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-37.jpg",
   },
   {
     id: "kafu-a12-38",
@@ -12429,6 +13384,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-38.jpg",
   },
   {
     id: "kafu-a12-39",
@@ -12442,6 +13398,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-39.jpg",
   },
   {
     id: "kafu-a12-3a",
@@ -12455,6 +13412,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3A.jpg",
   },
   {
     id: "kafu-a12-3b",
@@ -12468,6 +13426,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R150-7092840"],
     notes: "OEM: 7092840 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3B.jpg",
   },
   {
     id: "kafu-a12-3c",
@@ -12481,6 +13440,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 928400760 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3C.jpg",
   },
   {
     id: "kafu-a12-3d",
@@ -12494,6 +13454,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0928400606 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3D.jpg",
   },
   {
     id: "kafu-a12-3e",
@@ -12507,6 +13468,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0928400684 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3E.jpg",
   },
   {
     id: "kafu-a12-3f",
@@ -12520,6 +13482,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0928400644 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3F.jpg",
   },
   {
     id: "kafu-a12-3g",
@@ -12533,6 +13496,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0928400757 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3G.jpg",
   },
   {
     id: "kafu-a12-3h",
@@ -12546,6 +13510,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0928400647 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-3H.jpg",
   },
   {
     id: "kafu-a12-4",
@@ -12559,6 +13524,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 2104296846 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-4.jpg",
   },
   {
     id: "kafu-a12-40",
@@ -12572,6 +13538,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-40.jpg",
   },
   {
     id: "kafu-a12-4a",
@@ -12585,6 +13552,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-4A.jpg",
   },
   {
     id: "kafu-a12-5",
@@ -12598,6 +13566,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E006-1"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-5.jpg",
   },
   {
     id: "kafu-a12-5a",
@@ -12611,6 +13580,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2940091221 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-5A.jpg",
   },
   {
     id: "kafu-a12-6",
@@ -12624,6 +13594,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4200-0190 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-6.jpg",
   },
   {
     id: "kafu-a12-6a",
@@ -12637,6 +13608,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 98283485 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-6A.jpg",
   },
   {
     id: "kafu-a12-7",
@@ -12650,6 +13622,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-7.jpg",
   },
   {
     id: "kafu-a12-7a",
@@ -12663,6 +13636,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX33-0"],
     notes: "OEM: 98145449 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-7A.jpg",
   },
   {
     id: "kafu-a12-8",
@@ -12676,6 +13650,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 8981454841, 42002760 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-8.jpg",
   },
   {
     id: "kafu-a12-9",
@@ -12689,6 +13664,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4200-2750 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A12-9.jpg",
   },
   {
     id: "kafu-a13-1",
@@ -12702,6 +13678,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-1.jpg",
   },
   {
     id: "kafu-a13-10",
@@ -12715,6 +13692,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-10.jpg",
   },
   {
     id: "kafu-a13-10a",
@@ -12728,6 +13706,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-10A.jpg",
   },
   {
     id: "kafu-a13-11",
@@ -12741,6 +13720,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 6458-3416 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-11.jpg",
   },
   {
     id: "kafu-a13-11a",
@@ -12754,6 +13734,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-11A.jpg",
   },
   {
     id: "kafu-a13-11b",
@@ -12767,6 +13748,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-11B.jpg",
   },
   {
     id: "kafu-a13-12",
@@ -12780,6 +13762,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-12.jpg",
   },
   {
     id: "kafu-a13-13",
@@ -12793,6 +13776,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK140-8044522"],
     notes: "OEM: 8044522 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-13.jpg",
   },
   {
     id: "kafu-a13-13a",
@@ -12806,6 +13790,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-13A.jpg",
   },
   {
     id: "kafu-a13-13b",
@@ -12819,6 +13804,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-13B.jpg",
   },
   {
     id: "kafu-a13-14",
@@ -12832,6 +13818,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-14.jpg",
   },
   {
     id: "kafu-a13-15",
@@ -12845,6 +13832,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-15.jpg",
   },
   {
     id: "kafu-a13-16",
@@ -12858,6 +13846,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-16.jpg",
   },
   {
     id: "kafu-a13-17",
@@ -12871,6 +13860,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 94095600 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-17.jpg",
   },
   {
     id: "kafu-a13-18",
@@ -12884,6 +13874,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 29095440 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-18.jpg",
   },
   {
     id: "kafu-a13-19",
@@ -12897,6 +13888,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 96095440 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-19.jpg",
   },
   {
     id: "kafu-a13-2",
@@ -12910,6 +13902,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-2.jpg",
   },
   {
     id: "kafu-a13-20",
@@ -12923,6 +13916,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-20.jpg",
   },
   {
     id: "kafu-a13-21",
@@ -12936,6 +13930,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-21.jpg",
   },
   {
     id: "kafu-a13-22",
@@ -12949,6 +13944,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-22.jpg",
   },
   {
     id: "kafu-a13-23",
@@ -12962,6 +13958,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-23.jpg",
   },
   {
     id: "kafu-a13-24",
@@ -12975,6 +13972,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 095440 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-24.jpg",
   },
   {
     id: "kafu-a13-25",
@@ -12988,6 +13986,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-25.jpg",
   },
   {
     id: "kafu-a13-26",
@@ -13001,6 +14000,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-26.jpg",
   },
   {
     id: "kafu-a13-27",
@@ -13014,6 +14014,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-27.jpg",
   },
   {
     id: "kafu-a13-28",
@@ -13027,6 +14028,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 095440 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-28.jpg",
   },
   {
     id: "kafu-a13-29",
@@ -13040,6 +14042,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 150120, 7030409 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-29.jpg",
   },
   {
     id: "kafu-a13-3",
@@ -13053,6 +14056,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-3.jpg",
   },
   {
     id: "kafu-a13-30",
@@ -13066,6 +14070,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-30.jpg",
   },
   {
     id: "kafu-a13-4",
@@ -13079,6 +14084,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-4.jpg",
   },
   {
     id: "kafu-a13-5",
@@ -13092,6 +14098,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-5.jpg",
   },
   {
     id: "kafu-a13-6",
@@ -13105,6 +14112,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-6.jpg",
   },
   {
     id: "kafu-a13-6a",
@@ -13118,6 +14126,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-6A.jpg",
   },
   {
     id: "kafu-a13-7",
@@ -13131,6 +14140,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-7.jpg",
   },
   {
     id: "kafu-a13-8",
@@ -13144,6 +14154,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["6WG1"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-8.jpg",
   },
   {
     id: "kafu-a13-9",
@@ -13157,6 +14168,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A13-9.jpg",
   },
   {
     id: "kafu-a14-1",
@@ -13170,6 +14182,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-1.jpg",
   },
   {
     id: "kafu-a14-10",
@@ -13183,6 +14196,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-10.jpg",
   },
   {
     id: "kafu-a14-11",
@@ -13196,6 +14210,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-11.jpg",
   },
   {
     id: "kafu-a14-12",
@@ -13209,6 +14224,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-12.jpg",
   },
   {
     id: "kafu-a14-12a",
@@ -13222,6 +14238,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-12A.jpg",
   },
   {
     id: "kafu-a14-13",
@@ -13235,6 +14252,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 7861745100 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-13.jpg",
   },
   {
     id: "kafu-a14-13a",
@@ -13248,6 +14266,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 160402 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-13A.jpg",
   },
   {
     id: "kafu-a14-14",
@@ -13261,6 +14280,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-14.jpg",
   },
   {
     id: "kafu-a14-14a",
@@ -13274,6 +14294,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-14A.jpg",
   },
   {
     id: "kafu-a14-15",
@@ -13287,6 +14308,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-15.jpg",
   },
   {
     id: "kafu-a14-16",
@@ -13300,6 +14322,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-16.jpg",
   },
   {
     id: "kafu-a14-16a",
@@ -13313,6 +14336,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-16A.jpg",
   },
   {
     id: "kafu-a14-16b",
@@ -13326,6 +14350,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "OEM: 537-00010 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-16B.jpg",
   },
   {
     id: "kafu-a14-16c",
@@ -13339,6 +14364,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-16C.jpg",
   },
   {
     id: "kafu-a14-17",
@@ -13352,6 +14378,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R2205"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-17.jpg",
   },
   {
     id: "kafu-a14-18",
@@ -13365,6 +14392,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-18.jpg",
   },
   {
     id: "kafu-a14-19a",
@@ -13378,6 +14406,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-19A.jpg",
   },
   {
     id: "kafu-a14-2",
@@ -13391,6 +14420,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-2.jpg",
   },
   {
     id: "kafu-a14-20",
@@ -13404,6 +14434,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-20.jpg",
   },
   {
     id: "kafu-a14-21",
@@ -13417,6 +14448,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "OEM: 2531-1003 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-21.jpg",
   },
   {
     id: "kafu-a14-22",
@@ -13430,6 +14462,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "OEM: 2543-9015 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-22.jpg",
   },
   {
     id: "kafu-a14-23",
@@ -13443,6 +14476,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "OEM: 2537-9008 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-23.jpg",
   },
   {
     id: "kafu-a14-23a",
@@ -13456,6 +14490,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-23A.jpg",
   },
   {
     id: "kafu-a14-24",
@@ -13469,6 +14504,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-24.jpg",
   },
   {
     id: "kafu-a14-24a",
@@ -13482,6 +14518,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 14616736 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-24A.jpg",
   },
   {
     id: "kafu-a14-25",
@@ -13495,6 +14532,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-25.jpg",
   },
   {
     id: "kafu-a14-25a",
@@ -13508,6 +14546,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-25A.jpg",
   },
   {
     id: "kafu-a14-26",
@@ -13521,6 +14560,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1043204 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-26.jpg",
   },
   {
     id: "kafu-a14-26a",
@@ -13534,6 +14574,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 197-4330 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-26A.jpg",
   },
   {
     id: "kafu-a14-26b",
@@ -13547,6 +14588,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 6810-0050 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-26B.jpg",
   },
   {
     id: "kafu-a14-27",
@@ -13560,6 +14602,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-27.jpg",
   },
   {
     id: "kafu-a14-27a",
@@ -13573,6 +14616,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 129930 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-27A.jpg",
   },
   {
     id: "kafu-a14-27b",
@@ -13586,6 +14630,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 129930 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-27B.jpg",
   },
   {
     id: "kafu-a14-27c",
@@ -13599,6 +14644,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-27C.jpg",
   },
   {
     id: "kafu-a14-27d",
@@ -13612,6 +14658,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 898132 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-27D.jpg",
   },
   {
     id: "kafu-a14-27e",
@@ -13625,6 +14672,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 119953 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-27E.jpg",
   },
   {
     id: "kafu-a14-27f",
@@ -13638,6 +14686,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 188-7681 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-27F.jpg",
   },
   {
     id: "kafu-a14-28",
@@ -13651,6 +14700,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 056800 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-28.jpg",
   },
   {
     id: "kafu-a14-28a",
@@ -13664,6 +14714,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 24122312 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-28A.jpg",
   },
   {
     id: "kafu-a14-28b",
@@ -13677,6 +14728,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-28B.jpg",
   },
   {
     id: "kafu-a14-29",
@@ -13690,6 +14742,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1114870 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-29.jpg",
   },
   {
     id: "kafu-a14-3",
@@ -13703,6 +14756,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-3.jpg",
   },
   {
     id: "kafu-a14-30",
@@ -13716,6 +14770,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-30.jpg",
   },
   {
     id: "kafu-a14-30a",
@@ -13729,6 +14784,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-30A.jpg",
   },
   {
     id: "kafu-a14-31",
@@ -13742,6 +14798,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-31.jpg",
   },
   {
     id: "kafu-a14-32",
@@ -13755,6 +14812,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-32.jpg",
   },
   {
     id: "kafu-a14-32a",
@@ -13768,6 +14826,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-32A.jpg",
   },
   {
     id: "kafu-a14-32b",
@@ -13781,6 +14840,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Voltage: 12V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-32B.jpg",
   },
   {
     id: "kafu-a14-33",
@@ -13794,6 +14854,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-33.jpg",
   },
   {
     id: "kafu-a14-33a",
@@ -13807,6 +14868,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-33A.jpg",
   },
   {
     id: "kafu-a14-33b",
@@ -13820,6 +14882,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-33B.jpg",
   },
   {
     id: "kafu-a14-33c",
@@ -13833,6 +14896,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-33C.jpg",
   },
   {
     id: "kafu-a14-33d",
@@ -13846,6 +14910,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-33D.jpg",
   },
   {
     id: "kafu-a14-33e",
@@ -13859,6 +14924,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-33E.jpg",
   },
   {
     id: "kafu-a14-34",
@@ -13872,6 +14938,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH220-5", "DH22-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-34.jpg",
   },
   {
     id: "kafu-a14-35",
@@ -13885,6 +14952,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-35.jpg",
   },
   {
     id: "kafu-a14-36",
@@ -13898,6 +14966,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E31-2"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-36.jpg",
   },
   {
     id: "kafu-a14-36a",
@@ -13911,6 +14980,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E30-7"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-36A.jpg",
   },
   {
     id: "kafu-a14-36b",
@@ -13924,6 +14994,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 149-2612 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-36B.jpg",
   },
   {
     id: "kafu-a14-37",
@@ -13937,6 +15008,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-37.jpg",
   },
   {
     id: "kafu-a14-37a",
@@ -13950,6 +15022,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-37A.jpg",
   },
   {
     id: "kafu-a14-37b",
@@ -13963,6 +15036,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 564-4992 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-37B.jpg",
   },
   {
     id: "kafu-a14-38",
@@ -13976,6 +15050,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2550-3250 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-38.jpg",
   },
   {
     id: "kafu-a14-39",
@@ -13989,6 +15064,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 503251 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-39.jpg",
   },
   {
     id: "kafu-a14-4",
@@ -14002,6 +15078,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-4.jpg",
   },
   {
     id: "kafu-a14-40",
@@ -14015,6 +15092,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-40.jpg",
   },
   {
     id: "kafu-a14-40a",
@@ -14028,6 +15106,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 12V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-40A.jpg",
   },
   {
     id: "kafu-a14-41",
@@ -14041,6 +15120,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-2/34251588"],
     notes: "OEM: 34251588 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-41.jpg",
   },
   {
     id: "kafu-a14-41a",
@@ -14054,6 +15134,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 111-4871 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-41A.jpg",
   },
   {
     id: "kafu-a14-42",
@@ -14067,6 +15148,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-42.jpg",
   },
   {
     id: "kafu-a14-43",
@@ -14080,6 +15162,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC60-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-43.jpg",
   },
   {
     id: "kafu-a14-44",
@@ -14093,6 +15176,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 20724977 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-44.jpg",
   },
   {
     id: "kafu-a14-44a",
@@ -14106,6 +15190,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-44A.jpg",
   },
   {
     id: "kafu-a14-44b",
@@ -14119,6 +15204,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E31-2"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-44B.jpg",
   },
   {
     id: "kafu-a14-45",
@@ -14132,6 +15218,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-45.jpg",
   },
   {
     id: "kafu-a14-45a",
@@ -14145,6 +15232,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14529298 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-45A.jpg",
   },
   {
     id: "kafu-a14-45b",
@@ -14158,6 +15246,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-45B.jpg",
   },
   {
     id: "kafu-a14-45c",
@@ -14171,6 +15260,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-45C.jpg",
   },
   {
     id: "kafu-a14-45d",
@@ -14184,6 +15274,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: M70121 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-45D.jpg",
   },
   {
     id: "kafu-a14-45e",
@@ -14197,6 +15288,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 129150 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-45E.jpg",
   },
   {
     id: "kafu-a14-46",
@@ -14210,6 +15302,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-46.jpg",
   },
   {
     id: "kafu-a14-46a",
@@ -14223,6 +15316,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-46A.jpg",
   },
   {
     id: "kafu-a14-47",
@@ -14236,6 +15330,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-47.jpg",
   },
   {
     id: "kafu-a14-48",
@@ -14249,6 +15344,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-48.jpg",
   },
   {
     id: "kafu-a14-48a",
@@ -14262,6 +15358,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861-94-3000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-48A.jpg",
   },
   {
     id: "kafu-a14-49",
@@ -14275,6 +15372,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-49.jpg",
   },
   {
     id: "kafu-a14-5",
@@ -14288,6 +15386,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-5.jpg",
   },
   {
     id: "kafu-a14-50",
@@ -14301,6 +15400,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-50.jpg",
   },
   {
     id: "kafu-a14-51",
@@ -14314,6 +15414,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-51.jpg",
   },
   {
     id: "kafu-a14-52",
@@ -14327,6 +15428,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-52.jpg",
   },
   {
     id: "kafu-a14-53",
@@ -14340,6 +15442,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-53.jpg",
   },
   {
     id: "kafu-a14-53a",
@@ -14353,6 +15456,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 0622100 · Voltage: 12V/24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-53A.jpg",
   },
   {
     id: "kafu-a14-53b",
@@ -14366,6 +15470,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-53B.jpg",
   },
   {
     id: "kafu-a14-53c",
@@ -14379,6 +15484,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-53C.jpg",
   },
   {
     id: "kafu-a14-54",
@@ -14392,6 +15498,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-54.jpg",
   },
   {
     id: "kafu-a14-55",
@@ -14405,6 +15512,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-55.jpg",
   },
   {
     id: "kafu-a14-56",
@@ -14418,6 +15526,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-56.jpg",
   },
   {
     id: "kafu-a14-57",
@@ -14431,6 +15540,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU", "WA470-3"],
     notes: "OEM: 4174326212 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-57.jpg",
   },
   {
     id: "kafu-a14-58",
@@ -14444,6 +15554,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "OEM: 1773008892 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-58.jpg",
   },
   {
     id: "kafu-a14-59",
@@ -14457,6 +15568,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3900-730 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-59.jpg",
   },
   {
     id: "kafu-a14-5a",
@@ -14470,6 +15582,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-5A.jpg",
   },
   {
     id: "kafu-a14-5b",
@@ -14483,6 +15596,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-5B.jpg",
   },
   {
     id: "kafu-a14-5c",
@@ -14496,6 +15610,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-5C.jpg",
   },
   {
     id: "kafu-a14-6",
@@ -14509,6 +15624,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-6.jpg",
   },
   {
     id: "kafu-a14-60",
@@ -14522,6 +15638,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-60.jpg",
   },
   {
     id: "kafu-a14-61",
@@ -14535,6 +15652,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 003604 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-61.jpg",
   },
   {
     id: "kafu-a14-62",
@@ -14548,6 +15666,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-62.jpg",
   },
   {
     id: "kafu-a14-63",
@@ -14561,6 +15680,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-63.jpg",
   },
   {
     id: "kafu-a14-64",
@@ -14574,6 +15694,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4184862 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-64.jpg",
   },
   {
     id: "kafu-a14-65",
@@ -14587,6 +15708,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 594-5630 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-65.jpg",
   },
   {
     id: "kafu-a14-66",
@@ -14600,6 +15722,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-66.jpg",
   },
   {
     id: "kafu-a14-67",
@@ -14613,6 +15736,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-67.jpg",
   },
   {
     id: "kafu-a14-68",
@@ -14626,6 +15750,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-68.jpg",
   },
   {
     id: "kafu-a14-6a",
@@ -14639,6 +15764,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-6A.jpg",
   },
   {
     id: "kafu-a14-6b",
@@ -14652,6 +15778,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "OEM: 301202 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-6B.jpg",
   },
   {
     id: "kafu-a14-6c",
@@ -14665,6 +15792,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-6C.jpg",
   },
   {
     id: "kafu-a14-6d",
@@ -14678,6 +15806,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-6D.jpg",
   },
   {
     id: "kafu-a14-7",
@@ -14691,6 +15820,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-7.jpg",
   },
   {
     id: "kafu-a14-8",
@@ -14704,6 +15834,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-8.jpg",
   },
   {
     id: "kafu-a14-9",
@@ -14717,6 +15848,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A14-9.jpg",
   },
   {
     id: "kafu-a15-1",
@@ -14730,6 +15862,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-1.jpg",
   },
   {
     id: "kafu-a15-10",
@@ -14743,6 +15876,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-10.jpg",
   },
   {
     id: "kafu-a15-10a",
@@ -14756,6 +15890,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "OEM: 600-815 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-10A.jpg",
   },
   {
     id: "kafu-a15-11",
@@ -14769,6 +15904,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-11.jpg",
   },
   {
     id: "kafu-a15-12",
@@ -14782,6 +15918,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK350-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-12.jpg",
   },
   {
     id: "kafu-a15-13",
@@ -14795,6 +15932,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-13.jpg",
   },
   {
     id: "kafu-a15-14",
@@ -14808,6 +15946,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 240/29014514195 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-14.jpg",
   },
   {
     id: "kafu-a15-15",
@@ -14821,6 +15960,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-15.jpg",
   },
   {
     id: "kafu-a15-15a",
@@ -14834,6 +15974,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 209-5582 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-15A.jpg",
   },
   {
     id: "kafu-a15-16",
@@ -14847,6 +15988,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-16.jpg",
   },
   {
     id: "kafu-a15-16a",
@@ -14860,6 +16002,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 182800 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-16A.jpg",
   },
   {
     id: "kafu-a15-17",
@@ -14873,6 +16016,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-17.jpg",
   },
   {
     id: "kafu-a15-18",
@@ -14886,6 +16030,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 6008152170, 6008158940 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-18.jpg",
   },
   {
     id: "kafu-a15-19",
@@ -14899,6 +16044,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC30-0", "EX20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-19.jpg",
   },
   {
     id: "kafu-a15-19a",
@@ -14912,6 +16058,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-19A.jpg",
   },
   {
     id: "kafu-a15-2",
@@ -14925,6 +16072,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-2.jpg",
   },
   {
     id: "kafu-a15-20",
@@ -14938,6 +16086,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["6D24"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-20.jpg",
   },
   {
     id: "kafu-a15-21",
@@ -14951,6 +16100,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 002114 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-21.jpg",
   },
   {
     id: "kafu-a15-22",
@@ -14964,6 +16114,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 5530391, 0007832 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-22.jpg",
   },
   {
     id: "kafu-a15-22a",
@@ -14977,6 +16128,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-22A.jpg",
   },
   {
     id: "kafu-a15-22b",
@@ -14990,6 +16142,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-22B.jpg",
   },
   {
     id: "kafu-a15-23",
@@ -15003,6 +16156,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-23.jpg",
   },
   {
     id: "kafu-a15-24",
@@ -15016,6 +16170,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-24.jpg",
   },
   {
     id: "kafu-a15-25",
@@ -15029,6 +16184,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-25.jpg",
   },
   {
     id: "kafu-a15-26",
@@ -15042,6 +16198,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-26.jpg",
   },
   {
     id: "kafu-a15-26a",
@@ -15055,6 +16212,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-26A.jpg",
   },
   {
     id: "kafu-a15-27",
@@ -15068,6 +16226,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-27.jpg",
   },
   {
     id: "kafu-a15-28",
@@ -15081,6 +16240,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC300-5"],
     notes: "OEM: 7700858327 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-28.jpg",
   },
   {
     id: "kafu-a15-29",
@@ -15094,6 +16254,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Voltage: 12V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-29.jpg",
   },
   {
     id: "kafu-a15-3",
@@ -15107,6 +16268,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-3.jpg",
   },
   {
     id: "kafu-a15-30",
@@ -15120,6 +16282,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-30.jpg",
   },
   {
     id: "kafu-a15-31",
@@ -15133,6 +16296,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E320D"],
     notes: "OEM: 1183534 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-31.jpg",
   },
   {
     id: "kafu-a15-32",
@@ -15146,6 +16310,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E336D"],
     notes: "OEM: 241836812 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-32.jpg",
   },
   {
     id: "kafu-a15-33",
@@ -15159,6 +16324,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-33.jpg",
   },
   {
     id: "kafu-a15-34",
@@ -15172,6 +16338,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 2595274 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-34.jpg",
   },
   {
     id: "kafu-a15-35",
@@ -15185,6 +16352,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-35.jpg",
   },
   {
     id: "kafu-a15-36",
@@ -15198,6 +16366,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3050692 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-36.jpg",
   },
   {
     id: "kafu-a15-37",
@@ -15211,6 +16380,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14531201 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-37.jpg",
   },
   {
     id: "kafu-a15-38",
@@ -15224,6 +16394,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-38.jpg",
   },
   {
     id: "kafu-a15-39",
@@ -15237,6 +16408,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 239-1134 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-39.jpg",
   },
   {
     id: "kafu-a15-4",
@@ -15250,6 +16422,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-4.jpg",
   },
   {
     id: "kafu-a15-5",
@@ -15263,6 +16436,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-5.jpg",
   },
   {
     id: "kafu-a15-6",
@@ -15276,6 +16450,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 1201147512 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-6.jpg",
   },
   {
     id: "kafu-a15-7",
@@ -15289,6 +16464,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3916302 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-7.jpg",
   },
   {
     id: "kafu-a15-8",
@@ -15302,6 +16478,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 855269379 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-8.jpg",
   },
   {
     id: "kafu-a15-9",
@@ -15315,6 +16492,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-9.jpg",
   },
   {
     id: "kafu-a15-9a",
@@ -15328,6 +16506,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-9A.jpg",
   },
   {
     id: "kafu-a15-9b",
@@ -15341,6 +16520,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A15-9B.jpg",
   },
   {
     id: "kafu-a16-1",
@@ -15354,6 +16534,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-1.jpg",
   },
   {
     id: "kafu-a16-10",
@@ -15367,6 +16548,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-10.jpg",
   },
   {
     id: "kafu-a16-11",
@@ -15380,6 +16562,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-720Y"],
     notes: "OEM: 0631320 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-11.jpg",
   },
   {
     id: "kafu-a16-12",
@@ -15393,6 +16576,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-12.jpg",
   },
   {
     id: "kafu-a16-13",
@@ -15406,6 +16590,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-13.jpg",
   },
   {
     id: "kafu-a16-14",
@@ -15419,6 +16604,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-14.jpg",
   },
   {
     id: "kafu-a16-15",
@@ -15432,6 +16618,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-15.jpg",
   },
   {
     id: "kafu-a16-16",
@@ -15445,6 +16632,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1460240 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-16.jpg",
   },
   {
     id: "kafu-a16-17",
@@ -15458,6 +16646,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1655970 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-17.jpg",
   },
   {
     id: "kafu-a16-18",
@@ -15471,6 +16660,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1586634 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-18.jpg",
   },
   {
     id: "kafu-a16-19",
@@ -15484,6 +16674,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK130-8", "SK140-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-19.jpg",
   },
   {
     id: "kafu-a16-2",
@@ -15497,6 +16688,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-2.jpg",
   },
   {
     id: "kafu-a16-20",
@@ -15510,6 +16702,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-20.jpg",
   },
   {
     id: "kafu-a16-3",
@@ -15523,6 +16716,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-3.jpg",
   },
   {
     id: "kafu-a16-4",
@@ -15536,6 +16730,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-4.jpg",
   },
   {
     id: "kafu-a16-5",
@@ -15549,6 +16744,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-5.jpg",
   },
   {
     id: "kafu-a16-6",
@@ -15562,6 +16758,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-6.jpg",
   },
   {
     id: "kafu-a16-7",
@@ -15575,6 +16772,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-7.jpg",
   },
   {
     id: "kafu-a16-8",
@@ -15588,6 +16786,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "OEM: 4339339 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-8.jpg",
   },
   {
     id: "kafu-a16-9",
@@ -15601,6 +16800,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC360-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A16-9.jpg",
   },
   {
     id: "kafu-a17-1",
@@ -15614,6 +16814,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-1.jpg",
   },
   {
     id: "kafu-a17-10",
@@ -15627,6 +16828,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14529183 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-10.jpg",
   },
   {
     id: "kafu-a17-11",
@@ -15640,6 +16842,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14544028 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-11.jpg",
   },
   {
     id: "kafu-a17-12",
@@ -15653,6 +16856,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14529185 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-12.jpg",
   },
   {
     id: "kafu-a17-13",
@@ -15666,6 +16870,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-13.jpg",
   },
   {
     id: "kafu-a17-13a",
@@ -15679,6 +16884,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 224-06 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-13A.jpg",
   },
   {
     id: "kafu-a17-13b",
@@ -15692,6 +16898,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 224-06 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-13B.jpg",
   },
   {
     id: "kafu-a17-13c",
@@ -15705,6 +16912,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 224-06 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-13C.jpg",
   },
   {
     id: "kafu-a17-13d",
@@ -15718,6 +16926,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 207-06 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-13D.jpg",
   },
   {
     id: "kafu-a17-13e",
@@ -15731,6 +16940,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-13E.jpg",
   },
   {
     id: "kafu-a17-13f",
@@ -15744,6 +16954,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-13F.jpg",
   },
   {
     id: "kafu-a17-14",
@@ -15757,6 +16968,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-14.jpg",
   },
   {
     id: "kafu-a17-15",
@@ -15770,6 +16982,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-15.jpg",
   },
   {
     id: "kafu-a17-16",
@@ -15783,6 +16996,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-16.jpg",
   },
   {
     id: "kafu-a17-17",
@@ -15796,6 +17010,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-17.jpg",
   },
   {
     id: "kafu-a17-18",
@@ -15809,6 +17024,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-18.jpg",
   },
   {
     id: "kafu-a17-19",
@@ -15822,6 +17038,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-19.jpg",
   },
   {
     id: "kafu-a17-2",
@@ -15835,6 +17052,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-2.jpg",
   },
   {
     id: "kafu-a17-20",
@@ -15848,6 +17066,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-20.jpg",
   },
   {
     id: "kafu-a17-21",
@@ -15861,6 +17080,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-21.jpg",
   },
   {
     id: "kafu-a17-22",
@@ -15874,6 +17094,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-22.jpg",
   },
   {
     id: "kafu-a17-22a",
@@ -15887,6 +17108,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-22A.jpg",
   },
   {
     id: "kafu-a17-23",
@@ -15900,6 +17122,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23.jpg",
   },
   {
     id: "kafu-a17-23a",
@@ -15913,6 +17136,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23A.jpg",
   },
   {
     id: "kafu-a17-23b",
@@ -15926,6 +17150,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23B.jpg",
   },
   {
     id: "kafu-a17-23c",
@@ -15939,6 +17164,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23C.jpg",
   },
   {
     id: "kafu-a17-23d",
@@ -15952,6 +17178,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23D.jpg",
   },
   {
     id: "kafu-a17-23e",
@@ -15965,6 +17192,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23E.jpg",
   },
   {
     id: "kafu-a17-23f",
@@ -15978,6 +17206,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23F.jpg",
   },
   {
     id: "kafu-a17-23g",
@@ -15991,6 +17220,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23G.jpg",
   },
   {
     id: "kafu-a17-23h",
@@ -16004,6 +17234,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-23H.jpg",
   },
   {
     id: "kafu-a17-24",
@@ -16017,6 +17248,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-24.jpg",
   },
   {
     id: "kafu-a17-25",
@@ -16030,6 +17262,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-25.jpg",
   },
   {
     id: "kafu-a17-26",
@@ -16043,6 +17276,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-26.jpg",
   },
   {
     id: "kafu-a17-27",
@@ -16056,6 +17290,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-27.jpg",
   },
   {
     id: "kafu-a17-28",
@@ -16069,6 +17304,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-28.jpg",
   },
   {
     id: "kafu-a17-29",
@@ -16082,6 +17318,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-29.jpg",
   },
   {
     id: "kafu-a17-3",
@@ -16095,6 +17332,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-3.jpg",
   },
   {
     id: "kafu-a17-30",
@@ -16108,6 +17346,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-30.jpg",
   },
   {
     id: "kafu-a17-31",
@@ -16121,6 +17360,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-80416 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-31.jpg",
   },
   {
     id: "kafu-a17-32",
@@ -16134,6 +17374,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-32.jpg",
   },
   {
     id: "kafu-a17-33",
@@ -16147,6 +17388,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58701 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-33.jpg",
   },
   {
     id: "kafu-a17-34",
@@ -16160,6 +17402,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58821 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-34.jpg",
   },
   {
     id: "kafu-a17-35",
@@ -16173,6 +17416,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58823 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-35.jpg",
   },
   {
     id: "kafu-a17-36",
@@ -16186,6 +17430,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58824 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-36.jpg",
   },
   {
     id: "kafu-a17-37",
@@ -16199,6 +17444,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58842 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-37.jpg",
   },
   {
     id: "kafu-a17-38",
@@ -16212,6 +17458,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58825 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-38.jpg",
   },
   {
     id: "kafu-a17-39",
@@ -16225,6 +17472,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58835 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-39.jpg",
   },
   {
     id: "kafu-a17-3a",
@@ -16238,6 +17486,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-3A.jpg",
   },
   {
     id: "kafu-a17-3b",
@@ -16251,6 +17500,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-3B.jpg",
   },
   {
     id: "kafu-a17-3c",
@@ -16264,6 +17514,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-3C.jpg",
   },
   {
     id: "kafu-a17-3d",
@@ -16277,6 +17528,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-3D.jpg",
   },
   {
     id: "kafu-a17-4",
@@ -16290,6 +17542,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-4.jpg",
   },
   {
     id: "kafu-a17-40",
@@ -16303,6 +17556,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 701-58838 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-40.jpg",
   },
   {
     id: "kafu-a17-41",
@@ -16316,6 +17570,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-41.jpg",
   },
   {
     id: "kafu-a17-42",
@@ -16329,6 +17584,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-42.jpg",
   },
   {
     id: "kafu-a17-43",
@@ -16342,6 +17598,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-43.jpg",
   },
   {
     id: "kafu-a17-44",
@@ -16355,6 +17612,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-44.jpg",
   },
   {
     id: "kafu-a17-45",
@@ -16368,6 +17626,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-45.jpg",
   },
   {
     id: "kafu-a17-46",
@@ -16381,6 +17640,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-46.jpg",
   },
   {
     id: "kafu-a17-47",
@@ -16394,6 +17654,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-47.jpg",
   },
   {
     id: "kafu-a17-48",
@@ -16407,6 +17668,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-48.jpg",
   },
   {
     id: "kafu-a17-49",
@@ -16420,6 +17682,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-49.jpg",
   },
   {
     id: "kafu-a17-5",
@@ -16433,6 +17696,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-5.jpg",
   },
   {
     id: "kafu-a17-6",
@@ -16446,6 +17710,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14529227 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-6.jpg",
   },
   {
     id: "kafu-a17-7",
@@ -16459,6 +17724,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14502010 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-7.jpg",
   },
   {
     id: "kafu-a17-8",
@@ -16472,6 +17738,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14538729 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-8.jpg",
   },
   {
     id: "kafu-a17-9",
@@ -16485,6 +17752,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14505609 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A17-9.jpg",
   },
   {
     id: "kafu-a18-1",
@@ -16498,6 +17766,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 163-6701 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-1.jpg",
   },
   {
     id: "kafu-a18-10",
@@ -16511,6 +17780,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-10.jpg",
   },
   {
     id: "kafu-a18-11",
@@ -16524,6 +17794,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-11.jpg",
   },
   {
     id: "kafu-a18-2",
@@ -16537,6 +17808,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 227-7575 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2.jpg",
   },
   {
     id: "kafu-a18-2a",
@@ -16550,6 +17822,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 4507174, 5109643 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2A.jpg",
   },
   {
     id: "kafu-a18-2b",
@@ -16563,6 +17836,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 487-6560 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2B.jpg",
   },
   {
     id: "kafu-a18-2c",
@@ -16576,6 +17850,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 487-8458 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2C.jpg",
   },
   {
     id: "kafu-a18-2d",
@@ -16589,6 +17864,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2D.jpg",
   },
   {
     id: "kafu-a18-2e",
@@ -16602,6 +17878,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2E.jpg",
   },
   {
     id: "kafu-a18-2f",
@@ -16615,6 +17892,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 178-8977 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2F.jpg",
   },
   {
     id: "kafu-a18-2g",
@@ -16628,6 +17906,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 478-8975 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-2G.jpg",
   },
   {
     id: "kafu-a18-3",
@@ -16641,6 +17920,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 543-00096 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-3.jpg",
   },
   {
     id: "kafu-a18-3a",
@@ -16654,6 +17934,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 343-00095 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-3A.jpg",
   },
   {
     id: "kafu-a18-4",
@@ -16667,6 +17948,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HYUNDAI", "R215-9"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-4.jpg",
   },
   {
     id: "kafu-a18-4a",
@@ -16680,6 +17962,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-4A.jpg",
   },
   {
     id: "kafu-a18-5",
@@ -16693,6 +17976,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14594714 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-5.jpg",
   },
   {
     id: "kafu-a18-5a",
@@ -16706,6 +17990,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 15119187 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-5A.jpg",
   },
   {
     id: "kafu-a18-5b",
@@ -16719,6 +18004,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-5B.jpg",
   },
   {
     id: "kafu-a18-5c",
@@ -16732,6 +18018,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-5C.jpg",
   },
   {
     id: "kafu-a18-5d",
@@ -16745,6 +18032,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-5D.jpg",
   },
   {
     id: "kafu-a18-6",
@@ -16758,6 +18046,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-6.jpg",
   },
   {
     id: "kafu-a18-7",
@@ -16771,6 +18060,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-7.jpg",
   },
   {
     id: "kafu-a18-8",
@@ -16784,6 +18074,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-8.jpg",
   },
   {
     id: "kafu-a18-9",
@@ -16797,6 +18088,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A18-9.jpg",
   },
   {
     id: "kafu-a19-1",
@@ -16810,6 +18102,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-1.jpg",
   },
   {
     id: "kafu-a19-10",
@@ -16823,6 +18116,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-10.jpg",
   },
   {
     id: "kafu-a19-11",
@@ -16836,6 +18130,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-11.jpg",
   },
   {
     id: "kafu-a19-12",
@@ -16849,6 +18144,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-12.jpg",
   },
   {
     id: "kafu-a19-13",
@@ -16862,6 +18158,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-13.jpg",
   },
   {
     id: "kafu-a19-14",
@@ -16875,6 +18172,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-14.jpg",
   },
   {
     id: "kafu-a19-15",
@@ -16888,6 +18186,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-15.jpg",
   },
   {
     id: "kafu-a19-16",
@@ -16901,6 +18200,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-16.jpg",
   },
   {
     id: "kafu-a19-17",
@@ -16914,6 +18214,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-17.jpg",
   },
   {
     id: "kafu-a19-18",
@@ -16927,6 +18228,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-18.jpg",
   },
   {
     id: "kafu-a19-19",
@@ -16940,6 +18242,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E30-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-19.jpg",
   },
   {
     id: "kafu-a19-2",
@@ -16953,6 +18256,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R607"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-2.jpg",
   },
   {
     id: "kafu-a19-20",
@@ -16966,6 +18270,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-20.jpg",
   },
   {
     id: "kafu-a19-21",
@@ -16979,6 +18284,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-21.jpg",
   },
   {
     id: "kafu-a19-22",
@@ -16992,6 +18298,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-22.jpg",
   },
   {
     id: "kafu-a19-23",
@@ -17005,6 +18312,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA380-3"],
     notes: "OEM: 4174326221 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-23.jpg",
   },
   {
     id: "kafu-a19-23a",
@@ -17018,6 +18326,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 714-23-15621 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-23A.jpg",
   },
   {
     id: "kafu-a19-24",
@@ -17031,6 +18340,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA47-0", "WA380-3"],
     notes: "OEM: 4214326471, 4214326470 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-24.jpg",
   },
   {
     id: "kafu-a19-25",
@@ -17044,6 +18354,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA38-0", "WA47-0"],
     notes: "OEM: 4174326230 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-25.jpg",
   },
   {
     id: "kafu-a19-26",
@@ -17057,6 +18368,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-26.jpg",
   },
   {
     id: "kafu-a19-27",
@@ -17070,6 +18382,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-27.jpg",
   },
   {
     id: "kafu-a19-28",
@@ -17083,6 +18396,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA32-0", "WA50-0"],
     notes: "OEM: 4174326230 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-28.jpg",
   },
   {
     id: "kafu-a19-29",
@@ -17096,6 +18410,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E320C", "E330C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-29.jpg",
   },
   {
     id: "kafu-a19-3",
@@ -17109,6 +18424,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R225-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-3.jpg",
   },
   {
     id: "kafu-a19-30",
@@ -17122,6 +18438,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-30.jpg",
   },
   {
     id: "kafu-a19-31",
@@ -17135,6 +18452,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-31.jpg",
   },
   {
     id: "kafu-a19-4",
@@ -17148,6 +18466,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-4.jpg",
   },
   {
     id: "kafu-a19-5",
@@ -17161,6 +18480,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-5.jpg",
   },
   {
     id: "kafu-a19-6",
@@ -17174,6 +18494,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH225-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-6.jpg",
   },
   {
     id: "kafu-a19-7",
@@ -17187,6 +18508,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH220-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-7.jpg",
   },
   {
     id: "kafu-a19-8",
@@ -17200,6 +18522,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK220-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-8.jpg",
   },
   {
     id: "kafu-a19-9",
@@ -17213,6 +18536,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A19-9.jpg",
   },
   {
     id: "kafu-a20-1",
@@ -17226,6 +18550,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-1.jpg",
   },
   {
     id: "kafu-a20-10",
@@ -17239,6 +18564,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-10.jpg",
   },
   {
     id: "kafu-a20-11",
@@ -17252,6 +18578,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-11.jpg",
   },
   {
     id: "kafu-a20-12",
@@ -17265,6 +18592,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-12.jpg",
   },
   {
     id: "kafu-a20-13",
@@ -17278,6 +18606,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-13.jpg",
   },
   {
     id: "kafu-a20-14",
@@ -17291,6 +18620,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-14.jpg",
   },
   {
     id: "kafu-a20-15",
@@ -17304,6 +18634,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-15.jpg",
   },
   {
     id: "kafu-a20-16",
@@ -17317,6 +18648,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-16.jpg",
   },
   {
     id: "kafu-a20-17",
@@ -17330,6 +18662,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-17.jpg",
   },
   {
     id: "kafu-a20-17a",
@@ -17343,6 +18676,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-17A.jpg",
   },
   {
     id: "kafu-a20-18",
@@ -17356,6 +18690,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-18.jpg",
   },
   {
     id: "kafu-a20-19",
@@ -17369,6 +18704,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-19.jpg",
   },
   {
     id: "kafu-a20-2",
@@ -17382,6 +18718,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R225-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-2.jpg",
   },
   {
     id: "kafu-a20-20",
@@ -17395,6 +18732,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX60"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-20.jpg",
   },
   {
     id: "kafu-a20-21",
@@ -17408,6 +18746,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-21.jpg",
   },
   {
     id: "kafu-a20-3",
@@ -17421,6 +18760,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-3.jpg",
   },
   {
     id: "kafu-a20-4",
@@ -17434,6 +18774,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-4.jpg",
   },
   {
     id: "kafu-a20-4a",
@@ -17447,6 +18788,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-4A.jpg",
   },
   {
     id: "kafu-a20-5",
@@ -17460,6 +18802,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-5.jpg",
   },
   {
     id: "kafu-a20-6",
@@ -17473,6 +18816,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-6.jpg",
   },
   {
     id: "kafu-a20-6a",
@@ -17486,6 +18830,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-6A.jpg",
   },
   {
     id: "kafu-a20-7",
@@ -17499,6 +18844,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R225-9"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-7.jpg",
   },
   {
     id: "kafu-a20-8",
@@ -17512,6 +18858,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-8.jpg",
   },
   {
     id: "kafu-a20-9",
@@ -17525,6 +18872,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A20-9.jpg",
   },
   {
     id: "kafu-a21-1",
@@ -17538,6 +18886,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC2005/6"],
     notes: "OEM: 301302 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-1.jpg",
   },
   {
     id: "kafu-a21-10",
@@ -17551,6 +18900,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 14542152 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-10.jpg",
   },
   {
     id: "kafu-a21-11",
@@ -17564,6 +18914,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-11.jpg",
   },
   {
     id: "kafu-a21-12",
@@ -17577,6 +18928,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-12.jpg",
   },
   {
     id: "kafu-a21-13",
@@ -17590,6 +18942,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-13.jpg",
   },
   {
     id: "kafu-a21-13a",
@@ -17603,6 +18956,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-13A.jpg",
   },
   {
     id: "kafu-a21-14",
@@ -17616,6 +18970,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R220-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-14.jpg",
   },
   {
     id: "kafu-a21-15",
@@ -17629,6 +18984,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R2257"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-15.jpg",
   },
   {
     id: "kafu-a21-16",
@@ -17642,6 +18998,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R807"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-16.jpg",
   },
   {
     id: "kafu-a21-16a",
@@ -17655,6 +19012,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R215"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-16A.jpg",
   },
   {
     id: "kafu-a21-17",
@@ -17668,6 +19026,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX240-3", "ZAX330-3"],
     notes: "OEM: 4631128 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-17.jpg",
   },
   {
     id: "kafu-a21-17a",
@@ -17681,6 +19040,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX200-5G"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-17A.jpg",
   },
   {
     id: "kafu-a21-18",
@@ -17694,6 +19054,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX330-3448"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-18.jpg",
   },
   {
     id: "kafu-a21-19",
@@ -17707,6 +19068,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX120-6", "ZAX200-6"],
     notes: "OEM: 42154518, 4454518 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-19.jpg",
   },
   {
     id: "kafu-a21-19a",
@@ -17720,6 +19082,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX70", "ZAX12-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-19A.jpg",
   },
   {
     id: "kafu-a21-2",
@@ -17733,6 +19096,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7/8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-2.jpg",
   },
   {
     id: "kafu-a21-20",
@@ -17746,6 +19110,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX200-6448"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-20.jpg",
   },
   {
     id: "kafu-a21-20a",
@@ -17759,6 +19124,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-20A.jpg",
   },
   {
     id: "kafu-a21-20b",
@@ -17772,6 +19138,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-20B.jpg",
   },
   {
     id: "kafu-a21-21",
@@ -17785,6 +19152,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-21.jpg",
   },
   {
     id: "kafu-a21-21a",
@@ -17798,6 +19166,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK75-8", "SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-21A.jpg",
   },
   {
     id: "kafu-a21-21b",
@@ -17811,6 +19180,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-21B.jpg",
   },
   {
     id: "kafu-a21-22",
@@ -17824,6 +19194,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "EX200-5"],
     notes: "OEM: 4341545 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-22.jpg",
   },
   {
     id: "kafu-a21-22a",
@@ -17837,6 +19208,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-22A.jpg",
   },
   {
     id: "kafu-a21-22b",
@@ -17850,6 +19222,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-22B.jpg",
   },
   {
     id: "kafu-a21-22c",
@@ -17863,6 +19236,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-22C.jpg",
   },
   {
     id: "kafu-a21-22d",
@@ -17876,6 +19250,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-22D.jpg",
   },
   {
     id: "kafu-a21-23",
@@ -17889,6 +19264,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH200A3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-23.jpg",
   },
   {
     id: "kafu-a21-24",
@@ -17902,6 +19278,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-24.jpg",
   },
   {
     id: "kafu-a21-25",
@@ -17915,6 +19292,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-25.jpg",
   },
   {
     id: "kafu-a21-26",
@@ -17928,6 +19306,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-26.jpg",
   },
   {
     id: "kafu-a21-27",
@@ -17941,6 +19320,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-27.jpg",
   },
   {
     id: "kafu-a21-28",
@@ -17954,6 +19334,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-28.jpg",
   },
   {
     id: "kafu-a21-29",
@@ -17967,6 +19348,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-29.jpg",
   },
   {
     id: "kafu-a21-3",
@@ -17980,6 +19362,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7/8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-3.jpg",
   },
   {
     id: "kafu-a21-30",
@@ -17993,6 +19376,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-30.jpg",
   },
   {
     id: "kafu-a21-31",
@@ -18006,6 +19390,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-31.jpg",
   },
   {
     id: "kafu-a21-32",
@@ -18019,6 +19404,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-32.jpg",
   },
   {
     id: "kafu-a21-33",
@@ -18032,6 +19418,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-33.jpg",
   },
   {
     id: "kafu-a21-34",
@@ -18045,6 +19432,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-34.jpg",
   },
   {
     id: "kafu-a21-35",
@@ -18058,6 +19446,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "OEM: 16112647 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-35.jpg",
   },
   {
     id: "kafu-a21-36",
@@ -18071,6 +19460,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-36.jpg",
   },
   {
     id: "kafu-a21-36a",
@@ -18084,6 +19474,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-36A.jpg",
   },
   {
     id: "kafu-a21-36b",
@@ -18097,6 +19488,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-36B.jpg",
   },
   {
     id: "kafu-a21-37",
@@ -18110,6 +19502,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-37.jpg",
   },
   {
     id: "kafu-a21-38",
@@ -18123,6 +19516,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-38.jpg",
   },
   {
     id: "kafu-a21-38a",
@@ -18136,6 +19530,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-38A.jpg",
   },
   {
     id: "kafu-a21-39",
@@ -18149,6 +19544,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-39.jpg",
   },
   {
     id: "kafu-a21-3a",
@@ -18162,6 +19558,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-3A.jpg",
   },
   {
     id: "kafu-a21-4",
@@ -18175,6 +19572,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH225-7"],
     notes: "OEM: 25521004 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-4.jpg",
   },
   {
     id: "kafu-a21-40",
@@ -18188,6 +19586,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-40.jpg",
   },
   {
     id: "kafu-a21-41",
@@ -18201,6 +19600,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-41.jpg",
   },
   {
     id: "kafu-a21-42",
@@ -18214,6 +19614,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-42.jpg",
   },
   {
     id: "kafu-a21-43",
@@ -18227,6 +19628,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-43.jpg",
   },
   {
     id: "kafu-a21-44",
@@ -18240,6 +19642,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-44.jpg",
   },
   {
     id: "kafu-a21-45",
@@ -18253,6 +19656,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-45.jpg",
   },
   {
     id: "kafu-a21-46",
@@ -18266,6 +19670,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-46.jpg",
   },
   {
     id: "kafu-a21-46a",
@@ -18279,6 +19684,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-46A.jpg",
   },
   {
     id: "kafu-a21-47",
@@ -18292,6 +19698,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-47.jpg",
   },
   {
     id: "kafu-a21-48",
@@ -18305,6 +19712,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-48.jpg",
   },
   {
     id: "kafu-a21-49",
@@ -18318,6 +19726,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA32-0"],
     notes: "OEM: 380702 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-49.jpg",
   },
   {
     id: "kafu-a21-5",
@@ -18331,6 +19740,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R2209"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-5.jpg",
   },
   {
     id: "kafu-a21-50",
@@ -18344,6 +19754,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG", "CUMMINS"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-50.jpg",
   },
   {
     id: "kafu-a21-51",
@@ -18357,6 +19768,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-51.jpg",
   },
   {
     id: "kafu-a21-52",
@@ -18370,6 +19782,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-52.jpg",
   },
   {
     id: "kafu-a21-53",
@@ -18383,6 +19796,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-53.jpg",
   },
   {
     id: "kafu-a21-54",
@@ -18396,6 +19810,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-54.jpg",
   },
   {
     id: "kafu-a21-55",
@@ -18409,6 +19824,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-55.jpg",
   },
   {
     id: "kafu-a21-5a",
@@ -18422,6 +19838,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-5A.jpg",
   },
   {
     id: "kafu-a21-5b",
@@ -18435,6 +19852,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-5B.jpg",
   },
   {
     id: "kafu-a21-6",
@@ -18448,6 +19866,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-6.jpg",
   },
   {
     id: "kafu-a21-7",
@@ -18461,6 +19880,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-7.jpg",
   },
   {
     id: "kafu-a21-8",
@@ -18474,6 +19894,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-8.jpg",
   },
   {
     id: "kafu-a21-8a",
@@ -18487,6 +19908,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E307-2"],
     notes: "OEM: 680761 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-8A.jpg",
   },
   {
     id: "kafu-a21-8b",
@@ -18500,6 +19922,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-8B.jpg",
   },
   {
     id: "kafu-a21-9",
@@ -18513,6 +19936,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 8014708418 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A21-9.jpg",
   },
   {
     id: "kafu-a22-1",
@@ -18526,6 +19950,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E32-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-1.jpg",
   },
   {
     id: "kafu-a22-10",
@@ -18539,6 +19964,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5"],
     notes: "OEM: 7860934131 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-10.jpg",
   },
   {
     id: "kafu-a22-11",
@@ -18552,6 +19978,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "OEM: 786193 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-11.jpg",
   },
   {
     id: "kafu-a22-12",
@@ -18565,6 +19992,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 7834412000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-12.jpg",
   },
   {
     id: "kafu-a22-13",
@@ -18578,6 +20006,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX242-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-13.jpg",
   },
   {
     id: "kafu-a22-14",
@@ -18591,6 +20020,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-14.jpg",
   },
   {
     id: "kafu-a22-15",
@@ -18604,6 +20034,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK230-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-15.jpg",
   },
   {
     id: "kafu-a22-16",
@@ -18617,6 +20048,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-16.jpg",
   },
   {
     id: "kafu-a22-17",
@@ -18630,6 +20062,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 7861938710 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-17.jpg",
   },
   {
     id: "kafu-a22-18",
@@ -18643,6 +20076,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC7861-93"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-18.jpg",
   },
   {
     id: "kafu-a22-19",
@@ -18656,6 +20090,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-19.jpg",
   },
   {
     id: "kafu-a22-2",
@@ -18669,6 +20104,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-2.jpg",
   },
   {
     id: "kafu-a22-3",
@@ -18682,6 +20118,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-3.jpg",
   },
   {
     id: "kafu-a22-3a",
@@ -18695,6 +20132,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320D"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-3A.jpg",
   },
   {
     id: "kafu-a22-4",
@@ -18708,6 +20146,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E32-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-4.jpg",
   },
   {
     id: "kafu-a22-5",
@@ -18721,6 +20160,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-5.jpg",
   },
   {
     id: "kafu-a22-6",
@@ -18734,6 +20174,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SUMITOMO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-6.jpg",
   },
   {
     id: "kafu-a22-7",
@@ -18747,6 +20188,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-7.jpg",
   },
   {
     id: "kafu-a22-8",
@@ -18760,6 +20202,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-8.jpg",
   },
   {
     id: "kafu-a22-9",
@@ -18773,6 +20216,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX200-6", "ZAX21-0", "ZAX23-0"],
     notes: "OEM: 240/3304614912 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A22-9.jpg",
   },
   {
     id: "kafu-a23-1",
@@ -18786,6 +20230,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 7834412002, 7834412001 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-1.jpg",
   },
   {
     id: "kafu-a23-10",
@@ -18799,6 +20244,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-10.jpg",
   },
   {
     id: "kafu-a23-11",
@@ -18812,6 +20258,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E31-2"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-11.jpg",
   },
   {
     id: "kafu-a23-12",
@@ -18825,6 +20272,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-12.jpg",
   },
   {
     id: "kafu-a23-13",
@@ -18838,6 +20286,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-13.jpg",
   },
   {
     id: "kafu-a23-14",
@@ -18851,6 +20300,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-14.jpg",
   },
   {
     id: "kafu-a23-15",
@@ -18864,6 +20314,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E30-7", "CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-15.jpg",
   },
   {
     id: "kafu-a23-15a",
@@ -18877,6 +20328,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-15A.jpg",
   },
   {
     id: "kafu-a23-15b",
@@ -18890,6 +20342,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-15B.jpg",
   },
   {
     id: "kafu-a23-15c",
@@ -18903,6 +20356,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-15C.jpg",
   },
   {
     id: "kafu-a23-15d",
@@ -18916,6 +20370,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 46083801 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-15D.jpg",
   },
   {
     id: "kafu-a23-16",
@@ -18929,6 +20384,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-5", "EX200-6", "ZAX20-0", "ZAX21-0", "ZAX21"],
     notes: "OEM: 4614911, 4360509 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-16.jpg",
   },
   {
     id: "kafu-a23-17",
@@ -18942,6 +20398,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-5", "EX200-6", "ZAX20-0", "ZAX21-0", "ZAX210-3"],
     notes: "OEM: 304614911, 4360509 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-17.jpg",
   },
   {
     id: "kafu-a23-18",
@@ -18955,6 +20412,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-1/2"],
     notes: "OEM: 4257163, 4188762 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-18.jpg",
   },
   {
     id: "kafu-a23-19",
@@ -18968,6 +20426,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK2003/5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-19.jpg",
   },
   {
     id: "kafu-a23-2",
@@ -18981,6 +20440,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC120-6", "PC200-6", "PC300-6"],
     notes: "OEM: 7834-40-2000 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-2.jpg",
   },
   {
     id: "kafu-a23-20",
@@ -18994,6 +20454,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-20.jpg",
   },
   {
     id: "kafu-a23-21",
@@ -19007,6 +20468,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R220-5", "R220-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-21.jpg",
   },
   {
     id: "kafu-a23-22",
@@ -19020,6 +20482,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R2257"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-22.jpg",
   },
   {
     id: "kafu-a23-23",
@@ -19033,6 +20496,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-23.jpg",
   },
   {
     id: "kafu-a23-23a",
@@ -19046,6 +20510,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-23A.jpg",
   },
   {
     id: "kafu-a23-23b",
@@ -19059,6 +20524,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-23B.jpg",
   },
   {
     id: "kafu-a23-24",
@@ -19072,6 +20538,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["R265-9", "R300-9"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-24.jpg",
   },
   {
     id: "kafu-a23-25",
@@ -19085,6 +20552,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4500006 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-25.jpg",
   },
   {
     id: "kafu-a23-26",
@@ -19098,6 +20566,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-26.jpg",
   },
   {
     id: "kafu-a23-27",
@@ -19111,6 +20580,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH220-5"],
     notes: "OEM: 2523-9014 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-27.jpg",
   },
   {
     id: "kafu-a23-28",
@@ -19124,6 +20594,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH20-0", "DH370-75230"],
     notes: "OEM: 52300006 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-28.jpg",
   },
   {
     id: "kafu-a23-28a",
@@ -19137,6 +20608,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-28A.jpg",
   },
   {
     id: "kafu-a23-29",
@@ -19150,6 +20622,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-29.jpg",
   },
   {
     id: "kafu-a23-3",
@@ -19163,6 +20636,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC120-5", "PC200-5", "PC220-5"],
     notes: "OEM: 2430-1600 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-3.jpg",
   },
   {
     id: "kafu-a23-30",
@@ -19176,6 +20650,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-30.jpg",
   },
   {
     id: "kafu-a23-31",
@@ -19189,6 +20664,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH200A3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-31.jpg",
   },
   {
     id: "kafu-a23-32",
@@ -19202,6 +20678,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH200A1", "SH10-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-32.jpg",
   },
   {
     id: "kafu-a23-33",
@@ -19215,6 +20692,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-33.jpg",
   },
   {
     id: "kafu-a23-33a",
@@ -19228,6 +20706,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-33A.jpg",
   },
   {
     id: "kafu-a23-33b",
@@ -19241,6 +20720,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-33B.jpg",
   },
   {
     id: "kafu-a23-34",
@@ -19254,6 +20734,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-34.jpg",
   },
   {
     id: "kafu-a23-35",
@@ -19267,6 +20748,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-35.jpg",
   },
   {
     id: "kafu-a23-36",
@@ -19280,6 +20762,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-36.jpg",
   },
   {
     id: "kafu-a23-37",
@@ -19293,6 +20776,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-37.jpg",
   },
   {
     id: "kafu-a23-38",
@@ -19306,6 +20790,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-38.jpg",
   },
   {
     id: "kafu-a23-39",
@@ -19319,6 +20804,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-39.jpg",
   },
   {
     id: "kafu-a23-4",
@@ -19332,6 +20818,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU", "PC60-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-4.jpg",
   },
   {
     id: "kafu-a23-40",
@@ -19345,6 +20832,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-40.jpg",
   },
   {
     id: "kafu-a23-41",
@@ -19358,6 +20846,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-41.jpg",
   },
   {
     id: "kafu-a23-42",
@@ -19371,6 +20860,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-42.jpg",
   },
   {
     id: "kafu-a23-43",
@@ -19384,6 +20874,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-43.jpg",
   },
   {
     id: "kafu-a23-44",
@@ -19397,6 +20888,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-44.jpg",
   },
   {
     id: "kafu-a23-45",
@@ -19410,6 +20902,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-45.jpg",
   },
   {
     id: "kafu-a23-46",
@@ -19423,6 +20916,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-46.jpg",
   },
   {
     id: "kafu-a23-47",
@@ -19436,6 +20930,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-47.jpg",
   },
   {
     id: "kafu-a23-48",
@@ -19449,6 +20944,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-48.jpg",
   },
   {
     id: "kafu-a23-49",
@@ -19462,6 +20958,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-49.jpg",
   },
   {
     id: "kafu-a23-4a",
@@ -19475,6 +20972,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC12-8"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-4A.jpg",
   },
   {
     id: "kafu-a23-5",
@@ -19488,6 +20986,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C", "E312C"],
     notes: "OEM: 2475212, 2277672 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-5.jpg",
   },
   {
     id: "kafu-a23-50",
@@ -19501,6 +21000,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-50.jpg",
   },
   {
     id: "kafu-a23-51",
@@ -19514,6 +21014,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 15141094 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-51.jpg",
   },
   {
     id: "kafu-a23-52",
@@ -19527,6 +21028,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 8404-1001 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-52.jpg",
   },
   {
     id: "kafu-a23-53",
@@ -19540,6 +21042,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 550-9105 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-53.jpg",
   },
   {
     id: "kafu-a23-54",
@@ -19553,6 +21056,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-54.jpg",
   },
   {
     id: "kafu-a23-6",
@@ -19566,6 +21070,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "OEM: 2475231, 1190633 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-6.jpg",
   },
   {
     id: "kafu-a23-7",
@@ -19579,6 +21084,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E330B"],
     notes: "OEM: 2475231 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-7.jpg",
   },
   {
     id: "kafu-a23-8",
@@ -19592,6 +21098,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-8.jpg",
   },
   {
     id: "kafu-a23-9",
@@ -19605,6 +21112,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A23-9.jpg",
   },
   {
     id: "kafu-a24-1",
@@ -19618,6 +21126,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-1.jpg",
   },
   {
     id: "kafu-a24-10",
@@ -19631,6 +21140,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-10.jpg",
   },
   {
     id: "kafu-a24-11",
@@ -19644,6 +21154,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC12-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-11.jpg",
   },
   {
     id: "kafu-a24-12",
@@ -19657,6 +21168,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-12.jpg",
   },
   {
     id: "kafu-a24-13",
@@ -19670,6 +21182,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-13.jpg",
   },
   {
     id: "kafu-a24-14",
@@ -19683,6 +21196,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-14.jpg",
   },
   {
     id: "kafu-a24-15",
@@ -19696,6 +21210,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-15.jpg",
   },
   {
     id: "kafu-a24-16",
@@ -19709,6 +21224,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-16.jpg",
   },
   {
     id: "kafu-a24-17",
@@ -19722,6 +21238,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-17.jpg",
   },
   {
     id: "kafu-a24-18",
@@ -19735,6 +21252,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC2005/6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-18.jpg",
   },
   {
     id: "kafu-a24-19",
@@ -19748,6 +21266,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5", "PC200-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-19.jpg",
   },
   {
     id: "kafu-a24-2",
@@ -19761,6 +21280,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC60", "PC12-0", "PC2003/5"],
     notes: "OEM: 203-42 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-2.jpg",
   },
   {
     id: "kafu-a24-20",
@@ -19774,6 +21294,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX12-0", "EX200-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-20.jpg",
   },
   {
     id: "kafu-a24-3",
@@ -19787,6 +21308,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "KATO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-3.jpg",
   },
   {
     id: "kafu-a24-4",
@@ -19800,6 +21322,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-4.jpg",
   },
   {
     id: "kafu-a24-5",
@@ -19813,6 +21336,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-5.jpg",
   },
   {
     id: "kafu-a24-6",
@@ -19826,6 +21350,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC120-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-6.jpg",
   },
   {
     id: "kafu-a24-7",
@@ -19839,6 +21364,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC100-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-7.jpg",
   },
   {
     id: "kafu-a24-8",
@@ -19852,6 +21378,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC120-5", "PC200-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-8.jpg",
   },
   {
     id: "kafu-a24-9",
@@ -19865,6 +21392,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A24-9.jpg",
   },
   {
     id: "kafu-a25-1",
@@ -19878,6 +21406,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-1.jpg",
   },
   {
     id: "kafu-a25-10",
@@ -19891,6 +21420,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-10.jpg",
   },
   {
     id: "kafu-a25-11",
@@ -19904,6 +21434,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-11.jpg",
   },
   {
     id: "kafu-a25-12",
@@ -19917,6 +21448,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-12.jpg",
   },
   {
     id: "kafu-a25-13",
@@ -19930,6 +21462,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-13.jpg",
   },
   {
     id: "kafu-a25-14",
@@ -19943,6 +21476,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-14.jpg",
   },
   {
     id: "kafu-a25-15",
@@ -19956,6 +21490,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-15.jpg",
   },
   {
     id: "kafu-a25-16",
@@ -19969,6 +21504,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-16.jpg",
   },
   {
     id: "kafu-a25-17",
@@ -19982,6 +21518,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-17.jpg",
   },
   {
     id: "kafu-a25-18",
@@ -19995,6 +21532,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-18.jpg",
   },
   {
     id: "kafu-a25-19",
@@ -20008,6 +21546,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-19.jpg",
   },
   {
     id: "kafu-a25-1a",
@@ -20021,6 +21560,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 1462588, 14626888 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-1A.jpg",
   },
   {
     id: "kafu-a25-2",
@@ -20034,6 +21574,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-2.jpg",
   },
   {
     id: "kafu-a25-20",
@@ -20047,6 +21588,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-20.jpg",
   },
   {
     id: "kafu-a25-21",
@@ -20060,6 +21602,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 197-7348 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-21.jpg",
   },
   {
     id: "kafu-a25-22",
@@ -20073,6 +21616,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-22.jpg",
   },
   {
     id: "kafu-a25-23",
@@ -20086,6 +21630,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-23.jpg",
   },
   {
     id: "kafu-a25-24",
@@ -20099,6 +21644,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-24.jpg",
   },
   {
     id: "kafu-a25-25",
@@ -20112,6 +21658,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-25.jpg",
   },
   {
     id: "kafu-a25-26",
@@ -20125,6 +21672,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-26.jpg",
   },
   {
     id: "kafu-a25-27",
@@ -20138,6 +21686,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-27.jpg",
   },
   {
     id: "kafu-a25-28",
@@ -20151,6 +21700,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-28.jpg",
   },
   {
     id: "kafu-a25-29",
@@ -20164,6 +21714,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-29.jpg",
   },
   {
     id: "kafu-a25-3",
@@ -20177,6 +21728,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320D"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-3.jpg",
   },
   {
     id: "kafu-a25-30",
@@ -20190,6 +21742,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-30.jpg",
   },
   {
     id: "kafu-a25-31",
@@ -20203,6 +21756,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-31.jpg",
   },
   {
     id: "kafu-a25-4",
@@ -20216,6 +21770,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DOOSAN"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-4.jpg",
   },
   {
     id: "kafu-a25-5",
@@ -20229,6 +21784,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-5.jpg",
   },
   {
     id: "kafu-a25-6",
@@ -20242,6 +21798,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-6.jpg",
   },
   {
     id: "kafu-a25-7",
@@ -20255,6 +21812,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-7.jpg",
   },
   {
     id: "kafu-a25-8",
@@ -20268,6 +21826,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-8.jpg",
   },
   {
     id: "kafu-a25-9",
@@ -20281,6 +21840,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A25-9.jpg",
   },
   {
     id: "kafu-a26-1",
@@ -20294,6 +21854,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-1.jpg",
   },
   {
     id: "kafu-a26-10",
@@ -20307,6 +21868,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-2"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-10.jpg",
   },
   {
     id: "kafu-a26-11",
@@ -20320,6 +21882,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-11.jpg",
   },
   {
     id: "kafu-a26-12",
@@ -20333,6 +21896,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-12.jpg",
   },
   {
     id: "kafu-a26-13",
@@ -20346,6 +21910,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-13.jpg",
   },
   {
     id: "kafu-a26-13a",
@@ -20359,6 +21924,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-13A.jpg",
   },
   {
     id: "kafu-a26-13b",
@@ -20372,6 +21938,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-13B.jpg",
   },
   {
     id: "kafu-a26-14",
@@ -20385,6 +21952,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "OEM: 111-9916 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-14.jpg",
   },
   {
     id: "kafu-a26-14b",
@@ -20398,6 +21966,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 543-5391 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-14B.jpg",
   },
   {
     id: "kafu-a26-14c",
@@ -20411,6 +21980,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 560-2464 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-14C.jpg",
   },
   {
     id: "kafu-a26-15",
@@ -20424,6 +21994,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "OEM: 121-1491 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-15.jpg",
   },
   {
     id: "kafu-a26-15a",
@@ -20437,6 +22008,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-15A.jpg",
   },
   {
     id: "kafu-a26-15b",
@@ -20450,6 +22022,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-15B.jpg",
   },
   {
     id: "kafu-a26-15c",
@@ -20463,6 +22036,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-15C.jpg",
   },
   {
     id: "kafu-a26-16",
@@ -20476,6 +22050,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B/1163526"],
     notes: "OEM: 1163526, 1211490 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-16.jpg",
   },
   {
     id: "kafu-a26-16a",
@@ -20489,6 +22064,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-16A.jpg",
   },
   {
     id: "kafu-a26-16b",
@@ -20502,6 +22078,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E330C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-16B.jpg",
   },
   {
     id: "kafu-a26-16c",
@@ -20515,6 +22092,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 116-3506 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-16C.jpg",
   },
   {
     id: "kafu-a26-16d",
@@ -20528,6 +22106,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 457-9878 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-16D.jpg",
   },
   {
     id: "kafu-a26-17",
@@ -20541,6 +22120,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E330C"],
     notes: "OEM: 1140616 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-17.jpg",
   },
   {
     id: "kafu-a26-17a",
@@ -20554,6 +22134,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-17A.jpg",
   },
   {
     id: "kafu-a26-18",
@@ -20567,6 +22148,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-18.jpg",
   },
   {
     id: "kafu-a26-19",
@@ -20580,6 +22162,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-19.jpg",
   },
   {
     id: "kafu-a26-2",
@@ -20593,6 +22176,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-2.jpg",
   },
   {
     id: "kafu-a26-20",
@@ -20606,6 +22190,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-6", "DH220-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-20.jpg",
   },
   {
     id: "kafu-a26-21",
@@ -20619,6 +22204,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH220-5", "R210-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-21.jpg",
   },
   {
     id: "kafu-a26-22",
@@ -20632,6 +22218,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-1", "DH700-7"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-22.jpg",
   },
   {
     id: "kafu-a26-23",
@@ -20645,6 +22232,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 421120 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-23.jpg",
   },
   {
     id: "kafu-a26-24",
@@ -20658,6 +22246,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SH200A3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-24.jpg",
   },
   {
     id: "kafu-a26-24a",
@@ -20671,6 +22260,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-24A.jpg",
   },
   {
     id: "kafu-a26-25",
@@ -20684,6 +22274,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 9314145 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-25.jpg",
   },
   {
     id: "kafu-a26-25a",
@@ -20697,6 +22288,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX450-5G"],
     notes: "OEM: 9218234 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-25A.jpg",
   },
   {
     id: "kafu-a26-26",
@@ -20710,6 +22302,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "OEM: 2066051130, 2066051131 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-26.jpg",
   },
   {
     id: "kafu-a26-27",
@@ -20723,6 +22316,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7"],
     notes: "OEM: 6032120 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-27.jpg",
   },
   {
     id: "kafu-a26-27a",
@@ -20736,6 +22330,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-10"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-27A.jpg",
   },
   {
     id: "kafu-a26-28",
@@ -20749,6 +22344,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC2003/5"],
     notes: "OEM: 7082318272 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-28.jpg",
   },
   {
     id: "kafu-a26-29",
@@ -20762,6 +22358,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC60-5", "PC120-5"],
     notes: "OEM: 60565180 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-29.jpg",
   },
   {
     id: "kafu-a26-3",
@@ -20775,6 +22372,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK200/2506E", "SK230/330", "SK130/2608", "SK200/3308"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-3.jpg",
   },
   {
     id: "kafu-a26-30",
@@ -20788,6 +22386,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-30.jpg",
   },
   {
     id: "kafu-a26-31",
@@ -20801,6 +22400,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC56-7"],
     notes: "OEM: 2156241 · Voltage: 12V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-31.jpg",
   },
   {
     id: "kafu-a26-31a",
@@ -20814,6 +22414,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-31A.jpg",
   },
   {
     id: "kafu-a26-31b",
@@ -20827,6 +22428,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-31B.jpg",
   },
   {
     id: "kafu-a26-31c",
@@ -20840,6 +22442,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 172460 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-31C.jpg",
   },
   {
     id: "kafu-a26-32",
@@ -20853,6 +22456,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6", "PC400-6", "6D95"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-32.jpg",
   },
   {
     id: "kafu-a26-33",
@@ -20866,6 +22470,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-5", "6D95"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-33.jpg",
   },
   {
     id: "kafu-a26-33a",
@@ -20879,6 +22484,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA50-0", "WA80-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-33A.jpg",
   },
   {
     id: "kafu-a26-34",
@@ -20892,6 +22498,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC130-7"],
     notes: "OEM: 7022107311 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-34.jpg",
   },
   {
     id: "kafu-a26-35",
@@ -20905,6 +22512,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "OEM: 7022107010 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-35.jpg",
   },
   {
     id: "kafu-a26-36",
@@ -20918,6 +22526,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC130-8", "PC450-8"],
     notes: "OEM: 2107610 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-36.jpg",
   },
   {
     id: "kafu-a26-37",
@@ -20931,6 +22540,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-37.jpg",
   },
   {
     id: "kafu-a26-37a",
@@ -20944,6 +22554,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-37A.jpg",
   },
   {
     id: "kafu-a26-37b",
@@ -20957,6 +22568,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-37B.jpg",
   },
   {
     id: "kafu-a26-38",
@@ -20970,6 +22582,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC120-5/6"],
     notes: "OEM: 203-60 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-38.jpg",
   },
   {
     id: "kafu-a26-39",
@@ -20983,6 +22596,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC120-5"],
     notes: "OEM: 203606217 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-39.jpg",
   },
   {
     id: "kafu-a26-4",
@@ -20996,6 +22610,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK200-6", "SK230-6", "SK330-6", "SK350-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-4.jpg",
   },
   {
     id: "kafu-a26-40",
@@ -21009,6 +22624,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC360-7"],
     notes: "OEM: 7022157500 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-40.jpg",
   },
   {
     id: "kafu-a26-41",
@@ -21022,6 +22638,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-7702"],
     notes: "OEM: 7702-21-55901, 7022157400 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-41.jpg",
   },
   {
     id: "kafu-a26-41a",
@@ -21035,6 +22652,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC20-0"],
     notes: "OEM: 702-21-62300 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-41A.jpg",
   },
   {
     id: "kafu-a26-42",
@@ -21048,6 +22666,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC200-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-42.jpg",
   },
   {
     id: "kafu-a26-42a",
@@ -21061,6 +22680,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["PC6553-81"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-42A.jpg",
   },
   {
     id: "kafu-a26-43",
@@ -21074,6 +22694,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA350-6", "WA420-3"],
     notes: "OEM: 7140716730 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-43.jpg",
   },
   {
     id: "kafu-a26-43a",
@@ -21087,6 +22708,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 600-815-7581 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-43A.jpg",
   },
   {
     id: "kafu-a26-43b",
@@ -21100,6 +22722,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA200-1419"],
     notes: "OEM: 1419-15-16910 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-43B.jpg",
   },
   {
     id: "kafu-a26-43c",
@@ -21113,6 +22736,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "OEM: 0419-15-16910 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-43C.jpg",
   },
   {
     id: "kafu-a26-44",
@@ -21126,6 +22750,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU"],
     notes: "OEM: 5611547210, 1517271 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-44.jpg",
   },
   {
     id: "kafu-a26-44a",
@@ -21139,6 +22764,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4171831111, 714-23 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-44A.jpg",
   },
   {
     id: "kafu-a26-44b",
@@ -21152,6 +22778,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-44B.jpg",
   },
   {
     id: "kafu-a26-44c",
@@ -21165,6 +22792,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["WA27-0"],
     notes: "OEM: GH03056 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-44C.jpg",
   },
   {
     id: "kafu-a26-45",
@@ -21178,6 +22806,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT", "E320D"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-45.jpg",
   },
   {
     id: "kafu-a26-46",
@@ -21191,6 +22820,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX200-3/54339559/91"],
     notes: "OEM: 54339559 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-46.jpg",
   },
   {
     id: "kafu-a26-47",
@@ -21204,6 +22834,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4339559 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-47.jpg",
   },
   {
     id: "kafu-a26-48",
@@ -21217,6 +22848,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX12-0", "EX200-2/3/5"],
     notes: "OEM: 9147260, 9098250 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-48.jpg",
   },
   {
     id: "kafu-a26-49",
@@ -21230,6 +22862,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["EX12-0", "EX200-2/3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-49.jpg",
   },
   {
     id: "kafu-a26-49a",
@@ -21243,6 +22876,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4716888 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-49A.jpg",
   },
   {
     id: "kafu-a26-5",
@@ -21256,6 +22890,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK200/250", "SK230/330", "SK130/260", "SK200/330"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-5.jpg",
   },
   {
     id: "kafu-a26-50",
@@ -21269,6 +22904,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "EX200-5974"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-50.jpg",
   },
   {
     id: "kafu-a26-51",
@@ -21282,6 +22918,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 0976504 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-51.jpg",
   },
   {
     id: "kafu-a26-52",
@@ -21295,6 +22932,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["ZAX200-3"],
     notes: "OEM: 9218234, 9254030, 92580480 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-52.jpg",
   },
   {
     id: "kafu-a26-53",
@@ -21308,6 +22946,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Hitachi EX200-5", "Hitachi ZAX200-3"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-53.jpg",
   },
   {
     id: "kafu-a26-53a",
@@ -21321,6 +22960,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI"],
     notes: "OEM: 9248084 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-53A.jpg",
   },
   {
     id: "kafu-a26-54",
@@ -21334,6 +22974,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Hitachi EX200-5"],
     notes: "OEM: 9218229 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-54.jpg",
   },
   {
     id: "kafu-a26-55",
@@ -21347,6 +22988,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "EX200-2/3"],
     notes: "OEM: 9258047, 4288336 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-55.jpg",
   },
   {
     id: "kafu-a26-56",
@@ -21360,6 +23002,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "E200-5", "ZAX200-2"],
     notes: "OEM: 0905945 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-56.jpg",
   },
   {
     id: "kafu-a26-57",
@@ -21373,6 +23016,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["HITACHI", "ZAX200-6"],
     notes: "OEM: 9218234 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-57.jpg",
   },
   {
     id: "kafu-a26-58",
@@ -21386,6 +23030,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 252-0741 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-58.jpg",
   },
   {
     id: "kafu-a26-58a",
@@ -21399,6 +23044,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-58A.jpg",
   },
   {
     id: "kafu-a26-58b",
@@ -21412,6 +23058,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["DH60"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-58B.jpg",
   },
   {
     id: "kafu-a26-59",
@@ -21425,6 +23072,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E120B", "E200B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-59.jpg",
   },
   {
     id: "kafu-a26-6",
@@ -21438,6 +23086,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK200-6", "SK230-6", "SK330-6", "SK350-6"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-6.jpg",
   },
   {
     id: "kafu-a26-60",
@@ -21451,6 +23100,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-60.jpg",
   },
   {
     id: "kafu-a26-61",
@@ -21464,6 +23114,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Caterpillar"],
     notes: "OEM: 121-4036 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-61.jpg",
   },
   {
     id: "kafu-a26-62",
@@ -21477,6 +23128,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-62.jpg",
   },
   {
     id: "kafu-a26-63",
@@ -21490,6 +23142,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E32"],
     notes: "OEM: 5122-5053 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-63.jpg",
   },
   {
     id: "kafu-a26-63a",
@@ -21503,6 +23156,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOMATSU", "JCB"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-63A.jpg",
   },
   {
     id: "kafu-a26-63b",
@@ -21516,6 +23170,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["CAT"],
     notes: "OEM: 1070677 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-63B.jpg",
   },
   {
     id: "kafu-a26-64",
@@ -21529,6 +23184,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E306/307", "LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-64.jpg",
   },
   {
     id: "kafu-a26-64a",
@@ -21542,6 +23198,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4303624, 333-8242 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-64A.jpg",
   },
   {
     id: "kafu-a26-65",
@@ -21555,6 +23212,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E200B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-65.jpg",
   },
   {
     id: "kafu-a26-66",
@@ -21568,6 +23226,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["E320B"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-66.jpg",
   },
   {
     id: "kafu-a26-67",
@@ -21581,6 +23240,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Caterpillar E320C"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-67.jpg",
   },
   {
     id: "kafu-a26-67a",
@@ -21594,6 +23254,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Caterpillar"],
     notes: "OEM: 170-9419 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-67A.jpg",
   },
   {
     id: "kafu-a26-67b",
@@ -21607,6 +23268,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-67B.jpg",
   },
   {
     id: "kafu-a26-68",
@@ -21620,6 +23282,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-68.jpg",
   },
   {
     id: "kafu-a26-69",
@@ -21633,6 +23296,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-69.jpg",
   },
   {
     id: "kafu-a26-69a",
@@ -21646,6 +23310,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-69A.jpg",
   },
   {
     id: "kafu-a26-69b",
@@ -21659,6 +23324,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-69B.jpg",
   },
   {
     id: "kafu-a26-69c",
@@ -21672,6 +23338,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-69C.jpg",
   },
   {
     id: "kafu-a26-69d",
@@ -21685,6 +23352,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-69D.jpg",
   },
   {
     id: "kafu-a26-69e",
@@ -21698,6 +23366,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-69E.jpg",
   },
   {
     id: "kafu-a26-69f",
@@ -21711,6 +23380,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-69F.jpg",
   },
   {
     id: "kafu-a26-7",
@@ -21724,6 +23394,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["KOBELCO", "SK200/250", "SK230/3306E", "SK130/260", "SK200/330"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-7.jpg",
   },
   {
     id: "kafu-a26-70",
@@ -21737,6 +23408,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Voltage: 12V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-70.jpg",
   },
   {
     id: "kafu-a26-71",
@@ -21750,6 +23422,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-71.jpg",
   },
   {
     id: "kafu-a26-71a",
@@ -21763,6 +23436,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-71A.jpg",
   },
   {
     id: "kafu-a26-71b",
@@ -21776,6 +23450,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Volvo"],
     notes: "OEM: 11418522 · Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-71B.jpg",
   },
   {
     id: "kafu-a26-72",
@@ -21789,6 +23464,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Voltage: 12V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-72.jpg",
   },
   {
     id: "kafu-a26-73",
@@ -21802,6 +23478,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-73.jpg",
   },
   {
     id: "kafu-a26-73a",
@@ -21815,6 +23492,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Caterpillar"],
     notes: "OEM: 225-0303 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-73A.jpg",
   },
   {
     id: "kafu-a26-73b",
@@ -21828,6 +23506,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["JCB"],
     notes: "OEM: 25/974628 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-73B.jpg",
   },
   {
     id: "kafu-a26-73c",
@@ -21841,6 +23520,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-73C.jpg",
   },
   {
     id: "kafu-a26-74",
@@ -21854,6 +23534,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-74.jpg",
   },
   {
     id: "kafu-a26-74a",
@@ -21867,6 +23548,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-74A.jpg",
   },
   {
     id: "kafu-a26-75",
@@ -21880,6 +23562,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-75.jpg",
   },
   {
     id: "kafu-a26-76",
@@ -21893,6 +23576,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-76.jpg",
   },
   {
     id: "kafu-a26-77",
@@ -21906,6 +23590,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-77.jpg",
   },
   {
     id: "kafu-a26-77a",
@@ -21919,6 +23604,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Volvo"],
     notes: "OEM: VDE15125649 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-77A.jpg",
   },
   {
     id: "kafu-a26-77b",
@@ -21932,6 +23618,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-77B.jpg",
   },
   {
     id: "kafu-a26-78",
@@ -21945,6 +23632,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-78.jpg",
   },
   {
     id: "kafu-a26-79",
@@ -21958,6 +23646,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "OEM: 028134 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-79.jpg",
   },
   {
     id: "kafu-a26-7a",
@@ -21971,6 +23660,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-7A.jpg",
   },
   {
     id: "kafu-a26-7b",
@@ -21984,6 +23674,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-7B.jpg",
   },
   {
     id: "kafu-a26-8",
@@ -21997,6 +23688,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK20-0"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-8.jpg",
   },
   {
     id: "kafu-a26-80",
@@ -22010,6 +23702,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-80.jpg",
   },
   {
     id: "kafu-a26-81",
@@ -22023,6 +23716,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-81.jpg",
   },
   {
     id: "kafu-a26-82",
@@ -22036,6 +23730,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-82.jpg",
   },
   {
     id: "kafu-a26-83",
@@ -22049,6 +23744,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3017993 · Voltage: 12V/24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-83.jpg",
   },
   {
     id: "kafu-a26-84",
@@ -22062,6 +23758,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 3018453 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-84.jpg",
   },
   {
     id: "kafu-a26-84a",
@@ -22075,6 +23772,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-84A.jpg",
   },
   {
     id: "kafu-a26-85",
@@ -22088,6 +23786,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-85.jpg",
   },
   {
     id: "kafu-a26-86",
@@ -22101,6 +23800,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Voltage: 24V · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-86.jpg",
   },
   {
     id: "kafu-a26-86a",
@@ -22114,6 +23814,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-86A.jpg",
   },
   {
     id: "kafu-a26-86b",
@@ -22127,6 +23828,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-86B.jpg",
   },
   {
     id: "kafu-a26-87",
@@ -22140,6 +23842,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SANY"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-87.jpg",
   },
   {
     id: "kafu-a26-88",
@@ -22153,6 +23856,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-88.jpg",
   },
   {
     id: "kafu-a26-88a",
@@ -22166,6 +23870,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-88A.jpg",
   },
   {
     id: "kafu-a26-88b",
@@ -22179,6 +23884,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-88B.jpg",
   },
   {
     id: "kafu-a26-89",
@@ -22192,6 +23898,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Doosan DH220-5"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-89.jpg",
   },
   {
     id: "kafu-a26-89a",
@@ -22205,6 +23912,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-89A.jpg",
   },
   {
     id: "kafu-a26-9",
@@ -22218,6 +23926,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["SK200-2"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-9.jpg",
   },
   {
     id: "kafu-a26-90",
@@ -22231,6 +23940,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "OEM: 4305724 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-90.jpg",
   },
   {
     id: "kafu-a26-90a",
@@ -22244,6 +23954,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-90A.jpg",
   },
   {
     id: "kafu-a26-90b",
@@ -22257,6 +23968,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-90B.jpg",
   },
   {
     id: "kafu-a26-90c",
@@ -22270,6 +23982,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-90C.jpg",
   },
   {
     id: "kafu-a26-91",
@@ -22283,6 +23996,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-91.jpg",
   },
   {
     id: "kafu-a26-92",
@@ -22296,6 +24010,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-92.jpg",
   },
   {
     id: "kafu-a26-93",
@@ -22309,6 +24024,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-93.jpg",
   },
   {
     id: "kafu-a26-93a",
@@ -22322,6 +24038,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["LIUGONG"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-93A.jpg",
   },
   {
     id: "kafu-a26-94",
@@ -22335,6 +24052,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-94.jpg",
   },
   {
     id: "kafu-a26-95",
@@ -22348,6 +24066,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-95.jpg",
   },
   {
     id: "kafu-a26-96",
@@ -22361,6 +24080,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-96.jpg",
   },
   {
     id: "kafu-a26-96a",
@@ -22374,6 +24094,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-96A.jpg",
   },
   {
     id: "kafu-a26-96b",
@@ -22387,6 +24108,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: [],
     notes: "Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-96B.jpg",
   },
   {
     id: "kafu-a26-96c",
@@ -22400,6 +24122,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["VOLVO"],
     notes: "OEM: 11709879 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-96C.jpg",
   },
   {
     id: "kafu-a26-97",
@@ -22413,6 +24136,7 @@ export const kafuParts: Part[] = [
     price: 0,
     compatibility: ["Volvo"],
     notes: "OEM: 11709493 · Supplier: Kafu",
+    imageUrl: "/kafu-parts/A26-97.jpg",
   },
 ];
 

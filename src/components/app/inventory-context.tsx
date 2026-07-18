@@ -42,6 +42,7 @@ type PartOverride = Partial<
     | "insideDiameterMm"
     | "crossSectionMm"
     | "notes"
+    | "imageUrl"
   >
 >;
 
@@ -143,6 +144,7 @@ function normalizePart(input: PartInput, id?: string): Part {
     insideDiameterMm: input.insideDiameterMm,
     crossSectionMm: input.crossSectionMm,
     notes: input.notes,
+    imageUrl: input.imageUrl,
   };
 }
 
