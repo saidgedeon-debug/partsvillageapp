@@ -1,0 +1,48 @@
+Section 15: Pressure Switches, Diode Blocks, & Electronic Interface Modules (Pages 75–80)
+This section contains the precise technical data extraction for auxiliary hydraulic pressure switches, dashboard diode assemblies, and modular electronic interface nodes from pages 75 to 80 of the product catalog. Non-English phrasing has been completely filtered out, and the Machine Compatibility maps to its own separate database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A24-1Travel Alarm Control Switch114-5333 / 106-0180CAT E320BPage 75
+A24-2Main Pump Regulator Pressure Switch221-8859 / 194-6724CAT E320C, E312CPage 75
+A24-3Auxiliary Line Pressure Transducer309-5769 / 274-6719CAT E320D, E323DPage 75
+A24-3AInline Protection Diode Block386-3439 ModuleCAT E320D2 SeriesPage 75
+A24-4Dynamic Controller Interface Unit425-4893 Connector SpecCAT Heavy Excavation PlatformsPage 75
+A24-15Hydraulic Override Safety Switch164-3692 Unit SpecCAT System ManifoldsPage 77
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A24-11High-Low Speed Selector SwitchVOE 14518342 / 14529298VOLVO EC210B ConsolePage 76
+A24-11AModular Interface Terminal BlockVOE 14616736 ArrayVOLVO EC210D, EC220DPage 76
+A24-12Inline Harness Diode Module0428-7583 Unit SpecVOLVO / Deutz Engine Wire AssembliesPage 76
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A24-5Swing Brake Release Pressure Switch20Y-06-21710 / 7834-40-2000Komatsu PC200-5, PC220-5Page 75
+A24-6Travel Speed Selection Switch7834-52-2003 / 7861-92-1610Komatsu PC200-6, PC220-6Page 75
+A24-7Main Control Loop Diode Block7873-20-5100 / 7861-93-2310Komatsu PC200-7, PC220-7Page 76
+A24-8Hydraulic Safety Lock Microswitch600-467-1100 / 7835-31-1002Komatsu PC200-8 Pilot LeverPage 76
+A24-8AElectronic Monitoring Interface Board7835-35-2000 Line SpecKomatsu PC200-10Page 76
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A24-13Hydraulic Lock Lever Microswitch4251588 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 76
+A24-14Pump Control Interface Node4360297 Terminal CoreHitachi ZAX200-1, ZAX210, ZAX230Page 77
+A24-14AMain Wiring Harness Diode Core4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 77
+A24-14BProportional Valve Interface Module4668260 Module SpecHitachi ZAX-5A, ZAX-5G SeriesPage 77
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A24-16Pilot Pressure Limit Switch2523-9014 / 2543-9015Daewoo Doosan DH220-5Page 77
+A24-17Central Relay Interface Terminal Block300513-00021 BoardDoosan DX225, DX300Page 77
+A24-18Main Cabin Power Diode Array21N6-43101 / 21N6-44101Hyundai R210-5, R225-7Page 77
+A24-19CAN-Bus Communication Interface Module21Q6-30102 PanelHyundai R210-9, R220-9Page 77
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A24-9Pilot Line Low Pressure SwitchYN50S00002P1 UnitKobelco SK200-3, SK200-5Page 76
+A24-10Travel Alarm Actuation SwitchYN50S00026P1 ModuleKobelco SK200-6, SK200-6EPage 76
+A24-10AModular Harness Diode ConnectorLC50S00010P1 UnitKobelco SK200-8, SK350-8Page 76
+A24-10BMain Pump Interface Logic CardKHR1141 Module SpecSumitomo SH200A3, SH210-5Page 76
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A24-20Main System Protection Diode Node60114798 / 60114799Sany SY215C, SY235C-9Page 78
+A24-21Digital Console Interface Board10213169 PanelLiugong 920E, 925EPage 78
+A24-22Travel Speed Limit Switch1000168 UnitXCMG XE215C, XE215DPage 79
+A24-23Circuit Isolation Interface Block701/80184 Board SpecJCB 3CX, 4CX Backhoe LoadersPage 80
+A24-24Central Logic Communication ModuleAT103035 / RE61812John Deere Industrial RigsPage 80

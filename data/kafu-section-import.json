@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_14_v2",
+  "status": "sections_2_to_15_v2",
   "supplier": "Kafu",
   "rawRows": 31,
-  "section14": 31,
-  "kept_prior": 1361,
-  "count": 1392,
+  "section15": 31,
+  "kept_prior": 1392,
+  "count": 1423,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -31,10 +31,12 @@
     "Crankshaft Sensor",
     "Dashboard Display",
     "Differential Pressure Sensor",
+    "Diode Block / Array",
     "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
     "Electrical Controller",
     "Electrical Solenoid",
+    "Electronic Interface Module",
     "Engine / Control Harness",
     "Engine Control Module",
     "Engine Safety Control Protection Block",
@@ -82,6 +84,7 @@
     "Overflow Valve",
     "Oxygen Sensor",
     "Power Switch",
+    "Pressure / Control Switch",
     "Pressure Reducing Valve",
     "Pressure Sensor",
     "Pressure Switch",
@@ -28306,6 +28309,665 @@
       ],
       "section": "Section 14",
       "confidence": "user-section14-v2"
+    },
+    {
+      "catalogCode": "A24-1",
+      "category": "Pressure / Control Switch",
+      "description": "Travel Alarm Control Switch",
+      "name": "Travel Alarm Control Switch — Caterpillar E320B",
+      "oemNumbers": [
+        "114-5333",
+        "106-0180"
+      ],
+      "compatibility": [
+        "Caterpillar E320B"
+      ],
+      "pages": [
+        "75"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-10",
+      "category": "Pressure / Control Switch",
+      "description": "Travel Alarm Actuation Switch",
+      "name": "Travel Alarm Actuation Switch — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN50S00026P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-10A",
+      "category": "Diode Block / Array",
+      "description": "Modular Harness Diode Connector",
+      "name": "Modular Harness Diode Connector — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "LC50S00010P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-10B",
+      "category": "Electronic Interface Module",
+      "description": "Main Pump Interface Logic Card",
+      "name": "Main Pump Interface Logic Card — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-11",
+      "category": "Pressure / Control Switch",
+      "description": "High-Low Speed Selector Switch",
+      "name": "High-Low Speed Selector Switch — Volvo EC210B Console",
+      "oemNumbers": [
+        "VOE 14518342",
+        "14529298"
+      ],
+      "compatibility": [
+        "Volvo EC210B Console"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-11A",
+      "category": "Electronic Interface Module",
+      "description": "Modular Interface Terminal Block",
+      "name": "Modular Interface Terminal Block — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-12",
+      "category": "Diode Block / Array",
+      "description": "Inline Harness Diode Module",
+      "name": "Inline Harness Diode Module — Volvo, Deutz Engine Wire Assemblies",
+      "oemNumbers": [
+        "0428-7583"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz Engine Wire Assemblies"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-13",
+      "category": "Pressure / Control Switch",
+      "description": "Hydraulic Lock Lever Microswitch",
+      "name": "Hydraulic Lock Lever Microswitch — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4251588",
+        "4148415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-14",
+      "category": "Electronic Interface Module",
+      "description": "Pump Control Interface Node",
+      "name": "Pump Control Interface Node — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4360297"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-14A",
+      "category": "Diode Block / Array",
+      "description": "Main Wiring Harness Diode Core",
+      "name": "Main Wiring Harness Diode Core — Hitachi ZAX200-3, ZAX240-3",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-14B",
+      "category": "Electronic Interface Module",
+      "description": "Proportional Valve Interface Module",
+      "name": "Proportional Valve Interface Module — Hitachi ZAX-5A, ZAX-5G Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-5A",
+        "ZAX-5G Series"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-15",
+      "category": "Pressure / Control Switch",
+      "description": "Hydraulic Override Safety Switch",
+      "name": "Hydraulic Override Safety Switch — Caterpillar System Manifolds",
+      "oemNumbers": [
+        "164-3692"
+      ],
+      "compatibility": [
+        "Caterpillar System Manifolds"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-16",
+      "category": "Pressure / Control Switch",
+      "description": "Pilot Pressure Limit Switch",
+      "name": "Pilot Pressure Limit Switch — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-17",
+      "category": "Electronic Interface Module",
+      "description": "Central Relay Interface Terminal Block",
+      "name": "Central Relay Interface Terminal Block — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-18",
+      "category": "Diode Block / Array",
+      "description": "Main Cabin Power Diode Array",
+      "name": "Main Cabin Power Diode Array — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-43101",
+        "21N6-44101"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-19",
+      "category": "Electronic Interface Module",
+      "description": "CAN-Bus Communication Interface Module",
+      "name": "CAN-Bus Communication Interface Module — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30102"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "77"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-2",
+      "category": "Pressure / Control Switch",
+      "description": "Main Pump Regulator Pressure Switch",
+      "name": "Main Pump Regulator Pressure Switch — Caterpillar E320C, E312C",
+      "oemNumbers": [
+        "221-8859",
+        "194-6724"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E312C"
+      ],
+      "pages": [
+        "75"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-20",
+      "category": "Diode Block / Array",
+      "description": "Main System Protection Diode Node",
+      "name": "Main System Protection Diode Node — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "78"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-21",
+      "category": "Electronic Interface Module",
+      "description": "Digital Console Interface Board",
+      "name": "Digital Console Interface Board — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "78"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-22",
+      "category": "Pressure / Control Switch",
+      "description": "Travel Speed Limit Switch",
+      "name": "Travel Speed Limit Switch — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "79"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-23",
+      "category": "Electronic Interface Module",
+      "description": "Circuit Isolation Interface Block",
+      "name": "Circuit Isolation Interface Block — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "80"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-24",
+      "category": "Electronic Interface Module",
+      "description": "Central Logic Communication Module",
+      "name": "Central Logic Communication Module — John Deere Industrial Rigs",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Industrial Rigs"
+      ],
+      "pages": [
+        "80"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-3",
+      "category": "Pressure / Control Switch",
+      "description": "Auxiliary Line Pressure Transducer",
+      "name": "Auxiliary Line Pressure Transducer — Caterpillar E320D, E323D",
+      "oemNumbers": [
+        "309-5769",
+        "274-6719"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D"
+      ],
+      "pages": [
+        "75"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-3A",
+      "category": "Diode Block / Array",
+      "description": "Inline Protection Diode Block",
+      "name": "Inline Protection Diode Block — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "75"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-4",
+      "category": "Electronic Interface Module",
+      "description": "Dynamic Controller Interface Unit",
+      "name": "Dynamic Controller Interface Unit — Caterpillar Heavy Excavation Platforms",
+      "oemNumbers": [
+        "425-4893"
+      ],
+      "compatibility": [
+        "Caterpillar Heavy Excavation Platforms"
+      ],
+      "pages": [
+        "75"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-5",
+      "category": "Pressure / Control Switch",
+      "description": "Swing Brake Release Pressure Switch",
+      "name": "Swing Brake Release Pressure Switch — Komatsu PC200-5, PC220-5",
+      "oemNumbers": [
+        "20Y-06-21710",
+        "7834-40-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5"
+      ],
+      "pages": [
+        "75"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-6",
+      "category": "Pressure / Control Switch",
+      "description": "Travel Speed Selection Switch",
+      "name": "Travel Speed Selection Switch — Komatsu PC200-6, PC220-6",
+      "oemNumbers": [
+        "7834-52-2003",
+        "7861-92-1610"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "75"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-7",
+      "category": "Diode Block / Array",
+      "description": "Main Control Loop Diode Block",
+      "name": "Main Control Loop Diode Block — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "7873-20-5100",
+        "7861-93-2310"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-8",
+      "category": "Pressure / Control Switch",
+      "description": "Hydraulic Safety Lock Microswitch",
+      "name": "Hydraulic Safety Lock Microswitch — Komatsu PC200-8 Pilot Lever",
+      "oemNumbers": [
+        "600-467-1100",
+        "7835-31-1002"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 Pilot Lever"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-8A",
+      "category": "Electronic Interface Module",
+      "description": "Electronic Monitoring Interface Board",
+      "name": "Electronic Monitoring Interface Board — Komatsu PC200-10",
+      "oemNumbers": [
+        "7835-35-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-10"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
+    },
+    {
+      "catalogCode": "A24-9",
+      "category": "Pressure / Control Switch",
+      "description": "Pilot Line Low Pressure Switch",
+      "name": "Pilot Line Low Pressure Switch — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN50S00002P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "76"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 15",
+      "confidence": "user-section15-v2"
     }
   ]
 }
