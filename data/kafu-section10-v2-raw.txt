@@ -1,0 +1,51 @@
+Section 10: Solenoid Valves, Flameout Solenoids, & Coil Series (Pages 45–50)
+This section outlines all hydraulic pump control solenoid valves, engine flameout/shut-off actuators, block diodes, and electromagnetic coils extracted from pages 45 to 50.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A19-1Flameout Solenoid Valve (24V)155-4654 / 111-4870CAT E320B, E320CPage 45
+A19-2Fuel Shut-off Solenoid111-4869 / 155-4652CAT 3116, 3126 EnginesPage 45
+A19-3Main Pump Solenoid Valve121-1491 / 121-1490CAT E320B, E325BPage 45
+A19-4Proportional Solenoid Valve259-5274 / 111-4871CAT E320C, E320DPage 46
+A19-4ASolenoid Valve Block Assembly312-5620 / 419-5574CAT E320D, E323DPage 46
+A19-5Hydraulic Safety Lock Solenoid164-3692CAT E320C SeriesPage 46
+A19-22Electromagnetic Solenoid Coil24V Unit / Core NodeCAT Valve BlocksPage 48
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A19-14Flameout Solenoid ActuatorVOE 11442694 / 24VVOLVO EC210B, EC240B, EC290BPage 46
+A19-14AFuel Shut-off Solenoid0428-7583 / 0427-2733Deutz 1011, 2011 Engines / VOLVOPage 46
+A19-15Main Pump Proportional ValveVOE 14518342VOLVO EC210, EC240, EC290Page 47
+A19-16Shift Solenoid Valve AssemblyVOE 14531342VOLVO B-Series ExcavatorsPage 47
+A19-35Solenoid Valve Replacement Coil24V / 60 Ω CoreVOLVO Hydraulic ManifoldsPage 49
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A19-6Fuel Shut-off Solenoid (24V)600-815-2170 / 600-815-8940Komatsu PC200-6, PC220-6, PC300-6Page 45
+A19-7Flameout Solenoid Valve6742-01-2310 / 6743-81-9141Komatsu PC200-7, PC220-7Page 45
+A19-8Main Pump Solenoid Valve Block702-21-57400 / 702-21-55901Komatsu PC200-7, PC220-7Page 45
+A19-9Solenoid Valve Assembly (5-Spool)20Y-60-32121 / 20Y-60-32120Komatsu PC200-7, PC220-7Page 45
+A19-10Solenoid Valve Assembly (6-Spool)20Y-60-41611 / 20Y-60-41621Komatsu PC200-8, PC220-8Page 46
+A19-11EPC Proportional Solenoid Valve702-21-07010 / 702-21-07310Komatsu PC200-7, PC200-8Page 46
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A19-12Flameout Solenoid Valve1-82563-039-1 / 24VIsuzu 6BD1, 6BG1 Engines / Hitachi EX200-2/3/5Page 46
+A19-12AEngine Shut-off Actuator8-98132-9420Isuzu 4HK1, 6HK1 / Hitachi ZAX200-3Page 46
+A19-13Main Pump Solenoid Valve Block4372497 / 4436535Hitachi ZAX200, ZAX210, ZAX240Page 46
+A19-13ASolenoid Valve Block Assembly4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 46
+A19-25Solenoid Valve Core Unit4257163Hitachi EX Series ValvesPage 48
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A19-17Flameout Solenoid Actuator2523-9014 / 2523-9016Daewoo Doosan DH220-5Page 47
+A19-18Main Hydraulic Solenoid Block300513-00021Doosan DX225, DX300Page 47
+A19-19Flameout Solenoid Valve21N6-01272 / 21N6-01275Hyundai R210-5, R225-7Page 47
+A19-20Proportional Solenoid Valve21Q6-30080Hyundai R210-9, R220-9Page 47
+🇯🇵 Kobelco (SK Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A19-21Flameout Solenoid Valve (24V)YN24C00114F2Kobelco SK200-3, SK200-5Page 47
+A19-21AMain Pump Solenoid ValveYN35V00048F1 / KDRDE5K-31Kobelco SK200-6, SK200-6EPage 47
+A19-21BProportional Solenoid ValveYN35V00052F1 / KDRDE5K-31/30C50Kobelco SK200-8, SK350-8Page 47
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A19-26Flameout Solenoid Valve60114798Sany SY215, SY235Page 48
+A19-27Hydraulic Lock Solenoid Valve10213169Liugong 920D, 922DPage 48
+A19-28Solenoid Valve Block1000168XCMG XE215CPage 48
+A19-29Flameout Solenoid (12V)701/80184 / 701/45501JCB 3CX Backhoe LoadersPage 48
+A19-30Universal Circuit Block DiodeDiode Stripe NodeUniversal Engineering HarnessesPage 49
