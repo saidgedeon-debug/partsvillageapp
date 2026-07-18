@@ -177,7 +177,7 @@ function InventoryPage() {
                 <div className="space-y-1.5">
                   <p className="text-xs text-muted-foreground">Quick thickness</p>
                   <div className="flex flex-wrap gap-1.5">
-                    {thicknessPicks.slice(0, 16).map((n) => {
+                    {thicknessPicks.map((n) => {
                       const label = Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
                       const active = matchesThickness(String(n), thickness);
                       return (
