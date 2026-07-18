@@ -1,8 +1,10 @@
 {
-  "status": "section_2_3_clean",
+  "status": "section_2_v2_plus_section_3",
   "supplier": "Kafu",
-  "rawRows": 249,
-  "count": 239,
+  "rawRows": 153,
+  "section2": 153,
+  "section3": 96,
+  "count": 249,
   "categories": [
     "Air Intake Sensor",
     "Air Pressure Sensor",
@@ -21,6 +23,7 @@
     "Oil Pressure Switch",
     "Pressure Sensor",
     "Pressure Switch",
+    "Pressure Switch Core",
     "Revolution Sensor",
     "Vacuum Pressure Switch"
   ],
@@ -40,94 +43,121 @@
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-10",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Sany Heavy Industries",
+      "name": "Revolution Sensor — Kobelco SK200-6, SK200-6E",
       "oemNumbers": [
-        "MC867505"
+        "ME844577"
       ],
       "compatibility": [
-        "Sany Heavy Industries"
+        "Kobelco SK200-6",
+        "SK200-6E"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A01-10A",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Sany Series",
+      "oemNumbers": [
+        "MC867505"
+      ],
+      "compatibility": [
+        "Sany Series"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-11",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Kobelco SK200-8, SK350-8",
+      "name": "Revolution Sensor — Kobelco SK200-8",
       "oemNumbers": [
-        "ME844577 Line"
+        "59841-01290"
       ],
       "compatibility": [
-        "Kobelco SK200-8",
-        "SK350-8"
+        "Kobelco SK200-8"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A01-11A",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Kobelco SK8 Series",
+      "oemNumbers": [
+        "SK200-8",
+        "SK350-8"
+      ],
+      "compatibility": [
+        "Kobelco SK8 Series"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-12",
       "category": "Fuel Pump Speed Sensor",
       "description": "Fuel Pump Revolution Sensor",
-      "name": "Fuel Pump Revolution Sensor — Mitsubishi 6D24 Engines",
+      "name": "Fuel Pump Revolution Sensor — Mitsubishi 6D24 Engine",
       "oemNumbers": [
         "ME755778",
         "9443612071"
       ],
       "compatibility": [
-        "Mitsubishi 6D24 Engines"
+        "Mitsubishi 6D24 Engine"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-12A",
       "category": "Fuel Pump Speed Sensor",
       "description": "Fuel Pump Revolution Sensor",
-      "name": "Fuel Pump Revolution Sensor — Mitsubishi 6D16 Engines",
+      "name": "Fuel Pump Revolution Sensor — Mitsubishi 6D16 Engine",
       "oemNumbers": [
         "ME755970",
         "9443613465"
       ],
       "compatibility": [
-        "Mitsubishi 6D16 Engines"
+        "Mitsubishi 6D16 Engine"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-13",
@@ -143,53 +173,49 @@
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-14",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Hitachi EX200-1/2/3/5, EX120",
+      "name": "Revolution Sensor — Hitachi EX200-1, EX200-2, EX200-3",
       "oemNumbers": [
         "4265372"
       ],
       "compatibility": [
-        "Hitachi EX200-1/2/3/5",
+        "Hitachi EX200-1",
+        "EX200-2",
+        "EX200-3",
+        "EX200-5",
         "EX120"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-15",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Isuzu 6WG1 Engine, Hitachi ZAX450",
+      "name": "Revolution Sensor — Hitachi ZAX450 (6WG1 Engine)",
       "oemNumbers": [
         "1-81510713-1"
       ],
       "compatibility": [
-        "Isuzu 6WG1 Engine",
-        "Hitachi ZAX450"
+        "Hitachi ZAX450 (6WG1 Engine)"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-16",
@@ -205,179 +231,213 @@
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A01-17",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Hyundai R220-5",
+      "oemNumbers": [
+        "21E3-0042",
+        "3034572"
+      ],
+      "compatibility": [
+        "Hyundai R220-5"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A01-18",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Hyundai R225-7",
+      "oemNumbers": [
+        "94340-72411"
+      ],
+      "compatibility": [
+        "Hyundai R225-7"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A01-19",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Sumitomo SH200A3",
+      "oemNumbers": [
+        "1-81510553-1"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-1A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Hitachi General, Kobelco SK130-8, SK140-8",
+      "name": "Revolution Sensor — Hitachi Series",
       "oemNumbers": [
-        "HITACHI 2055358",
-        "D04FR Engine"
+        "2055358"
       ],
       "compatibility": [
-        "Hitachi General",
-        "Kobelco SK130-8",
-        "SK140-8"
+        "Hitachi Series"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Hitachi",
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-1B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Kobelco SK200-6, SK200-6E",
+      "name": "Revolution Sensor — Komatsu SK200-6, SK200-6E",
       "oemNumbers": [
         "ME844577"
       ],
       "compatibility": [
-        "Kobelco SK200-6",
+        "Komatsu SK200-6",
         "SK200-6E"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-2",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Kobelco SK200-3, SK200-5",
+      "name": "Revolution Sensor — Komatsu SK200-3, SK200-5",
       "oemNumbers": [
         "ME845235"
       ],
       "compatibility": [
-        "Kobelco SK200-3",
+        "Komatsu SK200-3",
         "SK200-5"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-20",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Hyundai Construction",
+      "name": "Revolution Sensor — Cummins K19 Engine",
       "oemNumbers": [
-        "R220-5"
+        "3034572"
       ],
       "compatibility": [
-        "Hyundai Construction"
+        "Cummins K19 Engine"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-21",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Liugong Loaders, Machinery",
+      "name": "Revolution Sensor — Liugong Series",
       "oemNumbers": [
         "307815",
         "4984223"
       ],
       "compatibility": [
-        "Liugong Loaders",
-        "Machinery"
+        "Liugong Series"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-21A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor (Dual-Line)",
-      "name": "Revolution Sensor (Dual-Line) — Cummins Diesel Engines",
+      "name": "Revolution Sensor (Dual-Line) — Cummins Engine Series",
       "oemNumbers": [
         "4327234"
       ],
       "compatibility": [
-        "Cummins Diesel Engines"
+        "Cummins Engine Series"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-21B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Cummins Engine Series",
       "oemNumbers": [
-        "262-4806"
+        "4327233"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Cummins Engine Series"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-21C",
       "category": "Revolution Sensor",
-      "description": "Revolution Sensor (Custom Edition)",
-      "name": "Revolution Sensor (Custom Edition) — Caterpillar General",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Komatsu PC1250-7, Hitachi ZAX1200",
       "oemNumbers": [
-        "3E7886"
+        "4327239",
+        "3408472"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Komatsu PC1250-7",
+        "Hitachi ZAX1200"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-22",
@@ -394,31 +454,27 @@
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-23",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Liugong Machinery",
+      "name": "Revolution Sensor — Liugong E-Series",
       "oemNumbers": [
         "Liugong 920D"
       ],
       "compatibility": [
-        "Liugong Machinery"
+        "Liugong E-Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-24",
@@ -435,11 +491,9 @@
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-25",
@@ -455,312 +509,281 @@
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-26",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Foton Lovol",
+      "name": "Revolution Sensor — Foton Lovol Series",
       "oemNumbers": [
         "RL11-61C000003AD-1"
       ],
       "compatibility": [
-        "Foton Lovol"
+        "Foton Lovol Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27",
-      "category": "Pressure Switch",
+      "category": "Pressure Switch Core",
       "description": "Pressure Switch / Revolution Sensor",
-      "name": "Pressure Switch / Revolution Sensor — Caterpillar General",
+      "name": "Pressure Switch / Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "290-5792"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27A",
-      "category": "Pressure Switch",
+      "category": "Pressure Switch Core",
       "description": "Pressure Switch / Revolution Sensor",
-      "name": "Pressure Switch / Revolution Sensor — Caterpillar General",
+      "name": "Pressure Switch / Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "196-1185"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "227-6744"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27C",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar 3508, 3512 Engines",
+      "name": "Revolution Sensor — Caterpillar 3508, 3512",
       "oemNumbers": [
         "265-9033"
       ],
       "compatibility": [
         "Caterpillar 3508",
-        "3512 Engines"
+        "3512"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27D",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "258-4521"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27E",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "504-9586"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27F",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "253-2673"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27G",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "440-0257"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27H",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "458-0219"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27I",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "391-7125"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27J",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "574-8674"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-27K",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "122-8863"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-28",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor / Pressure Switch",
-      "name": "Revolution Sensor / Pressure Switch — Komatsu General",
+      "category": "Pressure Switch Core",
+      "description": "Pressure Switch / Revolution Sensor",
+      "name": "Pressure Switch / Revolution Sensor — Yuchai Series",
       "oemNumbers": [
-        "PC 363-06-31121 Line"
+        "Yuchai"
       ],
       "compatibility": [
-        "Komatsu General"
+        "Yuchai Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-29",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Cummins, Yuchai Spec Cummins, Yuchai Base Engines",
-      "oemNumbers": [],
+      "name": "Revolution Sensor — Yuchai Core Cummins, Yuchai Engines",
+      "oemNumbers": [
+        "Cummins"
+      ],
       "compatibility": [
-        "Cummins",
-        "Yuchai Spec Cummins",
-        "Yuchai Base Engines"
+        "Yuchai Core Cummins",
+        "Yuchai Engines"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-2A",
@@ -776,133 +799,119 @@
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-2B",
       "category": "Revolution Sensor",
-      "description": "Revolution Sensor (6D102 Engine)",
-      "name": "Revolution Sensor (6D102 Engine) — Komatsu PC200-5, PC200-6, PC220-6",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Komatsu PC200-5, PC200-6, PC220-6 (6D102 Engine)",
       "oemNumbers": [
         "7861-92-2330"
       ],
       "compatibility": [
         "Komatsu PC200-5",
         "PC200-6",
-        "PC220-6"
+        "PC220-6 (6D102 Engine)"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-2C",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Kobelco SK200-8",
+      "name": "Revolution Sensor — Komatsu SK200-8",
       "oemNumbers": [
         "59841-01290"
       ],
       "compatibility": [
-        "Kobelco SK200-8"
+        "Komatsu SK200-8"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-3",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Komatsu General",
+      "name": "Revolution Sensor — Komatsu WA470",
       "oemNumbers": [
-        "363-06-31121"
+        "568-06-15610"
       ],
       "compatibility": [
-        "Komatsu General"
+        "Komatsu WA470"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-30",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Yuchai Heavy Industries",
+      "name": "Revolution Sensor — Yuchai Series",
       "oemNumbers": [
         "T0411-17102"
       ],
       "compatibility": [
-        "Yuchai Heavy Industries"
+        "Yuchai Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-31",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Yuchai Heavy Industries",
+      "name": "Revolution Sensor — Yuchai Series",
       "oemNumbers": [
         "T0411-17103"
       ],
       "compatibility": [
-        "Yuchai Heavy Industries"
+        "Yuchai Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-32",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Yuchai Heavy Industries",
+      "name": "Revolution Sensor — Yuchai Series",
       "oemNumbers": [
         "T0411-17104"
       ],
       "compatibility": [
-        "Yuchai Heavy Industries"
+        "Yuchai Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-33",
@@ -918,32 +927,28 @@
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-34",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Jonyang Excavators (Mid-Range)",
+      "name": "Revolution Sensor — Jonyang Mid-Excavator",
       "oemNumbers": [
         "ZG40-3",
         "4-16UNF"
       ],
       "compatibility": [
-        "Jonyang Excavators (Mid-Range)"
+        "Jonyang Mid-Excavator"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-35",
@@ -959,230 +964,208 @@
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-36",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — XCMG Standard Line XCMG Group",
-      "oemNumbers": [],
+      "name": "Revolution Sensor — XCMG Series",
+      "oemNumbers": [
+        "XCMG Core Line"
+      ],
       "compatibility": [
-        "XCMG Standard Line XCMG Group"
+        "XCMG Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-37",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Core Engine Series",
+      "name": "Revolution Sensor — Perkins B3.3 Engine",
       "oemNumbers": [
-        "Perkins B3.3"
+        "Perkins"
       ],
       "compatibility": [
-        "Perkins Core Engine Series"
+        "Perkins B3.3 Engine"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-38",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Global Equipment",
+      "name": "Revolution Sensor — Universal / Heavy Duty",
       "oemNumbers": [
         "Q216005"
       ],
       "compatibility": [
-        "Global Equipment"
+        "Universal / Heavy Duty"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-39",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Global Equipment",
+      "name": "Revolution Sensor — Universal / Industrial",
       "oemNumbers": [
         "266-8576"
       ],
       "compatibility": [
-        "Global Equipment"
+        "Universal / Industrial"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-3A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Komatsu General",
+      "name": "Revolution Sensor — Komatsu PC Series",
       "oemNumbers": [
-        "PC 363-06-31121"
+        "363-06-31121"
       ],
       "compatibility": [
-        "Komatsu General"
+        "Komatsu PC Series"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-4",
       "category": "Inductive Switch Sensor",
       "description": "Switch Sensor",
-      "name": "Switch Sensor — Komatsu General",
+      "name": "Switch Sensor — Universal / Industrial",
       "oemNumbers": [
         "E2B-M30LS15-WP-B1"
       ],
       "compatibility": [
-        "Komatsu General"
+        "Universal / Industrial"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-40",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Global Equipment",
+      "name": "Revolution Sensor — Universal / Industrial",
       "oemNumbers": [
         "266-8576"
       ],
       "compatibility": [
-        "Global Equipment"
+        "Universal / Industrial"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-41",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
         "522-1643"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-41A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar 980G Loader",
+      "name": "Revolution Sensor — Caterpillar 980G",
       "oemNumbers": [
         "522-1642"
       ],
       "compatibility": [
-        "Caterpillar 980G Loader"
+        "Caterpillar 980G"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-42",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Bobcat Skid Steers",
+      "name": "Revolution Sensor — Bobcat Series",
       "oemNumbers": [
         "669 3921"
       ],
       "compatibility": [
-        "Bobcat Skid Steers"
+        "Bobcat Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-42A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — HK450 SLX300 Marine, Crane",
+      "name": "Revolution Sensor — HK450, SLX300",
       "oemNumbers": [
         "449298"
       ],
       "compatibility": [
-        "HK450 SLX300 Marine",
-        "Crane"
+        "HK450",
+        "SLX300"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-43",
@@ -1199,171 +1182,153 @@
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-43A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — John Deere Ag Equipment",
+      "name": "Revolution Sensor — John Deere Series",
       "oemNumbers": [
         "RE287415"
       ],
       "compatibility": [
-        "John Deere Ag Equipment"
+        "John Deere Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-43B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Global Skid Steer Systems",
+      "name": "Revolution Sensor — Universal Engine Line",
       "oemNumbers": [
         "6658260"
       ],
       "compatibility": [
-        "Global Skid Steer Systems"
+        "Universal Engine Line"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-44",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Cummins High-Horsepower",
+      "name": "Revolution Sensor — Cummins K19 Engine",
       "oemNumbers": [
         "Cummins K19"
       ],
       "compatibility": [
-        "Cummins High-Horsepower"
+        "Cummins K19 Engine"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-45",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "name": "Revolution Sensor — Perkins Series",
       "oemNumbers": [
         "2868A006"
       ],
       "compatibility": [
-        "Perkins Diesel Systems"
+        "Perkins Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-46",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "name": "Revolution Sensor — Perkins Series",
       "oemNumbers": [
         "171-257"
       ],
       "compatibility": [
-        "Perkins Diesel Systems"
+        "Perkins Series"
       ],
       "pages": [
         "6"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-47",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "name": "Revolution Sensor — Perkins Series",
       "oemNumbers": [
         "171-233"
       ],
       "compatibility": [
-        "Perkins Diesel Systems"
+        "Perkins Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-48",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "name": "Revolution Sensor — Perkins Engine Line",
       "oemNumbers": [
         "M16x1.5x120mm"
       ],
       "compatibility": [
-        "Perkins Diesel Systems"
+        "Perkins Engine Line"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-49",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "name": "Revolution Sensor — Perkins Engine Line",
       "oemNumbers": [
-        "M16x1.5 Standard"
+        "M16x1.5"
       ],
       "compatibility": [
-        "Perkins Diesel Systems"
+        "Perkins Engine Line"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-5",
@@ -1380,132 +1345,117 @@
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-50",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "name": "Revolution Sensor — Perkins Engine Line",
       "oemNumbers": [
-        "8 5-Hole 4-Blade"
+        "8 Five-Hole 4-Plug"
       ],
       "compatibility": [
-        "Perkins Diesel Systems"
+        "Perkins Engine Line"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-51",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "name": "Revolution Sensor — Perkins Series",
       "oemNumbers": [
         "171-232"
       ],
       "compatibility": [
-        "Perkins Diesel Systems"
+        "Perkins Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-52",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Global Machinery",
+      "name": "Revolution Sensor — Universal Engine Line",
       "oemNumbers": [
-        "8 Two-Blade Node"
+        "8 Two-Blade Plug"
       ],
       "compatibility": [
-        "Global Machinery"
+        "Universal Engine Line"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-53",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Global Machinery",
+      "name": "Revolution Sensor — Universal Engine Line",
       "oemNumbers": [
-        "M16x1.5 Two-Blade Node"
+        "M16x1.5 Two-Blade Plug"
       ],
       "compatibility": [
-        "Global Machinery"
+        "Universal Engine Line"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-54",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Global Machinery",
+      "name": "Revolution Sensor — Universal Engine Line",
       "oemNumbers": [
-        "M18x1.5 Two-Blade Node"
+        "M18x1.5 Two-Blade Plug"
       ],
       "compatibility": [
-        "Global Machinery"
+        "Universal Engine Line"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-55",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Volvo, Deutz",
+      "name": "Revolution Sensor — Universal Heavy Machinery",
       "oemNumbers": [
         "701-80312"
       ],
       "compatibility": [
-        "Volvo",
-        "Deutz"
+        "Universal Heavy Machinery"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-6",
@@ -1521,125 +1471,142 @@
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-6A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar E320C, E320B, Cummins Diesel Engines",
+      "name": "Revolution Sensor — Caterpillar E320C, E320B",
       "oemNumbers": [
-        "51-7579",
-        "4327233"
+        "51-7579"
       ],
       "compatibility": [
         "Caterpillar E320C",
-        "E320B",
-        "Cummins Diesel Engines"
+        "E320B"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar",
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-7",
       "category": "Revolution Sensor",
-      "description": "Revolution Sensor (Φ16 Thick)",
-      "name": "Revolution Sensor (Φ16 Thick) — Caterpillar E329, Komatsu PC1250-7, Hitachi ZAX1200",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Caterpillar E329 (Φ16 Thick Variant)",
       "oemNumbers": [
         "193-2550",
-        "1-2550",
-        "4327239",
-        "3408472"
+        "1-2550"
       ],
       "compatibility": [
-        "Caterpillar E329",
-        "Komatsu PC1250-7",
-        "Hitachi ZAX1200"
+        "Caterpillar E329 (Φ16 Thick Variant)"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar",
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-7A",
       "category": "Revolution Sensor",
-      "description": "Revolution Sensor (Φ19 Thick)",
-      "name": "Revolution Sensor (Φ19 Thick) — Caterpillar E330C, E325C",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Caterpillar E330C, 325C (Φ19 Thick Variant)",
       "oemNumbers": [
         "4P-5820",
         "189-5746"
       ],
       "compatibility": [
         "Caterpillar E330C",
-        "E325C"
+        "325C (Φ19 Thick Variant)"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A01-7B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General",
+      "name": "Revolution Sensor — Caterpillar Series",
       "oemNumbers": [
-        "318-1178",
-        "318-1181"
+        "212-3426"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "5"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A01-8",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Kobelco SK130-8, SK140-8",
+      "oemNumbers": [
+        "D04FR Engine"
+      ],
+      "compatibility": [
+        "Kobelco SK130-8",
+        "SK140-8"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A01-9",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "ME845235"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-1",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Yanmar Diesel Systems",
+      "name": "Camshaft Sensor — Caterpillar E325C",
       "oemNumbers": [
-        "Yanmar 4TNV94",
-        "4TNV98"
+        "254-4630",
+        "169-3300"
       ],
       "compatibility": [
-        "Yanmar Diesel Systems"
+        "Caterpillar E325C"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-10",
@@ -1656,118 +1623,102 @@
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-10A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — JCB Machinery, Engines",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — JCB (4HK1 Engine Variant)",
       "oemNumbers": [
-        "4HK1"
+        "JCB Heavy Line"
       ],
       "compatibility": [
-        "JCB Machinery",
-        "Engines"
+        "JCB (4HK1 Engine Variant)"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-11",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Isuzu Core Marine, Excavator",
+      "name": "Revolution Sensor — Isuzu Series",
       "oemNumbers": [
         "8-97122324-0"
       ],
       "compatibility": [
-        "Isuzu Core Marine",
-        "Excavator"
+        "Isuzu Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-12",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Isuzu Engines",
+      "name": "Revolution Sensor — Isuzu Series",
       "oemNumbers": [
         "8-94370581-0"
       ],
       "compatibility": [
-        "Isuzu Engines"
+        "Isuzu Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-12A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Caterpillar E325C",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Isuzu 4HK1, 6HK1 Engines",
       "oemNumbers": [
-        "254-4630",
-        "169-3300"
+        "8-98019024-0"
       ],
       "compatibility": [
-        "Caterpillar E325C"
+        "Isuzu 4HK1",
+        "6HK1 Engines"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-13",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar E320D, Volvo, Deutz Engines",
+      "name": "Revolution Sensor — Volvo, Liugong, Deutz",
       "oemNumbers": [
-        "238-0120",
-        "DEUTZ 0118-2850"
+        "0118-2850"
       ],
       "compatibility": [
-        "Caterpillar E320D",
         "Volvo",
-        "Deutz Engines"
+        "Liugong",
+        "Deutz"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar",
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-14",
@@ -1775,7 +1726,7 @@
       "description": "Revolution Sensor",
       "name": "Revolution Sensor — Volvo, Deutz Engines",
       "oemNumbers": [
-        "VOLVO DEUTZ 0118-2834"
+        "0118-2834"
       ],
       "compatibility": [
         "Volvo",
@@ -1784,197 +1735,190 @@
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-14A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Volvo, Deutz Engines, Isuzu 4HK1",
+      "name": "Revolution Sensor — Volvo D3.8 Engine",
       "oemNumbers": [
-        "VOLVO D3.8",
-        "8-98019024-0"
+        "Volvo"
       ],
       "compatibility": [
-        "Volvo",
-        "Deutz Engines",
-        "Isuzu 4HK1",
-        "6HK1 Engines"
+        "Volvo D3.8 Engine"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Volvo",
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-15",
       "category": "Crankshaft Sensor",
       "description": "Crankshaft Sensor",
-      "name": "Crankshaft Sensor — Volvo Heavy Equipment",
+      "name": "Crankshaft Sensor — Volvo Heavy Machinery",
       "oemNumbers": [
-        "VOLVO VOE20450707"
+        "VOE20450707"
       ],
       "compatibility": [
-        "Volvo Heavy Equipment"
+        "Volvo Heavy Machinery"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-16",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Volvo EC210",
+      "name": "Camshaft Sensor — Volvo VO210 Engine",
       "oemNumbers": [
-        "VOLVO 210 VOE20482772"
+        "VOE20482772"
       ],
       "compatibility": [
-        "Volvo EC210"
+        "Volvo VO210 Engine"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-17",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Volvo EC360",
+      "category": "Crankshaft Sensor",
+      "description": "Crankshaft Sensor",
+      "name": "Crankshaft Sensor — Volvo VO360 Series",
       "oemNumbers": [
         "VOE20508011"
       ],
       "compatibility": [
-        "Volvo EC360"
+        "Volvo VO360 Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-18",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — Volvo EC360",
+      "name": "Air Intake Sensor — Volvo VO360 Series",
       "oemNumbers": [
         "VOE20700060"
       ],
       "compatibility": [
-        "Volvo EC360"
+        "Volvo VO360 Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-19",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Volvo EC480",
+      "name": "Camshaft Sensor — Volvo VO480 Series",
       "oemNumbers": [
         "4123-840",
         "0281002315"
       ],
       "compatibility": [
-        "Volvo EC480"
+        "Volvo VO480 Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Volvo"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-1A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Global Engine Core",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "384-3887"
       ],
       "compatibility": [
-        "Global Engine Core"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-1B",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Global Engine Core",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "499-9117"
       ],
       "compatibility": [
-        "Global Engine Core"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-1C",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Global Engine Core",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "481-5928"
       ],
       "compatibility": [
-        "Global Engine Core"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A02-2",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar E320D",
+      "oemNumbers": [
+        "238-0120"
+      ],
+      "compatibility": [
+        "Caterpillar E320D"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-20",
@@ -1990,11 +1934,9 @@
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-21",
@@ -2010,39 +1952,36 @@
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-22",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Caterpillar General",
+      "name": "Camshaft Sensor — Hyundai Series",
       "oemNumbers": [
         "238-4676"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Hyundai Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-22A",
       "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor (D4921684)",
-      "name": "Camshaft Sensor (D4921684) — Komatsu PC200-8",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Komatsu PC200-8",
       "oemNumbers": [
-        "6754-81-9410"
+        "6754-81-9410",
+        "D4921684"
       ],
       "compatibility": [
         "Komatsu PC200-8"
@@ -2050,19 +1989,18 @@
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-22B",
       "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor (D4921686)",
-      "name": "Camshaft Sensor (D4921686) — Komatsu PC400-8",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Komatsu PC400-8",
       "oemNumbers": [
-        "6261-81-2911"
+        "6261-81-2911",
+        "D4921686"
       ],
       "compatibility": [
         "Komatsu PC400-8"
@@ -2070,11 +2008,9 @@
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-23",
@@ -2090,38 +2026,34 @@
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-23A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Cummins Engine Core",
+      "name": "Camshaft Sensor — Cummins Engines",
       "oemNumbers": [
         "5011855AA",
         "4921601"
       ],
       "compatibility": [
-        "Cummins Engine Core"
+        "Cummins Engines"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-24",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor (Flywheel 3-Pin)",
-      "name": "Camshaft Sensor (Flywheel 3-Pin) — Komatsu PC400-7",
+      "category": "Eccentric Shaft Speed Sensor",
+      "description": "Eccentric Shaft Speed Sensor",
+      "name": "Eccentric Shaft Speed Sensor — Komatsu PC400-7",
       "oemNumbers": [
         "6217-81-9210"
       ],
@@ -2131,214 +2063,191 @@
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-25",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Kobelco SK350-8, Hino Truck Cross",
+      "name": "Camshaft Sensor — Doosan DX380",
       "oemNumbers": [
-        "VH89411E0050"
+        "3405529"
       ],
       "compatibility": [
-        "Kobelco SK350-8",
-        "Hino Truck Cross"
+        "Doosan DX380"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-26",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Kobelco SK350-8",
+      "name": "Camshaft Sensor — Kobelco SK350-8 (JO8E Engine)",
       "oemNumbers": [
-        "S841-01590",
-        "JO8E Engine"
+        "S841-01590"
       ],
       "compatibility": [
-        "Kobelco SK350-8"
+        "Kobelco SK350-8 (JO8E Engine)"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-26A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Hino Longline Spec Hino Heavy Commercial",
-      "oemNumbers": [],
+      "category": "Crankshaft Sensor",
+      "description": "Crankshaft Sensor",
+      "name": "Crankshaft Sensor — Hino Engines, Kobelco",
+      "oemNumbers": [
+        "949979-1420"
+      ],
       "compatibility": [
-        "Hino Longline Spec Hino Heavy Commercial"
+        "Hino Engines",
+        "Kobelco"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-27",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Kobelco SK130-8, SK140-8",
+      "category": "Crankshaft Sensor",
+      "description": "Crankshaft Sensor (Long Line)",
+      "name": "Crankshaft Sensor (Long Line) — Kobelco SK130-8, SK140-8 (D04FR Engine)",
       "oemNumbers": [
-        "D04FR Engine"
+        "VA32G9000600"
       ],
       "compatibility": [
         "Kobelco SK130-8",
-        "SK140-8"
+        "SK140-8 (D04FR Engine)"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-27A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Kobelco General, Sany Standard Layout Sany Heavy Industries",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Sany Series",
       "oemNumbers": [
-        "VA32G9000600 Line"
+        "Sany Core Line"
       ],
       "compatibility": [
-        "Kobelco General",
-        "Sany Standard Layout Sany Heavy Industries"
+        "Sany Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Kobelco",
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-28",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Kobelco SK200-8",
+      "name": "Camshaft Sensor — Kobelco SK200-8 (JO5 Engine)",
       "oemNumbers": [
-        "S8941-01570",
-        "JO5 Engine"
+        "S8941-01570"
       ],
       "compatibility": [
-        "Kobelco SK200-8"
+        "Kobelco SK200-8 (JO5 Engine)"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Kobelco"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-28A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Perkins Core Systems",
+      "name": "Camshaft Sensor — Perkins Engines",
       "oemNumbers": [
         "1855-781C91"
       ],
       "compatibility": [
-        "Perkins Core Systems"
+        "Perkins Engines"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-28B",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Perkins Systems Base Perkins Core Systems",
-      "oemNumbers": [],
+      "name": "Camshaft Sensor — Perkins Series",
+      "oemNumbers": [
+        "Perkins"
+      ],
       "compatibility": [
-        "Perkins Systems Base Perkins Core Systems"
+        "Perkins Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-29",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — JCB Backhoes, Material Handlers",
+      "name": "Camshaft Sensor — JCB Series",
       "oemNumbers": [
         "716-30123"
       ],
       "compatibility": [
-        "JCB Backhoes",
-        "Material Handlers"
+        "JCB Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-29A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Global Mechanical Controls",
+      "name": "Camshaft Sensor — Universal Engine Core",
       "oemNumbers": [
         "ZGAO-00651"
       ],
       "compatibility": [
-        "Global Mechanical Controls"
+        "Universal Engine Core"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-2A",
@@ -2354,451 +2263,428 @@
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-2B",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Caterpillar General",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "358-2398"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-2C",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Caterpillar General",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "358-2399"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A02-3",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar Series",
+      "oemNumbers": [
+        "319-6491"
+      ],
+      "compatibility": [
+        "Caterpillar Series"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-30",
       "category": "Crankshaft Sensor",
       "description": "Crankshaft Sensor",
-      "name": "Crankshaft Sensor — Kobelco SK350-8, Hino Truck",
+      "name": "Crankshaft Sensor — Doosan DX260-9",
       "oemNumbers": [
-        "J05 Engine"
+        "VH89411E0050"
       ],
       "compatibility": [
-        "Kobelco SK350-8",
-        "Hino Truck"
+        "Doosan DX260-9"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-31",
       "category": "Camshaft Timing Sensor",
       "description": "Flywheel Camshaft Sensor",
-      "name": "Flywheel Camshaft Sensor — Hino Engines, Kobelco, Doosan Heavy Industries",
+      "name": "Flywheel Camshaft Sensor — Kobelco SK350-8 (JO5 Engine)",
       "oemNumbers": [
-        "VH89411E0050",
-        "Doosan DX380"
+        "1319158"
       ],
       "compatibility": [
-        "Hino Engines",
-        "Kobelco",
-        "Doosan Heavy Industries"
+        "Kobelco SK350-8 (JO5 Engine)"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hitachi",
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-32",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Doosan Heavy Industries",
+      "name": "Camshaft Sensor — Doosan Scania-Powered Line",
       "oemNumbers": [
-        "Doosan DX260-9"
+        "Doosan DX380 SCANIA"
       ],
       "compatibility": [
-        "Doosan Heavy Industries"
+        "Doosan Scania-Powered Line"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-32A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Scania Doosan, Scania Industrial Engines",
+      "name": "Camshaft Sensor — Doosan Series",
       "oemNumbers": [
         "Doosan DX380"
       ],
       "compatibility": [
-        "Scania Doosan",
-        "Scania Industrial Engines"
+        "Doosan Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hyundai"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-33",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Scania Doosan, Scania Industrial Engines, Yanmar",
+      "name": "Camshaft Sensor — Doosan Scania-Powered Line",
       "oemNumbers": [
-        "Doosan DX470",
+        "Doosan DX470 SCANIA"
+      ],
+      "compatibility": [
+        "Doosan Scania-Powered Line"
+      ],
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A02-34",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Yanmar, Kubota Engines",
+      "oemNumbers": [
         "158557-61720"
       ],
       "compatibility": [
-        "Scania Doosan",
-        "Scania Industrial Engines",
         "Yanmar",
         "Kubota Engines"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Hyundai",
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
-    },
-    {
-      "catalogCode": "A02-34",
-      "category": "Crankshaft Sensor",
-      "description": "Crankshaft Sensor",
-      "name": "Crankshaft Sensor — Hino Trucks, Kobelco Excavators",
-      "oemNumbers": [
-        "949979-1420"
-      ],
-      "compatibility": [
-        "Hino Trucks",
-        "Kobelco Excavators"
-      ],
-      "pages": [
-        "8"
-      ],
-      "brandGroups": [
-        "Hitachi"
-      ],
-      "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-35",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Mitsubishi 4M50, Kato HD820-5",
+      "name": "Camshaft Sensor — Kato HD820-5",
       "oemNumbers": [
-        "709-4500006"
+        "4M50"
       ],
       "compatibility": [
-        "Mitsubishi 4M50",
         "Kato HD820-5"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-36",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Liebherr Heavy Mining",
+      "name": "Camshaft Sensor — Liebherr Series",
       "oemNumbers": [
         "11442694"
       ],
       "compatibility": [
-        "Liebherr Heavy Mining"
+        "Liebherr Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-37",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — John Deere Systems",
+      "name": "Camshaft Sensor — John Deere Series",
       "oemNumbers": [
         "RE51944"
       ],
       "compatibility": [
-        "John Deere Systems"
+        "John Deere Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-38",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — John Deere Systems",
+      "name": "Camshaft Sensor — John Deere Series",
       "oemNumbers": [
         "RE295936"
       ],
       "compatibility": [
-        "John Deere Systems"
+        "John Deere Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-39",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Caterpillar General, Global Mechanical Controls",
+      "name": "Revolution Sensor — Universal Industrial Core",
       "oemNumbers": [
-        "5594275",
         "V836866392"
       ],
       "compatibility": [
-        "Caterpillar General",
-        "Global Mechanical Controls"
+        "Universal Industrial Core"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Caterpillar",
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A02-4",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar E336, 201-6616, 201-6617",
+      "oemNumbers": [
+        "188-7513"
+      ],
+      "compatibility": [
+        "Caterpillar E336",
+        "201-6616",
+        "201-6617"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-40",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Cummins Engine Blocks",
+      "name": "Revolution Sensor — Cummins Engine Series",
       "oemNumbers": [
         "4327230"
       ],
       "compatibility": [
-        "Cummins Engine Blocks"
+        "Cummins Engine Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-41",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Kubota Construction Units",
+      "name": "Revolution Sensor — Kubota Series",
       "oemNumbers": [
         "5H911-42622"
       ],
       "compatibility": [
-        "Kubota Construction Units"
+        "Kubota Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-42",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Kubota Construction Units",
+      "name": "Revolution Sensor — Kubota Series",
       "oemNumbers": [
         "T1060-18660"
       ],
       "compatibility": [
-        "Kubota Construction Units"
+        "Kubota Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-43",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Doosan Heavy Earthmoving",
+      "name": "Revolution Sensor — Doosan DX800",
       "oemNumbers": [
-        "DX800"
-      ],
-      "compatibility": [
-        "Doosan Heavy Earthmoving"
-      ],
-      "pages": [
-        "8"
-      ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
-      "section": "Section 2",
-      "confidence": "user-section-clean"
-    },
-    {
-      "catalogCode": "A02-44",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Bosch Rexroth Hydraulics",
-      "oemNumbers": [
-        "R901414438",
         "458-6031"
       ],
       "compatibility": [
-        "Bosch Rexroth Hydraulics"
+        "Doosan DX800"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
+    },
+    {
+      "catalogCode": "A02-44",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — JCB Series",
+      "oemNumbers": [
+        "320-09650"
+      ],
+      "compatibility": [
+        "JCB Series"
+      ],
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [],
+      "section": "Section 2",
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-45",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — JCB Systems",
+      "name": "Revolution Sensor — JCB Series",
       "oemNumbers": [
-        "716",
+        "JCB 716",
         "D2727"
       ],
       "compatibility": [
-        "JCB Systems"
+        "JCB Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-46",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — JCB Systems",
+      "name": "Revolution Sensor — JCB Series",
       "oemNumbers": [
-        "716",
+        "JCB 716",
         "D2729"
       ],
       "compatibility": [
-        "JCB Systems"
+        "JCB Series"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Miscellaneous"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-47",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Komatsu WA150-5, WA20L-5 Loaders",
+      "name": "Revolution Sensor — Rexroth Hydraulic Pump Line",
       "oemNumbers": [
-        "418-18-31502"
+        "R901414438"
       ],
       "compatibility": [
-        "Komatsu WA150-5",
-        "WA20L-5 Loaders"
+        "Rexroth Hydraulic Pump Line"
       ],
       "pages": [
         "8"
       ],
-      "brandGroups": [
-        "Komatsu"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-4A",
@@ -2814,157 +2700,136 @@
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-5",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Caterpillar General",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "201-6615"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-5A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Caterpillar General",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "216-3446"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-5B",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Caterpillar General",
+      "name": "Camshaft Sensor — Caterpillar Series",
       "oemNumbers": [
         "204-6204"
       ],
       "compatibility": [
-        "Caterpillar General"
+        "Caterpillar Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Caterpillar"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-6",
       "category": "Flywheel Speed Sensor",
       "description": "Flywheel Revolution Sensor",
-      "name": "Flywheel Revolution Sensor — Isuzu 6HK1, 6BG1, Sumitomo SH210-5",
+      "name": "Flywheel Revolution Sensor — Sumitomo SH210-5 (6HK1 / 6BG1 Engine)",
       "oemNumbers": [
         "1-81510343-2"
       ],
       "compatibility": [
-        "Isuzu 6HK1",
-        "6BG1",
-        "Sumitomo SH210-5"
+        "Sumitomo SH210-5 (6HK1 / 6BG1 Engine)"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-7",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Isuzu, Sumitomo Heavy Industries",
+      "name": "Revolution Sensor — Isuzu, Sumitomo Series",
       "oemNumbers": [
         "8-97240790-0"
       ],
       "compatibility": [
         "Isuzu",
-        "Sumitomo Heavy Industries"
+        "Sumitomo Series"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-8",
       "category": "Eccentric Shaft Speed Sensor",
       "description": "Eccentric Shaft Speed Sensor",
-      "name": "Eccentric Shaft Speed Sensor — Isuzu 4JJ1 Engine, Sumitomo SH160",
+      "name": "Eccentric Shaft Speed Sensor — Sumitomo SH160 (4JJ1 Engine)",
       "oemNumbers": [
         "8-97312108-1"
       ],
       "compatibility": [
-        "Isuzu 4JJ1 Engine",
-        "Sumitomo SH160"
+        "Sumitomo SH160 (4JJ1 Engine)"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A02-9",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Isuzu 4HK1, 6HK1, Sumitomo SH210-5",
+      "name": "Camshaft Sensor — Sumitomo SH210-5 (4HK1 / 6HK1 Engine)",
       "oemNumbers": [
         "8-98014831-0"
       ],
       "compatibility": [
-        "Isuzu 4HK1",
-        "6HK1",
-        "Sumitomo SH210-5"
+        "Sumitomo SH210-5 (4HK1 / 6HK1 Engine)"
       ],
       "pages": [
         "7"
       ],
-      "brandGroups": [
-        "Hitachi"
-      ],
+      "brandGroups": [],
       "section": "Section 2",
-      "confidence": "user-section-clean"
+      "confidence": "user-section2-v2"
     },
     {
       "catalogCode": "A03-1",

@@ -1,0 +1,155 @@
+Section 2: Revolution & Camshaft Sensors
+Part CodePart DescriptionOEM / Serial NumberMachine CompatibilityPage
+A01-1Revolution Sensor7861-93-2330Komatsu PC200-7, PC220-7Page 5
+A01-1ARevolution Sensor2055358Hitachi SeriesPage 5
+A01-1BRevolution SensorME844577Komatsu SK200-6, SK200-6EPage 5
+A01-2Revolution SensorME845235Komatsu SK200-3, SK200-5Page 5
+A01-2ARevolution Sensor7819-11-2310Komatsu WA500-1Page 5
+A01-2BRevolution Sensor7861-92-2330Komatsu PC200-5, PC200-6, PC220-6 (6D102 Engine)Page 5
+A01-2CRevolution Sensor59841-01290Komatsu SK200-8Page 5
+A01-3Revolution Sensor568-06-15610Komatsu WA470Page 5
+A01-3ARevolution Sensor363-06-31121Komatsu PC SeriesPage 5
+A01-4Switch SensorE2B-M30LS15-WP-B1Universal / IndustrialPage 5
+A01-5Revolution Sensor196-7973 / 125-2966Caterpillar E320Page 5
+A01-6Revolution Sensor324-4131Caterpillar E320DPage 5
+A01-6ARevolution Sensor51-7579Caterpillar E320C, E320BPage 5
+A01-7Revolution Sensor193-2550 / 1-2550Caterpillar E329 (Φ16 Thick Variant)Page 5
+A01-7ARevolution Sensor4P-5820 / 189-5746Caterpillar E330C, 325C (Φ19 Thick Variant)Page 5
+A01-7BRevolution Sensor212-3426Caterpillar SeriesPage 5
+A01-8Revolution SensorD04FR EngineKobelco SK130-8, SK140-8Page 5
+A01-9Revolution SensorME845235Kobelco SK200-3, SK200-5Page 5
+A01-10Revolution SensorME844577Kobelco SK200-6, SK200-6EPage 5
+A01-10ARevolution SensorMC867505Sany SeriesPage 5
+A01-11Revolution Sensor59841-01290Kobelco SK200-8Page 5
+A01-11ARevolution SensorSK200-8 / SK350-8Kobelco SK8 SeriesPage 5
+A01-12Fuel Pump Revolution SensorME755778 / 9443612071Mitsubishi 6D24 EnginePage 5
+A01-12AFuel Pump Revolution SensorME755970 / 9443613465Mitsubishi 6D16 EnginePage 5
+A01-13Revolution SensorEX New ModelHitachi EX SeriesPage 5
+A01-14Revolution Sensor4265372Hitachi EX200-1, EX200-2, EX200-3, EX200-5, EX120Page 5
+A01-15Revolution Sensor1-81510713-1Hitachi ZAX450 (6WG1 Engine)Page 5
+A01-16Revolution Sensor2547-1015Doosan DH220-5Page 5
+A01-17Revolution Sensor21E3-0042 / 3034572Hyundai R220-5Page 5
+A01-18Revolution Sensor94340-72411Hyundai R225-7Page 5
+A01-19Revolution Sensor1-81510553-1Sumitomo SH200A3Page 5
+A01-20Revolution Sensor3034572Cummins K19 EnginePage 5
+A01-21Revolution Sensor307815 / 4984223Liugong SeriesPage 5
+A01-21ARevolution Sensor (Dual Line)4327234Cummins Engine SeriesPage 5
+A01-21BRevolution Sensor4327233Cummins Engine SeriesPage 5
+A01-21CRevolution Sensor4327239 / 3408472Komatsu PC1250-7, Hitachi ZAX1200Page 5
+A01-22Revolution Sensor2872361Liugong 922D, 936DPage 6
+A01-23Revolution SensorLiugong 920D/ELiugong E-SeriesPage 6
+A01-24Revolution Sensor30B0202Liugong 907D, 908CDPage 6
+A01-25Revolution Sensor (New)J213-92A-240001Shanshan 913Page 6
+A01-26Revolution SensorRL11-61C000003AD-1Foton Lovol SeriesPage 6
+A01-27Pressure Switch / Rev Sensor290-5792Caterpillar SeriesPage 6
+A01-27APressure Switch / Rev Sensor196-1185Caterpillar SeriesPage 6
+A01-27BRevolution Sensor227-6744Caterpillar SeriesPage 6
+A01-27CRevolution Sensor265-9033Caterpillar 3508, 3512Page 6
+A01-27DRevolution Sensor258-4521Caterpillar SeriesPage 6
+A01-27ERevolution Sensor504-9586Caterpillar SeriesPage 6
+A01-27FRevolution Sensor253-2673Caterpillar SeriesPage 6
+A01-27GRevolution Sensor440-0257Caterpillar SeriesPage 6
+A01-27HRevolution Sensor458-0219Caterpillar SeriesPage 6
+A01-27IRevolution Sensor391-7125Caterpillar SeriesPage 6
+A01-27JRevolution Sensor574-8674Caterpillar SeriesPage 6
+A01-27KRevolution Sensor122-8863Caterpillar SeriesPage 6
+A01-28Pressure Switch / Rev SensorYuchai Engine CoreYuchai SeriesPage 6
+A01-29Revolution SensorCummins / Yuchai CoreCummins, Yuchai EnginesPage 6
+A01-30Revolution SensorT0411-17102Yuchai SeriesPage 6
+A01-31Revolution SensorT0411-17103Yuchai SeriesPage 6
+A01-32Revolution SensorT0411-17104Yuchai SeriesPage 6
+A01-33Revolution SensorZG105AShandong CarterPage 6
+A01-34Revolution SensorZG40-3/4-16UNFJonyang Mid-ExcavatorPage 6
+A01-35Revolution SensorG220-11-5TSWSZoomlion 150Page 6
+A01-36Revolution SensorXCMG Core LineXCMG SeriesPage 6
+A01-37Revolution SensorPerkins Engine CorePerkins B3.3 EnginePage 6
+A01-38Revolution SensorQ216005Universal / Heavy DutyPage 6
+A01-39Revolution Sensor266-8576Universal / IndustrialPage 6
+A01-40Revolution Sensor266-8576 VariantUniversal / IndustrialPage 6
+A01-41Revolution Sensor522-1643Caterpillar SeriesPage 6
+A01-41ARevolution Sensor522-1642Caterpillar 980GPage 6
+A01-42Revolution Sensor669 3921Bobcat SeriesPage 6
+A01-42ARevolution Sensor449298 HK450, SLX300Page 6
+A01-43Revolution Sensor668 4037Bobcat S100, S160Page 6
+A01-43ARevolution SensorRE287415John Deere SeriesPage 6
+A01-43BRevolution Sensor6658260Universal Engine LinePage 6
+A01-44Revolution SensorCummins K19 CoreCummins K19 EnginePage 6
+A01-45Revolution Sensor2868A006Perkins SeriesPage 6
+A01-46Revolution Sensor171-257Perkins SeriesPage 6
+A01-47Revolution Sensor171-233Perkins SeriesPage 7
+A01-48Revolution SensorM16x1.5x120mmPerkins Engine LinePage 7
+A01-49Revolution SensorM16x1.5Perkins Engine LinePage 7
+A01-50Revolution Sensor5/8 Five-Hole 4-PlugPerkins Engine LinePage 7
+A01-51Revolution Sensor171-232Perkins SeriesPage 7
+A01-52Revolution Sensor5/8 Two-Blade PlugUniversal Engine LinePage 7
+A01-53Revolution SensorM16x1.5 Two-Blade PlugUniversal Engine LinePage 7
+A01-54Revolution SensorM18x1.5 Two-Blade PlugUniversal Engine LinePage 7
+A01-55Revolution Sensor701-80312Universal Heavy MachineryPage 7
+A02-1Camshaft Sensor254-4630 / 169-3300Caterpillar E325CPage 7
+A02-1ACamshaft Sensor384-3887Caterpillar SeriesPage 7
+A02-1BCamshaft Sensor499-9117Caterpillar SeriesPage 7
+A02-1CCamshaft Sensor481-5928Caterpillar SeriesPage 7
+A02-2Camshaft Sensor238-0120Caterpillar E320DPage 7
+A02-2ACamshaft Sensor384-3888Caterpillar E320D2Page 7
+A02-2BCamshaft Sensor358-2398Caterpillar SeriesPage 7
+A02-2CCamshaft Sensor358-2399Caterpillar SeriesPage 7
+A02-3Camshaft Sensor319-6491Caterpillar SeriesPage 7
+A02-4Camshaft Sensor188-7513Caterpillar E336, 201-6616, 201-6617Page 7
+A02-4ACamshaft Sensor279-9828Caterpillar E345DPage 7
+A02-5Camshaft Sensor201-6615Caterpillar SeriesPage 7
+A02-5ACamshaft Sensor216-3446Caterpillar SeriesPage 7
+A02-5BCamshaft Sensor204-6204Caterpillar SeriesPage 7
+A02-6Flywheel Rev Sensor1-81510343-2Sumitomo SH210-5 (6HK1 / 6BG1 Engine)Page 7
+A02-7Revolution Sensor8-97240790-0Isuzu, Sumitomo SeriesPage 7
+A02-8Eccentric Shaft Rev Sensor8-97312108-1Sumitomo SH160 (4JJ1 Engine)Page 7
+A02-9Camshaft Sensor8-98014831-0Sumitomo SH210-5 (4HK1 / 6HK1 Engine)Page 7
+A02-10Revolution Sensor8-97306113-1Isuzu 4HK1, 6HK1 EnginesPage 7
+A02-10ARevolution SensorJCB Heavy LineJCB (4HK1 Engine Variant)Page 7
+A02-11Revolution Sensor8-97122324-0Isuzu SeriesPage 7
+A02-12Revolution Sensor8-94370581-0Isuzu SeriesPage 7
+A02-12ARevolution Sensor8-98019024-0Isuzu 4HK1, 6HK1 EnginesPage 7
+A02-13Revolution Sensor0118-2850Volvo, Liugong, DeutzPage 7
+A02-14Revolution Sensor0118-2834Volvo, Deutz EnginesPage 7
+A02-14ARevolution SensorVolvo Engine CoreVolvo D3.8 EnginePage 7
+A02-15Crankshaft SensorVOE20450707Volvo Heavy MachineryPage 7
+A02-16Camshaft SensorVOE20482772Volvo VO210 EnginePage 7
+A02-17Crankshaft Rev SensorVOE20508011Volvo VO360 SeriesPage 8
+A02-18Air Intake SensorVOE20700060Volvo VO360 SeriesPage 8
+A02-19Camshaft Sensor4123-840 / 0281002315Volvo VO480 SeriesPage 8
+A02-20Camshaft Sensor4921597Hyundai R265-7Page 8
+A02-21Camshaft Sensor4921599Hyundai R265-7Page 8
+A02-22Camshaft Sensor238-4676Hyundai SeriesPage 8
+A02-22ACamshaft Sensor6754-81-9410 / D4921684Komatsu PC200-8Page 8
+A02-22BCamshaft Sensor6261-81-2911 / D4921686Komatsu PC400-8Page 8
+| A02-23 | Camshaft Sensor | 6261-81-2902 | Komatsu PC400-8 | Page 8 |
+| A02-23A | Camshaft Sensor | 5011855AA / 4921601 | Cummins Engines | Page 8 |
+| A02-24 | Eccentric Shaft Sensor (3-Pin)| 6217-81-9210 | Komatsu PC400-7 | Page 8 |
+| A02-25 | Camshaft Sensor | 3405529 | Doosan DX380 | Page 8 |
+| A02-26 | Camshaft Sensor | S841-01590 | Kobelco SK350-8 (JO8E Engine) | Page 8 |
+| A02-26A | Crankshaft Sensor | 949979-1420 | Hino Engines, Kobelco | Page 8 |
+| A02-27 | Crankshaft Sensor (Long Line) | VA32G9000600 | Kobelco SK130-8, SK140-8 (D04FR Engine) | Page 8 |
+| A02-27A | Revolution Sensor | Sany Core Line | Sany Series | Page 8 |
+| A02-28 | Camshaft Sensor | S8941-01570 | Kobelco SK200-8 (JO5 Engine) | Page 8 |
+| A02-28A | Camshaft Sensor | 1855-781C91 | Perkins Engines | Page 8 |
+| A02-28B | Camshaft Sensor | Perkins Engine Core | Perkins Series | Page 8 |
+| A02-29 | Camshaft Sensor | 716-30123 | JCB Series | Page 8 |
+| A02-29A | Camshaft Sensor | ZGAO-00651 | Universal Engine Core | Page 8 |
+| A02-30 | Crankshaft Sensor | VH89411E0050 (2-Pin Variant) | Doosan DX260-9 | Page 8 |
+| A02-31 | Flywheel Camshaft Sensor | 1319158 | Kobelco SK350-8 (JO5 Engine) | Page 8 |
+| A02-32 | Camshaft Sensor | Doosan DX380 SCANIA | Doosan Scania-Powered Line | Page 8 |
+| A02-32A | Camshaft Sensor | Doosan DX380 Variant | Doosan Series | Page 8 |
+| A02-33 | Camshaft Sensor | Doosan DX470 SCANIA | Doosan Scania-Powered Line | Page 8 |
+| A02-34 | Camshaft Sensor | 158557-61720 | Yanmar, Kubota Engines | Page 8 |
+| A02-35 | Camshaft Sensor | 4M50 Engine Core | Kato HD820-5 | Page 8 |
+| A02-36 | Camshaft Sensor | 11442694 | Liebherr Series | Page 8 |
+| A02-37 | Camshaft Sensor | RE51944 | John Deere Series | Page 8 |
+| A02-38 | Camshaft Sensor | RE295936 | John Deere Series | Page 8 |
+| A02-39 | Revolution Sensor | V836866392 | Universal Industrial Core | Page 8 |
+| A02-40 | Revolution Sensor | 4327230 | Cummins Engine Series | Page 8 |
+| A02-41 | Revolution Sensor | 5H911-42622 | Kubota Series | Page 8 |
+| A02-42 | Revolution Sensor | T1060-18660 | Kubota Series | Page 8 |
+| A02-43 | Revolution Sensor | 458-6031 | Doosan DX800 | Page 8 |
+| A02-44 | Revolution Sensor | 320-09650 | JCB Series | Page 8 |
+| A02-45 | Revolution Sensor | JCB 716/D2727 | JCB Series | Page 8 |
+| A02-46 | Revolution Sensor | JCB 716/D2729 | JCB Series | Page 8 |
+| A02-47 | Revolution Sensor | R901414438 | Rexroth Hydraulic Pump Line | Page 8 |
