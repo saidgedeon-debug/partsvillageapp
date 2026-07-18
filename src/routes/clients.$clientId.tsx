@@ -1,0 +1,164 @@
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { ArrowLeft, Mail, Phone, MapPin, Truck } from "lucide-react";
+
+import { PageHeader } from "@/components/app/page-header";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import {
+  clientById,
+  machinesByClient,
+  ordersByClient,
+  ordersByMachine,
+  partById,
+  currency,
+} from "@/lib/mock-data";
+
+export const Route = createFileRoute("/clients/$clientId")({
+  loader: ({ params }) => {
+    const client = clientById(params.clientId);
+    if (!client) throw notFound();
+    return { client };
+  },
+  head: ({ loaderData }) => ({
+    meta: [
+      { title: loaderData ? `${loaderData.client.name} — Parts Village` : "Client — Parts Village" },
+      { name: "description", content: "Client fleet, machines, and full parts order history." },
+    ],
+  }),
+  notFoundComponent: NotFound,
+  errorComponent: ErrorView,
+  component: ClientDetail,
+});
+
+function NotFound() {
+  return (
+    <div className="p-10 text-center">
+      <p className="text-muted-foreground">Client not found.</p>
+      <Link to="/clients" className="text-accent hover:underline">Back to clients</Link>
+    </div>
+  );
+}
+
+function ErrorView({ reset }: { error: Error; reset: () => void }) {
+  return (
+    <div className="p-10 text-center">
+      <p className="text-muted-foreground">Something went wrong loading this client.</p>
+      <Button onClick={reset} variant="outline" className="mt-4">Retry</Button>
+    </div>
+  );
+}
+
+function ClientDetail() {
+  const { client } = Route.useLoaderData();
+  const fleet = machinesByClient(client.id);
+  const allOrders = ordersByClient(client.id);
+  const spend = allOrders.reduce(
+    (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
+    0,
+  );
+
+  return (
+    <>
+      <PageHeader title={client.name} subtitle={client.contactName} />
+      <main className="flex-1 space-y-6 p-4 md:p-6">
+        <div className="flex items-center gap-2">
+          <Button asChild variant="ghost" size="sm">
+            <Link to="/clients"><ArrowLeft className="mr-1 h-4 w-4" /> All clients</Link>
+          </Button>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <Card className="md:col-span-2">
+            <CardHeader><CardTitle className="text-base">Contact</CardTitle></CardHeader>
+            <CardContent className="grid gap-2 text-sm md:grid-cols-2">
+              <p className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" />{client.email}</p>
+              <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent" />{client.phone}</p>
+              <p className="flex items-center gap-2 md:col-span-2"><MapPin className="h-4 w-4 text-accent" />{client.address}</p>
+            </CardContent>
+          </Card>
+          <Card className="border-accent/40 bg-gradient-to-br from-card to-accent/5">
+            <CardHeader className="pb-2"><CardTitle className="text-xs uppercase tracking-wide text-muted-foreground">Lifetime Spend</CardTitle></CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-foreground">{currency(spend)}</div>
+              <p className="mt-1 text-xs text-muted-foreground">{allOrders.length} orders · {fleet.length} machines</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="flex items-center gap-2 text-lg font-semibold"><Truck className="h-5 w-5 text-accent" /> Fleet & Order History</h2>
+          {fleet.map((m) => {
+            const mOrders = ordersByMachine(m.id);
+            const mSpend = mOrders.reduce(
+              (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
+              0,
+            );
+            return (
+              <Card key={m.id}>
+                <CardHeader className="flex flex-row items-start justify-between gap-4 pb-3">
+                  <div>
+                    <CardTitle className="text-base">{m.make} {m.model}</CardTitle>
+                    <p className="mt-1 font-mono text-xs text-muted-foreground">
+                      Serial {m.serialNumber} · {m.year} · {m.hours.toLocaleString()} hrs
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold">{currency(mSpend)}</p>
+                    <p className="text-xs text-muted-foreground">{mOrders.length} orders</p>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                  {mOrders.length === 0 ? (
+                    <p className="p-4 text-sm text-muted-foreground">No orders yet for this machine.</p>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Order</TableHead>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Parts</TableHead>
+                          <TableHead className="text-right">Total</TableHead>
+                          <TableHead className="text-right">Status</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {mOrders.map((o) => {
+                          const total = o.lines.reduce((s, l) => s + l.qty * l.unitPrice, 0);
+                          return (
+                            <TableRow key={o.id}>
+                              <TableCell className="font-mono text-xs">{o.id.toUpperCase()}</TableCell>
+                              <TableCell>{o.date}</TableCell>
+                              <TableCell className="text-sm">
+                                {o.lines.map((l) => {
+                                  const p = partById(l.partId);
+                                  return (
+                                    <div key={l.partId} className="text-muted-foreground">
+                                      <span className="font-mono text-xs text-foreground">{p?.partNumber}</span>{" "}
+                                      — {p?.name} <span className="text-xs">×{l.qty}</span>
+                                    </div>
+                                  );
+                                })}
+                              </TableCell>
+                              <TableCell className="text-right font-semibold">{currency(total)}</TableCell>
+                              <TableCell className="text-right">
+                                <Badge variant={o.status === "Paid" ? "default" : o.status === "Pending" ? "secondary" : "outline"}>
+                                  {o.status}
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </main>
+    </>
+  );
+}
