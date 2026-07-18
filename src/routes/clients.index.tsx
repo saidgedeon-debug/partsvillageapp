@@ -1,12 +1,14 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
-import { Users, ChevronRight, Truck } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import { Users, ChevronRight, Truck, Plus } from "lucide-react";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useParties } from "@/components/app/parties-context";
+import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { machinesByClient, ordersByClient } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/clients/")({
@@ -22,6 +24,8 @@ export const Route = createFileRoute("/clients/")({
 function ClientsPage() {
   const { query } = useSearch();
   const { clients } = useParties();
+  const navigate = useNavigate();
+  const [addOpen, setAddOpen] = useState(false);
   const q = query.trim().toLowerCase();
 
   const rows = useMemo(() => {
@@ -32,6 +36,8 @@ function ClientsPage() {
         c.name.toLowerCase().includes(q) ||
         c.contactName.toLowerCase().includes(q) ||
         c.email.toLowerCase().includes(q) ||
+        c.phone.toLowerCase().includes(q) ||
+        (c.notes ?? "").toLowerCase().includes(q) ||
         fleet.some(
           (m) =>
             m.serialNumber.toLowerCase().includes(q) ||
@@ -45,6 +51,13 @@ function ClientsPage() {
     <>
       <PageHeader title="Clients CRM" subtitle={`${rows.length} of ${clients.length} clients`} />
       <main className="flex-1 space-y-3 p-4 md:p-6">
+        <div className="flex justify-end">
+          <Button type="button" className="gap-1.5" onClick={() => setAddOpen(true)}>
+            <Plus className="h-4 w-4" />
+            Add client
+          </Button>
+        </div>
+
         {rows.map((c) => {
           const fleet = machinesByClient(c.id);
           const orderCount = ordersByClient(c.id).length;
@@ -63,7 +76,8 @@ function ClientsPage() {
                       </Badge>
                     </div>
                     <p className="truncate text-sm text-muted-foreground">
-                      {[c.contactName, c.email, c.phone].filter(Boolean).join(" · ") || "No contact yet"}
+                      {[c.contactName, c.email, c.phone].filter(Boolean).join(" · ") ||
+                        "No contact yet — open to add details"}
                     </p>
                   </div>
                   <div className="hidden items-center gap-2 md:flex">
@@ -83,12 +97,27 @@ function ClientsPage() {
         })}
         {rows.length === 0 && (
           <div className="py-16 text-center text-sm text-muted-foreground">
-            {clients.length === 0
-              ? "No clients yet — create one when finishing a quotation or invoice."
-              : `No clients match “${query}”.`}
+            {clients.length === 0 ? (
+              <div className="space-y-3">
+                <p>No clients yet.</p>
+                <Button type="button" onClick={() => setAddOpen(true)} className="gap-1.5">
+                  <Plus className="h-4 w-4" />
+                  Add first client
+                </Button>
+              </div>
+            ) : (
+              `No clients match “${query}”.`
+            )}
           </div>
         )}
       </main>
+
+      <PartyFormDialog
+        open={addOpen}
+        onOpenChange={setAddOpen}
+        kind="client"
+        onSaved={(p) => navigate({ to: "/clients/$clientId", params: { clientId: p.id } })}
+      />
     </>
   );
 }

@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Mail, Phone, MapPin, Truck } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, Mail, Phone, MapPin, Truck, Pencil, StickyNote } from "lucide-react";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useParties } from "@/components/app/parties-context";
+import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -29,6 +31,7 @@ export const Route = createFileRoute("/clients/$clientId")({
 function ClientDetail() {
   const { clientId } = Route.useParams();
   const { clients } = useParties();
+  const [editOpen, setEditOpen] = useState(false);
   const client = clients.find((c) => c.id === clientId) ?? clientById(clientId);
 
   if (!client) {
@@ -53,11 +56,15 @@ function ClientDetail() {
     <>
       <PageHeader title={client.name} subtitle={client.contactName || "Saved client"} />
       <main className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Button asChild variant="ghost" size="sm">
             <Link to="/clients">
               <ArrowLeft className="mr-1 h-4 w-4" /> All clients
             </Link>
+          </Button>
+          <Button type="button" size="sm" className="gap-1.5" onClick={() => setEditOpen(true)}>
+            <Pencil className="h-3.5 w-3.5" />
+            Edit details
           </Button>
         </div>
 
@@ -79,6 +86,12 @@ function ClientDetail() {
                 <MapPin className="h-4 w-4 text-accent" />
                 {client.address || "—"}
               </p>
+              {client.notes && (
+                <p className="flex items-start gap-2 md:col-span-2">
+                  <StickyNote className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  {client.notes}
+                </p>
+              )}
             </CardContent>
           </Card>
           <Card className="border-accent/40 bg-gradient-to-br from-card to-accent/5">
@@ -187,6 +200,8 @@ function ClientDetail() {
           })}
         </div>
       </main>
+
+      <PartyFormDialog open={editOpen} onOpenChange={setEditOpen} kind="client" party={client} />
     </>
   );
 }

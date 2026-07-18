@@ -14,6 +14,8 @@ import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as ClientsIndexRouteImport } from './routes/clients.index'
 import { Route as ClientsClientIdRouteImport } from './routes/clients.$clientId'
+import { Route as SuppliersIndexRouteImport } from './routes/suppliers.index'
+import { Route as SuppliersSupplierIdRouteImport } from './routes/suppliers.$supplierId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,20 +42,34 @@ const ClientsClientIdRoute = ClientsClientIdRouteImport.update({
   path: '/clients/$clientId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SuppliersIndexRoute = SuppliersIndexRouteImport.update({
+  id: '/suppliers/',
+  path: '/suppliers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuppliersSupplierIdRoute = SuppliersSupplierIdRouteImport.update({
+  id: '/suppliers/$supplierId',
+  path: '/suppliers/$supplierId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
+  '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients/': typeof ClientsIndexRoute
+  '/suppliers/': typeof SuppliersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
+  '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients': typeof ClientsIndexRoute
+  '/suppliers': typeof SuppliersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,21 +77,38 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
+  '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients/': typeof ClientsIndexRoute
+  '/suppliers/': typeof SuppliersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/documents' | '/inventory' | '/clients/$clientId' | '/clients/'
+    | '/'
+    | '/documents'
+    | '/inventory'
+    | '/clients/$clientId'
+    | '/suppliers/$supplierId'
+    | '/clients/'
+    | '/suppliers/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/documents' | '/inventory' | '/clients/$clientId' | '/clients'
+  to:
+    | '/'
+    | '/documents'
+    | '/inventory'
+    | '/clients/$clientId'
+    | '/suppliers/$supplierId'
+    | '/clients'
+    | '/suppliers'
   id:
     | '__root__'
     | '/'
     | '/documents'
     | '/inventory'
     | '/clients/$clientId'
+    | '/suppliers/$supplierId'
     | '/clients/'
+    | '/suppliers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,7 +116,9 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   InventoryRoute: typeof InventoryRoute
   ClientsClientIdRoute: typeof ClientsClientIdRoute
+  SuppliersSupplierIdRoute: typeof SuppliersSupplierIdRoute
   ClientsIndexRoute: typeof ClientsIndexRoute
+  SuppliersIndexRoute: typeof SuppliersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -123,6 +158,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientsClientIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/suppliers/': {
+      id: '/suppliers/'
+      path: '/suppliers'
+      fullPath: '/suppliers/'
+      preLoaderRoute: typeof SuppliersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suppliers/$supplierId': {
+      id: '/suppliers/$supplierId'
+      path: '/suppliers/$supplierId'
+      fullPath: '/suppliers/$supplierId'
+      preLoaderRoute: typeof SuppliersSupplierIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -131,7 +180,9 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   InventoryRoute: InventoryRoute,
   ClientsClientIdRoute: ClientsClientIdRoute,
+  SuppliersSupplierIdRoute: SuppliersSupplierIdRoute,
   ClientsIndexRoute: ClientsIndexRoute,
+  SuppliersIndexRoute: SuppliersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
