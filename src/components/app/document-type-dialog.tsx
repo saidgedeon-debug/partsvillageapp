@@ -18,8 +18,7 @@ const options: { kind: DocumentKind; label: string; hint: string; icon: typeof F
 ];
 
 export function DocumentTypeDialog() {
-  const { pendingPart, clearPendingPart, confirmDocumentAndAdd, documentKind, addPart, setCartOpen } =
-    useCart();
+  const { pendingPart, clearPendingPart, confirmDocumentAndAdd } = useCart();
 
   const open = Boolean(pendingPart);
 
@@ -29,19 +28,6 @@ export function DocumentTypeDialog() {
   };
 
   const onPick = (kind: DocumentKind) => {
-    if (documentKind && documentKind !== kind) {
-      // Switching document type mid-cart — keep cart, update type
-      confirmDocumentAndAdd(kind);
-      toast.success(`Added to ${kind} cart`);
-      return;
-    }
-    if (documentKind === kind && pendingPart) {
-      addPart(pendingPart, 1);
-      clearPendingPart();
-      setCartOpen(true);
-      toast.success("Added to cart");
-      return;
-    }
     confirmDocumentAndAdd(kind);
     toast.success(`Started ${kind} cart`);
   };

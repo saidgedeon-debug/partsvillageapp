@@ -6,6 +6,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { toast } from "sonner";
 
 import type { Part } from "@/lib/mock-data";
 
@@ -78,9 +79,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const askDocumentForPart = useCallback((part: Part) => {
-    setPendingPart(part);
-  }, []);
+  const askDocumentForPart = useCallback(
+    (part: Part) => {
+      // After the first document type is chosen, later clicks go straight into the cart
+      if (documentKind) {
+        addPart(part, 1);
+        setCartOpen(true);
+        toast.success(`Added ${part.partNumber} to cart`);
+        return;
+      }
+      setPendingPart(part);
+    },
+    [addPart, documentKind],
+  );
 
   const clearPendingPart = useCallback(() => setPendingPart(null), []);
 
