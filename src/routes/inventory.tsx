@@ -345,10 +345,10 @@ function InventoryPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Box</TableHead>
+                  {isORings && <TableHead>Box</TableHead>}
                   <TableHead>Part #</TableHead>
-                  <TableHead>ID (mm)</TableHead>
-                  <TableHead>CS (mm)</TableHead>
+                  {isORings && <TableHead>ID (mm)</TableHead>}
+                  {isORings && <TableHead>CS (mm)</TableHead>}
                   <TableHead>Category</TableHead>
                   <TableHead className="text-right">Qty</TableHead>
                   <TableHead className="text-right">Cost</TableHead>
@@ -362,12 +362,18 @@ function InventoryPage() {
                   const low = p.quantity > 0 && p.quantity <= p.reorderAt;
                   return (
                     <TableRow key={p.id}>
-                      <TableCell className="font-mono text-xs text-muted-foreground">
-                        {p.boxNumber ?? "—"}
-                      </TableCell>
+                      {isORings && (
+                        <TableCell className="font-mono text-xs text-muted-foreground">
+                          {p.boxNumber ?? "—"}
+                        </TableCell>
+                      )}
                       <TableCell className="font-mono text-xs font-medium">{p.partNumber}</TableCell>
-                      <TableCell className="font-mono text-xs">{p.insideDiameterMm || "—"}</TableCell>
-                      <TableCell className="font-mono text-xs">{p.crossSectionMm || "—"}</TableCell>
+                      {isORings && (
+                        <TableCell className="font-mono text-xs">{p.insideDiameterMm || "—"}</TableCell>
+                      )}
+                      {isORings && (
+                        <TableCell className="font-mono text-xs">{p.crossSectionMm || "—"}</TableCell>
+                      )}
                       <TableCell>
                         <Badge variant="secondary">{p.category}</Badge>
                       </TableCell>
@@ -426,7 +432,10 @@ function InventoryPage() {
                 })}
                 {rows.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={10} className="py-12 text-center text-sm text-muted-foreground">
+                    <TableCell
+                      colSpan={isORings ? 10 : 7}
+                      className="py-12 text-center text-sm text-muted-foreground"
+                    >
                       {parts.length === 0
                         ? "No parts yet."
                         : filterActive

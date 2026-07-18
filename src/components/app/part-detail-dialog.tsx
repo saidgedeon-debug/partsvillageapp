@@ -167,10 +167,17 @@ export function PartDetailDialog({
             <div className="sm:col-span-2">
               <Field label="Name" value={part.name} />
             </div>
-            <Field label="Box" value={part.boxNumber != null ? String(part.boxNumber) : ""} />
-            <Field label="Qty" value={part.quantity.toLocaleString()} />
-            <Field label="ID (mm)" value={part.insideDiameterMm ?? ""} />
-            <Field label="CS (mm)" value={part.crossSectionMm ?? ""} />
+            {part.category === "O-Rings" && (
+              <>
+                <Field label="Box" value={part.boxNumber != null ? String(part.boxNumber) : ""} />
+                <Field label="Qty" value={part.quantity.toLocaleString()} />
+                <Field label="ID (mm)" value={part.insideDiameterMm ?? ""} />
+                <Field label="CS (mm)" value={part.crossSectionMm ?? ""} />
+              </>
+            )}
+            {part.category !== "O-Rings" && (
+              <Field label="Qty" value={part.quantity.toLocaleString()} />
+            )}
             <Field label="Cost" value={part.cost > 0 ? currency(part.cost) : ""} />
             <Field label="Price" value={part.price > 0 ? currency(part.price) : ""} />
             <Field label="Reorder at" value={String(part.reorderAt)} />
@@ -205,42 +212,57 @@ export function PartDetailDialog({
               <Label htmlFor="part-name">Name</Label>
               <Input id="part-name" value={form.name} onChange={set("name")} />
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="part-box">Box</Label>
-              <Input
-                id="part-box"
-                inputMode="numeric"
-                value={form.boxNumber}
-                onChange={set("boxNumber")}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="part-qty">Qty</Label>
-              <Input
-                id="part-qty"
-                inputMode="numeric"
-                value={form.quantity}
-                onChange={set("quantity")}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="part-id">ID (mm)</Label>
-              <Input
-                id="part-id"
-                className="font-mono"
-                value={form.insideDiameterMm}
-                onChange={set("insideDiameterMm")}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="part-cs">CS (mm)</Label>
-              <Input
-                id="part-cs"
-                className="font-mono"
-                value={form.crossSectionMm}
-                onChange={set("crossSectionMm")}
-              />
-            </div>
+            {part.category === "O-Rings" && (
+              <>
+                <div className="space-y-1.5">
+                  <Label htmlFor="part-box">Box</Label>
+                  <Input
+                    id="part-box"
+                    inputMode="numeric"
+                    value={form.boxNumber}
+                    onChange={set("boxNumber")}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="part-qty">Qty</Label>
+                  <Input
+                    id="part-qty"
+                    inputMode="numeric"
+                    value={form.quantity}
+                    onChange={set("quantity")}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="part-id">ID (mm)</Label>
+                  <Input
+                    id="part-id"
+                    className="font-mono"
+                    value={form.insideDiameterMm}
+                    onChange={set("insideDiameterMm")}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="part-cs">CS (mm)</Label>
+                  <Input
+                    id="part-cs"
+                    className="font-mono"
+                    value={form.crossSectionMm}
+                    onChange={set("crossSectionMm")}
+                  />
+                </div>
+              </>
+            )}
+            {part.category !== "O-Rings" && (
+              <div className="space-y-1.5">
+                <Label htmlFor="part-qty">Qty</Label>
+                <Input
+                  id="part-qty"
+                  inputMode="numeric"
+                  value={form.quantity}
+                  onChange={set("quantity")}
+                />
+              </div>
+            )}
             <div className="space-y-1.5">
               <Label htmlFor="part-cost">Cost</Label>
               <Input
