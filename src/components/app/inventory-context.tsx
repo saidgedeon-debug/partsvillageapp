@@ -14,6 +14,7 @@ type PartOverride = Partial<
   Pick<
     Part,
     | "partNumber"
+    | "partNumbers"
     | "name"
     | "category"
     | "quantity"

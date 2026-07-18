@@ -26,8 +26,13 @@ import {
   defaultInventoryCategoryId,
   inventoryCategories,
 } from "@/lib/inventory-categories";
-import { currency, type Part } from "@/lib/mock-data";
+import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const Route = createFileRoute("/inventory")({
   head: () => ({
@@ -44,6 +49,57 @@ export const Route = createFileRoute("/inventory")({
 
 type SortMode = "size" | "box";
 type DialogMode = "view" | "edit";
+
+function PartNumbersCell({ part }: { part: Part }) {
+  const numbers = partNumbersOf(part);
+  const primary = numbers[0] ?? part.partNumber;
+  const extra = numbers.length - 1;
+
+  if (extra <= 0) {
+    return <span className="font-mono text-xs font-medium">{primary}</span>;
+  }
+
+  return (
+    <div className="inline-flex items-center gap-1.5">
+      <span className="font-mono text-xs font-medium">{primary}</span>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="h-6 min-w-6 gap-0 px-1.5 font-mono text-[11px]"
+            aria-label={`Show ${extra} more part number${extra === 1 ? "" : "s"}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            +{extra}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent align="start" className="w-56 p-3">
+          <p className="mb-2 text-xs font-medium text-muted-foreground">All part numbers</p>
+          <ul className="space-y-1.5">
+            {numbers.map((n, i) => (
+              <li
+                key={`${n}-${i}`}
+                className={cn(
+                  "font-mono text-xs",
+                  i === 0 ? "font-semibold text-foreground" : "text-muted-foreground",
+                )}
+              >
+                {n}
+                {i === 0 ? (
+                  <span className="ml-1.5 font-sans text-[10px] font-normal text-muted-foreground">
+                    primary
+                  </span>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
 
 function parseMm(value?: string): number | null {
   if (!value) return null;
@@ -131,8 +187,10 @@ function InventoryPage() {
     }
 
     if (q) {
-      list = list.filter(
-        (p) =>
+      list = list.filter((p) => {
+        const numbers = partNumbersOf(p).join(" ").toLowerCase();
+        return (
+          numbers.includes(q) ||
           p.partNumber.toLowerCase().includes(q) ||
           p.name.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
@@ -140,8 +198,9 @@ function InventoryPage() {
           (p.insideDiameterMm ?? "").toLowerCase().includes(q) ||
           (p.crossSectionMm ?? "").toLowerCase().includes(q) ||
           (p.notes ?? "").toLowerCase().includes(q) ||
-          p.compatibility.some((c) => c.toLowerCase().includes(q)),
-      );
+          p.compatibility.some((c) => c.toLowerCase().includes(q))
+        );
+      });
     }
 
     return sortParts(list, isORings ? sortMode : "box");
@@ -353,7 +412,6 @@ function InventoryPage() {
                   <TableHead className="text-right">Qty</TableHead>
                   <TableHead className="text-right">Cost</TableHead>
                   <TableHead className="text-right">Price</TableHead>
-                  <TableHead>Notes</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -367,7 +425,9 @@ function InventoryPage() {
                           {p.boxNumber ?? "—"}
                         </TableCell>
                       )}
-                      <TableCell className="font-mono text-xs font-medium">{p.partNumber}</TableCell>
+                      <TableCell>
+                        <PartNumbersCell part={p} />
+                      </TableCell>
                       {isORings && (
                         <TableCell className="font-mono text-xs">{p.insideDiameterMm || "—"}</TableCell>
                       )}
@@ -390,9 +450,6 @@ function InventoryPage() {
                       </TableCell>
                       <TableCell className="text-right font-semibold">
                         {p.price > 0 ? currency(p.price) : "—"}
-                      </TableCell>
-                      <TableCell className="max-w-[180px] truncate text-xs text-muted-foreground">
-                        {p.notes || "—"}
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex flex-wrap items-center justify-end gap-1">
@@ -433,7 +490,7 @@ function InventoryPage() {
                 {rows.length === 0 && (
                   <TableRow>
                     <TableCell
-                      colSpan={isORings ? 10 : 7}
+                      colSpan={isORings ? 9 : 6}
                       className="py-12 text-center text-sm text-muted-foreground"
                     >
                       {parts.length === 0

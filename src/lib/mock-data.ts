@@ -4,6 +4,8 @@ import { kafuParts } from "@/lib/kafu-inventory";
 export type Part = {
   id: string;
   partNumber: string;
+  /** Extra / OEM part numbers (shown via + when more than one total). */
+  partNumbers?: string[];
   name: string;
   category: string;
   quantity: number;
@@ -20,6 +22,33 @@ export type Part = {
   /** Bag breakdown or other notes. */
   notes?: string;
 };
+
+/** Primary + OEM / alternate part numbers for display. */
+export function partNumbersOf(part: Part): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  const add = (raw?: string) => {
+    const t = (raw ?? "").trim();
+    if (!t) return;
+    const key = t.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    out.push(t);
+  };
+
+  if (part.partNumbers?.length) {
+    for (const n of part.partNumbers) add(n);
+  } else {
+    add(part.partNumber);
+    const oemBlock = part.notes?.match(/OEM:\s*([^·]+)/i)?.[1];
+    if (oemBlock) {
+      for (const piece of oemBlock.split(/[,;]/)) add(piece);
+    }
+  }
+
+  if (out.length === 0) add(part.partNumber);
+  return out;
+}
 
 export type Machine = {
   id: string;

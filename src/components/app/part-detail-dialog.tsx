@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { currency, type Part } from "@/lib/mock-data";
+import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 
 type Mode = "view" | "edit";
 
@@ -28,7 +28,7 @@ type Props = {
 };
 
 type FormState = {
-  partNumber: string;
+  partNumbers: string;
   name: string;
   category: string;
   quantity: string;
@@ -44,7 +44,7 @@ type FormState = {
 
 function partToForm(part: Part): FormState {
   return {
-    partNumber: part.partNumber,
+    partNumbers: partNumbersOf(part).join("\n"),
     name: part.name,
     category: part.category,
     quantity: String(part.quantity),
@@ -97,8 +97,12 @@ export function PartDetailDialog({
 
   const save = () => {
     if (!part || !form) return;
-    if (!form.partNumber.trim()) {
-      toast.error("Part number is required");
+    const numbers = form.partNumbers
+      .split(/[\n,;]+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (numbers.length === 0) {
+      toast.error("At least one part number is required");
       return;
     }
     const qty = Number(form.quantity);
@@ -117,8 +121,9 @@ export function PartDetailDialog({
     }
 
     updatePart(part.id, {
-      partNumber: form.partNumber.trim(),
-      name: form.name.trim() || form.partNumber.trim(),
+      partNumber: numbers[0],
+      partNumbers: numbers,
+      name: form.name.trim() || numbers[0],
       category: form.category.trim() || part.category,
       quantity: qty,
       reorderAt: reorder,
@@ -133,7 +138,7 @@ export function PartDetailDialog({
         .filter(Boolean),
       notes: form.notes.trim() || undefined,
     });
-    toast.success(`Updated ${form.partNumber.trim()}`);
+    toast.success(`Updated ${numbers[0]}`);
     onModeChange?.("view");
     onOpenChange(false);
   };
@@ -162,7 +167,9 @@ export function PartDetailDialog({
 
         {mode === "view" ? (
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label="Part #" value={part.partNumber} />
+            <div className="sm:col-span-2">
+              <Field label="Part numbers" value={partNumbersOf(part).join(" · ")} />
+            </div>
             <Field label="Category" value={part.category} />
             <div className="sm:col-span-2">
               <Field label="Name" value={part.name} />
@@ -191,14 +198,19 @@ export function PartDetailDialog({
           </div>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label htmlFor="part-number">Part #</Label>
-              <Input
-                id="part-number"
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="part-numbers">Part numbers</Label>
+              <Textarea
+                id="part-numbers"
                 className="font-mono"
-                value={form.partNumber}
-                onChange={set("partNumber")}
+                rows={3}
+                placeholder={"Primary number on first line\nOEM / alternate on next lines"}
+                value={form.partNumbers}
+                onChange={set("partNumbers")}
               />
+              <p className="text-[11px] text-muted-foreground">
+                First line is primary. Extra numbers show as +N in the inventory list.
+              </p>
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="part-category">Category</Label>
