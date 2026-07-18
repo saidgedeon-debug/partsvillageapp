@@ -1,0 +1,47 @@
+Section 13: Solenoid Coils, Cartridge Valves, & Pilot Valve Manifolds (Pages 63–68)
+This section indexes hydraulic block component assemblies, replacement solenoid coils, pilot manifold units, and electro-hydraulic proportional cartridge valves from pages 63 to 68.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A22-1Proportional Solenoid Valve Coil121-1491 / 121-1490CAT E320B, E320CPage 63
+A22-2Hydraulic Pump Control Coil259-5274 / 111-4871CAT E320C, E325CPage 63
+A22-3Main Pump Solenoid Valve Stem312-5620 / 419-5574CAT E320D, E323DPage 63
+A22-3ARotary Solenoid Coil Unit386-3439 NodeCAT E320D2 SeriesPage 63
+A22-4Cartridge Valve Replacement Block425-4893 Block SpecCAT C7, C9 Valve InterfacesPage 63
+A22-15Heavy Proportional Stem Kit164-3692 Unit SpecCAT E320C Pilot ControlsPage 65
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A22-11Main Pump Control Solenoid CoilVOE 14518342 / 14529298VOLVO EC210B Hydraulic BlockPage 64
+A22-11APilot Manifold Cartridge ValveVOE 14616736 / 21714265VOLVO EC210D, EC220DPage 64
+A22-12Proportional Brake Solenoid Coil0428-7583 Unit SpecVOLVO / Deutz Engine ApplicationsPage 64
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A22-5Main Pump EPC Solenoid Valve Coil7834-40-2000 / 702-21-57400Komatsu PC200-5, PC220-5Page 63
+A22-6Proportional Cartridge Solenoid702-21-55901 / 20Y-06-21710Komatsu PC200-6, PC220-6Page 63
+A22-7Pilot Block Valve Solenoid Unit20Y-60-32121 / 7861-93-2310Komatsu PC200-7, PC220-7Page 64
+A22-8EPC Block Replacement Coil702-21-07010 / 7835-31-1002Komatsu PC200-8 (Main Valve Block)Page 64
+A22-8AProportional Flow Valve Stem702-21-07310 Line SpecKomatsu PC200-10Page 64
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A22-13Hydraulic Pump Stepping Coil Unit4257163 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 64
+A22-14Main Pump Proportional Coil Block4372497 / 4436535Hitachi ZAX200-1, ZAX210, ZAX230Page 65
+A22-14ACartridge Valve Solenoid Stem4614911 / 4448332Hitachi ZAX200-3, ZAX240-3 Main PumpsPage 65
+A22-14BMulti-Station Solenoid Pilot Coil4668260 Block SpecHitachi ZAX-5A, ZAX-5G SeriesPage 65
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A22-16Pilot Control Solenoid Valve Coil2523-9014 / 2543-9015Daewoo Doosan DH220-5Page 65
+A22-17Proportional Pressure Control Stem300513-00021 / 537-00010Doosan DX225, DX300Page 65
+A22-18High-Pressure Safety Shut-Off Coil21N6-43101 / 21N6-44101Hyundai R210-5, R225-7Page 65
+A22-19Proportional Reducing Valve Coil21Q6-30102 / 21Q6-32103Hyundai R210-9, R220-9Page 65
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A22-9Main Pump Proportional Solenoid UnitYN35V00041F1 / KDRDE5K-20Kobelco SK200-3, SK200-5Page 64
+A22-10Pilot Valve Block Solenoid StemYN35V00048F1 / KDRDE5K-31Kobelco SK200-6, SK200-6EPage 64
+A22-10AProportional Flow Valve AssemblyYN35V00052F1 / KDRDE5K-31/30C50Kobelco SK200-8, SK350-8Page 64
+A22-10BPilot Cartridge Reducing ValveKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 64
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A22-20Pilot Line Distribution Valve Coil60114798 / 60114799Sany SY215C, SY235C-9Page 66
+A22-21Main Pump Regulator Solenoid Coil10213169Liugong 920E, 925EPage 66
+A22-22Hydraulic Lock Cartridge & Coil1000168XCMG XE215C, XE215DPage 67
+A22-23Transmission Solenoid Cartridge Unit701/80184 Line SpecJCB 3CX, 4CX Backhoe LoadersPage 68
+A22-24Main Hydraulic Manifold Control CoilAT103035 / RE61812John Deere Equipment SeriesPage 68

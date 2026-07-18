@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_12_v2",
+  "status": "sections_2_to_13_v2",
   "supplier": "Kafu",
   "rawRows": 31,
-  "section12": 31,
-  "kept_prior": 1299,
-  "count": 1330,
+  "section13": 31,
+  "kept_prior": 1330,
+  "count": 1361,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -18,6 +18,7 @@
     "Cabin Wiring Harness",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
+    "Cartridge / Pilot Valve",
     "Circuit Diode",
     "Circuit Protection",
     "Common Rail / Injection Harness",
@@ -26974,6 +26975,676 @@
       ],
       "section": "Section 12",
       "confidence": "user-section12-v2"
+    },
+    {
+      "catalogCode": "A22-1",
+      "category": "Solenoid Coil",
+      "description": "Proportional Solenoid Valve Coil",
+      "name": "Proportional Solenoid Valve Coil — Caterpillar E320B, E320C",
+      "oemNumbers": [
+        "121-1491",
+        "121-1490"
+      ],
+      "compatibility": [
+        "Caterpillar E320B",
+        "E320C"
+      ],
+      "pages": [
+        "63"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-10",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Pilot Valve Block Solenoid Stem",
+      "name": "Pilot Valve Block Solenoid Stem — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN35V00048F1",
+        "KDRDE5K-31"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-10A",
+      "category": "Proportional Solenoid Valve",
+      "description": "Proportional Flow Valve Assembly",
+      "name": "Proportional Flow Valve Assembly — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "YN35V00052F1",
+        "KDRDE5K-31",
+        "30C50"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-10B",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Pilot Cartridge Reducing Valve",
+      "name": "Pilot Cartridge Reducing Valve — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141",
+        "KHR17530"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-11",
+      "category": "Solenoid Coil",
+      "description": "Main Pump Control Solenoid Coil",
+      "name": "Main Pump Control Solenoid Coil — Volvo EC210B Hydraulic Block",
+      "oemNumbers": [
+        "VOE 14518342",
+        "14529298"
+      ],
+      "compatibility": [
+        "Volvo EC210B Hydraulic Block"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-11A",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Pilot Manifold Cartridge Valve",
+      "name": "Pilot Manifold Cartridge Valve — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736",
+        "21714265"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-12",
+      "category": "Solenoid Coil",
+      "description": "Proportional Brake Solenoid Coil",
+      "name": "Proportional Brake Solenoid Coil — Volvo, Deutz Engine Applications",
+      "oemNumbers": [
+        "0428-7583"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz Engine Applications"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-13",
+      "category": "Solenoid Coil",
+      "description": "Hydraulic Pump Stepping Coil Unit",
+      "name": "Hydraulic Pump Stepping Coil Unit — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4257163",
+        "4148415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-14",
+      "category": "Solenoid Coil",
+      "description": "Main Pump Proportional Coil Block",
+      "name": "Main Pump Proportional Coil Block — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4372497",
+        "4436535"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-14A",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Cartridge Valve Solenoid Stem",
+      "name": "Cartridge Valve Solenoid Stem — Hitachi ZAX200-3, ZAX240-3 Main Pumps",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3 Main Pumps"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-14B",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Multi-Station Solenoid Pilot Coil",
+      "name": "Multi-Station Solenoid Pilot Coil — Hitachi ZAX-5A, ZAX-5G Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-5A",
+        "ZAX-5G Series"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-15",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Heavy Proportional Stem Kit",
+      "name": "Heavy Proportional Stem Kit — Caterpillar E320C Pilot Controls",
+      "oemNumbers": [
+        "164-3692"
+      ],
+      "compatibility": [
+        "Caterpillar E320C Pilot Controls"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-16",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Pilot Control Solenoid Valve Coil",
+      "name": "Pilot Control Solenoid Valve Coil — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-17",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Proportional Pressure Control Stem",
+      "name": "Proportional Pressure Control Stem — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021",
+        "537-00010"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-18",
+      "category": "Solenoid Coil",
+      "description": "High-Pressure Safety Shut-Off Coil",
+      "name": "High-Pressure Safety Shut-Off Coil — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-43101",
+        "21N6-44101"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-19",
+      "category": "Solenoid Coil",
+      "description": "Proportional Reducing Valve Coil",
+      "name": "Proportional Reducing Valve Coil — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30102",
+        "21Q6-32103"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "65"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-2",
+      "category": "Solenoid Coil",
+      "description": "Hydraulic Pump Control Coil",
+      "name": "Hydraulic Pump Control Coil — Caterpillar E320C, E325C",
+      "oemNumbers": [
+        "259-5274",
+        "111-4871"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E325C"
+      ],
+      "pages": [
+        "63"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-20",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Pilot Line Distribution Valve Coil",
+      "name": "Pilot Line Distribution Valve Coil — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "66"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-21",
+      "category": "Solenoid Coil",
+      "description": "Main Pump Regulator Solenoid Coil",
+      "name": "Main Pump Regulator Solenoid Coil — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "66"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-22",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Hydraulic Lock Cartridge & Coil",
+      "name": "Hydraulic Lock Cartridge & Coil — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "67"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-23",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Transmission Solenoid Cartridge Unit",
+      "name": "Transmission Solenoid Cartridge Unit — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "68"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-24",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Main Hydraulic Manifold Control Coil",
+      "name": "Main Hydraulic Manifold Control Coil — John Deere Equipment Series",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Equipment Series"
+      ],
+      "pages": [
+        "68"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-3",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Main Pump Solenoid Valve Stem",
+      "name": "Main Pump Solenoid Valve Stem — Caterpillar E320D, E323D",
+      "oemNumbers": [
+        "312-5620",
+        "419-5574"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D"
+      ],
+      "pages": [
+        "63"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-3A",
+      "category": "Solenoid Coil",
+      "description": "Rotary Solenoid Coil Unit",
+      "name": "Rotary Solenoid Coil Unit — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "63"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-4",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Cartridge Valve Replacement Block",
+      "name": "Cartridge Valve Replacement Block — Caterpillar C7, C9 Valve Interfaces",
+      "oemNumbers": [
+        "425-4893"
+      ],
+      "compatibility": [
+        "Caterpillar C7",
+        "C9 Valve Interfaces"
+      ],
+      "pages": [
+        "63"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-5",
+      "category": "Solenoid Coil",
+      "description": "Main Pump EPC Solenoid Valve Coil",
+      "name": "Main Pump EPC Solenoid Valve Coil — Komatsu PC200-5, PC220-5",
+      "oemNumbers": [
+        "7834-40-2000",
+        "702-21-57400"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5"
+      ],
+      "pages": [
+        "63"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-6",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Proportional Cartridge Solenoid",
+      "name": "Proportional Cartridge Solenoid — Komatsu PC200-6, PC220-6",
+      "oemNumbers": [
+        "702-21-55901",
+        "20Y-06-21710"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "63"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-7",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Pilot Block Valve Solenoid Unit",
+      "name": "Pilot Block Valve Solenoid Unit — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "20Y-60-32121",
+        "7861-93-2310"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-8",
+      "category": "Solenoid Coil",
+      "description": "EPC Block Replacement Coil",
+      "name": "EPC Block Replacement Coil — Komatsu PC200-8 (Main Valve Block)",
+      "oemNumbers": [
+        "702-21-07010",
+        "7835-31-1002"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8 (Main Valve Block)"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-8A",
+      "category": "Cartridge / Pilot Valve",
+      "description": "Proportional Flow Valve Stem",
+      "name": "Proportional Flow Valve Stem — Komatsu PC200-10",
+      "oemNumbers": [
+        "702-21-07310"
+      ],
+      "compatibility": [
+        "Komatsu PC200-10"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
+    },
+    {
+      "catalogCode": "A22-9",
+      "category": "Proportional Solenoid Valve",
+      "description": "Main Pump Proportional Solenoid Unit",
+      "name": "Main Pump Proportional Solenoid Unit — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN35V00041F1",
+        "KDRDE5K-20"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "64"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 13",
+      "confidence": "user-section13-v2"
     }
   ]
 }
