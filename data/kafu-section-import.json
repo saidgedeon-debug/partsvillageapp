@@ -1,11 +1,13 @@
 {
-  "status": "sections_2_to_18_v2",
+  "status": "sections_2_to_19_v2",
   "supplier": "Kafu",
   "rawRows": 31,
-  "section18": 31,
-  "kept_prior": 1485,
-  "count": 1516,
+  "section19": 31,
+  "kept_prior": 1516,
+  "count": 1547,
   "categories": [
+    "AC Clutch Assembly",
+    "AC Compressor",
     "Air Alarm Sensor",
     "Air Intake Sensor",
     "Air Pressure Sensor",
@@ -25,6 +27,7 @@
     "Circuit Diode",
     "Circuit Protection",
     "Climate / Temperature Control",
+    "Climate Control Component",
     "Common Rail / Injection Harness",
     "Common Rail Sensor",
     "Common Rail Valve",
@@ -30983,6 +30986,675 @@
       ],
       "section": "Section 18",
       "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A28-1",
+      "category": "AC Compressor",
+      "description": "AC Compressor Assembly (24V)",
+      "name": "AC Compressor Assembly (24V) — Caterpillar E320B (3066 Engine)",
+      "oemNumbers": [
+        "106-5122",
+        "5I-7578"
+      ],
+      "compatibility": [
+        "Caterpillar E320B (3066 Engine)"
+      ],
+      "pages": [
+        "99"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-10",
+      "category": "AC Compressor",
+      "description": "AC Compressor Assembly",
+      "name": "AC Compressor Assembly — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "ME049233",
+        "ME069120"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-10A",
+      "category": "AC Compressor",
+      "description": "Heavy Duty Compressor Unit",
+      "name": "Heavy Duty Compressor Unit — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "ME443653",
+        "YT24C00014F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-10B",
+      "category": "AC Compressor",
+      "description": "Integrated AC Compressor Setup",
+      "name": "Integrated AC Compressor Setup — Kobelco SK200-8, SK350-8 (J05E Engine)",
+      "oemNumbers": [
+        "S8941-01570",
+        "LC50S00010P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8 (J05E Engine)"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-10C",
+      "category": "AC Compressor",
+      "description": "Climate Control AC Compressor",
+      "name": "Climate Control AC Compressor — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141",
+        "KHR17530"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-11",
+      "category": "AC Compressor",
+      "description": "Climate Control AC Compressor",
+      "name": "Climate Control AC Compressor — Volvo EC210B (D6E Engine)",
+      "oemNumbers": [
+        "VOE 14518342",
+        "11444494"
+      ],
+      "compatibility": [
+        "Volvo EC210B (D6E Engine)"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-11A",
+      "category": "AC Compressor",
+      "description": "Heavy Infrastructure AC Unit",
+      "name": "Heavy Infrastructure AC Unit — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736",
+        "15048183"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-12",
+      "category": "Climate Control Component",
+      "description": "Thermal Expansion Valve",
+      "name": "Thermal Expansion Valve — Volvo, Deutz Cabin Evaporators",
+      "oemNumbers": [
+        "0118-2850"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz Cabin Evaporators"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-13",
+      "category": "AC Compressor",
+      "description": "AC Compressor Assembly",
+      "name": "AC Compressor Assembly — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4257163",
+        "4148415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "101"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-14",
+      "category": "AC Compressor",
+      "description": "Heavy Scroll AC Compressor",
+      "name": "Heavy Scroll AC Compressor — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4360297",
+        "4443849"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "101"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-14A",
+      "category": "AC Compressor",
+      "description": "AC Compressor System (24V)",
+      "name": "AC Compressor System (24V) — Hitachi ZAX200-3, ZAX240-3",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3"
+      ],
+      "pages": [
+        "101"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-14B",
+      "category": "Climate Control Component",
+      "description": "Temperature Regulation Thermostat",
+      "name": "Temperature Regulation Thermostat — Isuzu Cabin Controls",
+      "oemNumbers": [
+        "1-82550-3250"
+      ],
+      "compatibility": [
+        "Isuzu Cabin Controls"
+      ],
+      "pages": [
+        "101"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-16",
+      "category": "AC Compressor",
+      "description": "AC Compressor Array (24V)",
+      "name": "AC Compressor Array (24V) — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "101"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-17",
+      "category": "AC Compressor",
+      "description": "Heavy Infrastructure AC Unit",
+      "name": "Heavy Infrastructure AC Unit — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021",
+        "537-00010"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "102"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-18",
+      "category": "AC Compressor",
+      "description": "AC Compressor Assembly",
+      "name": "AC Compressor Assembly — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-90010",
+        "21N6-90011"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "102"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-19",
+      "category": "AC Compressor",
+      "description": "Smart Variable AC Compressor",
+      "name": "Smart Variable AC Compressor — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30102",
+        "21Q6-32103"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "102"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-2",
+      "category": "AC Compressor",
+      "description": "Heavy-Duty AC Compressor",
+      "name": "Heavy-Duty AC Compressor — Caterpillar E320C, E325C",
+      "oemNumbers": [
+        "183-5100",
+        "241-8368"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E325C"
+      ],
+      "pages": [
+        "99"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-20",
+      "category": "AC Compressor",
+      "description": "AC Compressor System",
+      "name": "AC Compressor System — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "102"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-21",
+      "category": "AC Compressor",
+      "description": "Integrated AC Rig Assembly",
+      "name": "Integrated AC Rig Assembly — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "103"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-22",
+      "category": "AC Compressor",
+      "description": "AC Compressor Module",
+      "name": "AC Compressor Module — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "103"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-23",
+      "category": "AC Compressor",
+      "description": "Heavy Mechanical AC Unit (12V)",
+      "name": "Heavy Mechanical AC Unit (12V) — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184",
+        "320",
+        "04046"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "104"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-24H",
+      "category": "Climate Control Component",
+      "description": "VAC Receiver Drier / Switch",
+      "name": "VAC Receiver Drier / Switch — John Deere Infrastructure Engine Series",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Infrastructure Engine Series"
+      ],
+      "pages": [
+        "104"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-3",
+      "category": "AC Clutch Assembly",
+      "description": "AC Compressor (7SBU16C Clutch)",
+      "name": "AC Compressor (7SBU16C Clutch) — Caterpillar E320D, E323D (C6.4 Engine)",
+      "oemNumbers": [
+        "309-5769",
+        "349-7378"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D (C6.4 Engine)"
+      ],
+      "pages": [
+        "99"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-3A",
+      "category": "AC Compressor",
+      "description": "Balanced Air Compressor Unit",
+      "name": "Balanced Air Compressor Unit — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439",
+        "375-6988"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "99"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-4",
+      "category": "AC Clutch Assembly",
+      "description": "Electromagnetic Clutch Assembly",
+      "name": "Electromagnetic Clutch Assembly — Caterpillar AC Systems",
+      "oemNumbers": [
+        "105-2240"
+      ],
+      "compatibility": [
+        "Caterpillar AC Systems"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-5H",
+      "category": "Climate Control Component",
+      "description": "VAC Blower Motor Resistor",
+      "name": "VAC Blower Motor Resistor — Caterpillar Cabin Climate Controls",
+      "oemNumbers": [
+        "131-0427"
+      ],
+      "compatibility": [
+        "Caterpillar Cabin Climate Controls"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-6",
+      "category": "AC Compressor",
+      "description": "AC Compressor (10S15C System)",
+      "name": "AC Compressor (10S15C System) — Komatsu PC200-5, PC220-5",
+      "oemNumbers": [
+        "20Y-979-3110",
+        "195-5454"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5"
+      ],
+      "pages": [
+        "99"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-7",
+      "category": "AC Compressor",
+      "description": "AC Compressor Assembly",
+      "name": "AC Compressor Assembly — Komatsu PC200-6, PC220-6",
+      "oemNumbers": [
+        "20Y-979-5111",
+        "17A-979-1150"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "99"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-8",
+      "category": "AC Compressor",
+      "description": "Heavy-Duty AC Compressor",
+      "name": "Heavy-Duty AC Compressor — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "20Y-979-6121",
+        "22U-06-22380"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "99"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-9",
+      "category": "AC Compressor",
+      "description": "Eco-Drive AC Compressor Unit",
+      "name": "Eco-Drive AC Compressor Unit — Komatsu PC200-8, PC240-8",
+      "oemNumbers": [
+        "20Y-979-7111"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "PC240-8"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
+    },
+    {
+      "catalogCode": "A28-9A",
+      "category": "Climate Control Component",
+      "description": "Pressure Cut-Off Safety Switch",
+      "name": "Pressure Cut-Off Safety Switch — Komatsu AC Line Safety",
+      "oemNumbers": [
+        "7861-94-3000"
+      ],
+      "compatibility": [
+        "Komatsu AC Line Safety"
+      ],
+      "pages": [
+        "100"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 19",
+      "confidence": "user-section19-v2"
     }
   ]
 }

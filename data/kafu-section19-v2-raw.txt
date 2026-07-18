@@ -1,0 +1,48 @@
+Section 19: Air Conditioner Compressors & Climate Control Components (Pages 99–104)
+This section contains the precise technical data extraction for heavy machinery heavy-duty air conditioning compressors, electromagnetic clutch assemblies, thermal expansion valves, and blower resistors from pages 99 to 104 of the catalog. Foreign characters have been removed, and the Machine Compatibility maps to its own separate database field.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A28-1AC Compressor Assembly (24V)106-5122 / 5I-7578CAT E320B (3066 Engine)Page 99
+A28-2Heavy-Duty AC Compressor183-5100 / 241-8368CAT E320C, E325CPage 99
+A28-3AC Compressor (7SBU16C Clutch)309-5769 / 349-7378CAT E320D, E323D (C6.4 Engine)Page 99
+A28-3ABalanced Air Compressor Unit386-3439 / 375-6988CAT E320D2 SeriesPage 99
+A28-4Electromagnetic Clutch Assembly105-2240 Compressor HubCAT AC SystemsPage 100
+A28-5HVAC Blower Motor Resistor131-0427 Component UnitCAT Cabin Climate ControlsPage 100
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A28-11Climate Control AC CompressorVOE 14518342 / 11444494VOLVO EC210B (D6E Engine)Page 100
+A28-11AHeavy Infrastructure AC UnitVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 100
+A28-12Thermal Expansion Valve0118-2850 Core SpecVOLVO / Deutz Cabin EvaporatorsPage 100
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A28-6AC Compressor (10S15C System)20Y-979-3110 / 195-5454Komatsu PC200-5, PC220-5Page 99
+A28-7AC Compressor Assembly20Y-979-5111 / 17A-979-1150Komatsu PC200-6, PC220-6Page 99
+A28-8Heavy-Duty AC Compressor20Y-979-6121 / 22U-06-22380Komatsu PC200-7, PC220-7Page 99
+A28-9Eco-Drive AC Compressor Unit20Y-979-7111 / 6D107 EngineKomatsu PC200-8, PC240-8Page 100
+A28-9APressure Cut-Off Safety Switch7861-94-3000 Line SpecKomatsu AC Line SafetyPage 100
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A28-13AC Compressor Assembly4257163 / 4148415Hitachi EX200-2, EX200-3, EX200-5Page 101
+A28-14Heavy Scroll AC Compressor4360297 / 4443849Hitachi ZAX200-1, ZAX210, ZAX230Page 101
+A28-14AAC Compressor System (24V)4614911 / 4448332Hitachi ZAX200-3, ZAX240-3Page 101
+A28-14BTemperature Regulation Thermostat1-82550-3250 Component SpecIsuzu Cabin ControlsPage 101
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A28-16AC Compressor Array (24V)2523-9014 / 2543-9015Daewoo Doosan DH220-5Page 101
+A28-17Heavy Infrastructure AC Unit300513-00021 / 537-00010Doosan DX225, DX300Page 102
+A28-18AC Compressor Assembly21N6-90010 / 21N6-90011Hyundai R210-5, R225-7Page 102
+A28-19Smart Variable AC Compressor21Q6-30102 / 21Q6-32103Hyundai R210-9, R220-9Page 102
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A28-10AC Compressor AssemblyME049233 / ME069120Kobelco SK200-3, SK200-5Page 100
+A28-10AHeavy Duty Compressor UnitME443653 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 100
+A28-10BIntegrated AC Compressor SetupS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 100
+A28-10CClimate Control AC CompressorKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 100
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A28-20AC Compressor System60114798 / 60114799Sany SY215C, SY235C-9Page 102
+A28-21Integrated AC Rig Assembly10213169 Terminal UnitLiugong 920E, 925EPage 103
+A28-22AC Compressor Module1000168 Component UnitXCMG XE215C, XE215DPage 103
+A28-23Heavy Mechanical AC Unit (12V)701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 104
+A28-24HVAC Receiver Drier / SwitchAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 104
