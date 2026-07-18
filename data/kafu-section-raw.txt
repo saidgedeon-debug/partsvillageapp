@@ -1,0 +1,247 @@
+Part Code KeyComponent TypeFactory Production Part Number MatrixMachine Compatibility & Engine Variants
+A01-1Revolution Sensor7861-93-2330KOMATSU PC200-7, PC220-7
+A01-1ARevolution Sensor2055358HITACHI EX Series
+A01-1BRevolution SensorME844577KOMATSU PC200-6, PC200-6E
+A01-2Revolution SensorME845235KOMATSU PC200-3, PC200-5
+A01-2ARevolution Sensor7819-11-2310KOMATSU WA500-1 Wheel Loader
+A01-2BRevolution Sensor7861-92-2330KOMATSU PC200-5, PC200-6, PC220-6 (6D102 Engine)
+A01-2CRevolution Sensor59841-01290KOBELCO SK200-8
+A01-3Revolution Sensor363-06-31121KOMATSU Engineering Systems
+A01-3ARevolution SensorPC 363-06-31121KOMATSU Master Systems Line
+A01-4Inductive Switch SensorE2B-M30LS15-WP-B1Proximity Mechanical Systems
+A01-5Revolution Sensor196-7973 / 125-2966CATERPILLAR E320 Series Excavator
+A01-6Revolution Sensor324-4131CATERPILLAR E320D Series
+A01-6ARevolution Sensor51-7579CATERPILLAR E320B, E320C Series
+A01-7Revolution Sensor193-2550 / 1-2550CATERPILLAR E329 (Φ16 Thick Housing)
+A01-7ARevolution Sensor4P-5820 / 189-5746CATERPILLAR E330C, E325C (Φ19 Thick Housing)
+A01-7BRevolution Sensor212-3426CATERPILLAR Excavator Core
+A01-8Revolution SensorD04FR Assembly SpecKOBELCO SK130-8, SK140-8
+A01-9Revolution SensorME845235 UnitKOBELCO SK200-3, SK200-5
+A01-10Revolution SensorMC867505SANY Heavy Machinery Series
+A01-10ARevolution SensorMC867505 LineSANY Earthmoving Systems
+A01-11Revolution Sensor59841-01290 UnitKOBELCO SK200-8, SK350-8
+A01-11ARevolution SensorSK200-8 / SK350-8 CoreKOBELCO Heavy Excavator Line
+A01-12Fuel Pump Speed SensorME755778 / 9443612071MITSUBISHI 6D24 Injection Pump
+A01-12AFuel Pump Speed SensorME755970 / 9443613465MITSUBISHI 6D16 Diesel Pump
+A01-13Revolution SensorEX New Model LineHITACHI EX Series Generations
+A01-14Revolution Sensor4265372HITACHI EX200-1, EX200-2, EX200-3, EX200-5, EX120
+A01-15Revolution Sensor1-81510713-1ISUZU 6WG1 Engine / HITACHI ZAX450
+A01-16Revolution Sensor2547-1015DOOSAN DAEWOO DH220-5
+A01-17Revolution Sensor21E3-0042HYUNDAI R220-5 Excavator
+A01-18Revolution Sensor94340-72411HYUNDAI R225-7 Excavator
+A01-19Revolution Sensor1-81510553-1SUMITOMO SH200A3 (ISUZU Power)
+A01-20Revolution Sensor3034572CUMMINS K19 Engine Block
+A01-21Revolution Sensor307815 / 4984223LIUGONG Material Handling Systems
+A01-21ARevolution Sensor4327234 (Dual Line Configuration)CUMMINS Engine Generation
+A01-21BRevolution Sensor4327233CUMMINS Power Systems Block
+A01-21CRevolution Sensor4327239 / 3408472KOMATSU PC1250-7 / HITACHI ZAX1200
+A01-22Revolution Sensor2872361LIUGONG 922D, 936D
+A01-23Revolution Sensor2872361 Production LineLIUGONG 920D, 920E
+A01-24Revolution Sensor30B0202LIUGONG 907D, 908CD Compacts
+A01-25Revolution SensorJ213-92A-240001 (New Gen)SUNWARD 山重 913 Excavator
+A01-26Revolution SensorRL11-61C000003AD-1FOTON LOVOL 福田雷沃 Equipment
+A01-27Pressure Switch Core290-5792CATERPILLAR Heavy Machinery Engine
+A01-27APressure Switch Core196-1185CATERPILLAR Sensor Network Block
+A01-27BRevolution Sensor227-6744CATERPILLAR Machinery Engine System
+A01-27CRevolution Sensor265-9033 BlockCATERPILLAR 3508, 3512 Marine/Gen Engines
+A01-27DRevolution Sensor258-4521CATERPILLAR Industrial Application Engine
+A01-27ERevolution Sensor504-9586CATERPILLAR Heavy Infrastructure Machinery
+A01-27FRevolution Sensor253-2673CATERPILLAR General Excavator Architecture
+A01-27GRevolution Sensor440-0257CATERPILLAR Mid-Tier Fleet Engine
+A01-27HRevolution Sensor458-0219CATERPILLAR Processing Systems
+A01-27IRevolution Sensor391-7125CATERPILLAR Modern Hydraulic Control Systems
+A01-27JRevolution Sensor574-8674CATERPILLAR Compact Excavator Platform
+A01-27KRevolution Sensor122-8863CATERPILLAR Legacy Structural Platforms
+A01-28Pressure Switch CorePC 363-06-31121 Base LineYUCHAI 玉柴 Engine Platforms
+A01-29Revolution SensorCUMMINS / YUCHAI InterfaceCross-Platform CUMMINS Engine Designs
+A01-30Revolution SensorT0411-17102YUCHAI Industrial Diesel Line
+A01-31Revolution SensorT0411-17103YUCHAI Heavy Machinery Engine
+A01-32Revolution SensorT0411-17104YUCHAI High Displacement Engine Block
+A01-33Revolution SensorZG105A PlatformSHANDONG CARTER 山东卡特 Equipment
+A01-34Revolution SensorZG40-3/4-16UNF ThreadJONYANG 詹阳 Mid-Excavator Systems
+A01-35Revolution SensorG220-11-5TSWSZOOMLION 中联重科 150 Excavator
+A01-36Revolution SensorXCMG Production Line TargetXCMG 徐工 Heavy Infrastructure Machines
+A01-37Revolution SensorPERKINS B3.3 Target ConfigurationCross-Platform Engine Systems (PERKINS Power)
+A01-38Revolution SensorQ216005Specialty Fleet Electronic Systems
+A01-39Revolution Sensor266-8576General Infrastructure Fleet Integration
+A01-40Revolution Sensor266-8576 Alternative MountHigh Density Control Nodes
+A01-41Revolution Sensor522-1643CATERPILLAR Fleet Power Systems
+A01-41ARevolution Sensor522-1642 Specialized EngineCATERPILLAR 980G Wheel Loader Platform
+A01-42Revolution Sensor669 3921BOBCAT Compact Industrial Track Loader
+A01-42ARevolution Sensor449298 SystemHK450 SLX300 Track Equipment
+A01-43Revolution Sensor668 4037 Base GroupBOBCAT S100, S160 Skid Steer Platforms
+A01-43ARevolution SensorRE287415JOHN DEERE Agricultural and Industrial Fleet
+A01-43BRevolution Sensor6658260 UnitSpecialty Equipment Component Platform
+A01-44Revolution SensorK19 Blocks BaseCUMMINS Engine Control Grid
+A01-45Revolution Sensor2868A006PERKINS Engine Power Packs
+A01-46Revolution Sensor171-257PERKINS Industrial Generator Modules
+A01-47Revolution Sensor171-233 GroupPERKINS Precision Stationary Generators
+A01-48Revolution SensorM16x1.5x120mm Structural ThreadPERKINS Extended Mechanical Shaft Units
+A01-49Revolution SensorM16x1.5 Standard ThreadPERKINS Threaded Crankcase Blocks
+A01-50Revolution Sensor5/8 Five-Hole Four-Blade InterfacePERKINS Heavy Duty Generator Blocks
+A01-51Revolution Sensor171-232 ConfigurationPERKINS Marine and Auxiliary Power Units
+A01-52Revolution Sensor5/8 Threaded Two-Blade TerminalGeneric Machinery Application Base
+A01-53Revolution SensorM16x1.5 Threaded Two-Blade TerminalUniversal Machinery Sensor Harness
+A01-54Revolution SensorM18x1.5 Threaded Two-Blade TerminalHigh Displacement Fleet System Base
+A01-55Revolution Sensor701-80312 Base UnitHeavy Industrial Infrastructure Fleet
+A02-1Camshaft Sensor254-4630 / 169-3300 Base GroupYANMAR 4TNV94, 4TNV98 (E325C Infrastructure Cross)
+A02-1ACamshaft Sensor384-3887Industrial Diesel Control Networks
+A02-1BCamshaft Sensor499-9117Precision Engine Infrastructure Modules
+A02-1CCamshaft Sensor481-5928Heavy Utility Equipment Engine Grids
+A02-2Camshaft Sensor238-0120CATERPILLAR E320D System Integration
+A02-2ACamshaft Sensor384-3888CATERPILLAR E320D2 Engine Frame
+A02-2BCamshaft Sensor358-2398CATERPILLAR Engine Synchronization Grid
+A02-2CCamshaft Sensor358-2399CATERPILLAR High Precision Power Plants
+A02-3Camshaft Sensor319-6491CATERPILLAR Precision Timing Controls
+A02-4Camshaft Sensor188-7513CATERPILLAR E336 (201-6616 / 201-6617 Engines)
+A02-4ACamshaft Sensor279-9828CATERPILLAR E345D Heavy Duty Platform
+A02-5Camshaft Sensor201-6615 Core ModuleCATERPILLAR Common Core Engine Control
+A02-5ACamshaft Sensor216-3446CATERPILLAR Fleet Logistics Architecture
+A02-5BCamshaft Sensor204-6204CATERPILLAR High Displacement Heavy Equipment
+A02-6Flywheel Speed Sensor1-81510343-2SUMITOMO SH210-5 (ISUZU 6HK1, 6BG1 Power Blocks)
+A02-7Revolution Sensor8-97240790-0ISUZU Engines / SUMITOMO Mechanical Excavators
+A02-8Eccentric Shaft Speed Sensor8-97312108-1SUMITOMO SH160 (ISUZU 4JJ1 Common Rail Block)
+A02-9Camshaft Sensor8-98014831-0SUMITOMO SH210-5 (ISUZU 4HK1, 6HK1 Platforms)
+A02-10Revolution Sensor8-97306113-1ISUZU 4HK1, 6HK1 Diesel Distribution Networks
+A02-10ARevolution SensorJCB Integration TargetJCB Track Equipment (ISUZU 4HK1 Base Power)
+A02-11Revolution Sensor8-97122324-0ISUZU Fleet Power Systems Block
+A02-12Revolution Sensor8-94370581-0ISUZU Mechanical Engine Blocks
+A02-12ACamshaft Sensor8-98019024-0ISUZU 4HK1, 6HK1 Global Common Rail Lines
+A02-13Revolution Sensor0118-2850VOLVO LIUGONG Excavators (DEUTZ Diesel Blocks)
+A02-14Revolution Sensor0118-2834VOLVO Construction Platforms (DEUTZ Power Units)
+| A02-14A | Revolution Sensor | VOE20450707 Module | VOLVO D3.8 Compact Excavator Platform |
+| A02-15 | Crankshaft Sensor | VOE20450707 | VOLVO Production Powertrain Blocks |
+| A02-16 | Camshaft Sensor | VOE20482772 | VOLVO 210 Excavator (D6E Engine Frame) |
+| A02-17 | Camshaft Sensor | VOE20508011 | VOLVO 360 Heavy Excavator Powertrain |
+| A02-18 | Air Induction Sensor | VOE20700060 | VOLVO 360 Structural Exhaust Systems |
+| A02-19 | Camshaft Sensor | 4123-840 / 0281002315 | VOLVO 480 Mining Excavator Platform |
+| A02-20 | Camshaft Sensor | 4921597 Group | HYUNDAI R265-7 Earthmoving Fleet |
+| A02-21 | Camshaft Sensor | 4921599 Target Block | HYUNDAI R265-7 Heavy Track Platform |
+| A02-22 | Camshaft Sensor | 238-4676 / ZGAO-00651 | Industrial Diesel Common Rail Networks |
+| A02-22A | Camshaft Sensor | 6754-81-9410 / D4921684 | KOMATSU PC200-8 Infrastructure Excavator |
+| A02-22B | Camshaft Sensor | 6261-81-2911 / D4921686 | KOMATSU PC400-8 Earthmoving Platform |
+| A02-23 | Camshaft Sensor | 6261-81-2902 | KOMATSU PC400-8 Powertrain Architecture |
+| A02-23A | Camshaft Sensor | 5011855AA / 4921601 | CUMMINS Engine Management Networks |
+| A02-24 | Flywheel Timing Sensor | 6217-81-9210 (3-Pin Configuration) | KOMATSU PC400-7 Production Excavator |
+| A02-25 | Camshaft Sensor | 3405529 | DOOSAN DX380 Mining Fleet |
+| A02-26 | Camshaft Sensor | S841-01590 | KOBELCO SK350-8 (HINO J08E Engine Frame) |
+| A02-26A | Camshaft Sensor | 949979-1420 (Extended Lead) | HINO Diesel Power (KOBELCO Excavator Integration) |
+| A02-27 | Camshaft Sensor | VA32G9000600 Block | KOBELCO SK130-8, SK140-8 (MITSUBISHI D04FR Engine) |
+| A02-27A | Camshaft Sensor | VA32G9000600 Extended Unit | SANY Production Machinery Platforms |
+| A02-28 | Camshaft Sensor | S8941-01570 | KOBELCO SK200-8 (HINO J05E Engine Frame) |
+| A02-28A | Camshaft Sensor | 1855-781C91 Module | PERKINS Engine Power Packs |
+| A02-28B | Camshaft Sensor | PERKINS Core Standard | PERKINS Logistics and Utility Fleet Systems |
+| A02-29 | Camshaft Sensor | 716-30123 | JCB Backhoe and Tracked Excavator Networks |
+| A02-29A | Camshaft Sensor | 238-4676 / ZGAO-00651 Block | Specialty Infrastructure Engine Formats |
+| A02-30 | Crankshaft Sensor | JO5 Engine Standard Block | KOBELCO SK350-8 Earthmoving Base |
+| A02-31 | Camshaft Timing Sensor | VH89411E0050 (2-Pin Waterproof Interface) | DOOSAN DX260-9 Excavator Powertrain |
+| A02-32 | Camshaft Timing Sensor | 1319158 Rotary Layout | DOOSAN DX380 SCANIA Powered Mining Fleet |
+| A02-32A | Camshaft Timing Sensor | DOOSAN DX380 SCANIA Alternative | DOOSAN DX380, DX470 Mining Fleet Platforms |
+| A02-33 | Camshaft Sensor | YANMAR / KUBOTA 158557-61720 | High-Speed Compact Diesel Systems |
+| A02-34 | Crankshaft Sensor | HINO Engine Synchronization Group | KOBELCO Heavy Excavator Platforms |
+| A02-35 | Camshaft Sensor | 4M50 Engine Layout | KATO 加藤 HD820-5 Industrial Excavator |
+| A02-36 | Camshaft Sensor | 11442694 Block | LIEBHERR 利勃海尔 Construction Equipment |
+| A02-37 | Camshaft Sensor | RE51944 | JOHN DEERE Agricultural Tractor & Forestry Fleet |
+| A02-38 | Camshaft Sensor | RE295936 | JOHN DEERE Industrial Material Handling Grids |
+| A02-39 | Revolution Sensor | V836866392 | Heavy Industrial Machinery Architecture |
+| A02-40 | Revolution Sensor | 4327230 Module | CUMMINS Global Industrial Powertrains |
+| A02-41 | Revolution Sensor | 5H911-42622 | KUBOTA 久保田 Compact Utility Machinery |
+| A02-42 | Revolution Sensor | T1060-18660 | KUBOTA Compact Industrial Excavators |
+| A02-43 | Revolution Sensor | 458-6031 Configuration | DOOSAN DX800 Ultra-Heavy Mining Excavator |
+| A02-44 | Camshaft Sensor | R901414438 / 458-6031 Block | REXROTH 力士乐 Electronic Pump Control Networks |
+| A02-45 | Revolution Sensor | 716/D2727 Lead Layout | JCB Construction and Logistics Equipment |
+| A02-46 | Revolution Sensor | 716/D2729 Lead Layout | JCB Heavy Duty Structural Handlers |
+| A02-47 | Speed Sensor Array | 418-18-31502 | KOMATSU WA150-5, WA20L-5 Compact Wheel Loaders |
+Section 3: High-Density Air Manifold & Fluid Pressure Controls (Pages 9–13)
+Part Code KeyComponent TypeFactory Production Part Number MatrixMachine Compatibility & Engine Variants
+A03-1Air Pressure Switch8-12146830-0ISUZU Diesel Engines / Global Fleet Trucks
+A03-2Intake Temperature Sensor20450095 (Legacy Hardware Design)VOLVO Construction Platforms (Early Series)
+A03-3Manifold Air Pressure Sensor4076493 / 6261-81-1900KOMATSU PC200-8 Infrastructure Excavator
+A03-4Air Intake SensorVOE 20450693VOLVO Heavy Equipment Engines
+A03-5Manifold Air Pressure Sensor4921322 / 6754-81-2701KOMATSU PC200-8 Powertrain Architecture
+A03-5AAir Intake Sensor8-97601-9670HITACHI Excavator Engine Network
+A03-6Air Intake Sensor0281002566 / 0281002576VOLVO 210 Excavator Powertrain Grid
+A03-6AAir Intake Sensor22422785 ModuleVOLVO Infrastructure Machinery Systems
+A03-6BAir Intake Sensor24527125 ModuleVOLVO Material Handling Fleets
+A03-7Air Pressure Sensor4076493CUMMINS Engine Electronic Management
+A03-8Air Intake Sensor441050080 Grid UnitVOLVO Power Systems Infrastructure
+A03-9Vacuum Pressure Switch21304786 / 22181342VOLVO EC210, EC240, EC290, EC360 Series
+A03-9AAir Intake Sensor15038313 Core UnitVOLVO Industrial Diesel Power Packs
+A03-9BAir Intake Sensor22172068 Core UnitVOLVO Utility Infrastructure Equipment
+A03-10Air Intake Sensor20542128 High CapacityVOLVO EC480 Heavy Mining Excavator
+A03-11Air Intake Sensor208935035 (5-Wire Shielded Line)VOLVO Electronic Engine Integration
+A03-11AAir Intake Sensor208935036 (6-Wire Interface Line)VOLVO Advanced Emissions Fleet Units
+A03-11BAir Intake Sensor21442662 Integration NodeVOLVO Modernized Heavy Tracked Fleet
+A03-12Air Pressure Sensor266-0136 Control MatrixCATERPILLAR 312D Tier-Compliant Excavators
+A03-12AAir Pressure Sensor381-9064 Engine Block SpecCATERPILLAR Industrial Infrastructure Group
+A03-12BAir Pressure Sensor21304786 / 22181342 Base GroupVOLVO General Fleet Logistics Platforms
+A03-12CAir Temp Sensor107-8618 Probe UnitCross-Platform Fleet Engine Intake Manifolds
+A03-13Air Pressure Sensor7861-91-1420KOMATSU PC200-7 Machinery Platform
+A03-13AAir Pressure Sensor002254 Standard ModuleUniversal Fixed-Plant and Fleet Diesel Engines
+A03-14Air Intake SensorHITACHI Production SpecHITACHI EX, ZAX Excavator Series
+A03-14AAir Intake Sensor381-9064 Precision LeadCATERPILLAR Excavator Operations Control
+A03-15AC Pressure SwitchPC200-7 Harness SpecKOMATSU Fleet Cabin Environment Blocks
+A03-15AAir Pressure SwitchPC200-8 Core IntegrationKOMATSU Powertrain Diagnostic Systems
+A03-16Air Alarm SensorSH200 Sensor MatrixSUMITOMO Excavator System Protection Networks
+A03-17Air Pressure Sensor6261-81-2600 System GroupKOMATSU PC400-8 Heavy Utility Machinery
+A03-18Differential Pressure Sensor1MPP2-1 / YUCHAI DesignCUMMINS / YUCHAI Advanced Exhaust Networks
+A03-18ADifferential Pressure Sensor314-9772 ConfigurationFleet Emissions Monitoring Platforms
+A03-19Barometric Pressure SensorVH893901080A / ZAX200-3HITACHI ZAX200-3 (ISUZU Power / KOBELCO SK200-8 Cross)
+A03-20Air Intake Sensor8-98121697-0HITACHI ZAX490-5A (ISUZU 6UZ1 Engine Frame)
+A03-21Air Intake Sensor8-98065377-0 Control NodeISUZU Industrial Common Rail Diesel Engines
+A03-22Intake Pressure SensorDX380 / SCANIA System BaseDOOSAN DX380 Mining Fleet (SCANIA Engine Frame)
+A03-23Intake Pressure Sensor4902720 Core ModuleCUMMINS Global Fleet Industrial Power Blocks
+A03-24Barometric Pressure SensorSK210-10 Module ArrayYUCHAI Powered KOBELCO SK210-10 Fleets
+A03-25Intake Pressure SensorJohn Deere Technical SpecJOHN DEERE Agricultural and Industrial Engines
+A03-25AIntake Pressure Sensor129978-12700 Base UnitHigh Reliability Utility Fleet Engines
+A03-26Air Pressure Sensor6261-81-2700 Heavy GridKOMATSU PC400-8 Mining and Earthmoving Fleets
+A03-27Air Intake Sensor4984590 Generation 3KOMATSU PC350-10 Advanced Earthmover
+A03-28Sensor Cable Assembly266-1466 Structural HarnessSpecialized Fleet Electronic Wiring Grids
+A03-29Sensor Cable Assembly266-1467 Sealed UnitHeavy Duty Machinery Wiring Frameworks
+A03-29ASensor Cable Assembly266-1468 High Temp SpecHigh Stress Engine Bay Diagnostic Systems
+A03-30Sensor Cable Assembly266-1475 Armored LeadHeavy Construction Machinery Harness Modules
+A03-31Sensor Cable Assembly266-1477 Terminal BlockPrecision Sensor Interconnect Systems
+A03-32Sensor Cable Assembly266-1478 Terminal BlockLogistics and Ground Engineering Equipment
+A03-33Sensor Cable Assembly266-1481 Interface LeadIndustrial Infrastructure Support Systems
+A03-34Sensor Cable Assembly266-2337 Shielded LeadField Infrastructure Operations Fleet
+A03-35Sensor Cable Assembly266-1484 Core LeadMulti-Function Infrastructure Support Vehicles
+A03-36Sensor Cable Assembly266-1492 Base UnitHeavy Utility Fleet Asset Monitoring
+A03-37Angular Position Sensor269-1983 Dynamic MatrixHydraulic Articulation Tracking Systems
+A03-38Angular Position Sensor204-7949 Sealed NodeExtreme Environment Position Feedback Units
+A03-39Angular Position Sensor266-1473 Multi-AxisHeavy Rigging and Earthmoving Crane Arms
+A03-40Rotary Switch SensorCabin Interior Control UnitFleet Operator Console Interface Modules
+A03-41Door Courtesy Lamp SwitchCockpit Frame IntegrationUniversal Excavator and Loader Cab Systems
+A04-1Oil Pressure SwitchEX200-5 Single TerminalHITACHI EX200-5 Excavator Hydraulic System
+A04-2Oil Pressure Switch6732-81-3140 / 08073-10505KOMATSU PC200-6 Infrastructure Machine
+A04-3Oil Pressure Switch4JG1 Platform SpecYANMAR 4JG1 Powered Compact Equipment
+A04-4Oil Pressure Switch8-98086433-0 Core NodeISUZU 4-Cylinder Industrial Diesel Platforms
+A04-5Oil Pressure Switch6732-81-3140 / 08073-10505HITACHI EX200-5 Dual Terminal Base Variant
+A04-6Oil Pressure SwitchYANMAR Core Technical SpecYANMAR Industrial Utility Fleet Power Units
+A04-6AOil Pressure Sensor7W1238 High Output GroupHeavy Duty Stationary Power Plant Modules
+A04-7Oil Pressure SensorUniversal Block ArchitectureInfrastructure Machinery Fleet Support Units
+A04-7AOil Pressure SensorUniversal Block Variant BGround Logistics Fleet Power Frameworks
+A04-7BOil Pressure SensorUniversal Block Variant CHeavy Machinery Fluid Protection Networks
+A04-8Oil Pressure Sensor266-0210 / 51-8005 / 3451-40200CATERPILLAR E320C Excavator Powertrain Grid
+A04-9Oil Pressure SwitchYANMAR / KOBELCO Engine FrameKOBELCO SK230-6 (YANMAR Industrial Diesel Power)
+A04-9AMechanical Pressure Switch418-43-37681 High CapacityKOMATSU WA380-6 Heavy Duty Wheel Loader
+A04-9BOil Pressure SwitchDAEWOO DOOSAN Core Line SpecDOOSAN Heavy Infrastructure Machinery Fleet
+A04-10Oil Pressure Switch83530E0220 / HINO StandardKOBELCO SK200-8, SK350-8 (HINO J05, J08E Engines)
+A04-11Oil Pressure Switch6BD1 Engine Frame VariantHITACHI EX200-1, EX200-2, EX200-3, EX200-5
+A04-12Oil Pressure Switch6BG1 Engine Allocation UnitISUZU 6BG1 Powered Industrial Fleet Assets
+A04-13Oil Pressure Switch8-98027456-0 / 499000-7341HITACHI ZAX330-3 (ISUZU 6HK1 Engine Frame)
+A04-14Air System Pressure SwitchMD176361 Heavy ArchitectureMITSUBISHI 4M50 Powered Fleet Machinery
+A04-15Oil Pressure Switch161-1703 Standard ModuleCATERPILLAR Earthmoving Powertrain Grids
+A04-16Fluid Pressure Sensor161-1704 / 04-0249ACATERPILLAR Industrial Infrastructure Blocks
+A04-17Fluid Pressure Sensor161-1705-04 Sealed InterfaceCATERPILLAR General Engineering Asset Platforms
+A04-18Oil Pressure Switch194-6722 Rugged DesignCATERPILLAR Processing Plant Logistics Fleet
+A04-18AOil Pressure Switch3116 / 131-9203 Heavy SpecCATERPILLAR 3116 Mechanical Fuel Engine Lines
+A04-18BOil Pressure Sensor459-2584 / 459-2597 GroupCATERPILLAR Civil Engineering Power Grids
+A04-18COil Pressure Sensor459-2595 High Pressure UnitCATERPILLAR High Displacement Earthmoving Units
+A04-18EOil Pressure Sensor421-06-35111 Integration NodeVOLVO Construction Logistics Asset Fleets
+A04-18FOil Pressure Sensor459-2591 Sealed ArrayCATERPILLAR Heavy Infrastructure Equipment
+A04-18GOil Pressure Sensor304-5666 Module FrameworkCATERPILLAR Logistics Fleet Engine Grids
+A04-19Oil Pressure Switch3E-6455 Field GroupCATERPILLAR E330B Heavy Excavator Systems
+A04-19AOil Pressure Switch107-0612 Industrial BaseCATERPILLAR General Field Operations Assets
+A04-19BOil Pressure Switch107-0613 Sealed AssemblyCATERPILLAR Fleet Power Generation Modules
+A04-19COil Pressure Switch9X4276 Ruggedized FrameworkCATERPILLAR Mining Fleet Logistics Platforms
+A04-19DOil Pressure Switch107-0611 Standard NodeCATERPILLAR Earthmoving Equipment Core
