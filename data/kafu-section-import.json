@@ -31427,10 +31427,8 @@
       "description": "Heavy Mechanical AC Unit (12V)",
       "name": "Heavy Mechanical AC Unit (12V) — JCB 3CX, 4CX Backhoe Loaders",
       "oemNumbers": [
-        "701",
-        "80184",
-        "320",
-        "04046"
+        "701/80184",
+        "320/04046"
       ],
       "compatibility": [
         "JCB 3CX",
@@ -31446,10 +31444,10 @@
       "confidence": "user-section19-v2"
     },
     {
-      "catalogCode": "A28-24H",
+      "catalogCode": "A28-24",
       "category": "Climate Control Component",
-      "description": "VAC Receiver Drier / Switch",
-      "name": "VAC Receiver Drier / Switch — John Deere Infrastructure Engine Series",
+      "description": "HVAC Receiver Drier / Switch",
+      "name": "HVAC Receiver Drier / Switch — John Deere Infrastructure Engine Series",
       "oemNumbers": [
         "AT103035",
         "RE61812"
@@ -31530,10 +31528,10 @@
       "confidence": "user-section19-v2"
     },
     {
-      "catalogCode": "A28-5H",
+      "catalogCode": "A28-5",
       "category": "Climate Control Component",
-      "description": "VAC Blower Motor Resistor",
-      "name": "VAC Blower Motor Resistor — Caterpillar Cabin Climate Controls",
+      "description": "HVAC Blower Motor Resistor",
+      "name": "HVAC Blower Motor Resistor — Caterpillar Cabin Climate Controls",
       "oemNumbers": [
         "131-0427"
       ],

@@ -13,9 +13,7 @@ RAW = ROOT / "data" / "kafu-section19-v2-raw.txt"
 OUT_JSON = ROOT / "data" / "kafu-section-import.json"
 OUT_TS = ROOT / "src" / "lib" / "kafu-inventory.ts"
 
-CODE_RE = re.compile(
-    r"^(A\d{2}-\d{1,3}(?:[A-Z](?=[A-Z][a-z]|[A-Z]{2}[A-Za-z]|AC\b|\())?)(.*)$"
-)
+CODE_RE = re.compile(r"^(A\d{2}-\d{1,3})([A-Z])?(.*)$")
 PAGE_RE = re.compile(r"Page\s*(\d+)\s*$", re.I)
 HEADER_RE = re.compile(r"^Part CodePart Description", re.I)
 BRAND_HEADER_RE = re.compile(
@@ -80,7 +78,7 @@ def parse_oems(raw: str) -> list[str]:
     )
     # Drop engine-model noise pasted into OEM column (e.g. "6D107 Engine")
     raw = re.sub(r"\s*/\s*\d[A-Z0-9]*\s+Engine\b", "", raw, flags=re.I)
-    parts = re.split(r"\s*/\s*", raw)
+    parts = re.split(r"\s+/\s+", raw)
     out: list[str] = []
     seen: set[str] = set()
     for p in parts:
@@ -208,7 +206,19 @@ def parse_raw(text: str) -> list[dict]:
         m = CODE_RE.match(line)
         if not m:
             continue
-        code, rest = m.group(1).upper(), m.group(2).strip()
+        base, suffix, rest = m.group(1), m.group(2) or "", m.group(3).strip()
+        # Keep letter suffix only when the remainder starts like a real description
+        # (prevents A28-24HVAC → A28-24H).
+        if suffix:
+            keep = (
+                any(rest.startswith(d) for d in DESCRIPTIONS)
+                or rest.startswith("AC ")
+                or bool(re.match(r"^[A-Z][a-z]", rest))
+            )
+            if not keep:
+                rest = suffix + rest
+                suffix = ""
+        code = (base + suffix).upper()
         desc, oem_raw, machine_raw, page = split_glued(rest)
         rows.append(
             {
@@ -347,12 +357,15 @@ def main() -> None:
     OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     write_ts(products)
     print(f"section19_raw={len(rows)} section19={s19} kept={kept} total={len(products)}")
-    for code in ["A01-1", "A27-1", "A28-1", "A28-3A", "A28-9", "A28-11", "A28-10A", "A28-19", "A28-24"]:
+    for code in ["A01-1", "A27-1", "A28-1", "A28-3A", "A28-9", "A28-14A", "A28-10C", "A28-19", "A28-24"]:
         p = by_code.get(code)
         if not p:
             print(code, "MISSING")
         else:
             print(code, "|", p["description"], "|", p["oemNumbers"][:2], "|", p["compatibility"][:2])
+    bad = [c for c in by_code if c.startswith("A28-") and c.endswith("H") and "HVAC" in str(by_code[c])]
+    if bad:
+        print("BAD_CODES", bad)
 
 
 if __name__ == "__main__":
