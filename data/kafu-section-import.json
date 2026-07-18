@@ -1,40 +1,27 @@
 {
-  "status": "section_import",
+  "status": "section_2_3_clean",
   "supplier": "Kafu",
-  "count": 244,
+  "rawRows": 249,
+  "count": 239,
   "categories": [
-    "AC Pressure Switch",
-    "Air Alarm Sensor",
-    "Air Induction Sensor",
     "Air Intake Sensor",
     "Air Pressure Sensor",
     "Air Pressure Switch",
-    "Air System Pressure Switch",
-    "Air Temp Sensor",
-    "Angular Position Sensor",
     "Barometric Pressure Sensor",
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
     "Crankshaft Sensor",
-    "Differential Pressure Sensor",
-    "Door Courtesy Lamp Switch",
     "Eccentric Shaft Speed Sensor",
-    "Fluid Pressure Sensor",
     "Flywheel Speed Sensor",
-    "Flywheel Timing Sensor",
     "Fuel Pump Speed Sensor",
     "Inductive Switch Sensor",
     "Intake Pressure Sensor",
     "Intake Temperature Sensor",
-    "Manifold Air Pressure Sensor",
-    "Mechanical Pressure Switch",
     "Oil Pressure Sensor",
     "Oil Pressure Switch",
-    "Pressure Switch Core",
+    "Pressure Sensor",
+    "Pressure Switch",
     "Revolution Sensor",
-    "Rotary Switch Sensor",
-    "Sensor Cable Assembly",
-    "Speed Sensor Array",
     "Vacuum Pressure Switch"
   ],
   "products": [
@@ -42,3426 +29,4895 @@
       "catalogCode": "A01-1",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU PC200-7, PC220-7",
+      "name": "Revolution Sensor — Komatsu PC200-7, PC220-7",
       "oemNumbers": [
         "7861-93-2330"
       ],
       "compatibility": [
-        "KOMATSU PC200-7",
+        "Komatsu PC200-7",
         "PC220-7"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-1A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — HITACHI EX Series",
-      "oemNumbers": [
-        "2055358"
+      "pages": [
+        "5"
       ],
-      "compatibility": [
-        "HITACHI EX Series"
+      "brandGroups": [
+        "Komatsu"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-1B",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU PC200-6, PC200-6E",
-      "oemNumbers": [
-        "ME844577"
-      ],
-      "compatibility": [
-        "KOMATSU PC200-6",
-        "PC200-6E"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-2",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU PC200-3, PC200-5",
-      "oemNumbers": [
-        "ME845235"
-      ],
-      "compatibility": [
-        "KOMATSU PC200-3",
-        "PC200-5"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-2A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU WA500-1 Wheel Loader",
-      "oemNumbers": [
-        "7819-11-2310"
-      ],
-      "compatibility": [
-        "KOMATSU WA500-1 Wheel Loader"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-2B",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU PC200-5, PC200-6, PC220-6 (6D102 Engine)",
-      "oemNumbers": [
-        "7861-92-2330"
-      ],
-      "compatibility": [
-        "KOMATSU PC200-5",
-        "PC200-6",
-        "PC220-6 (6D102 Engine)"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-2C",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOBELCO SK200-8",
-      "oemNumbers": [
-        "59841-01290"
-      ],
-      "compatibility": [
-        "KOBELCO SK200-8"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-3",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU Engineering Systems",
-      "oemNumbers": [
-        "363-06-31121"
-      ],
-      "compatibility": [
-        "KOMATSU Engineering Systems"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-3A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU Master Systems Line",
-      "oemNumbers": [
-        "PC 363-06-31121"
-      ],
-      "compatibility": [
-        "KOMATSU Master Systems Line"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-4",
-      "category": "Inductive Switch Sensor",
-      "description": "Inductive Switch Sensor",
-      "name": "Inductive Switch Sensor — Proximity Mechanical Systems",
-      "oemNumbers": [
-        "E2B-M30LS15-WP-B1"
-      ],
-      "compatibility": [
-        "Proximity Mechanical Systems"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-5",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR E320 Series Excavator",
-      "oemNumbers": [
-        "196-7973",
-        "125-2966"
-      ],
-      "compatibility": [
-        "CATERPILLAR E320 Series Excavator"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-6",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR E320D Series",
-      "oemNumbers": [
-        "324-4131"
-      ],
-      "compatibility": [
-        "CATERPILLAR E320D Series"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-6A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR E320B, E320C Series",
-      "oemNumbers": [
-        "51-7579"
-      ],
-      "compatibility": [
-        "CATERPILLAR E320B",
-        "E320C Series"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-7",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR E329 (Φ16 Thick Housing)",
-      "oemNumbers": [
-        "193-2550",
-        "1-2550"
-      ],
-      "compatibility": [
-        "CATERPILLAR E329 (Φ16 Thick Housing)"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-7A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR E330C, E325C (Φ19 Thick Housing)",
-      "oemNumbers": [
-        "4P-5820",
-        "189-5746"
-      ],
-      "compatibility": [
-        "CATERPILLAR E330C",
-        "E325C (Φ19 Thick Housing)"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-7B",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Excavator Core",
-      "oemNumbers": [
-        "212-3426"
-      ],
-      "compatibility": [
-        "CATERPILLAR Excavator Core"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-8",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOBELCO SK130-8, SK140-8",
-      "oemNumbers": [
-        "D04FR"
-      ],
-      "compatibility": [
-        "KOBELCO SK130-8",
-        "SK140-8"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-9",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOBELCO SK200-3, SK200-5",
-      "oemNumbers": [
-        "ME845235"
-      ],
-      "compatibility": [
-        "KOBELCO SK200-3",
-        "SK200-5"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-10",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — SANY Heavy Machinery Series",
+      "name": "Revolution Sensor — Sany Heavy Industries",
       "oemNumbers": [
         "MC867505"
       ],
       "compatibility": [
-        "SANY Heavy Machinery Series"
+        "Sany Heavy Industries"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-10A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — SANY Earthmoving Systems",
-      "oemNumbers": [
-        "MC867505"
+      "pages": [
+        "5"
       ],
-      "compatibility": [
-        "SANY Earthmoving Systems"
+      "brandGroups": [
+        "Miscellaneous"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-11",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOBELCO SK200-8, SK350-8",
+      "name": "Revolution Sensor — Kobelco SK200-8, SK350-8",
       "oemNumbers": [
-        "59841-01290"
+        "ME844577 Line"
       ],
       "compatibility": [
-        "KOBELCO SK200-8",
+        "Kobelco SK200-8",
         "SK350-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A01-11A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOBELCO Heavy Excavator Line",
-      "oemNumbers": [
-        "SK200-8",
-        "SK350-8"
+      "pages": [
+        "5"
       ],
-      "compatibility": [
-        "KOBELCO Heavy Excavator Line"
+      "brandGroups": [
+        "Kobelco"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-12",
       "category": "Fuel Pump Speed Sensor",
-      "description": "Fuel Pump Speed Sensor",
-      "name": "Fuel Pump Speed Sensor — MITSUBISHI 6D24 Injection Pump",
+      "description": "Fuel Pump Revolution Sensor",
+      "name": "Fuel Pump Revolution Sensor — Mitsubishi 6D24 Engines",
       "oemNumbers": [
         "ME755778",
         "9443612071"
       ],
       "compatibility": [
-        "MITSUBISHI 6D24 Injection Pump"
+        "Mitsubishi 6D24 Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-12A",
       "category": "Fuel Pump Speed Sensor",
-      "description": "Fuel Pump Speed Sensor",
-      "name": "Fuel Pump Speed Sensor — MITSUBISHI 6D16 Diesel Pump",
+      "description": "Fuel Pump Revolution Sensor",
+      "name": "Fuel Pump Revolution Sensor — Mitsubishi 6D16 Engines",
       "oemNumbers": [
         "ME755970",
         "9443613465"
       ],
       "compatibility": [
-        "MITSUBISHI 6D16 Diesel Pump"
+        "Mitsubishi 6D16 Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-13",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — HITACHI EX Series Generations",
-      "oemNumbers": [],
-      "compatibility": [
-        "HITACHI EX Series Generations"
+      "name": "Revolution Sensor — Hitachi EX Series",
+      "oemNumbers": [
+        "EX New Model"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "Hitachi EX Series"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-14",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — HITACHI EX200-1, EX200-2, EX200-3",
+      "name": "Revolution Sensor — Hitachi EX200-1/2/3/5, EX120",
       "oemNumbers": [
         "4265372"
       ],
       "compatibility": [
-        "HITACHI EX200-1",
-        "EX200-2",
-        "EX200-3",
-        "EX200-5",
+        "Hitachi EX200-1/2/3/5",
         "EX120"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-15",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — ISUZU 6WG1 Engine / HITACHI ZAX450",
+      "name": "Revolution Sensor — Isuzu 6WG1 Engine, Hitachi ZAX450",
       "oemNumbers": [
         "1-81510713-1"
       ],
       "compatibility": [
-        "ISUZU 6WG1 Engine / HITACHI ZAX450"
+        "Isuzu 6WG1 Engine",
+        "Hitachi ZAX450"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-16",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — DOOSAN DAEWOO DH220-5",
+      "name": "Revolution Sensor — Doosan DH220-5",
       "oemNumbers": [
         "2547-1015"
       ],
       "compatibility": [
-        "DOOSAN DAEWOO DH220-5"
+        "Doosan DH220-5"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A01-17",
+      "catalogCode": "A01-1A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — HYUNDAI R220-5 Excavator",
+      "name": "Revolution Sensor — Hitachi General, Kobelco SK130-8, SK140-8",
       "oemNumbers": [
-        "21E3-0042"
+        "HITACHI 2055358",
+        "D04FR Engine"
       ],
       "compatibility": [
-        "HYUNDAI R220-5 Excavator"
+        "Hitachi General",
+        "Kobelco SK130-8",
+        "SK140-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Hitachi",
+        "Kobelco"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A01-18",
+      "catalogCode": "A01-1B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — HYUNDAI R225-7 Excavator",
+      "name": "Revolution Sensor — Kobelco SK200-6, SK200-6E",
       "oemNumbers": [
-        "94340-72411"
+        "ME844577"
       ],
       "compatibility": [
-        "HYUNDAI R225-7 Excavator"
+        "Kobelco SK200-6",
+        "SK200-6E"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A01-19",
+      "catalogCode": "A01-2",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — SUMITOMO SH200A3 (ISUZU Power)",
+      "name": "Revolution Sensor — Kobelco SK200-3, SK200-5",
       "oemNumbers": [
-        "1-81510553-1"
+        "ME845235"
       ],
       "compatibility": [
-        "SUMITOMO SH200A3 (ISUZU Power)"
+        "Kobelco SK200-3",
+        "SK200-5"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-20",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CUMMINS K19 Engine Block",
+      "name": "Revolution Sensor — Hyundai Construction",
       "oemNumbers": [
-        "3034572"
+        "R220-5"
       ],
       "compatibility": [
-        "CUMMINS K19 Engine Block"
+        "Hyundai Construction"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-21",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — LIUGONG Material Handling Systems",
+      "name": "Revolution Sensor — Liugong Loaders, Machinery",
       "oemNumbers": [
         "307815",
         "4984223"
       ],
       "compatibility": [
-        "LIUGONG Material Handling Systems"
+        "Liugong Loaders",
+        "Machinery"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-21A",
       "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CUMMINS Engine Generation",
+      "description": "Revolution Sensor (Dual-Line)",
+      "name": "Revolution Sensor (Dual-Line) — Cummins Diesel Engines",
       "oemNumbers": [
         "4327234"
       ],
       "compatibility": [
-        "CUMMINS Engine Generation"
+        "Cummins Diesel Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-21B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CUMMINS Power Systems Block",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
-        "4327233"
+        "262-4806"
       ],
       "compatibility": [
-        "CUMMINS Power Systems Block"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-21C",
       "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KOMATSU PC1250-7 / HITACHI ZAX1200",
+      "description": "Revolution Sensor (Custom Edition)",
+      "name": "Revolution Sensor (Custom Edition) — Caterpillar General",
       "oemNumbers": [
-        "4327239",
-        "3408472"
+        "3E7886"
       ],
       "compatibility": [
-        "KOMATSU PC1250-7 / HITACHI ZAX1200"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-22",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — LIUGONG 922D, 936D",
+      "name": "Revolution Sensor — Liugong 922D, 936D",
       "oemNumbers": [
         "2872361"
       ],
       "compatibility": [
-        "LIUGONG 922D",
+        "Liugong 922D",
         "936D"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-23",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — LIUGONG 920D, 920E",
+      "name": "Revolution Sensor — Liugong Machinery",
       "oemNumbers": [
-        "2872361"
+        "Liugong 920D"
       ],
       "compatibility": [
-        "LIUGONG 920D",
-        "920E"
+        "Liugong Machinery"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-24",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — LIUGONG 907D, 908CD Compacts",
+      "name": "Revolution Sensor — Liugong 907D, 908CD",
       "oemNumbers": [
         "30B0202"
       ],
       "compatibility": [
-        "LIUGONG 907D",
-        "908CD Compacts"
+        "Liugong 907D",
+        "908CD"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-25",
       "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — SUNWARD 山重 913 Excavator",
+      "description": "Revolution Sensor (New Model)",
+      "name": "Revolution Sensor (New Model) — Shanshan 913",
       "oemNumbers": [
         "J213-92A-240001"
       ],
       "compatibility": [
-        "SUNWARD 山重 913 Excavator"
+        "Shanshan 913"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-26",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — FOTON LOVOL 福田雷沃 Equipment",
+      "name": "Revolution Sensor — Foton Lovol",
       "oemNumbers": [
         "RL11-61C000003AD-1"
       ],
       "compatibility": [
-        "FOTON LOVOL 福田雷沃 Equipment"
+        "Foton Lovol"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27",
-      "category": "Pressure Switch Core",
-      "description": "Pressure Switch Core",
-      "name": "Pressure Switch Core — CATERPILLAR Heavy Machinery Engine",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch / Revolution Sensor",
+      "name": "Pressure Switch / Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "290-5792"
       ],
       "compatibility": [
-        "CATERPILLAR Heavy Machinery Engine"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27A",
-      "category": "Pressure Switch Core",
-      "description": "Pressure Switch Core",
-      "name": "Pressure Switch Core — CATERPILLAR Sensor Network Block",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch / Revolution Sensor",
+      "name": "Pressure Switch / Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "196-1185"
       ],
       "compatibility": [
-        "CATERPILLAR Sensor Network Block"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Machinery Engine System",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "227-6744"
       ],
       "compatibility": [
-        "CATERPILLAR Machinery Engine System"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27C",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR 3508, 3512 Marine/Gen Engines",
+      "name": "Revolution Sensor — Caterpillar 3508, 3512 Engines",
       "oemNumbers": [
         "265-9033"
       ],
       "compatibility": [
-        "CATERPILLAR 3508",
-        "3512 Marine/Gen Engines"
+        "Caterpillar 3508",
+        "3512 Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27D",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Industrial Application Engine",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "258-4521"
       ],
       "compatibility": [
-        "CATERPILLAR Industrial Application Engine"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27E",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Heavy Infrastructure Machinery",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "504-9586"
       ],
       "compatibility": [
-        "CATERPILLAR Heavy Infrastructure Machinery"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27F",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR General Excavator Architecture",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "253-2673"
       ],
       "compatibility": [
-        "CATERPILLAR General Excavator Architecture"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27G",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Mid-Tier Fleet Engine",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "440-0257"
       ],
       "compatibility": [
-        "CATERPILLAR Mid-Tier Fleet Engine"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27H",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Processing Systems",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "458-0219"
       ],
       "compatibility": [
-        "CATERPILLAR Processing Systems"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27I",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Modern Hydraulic Control Systems",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "391-7125"
       ],
       "compatibility": [
-        "CATERPILLAR Modern Hydraulic Control Systems"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27J",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Compact Excavator Platform",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "574-8674"
       ],
       "compatibility": [
-        "CATERPILLAR Compact Excavator Platform"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-27K",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Legacy Structural Platforms",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "122-8863"
       ],
       "compatibility": [
-        "CATERPILLAR Legacy Structural Platforms"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-28",
-      "category": "Pressure Switch Core",
-      "description": "Pressure Switch Core",
-      "name": "Pressure Switch Core — YUCHAI 玉柴 Engine Platforms",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor / Pressure Switch",
+      "name": "Revolution Sensor / Pressure Switch — Komatsu General",
       "oemNumbers": [
-        "PC 363-06-31121"
+        "PC 363-06-31121 Line"
       ],
       "compatibility": [
-        "YUCHAI 玉柴 Engine Platforms"
+        "Komatsu General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-29",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CUMMINS / YUCHAI Interface Cross-Platform CUMMINS Engine Designs",
+      "name": "Revolution Sensor — Cummins, Yuchai Spec Cummins, Yuchai Base Engines",
       "oemNumbers": [],
       "compatibility": [
-        "CUMMINS / YUCHAI Interface Cross-Platform CUMMINS Engine Designs"
+        "Cummins",
+        "Yuchai Spec Cummins",
+        "Yuchai Base Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-2A",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Komatsu WA500-1",
+      "oemNumbers": [
+        "7819-11-2310"
+      ],
+      "compatibility": [
+        "Komatsu WA500-1"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-2B",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor (6D102 Engine)",
+      "name": "Revolution Sensor (6D102 Engine) — Komatsu PC200-5, PC200-6, PC220-6",
+      "oemNumbers": [
+        "7861-92-2330"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC200-6",
+        "PC220-6"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-2C",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Kobelco SK200-8",
+      "oemNumbers": [
+        "59841-01290"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-3",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Komatsu General",
+      "oemNumbers": [
+        "363-06-31121"
+      ],
+      "compatibility": [
+        "Komatsu General"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-30",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — YUCHAI Industrial Diesel Line",
+      "name": "Revolution Sensor — Yuchai Heavy Industries",
       "oemNumbers": [
         "T0411-17102"
       ],
       "compatibility": [
-        "YUCHAI Industrial Diesel Line"
+        "Yuchai Heavy Industries"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-31",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — YUCHAI Heavy Machinery Engine",
+      "name": "Revolution Sensor — Yuchai Heavy Industries",
       "oemNumbers": [
         "T0411-17103"
       ],
       "compatibility": [
-        "YUCHAI Heavy Machinery Engine"
+        "Yuchai Heavy Industries"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-32",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — YUCHAI High Displacement Engine Block",
+      "name": "Revolution Sensor — Yuchai Heavy Industries",
       "oemNumbers": [
         "T0411-17104"
       ],
       "compatibility": [
-        "YUCHAI High Displacement Engine Block"
+        "Yuchai Heavy Industries"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-33",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — SHANDONG CARTER 山东卡特 Equipment",
+      "name": "Revolution Sensor — Shandong Carter",
       "oemNumbers": [
         "ZG105A"
       ],
       "compatibility": [
-        "SHANDONG CARTER 山东卡特 Equipment"
+        "Shandong Carter"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-34",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — JONYANG 詹阳 Mid-Excavator Systems",
+      "name": "Revolution Sensor — Jonyang Excavators (Mid-Range)",
       "oemNumbers": [
         "ZG40-3",
-        "4-16UNF Thread"
+        "4-16UNF"
       ],
       "compatibility": [
-        "JONYANG 詹阳 Mid-Excavator Systems"
+        "Jonyang Excavators (Mid-Range)"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-35",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — ZOOMLION 中联重科 150 Excavator",
+      "name": "Revolution Sensor — Zoomlion 150",
       "oemNumbers": [
         "G220-11-5TSWS"
       ],
       "compatibility": [
-        "ZOOMLION 中联重科 150 Excavator"
+        "Zoomlion 150"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-36",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — XCMG Production Line Target XCMG 徐工 Heavy Infrastructure Machines",
+      "name": "Revolution Sensor — XCMG Standard Line XCMG Group",
       "oemNumbers": [],
       "compatibility": [
-        "XCMG Production Line Target XCMG 徐工 Heavy Infrastructure Machines"
+        "XCMG Standard Line XCMG Group"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-37",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS B3.3 Target Configuration Cross-Platform Engine Systems (PERKINS Power)",
-      "oemNumbers": [],
-      "compatibility": [
-        "PERKINS B3.3 Target Configuration Cross-Platform Engine Systems (PERKINS Power)"
+      "name": "Revolution Sensor — Perkins Core Engine Series",
+      "oemNumbers": [
+        "Perkins B3.3"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "Perkins Core Engine Series"
+      ],
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-38",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Specialty Fleet Electronic Systems",
+      "name": "Revolution Sensor — Global Equipment",
       "oemNumbers": [
         "Q216005"
       ],
       "compatibility": [
-        "Specialty Fleet Electronic Systems"
+        "Global Equipment"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-39",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — 266-8576General Infrastructure Fleet Integration",
+      "name": "Revolution Sensor — Global Equipment",
       "oemNumbers": [
-        "266-8576General Infrastructure Fleet Integration"
+        "266-8576"
       ],
-      "compatibility": [],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "Global Equipment"
+      ],
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-3A",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Komatsu General",
+      "oemNumbers": [
+        "PC 363-06-31121"
+      ],
+      "compatibility": [
+        "Komatsu General"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-4",
+      "category": "Inductive Switch Sensor",
+      "description": "Switch Sensor",
+      "name": "Switch Sensor — Komatsu General",
+      "oemNumbers": [
+        "E2B-M30LS15-WP-B1"
+      ],
+      "compatibility": [
+        "Komatsu General"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-40",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — High Density Control Nodes",
+      "name": "Revolution Sensor — Global Equipment",
       "oemNumbers": [
         "266-8576"
       ],
       "compatibility": [
-        "High Density Control Nodes"
+        "Global Equipment"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-41",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR Fleet Power Systems",
+      "name": "Revolution Sensor — Caterpillar General",
       "oemNumbers": [
         "522-1643"
       ],
       "compatibility": [
-        "CATERPILLAR Fleet Power Systems"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-41A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CATERPILLAR 980G Wheel Loader Platform",
+      "name": "Revolution Sensor — Caterpillar 980G Loader",
       "oemNumbers": [
         "522-1642"
       ],
       "compatibility": [
-        "CATERPILLAR 980G Wheel Loader Platform"
+        "Caterpillar 980G Loader"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-42",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — BOBCAT Compact Industrial Track Loader",
+      "name": "Revolution Sensor — Bobcat Skid Steers",
       "oemNumbers": [
         "669 3921"
       ],
       "compatibility": [
-        "BOBCAT Compact Industrial Track Loader"
+        "Bobcat Skid Steers"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-42A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — 449298 SystemHK450 SLX300 Track Equipment",
+      "name": "Revolution Sensor — HK450 SLX300 Marine, Crane",
       "oemNumbers": [
-        "449298 SystemHK450 SLX300 Track Equipment"
+        "449298"
       ],
-      "compatibility": [],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "HK450 SLX300 Marine",
+        "Crane"
+      ],
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-43",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — BOBCAT S100, S160 Skid Steer Platforms",
+      "name": "Revolution Sensor — Bobcat S100, S160",
       "oemNumbers": [
         "668 4037"
       ],
       "compatibility": [
-        "BOBCAT S100",
-        "S160 Skid Steer Platforms"
+        "Bobcat S100",
+        "S160"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-43A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — JOHN DEERE Agricultural and Industrial Fleet",
+      "name": "Revolution Sensor — John Deere Ag Equipment",
       "oemNumbers": [
         "RE287415"
       ],
       "compatibility": [
-        "JOHN DEERE Agricultural and Industrial Fleet"
+        "John Deere Ag Equipment"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-43B",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Specialty Equipment Component Platform",
+      "name": "Revolution Sensor — Global Skid Steer Systems",
       "oemNumbers": [
         "6658260"
       ],
       "compatibility": [
-        "Specialty Equipment Component Platform"
+        "Global Skid Steer Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-44",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CUMMINS Engine Control Grid",
+      "name": "Revolution Sensor — Cummins High-Horsepower",
       "oemNumbers": [
-        "K19 Blocks Base"
+        "Cummins K19"
       ],
       "compatibility": [
-        "CUMMINS Engine Control Grid"
+        "Cummins High-Horsepower"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-45",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS Engine Power Packs",
+      "name": "Revolution Sensor — Perkins Diesel Systems",
       "oemNumbers": [
         "2868A006"
       ],
       "compatibility": [
-        "PERKINS Engine Power Packs"
+        "Perkins Diesel Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-46",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS Industrial Generator Modules",
+      "name": "Revolution Sensor — Perkins Diesel Systems",
       "oemNumbers": [
         "171-257"
       ],
       "compatibility": [
-        "PERKINS Industrial Generator Modules"
+        "Perkins Diesel Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "6"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-47",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS Precision Stationary Generators",
+      "name": "Revolution Sensor — Perkins Diesel Systems",
       "oemNumbers": [
         "171-233"
       ],
       "compatibility": [
-        "PERKINS Precision Stationary Generators"
+        "Perkins Diesel Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-48",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS Extended Mechanical Shaft Units",
+      "name": "Revolution Sensor — Perkins Diesel Systems",
       "oemNumbers": [
         "M16x1.5x120mm"
       ],
       "compatibility": [
-        "PERKINS Extended Mechanical Shaft Units"
+        "Perkins Diesel Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-49",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS Threaded Crankcase Blocks",
+      "name": "Revolution Sensor — Perkins Diesel Systems",
       "oemNumbers": [
-        "M16x1.5"
+        "M16x1.5 Standard"
       ],
       "compatibility": [
-        "PERKINS Threaded Crankcase Blocks"
+        "Perkins Diesel Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-5",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Caterpillar E320",
+      "oemNumbers": [
+        "196-7973",
+        "125-2966"
+      ],
+      "compatibility": [
+        "Caterpillar E320"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-50",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS Heavy Duty Generator Blocks",
-      "oemNumbers": [],
-      "compatibility": [
-        "PERKINS Heavy Duty Generator Blocks"
+      "name": "Revolution Sensor — Perkins Diesel Systems",
+      "oemNumbers": [
+        "8 5-Hole 4-Blade"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "Perkins Diesel Systems"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-51",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — PERKINS Marine and Auxiliary Power Units",
+      "name": "Revolution Sensor — Perkins Diesel Systems",
       "oemNumbers": [
         "171-232"
       ],
       "compatibility": [
-        "PERKINS Marine and Auxiliary Power Units"
+        "Perkins Diesel Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-52",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Generic Machinery Application Base",
-      "oemNumbers": [],
-      "compatibility": [
-        "Generic Machinery Application Base"
+      "name": "Revolution Sensor — Global Machinery",
+      "oemNumbers": [
+        "8 Two-Blade Node"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "Global Machinery"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-53",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Universal Machinery Sensor Harness",
+      "name": "Revolution Sensor — Global Machinery",
       "oemNumbers": [
-        "M16x1.5"
+        "M16x1.5 Two-Blade Node"
       ],
       "compatibility": [
-        "Universal Machinery Sensor Harness"
+        "Global Machinery"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-54",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — High Displacement Fleet System Base",
+      "name": "Revolution Sensor — Global Machinery",
       "oemNumbers": [
-        "M18x1.5"
+        "M18x1.5 Two-Blade Node"
       ],
       "compatibility": [
-        "High Displacement Fleet System Base"
+        "Global Machinery"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A01-55",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Heavy Industrial Infrastructure Fleet",
+      "name": "Revolution Sensor — Volvo, Deutz",
       "oemNumbers": [
         "701-80312"
       ],
       "compatibility": [
-        "Heavy Industrial Infrastructure Fleet"
+        "Volvo",
+        "Deutz"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-6",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Caterpillar E320D",
+      "oemNumbers": [
+        "324-4131"
+      ],
+      "compatibility": [
+        "Caterpillar E320D"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-6A",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Caterpillar E320C, E320B, Cummins Diesel Engines",
+      "oemNumbers": [
+        "51-7579",
+        "4327233"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E320B",
+        "Cummins Diesel Engines"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar",
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-7",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor (Φ16 Thick)",
+      "name": "Revolution Sensor (Φ16 Thick) — Caterpillar E329, Komatsu PC1250-7, Hitachi ZAX1200",
+      "oemNumbers": [
+        "193-2550",
+        "1-2550",
+        "4327239",
+        "3408472"
+      ],
+      "compatibility": [
+        "Caterpillar E329",
+        "Komatsu PC1250-7",
+        "Hitachi ZAX1200"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar",
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-7A",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor (Φ19 Thick)",
+      "name": "Revolution Sensor (Φ19 Thick) — Caterpillar E330C, E325C",
+      "oemNumbers": [
+        "4P-5820",
+        "189-5746"
+      ],
+      "compatibility": [
+        "Caterpillar E330C",
+        "E325C"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A01-7B",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Caterpillar General",
+      "oemNumbers": [
+        "318-1178",
+        "318-1181"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "5"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-1",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — YANMAR 4TNV94, 4TNV98 (E325C Infrastructure Cross)",
+      "name": "Camshaft Sensor — Yanmar Diesel Systems",
       "oemNumbers": [
-        "254-4630",
-        "169-3300"
+        "Yanmar 4TNV94",
+        "4TNV98"
       ],
       "compatibility": [
-        "YANMAR 4TNV94",
-        "4TNV98 (E325C Infrastructure Cross)"
+        "Yanmar Diesel Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-1A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Industrial Diesel Control Networks",
-      "oemNumbers": [
-        "384-3887"
+      "pages": [
+        "7"
       ],
-      "compatibility": [
-        "Industrial Diesel Control Networks"
+      "brandGroups": [
+        "Miscellaneous"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-1B",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — 499-9117Precision Engine Infrastructure Modules",
-      "oemNumbers": [
-        "499-9117Precision Engine Infrastructure Modules"
-      ],
-      "compatibility": [],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-1C",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — 481-5928Heavy Utility Equipment Engine Grids",
-      "oemNumbers": [
-        "481-5928Heavy Utility Equipment Engine Grids"
-      ],
-      "compatibility": [],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-2",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR E320D System Integration",
-      "oemNumbers": [
-        "238-0120"
-      ],
-      "compatibility": [
-        "CATERPILLAR E320D System Integration"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-2A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR E320D2 Engine Frame",
-      "oemNumbers": [
-        "384-3888"
-      ],
-      "compatibility": [
-        "CATERPILLAR E320D2 Engine Frame"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-2B",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR Engine Synchronization Grid",
-      "oemNumbers": [
-        "358-2398"
-      ],
-      "compatibility": [
-        "CATERPILLAR Engine Synchronization Grid"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-2C",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR High Precision Power Plants",
-      "oemNumbers": [
-        "358-2399"
-      ],
-      "compatibility": [
-        "CATERPILLAR High Precision Power Plants"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-3",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR Precision Timing Controls",
-      "oemNumbers": [
-        "319-6491"
-      ],
-      "compatibility": [
-        "CATERPILLAR Precision Timing Controls"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-4",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR E336 (201-6616 / 201-6617 Engines)",
-      "oemNumbers": [
-        "188-7513"
-      ],
-      "compatibility": [
-        "CATERPILLAR E336 (201-6616 / 201-6617 Engines)"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-4A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR E345D Heavy Duty Platform",
-      "oemNumbers": [
-        "279-9828"
-      ],
-      "compatibility": [
-        "CATERPILLAR E345D Heavy Duty Platform"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-5",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR Common Core Engine Control",
-      "oemNumbers": [
-        "201-6615"
-      ],
-      "compatibility": [
-        "CATERPILLAR Common Core Engine Control"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-5A",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR Fleet Logistics Architecture",
-      "oemNumbers": [
-        "216-3446"
-      ],
-      "compatibility": [
-        "CATERPILLAR Fleet Logistics Architecture"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-5B",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CATERPILLAR High Displacement Heavy Equipment",
-      "oemNumbers": [
-        "204-6204"
-      ],
-      "compatibility": [
-        "CATERPILLAR High Displacement Heavy Equipment"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-6",
-      "category": "Flywheel Speed Sensor",
-      "description": "Flywheel Speed Sensor",
-      "name": "Flywheel Speed Sensor — SUMITOMO SH210-5 (ISUZU 6 HK1, 6BG1 Power Blocks)",
-      "oemNumbers": [
-        "1-81510343-2"
-      ],
-      "compatibility": [
-        "SUMITOMO SH210-5 (ISUZU 6 HK1",
-        "6BG1 Power Blocks)"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-7",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — ISUZU Engines / SUMITOMO Mechanical Excavators",
-      "oemNumbers": [
-        "8-97240790-0"
-      ],
-      "compatibility": [
-        "ISUZU Engines / SUMITOMO Mechanical Excavators"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-8",
-      "category": "Eccentric Shaft Speed Sensor",
-      "description": "Eccentric Shaft Speed Sensor",
-      "name": "Eccentric Shaft Speed Sensor — SUMITOMO SH160 (ISUZU 4JJ1 Common Rail Block)",
-      "oemNumbers": [
-        "8-97312108-1"
-      ],
-      "compatibility": [
-        "SUMITOMO SH160 (ISUZU 4JJ1 Common Rail Block)"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A02-9",
-      "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — SUMITOMO SH210-5 (ISUZU 4 HK1, 6 HK1 Platforms)",
-      "oemNumbers": [
-        "8-98014831-0"
-      ],
-      "compatibility": [
-        "SUMITOMO SH210-5 (ISUZU 4 HK1",
-        "6 HK1 Platforms)"
-      ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-10",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — ISUZU 4 HK1, 6 HK1 Diesel Distribution Networks",
+      "name": "Revolution Sensor — Isuzu 4HK1, 6HK1 Engines",
       "oemNumbers": [
         "8-97306113-1"
       ],
       "compatibility": [
-        "ISUZU 4 HK1",
-        "6 HK1 Diesel Distribution Networks"
+        "Isuzu 4HK1",
+        "6HK1 Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-10A",
-      "category": "Revolution Sensor",
-      "description": "Revolution Sensor",
-      "name": "Revolution Sensor — JCB Integration Target JCB Track Equipment (ISUZU 4 HK1 Base Power)",
-      "oemNumbers": [],
-      "compatibility": [
-        "JCB Integration Target JCB Track Equipment (ISUZU 4 HK1 Base Power)"
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — JCB Machinery, Engines",
+      "oemNumbers": [
+        "4HK1"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "JCB Machinery",
+        "Engines"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-11",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — ISUZU Fleet Power Systems Block",
+      "name": "Revolution Sensor — Isuzu Core Marine, Excavator",
       "oemNumbers": [
         "8-97122324-0"
       ],
       "compatibility": [
-        "ISUZU Fleet Power Systems Block"
+        "Isuzu Core Marine",
+        "Excavator"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-12",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — ISUZU Mechanical Engine Blocks",
+      "name": "Revolution Sensor — Isuzu Engines",
       "oemNumbers": [
         "8-94370581-0"
       ],
       "compatibility": [
-        "ISUZU Mechanical Engine Blocks"
+        "Isuzu Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-12A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — ISUZU 4 HK1, 6 HK1 Global Common Rail Lines",
+      "name": "Camshaft Sensor — Caterpillar E325C",
       "oemNumbers": [
-        "8-98019024-0"
+        "254-4630",
+        "169-3300"
       ],
       "compatibility": [
-        "ISUZU 4 HK1",
-        "6 HK1 Global Common Rail Lines"
+        "Caterpillar E325C"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-13",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — VOLVO LIUGONG Excavators (DEUTZ Diesel Blocks)",
+      "name": "Revolution Sensor — Caterpillar E320D, Volvo, Deutz Engines",
       "oemNumbers": [
-        "0118-2850"
+        "238-0120",
+        "DEUTZ 0118-2850"
       ],
       "compatibility": [
-        "VOLVO LIUGONG Excavators (DEUTZ Diesel Blocks)"
+        "Caterpillar E320D",
+        "Volvo",
+        "Deutz Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar",
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-14",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — VOLVO Construction Platforms (DEUTZ Power Units)",
+      "name": "Revolution Sensor — Volvo, Deutz Engines",
       "oemNumbers": [
-        "0118-2834"
+        "VOLVO DEUTZ 0118-2834"
       ],
       "compatibility": [
-        "VOLVO Construction Platforms (DEUTZ Power Units)"
+        "Volvo",
+        "Deutz Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-14A",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — VOLVO D3.8 Compact Excavator Platform",
+      "name": "Revolution Sensor — Volvo, Deutz Engines, Isuzu 4HK1",
       "oemNumbers": [
-        "VOE20450707"
+        "VOLVO D3.8",
+        "8-98019024-0"
       ],
       "compatibility": [
-        "VOLVO D3.8 Compact Excavator Platform"
+        "Volvo",
+        "Deutz Engines",
+        "Isuzu 4HK1",
+        "6HK1 Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Volvo",
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-15",
       "category": "Crankshaft Sensor",
       "description": "Crankshaft Sensor",
-      "name": "Crankshaft Sensor — VOLVO Production Powertrain Blocks",
+      "name": "Crankshaft Sensor — Volvo Heavy Equipment",
       "oemNumbers": [
-        "VOE20450707"
+        "VOLVO VOE20450707"
       ],
       "compatibility": [
-        "VOLVO Production Powertrain Blocks"
+        "Volvo Heavy Equipment"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-16",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — VOLVO 210 Excavator (D6E Engine Frame)",
+      "name": "Camshaft Sensor — Volvo EC210",
       "oemNumbers": [
-        "VOE20482772"
+        "VOLVO 210 VOE20482772"
       ],
       "compatibility": [
-        "VOLVO 210 Excavator (D6E Engine Frame)"
+        "Volvo EC210"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-17",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — VOLVO 360 Heavy Excavator Powertrain",
+      "name": "Camshaft Sensor — Volvo EC360",
       "oemNumbers": [
         "VOE20508011"
       ],
       "compatibility": [
-        "VOLVO 360 Heavy Excavator Powertrain"
+        "Volvo EC360"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-18",
-      "category": "Air Induction Sensor",
-      "description": "Air Induction Sensor",
-      "name": "Air Induction Sensor — VOLVO 360 Structural Exhaust Systems",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo EC360",
       "oemNumbers": [
         "VOE20700060"
       ],
       "compatibility": [
-        "VOLVO 360 Structural Exhaust Systems"
+        "Volvo EC360"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-19",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — VOLVO 480 Mining Excavator Platform",
+      "name": "Camshaft Sensor — Volvo EC480",
       "oemNumbers": [
         "4123-840",
         "0281002315"
       ],
       "compatibility": [
-        "VOLVO 480 Mining Excavator Platform"
+        "Volvo EC480"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-1A",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Global Engine Core",
+      "oemNumbers": [
+        "384-3887"
+      ],
+      "compatibility": [
+        "Global Engine Core"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-1B",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Global Engine Core",
+      "oemNumbers": [
+        "499-9117"
+      ],
+      "compatibility": [
+        "Global Engine Core"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-1C",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Global Engine Core",
+      "oemNumbers": [
+        "481-5928"
+      ],
+      "compatibility": [
+        "Global Engine Core"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-20",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — HYUNDAI R265-7 Earthmoving Fleet",
+      "name": "Camshaft Sensor — Hyundai R265-7",
       "oemNumbers": [
         "4921597"
       ],
       "compatibility": [
-        "HYUNDAI R265-7 Earthmoving Fleet"
+        "Hyundai R265-7"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-21",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — HYUNDAI R265-7 Heavy Track Platform",
+      "name": "Camshaft Sensor — Hyundai R265-7",
       "oemNumbers": [
         "4921599"
       ],
       "compatibility": [
-        "HYUNDAI R265-7 Heavy Track Platform"
+        "Hyundai R265-7"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-22",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Industrial Diesel Common Rail Networks",
+      "name": "Camshaft Sensor — Caterpillar General",
       "oemNumbers": [
-        "238-4676",
-        "ZGAO-00651"
+        "238-4676"
       ],
       "compatibility": [
-        "Industrial Diesel Common Rail Networks"
+        "Caterpillar General"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-22A",
       "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — KOMATSU PC200-8 Infrastructure Excavator",
+      "description": "Camshaft Sensor (D4921684)",
+      "name": "Camshaft Sensor (D4921684) — Komatsu PC200-8",
       "oemNumbers": [
-        "6754-81-9410",
-        "D4921684"
+        "6754-81-9410"
       ],
       "compatibility": [
-        "KOMATSU PC200-8 Infrastructure Excavator"
+        "Komatsu PC200-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-22B",
       "category": "Camshaft Sensor",
-      "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — KOMATSU PC400-8 Earthmoving Platform",
+      "description": "Camshaft Sensor (D4921686)",
+      "name": "Camshaft Sensor (D4921686) — Komatsu PC400-8",
       "oemNumbers": [
-        "6261-81-2911",
-        "D4921686"
+        "6261-81-2911"
       ],
       "compatibility": [
-        "KOMATSU PC400-8 Earthmoving Platform"
+        "Komatsu PC400-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-23",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — KOMATSU PC400-8 Powertrain Architecture",
+      "name": "Camshaft Sensor — Komatsu PC400-8",
       "oemNumbers": [
         "6261-81-2902"
       ],
       "compatibility": [
-        "KOMATSU PC400-8 Powertrain Architecture"
+        "Komatsu PC400-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-23A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — CUMMINS Engine Management Networks",
+      "name": "Camshaft Sensor — Cummins Engine Core",
       "oemNumbers": [
         "5011855AA",
         "4921601"
       ],
       "compatibility": [
-        "CUMMINS Engine Management Networks"
+        "Cummins Engine Core"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-24",
-      "category": "Flywheel Timing Sensor",
-      "description": "Flywheel Timing Sensor",
-      "name": "Flywheel Timing Sensor — KOMATSU PC400-7 Production Excavator",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor (Flywheel 3-Pin)",
+      "name": "Camshaft Sensor (Flywheel 3-Pin) — Komatsu PC400-7",
       "oemNumbers": [
         "6217-81-9210"
       ],
       "compatibility": [
-        "KOMATSU PC400-7 Production Excavator"
+        "Komatsu PC400-7"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-25",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — DOOSAN DX380 Mining Fleet",
+      "name": "Camshaft Sensor — Kobelco SK350-8, Hino Truck Cross",
       "oemNumbers": [
-        "3405529"
+        "VH89411E0050"
       ],
       "compatibility": [
-        "DOOSAN DX380 Mining Fleet"
+        "Kobelco SK350-8",
+        "Hino Truck Cross"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-26",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — KOBELCO SK350-8 (HINO J08E Engine Frame)",
+      "name": "Camshaft Sensor — Kobelco SK350-8",
       "oemNumbers": [
-        "S841-01590"
+        "S841-01590",
+        "JO8E Engine"
       ],
       "compatibility": [
-        "KOBELCO SK350-8 (HINO J08E Engine Frame)"
+        "Kobelco SK350-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-26A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — HINO Diesel Power (KOBELCO Excavator Integration)",
-      "oemNumbers": [
-        "949979-1420"
-      ],
+      "name": "Camshaft Sensor — Hino Longline Spec Hino Heavy Commercial",
+      "oemNumbers": [],
       "compatibility": [
-        "HINO Diesel Power (KOBELCO Excavator Integration)"
+        "Hino Longline Spec Hino Heavy Commercial"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-27",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — KOBELCO SK130-8, SK140-8 (MITSUBISHI D04FR Engine)",
+      "name": "Camshaft Sensor — Kobelco SK130-8, SK140-8",
       "oemNumbers": [
-        "VA32G9000600"
+        "D04FR Engine"
       ],
       "compatibility": [
-        "KOBELCO SK130-8",
-        "SK140-8 (MITSUBISHI D04FR Engine)"
+        "Kobelco SK130-8",
+        "SK140-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-27A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — SANY Production Machinery Platforms",
+      "name": "Camshaft Sensor — Kobelco General, Sany Standard Layout Sany Heavy Industries",
       "oemNumbers": [
-        "VA32G9000600"
+        "VA32G9000600 Line"
       ],
       "compatibility": [
-        "SANY Production Machinery Platforms"
+        "Kobelco General",
+        "Sany Standard Layout Sany Heavy Industries"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Kobelco",
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-28",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — KOBELCO SK200-8 (HINO J05E Engine Frame)",
+      "name": "Camshaft Sensor — Kobelco SK200-8",
       "oemNumbers": [
-        "S8941-01570"
+        "S8941-01570",
+        "JO5 Engine"
       ],
       "compatibility": [
-        "KOBELCO SK200-8 (HINO J05E Engine Frame)"
+        "Kobelco SK200-8"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-28A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — PERKINS Engine Power Packs",
+      "name": "Camshaft Sensor — Perkins Core Systems",
       "oemNumbers": [
         "1855-781C91"
       ],
       "compatibility": [
-        "PERKINS Engine Power Packs"
+        "Perkins Core Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-28B",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — PERKINS Logistics and Utility Fleet Systems",
+      "name": "Camshaft Sensor — Perkins Systems Base Perkins Core Systems",
       "oemNumbers": [],
       "compatibility": [
-        "PERKINS Logistics and Utility Fleet Systems"
+        "Perkins Systems Base Perkins Core Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-29",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — JCB Backhoe and Tracked Excavator Networks",
+      "name": "Camshaft Sensor — JCB Backhoes, Material Handlers",
       "oemNumbers": [
         "716-30123"
       ],
       "compatibility": [
-        "JCB Backhoe and Tracked Excavator Networks"
+        "JCB Backhoes",
+        "Material Handlers"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-29A",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — Specialty Infrastructure Engine Formats",
+      "name": "Camshaft Sensor — Global Mechanical Controls",
       "oemNumbers": [
-        "238-4676",
         "ZGAO-00651"
       ],
       "compatibility": [
-        "Specialty Infrastructure Engine Formats"
+        "Global Mechanical Controls"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-2A",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar E320D2",
+      "oemNumbers": [
+        "384-3888"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-2B",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar General",
+      "oemNumbers": [
+        "358-2398"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-2C",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar General",
+      "oemNumbers": [
+        "358-2399"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-30",
       "category": "Crankshaft Sensor",
       "description": "Crankshaft Sensor",
-      "name": "Crankshaft Sensor — KOBELCO SK350-8 Earthmoving Base",
+      "name": "Crankshaft Sensor — Kobelco SK350-8, Hino Truck",
       "oemNumbers": [
-        "JO5"
+        "J05 Engine"
       ],
       "compatibility": [
-        "KOBELCO SK350-8 Earthmoving Base"
+        "Kobelco SK350-8",
+        "Hino Truck"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-31",
       "category": "Camshaft Timing Sensor",
-      "description": "Camshaft Timing Sensor",
-      "name": "Camshaft Timing Sensor — DOOSAN DX260-9 Excavator Powertrain",
+      "description": "Flywheel Camshaft Sensor",
+      "name": "Flywheel Camshaft Sensor — Hino Engines, Kobelco, Doosan Heavy Industries",
       "oemNumbers": [
-        "VH89411E0050"
+        "VH89411E0050",
+        "Doosan DX380"
       ],
       "compatibility": [
-        "DOOSAN DX260-9 Excavator Powertrain"
+        "Hino Engines",
+        "Kobelco",
+        "Doosan Heavy Industries"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hitachi",
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-32",
-      "category": "Camshaft Timing Sensor",
-      "description": "Camshaft Timing Sensor",
-      "name": "Camshaft Timing Sensor — DOOSAN DX380 SCANIA Powered Mining Fleet",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Doosan Heavy Industries",
       "oemNumbers": [
-        "1319158"
+        "Doosan DX260-9"
       ],
       "compatibility": [
-        "DOOSAN DX380 SCANIA Powered Mining Fleet"
+        "Doosan Heavy Industries"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-32A",
-      "category": "Camshaft Timing Sensor",
-      "description": "Camshaft Timing Sensor",
-      "name": "Camshaft Timing Sensor — DOOSAN DX380, DX470 Mining Fleet Platforms",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Scania Doosan, Scania Industrial Engines",
       "oemNumbers": [
-        "DOOSAN DX380 SCANIA Alternative"
+        "Doosan DX380"
       ],
       "compatibility": [
-        "DOOSAN DX380",
-        "DX470 Mining Fleet Platforms"
+        "Scania Doosan",
+        "Scania Industrial Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hyundai"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-33",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — High-Speed Compact Diesel Systems",
+      "name": "Camshaft Sensor — Scania Doosan, Scania Industrial Engines, Yanmar",
       "oemNumbers": [
-        "KUBOTA 158557-61720"
+        "Doosan DX470",
+        "158557-61720"
       ],
       "compatibility": [
-        "High-Speed Compact Diesel Systems"
+        "Scania Doosan",
+        "Scania Industrial Engines",
+        "Yanmar",
+        "Kubota Engines"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hyundai",
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-34",
       "category": "Crankshaft Sensor",
       "description": "Crankshaft Sensor",
-      "name": "Crankshaft Sensor — KOBELCO Heavy Excavator Platforms",
-      "oemNumbers": [],
-      "compatibility": [
-        "KOBELCO Heavy Excavator Platforms"
+      "name": "Crankshaft Sensor — Hino Trucks, Kobelco Excavators",
+      "oemNumbers": [
+        "949979-1420"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "compatibility": [
+        "Hino Trucks",
+        "Kobelco Excavators"
+      ],
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-35",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — KATO 加藤 HD820-5 Industrial Excavator",
+      "name": "Camshaft Sensor — Mitsubishi 4M50, Kato HD820-5",
       "oemNumbers": [
-        "4M50"
+        "709-4500006"
       ],
       "compatibility": [
-        "KATO 加藤 HD820-5 Industrial Excavator"
+        "Mitsubishi 4M50",
+        "Kato HD820-5"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-36",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — LIEBHERR 利勃海尔 Construction Equipment",
+      "name": "Camshaft Sensor — Liebherr Heavy Mining",
       "oemNumbers": [
         "11442694"
       ],
       "compatibility": [
-        "LIEBHERR 利勃海尔 Construction Equipment"
+        "Liebherr Heavy Mining"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-37",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — JOHN DEERE Agricultural Tractor & Forestry Fleet",
+      "name": "Camshaft Sensor — John Deere Systems",
       "oemNumbers": [
         "RE51944"
       ],
       "compatibility": [
-        "JOHN DEERE Agricultural Tractor & Forestry Fleet"
+        "John Deere Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-38",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — JOHN DEERE Industrial Material Handling Grids",
+      "name": "Camshaft Sensor — John Deere Systems",
       "oemNumbers": [
         "RE295936"
       ],
       "compatibility": [
-        "JOHN DEERE Industrial Material Handling Grids"
+        "John Deere Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-39",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — Heavy Industrial Machinery Architecture",
+      "name": "Revolution Sensor — Caterpillar General, Global Mechanical Controls",
       "oemNumbers": [
+        "5594275",
         "V836866392"
       ],
       "compatibility": [
-        "Heavy Industrial Machinery Architecture"
+        "Caterpillar General",
+        "Global Mechanical Controls"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Caterpillar",
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-40",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — CUMMINS Global Industrial Powertrains",
+      "name": "Revolution Sensor — Cummins Engine Blocks",
       "oemNumbers": [
         "4327230"
       ],
       "compatibility": [
-        "CUMMINS Global Industrial Powertrains"
+        "Cummins Engine Blocks"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-41",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KUBOTA 久保田 Compact Utility Machinery",
+      "name": "Revolution Sensor — Kubota Construction Units",
       "oemNumbers": [
         "5H911-42622"
       ],
       "compatibility": [
-        "KUBOTA 久保田 Compact Utility Machinery"
+        "Kubota Construction Units"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-42",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — KUBOTA Compact Industrial Excavators",
+      "name": "Revolution Sensor — Kubota Construction Units",
       "oemNumbers": [
         "T1060-18660"
       ],
       "compatibility": [
-        "KUBOTA Compact Industrial Excavators"
+        "Kubota Construction Units"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-43",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — DOOSAN DX800 Ultra-Heavy Mining Excavator",
+      "name": "Revolution Sensor — Doosan Heavy Earthmoving",
       "oemNumbers": [
-        "458-6031"
+        "DX800"
       ],
       "compatibility": [
-        "DOOSAN DX800 Ultra-Heavy Mining Excavator"
+        "Doosan Heavy Earthmoving"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-44",
       "category": "Camshaft Sensor",
       "description": "Camshaft Sensor",
-      "name": "Camshaft Sensor — REXROTH 力士乐 Electronic Pump Control Networks",
+      "name": "Camshaft Sensor — Bosch Rexroth Hydraulics",
       "oemNumbers": [
         "R901414438",
         "458-6031"
       ],
       "compatibility": [
-        "REXROTH 力士乐 Electronic Pump Control Networks"
+        "Bosch Rexroth Hydraulics"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-45",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — JCB Construction and Logistics Equipment",
+      "name": "Revolution Sensor — JCB Systems",
       "oemNumbers": [
         "716",
-        "D2727 Lead Layout"
+        "D2727"
       ],
       "compatibility": [
-        "JCB Construction and Logistics Equipment"
+        "JCB Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-46",
       "category": "Revolution Sensor",
       "description": "Revolution Sensor",
-      "name": "Revolution Sensor — JCB Heavy Duty Structural Handlers",
+      "name": "Revolution Sensor — JCB Systems",
       "oemNumbers": [
         "716",
-        "D2729 Lead Layout"
+        "D2729"
       ],
       "compatibility": [
-        "JCB Heavy Duty Structural Handlers"
+        "JCB Systems"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A02-47",
-      "category": "Speed Sensor Array",
-      "description": "Speed Sensor Array",
-      "name": "Speed Sensor Array — KOMATSU WA150-5, WA20L-5 Compact Wheel Loaders",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Komatsu WA150-5, WA20L-5 Loaders",
       "oemNumbers": [
         "418-18-31502"
       ],
       "compatibility": [
-        "KOMATSU WA150-5",
-        "WA20L-5 Compact Wheel Loaders"
+        "Komatsu WA150-5",
+        "WA20L-5 Loaders"
       ],
-      "section": "Kafu Parts",
-      "confidence": "user-section"
+      "pages": [
+        "8"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-4A",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar E345D",
+      "oemNumbers": [
+        "279-9828"
+      ],
+      "compatibility": [
+        "Caterpillar E345D"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-5",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar General",
+      "oemNumbers": [
+        "201-6615"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-5A",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar General",
+      "oemNumbers": [
+        "216-3446"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-5B",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Caterpillar General",
+      "oemNumbers": [
+        "204-6204"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-6",
+      "category": "Flywheel Speed Sensor",
+      "description": "Flywheel Revolution Sensor",
+      "name": "Flywheel Revolution Sensor — Isuzu 6HK1, 6BG1, Sumitomo SH210-5",
+      "oemNumbers": [
+        "1-81510343-2"
+      ],
+      "compatibility": [
+        "Isuzu 6HK1",
+        "6BG1",
+        "Sumitomo SH210-5"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-7",
+      "category": "Revolution Sensor",
+      "description": "Revolution Sensor",
+      "name": "Revolution Sensor — Isuzu, Sumitomo Heavy Industries",
+      "oemNumbers": [
+        "8-97240790-0"
+      ],
+      "compatibility": [
+        "Isuzu",
+        "Sumitomo Heavy Industries"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-8",
+      "category": "Eccentric Shaft Speed Sensor",
+      "description": "Eccentric Shaft Speed Sensor",
+      "name": "Eccentric Shaft Speed Sensor — Isuzu 4JJ1 Engine, Sumitomo SH160",
+      "oemNumbers": [
+        "8-97312108-1"
+      ],
+      "compatibility": [
+        "Isuzu 4JJ1 Engine",
+        "Sumitomo SH160"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A02-9",
+      "category": "Camshaft Sensor",
+      "description": "Camshaft Sensor",
+      "name": "Camshaft Sensor — Isuzu 4HK1, 6HK1, Sumitomo SH210-5",
+      "oemNumbers": [
+        "8-98014831-0"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1",
+        "6HK1",
+        "Sumitomo SH210-5"
+      ],
+      "pages": [
+        "7"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 2",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-1",
       "category": "Air Pressure Switch",
       "description": "Air Pressure Switch",
-      "name": "Air Pressure Switch — ISUZU Diesel Engines / Global Fleet Trucks",
+      "name": "Air Pressure Switch — Isuzu Utility Trucks, Hitachi EX",
       "oemNumbers": [
         "8-12146830-0"
       ],
       "compatibility": [
-        "ISUZU Diesel Engines / Global Fleet Trucks"
+        "Isuzu Utility Trucks",
+        "Hitachi EX"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-2",
-      "category": "Intake Temperature Sensor",
-      "description": "Intake Temperature Sensor",
-      "name": "Intake Temperature Sensor — VOLVO Construction Platforms (Early Series)",
-      "oemNumbers": [
-        "20450095"
-      ],
-      "compatibility": [
-        "VOLVO Construction Platforms (Early Series)"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-3",
-      "category": "Manifold Air Pressure Sensor",
-      "description": "Manifold Air Pressure Sensor",
-      "name": "Manifold Air Pressure Sensor — KOMATSU PC200-8 Infrastructure Excavator",
-      "oemNumbers": [
-        "4076493",
-        "6261-81-1900"
-      ],
-      "compatibility": [
-        "KOMATSU PC200-8 Infrastructure Excavator"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-4",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Heavy Equipment Engines",
-      "oemNumbers": [
-        "VOE 20450693"
-      ],
-      "compatibility": [
-        "VOLVO Heavy Equipment Engines"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-5",
-      "category": "Manifold Air Pressure Sensor",
-      "description": "Manifold Air Pressure Sensor",
-      "name": "Manifold Air Pressure Sensor — KOMATSU PC200-8 Powertrain Architecture",
-      "oemNumbers": [
-        "4921322",
-        "6754-81-2701"
-      ],
-      "compatibility": [
-        "KOMATSU PC200-8 Powertrain Architecture"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-5A",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — HITACHI Excavator Engine Network",
-      "oemNumbers": [
-        "8-97601-9670"
-      ],
-      "compatibility": [
-        "HITACHI Excavator Engine Network"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-6",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO 210 Excavator Powertrain Grid",
-      "oemNumbers": [
-        "0281002566",
-        "0281002576"
-      ],
-      "compatibility": [
-        "VOLVO 210 Excavator Powertrain Grid"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-6A",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Infrastructure Machinery Systems",
-      "oemNumbers": [
-        "22422785"
-      ],
-      "compatibility": [
-        "VOLVO Infrastructure Machinery Systems"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-6B",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Material Handling Fleets",
-      "oemNumbers": [
-        "24527125"
-      ],
-      "compatibility": [
-        "VOLVO Material Handling Fleets"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-7",
-      "category": "Air Pressure Sensor",
-      "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — CUMMINS Engine Electronic Management",
-      "oemNumbers": [
-        "4076493"
-      ],
-      "compatibility": [
-        "CUMMINS Engine Electronic Management"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-8",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Power Systems Infrastructure",
-      "oemNumbers": [
-        "441050080"
-      ],
-      "compatibility": [
-        "VOLVO Power Systems Infrastructure"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-9",
-      "category": "Vacuum Pressure Switch",
-      "description": "Vacuum Pressure Switch",
-      "name": "Vacuum Pressure Switch — VOLVO EC210, EC240, EC290",
-      "oemNumbers": [
-        "21304786",
-        "22181342"
-      ],
-      "compatibility": [
-        "VOLVO EC210",
-        "EC240",
-        "EC290",
-        "EC360 Series"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-9A",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Industrial Diesel Power Packs",
-      "oemNumbers": [
-        "15038313"
-      ],
-      "compatibility": [
-        "VOLVO Industrial Diesel Power Packs"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-9B",
-      "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Utility Infrastructure Equipment",
-      "oemNumbers": [
-        "22172068"
-      ],
-      "compatibility": [
-        "VOLVO Utility Infrastructure Equipment"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-10",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO EC480 Heavy Mining Excavator",
+      "name": "Air Intake Sensor — Volvo EC480",
       "oemNumbers": [
         "20542128"
       ],
       "compatibility": [
-        "VOLVO EC480 Heavy Mining Excavator"
+        "Volvo EC480"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-11",
       "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Electronic Engine Integration",
+      "description": "Air Intake Sensor (5-Wire Line)",
+      "name": "Air Intake Sensor (5-Wire Line) — Volvo General",
       "oemNumbers": [
         "208935035"
       ],
       "compatibility": [
-        "VOLVO Electronic Engine Integration"
+        "Volvo General"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-11A",
       "category": "Air Intake Sensor",
-      "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Advanced Emissions Fleet Units",
+      "description": "Air Intake Sensor (6-Wire Line)",
+      "name": "Air Intake Sensor (6-Wire Line) — Volvo General",
       "oemNumbers": [
         "208935036"
       ],
       "compatibility": [
-        "VOLVO Advanced Emissions Fleet Units"
+        "Volvo General"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-11B",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — VOLVO Modernized Heavy Tracked Fleet",
+      "name": "Air Intake Sensor — Volvo General",
       "oemNumbers": [
         "21442662"
       ],
       "compatibility": [
-        "VOLVO Modernized Heavy Tracked Fleet"
+        "Volvo General"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-12",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — CATERPILLAR 312D Tier-Compliant Excavators",
+      "name": "Air Pressure Sensor — Caterpillar 312D",
       "oemNumbers": [
         "266-0136"
       ],
       "compatibility": [
-        "CATERPILLAR 312D Tier-Compliant Excavators"
+        "Caterpillar 312D"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-12A",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — CATERPILLAR Industrial Infrastructure Group",
+      "name": "Air Pressure Sensor — Caterpillar General",
       "oemNumbers": [
         "381-9064"
       ],
       "compatibility": [
-        "CATERPILLAR Industrial Infrastructure Group"
+        "Caterpillar General"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-12B",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — VOLVO General Fleet Logistics Platforms",
+      "name": "Air Pressure Sensor — Volvo Construction Line",
       "oemNumbers": [
         "21304786",
         "22181342"
       ],
       "compatibility": [
-        "VOLVO General Fleet Logistics Platforms"
+        "Volvo Construction Line"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-12C",
-      "category": "Air Temp Sensor",
-      "description": "Air Temp Sensor",
-      "name": "Air Temp Sensor — Cross-Platform Fleet Engine Intake Manifolds",
-      "oemNumbers": [
-        "107-8618"
-      ],
-      "compatibility": [
-        "Cross-Platform Fleet Engine Intake Manifolds"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-13",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — KOMATSU PC200-7 Machinery Platform",
+      "name": "Air Pressure Sensor — Komatsu PC200-7",
       "oemNumbers": [
         "7861-91-1420"
       ],
       "compatibility": [
-        "KOMATSU PC200-7 Machinery Platform"
+        "Komatsu PC200-7"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-13A",
-      "category": "Air Pressure Sensor",
-      "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — Universal Fixed-Plant and Fleet Diesel Engines",
-      "oemNumbers": [
-        "002254"
-      ],
-      "compatibility": [
-        "Universal Fixed-Plant and Fleet Diesel Engines"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-14",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — HITACHI Production Spec HITACHI EX, ZAX Excavator Series",
+      "name": "Air Intake Sensor — Hitachi Systems Base Hitachi Machinery",
       "oemNumbers": [],
       "compatibility": [
-        "HITACHI Production Spec HITACHI EX",
-        "ZAX Excavator Series"
+        "Hitachi Systems Base Hitachi Machinery"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-14A",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — CATERPILLAR Excavator Operations Control",
+      "name": "Air Intake Sensor — Caterpillar General",
       "oemNumbers": [
         "381-9064"
       ],
       "compatibility": [
-        "CATERPILLAR Excavator Operations Control"
+        "Caterpillar General"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-15",
-      "category": "AC Pressure Switch",
-      "description": "AC Pressure Switch",
-      "name": "AC Pressure Switch — KOMATSU Fleet Cabin Environment Blocks",
-      "oemNumbers": [
-        "PC200-7 Harness"
-      ],
-      "compatibility": [
-        "KOMATSU Fleet Cabin Environment Blocks"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-15A",
       "category": "Air Pressure Switch",
       "description": "Air Pressure Switch",
-      "name": "Air Pressure Switch — KOMATSU Powertrain Diagnostic Systems",
+      "name": "Air Pressure Switch — Komatsu Air Conditioning Systems",
       "oemNumbers": [
+        "PC200-7",
         "PC200-8"
       ],
       "compatibility": [
-        "KOMATSU Powertrain Diagnostic Systems"
+        "Komatsu Air Conditioning Systems"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-16",
-      "category": "Air Alarm Sensor",
-      "description": "Air Alarm Sensor",
-      "name": "Air Alarm Sensor — SUMITOMO Excavator System Protection Networks",
-      "oemNumbers": [
-        "SH200"
-      ],
-      "compatibility": [
-        "SUMITOMO Excavator System Protection Networks"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-17",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — KOMATSU PC400-8 Heavy Utility Machinery",
+      "name": "Air Pressure Sensor — Komatsu PC400-8",
       "oemNumbers": [
         "6261-81-2600"
       ],
       "compatibility": [
-        "KOMATSU PC400-8 Heavy Utility Machinery"
+        "Komatsu PC400-8"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-18",
-      "category": "Differential Pressure Sensor",
-      "description": "Differential Pressure Sensor",
-      "name": "Differential Pressure Sensor — YUCHAI Design CUMMINS / YUCHAI Advanced Exhaust Networks",
-      "oemNumbers": [
-        "1MPP2-1"
-      ],
-      "compatibility": [
-        "YUCHAI Design CUMMINS / YUCHAI Advanced Exhaust Networks"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-18A",
-      "category": "Differential Pressure Sensor",
-      "description": "Differential Pressure Sensor",
-      "name": "Differential Pressure Sensor — 314-9772 ConfigurationFleet Emissions Monitoring Platforms",
-      "oemNumbers": [
-        "314-9772 ConfigurationFleet Emissions Monitoring Platforms"
-      ],
-      "compatibility": [],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-19",
       "category": "Barometric Pressure Sensor",
       "description": "Barometric Pressure Sensor",
-      "name": "Barometric Pressure Sensor — HITACHI ZAX200-3 (ISUZU Power / KOBELCO SK200-8 Cross)",
+      "name": "Barometric Pressure Sensor — Isuzu Engine Systems, Hitachi ZAX200-3",
       "oemNumbers": [
-        "VH893901080A",
-        "ZAX200-3"
+        "4UZ1 Engine Spec",
+        "VH893901080A"
       ],
       "compatibility": [
-        "HITACHI ZAX200-3 (ISUZU Power / KOBELCO SK200-8 Cross)"
+        "Isuzu Engine Systems",
+        "Hitachi ZAX200-3"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A03-2",
+      "category": "Intake Temperature Sensor",
+      "description": "Intake Temperature Sensor (Old)",
+      "name": "Intake Temperature Sensor (Old) — Volvo Heavy Duty",
+      "oemNumbers": [
+        "20450095"
+      ],
+      "compatibility": [
+        "Volvo Heavy Duty"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-20",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — HITACHI ZAX490-5A (ISUZU 6UZ1 Engine Frame)",
+      "name": "Air Intake Sensor — Isuzu Engines, Hitachi ZAX490-5A",
       "oemNumbers": [
         "8-98121697-0"
       ],
       "compatibility": [
-        "HITACHI ZAX490-5A (ISUZU 6UZ1 Engine Frame)"
+        "Isuzu Engines",
+        "Hitachi ZAX490-5A"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-21",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — ISUZU Industrial Common Rail Diesel Engines",
+      "name": "Air Intake Sensor — Isuzu Engines",
       "oemNumbers": [
-        "8-98065377-0 Control"
+        "8-98065377-0"
       ],
       "compatibility": [
-        "ISUZU Industrial Common Rail Diesel Engines"
+        "Isuzu Engines"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-22",
       "category": "Intake Pressure Sensor",
       "description": "Intake Pressure Sensor",
-      "name": "Intake Pressure Sensor — SCANIA System Base DOOSAN DX380 Mining Fleet (SCANIA Engine Frame)",
+      "name": "Intake Pressure Sensor — Scania Variant)",
       "oemNumbers": [
-        "DX380"
+        "Scania Engine Block Spec Doosan DX380 ("
       ],
       "compatibility": [
-        "SCANIA System Base DOOSAN DX380 Mining Fleet (SCANIA Engine Frame)"
+        "Scania Variant)"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-23",
-      "category": "Intake Pressure Sensor",
-      "description": "Intake Pressure Sensor",
-      "name": "Intake Pressure Sensor — CUMMINS Global Fleet Industrial Power Blocks",
-      "oemNumbers": [
-        "4902720"
-      ],
-      "compatibility": [
-        "CUMMINS Global Fleet Industrial Power Blocks"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-24",
-      "category": "Barometric Pressure Sensor",
-      "description": "Barometric Pressure Sensor",
-      "name": "Barometric Pressure Sensor — YUCHAI Powered KOBELCO SK210-10 Fleets",
-      "oemNumbers": [
-        "SK210-10 Module"
-      ],
-      "compatibility": [
-        "YUCHAI Powered KOBELCO SK210-10 Fleets"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-25",
-      "category": "Intake Pressure Sensor",
-      "description": "Intake Pressure Sensor",
-      "name": "Intake Pressure Sensor — John Deere Technical Spec JOHN DEERE Agricultural and Industrial Engines",
-      "oemNumbers": [],
-      "compatibility": [
-        "John Deere Technical Spec JOHN DEERE Agricultural and Industrial Engines"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-25A",
       "category": "Intake Pressure Sensor",
       "description": "Intake Pressure Sensor",
-      "name": "Intake Pressure Sensor — High Reliability Utility Fleet Engines",
+      "name": "Intake Pressure Sensor — Doosan Heavy, Infracore",
       "oemNumbers": [
         "129978-12700"
       ],
       "compatibility": [
-        "High Reliability Utility Fleet Engines"
+        "Doosan Heavy",
+        "Infracore"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-26",
       "category": "Air Pressure Sensor",
       "description": "Air Pressure Sensor",
-      "name": "Air Pressure Sensor — KOMATSU PC400-8 Mining and Earthmoving Fleets",
+      "name": "Air Pressure Sensor — Komatsu PC400-8",
       "oemNumbers": [
-        "6261-81-2700 Heavy Grid"
+        "6261-81-2700"
       ],
       "compatibility": [
-        "KOMATSU PC400-8 Mining and Earthmoving Fleets"
+        "Komatsu PC400-8"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A03-27",
       "category": "Air Intake Sensor",
       "description": "Air Intake Sensor",
-      "name": "Air Intake Sensor — KOMATSU PC350-10 Advanced Earthmover",
+      "name": "Air Intake Sensor — Komatsu PC350-10",
       "oemNumbers": [
         "4984590"
       ],
       "compatibility": [
-        "KOMATSU PC350-10 Advanced Earthmover"
+        "Komatsu PC350-10"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-28",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — Specialized Fleet Electronic Wiring Grids",
+      "catalogCode": "A03-3",
+      "category": "Air Pressure Sensor",
+      "description": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — Komatsu PC200-8",
       "oemNumbers": [
-        "266-1466"
+        "4076493",
+        "6261-81-1900"
       ],
       "compatibility": [
-        "Specialized Fleet Electronic Wiring Grids"
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-29",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — 266-1467 Sealed UnitHeavy Duty Machinery Wiring Frameworks",
+      "catalogCode": "A03-4",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo Infrastructure Equipment",
       "oemNumbers": [
-        "266-1467 Sealed UnitHeavy Duty Machinery Wiring Frameworks"
-      ],
-      "compatibility": [],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-29A",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — High Stress Engine Bay Diagnostic Systems",
-      "oemNumbers": [
-        "266-1468"
+        "VOE 20450693"
       ],
       "compatibility": [
-        "High Stress Engine Bay Diagnostic Systems"
+        "Volvo Infrastructure Equipment"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-30",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — 266-1475 Armored LeadHeavy Construction Machinery Harness Modules",
+      "catalogCode": "A03-5",
+      "category": "Air Pressure Sensor",
+      "description": "Air Pressure Sensor",
+      "name": "Air Pressure Sensor — Komatsu PC200-8",
       "oemNumbers": [
-        "266-1475 Armored LeadHeavy Construction Machinery Harness Modules"
-      ],
-      "compatibility": [],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-31",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — Precision Sensor Interconnect Systems",
-      "oemNumbers": [
-        "266-1477"
+        "4921322",
+        "6754-81-2701"
       ],
       "compatibility": [
-        "Precision Sensor Interconnect Systems"
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-32",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — Logistics and Ground Engineering Equipment",
+      "catalogCode": "A03-5A",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Hitachi Construction Core",
       "oemNumbers": [
-        "266-1478"
+        "8-97601-9670"
       ],
       "compatibility": [
-        "Logistics and Ground Engineering Equipment"
+        "Hitachi Construction Core"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-33",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — 266-1481 Interface LeadIndustrial Infrastructure Support Systems",
+      "catalogCode": "A03-6",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo EC210",
       "oemNumbers": [
-        "266-1481 Interface LeadIndustrial Infrastructure Support Systems"
-      ],
-      "compatibility": [],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-34",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — Field Infrastructure Operations Fleet",
-      "oemNumbers": [
-        "266-2337"
+        "0281002566",
+        "0281002576"
       ],
       "compatibility": [
-        "Field Infrastructure Operations Fleet"
+        "Volvo EC210"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-35",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — Multi-Function Infrastructure Support Vehicles",
+      "catalogCode": "A03-6A",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo Machinery Core",
       "oemNumbers": [
-        "266-1484"
+        "22422785"
       ],
       "compatibility": [
-        "Multi-Function Infrastructure Support Vehicles"
+        "Volvo Machinery Core"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-36",
-      "category": "Sensor Cable Assembly",
-      "description": "Sensor Cable Assembly",
-      "name": "Sensor Cable Assembly — 266-1492 Base UnitHeavy Utility Fleet Asset Monitoring",
+      "catalogCode": "A03-6B",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo Machinery Core",
       "oemNumbers": [
-        "266-1492 Base UnitHeavy Utility Fleet Asset Monitoring"
-      ],
-      "compatibility": [],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A03-37",
-      "category": "Angular Position Sensor",
-      "description": "Angular Position Sensor",
-      "name": "Angular Position Sensor — Hydraulic Articulation Tracking Systems",
-      "oemNumbers": [
-        "269-1983"
+        "24527125"
       ],
       "compatibility": [
-        "Hydraulic Articulation Tracking Systems"
+        "Volvo Machinery Core"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-38",
-      "category": "Angular Position Sensor",
-      "description": "Angular Position Sensor",
-      "name": "Angular Position Sensor — Extreme Environment Position Feedback Units",
+      "catalogCode": "A03-8",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo Heavy Transport",
       "oemNumbers": [
-        "204-7949"
+        "441050080"
       ],
       "compatibility": [
-        "Extreme Environment Position Feedback Units"
+        "Volvo Heavy Transport"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-39",
-      "category": "Angular Position Sensor",
-      "description": "Angular Position Sensor",
-      "name": "Angular Position Sensor — 266-1473 Multi-AxisHeavy Rigging and Earthmoving Crane Arms",
+      "catalogCode": "A03-9",
+      "category": "Vacuum Pressure Switch",
+      "description": "Vacuum Switch",
+      "name": "Vacuum Switch — Volvo EC210, EC240, EC290",
       "oemNumbers": [
-        "266-1473 Multi-AxisHeavy Rigging and Earthmoving Crane Arms"
+        "21304786",
+        "22181342"
       ],
-      "compatibility": [],
+      "compatibility": [
+        "Volvo EC210",
+        "EC240",
+        "EC290",
+        "EC360"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-40",
-      "category": "Rotary Switch Sensor",
-      "description": "Rotary Switch Sensor",
-      "name": "Rotary Switch Sensor — Cabin Interior Control Unit Fleet Operator Console Interface Modules",
-      "oemNumbers": [],
+      "catalogCode": "A03-9A",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo General",
+      "oemNumbers": [
+        "15038313"
+      ],
       "compatibility": [
-        "Cabin Interior Control Unit Fleet Operator Console Interface Modules"
+        "Volvo General"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A03-41",
-      "category": "Door Courtesy Lamp Switch",
-      "description": "Door Courtesy Lamp Switch",
-      "name": "Door Courtesy Lamp Switch — Cockpit Frame Integration Universal Excavator and Loader Cab Systems",
-      "oemNumbers": [],
+      "catalogCode": "A03-9B",
+      "category": "Air Intake Sensor",
+      "description": "Air Intake Sensor",
+      "name": "Air Intake Sensor — Volvo General",
+      "oemNumbers": [
+        "22172068"
+      ],
       "compatibility": [
-        "Cockpit Frame Integration Universal Excavator and Loader Cab Systems"
+        "Volvo General"
+      ],
+      "pages": [
+        "9"
+      ],
+      "brandGroups": [
+        "Volvo"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A04-1",
       "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — HITACHI EX200-5 Excavator Hydraulic System",
+      "description": "Oil Pressure Switch (Single-Pin)",
+      "name": "Oil Pressure Switch (Single-Pin) — Hitachi EX200-5",
       "oemNumbers": [
         "EX200-5"
       ],
       "compatibility": [
-        "HITACHI EX200-5 Excavator Hydraulic System"
+        "Hitachi EX200-5"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-10",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Komatsu PC200-8, SK350-8 (J05, J08E)",
+      "oemNumbers": [
+        "HINO 83530E0220"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "SK350-8 (J05",
+        "J08E)"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-11",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Hitachi EX200-1, EX200-2, EX200-3",
+      "oemNumbers": [
+        "6BD1"
+      ],
+      "compatibility": [
+        "Hitachi EX200-1",
+        "EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-13",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Isuzu 6HK1 Engine, Hitachi ZAX330-3",
+      "oemNumbers": [
+        "8-98027456-0",
+        "499000-7341"
+      ],
+      "compatibility": [
+        "Isuzu 6HK1 Engine",
+        "Hitachi ZAX330-3"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-15",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar General",
+      "oemNumbers": [
+        "161-1703"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-16",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "161-1704",
+        "04-0249A"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-17",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "161-1705-04"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-18",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar Heavy Equipment",
+      "oemNumbers": [
+        "194-6722"
+      ],
+      "compatibility": [
+        "Caterpillar Heavy Equipment"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-18A",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar Gensets, Graders",
+      "oemNumbers": [
+        "3116 Engine Spec",
+        "131-9203"
+      ],
+      "compatibility": [
+        "Caterpillar Gensets",
+        "Graders"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-18B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "459-2584",
+        "459-2597"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-18C",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "459-2595"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-18E",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo, Deutz Systems",
+      "oemNumbers": [
+        "421-06-35111"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz Systems"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-18F",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "459-2591"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-18G",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "304-5666"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-19",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar E330B",
+      "oemNumbers": [
+        "3E-6455"
+      ],
+      "compatibility": [
+        "Caterpillar E330B"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-19A",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar General",
+      "oemNumbers": [
+        "107-0612"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-19B",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar General",
+      "oemNumbers": [
+        "107-0613"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-19C",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar General",
+      "oemNumbers": [
+        "9X4276"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-19D",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Caterpillar General",
+      "oemNumbers": [
+        "107-0611"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A04-2",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — KOMATSU PC200-6 Infrastructure Machine",
+      "name": "Oil Pressure Switch — Komatsu PC200-6",
       "oemNumbers": [
         "6732-81-3140",
         "08073-10505"
       ],
       "compatibility": [
-        "KOMATSU PC200-6 Infrastructure Machine"
+        "Komatsu PC200-6"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A04-3",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — YANMAR 4JG1 Powered Compact Equipment",
+      "catalogCode": "A04-20",
+      "category": "Oil Pressure Sensor",
+      "description": "Fuel/Oil Pressure Sensor",
+      "name": "Fuel/Oil Pressure Sensor — Caterpillar 3408E, 3208E",
       "oemNumbers": [
-        "4JG1"
+        "107-0614"
       ],
       "compatibility": [
-        "YANMAR 4JG1 Powered Compact Equipment"
+        "Caterpillar 3408E",
+        "3208E"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-20A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "313-5104"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-20C",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "202-9002"
+      ],
+      "compatibility": [
+        "Caterpillar General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-22",
+      "category": "Oil Pressure Switch",
+      "description": "Oil Pressure Switch",
+      "name": "Oil Pressure Switch — Komatsu PC450-7",
+      "oemNumbers": [
+        "4921517"
+      ],
+      "compatibility": [
+        "Komatsu PC450-7"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-23",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Deutz Series Core Volvo with Deutz 240 Engines (Old)",
+      "oemNumbers": [],
+      "compatibility": [
+        "Deutz Series Core Volvo with Deutz 240 Engines (Old)"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-24",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo EC210 (D6D Engine)",
+      "oemNumbers": [
+        "04215774ED",
+        "21291011"
+      ],
+      "compatibility": [
+        "Volvo EC210 (D6D Engine)"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-25",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "oemNumbers": [
+        "20450687"
+      ],
+      "compatibility": [
+        "Volvo Construction Line"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-26",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "oemNumbers": [
+        "VOE 21634021"
+      ],
+      "compatibility": [
+        "Volvo Construction Line"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-26A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo EC460",
+      "oemNumbers": [
+        "22899626"
+      ],
+      "compatibility": [
+        "Volvo EC460"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-26B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo OEM Standard Node Volvo General",
+      "oemNumbers": [],
+      "compatibility": [
+        "Volvo OEM Standard Node Volvo General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-27",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "oemNumbers": [
+        "VOE 034774",
+        "2132639",
+        "20484678"
+      ],
+      "compatibility": [
+        "Volvo Construction Line"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-28",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Construction Line",
+      "oemNumbers": [
+        "11039574"
+      ],
+      "compatibility": [
+        "Volvo Construction Line"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-29",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo EC480",
+      "oemNumbers": [
+        "1077574"
+      ],
+      "compatibility": [
+        "Volvo EC480"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-30",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo General",
+      "oemNumbers": [
+        "21634017"
+      ],
+      "compatibility": [
+        "Volvo General"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-31",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "oemNumbers": [
+        "11170072"
+      ],
+      "compatibility": [
+        "Volvo Fleet"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-32",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "oemNumbers": [
+        "11170071"
+      ],
+      "compatibility": [
+        "Volvo Fleet"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-33",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "oemNumbers": [
+        "11170090"
+      ],
+      "compatibility": [
+        "Volvo Fleet"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-34",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Fleet",
+      "oemNumbers": [
+        "11170075"
+      ],
+      "compatibility": [
+        "Volvo Fleet"
+      ],
+      "pages": [
+        "11"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-35",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Equipment",
+      "oemNumbers": [
+        "11170079",
+        "11170076"
+      ],
+      "compatibility": [
+        "Volvo Equipment"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-36",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Equipment",
+      "oemNumbers": [
+        "11038813"
+      ],
+      "compatibility": [
+        "Volvo Equipment"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-36A",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Fleet Systems",
+      "oemNumbers": [
+        "11039549",
+        "21302639",
+        "11170259"
+      ],
+      "compatibility": [
+        "Volvo Fleet Systems"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-36B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Fleet Systems",
+      "oemNumbers": [
+        "11039577"
+      ],
+      "compatibility": [
+        "Volvo Fleet Systems"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-39",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Core Node Volvo Fleet Systems",
+      "oemNumbers": [],
+      "compatibility": [
+        "Volvo Core Node Volvo Fleet Systems"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A04-4",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — ISUZU 4-Cylinder Industrial Diesel Platforms",
+      "name": "Oil Pressure Switch — Isuzu 4-Cylinder Power Units",
       "oemNumbers": [
-        "8-98086433-0 Core"
+        "8-98086433-0"
       ],
       "compatibility": [
-        "ISUZU 4-Cylinder Industrial Diesel Platforms"
+        "Isuzu 4-Cylinder Power Units"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Hitachi"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-41",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo General",
+      "oemNumbers": [
+        "15180002"
+      ],
+      "compatibility": [
+        "Volvo General"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-42",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo General",
+      "oemNumbers": [
+        "VOE 15090261"
+      ],
+      "compatibility": [
+        "Volvo General"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-43",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo General",
+      "oemNumbers": [
+        "5090257"
+      ],
+      "compatibility": [
+        "Volvo General"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-43B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo General",
+      "oemNumbers": [
+        "11419327"
+      ],
+      "compatibility": [
+        "Volvo General"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-43C",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo General",
+      "oemNumbers": [
+        "11039376"
+      ],
+      "compatibility": [
+        "Volvo General"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A04-5",
       "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — HITACHI EX200-5 Dual Terminal Base Variant",
+      "description": "Oil Pressure Switch (Dual-Pin)",
+      "name": "Oil Pressure Switch (Dual-Pin) — Komatsu General, Hitachi EX200-5",
       "oemNumbers": [
         "6732-81-3140",
         "08073-10505"
       ],
       "compatibility": [
-        "HITACHI EX200-5 Dual Terminal Base Variant"
+        "Komatsu General",
+        "Hitachi EX200-5"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A04-6",
+      "catalogCode": "A04-53",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — YANMAR Core Technical Spec YANMAR Industrial Utility Fleet Power Units",
-      "oemNumbers": [],
-      "compatibility": [
-        "YANMAR Core Technical Spec YANMAR Industrial Utility Fleet Power Units"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-6A",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — 7W1238 High Output GroupHeavy Duty Stationary Power Plant Modules",
+      "name": "Oil Pressure Switch — Hyundai Equipment",
       "oemNumbers": [
-        "7W1238 High Output GroupHeavy Duty Stationary Power Plant Modules"
+        "31NA-20080"
       ],
-      "compatibility": [],
+      "compatibility": [
+        "Hyundai Equipment"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A04-7",
+      "catalogCode": "A04-55A",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Universal Block ArchitectureInfrastructure Machinery Fleet Support Units",
-      "oemNumbers": [],
+      "name": "Oil Pressure Sensor — Caterpillar General",
+      "oemNumbers": [
+        "208-1093",
+        "171-7570"
+      ],
       "compatibility": [
-        "Universal Block ArchitectureInfrastructure Machinery Fleet Support Units"
+        "Caterpillar General"
+      ],
+      "pages": [
+        "12"
+      ],
+      "brandGroups": [
+        "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A04-7A",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Universal Block Variant B Ground Logistics Fleet Power Frameworks",
-      "oemNumbers": [],
+      "catalogCode": "A04-58",
+      "category": "Pressure Switch",
+      "description": "Low Pressure Switch",
+      "name": "Low Pressure Switch — Komatsu PC200-8",
+      "oemNumbers": [
+        "6040",
+        "421-43-22942"
+      ],
       "compatibility": [
-        "Universal Block Variant B Ground Logistics Fleet Power Frameworks"
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
-      "catalogCode": "A04-7B",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — Universal Block Variant CHeavy Machinery Fluid Protection Networks",
-      "oemNumbers": [],
+      "catalogCode": "A04-58A",
+      "category": "Pressure Switch",
+      "description": "Low Pressure Switch (New Model)",
+      "name": "Low Pressure Switch (New Model) — Komatsu PC200-8",
+      "oemNumbers": [
+        "5545",
+        "663-5545"
+      ],
       "compatibility": [
-        "Universal Block Variant CHeavy Machinery Fluid Protection Networks"
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Komatsu"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-59",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch (40Bar)",
+      "name": "Pressure Switch (40Bar) — Komatsu PC200-8",
+      "oemNumbers": [
+        "9Y2-4537",
+        "421-43-22922"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-60",
+      "category": "Pressure Switch",
+      "description": "Low Pressure Switch",
+      "name": "Low Pressure Switch — Komatsu PC200-8",
+      "oemNumbers": [
+        "771-1409",
+        "421-43-22910"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-61",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch (Small Plug)",
+      "name": "Pressure Switch (Small Plug) — Komatsu Main Pumps",
+      "oemNumbers": [
+        "421-43-32912",
+        "50Bar"
+      ],
+      "compatibility": [
+        "Komatsu Main Pumps"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-61B",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Doosan Fleet Doosan DH80, DX80",
+      "oemNumbers": [],
+      "compatibility": [
+        "Doosan Fleet Doosan DH80",
+        "DX80"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-62",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Volvo Systems",
+      "oemNumbers": [
+        "11039617"
+      ],
+      "compatibility": [
+        "Volvo Systems"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-63",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Doosan DX Series",
+      "oemNumbers": [
+        "Doosan DX"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-64",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Daewoo Engines",
+      "oemNumbers": [
+        "30143-00151"
+      ],
+      "compatibility": [
+        "Daewoo Engines"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
+    },
+    {
+      "catalogCode": "A04-67",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Daewoo DH Equipment",
+      "oemNumbers": [
+        "301309-00022"
+      ],
+      "compatibility": [
+        "Daewoo DH Equipment"
+      ],
+      "pages": [
+        "13"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 3",
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A04-8",
       "category": "Oil Pressure Sensor",
       "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — CATERPILLAR E320C Excavator Powertrain Grid",
+      "name": "Oil Pressure Sensor — Caterpillar E320C",
       "oemNumbers": [
         "266-0210",
         "51-8005",
         "3451-40200"
       ],
       "compatibility": [
-        "CATERPILLAR E320C Excavator Powertrain Grid"
+        "Caterpillar E320C"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Caterpillar"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-9",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — YANMAR / KOBELCO Engine Frame KOBELCO SK230-6 (YANMAR Industrial Diesel Power)",
-      "oemNumbers": [],
-      "compatibility": [
-        "YANMAR / KOBELCO Engine Frame KOBELCO SK230-6 (YANMAR Industrial Diesel Power)"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-9A",
-      "category": "Mechanical Pressure Switch",
-      "description": "Mechanical Pressure Switch",
-      "name": "Mechanical Pressure Switch — KOMATSU WA380-6 Heavy Duty Wheel Loader",
-      "oemNumbers": [
-        "418-43-37681"
-      ],
-      "compatibility": [
-        "KOMATSU WA380-6 Heavy Duty Wheel Loader"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     },
     {
       "catalogCode": "A04-9B",
       "category": "Oil Pressure Switch",
       "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — DAEWOO DOOSAN Core Line Spec DOOSAN Heavy Infrastructure Machinery Fleet",
+      "name": "Oil Pressure Switch — Daewoo Core Line Doosan Daewoo Construction",
       "oemNumbers": [],
       "compatibility": [
-        "DAEWOO DOOSAN Core Line Spec DOOSAN Heavy Infrastructure Machinery Fleet"
+        "Daewoo Core Line Doosan Daewoo Construction"
+      ],
+      "pages": [
+        "10"
+      ],
+      "brandGroups": [
+        "Doosan"
       ],
       "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-10",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — HINO Standard KOBELCO SK200-8, SK350-8 (HINO J05, J08E Engines)",
-      "oemNumbers": [
-        "83530E0220"
-      ],
-      "compatibility": [
-        "HINO Standard KOBELCO SK200-8",
-        "SK350-8 (HINO J05",
-        "J08E Engines)"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-11",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — HITACHI EX200-1, EX200-2, EX200-3",
-      "oemNumbers": [
-        "6BD1"
-      ],
-      "compatibility": [
-        "HITACHI EX200-1",
-        "EX200-2",
-        "EX200-3",
-        "EX200-5"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-12",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — ISUZU 6BG1 Powered Industrial Fleet Assets",
-      "oemNumbers": [
-        "6BG1"
-      ],
-      "compatibility": [
-        "ISUZU 6BG1 Powered Industrial Fleet Assets"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-13",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — HITACHI ZAX330-3 (ISUZU 6 HK1 Engine Frame)",
-      "oemNumbers": [
-        "8-98027456-0",
-        "499000-7341"
-      ],
-      "compatibility": [
-        "HITACHI ZAX330-3 (ISUZU 6 HK1 Engine Frame)"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-14",
-      "category": "Air System Pressure Switch",
-      "description": "Air System Pressure Switch",
-      "name": "Air System Pressure Switch — MITSUBISHI 4M50 Powered Fleet Machinery",
-      "oemNumbers": [
-        "MD176361"
-      ],
-      "compatibility": [
-        "MITSUBISHI 4M50 Powered Fleet Machinery"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-15",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR Earthmoving Powertrain Grids",
-      "oemNumbers": [
-        "161-1703"
-      ],
-      "compatibility": [
-        "CATERPILLAR Earthmoving Powertrain Grids"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-16",
-      "category": "Fluid Pressure Sensor",
-      "description": "Fluid Pressure Sensor",
-      "name": "Fluid Pressure Sensor — CATERPILLAR Industrial Infrastructure Blocks",
-      "oemNumbers": [
-        "161-1704",
-        "04-0249A"
-      ],
-      "compatibility": [
-        "CATERPILLAR Industrial Infrastructure Blocks"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-17",
-      "category": "Fluid Pressure Sensor",
-      "description": "Fluid Pressure Sensor",
-      "name": "Fluid Pressure Sensor — CATERPILLAR General Engineering Asset Platforms",
-      "oemNumbers": [
-        "161-1705-04"
-      ],
-      "compatibility": [
-        "CATERPILLAR General Engineering Asset Platforms"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-18",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR Processing Plant Logistics Fleet",
-      "oemNumbers": [
-        "194-6722"
-      ],
-      "compatibility": [
-        "CATERPILLAR Processing Plant Logistics Fleet"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-18A",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR 3116 Mechanical Fuel Engine Lines",
-      "oemNumbers": [
-        "3116",
-        "131-9203"
-      ],
-      "compatibility": [
-        "CATERPILLAR 3116 Mechanical Fuel Engine Lines"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-18B",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — CATERPILLAR Civil Engineering Power Grids",
-      "oemNumbers": [
-        "459-2584",
-        "459-2597"
-      ],
-      "compatibility": [
-        "CATERPILLAR Civil Engineering Power Grids"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-18C",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — CATERPILLAR High Displacement Earthmoving Units",
-      "oemNumbers": [
-        "459-2595"
-      ],
-      "compatibility": [
-        "CATERPILLAR High Displacement Earthmoving Units"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-18E",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — VOLVO Construction Logistics Asset Fleets",
-      "oemNumbers": [
-        "421-06-35111"
-      ],
-      "compatibility": [
-        "VOLVO Construction Logistics Asset Fleets"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-18F",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — CATERPILLAR Heavy Infrastructure Equipment",
-      "oemNumbers": [
-        "459-2591"
-      ],
-      "compatibility": [
-        "CATERPILLAR Heavy Infrastructure Equipment"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-18G",
-      "category": "Oil Pressure Sensor",
-      "description": "Oil Pressure Sensor",
-      "name": "Oil Pressure Sensor — CATERPILLAR Logistics Fleet Engine Grids",
-      "oemNumbers": [
-        "304-5666"
-      ],
-      "compatibility": [
-        "CATERPILLAR Logistics Fleet Engine Grids"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-19",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR E330B Heavy Excavator Systems",
-      "oemNumbers": [
-        "3E-6455"
-      ],
-      "compatibility": [
-        "CATERPILLAR E330B Heavy Excavator Systems"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-19A",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR General Field Operations Assets",
-      "oemNumbers": [
-        "107-0612"
-      ],
-      "compatibility": [
-        "CATERPILLAR General Field Operations Assets"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-19B",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR Fleet Power Generation Modules",
-      "oemNumbers": [
-        "107-0613"
-      ],
-      "compatibility": [
-        "CATERPILLAR Fleet Power Generation Modules"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-19C",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR Mining Fleet Logistics Platforms",
-      "oemNumbers": [
-        "9X4276"
-      ],
-      "compatibility": [
-        "CATERPILLAR Mining Fleet Logistics Platforms"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
-    },
-    {
-      "catalogCode": "A04-19D",
-      "category": "Oil Pressure Switch",
-      "description": "Oil Pressure Switch",
-      "name": "Oil Pressure Switch — CATERPILLAR Earthmoving Equipment Core",
-      "oemNumbers": [
-        "107-0611"
-      ],
-      "compatibility": [
-        "CATERPILLAR Earthmoving Equipment Core"
-      ],
-      "section": "Section 3",
-      "confidence": "user-section"
+      "confidence": "user-section-clean"
     }
   ]
 }

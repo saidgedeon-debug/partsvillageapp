@@ -1,0 +1,276 @@
+﻿Section 2: Detailed Sensor Profiles (Pages 5–8)
+This segment splits Machine Compatibility / Brand into its own clean database column as requested.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A01-5Revolution Sensor196-7973 / 125-2966Caterpillar E320Page 5
+A01-6Revolution Sensor324-4131Caterpillar E320DPage 5
+A01-6ARevolution Sensor51-7579Caterpillar E320C, E320BPage 5
+A01-7Revolution Sensor (Φ16 Thick)193-2550 / 1-2550Caterpillar E329Page 5
+A01-7ARevolution Sensor (Φ19 Thick)4P-5820 / 189-5746Caterpillar E330C, E325CPage 5
+A01-7BRevolution Sensor318-1178 / 318-1181Caterpillar GeneralPage 5
+A01-21BRevolution Sensor262-4806Caterpillar GeneralPage 5
+A01-21CRevolution Sensor (Custom Edition)3E7886Caterpillar GeneralPage 5
+A01-27Pressure Switch / Revolution Sensor290-5792Caterpillar GeneralPage 6
+A01-27APressure Switch / Revolution Sensor196-1185Caterpillar GeneralPage 6
+A01-27BRevolution Sensor227-6744Caterpillar GeneralPage 6
+A01-27CRevolution Sensor265-9033Caterpillar 3508, 3512 EnginesPage 6
+A01-27DRevolution Sensor258-4521Caterpillar GeneralPage 6
+A01-27ERevolution Sensor504-9586Caterpillar GeneralPage 6
+A01-27FRevolution Sensor253-2673Caterpillar GeneralPage 6
+A01-27GRevolution Sensor440-0257Caterpillar GeneralPage 6
+A01-27HRevolution Sensor458-0219Caterpillar GeneralPage 6
+A01-27IRevolution Sensor391-7125Caterpillar GeneralPage 6
+A01-27JRevolution Sensor574-8674Caterpillar GeneralPage 6
+A01-27KRevolution Sensor122-8863Caterpillar GeneralPage 6
+A01-41Revolution Sensor522-1643Caterpillar GeneralPage 6
+A01-41ARevolution Sensor522-1642Caterpillar 980G LoaderPage 6
+A02-4ACamshaft Sensor279-9828Caterpillar E345DPage 7
+A02-5Camshaft Sensor201-6615Caterpillar GeneralPage 7
+A02-5ACamshaft Sensor216-3446Caterpillar GeneralPage 7
+A02-5BCamshaft Sensor204-6204Caterpillar GeneralPage 7
+A02-12ACamshaft Sensor254-4630 / 169-3300Caterpillar E325CPage 7
+A02-13Camshaft Sensor238-0120Caterpillar E320DPage 7
+A02-2ACamshaft Sensor384-3888Caterpillar E320D2Page 7
+A02-2BCamshaft Sensor358-2398Caterpillar GeneralPage 7
+A02-2CCamshaft Sensor358-2399Caterpillar GeneralPage 7
+A02-22Camshaft Sensor238-4676Caterpillar GeneralPage 8
+A02-39Camshaft Sensor5594275Caterpillar GeneralPage 8
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A01-1Revolution Sensor7861-93-2330Komatsu PC200-7, PC220-7Page 5
+A01-2ARevolution Sensor7819-11-2310Komatsu WA500-1Page 5
+A01-2BRevolution Sensor (6D102 Engine)7861-92-2330Komatsu PC200-5, PC200-6, PC220-6Page 5
+A01-3Revolution Sensor363-06-31121Komatsu GeneralPage 5
+A01-3ARevolution SensorPC 363-06-31121Komatsu GeneralPage 5
+A01-4Switch SensorE2B-M30LS15-WP-B1Komatsu GeneralPage 5
+A01-28Revolution Sensor / Pressure SwitchPC 363-06-31121 LineKomatsu GeneralPage 6
+A02-22ACamshaft Sensor (D4921684)6754-81-9410Komatsu PC200-8Page 8
+A02-22BCamshaft Sensor (D4921686)6261-81-2911Komatsu PC400-8Page 8
+A02-23Camshaft Sensor6261-81-2902Komatsu PC400-8Page 8
+A02-24Camshaft Sensor (Flywheel 3-Pin)6217-81-9210Komatsu PC400-7Page 8
+A02-47Revolution Sensor418-18-31502Komatsu WA150-5, WA20L-5 LoadersPage 8
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A01-55Revolution Sensor701-80312Volvo / DeutzPage 7
+A02-13Revolution SensorDEUTZ 0118-2850Volvo, Deutz EnginesPage 7
+A02-14Revolution SensorVOLVO DEUTZ 0118-2834Volvo, Deutz EnginesPage 7
+A02-14ARevolution SensorVOLVO D3.8Volvo, Deutz EnginesPage 7
+A02-15Crankshaft SensorVOLVO VOE20450707Volvo Heavy EquipmentPage 7
+A02-16Camshaft SensorVOLVO210 VOE20482772Volvo EC210Page 7
+A02-17Camshaft SensorVOE20508011Volvo EC360Page 8
+A02-18Air Intake SensorVOE20700060Volvo EC360Page 8
+A02-19Camshaft Sensor4123-840 / 0281002315Volvo EC480Page 8
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu / Sumitomo
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A01-1ARevolution SensorHITACHI 2055358Hitachi GeneralPage 5
+A01-13Revolution SensorEX New ModelHitachi EX SeriesPage 5
+A01-14Revolution Sensor4265372Hitachi EX200-1/2/3/5, EX120Page 5
+A02-6Flywheel Revolution Sensor1-81510343-2Isuzu 6HK1, 6BG1, Sumitomo SH210-5Page 7
+A02-7Revolution Sensor8-97240790-0Isuzu, Sumitomo Heavy IndustriesPage 7
+A02-8Eccentric Shaft Speed Sensor8-97312108-1Isuzu 4JJ1 Engine, Sumitomo SH160Page 7
+A02-9Camshaft Sensor8-98014831-0Isuzu 4HK1, 6HK1, Sumitomo SH210-5Page 7
+A02-10Revolution Sensor8-97306113-1Isuzu 4HK1, 6HK1 EnginesPage 7
+A02-11Revolution Sensor8-97122324-0Isuzu Core Marine / ExcavatorPage 7
+A02-12Revolution Sensor8-94370581-0Isuzu EnginesPage 7
+A02-14ARevolution Sensor8-98019024-0Isuzu 4HK1, 6HK1 EnginesPage 7
+A02-30Crankshaft SensorJ05 EngineKobelco SK350-8, Hino TruckPage 8
+A02-31Flywheel Camshaft SensorVH89411E0050 (2-Pin)Hino Engines / KobelcoPage 8
+A02-34Crankshaft Sensor949979-1420Hino Trucks, Kobelco ExcavatorsPage 8
+🇰🇷 Hyundai & Doosan / Scania Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A01-16Revolution Sensor2547-1015Doosan DH220-5Page 5
+A01-20Revolution SensorR220-5 SpecHyundai ConstructionPage 5
+A02-20Camshaft Sensor4921597Hyundai R265-7Page 8
+A02-21Camshaft Sensor4921599Hyundai R265-7Page 8
+A02-25Camshaft SensorVH89411E0050 (2-Pin)Kobelco SK350-8 / Hino Truck CrossPage 8
+A02-31Camshaft SensorDoosan DX380Doosan Heavy IndustriesPage 8
+A02-32Camshaft SensorDoosan DX260-9Doosan Heavy IndustriesPage 8
+A02-32ACamshaft SensorDoosan DX380 ScaniaDoosan / Scania Industrial EnginesPage 8
+A02-33Camshaft SensorDoosan DX470 ScaniaDoosan / Scania Industrial EnginesPage 8
+🇯🇵 Kobelco (SK Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A01-1ARevolution SensorD04FR EngineKobelco SK130-8, SK140-8Page 5
+A01-2Revolution SensorME845235Kobelco SK200-3, SK200-5Page 5
+A01-1BRevolution SensorME844577Kobelco SK200-6, SK200-6EPage 5
+A01-2CRevolution Sensor59841-01290Kobelco SK200-8Page 5
+A01-11Revolution SensorME844577 LineKobelco SK200-8, SK350-8Page 5
+A02-26Camshaft SensorS841-01590 / JO8E EngineKobelco SK350-8Page 8
+A02-27Camshaft SensorD04FR EngineKobelco SK130-8, SK140-8Page 8
+A02-27ACamshaft SensorVA32G9000600 LineKobelco GeneralPage 8
+A02-28Camshaft SensorS8941-01570 / JO5 EngineKobelco SK200-8Page 8
+⚙️ Miscellaneous Global Machinery Engines
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A01-10Revolution SensorMC867505Sany Heavy IndustriesPage 5
+A01-12Fuel Pump Revolution SensorME755778 / 9443612071Mitsubishi 6D24 EnginesPage 5
+A01-12AFuel Pump Revolution SensorME755970 / 9443613465Mitsubishi 6D16 EnginesPage 5
+A01-15Revolution Sensor1-81510713-1Isuzu 6WG1 Engine, Hitachi ZAX450Page 5
+A01-21Revolution Sensor307815 / 4984223Liugong Loaders / MachineryPage 5
+A01-21ARevolution Sensor (Dual-Line)4327234Cummins Diesel EnginesPage 5
+A01-6ARevolution Sensor4327233Cummins Diesel EnginesPage 5
+A01-7Revolution Sensor4327239 / 3408472Komatsu PC1250-7, Hitachi ZAX1200Page 5
+A01-22Revolution Sensor2872361 SpecLiugong 922D, 936DPage 6
+A01-23Revolution SensorLiugong 920D/E SpecLiugong MachineryPage 6
+A01-24Revolution Sensor30B0202Liugong 907D, 908CDPage 6
+A01-25Revolution Sensor (New Model)J213-92A-240001Shanshan 913Page 6
+A01-26Revolution SensorRL11-61C000003AD-1Foton LovolPage 6
+A01-29Revolution SensorCummins / Yuchai SpecCummins / Yuchai Base EnginesPage 6
+A01-30Revolution SensorT0411-17102Yuchai Heavy IndustriesPage 6
+A01-31Revolution SensorT0411-17103Yuchai Heavy IndustriesPage 6
+A01-32Revolution SensorT0411-17104Yuchai Heavy IndustriesPage 6
+A01-33Revolution SensorZG105AShandong CarterPage 6
+A01-34Revolution SensorZG40-3/4-16UNFJonyang Excavators (Mid-Range)Page 6
+A01-35Revolution SensorG220-11-5TSWSZoomlion 150Page 6
+A01-36Revolution SensorXCMG Standard LineXCMG GroupPage 6
+A01-37Revolution SensorPerkins B3.3 Engine SpecPerkins Core Engine SeriesPage 6
+A01-38Revolution SensorQ216005Global EquipmentPage 6
+A01-39Revolution Sensor266-8576Global EquipmentPage 6
+A01-40Revolution Sensor266-8576 VariantGlobal EquipmentPage 6
+A01-42Revolution Sensor669 3921Bobcat Skid SteersPage 6
+A01-42ARevolution Sensor449298 HK450 SLX300 Marine / CranePage 6
+A01-43Revolution Sensor668 4037Bobcat S100, S160Page 6
+A01-43ARevolution SensorRE287415John Deere Ag EquipmentPage 6
+A01-43BRevolution Sensor6658260Global Skid Steer SystemsPage 6
+A01-44Revolution SensorCummins K19 SpecCummins High-HorsepowerPage 6
+A01-45Revolution Sensor2868A006Perkins Diesel SystemsPage 6
+A01-46Revolution Sensor171-257Perkins Diesel SystemsPage 6
+A01-47Revolution Sensor171-233Perkins Diesel SystemsPage 7
+A01-48Revolution SensorM16x1.5x120mmPerkins Diesel SystemsPage 7
+A01-49Revolution SensorM16x1.5 StandardPerkins Diesel SystemsPage 7
+A01-50Revolution Sensor5/8 5-Hole 4-BladePerkins Diesel SystemsPage 7
+A01-51Revolution Sensor171-232Perkins Diesel SystemsPage 7
+A01-52Revolution Sensor5/8 Two-Blade NodeGlobal MachineryPage 7
+A01-53Revolution SensorM16x1.5 Two-Blade NodeGlobal MachineryPage 7
+A01-54Revolution SensorM18x1.5 Two-Blade NodeGlobal MachineryPage 7
+A02-1Camshaft SensorYanmar 4TNV94 / 4TNV98Yanmar Diesel SystemsPage 7
+A02-1ACamshaft Sensor384-3887Global Engine CorePage 7
+A02-1BCamshaft Sensor499-9117Global Engine CorePage 7
+A02-1CCamshaft Sensor481-5928Global Engine CorePage 7
+A02-10ACamshaft Sensor4HK1 SpecJCB Machinery / EnginesPage 7
+A02-23ACamshaft Sensor5011855AA / 4921601Cummins Engine CorePage 8
+A02-26ACamshaft SensorHino Longline SpecHino Heavy CommercialPage 8
+A02-27ACamshaft SensorSany Standard LayoutSany Heavy IndustriesPage 8
+A02-28ACamshaft Sensor1855-781C91Perkins Core SystemsPage 8
+A02-28BCamshaft SensorPerkins Systems BasePerkins Core SystemsPage 8
+A02-29Camshaft Sensor716-30123JCB Backhoes / Material HandlersPage 8
+A02-29ACamshaft SensorZGAO-00651Global Mechanical ControlsPage 8
+A02-33Camshaft Sensor158557-61720Yanmar / Kubota EnginesPage 8
+A02-35Camshaft Sensor709-4500006Mitsubishi 4M50, Kato HD820-5Page 8
+A02-36Camshaft Sensor11442694Liebherr Heavy MiningPage 8
+A02-37Camshaft SensorRE51944John Deere SystemsPage 8
+A02-38Camshaft SensorRE295936John Deere SystemsPage 8
+A02-39Revolution SensorV836866392Global Mechanical ControlsPage 8
+A02-40Revolution Sensor4327230Cummins Engine BlocksPage 8
+A02-41Revolution Sensor5H911-42622Kubota Construction UnitsPage 8
+A02-42Revolution SensorT1060-18660Kubota Construction UnitsPage 8
+A02-43Revolution SensorDX800 Block VariantDoosan Heavy EarthmovingPage 8
+A02-44Camshaft SensorR901414438 / 458-6031Bosch Rexroth HydraulicsPage 8
+A02-45Revolution Sensor716/D2727JCB SystemsPage 8
+A02-46Revolution Sensor716/D2729JCB SystemsPage 8
+Section 3: Air Pressure Sensors & Oil Pressure Switches (Pages 9–13)
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A03-12Air Pressure Sensor266-0136Caterpillar 312DPage 9
+A03-12AAir Pressure Sensor381-9064Caterpillar GeneralPage 9
+A03-14AAir Intake Sensor381-9064 VariantCaterpillar GeneralPage 9
+A04-8Oil Pressure Sensor266-0210 / 51-8005 / 3451-40200Caterpillar E320CPage 10
+A04-15Oil Pressure Switch161-1703Caterpillar GeneralPage 10
+A04-16Pressure Sensor161-1704 / 04-0249ACaterpillar GeneralPage 11
+A04-17Pressure Sensor161-1705-04Caterpillar GeneralPage 11
+A04-18Oil Pressure Switch194-6722Caterpillar Heavy EquipmentPage 11
+A04-18AOil Pressure Switch3116 Engine Spec / 131-9203Caterpillar Gensets / GradersPage 11
+A04-18BOil Pressure Sensor459-2584 / 459-2597Caterpillar GeneralPage 11
+A04-18COil Pressure Sensor459-2595Caterpillar GeneralPage 11
+A04-18FOil Pressure Sensor459-2591Caterpillar GeneralPage 11
+A04-18GOil Pressure Sensor304-5666Caterpillar GeneralPage 11
+A04-19Oil Pressure Switch3E-6455Caterpillar E330BPage 11
+A04-19AOil Pressure Switch107-0612Caterpillar GeneralPage 11
+A04-19BOil Pressure Switch107-0613Caterpillar GeneralPage 11
+A04-19COil Pressure Switch9X4276Caterpillar GeneralPage 11
+A04-19DOil Pressure Switch107-0611Caterpillar GeneralPage 11
+A04-20Fuel/Oil Pressure Sensor107-0614Caterpillar 3408E, 3208EPage 11
+A04-20APressure Sensor313-5104Caterpillar GeneralPage 11
+A04-20CPressure Sensor202-9002Caterpillar GeneralPage 11
+A04-55AOil Pressure Sensor208-1093 / 171-7570Caterpillar GeneralPage 12
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A03-2Intake Temperature Sensor (Old)20450095Volvo Heavy DutyPage 9
+A03-4Air Intake SensorVOE 20450693Volvo Infrastructure EquipmentPage 9
+A03-6Air Intake Sensor0281002566 / 0281002576Volvo EC210Page 9
+A03-6AAir Intake Sensor22422785Volvo Machinery CorePage 9
+A03-6BAir Intake Sensor24527125Volvo Machinery CorePage 9
+A03-8Air Intake Sensor441050080Volvo Heavy TransportPage 9
+A03-9Vacuum Switch21304786 / 22181342Volvo EC210, EC240, EC290, EC360Page 9
+A03-9AAir Intake Sensor15038313Volvo GeneralPage 9
+A03-9BAir Intake Sensor22172068Volvo GeneralPage 9
+A03-10Air Intake Sensor20542128Volvo EC480Page 9
+A03-11Air Intake Sensor (5-Wire Line)208935035Volvo GeneralPage 9
+A03-11AAir Intake Sensor (6-Wire Line)208935036Volvo GeneralPage 9
+A03-11BAir Intake Sensor21442662Volvo GeneralPage 9
+A03-12BAir Pressure Sensor21304786 / 22181342Volvo Construction LinePage 9
+A04-18EOil Pressure Sensor421-06-35111Volvo / Deutz SystemsPage 11
+A04-23Oil Pressure SensorDeutz Series CoreVolvo with Deutz 240 Engines (Old)Page 11
+A04-24Oil Pressure Sensor04215774ED / 21291011Volvo EC210 (D6D Engine)Page 11
+A04-25Oil Pressure Sensor20450687Volvo Construction LinePage 11
+A04-26Oil Pressure SensorVOE 21634021Volvo Construction LinePage 11
+A04-26AOil Pressure Sensor22899626Volvo EC460Page 11
+A04-26BOil Pressure SensorVolvo OEM Standard NodeVolvo GeneralPage 11
+A04-27Oil Pressure SensorVOE 034774 / 2132639 / 20484678Volvo Construction LinePage 11
+A04-28Oil Pressure Sensor11039574Volvo Construction LinePage 11
+A04-29Oil Pressure Sensor1077574Volvo EC480Page 11
+A04-30Oil Pressure Sensor21634017Volvo GeneralPage 11
+A04-31Oil Pressure Sensor11170072Volvo FleetPage 11
+A04-32Oil Pressure Sensor11170071Volvo FleetPage 11
+A04-33Oil Pressure Sensor11170090Volvo FleetPage 11
+A04-34Oil Pressure Sensor11170075Volvo FleetPage 11
+A04-35Oil Pressure Sensor11170079 / 11170076Volvo EquipmentPage 12
+A04-36Oil Pressure Sensor11038813Volvo EquipmentPage 12
+A04-36AOil Pressure Sensor11039549 / 21302639 / 11170259Volvo Fleet SystemsPage 12
+A04-36BOil Pressure Sensor11039577Volvo Fleet SystemsPage 12
+A04-39Oil Pressure SensorVolvo Core NodeVolvo Fleet SystemsPage 12
+A04-41Oil Pressure Sensor15180002Volvo GeneralPage 12
+A04-42Oil Pressure SensorVOE 15090261Volvo GeneralPage 12
+A04-43Oil Pressure Sensor5090257Volvo GeneralPage 12
+A04-43BOil Pressure Sensor11419327Volvo GeneralPage 12
+A04-43COil Pressure Sensor11039376Volvo GeneralPage 12
+A04-62Oil Pressure Sensor11039617Volvo SystemsPage 13
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A03-3Air Pressure Sensor4076493 / 6261-81-1900Komatsu PC200-8Page 9
+A03-5Air Pressure Sensor4921322 / 6754-81-2701Komatsu PC200-8Page 9
+A03-13Air Pressure Sensor7861-91-1420Komatsu PC200-7Page 9
+A03-15AC Pressure SwitchPC200-7 Line SpecKomatsu Air Conditioning SystemsPage 9
+A03-15AAir Pressure SwitchPC200-8 Series CoreKomatsu Air Conditioning SystemsPage 9
+A03-17Air Pressure Sensor6261-81-2600Komatsu PC400-8Page 9
+A03-26Air Pressure Sensor6261-81-2700Komatsu PC400-8Page 10
+A03-27Air Intake Sensor4984590Komatsu PC350-10Page 10
+A04-2Oil Pressure Switch6732-81-3140 / 08073-10505Komatsu PC200-6Page 10
+A04-5Oil Pressure Switch (Dual-Pin)6732-81-3140 / 08073-10505Komatsu General / Hitachi EX200-5Page 10
+A04-10Oil Pressure SwitchHINO 83530E0220Komatsu PC200-8, SK350-8 (J05, J08E)Page 10
+A04-22Oil Pressure Switch4921517Komatsu PC450-7Page 11
+A04-58Low Pressure Switch6040 / 421-43-22942Komatsu PC200-8Page 13
+A04-58ALow Pressure Switch (New Model)5545 / 663-5545Komatsu PC200-8Page 13
+A04-59Pressure Switch (40Bar)9Y2-4537 / 421-43-22922Komatsu PC200-8Page 13
+A04-60Low Pressure Switch771-1409 / 421-43-22910Komatsu PC200-8Page 13
+A04-61Pressure Switch (Small Plug)421-43-32912 / 50BarKomatsu Main PumpsPage 13
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A03-1Air Pressure Switch8-12146830-0Isuzu Utility Trucks / Hitachi EXPage 9
+A03-5AAir Intake Sensor8-97601-9670Hitachi Construction CorePage 9
+A03-14Air Intake SensorHitachi Systems BaseHitachi MachineryPage 9
+A03-19Barometric Pressure Sensor4UZ1 Engine Spec / VH893901080AIsuzu Engine Systems, Hitachi ZAX200-3Page 9
+A03-20Air Intake Sensor8-98121697-0Isuzu Engines, Hitachi ZAX490-5APage 9
+A03-21Air Intake Sensor8-98065377-0Isuzu EnginesPage 9
+A04-1Oil Pressure Switch (Single-Pin)EX200-5 Node SpecHitachi EX200-5Page 10
+A04-4Oil Pressure Switch8-98086433-0Isuzu 4-Cylinder Power UnitsPage 10
+A04-11Oil Pressure Switch6BD1 Engine Block SpecHitachi EX200-1, EX200-2, EX200-3, EX200-5Page 10
+A04-13Oil Pressure Switch8-98027456-0 / 499000-7341Isuzu 6HK1 Engine, Hitachi ZAX330-3Page 10
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine Compatibility / BrandPage
+A03-22Intake Pressure SensorScania Engine Block SpecDoosan DX380 (Scania Variant)Page 9
+A03-25AIntake Pressure Sensor129978-12700Doosan Heavy / InfracorePage 10
+A04-9BOil Pressure SwitchDaewoo Core LineDoosan Daewoo ConstructionPage 10
+A04-53Oil Pressure Switch31NA-20080Hyundai EquipmentPage 12
+A04-61BOil Pressure SensorDoosan FleetDoosan DH80, DX80Page 13
+A04-63Oil Pressure SensorDoosan DX Block SpecDoosan DX SeriesPage 13
+A04-64Oil Pressure Sensor30143-00151Daewoo EnginesPage 13
+A04-67Oil Pressure Sensor301309-00022Daewoo DH EquipmentPage 13
