@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_to_10_v2",
+  "status": "sections_2_to_11_v2",
   "supplier": "Kafu",
-  "rawRows": 35,
-  "section10": 35,
-  "kept_prior": 1234,
-  "count": 1269,
+  "rawRows": 30,
+  "section11": 30,
+  "kept_prior": 1269,
+  "count": 1299,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -25,6 +25,7 @@
     "Core Sensor Node",
     "Core Terminal Post",
     "Crankshaft Sensor",
+    "Dashboard Display",
     "Differential Pressure Sensor",
     "Door Lamp Switch",
     "Eccentric Shaft Speed Sensor",
@@ -40,6 +41,7 @@
     "Fuel Sensor Cable",
     "Fuel Temperature Sensor",
     "Fuel/Oil Temperature Sensor",
+    "Gauge Cluster",
     "Glow / Preheater Plug",
     "Glow Plug",
     "Governor / Accelerator Cable",
@@ -59,6 +61,7 @@
     "Intake Pressure Sensor",
     "Intake Temperature Sensor",
     "Kafu Part",
+    "LCD Monitor",
     "Low Pressure Sensor",
     "Low-Pressure Sensor",
     "Machine Controller",
@@ -25646,6 +25649,658 @@
       ],
       "section": "Section 10",
       "confidence": "user-section10-v2"
+    },
+    {
+      "catalogCode": "A20-1",
+      "category": "LCD Monitor",
+      "description": "LCD Monitor Display Panel",
+      "name": "LCD Monitor Display Panel — Caterpillar E320B",
+      "oemNumbers": [
+        "151-3168",
+        "114-5333"
+      ],
+      "compatibility": [
+        "Caterpillar E320B"
+      ],
+      "pages": [
+        "51"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-10",
+      "category": "Dashboard Display",
+      "description": "Digital Display Screen Console",
+      "name": "Digital Display Screen Console — Kobelco SK200-8, SK350-8",
+      "oemNumbers": [
+        "LC50S00010P1",
+        "LQ50S00020P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-10A",
+      "category": "LCD Monitor",
+      "description": "LCD Dashboard Display",
+      "name": "LCD Dashboard Display — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141",
+        "KHR17530"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-11",
+      "category": "Gauge Cluster",
+      "description": "Instrument Gauge Panel (I-ECU)",
+      "name": "Instrument Gauge Panel (I-ECU) — Volvo EC210B, EC240B, EC290B",
+      "oemNumbers": [
+        "VOE 14518342",
+        "14531342"
+      ],
+      "compatibility": [
+        "Volvo EC210B",
+        "EC240B",
+        "EC290B"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-11A",
+      "category": "LCD Monitor",
+      "description": "High-Resolution Display Cluster",
+      "name": "High-Resolution Display Cluster — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-12",
+      "category": "Gauge Cluster",
+      "description": "Digital Hour Meter Cluster",
+      "name": "Digital Hour Meter Cluster — Volvo EC360B, EC460B",
+      "oemNumbers": [
+        "20450693"
+      ],
+      "compatibility": [
+        "Volvo EC360B",
+        "EC460B"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-13",
+      "category": "Gauge Cluster",
+      "description": "Monitor Gauge Dashboard",
+      "name": "Monitor Gauge Dashboard — Hitachi EX200-2, EX200-3, EX200-5",
+      "oemNumbers": [
+        "4257163",
+        "4188415"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3",
+        "EX200-5"
+      ],
+      "pages": [
+        "53"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-14",
+      "category": "LCD Monitor",
+      "description": "LCD Monitor Cluster Panel",
+      "name": "LCD Monitor Cluster Panel — Hitachi ZAX200-1, ZAX210, ZAX230",
+      "oemNumbers": [
+        "4360297",
+        "4443849"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-1",
+        "ZAX210",
+        "ZAX230"
+      ],
+      "pages": [
+        "53"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-15",
+      "category": "Dashboard Display",
+      "description": "Display Panel Console Module",
+      "name": "Display Panel Console Module — Hitachi ZAX200-3, ZAX240-3, ZAX330-3",
+      "oemNumbers": [
+        "4614911",
+        "4448332"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-3",
+        "ZAX240-3",
+        "ZAX330-3"
+      ],
+      "pages": [
+        "53"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-15A",
+      "category": "LCD Monitor",
+      "description": "Smart Touch Monitor Console",
+      "name": "Smart Touch Monitor Console — Hitachi ZAX-5A, ZAX-5G Series",
+      "oemNumbers": [
+        "4668260"
+      ],
+      "compatibility": [
+        "Hitachi ZAX-5A",
+        "ZAX-5G Series"
+      ],
+      "pages": [
+        "53"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-16",
+      "category": "Gauge Cluster",
+      "description": "Display Dashboard Cluster",
+      "name": "Display Dashboard Cluster — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2523-9014",
+        "2543-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "54"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-17",
+      "category": "LCD Monitor",
+      "description": "Digital LCD Monitor Panel",
+      "name": "Digital LCD Monitor Panel — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300513-00021",
+        "537-00010"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "54"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-18",
+      "category": "Dashboard Display",
+      "description": "Dashboard Display Screen",
+      "name": "Dashboard Display Screen — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-43101",
+        "21N6-44101"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "54"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-19",
+      "category": "LCD Monitor",
+      "description": "Smart LCD Monitor Console",
+      "name": "Smart LCD Monitor Console — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-30102",
+        "21Q6-32103"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "54"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-2",
+      "category": "Gauge Cluster",
+      "description": "Dashboard Display Cluster",
+      "name": "Dashboard Display Cluster — Caterpillar E320C, E312C",
+      "oemNumbers": [
+        "260-2160",
+        "221-8859"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E312C"
+      ],
+      "pages": [
+        "51"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-20",
+      "category": "LCD Monitor",
+      "description": "Intelligent Display Screen Module",
+      "name": "Intelligent Display Screen Module — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "55"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-21",
+      "category": "Gauge Cluster",
+      "description": "Digital Instrument Panel",
+      "name": "Digital Instrument Panel — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "55"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-22",
+      "category": "LCD Monitor",
+      "description": "LCD Monitor Unit",
+      "name": "LCD Monitor Unit — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "55"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-23",
+      "category": "Gauge Cluster",
+      "description": "Instrument Cluster Unit",
+      "name": "Instrument Cluster Unit — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "56"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-24",
+      "category": "Dashboard Display",
+      "description": "Dashboard Monitor Unit",
+      "name": "Dashboard Monitor Unit — John Deere Industrial Equipment",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Industrial Equipment"
+      ],
+      "pages": [
+        "56"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-3",
+      "category": "Gauge Cluster",
+      "description": "Gauge Cluster Monitor Panel",
+      "name": "Gauge Cluster Monitor Panel — Caterpillar E320D, E323D",
+      "oemNumbers": [
+        "309-5711",
+        "227-7644"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D"
+      ],
+      "pages": [
+        "51"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-3A",
+      "category": "LCD Monitor",
+      "description": "LCD Monitor Panel (New Style)",
+      "name": "LCD Monitor Panel (New Style) — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3457"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "51"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-3B",
+      "category": "Gauge Cluster",
+      "description": "Compact Cluster Unit",
+      "name": "Compact Cluster Unit — Caterpillar E307D, E307E",
+      "oemNumbers": [
+        "425-5630"
+      ],
+      "compatibility": [
+        "Caterpillar E307D",
+        "E307E"
+      ],
+      "pages": [
+        "51"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-4",
+      "category": "Dashboard Display",
+      "description": "Dashboard Monitor Panel",
+      "name": "Dashboard Monitor Panel — Komatsu PC200-5, PC220-5",
+      "oemNumbers": [
+        "7834-51-2002",
+        "7834-50-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5"
+      ],
+      "pages": [
+        "51"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-5",
+      "category": "Dashboard Display",
+      "description": "Monitor Display Panel (Square Plug)",
+      "name": "Monitor Display Panel (Square Plug) — Komatsu PC200-6, PC220-6, PC300-6",
+      "oemNumbers": [
+        "7834-52-2001",
+        "7834-52-2003"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6",
+        "PC300-6"
+      ],
+      "pages": [
+        "51"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-6",
+      "category": "LCD Monitor",
+      "description": "LCD Dashboard Display",
+      "name": "LCD Dashboard Display — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "7835-10-2005",
+        "7835-12-2008"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-7",
+      "category": "LCD Monitor",
+      "description": "High-Definition Monitor Unit",
+      "name": "High-Definition Monitor Unit — Komatsu PC200-8, PC240-8, PC300-8",
+      "oemNumbers": [
+        "7835-31-1002",
+        "7835-31-1000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "PC240-8",
+        "PC300-8"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-7A",
+      "category": "Dashboard Display",
+      "description": "Digital Display Screen Panel",
+      "name": "Digital Display Screen Panel — Komatsu PC200-10",
+      "oemNumbers": [
+        "7835-35-2000"
+      ],
+      "compatibility": [
+        "Komatsu PC200-10"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-8",
+      "category": "Gauge Cluster",
+      "description": "Gauge Monitor Assembly",
+      "name": "Gauge Monitor Assembly — Kobelco SK200-3, SK200-5",
+      "oemNumbers": [
+        "YN50S00002P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-3",
+        "SK200-5"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
+    },
+    {
+      "catalogCode": "A20-9",
+      "category": "Gauge Cluster",
+      "description": "Monitor Cluster Display Panel",
+      "name": "Monitor Cluster Display Panel — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "YN50S00026P1",
+        "YT50S00014P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "52"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 11",
+      "confidence": "user-section11-v2"
     }
   ]
 }
