@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
+import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
 
 type Mode = "view" | "edit" | "create";
 
@@ -214,11 +214,27 @@ export function PartDetailDialog({
               </div>
             ) : null}
             <div className="sm:col-span-2">
-              <Field label="Part numbers" value={partNumbersOf(part).join(" · ")} />
+              <Field label="Part Code" value={part.partNumber} />
             </div>
+            {part.category !== "O-Rings" && (
+              <div className="sm:col-span-2">
+                <Field
+                  label="OEM / Serial Number"
+                  value={oemNumbersOf(part).length ? oemNumbersOf(part).join(" · ") : ""}
+                />
+              </div>
+            )}
+            {part.category === "O-Rings" && (
+              <div className="sm:col-span-2">
+                <Field label="Part numbers" value={partNumbersOf(part).join(" · ")} />
+              </div>
+            )}
             <Field label="Category" value={part.category} />
             <div className="sm:col-span-2">
-              <Field label="Name / description" value={part.name} />
+              <Field
+                label="Part Description"
+                value={part.description?.trim() || part.name}
+              />
             </div>
             {part.category === "O-Rings" && (
               <>
@@ -232,9 +248,10 @@ export function PartDetailDialog({
               <>
                 <Field label="Qty" value={part.quantity.toLocaleString()} />
                 <Field
-                  label="Machine"
+                  label="Machine Compatibility"
                   value={part.compatibility.length ? part.compatibility.join(", ") : ""}
                 />
+                <Field label="Catalog page" value={part.catalogPage ?? ""} />
               </>
             )}
             <Field label="Cost" value={part.cost > 0 ? currency(part.cost) : ""} />

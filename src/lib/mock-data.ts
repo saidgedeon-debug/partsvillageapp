@@ -3,16 +3,23 @@ import { kafuParts } from "@/lib/kafu-inventory";
 
 export type Part = {
   id: string;
+  /** Catalog part code (e.g. A03-12). */
   partNumber: string;
-  /** Extra / OEM part numbers (shown via + when more than one total). */
+  /** Part code + OEM / serial numbers (primary first). */
   partNumbers?: string[];
+  /** Display name (often description — machine). */
   name: string;
+  /** Part Description / Specifics (catalog column). */
+  description?: string;
   category: string;
   quantity: number;
   reorderAt: number;
   cost: number;
   price: number;
+  /** Machine Compatibility / Brand (catalog column). */
   compatibility: string[];
+  /** Catalog page number (e.g. "9"). */
+  catalogPage?: string;
   /** Storage box number (O-rings inventory). */
   boxNumber?: number;
   /** Inside diameter in mm (or "Metric ID" when unknown). */
@@ -50,6 +57,19 @@ export function partNumbersOf(part: Part): string[] {
 
   if (out.length === 0) add(part.partNumber);
   return out;
+}
+
+/** OEM / serial numbers only (excludes primary catalog part code). */
+export function oemNumbersOf(part: Part): string[] {
+  const primary = (part.partNumber ?? "").trim().toLowerCase();
+  return partNumbersOf(part).filter((n) => n.trim().toLowerCase() !== primary);
+}
+
+/** Part Description / Specifics for table display. */
+export function partDescriptionOf(part: Part): string {
+  if (part.description?.trim()) return part.description.trim();
+  if (part.name.includes(" — ")) return part.name.split(" — ")[0] ?? part.name;
+  return part.name;
 }
 
 export type Machine = {

@@ -1,0 +1,194 @@
+Section 5: Generic Sensors, Oil-Water Separators, & Heavy-Duty Pressure Switches (Pages 21–25)
+This section provides the data extraction for miscellaneous engine sensors, oil-water separation sensors, and heavy-duty mechanical pressure switches.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A08-2Oil-Water Separation Sensor (3-Blade)423-66434-01CAT 320DPage 22
+A08-3Oil-Water Separation Sensor (4-Blade)382-2001CAT 336DPage 22
+A08-7Oil-Water Separation Sensor439-5039CAT Engines / FiltersPage 22
+A09-7Pressure Switch194-6725CAT E330DPage 22
+A09-7APressure Switch163-8516CAT EquipmentPage 22
+A09-8Pressure Switch194-6724CAT MachineryPage 22
+A09-12Pressure Switch (Large Round Plug)106-0180 / 167-3466CAT EquipmentPage 23
+A09-13Pressure Switch (Small Square Plug)106-0179 / 309-5768CAT EquipmentPage 23
+A09-14Pressure Switch106-0180CAT E320Page 23
+A09-15Pressure Switch (Large Round Variant)126-2938X03CAT E320B, E320CPage 23
+A09-15APressure SwitchCAT Core LineCAT EquipmentPage 23
+A09-15BPressure Sensor173-7252CAT PlatformsPage 23
+A09-15CPressure Switch192-0836CAT PlatformsPage 23
+A09-15DOil Pressure Sensor198-1302CAT E320BPage 23
+A09-15EPressure Sensor114-9284CAT EquipmentPage 23
+A09-16Pressure Sensor309-5769CAT E320DPage 23
+A09-17Pressure Sensor309-5795CAT E320DPage 23
+A09-17APressure SensorCAT Series BlockCAT E320 SeriesPage 23
+A09-17BPressure SensorCAT GC Series CoreCAT GC SeriesPage 23
+A09-17EPressure Switch319-4407CAT E320EPage 23
+A09-18Oil Pressure SensorE320D Core UnitCAT E320DPage 23
+A09-19Intake Air Sensor274-6720CAT E320DPage 23
+A09-20Pressure Sensor274-6717CAT Machinery PlatformsPage 23
+A09-21Pressure Sensor274-6718CAT Machinery PlatformsPage 23
+A09-21APressure Sensor305-6873CAT PlatformsPage 23
+A09-22Pressure Sensor320-3060CAT EquipmentPage 23
+A09-22APressure Sensor320-3061CAT EquipmentPage 23
+A09-23Oil Pressure Sensor274-6719CAT 336D (C13 Engine)Page 23
+A09-24Pressure Sensor296-8060CAT EquipmentPage 23
+A09-25Pressure Sensor161-9926CAT EquipmentPage 23
+A09-26Pressure Sensor276-6793CAT EquipmentPage 23
+A09-26APressure Sensor349-7378CAT PlatformsPage 23
+A09-26BPressure Sensor320-3062CAT PlatformsPage 23
+A09-26CPressure Sensor320-3063CAT PlatformsPage 23
+A09-28Pressure Sensor453-5523-02CAT E320DPage 23
+A10-14Main Pressure Sensor221-8859CAT E320CPage 24
+A10-18APressure Sensor260-2180CAT E330DPage 25
+A10-19Pressure Sensor434-3436HE00CAT PlatformsPage 25
+A10-20Main Pressure Sensor221-8859 AlternativeCAT E320CPage 25
+A10-20APressure Sensor221-8859 StandardCAT E320C, E320DPage 25
+A10-21Pressure Sensor224-4536CAT 330 SeriesPage 25
+A10-26Pressure Sensor320-3065CAT EquipmentPage 25
+A10-27Pressure Sensor344-7389CAT EquipmentPage 25
+A10-28Pressure Sensor349-1178CAT PlatformsPage 25
+A10-34Pressure Sensor355-5321CAT PlatformsPage 25
+A10-35Pressure Sensor237-0957CAT PlatformsPage 25
+A10-36Pressure Sensor344-7390CAT PlatformsPage 25
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A08-4Oil-Water Separation SensorVOLVO 360 CoreVOLVO EC360Page 22
+A08-5Oil-Water Separation SensorVolvo Master SeriesVOLVO PlatformsPage 22
+A10-41Pressure Sensor17252661VOLVO SystemsPage 25
+🇯🇵 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A08-1Oil-Water Separation Sensor600-311-3721Komatsu PC220-8, PC240-8Page 22
+A09-2Pressure Switch20Y-06-21710Komatsu PC200-6 (6D95 Engine)Page 22
+A09-3Pressure Switch (Low Pressure)7861-93-1840Komatsu PC200-8Page 22
+A09-3APressure Switch208-06-71140Komatsu PC400-8Page 22
+A09-3BPressure Switch208-06-71130Komatsu PC400-8Page 22
+A09-4Pressure Switch (Small Harness)207-06-15190Komatsu PC200-5Page 22
+A09-5Travel Pressure SwitchD4C-9093 / 203-06-5621Komatsu PC200-6Page 22
+A09-6Pressure Switch4921497Komatsu Platforms (6D107 Engine)Page 22
+A10-10High-Pressure Sensor7861-93-1812Komatsu PC200-8Page 24
+A10-10AHigh-Pressure Sensor7861-93-1870Komatsu PlatformsPage 24
+A10-10BHigh-Pressure Sensor7861-93-1890Komatsu PC200-10Page 24
+A10-11Main Pressure Sensor7861-92-1610Komatsu PC200-6Page 24
+A10-11APressure Sensor7861-93-1620Komatsu PlatformsPage 24
+A10-12Pressure Sensor7861-92-1540Komatsu PC200-5Page 24
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A09-29Pressure Switch4380677Hitachi EX200-5Page 23
+A09-30Pressure Switch20PC586-8Hitachi EX200-2, EX200-3Page 23
+A09-31Pressure Switch4353686Hitachi ExcavatorsPage 24
+A09-32Pressure Switch4332040Hitachi ZAX230, ZAX240Page 24
+A09-33Pressure Switch4436536Hitachi ZAX SeriesPage 24
+A09-34Pressure Switch4436535Hitachi ZAX SeriesPage 24
+A09-34APressure Sensor42CP13-1Hitachi ZAX470 (6WG1 Engine)Page 24
+A09-35Pressure Sensor4259333Hitachi Core SeriesPage 24
+A10-14APressure Sensor4703324Hitachi ZAX200-5GPage 25
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A08-9Fuel Sensor CableFS1242 Glass VariantDoosan / Generic Filtration BowlsPage 22
+A08-12Fuel Bowl Core Sensor301308-00562Doosan DX-9 SeriesPage 22
+A08-13Oil-Water Separator SensorYSC-1004Daewoo Doosan DX, XG135, XG215Page 22
+A09-17CPressure Sensor301413-00287Doosan DX SeriesPage 23
+A09-36Pressure Switch20P-586-19Daewoo Doosan DH220-5Page 24
+A09-37Pressure Switch20PS5981-2H9ZHyundai ExcavatorsPage 24
+A09-38Pressure Switch20PS981-3Hyundai R SeriesPage 24
+A09-38APressure Switch20PS982-1Hyundai R SeriesPage 24
+A09-39Pressure Switch20PS982-2 Cross-RefHyundai / Volvo Machinery MarketsPage 24
+A09-47Pressure SensorDX Core BlockDoosan DX SeriesPage 24
+A10-13High Pressure Sensor9503670-500KDaewoo Doosan Heavy Lines / Yuchai CrossPage 24
+A10-39APressure Sensor85PP78-01Daewoo Doosan DX SeriesPage 25
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A09-27Pressure Switch20PS297-5Sumitomo EquipmentPage 23
+A09-40Pressure Switch20PS597-5Sumitomo EquipmentPage 24
+A09-41High Pressure SwitchSK-5 Core LineKobelco SK-5 SeriesPage 24
+A10-1High Pressure SensorLS52S00015P1 / 8607307Kobelco SK-6EPage 24
+A10-2Vacuum Pressure SensorLC52S00015P3Kobelco SK200-8Page 24
+A10-3New Style Pressure SensorYN52S00103P1Kobelco SK200-8Page 24
+A10-4Low Pressure SensorLC52S00019P1 / YW52S0002P1Kobelco SK SeriesPage 24
+A10-5New Style Low Pressure SensorYN52S00102P1Kobelco SK200-8Page 24
+A10-6Vacuum Pressure SensorLC52S00016P3Kobelco Core SeriesPage 24
+A10-7Pressure SwitchSK200-5/6 CoreKobelco SK200-5, SK200-6Page 24
+A10-8Pressure Switch7861-93-1651 Cross-RefKobelco Series / Komatsu PC200-7 CrossPage 24
+A10-9Pressure Switch7861-93-1650Kobelco Core SeriesPage 24
+A10-16Low Pressure SensorKM16-P03Sumitomo MachineryPage 25
+A10-17Low Pressure SensorKM15-P02Sumitomo MachineryPage 25
+A10-17BPressure SensorKM15-S45 / 2107754 / 16P3Sumitomo PlatformsPage 25
+⚙️ Miscellaneous Global Engines & Parts
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A05-1Core Terminal Post4921511Cummins Engine SeriesPage 21
+A05-2Core Terminal Post4921487Cummins Engine SeriesPage 21
+A05-3Core Terminal Post4921501Cummins Engine SeriesPage 21
+A05-4Core Terminal Post4928594Cummins Engine SeriesPage 21
+A05-5Core Terminal Post4921503Cummins Engine SeriesPage 21
+A05-6Core Terminal Post2897690Cummins Engine SeriesPage 21
+A05-7Core Terminal Post4921519Cummins Engine SeriesPage 21
+A05-8Core Terminal Post4921489Cummins Engine SeriesPage 21
+A07-9Core Sensor Node4921495Cummins Engine SeriesPage 21
+A07-10Core Sensor Node3408607Cummins Engine SeriesPage 21
+A07-10ACore Sensor Node2857829Cummins Engine SeriesPage 21
+A07-10BCore Sensor Node23527828Cummins Engine SeriesPage 21
+A07-11Core Sensor Node4921505Cummins Engine SeriesPage 21
+A07-12Core Sensor Node4921499Cummins Engine SeriesPage 21
+A07-13Core Sensor Node4928593Cummins Engine SeriesPage 21
+A07-14Core Sensor Node4921519Cummins Engine SeriesPage 21
+A07-15Core Sensor Node4921493Cummins Engine SeriesPage 21
+A07-16Core Sensor Node701/80389JCB EquipmentPage 21
+A07-17Core Sensor Node701/80317JCB EquipmentPage 21
+A07-18Core Sensor Node716/24200JCB EquipmentPage 21
+A07-19Core Sensor Node701/80324JCB EquipmentPage 21
+A07-20Core Sensor Node716/12800JCB EquipmentPage 21
+A07-21Core Sensor Node701/37400JCB EquipmentPage 21
+A07-22Core Sensor Node716/30126JCB EquipmentPage 21
+A07-23Core Sensor Node701/80627JCB EquipmentPage 21
+A07-24Core Sensor Node701/43700JCB EquipmentPage 21
+A07-25Core Sensor Node701/80591JCB EquipmentPage 21
+A07-26Core Sensor Node701/41700JCB EquipmentPage 21
+A07-27Core Sensor Node701/80225JCB EquipmentPage 21
+A07-27ACore Sensor Node701/M7305JCB EquipmentPage 21
+A07-28Core Sensor Node320/04046JCB EquipmentPage 21
+A07-28AOil Temperature SensorT421762 SpecPerkins Engine SystemsPage 21
+A07-28BCore Sensor Node6670705Shanshan MachineryPage 21
+A07-29Core Sensor Node701/41600JCB EquipmentPage 21
+A07-30Core Sensor Node320/04588JCB EquipmentPage 21
+A07-31Water Temperature Sensor385720480Perkins EnginesPage 21
+A07-32Water Temperature SensorAL156798John Deere MachineryPage 21
+A08-6Oil-Water Separation SensorXCMG / Liugong LineXCMG, Liugong MachineryPage 22
+A08-8Oil-Water Separation Sensor117-4089 Glass VariantUniversal Filtration SystemsPage 22
+A08-10Glass Bowl Core SensorFS1242 / R120P / R90P CrossUniversal Fuel Bow UnitsPage 22
+A08-11Separator Sensor BaseYuchai Engine HarnessYuchai Engine SeriesPage 22
+A08-14Oil-Water Separation SensorXCMG Core ComponentXCMG EnginesPage 22
+A08-15Separator Control Core (3-in-1)Multi-Fit Separation ModuleSany SY135, SY195, SY205, SY200, SY215-10Page 22
+A09-1Pressure Switch7206-06-61130Universal Mechanical SystemsPage 22
+A09-2APressure Switch423-43-22120Komatsu WA380, WA450 Cross-ReferencePage 22
+A09-8AInterface SwitchRound Connection NodeUniversal Harness LoopsPage 23
+A09-8BInterface Switch167-1709Universal Harness LoopsPage 23
+A09-9Hydraulic Fluid SensorE200B System NodeMitsubishi E200B Cross-ReferencePage 23
+A09-10Hydraulic Fluid SensorSmall Round UnitMitsubishi E300 Cross-ReferencePage 23
+A09-11Hydraulic Fluid SensorLarge Round UnitMitsubishi E300 Cross-ReferencePage 23
+A09-26Pressure Switch22F-06-33430Kato Equipment SeriesPage 23
+A09-42Pressure Switch332/U0669JCB EquipmentPage 24
+A09-43Pressure Switch332/J0670JCB EquipmentPage 24
+A09-44Pressure Switch332-10671JCB EquipmentPage 24
+A09-45Pressure SensorRE542461-2011CJohn Deere SystemsPage 24
+A09-46Pressure Sensor52CP34-03Universal Mechanical SystemsPage 24
+A09-48Pressure Sensor239-3478Universal 3-Pin ModulesPage 24
+A10-10CPressure Sensor7861-93-1880Komatsu Systems Cross-ReferencePage 24
+A10-15Pressure SensorPT-W-82 Main UnitKato EquipmentPage 25
+A10-15APressure SensorKM10-P16Kato EquipmentPage 25
+A10-17APressure SensorKM15-S46 / 2107744 / 27P1Sumitomo EquipmentPage 25
+A10-18Pressure Sensor125-9859Universal SystemsPage 25
+A10-21APressure Sensor194-6726Universal SystemsPage 25
+A10-22Pressure Sensor344-7391Universal MachineryPage 25
+A10-23Pressure Sensor296-5270Universal MachineryPage 25
+A10-24Pressure Sensor344-7392Universal MachineryPage 25
+A10-25Pressure Sensor238-0118Universal MachineryPage 25
+A10-29Pressure Sensor298-6488Universal PlatformsPage 25
+A10-30Pressure Sensor248-2169Universal PlatformsPage 25
+A10-31Pressure Sensor320-3064Universal PlatformsPage 25
+A10-32Pressure Sensor224-4535Universal PlatformsPage 25
+A10-33Pressure Sensor239-3478Universal PlatformsPage 25
+A10-37Pressure Sensor375-6126Heavy Duty ComponentsPage 25
+A10-38Pressure Sensor419-5574Heavy Duty ComponentsPage 25
+A10-39Pressure Sensor216-0420Heavy Duty ComponentsPage 25
+A10-39BPressure Sensor55PP07-02JCB PlatformsPage 25
+A10-39CHigh Pressure Sensor45PP5-1Doosan DX225Page 25
+A10-40Pressure SensorP31Q8-40510Hyundai MachineryPage 25

@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { defaultInventoryCategoryId } from "@/lib/inventory-categories";
-import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
+import { currency, oemNumbersOf, partDescriptionOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -50,7 +50,12 @@ export const Route = createFileRoute("/inventory")({
 type SortMode = "size" | "box";
 type DialogMode = "view" | "edit" | "create";
 
-function PartNumbersCell({ part }: { part: Part }) {
+function PartNumbersCell({ part, catalogMode }: { part: Part; catalogMode?: boolean }) {
+  // Catalog mode: Part Code column is catalog code only (OEM has its own column).
+  if (catalogMode) {
+    return <span className="font-mono text-xs font-medium">{part.partNumber}</span>;
+  }
+
   const numbers = partNumbersOf(part);
   const primary = numbers[0] ?? part.partNumber;
   const extra = numbers.length - 1;
@@ -490,11 +495,13 @@ function InventoryPage() {
                 <TableRow>
                   {!isORings && <TableHead className="w-14">Photo</TableHead>}
                   {isORings && <TableHead>Box</TableHead>}
-                  <TableHead>Part #</TableHead>
+                  <TableHead>{isORings ? "Part #" : "Part Code"}</TableHead>
                   {isORings && <TableHead>ID (mm)</TableHead>}
                   {isORings && <TableHead>CS (mm)</TableHead>}
                   {!isORings && <TableHead>Description</TableHead>}
+                  {!isORings && <TableHead>OEM / Serial</TableHead>}
                   {!isORings && <TableHead>Machine</TableHead>}
+                  {!isORings && <TableHead className="w-16">Page</TableHead>}
                   <TableHead>Category</TableHead>
                   <TableHead className="text-right">Qty</TableHead>
                   <TableHead className="text-right">Cost</TableHead>
@@ -505,14 +512,18 @@ function InventoryPage() {
               <TableBody>
                 {rows.map((p) => {
                   const low = p.quantity > 0 && p.quantity <= p.reorderAt;
-                  const description =
-                    p.name.includes(" — ") ? p.name.split(" — ")[0] : p.name;
+                  const description = partDescriptionOf(p);
                   const machine =
                     p.compatibility.length > 0
                       ? p.compatibility.join(", ")
                       : p.name.includes(" — ")
                         ? p.name.split(" — ").slice(1).join(" — ")
                         : "";
+                  const oems = oemNumbersOf(p);
+                  const page =
+                    p.catalogPage ||
+                    p.notes?.match(/Catalog p\.?\s*([\d,\s]+)/i)?.[1]?.trim() ||
+                    "";
                   return (
                     <TableRow key={p.id}>
                       {!isORings && (
@@ -544,7 +555,7 @@ function InventoryPage() {
                         </TableCell>
                       )}
                       <TableCell>
-                        <PartNumbersCell part={p} />
+                        <PartNumbersCell part={p} catalogMode={!isORings} />
                       </TableCell>
                       {isORings && (
                         <TableCell className="font-mono text-xs">{p.insideDiameterMm || "—"}</TableCell>
@@ -553,13 +564,25 @@ function InventoryPage() {
                         <TableCell className="font-mono text-xs">{p.crossSectionMm || "—"}</TableCell>
                       )}
                       {!isORings && (
-                        <TableCell className="max-w-[220px] text-xs">
+                        <TableCell className="max-w-[200px] text-xs">
                           <span className="line-clamp-2">{description || "—"}</span>
+                        </TableCell>
+                      )}
+                      {!isORings && (
+                        <TableCell className="max-w-[160px] font-mono text-xs text-muted-foreground">
+                          <span className="line-clamp-2">
+                            {oems.length > 0 ? oems.join(" / ") : "—"}
+                          </span>
                         </TableCell>
                       )}
                       {!isORings && (
                         <TableCell className="max-w-[180px] text-xs text-muted-foreground">
                           <span className="line-clamp-2">{machine || "—"}</span>
+                        </TableCell>
+                      )}
+                      {!isORings && (
+                        <TableCell className="font-mono text-xs text-muted-foreground">
+                          {page || "—"}
                         </TableCell>
                       )}
                       <TableCell>

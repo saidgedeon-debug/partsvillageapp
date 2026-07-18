@@ -1,10 +1,10 @@
 {
-  "status": "sections_2_3_4_v2",
+  "status": "sections_2_3_4_5_v2",
   "supplier": "Kafu",
-  "rawRows": 249,
-  "section4": 249,
-  "kept_2_3": 341,
-  "count": 590,
+  "rawRows": 178,
+  "section5": 177,
+  "kept_prior": 590,
+  "count": 767,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
@@ -16,6 +16,8 @@
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
     "Coolant Temperature Sensor",
+    "Core Sensor Node",
+    "Core Terminal Post",
     "Crankshaft Sensor",
     "Differential Pressure Sensor",
     "Door Lamp Switch",
@@ -24,16 +26,22 @@
     "Fluid Temperature Sensor",
     "Flywheel Speed Sensor",
     "Fuel Pump Speed Sensor",
+    "Fuel Sensor Cable",
     "Fuel Temperature Sensor",
     "Fuel/Oil Temperature Sensor",
     "Glow Plug",
+    "High Pressure Sensor",
+    "Hydraulic Fluid Sensor",
     "Hydraulic Oil Temperature Sensor",
     "Inductive Switch Sensor",
+    "Intake Air Sensor",
     "Intake Pressure Sensor",
     "Intake Temperature Sensor",
+    "Low Pressure Sensor",
     "Oil Pressure Sensor",
     "Oil Pressure Switch",
     "Oil Temperature Sensor",
+    "Oil-Water Separation Sensor",
     "Oil/Water Pressure Switch",
     "Oil/Water Temperature Sensor",
     "Oxygen Sensor",
@@ -48,6 +56,7 @@
     "Temperature Probe",
     "Temperature Sensor",
     "Temperature Switch",
+    "Vacuum Pressure Sensor",
     "Vacuum Pressure Switch",
     "Water Alarm Sensor",
     "Water Temperature Sensor"
@@ -11709,6 +11718,3597 @@
       ],
       "section": "Section 4",
       "confidence": "user-section4-v2"
+    },
+    {
+      "catalogCode": "A07-1",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "4921511"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-10",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "3408607"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-10A",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "2857829"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-10B",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "23527828"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-11",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "4921505"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-12",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "4921499"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-13",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "4928593"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-14",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "4921519"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-15",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "4921493"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-16",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "80389"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-17",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "80317"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-18",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "716",
+        "24200"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-19",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "80324"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-2",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "4921487"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-20",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "716",
+        "12800"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-21",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "37400"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-22",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "716",
+        "30126"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-23",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "80627"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-24",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "43700"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-25",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "80591"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-26",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "41700"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-27",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "80225"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-27A",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "M7305"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-28",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "320",
+        "04046"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-28A",
+      "category": "Oil Temperature Sensor",
+      "description": "Oil Temperature Sensor",
+      "name": "Oil Temperature Sensor — Perkins Engine Systems",
+      "oemNumbers": [
+        "T421762"
+      ],
+      "compatibility": [
+        "Perkins Engine Systems"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-28B",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Shanshan Machinery",
+      "oemNumbers": [
+        "6670705"
+      ],
+      "compatibility": [
+        "Shanshan Machinery"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-29",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "701",
+        "41600"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-3",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "4921501"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-30",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — JCB Equipment",
+      "oemNumbers": [
+        "320",
+        "04588"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-31",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — Perkins Engines",
+      "oemNumbers": [
+        "385720480"
+      ],
+      "compatibility": [
+        "Perkins Engines"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-32",
+      "category": "Water Temperature Sensor",
+      "description": "Water Temperature Sensor",
+      "name": "Water Temperature Sensor — John Deere Machinery",
+      "oemNumbers": [
+        "AL156798"
+      ],
+      "compatibility": [
+        "John Deere Machinery"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-4",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "4928594"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-5",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "4921503"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-6",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "2897690"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-7",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "4921519"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-8",
+      "category": "Core Terminal Post",
+      "description": "Core Terminal Post",
+      "name": "Core Terminal Post — Cummins Engine Series",
+      "oemNumbers": [
+        "4921489"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A07-9",
+      "category": "Core Sensor Node",
+      "description": "Core Sensor Node",
+      "name": "Core Sensor Node — Cummins Engine Series",
+      "oemNumbers": [
+        "4921495"
+      ],
+      "compatibility": [
+        "Cummins Engine Series"
+      ],
+      "pages": [
+        "21"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-1",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor",
+      "name": "Oil-Water Separation Sensor — Komatsu PC220-8, PC240-8",
+      "oemNumbers": [
+        "600-311-3721"
+      ],
+      "compatibility": [
+        "Komatsu PC220-8",
+        "PC240-8"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-10",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Glass Bowl Core Sensor",
+      "name": "Glass Bowl Core Sensor — Universal Fuel Bow Units",
+      "oemNumbers": [
+        "FS1242",
+        "R120P",
+        "R90P Cross"
+      ],
+      "compatibility": [
+        "Universal Fuel Bow Units"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-11",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Separator Sensor Base",
+      "name": "Separator Sensor Base — Yuchai Engine Series",
+      "oemNumbers": [
+        "Yuchai Engine"
+      ],
+      "compatibility": [
+        "Yuchai Engine Series"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-12",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Fuel Bowl Core Sensor",
+      "name": "Fuel Bowl Core Sensor — Doosan DX-9 Series",
+      "oemNumbers": [
+        "301308-00562"
+      ],
+      "compatibility": [
+        "Doosan DX-9 Series"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-13",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separator Sensor",
+      "name": "Oil-Water Separator Sensor — Daewoo Doosan DX, XG135, XG215",
+      "oemNumbers": [
+        "YSC-1004"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DX",
+        "XG135",
+        "XG215"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-14",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor",
+      "name": "Oil-Water Separation Sensor — XCMG Engines",
+      "oemNumbers": [
+        "XCMG"
+      ],
+      "compatibility": [
+        "XCMG Engines"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-15",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Separator Control Core (3-in-1)",
+      "name": "Separator Control Core (3-in-1) — Sany SY135, SY195, SY205",
+      "oemNumbers": [
+        "Multi-Fit"
+      ],
+      "compatibility": [
+        "Sany SY135",
+        "SY195",
+        "SY205",
+        "SY200",
+        "SY215-10"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-2",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor (3-Blade)",
+      "name": "Oil-Water Separation Sensor (3-Blade) — Caterpillar 320D",
+      "oemNumbers": [
+        "423-66434-01"
+      ],
+      "compatibility": [
+        "Caterpillar 320D"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-3",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor (4-Blade)",
+      "name": "Oil-Water Separation Sensor (4-Blade) — Caterpillar 336D",
+      "oemNumbers": [
+        "382-2001"
+      ],
+      "compatibility": [
+        "Caterpillar 336D"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-4",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor",
+      "name": "Oil-Water Separation Sensor — Volvo EC360",
+      "oemNumbers": [
+        "VOLVO 360"
+      ],
+      "compatibility": [
+        "Volvo EC360"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-5",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor",
+      "name": "Oil-Water Separation Sensor — Volvo Platforms",
+      "oemNumbers": [
+        "Volvo Master Series"
+      ],
+      "compatibility": [
+        "Volvo Platforms"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-6",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor",
+      "name": "Oil-Water Separation Sensor — Liugong Line XCMG, Liugong Machinery",
+      "oemNumbers": [
+        "XCMG"
+      ],
+      "compatibility": [
+        "Liugong Line XCMG",
+        "Liugong Machinery"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-7",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor",
+      "name": "Oil-Water Separation Sensor — Caterpillar Engines, Filters",
+      "oemNumbers": [
+        "439-5039"
+      ],
+      "compatibility": [
+        "Caterpillar Engines",
+        "Filters"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-8",
+      "category": "Oil-Water Separation Sensor",
+      "description": "Oil-Water Separation Sensor",
+      "name": "Oil-Water Separation Sensor — Universal Filtration Systems",
+      "oemNumbers": [
+        "117-4089"
+      ],
+      "compatibility": [
+        "Universal Filtration Systems"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A08-9",
+      "category": "Fuel Sensor Cable",
+      "description": "Fuel Sensor Cable",
+      "name": "Fuel Sensor Cable — Doosan, Generic Filtration Bowls",
+      "oemNumbers": [
+        "FS1242"
+      ],
+      "compatibility": [
+        "Doosan",
+        "Generic Filtration Bowls"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-1",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Universal Mechanical Systems",
+      "oemNumbers": [
+        "7206-06-61130"
+      ],
+      "compatibility": [
+        "Universal Mechanical Systems"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-10",
+      "category": "Hydraulic Fluid Sensor",
+      "description": "Hydraulic Fluid Sensor",
+      "name": "Hydraulic Fluid Sensor — Mitsubishi E300 Cross-Reference",
+      "oemNumbers": [
+        "Small Round Unit"
+      ],
+      "compatibility": [
+        "Mitsubishi E300 Cross-Reference"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-11",
+      "category": "Hydraulic Fluid Sensor",
+      "description": "Hydraulic Fluid Sensor",
+      "name": "Hydraulic Fluid Sensor — Mitsubishi E300 Cross-Reference",
+      "oemNumbers": [
+        "Large Round Unit"
+      ],
+      "compatibility": [
+        "Mitsubishi E300 Cross-Reference"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-12",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch (Large Round Plug)",
+      "name": "Pressure Switch (Large Round Plug) — Caterpillar Equipment",
+      "oemNumbers": [
+        "106-0180",
+        "167-3466"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-13",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch (Small Square Plug)",
+      "name": "Pressure Switch (Small Square Plug) — Caterpillar Equipment",
+      "oemNumbers": [
+        "106-0179",
+        "309-5768"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-14",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar E320",
+      "oemNumbers": [
+        "106-0180"
+      ],
+      "compatibility": [
+        "Caterpillar E320"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-15",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch (Large Round Variant)",
+      "name": "Pressure Switch (Large Round Variant) — Caterpillar E320B, E320C",
+      "oemNumbers": [
+        "126-2938X03"
+      ],
+      "compatibility": [
+        "Caterpillar E320B",
+        "E320C"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-15A",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar Equipment",
+      "oemNumbers": [
+        "CAT"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-15B",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "173-7252"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-15C",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar Platforms",
+      "oemNumbers": [
+        "192-0836"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-15D",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Caterpillar E320B",
+      "oemNumbers": [
+        "198-1302"
+      ],
+      "compatibility": [
+        "Caterpillar E320B"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-15E",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "114-9284"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-16",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar E320D",
+      "oemNumbers": [
+        "309-5769"
+      ],
+      "compatibility": [
+        "Caterpillar E320D"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-17",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar E320D",
+      "oemNumbers": [
+        "309-5795"
+      ],
+      "compatibility": [
+        "Caterpillar E320D"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-17A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar E320 Series",
+      "oemNumbers": [
+        "CAT Series"
+      ],
+      "compatibility": [
+        "Caterpillar E320 Series"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-17B",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar GC Series",
+      "oemNumbers": [
+        "CAT GC"
+      ],
+      "compatibility": [
+        "Caterpillar GC Series"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-17C",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Doosan DX Series",
+      "oemNumbers": [
+        "301413-00287"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-17E",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar E320E",
+      "oemNumbers": [
+        "319-4407"
+      ],
+      "compatibility": [
+        "Caterpillar E320E"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-18",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Caterpillar E320D",
+      "oemNumbers": [
+        "E320D"
+      ],
+      "compatibility": [
+        "Caterpillar E320D"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-19",
+      "category": "Intake Air Sensor",
+      "description": "Intake Air Sensor",
+      "name": "Intake Air Sensor — Caterpillar E320D",
+      "oemNumbers": [
+        "274-6720"
+      ],
+      "compatibility": [
+        "Caterpillar E320D"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-2",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu PC200-6 (6D95 Engine)",
+      "oemNumbers": [
+        "20Y-06-21710"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6 (6D95 Engine)"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-20",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Machinery Platforms",
+      "oemNumbers": [
+        "274-6717"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-21",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Machinery Platforms",
+      "oemNumbers": [
+        "274-6718"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-21A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "305-6873"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-22",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "320-3060"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-22A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "320-3061"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-23",
+      "category": "Oil Pressure Sensor",
+      "description": "Oil Pressure Sensor",
+      "name": "Oil Pressure Sensor — Caterpillar 336D (C13 Engine)",
+      "oemNumbers": [
+        "274-6719"
+      ],
+      "compatibility": [
+        "Caterpillar 336D (C13 Engine)"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-24",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "296-8060"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-25",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "161-9926"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-26",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "276-6793",
+        "22F-06-33430"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment",
+        "Kato Equipment Series"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-26A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "349-7378"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-26B",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "320-3062"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-26C",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "320-3063"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-27",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Sumitomo Equipment",
+      "oemNumbers": [
+        "20PS297-5"
+      ],
+      "compatibility": [
+        "Sumitomo Equipment"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-28",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar E320D",
+      "oemNumbers": [
+        "453-5523-02"
+      ],
+      "compatibility": [
+        "Caterpillar E320D"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-29",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hitachi EX200-5",
+      "oemNumbers": [
+        "4380677"
+      ],
+      "compatibility": [
+        "Hitachi EX200-5"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-2A",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu WA380, WA450 Cross-Reference",
+      "oemNumbers": [
+        "423-43-22120"
+      ],
+      "compatibility": [
+        "Komatsu WA380",
+        "WA450 Cross-Reference"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-3",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch (Low Pressure)",
+      "name": "Pressure Switch (Low Pressure) — Komatsu PC200-8",
+      "oemNumbers": [
+        "7861-93-1840"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-30",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hitachi EX200-2, EX200-3",
+      "oemNumbers": [
+        "20PC586-8"
+      ],
+      "compatibility": [
+        "Hitachi EX200-2",
+        "EX200-3"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-31",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hitachi Excavators",
+      "oemNumbers": [
+        "4353686"
+      ],
+      "compatibility": [
+        "Hitachi Excavators"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-32",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hitachi ZAX230, ZAX240",
+      "oemNumbers": [
+        "4332040"
+      ],
+      "compatibility": [
+        "Hitachi ZAX230",
+        "ZAX240"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-33",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hitachi ZAX Series",
+      "oemNumbers": [
+        "4436536"
+      ],
+      "compatibility": [
+        "Hitachi ZAX Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-34",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hitachi ZAX Series",
+      "oemNumbers": [
+        "4436535"
+      ],
+      "compatibility": [
+        "Hitachi ZAX Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-34A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Hitachi ZAX470 (6WG1 Engine)",
+      "oemNumbers": [
+        "42CP13-1"
+      ],
+      "compatibility": [
+        "Hitachi ZAX470 (6WG1 Engine)"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-35",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Hitachi Core Series",
+      "oemNumbers": [
+        "4259333"
+      ],
+      "compatibility": [
+        "Hitachi Core Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-36",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "20P-586-19"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-37",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai Excavators",
+      "oemNumbers": [
+        "20PS5981-2H9Z"
+      ],
+      "compatibility": [
+        "Hyundai Excavators"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-38",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai R Series",
+      "oemNumbers": [
+        "20PS981-3"
+      ],
+      "compatibility": [
+        "Hyundai R Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-38A",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai R Series",
+      "oemNumbers": [
+        "20PS982-1"
+      ],
+      "compatibility": [
+        "Hyundai R Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-39",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Hyundai, Volvo Machinery Markets",
+      "oemNumbers": [
+        "20PS982-2"
+      ],
+      "compatibility": [
+        "Hyundai",
+        "Volvo Machinery Markets"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-3A",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu PC400-8",
+      "oemNumbers": [
+        "208-06-71140"
+      ],
+      "compatibility": [
+        "Komatsu PC400-8"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-3B",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu PC400-8",
+      "oemNumbers": [
+        "208-06-71130"
+      ],
+      "compatibility": [
+        "Komatsu PC400-8"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-4",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch (Small Harness)",
+      "name": "Pressure Switch (Small Harness) — Komatsu PC200-5",
+      "oemNumbers": [
+        "207-06-15190"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-40",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Sumitomo Equipment",
+      "oemNumbers": [
+        "20PS597-5"
+      ],
+      "compatibility": [
+        "Sumitomo Equipment"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-41",
+      "category": "Pressure Switch",
+      "description": "High Pressure Switch",
+      "name": "High Pressure Switch — Kobelco SK-5 Series",
+      "oemNumbers": [
+        "SK-5"
+      ],
+      "compatibility": [
+        "Kobelco SK-5 Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-42",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — JCB Equipment",
+      "oemNumbers": [
+        "332",
+        "U0669"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-43",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — JCB Equipment",
+      "oemNumbers": [
+        "332",
+        "J0670"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-44",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — JCB Equipment",
+      "oemNumbers": [
+        "332-10671"
+      ],
+      "compatibility": [
+        "JCB Equipment"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-45",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — John Deere Systems",
+      "oemNumbers": [
+        "RE542461-2011C"
+      ],
+      "compatibility": [
+        "John Deere Systems"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-46",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Mechanical Systems",
+      "oemNumbers": [
+        "52CP34-03"
+      ],
+      "compatibility": [
+        "Universal Mechanical Systems"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-47",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Doosan DX Series",
+      "oemNumbers": [
+        "DX Core"
+      ],
+      "compatibility": [
+        "Doosan DX Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-48",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal 3-Pin Modules",
+      "oemNumbers": [
+        "239-3478"
+      ],
+      "compatibility": [
+        "Universal 3-Pin Modules"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-5",
+      "category": "Pressure Switch",
+      "description": "Travel Pressure Switch",
+      "name": "Travel Pressure Switch — Komatsu PC200-6",
+      "oemNumbers": [
+        "D4C-9093",
+        "203-06-5621"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-6",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Komatsu Platforms (6D107 Engine)",
+      "oemNumbers": [
+        "4921497"
+      ],
+      "compatibility": [
+        "Komatsu Platforms (6D107 Engine)"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-7",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar E330D",
+      "oemNumbers": [
+        "194-6725"
+      ],
+      "compatibility": [
+        "Caterpillar E330D"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-7A",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar Equipment",
+      "oemNumbers": [
+        "163-8516"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-8",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Caterpillar Machinery",
+      "oemNumbers": [
+        "194-6724"
+      ],
+      "compatibility": [
+        "Caterpillar Machinery"
+      ],
+      "pages": [
+        "22"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-8A",
+      "category": "Pressure Switch",
+      "description": "Interface Switch",
+      "name": "Interface Switch — Universal Harness Loops",
+      "oemNumbers": [
+        "Round Connection Node"
+      ],
+      "compatibility": [
+        "Universal Harness Loops"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-8B",
+      "category": "Pressure Switch",
+      "description": "Interface Switch",
+      "name": "Interface Switch — Universal Harness Loops",
+      "oemNumbers": [
+        "167-1709"
+      ],
+      "compatibility": [
+        "Universal Harness Loops"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A09-9",
+      "category": "Hydraulic Fluid Sensor",
+      "description": "Hydraulic Fluid Sensor",
+      "name": "Hydraulic Fluid Sensor — Mitsubishi E200B Cross-Reference",
+      "oemNumbers": [
+        "E200B System Node"
+      ],
+      "compatibility": [
+        "Mitsubishi E200B Cross-Reference"
+      ],
+      "pages": [
+        "23"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-1",
+      "category": "High Pressure Sensor",
+      "description": "High Pressure Sensor",
+      "name": "High Pressure Sensor — Kobelco SK-6E",
+      "oemNumbers": [
+        "LS52S00015P1",
+        "8607307"
+      ],
+      "compatibility": [
+        "Kobelco SK-6E"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-10",
+      "category": "High Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Komatsu PC200-8",
+      "oemNumbers": [
+        "7861-93-1812"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-10A",
+      "category": "High Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Komatsu Platforms",
+      "oemNumbers": [
+        "7861-93-1870"
+      ],
+      "compatibility": [
+        "Komatsu Platforms"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-10B",
+      "category": "High Pressure Sensor",
+      "description": "High-Pressure Sensor",
+      "name": "High-Pressure Sensor — Komatsu PC200-10",
+      "oemNumbers": [
+        "7861-93-1890"
+      ],
+      "compatibility": [
+        "Komatsu PC200-10"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-10C",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Komatsu Systems Cross-Reference",
+      "oemNumbers": [
+        "7861-93-1880"
+      ],
+      "compatibility": [
+        "Komatsu Systems Cross-Reference"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-11",
+      "category": "High Pressure Sensor",
+      "description": "Main Pressure Sensor",
+      "name": "Main Pressure Sensor — Komatsu PC200-6",
+      "oemNumbers": [
+        "7861-92-1610"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-11A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Komatsu Platforms",
+      "oemNumbers": [
+        "7861-93-1620"
+      ],
+      "compatibility": [
+        "Komatsu Platforms"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-12",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Komatsu PC200-5",
+      "oemNumbers": [
+        "7861-92-1540"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-13",
+      "category": "High Pressure Sensor",
+      "description": "High Pressure Sensor",
+      "name": "High Pressure Sensor — Daewoo Doosan Heavy Lines, Yuchai Cross",
+      "oemNumbers": [
+        "9503670-500K"
+      ],
+      "compatibility": [
+        "Daewoo Doosan Heavy Lines",
+        "Yuchai Cross"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-14",
+      "category": "High Pressure Sensor",
+      "description": "Main Pressure Sensor",
+      "name": "Main Pressure Sensor — Caterpillar E320C",
+      "oemNumbers": [
+        "221-8859"
+      ],
+      "compatibility": [
+        "Caterpillar E320C"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-14A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Hitachi ZAX200-5G",
+      "oemNumbers": [
+        "4703324"
+      ],
+      "compatibility": [
+        "Hitachi ZAX200-5G"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-15",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Kato Equipment",
+      "oemNumbers": [
+        "PT-W-82"
+      ],
+      "compatibility": [
+        "Kato Equipment"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-15A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Kato Equipment",
+      "oemNumbers": [
+        "KM10-P16"
+      ],
+      "compatibility": [
+        "Kato Equipment"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-16",
+      "category": "Low Pressure Sensor",
+      "description": "Low Pressure Sensor",
+      "name": "Low Pressure Sensor — Sumitomo Machinery",
+      "oemNumbers": [
+        "KM16-P03"
+      ],
+      "compatibility": [
+        "Sumitomo Machinery"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-17",
+      "category": "Low Pressure Sensor",
+      "description": "Low Pressure Sensor",
+      "name": "Low Pressure Sensor — Sumitomo Machinery",
+      "oemNumbers": [
+        "KM15-P02"
+      ],
+      "compatibility": [
+        "Sumitomo Machinery"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-17A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Sumitomo Equipment",
+      "oemNumbers": [
+        "KM15-S46",
+        "2107744",
+        "27P1"
+      ],
+      "compatibility": [
+        "Sumitomo Equipment"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-17B",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Sumitomo Platforms",
+      "oemNumbers": [
+        "KM15-S45",
+        "2107754",
+        "16P3"
+      ],
+      "compatibility": [
+        "Sumitomo Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-18",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Systems",
+      "oemNumbers": [
+        "125-9859"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-18A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar E330D",
+      "oemNumbers": [
+        "260-2180"
+      ],
+      "compatibility": [
+        "Caterpillar E330D"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-19",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "434-3436HE00"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-2",
+      "category": "Vacuum Pressure Sensor",
+      "description": "Vacuum Pressure Sensor",
+      "name": "Vacuum Pressure Sensor — Kobelco SK200-8",
+      "oemNumbers": [
+        "LC52S00015P3"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-20",
+      "category": "High Pressure Sensor",
+      "description": "Main Pressure Sensor",
+      "name": "Main Pressure Sensor — Caterpillar E320C",
+      "oemNumbers": [
+        "221-8859"
+      ],
+      "compatibility": [
+        "Caterpillar E320C"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-20A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar E320C, E320D",
+      "oemNumbers": [
+        "221-8859"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E320D"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-21",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar 330 Series",
+      "oemNumbers": [
+        "224-4536"
+      ],
+      "compatibility": [
+        "Caterpillar 330 Series"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-21A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Systems",
+      "oemNumbers": [
+        "194-6726"
+      ],
+      "compatibility": [
+        "Universal Systems"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-22",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Machinery",
+      "oemNumbers": [
+        "344-7391"
+      ],
+      "compatibility": [
+        "Universal Machinery"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-23",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Machinery",
+      "oemNumbers": [
+        "296-5270"
+      ],
+      "compatibility": [
+        "Universal Machinery"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-24",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Machinery",
+      "oemNumbers": [
+        "344-7392"
+      ],
+      "compatibility": [
+        "Universal Machinery"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-25",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Machinery",
+      "oemNumbers": [
+        "238-0118"
+      ],
+      "compatibility": [
+        "Universal Machinery"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-26",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "320-3065"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-27",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Equipment",
+      "oemNumbers": [
+        "344-7389"
+      ],
+      "compatibility": [
+        "Caterpillar Equipment"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-28",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "349-1178"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-29",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Platforms",
+      "oemNumbers": [
+        "298-6488"
+      ],
+      "compatibility": [
+        "Universal Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-3",
+      "category": "Pressure Sensor",
+      "description": "New Style Pressure Sensor",
+      "name": "New Style Pressure Sensor — Kobelco SK200-8",
+      "oemNumbers": [
+        "YN52S00103P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-30",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Platforms",
+      "oemNumbers": [
+        "248-2169"
+      ],
+      "compatibility": [
+        "Universal Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-31",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Platforms",
+      "oemNumbers": [
+        "320-3064"
+      ],
+      "compatibility": [
+        "Universal Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-32",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Platforms",
+      "oemNumbers": [
+        "224-4535"
+      ],
+      "compatibility": [
+        "Universal Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-33",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Universal Platforms",
+      "oemNumbers": [
+        "239-3478"
+      ],
+      "compatibility": [
+        "Universal Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-34",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "355-5321"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-35",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "237-0957"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-36",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Caterpillar Platforms",
+      "oemNumbers": [
+        "344-7390"
+      ],
+      "compatibility": [
+        "Caterpillar Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-37",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Heavy Duty Components",
+      "oemNumbers": [
+        "375-6126"
+      ],
+      "compatibility": [
+        "Heavy Duty Components"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-38",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Heavy Duty Components",
+      "oemNumbers": [
+        "419-5574"
+      ],
+      "compatibility": [
+        "Heavy Duty Components"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-39",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Heavy Duty Components",
+      "oemNumbers": [
+        "216-0420"
+      ],
+      "compatibility": [
+        "Heavy Duty Components"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-39A",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Daewoo Doosan DX Series",
+      "oemNumbers": [
+        "85PP78-01"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DX Series"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-39B",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — JCB Platforms",
+      "oemNumbers": [
+        "55PP07-02"
+      ],
+      "compatibility": [
+        "JCB Platforms"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-39C",
+      "category": "High Pressure Sensor",
+      "description": "High Pressure Sensor",
+      "name": "High Pressure Sensor — Doosan DX225",
+      "oemNumbers": [
+        "45PP5-1"
+      ],
+      "compatibility": [
+        "Doosan DX225"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-4",
+      "category": "Low Pressure Sensor",
+      "description": "Low Pressure Sensor",
+      "name": "Low Pressure Sensor — Kobelco SK Series",
+      "oemNumbers": [
+        "LC52S00019P1",
+        "YW52S0002P1"
+      ],
+      "compatibility": [
+        "Kobelco SK Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-40",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Hyundai Machinery",
+      "oemNumbers": [
+        "P31Q8-40510"
+      ],
+      "compatibility": [
+        "Hyundai Machinery"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-41",
+      "category": "Pressure Sensor",
+      "description": "Pressure Sensor",
+      "name": "Pressure Sensor — Volvo Systems",
+      "oemNumbers": [
+        "17252661"
+      ],
+      "compatibility": [
+        "Volvo Systems"
+      ],
+      "pages": [
+        "25"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-5",
+      "category": "Low Pressure Sensor",
+      "description": "New Style Low Pressure Sensor",
+      "name": "New Style Low Pressure Sensor — Kobelco SK200-8",
+      "oemNumbers": [
+        "YN52S00102P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-6",
+      "category": "Vacuum Pressure Sensor",
+      "description": "Vacuum Pressure Sensor",
+      "name": "Vacuum Pressure Sensor — Kobelco Core Series",
+      "oemNumbers": [
+        "LC52S00016P3"
+      ],
+      "compatibility": [
+        "Kobelco Core Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-7",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Kobelco SK200-5, SK200-6",
+      "oemNumbers": [
+        "SK200-5"
+      ],
+      "compatibility": [
+        "Kobelco SK200-5",
+        "SK200-6"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-8",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Kobelco Series, Komatsu PC200-7 Cross",
+      "oemNumbers": [
+        "7861-93-1651"
+      ],
+      "compatibility": [
+        "Kobelco Series",
+        "Komatsu PC200-7 Cross"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
+    },
+    {
+      "catalogCode": "A10-9",
+      "category": "Pressure Switch",
+      "description": "Pressure Switch",
+      "name": "Pressure Switch — Kobelco Core Series",
+      "oemNumbers": [
+        "7861-93-1650"
+      ],
+      "compatibility": [
+        "Kobelco Core Series"
+      ],
+      "pages": [
+        "24"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 5",
+      "confidence": "user-section5-v2"
     }
-  ]
+  ],
+  "note": "Page21 A05 Core Terminal Posts remapped to A07-1..A07-8"
 }
