@@ -408,6 +408,8 @@ function InventoryPage() {
                   <TableHead>Part #</TableHead>
                   {isORings && <TableHead>ID (mm)</TableHead>}
                   {isORings && <TableHead>CS (mm)</TableHead>}
+                  {!isORings && <TableHead>Description</TableHead>}
+                  {!isORings && <TableHead>Machine</TableHead>}
                   <TableHead>Category</TableHead>
                   <TableHead className="text-right">Qty</TableHead>
                   <TableHead className="text-right">Cost</TableHead>
@@ -418,6 +420,14 @@ function InventoryPage() {
               <TableBody>
                 {rows.map((p) => {
                   const low = p.quantity > 0 && p.quantity <= p.reorderAt;
+                  const description =
+                    p.name.includes(" — ") ? p.name.split(" — ")[0] : p.name;
+                  const machine =
+                    p.compatibility.length > 0
+                      ? p.compatibility.join(", ")
+                      : p.name.includes(" — ")
+                        ? p.name.split(" — ").slice(1).join(" — ")
+                        : "";
                   return (
                     <TableRow key={p.id}>
                       {isORings && (
@@ -433,6 +443,16 @@ function InventoryPage() {
                       )}
                       {isORings && (
                         <TableCell className="font-mono text-xs">{p.crossSectionMm || "—"}</TableCell>
+                      )}
+                      {!isORings && (
+                        <TableCell className="max-w-[220px] text-xs">
+                          <span className="line-clamp-2">{description || "—"}</span>
+                        </TableCell>
+                      )}
+                      {!isORings && (
+                        <TableCell className="max-w-[180px] text-xs text-muted-foreground">
+                          <span className="line-clamp-2">{machine || "—"}</span>
+                        </TableCell>
                       )}
                       <TableCell>
                         <Badge variant="secondary">{p.category}</Badge>
@@ -490,7 +510,7 @@ function InventoryPage() {
                 {rows.length === 0 && (
                   <TableRow>
                     <TableCell
-                      colSpan={isORings ? 9 : 6}
+                      colSpan={isORings ? 9 : 8}
                       className="py-12 text-center text-sm text-muted-foreground"
                     >
                       {parts.length === 0
