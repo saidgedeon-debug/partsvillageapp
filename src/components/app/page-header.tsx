@@ -1,11 +1,16 @@
-import { Search } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useSearch } from "./search-context";
+import { useCart } from "./cart-context";
 
 export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   const { query, setQuery } = useSearch();
+  const { itemCount, setCartOpen, documentKind } = useCart();
+
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/90 px-4 backdrop-blur md:px-6">
       <SidebarTrigger />
@@ -24,6 +29,26 @@ export function PageHeader({ title, subtitle }: { title: string; subtitle?: stri
             className="h-10 pl-9"
           />
         </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="relative shrink-0"
+          onClick={() => setCartOpen(true)}
+          aria-label="Open cart"
+        >
+          <ShoppingCart className="h-4 w-4" />
+          {itemCount > 0 && (
+            <Badge className="absolute -right-2 -top-2 h-5 min-w-5 px-1 text-[10px]">
+              {itemCount}
+            </Badge>
+          )}
+        </Button>
+        {documentKind && (
+          <span className="hidden text-xs capitalize text-muted-foreground sm:inline">
+            {documentKind}
+          </span>
+        )}
       </div>
     </header>
   );

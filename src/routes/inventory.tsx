@@ -4,6 +4,7 @@ import { AlertTriangle, ArrowUpNarrowWide, Package, Boxes } from "lucide-react";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
+import { useCart } from "@/components/app/cart-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,7 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 
 function InventoryPage() {
   const { query } = useSearch();
+  const { askDocumentForPart } = useCart();
   const q = query.trim().toLowerCase();
   const [thickness, setThickness] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("size");
@@ -113,7 +115,7 @@ function InventoryPage() {
     <>
       <PageHeader
         title="Stock / Inventory"
-        subtitle={`${rows.length} of ${parts.length} parts · ${categories.join(", ") || "No categories"}`}
+        subtitle={`Click a row to quote / invoice / inquire · ${rows.length} of ${parts.length} parts`}
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <Card>
@@ -236,7 +238,11 @@ function InventoryPage() {
                 {rows.map((p) => {
                   const low = p.quantity > 0 && p.quantity <= p.reorderAt;
                   return (
-                    <TableRow key={p.id}>
+                    <TableRow
+                      key={p.id}
+                      className="cursor-pointer hover:bg-muted/50"
+                      onClick={() => askDocumentForPart(p)}
+                    >
                       <TableCell className="font-mono text-xs text-muted-foreground">
                         {p.boxNumber ?? "—"}
                       </TableCell>

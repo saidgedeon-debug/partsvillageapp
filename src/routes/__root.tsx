@@ -14,6 +14,10 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { SearchProvider } from "@/components/app/search-context";
+import { CartProvider } from "@/components/app/cart-context";
+import { DocumentTypeDialog } from "@/components/app/document-type-dialog";
+import { CartSheet } from "@/components/app/cart-sheet";
+import { CheckoutDialog } from "@/components/app/checkout-dialog";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -124,15 +128,20 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <SearchProvider>
-        <SidebarProvider>
-          <div className="flex min-h-screen w-full bg-background">
-            <AppSidebar />
-            <SidebarInset className="min-w-0">
-              <Outlet />
-            </SidebarInset>
-          </div>
-          <Toaster />
-        </SidebarProvider>
+        <CartProvider>
+          <SidebarProvider>
+            <div className="flex min-h-screen w-full bg-background">
+              <AppSidebar />
+              <SidebarInset className="min-w-0">
+                <Outlet />
+              </SidebarInset>
+            </div>
+            <DocumentTypeDialog />
+            <CartSheet />
+            <CheckoutDialog />
+            <Toaster />
+          </SidebarProvider>
+        </CartProvider>
       </SearchProvider>
     </QueryClientProvider>
   );
