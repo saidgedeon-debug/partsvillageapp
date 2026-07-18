@@ -1,0 +1,48 @@
+Section 18: Alternators, Alternator Regulators, & Charging System Nodes (Pages 93–98)
+This section contains the technical data extraction for heavy machinery charging alternators, solid-state internal voltage regulators, and brush assemblies from pages 93 to 98 of the catalog. All non-English definitions have been filtered out, and the Machine Compatibility maps to its own separate structural column for direct database indexing.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A27-1Charging Alternator (24V / 50A)100-8223 / 5I-7578CAT E320B (3066 Engine)Page 93
+A27-2Heavy-Duty Alternator (24V / 65A)197-8859 / 241-8368CAT E320C, E325CPage 93
+A27-3Alternator Assembly (24V / 85A)309-5769 / 349-7378CAT E320D, E323D (C6.4 Engine)Page 93
+A27-3ABrushless Alternator Unit386-3439 / 375-6988CAT E320D2 SeriesPage 93
+A27-4Solid-State Voltage Regulator105-2240 Internal SpecCAT Alternator AssembliesPage 94
+A27-5Alternator Carbon Brush Kit131-0427 Component UnitCAT Charging SystemsPage 94
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A27-11Charging Alternator (24V / 80A)VOE 14518342 / 21391697VOLVO EC210B (D6E Engine)Page 94
+A27-11AHeavy Infrastructure AlternatorVOE 14616736 / 22422785VOLVO EC210D, EC220DPage 94
+A27-12Electronic Voltage Regulator Module0118-2850 Unit SpecVOLVO / Deutz Alternator LinesPage 94
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A27-6Charging Alternator (24V / 35A)600-821-6110 / 600-821-6120Komatsu PC200-5, PC220-5 (6D95)Page 93
+A27-7Charging Alternator (24V / 50A)600-821-7120 / 600-821-7130Komatsu PC200-6, PC220-6 (6D102)Page 93
+A27-8Heavy-Duty Alternator Unit600-825-3120 / 600-825-3130Komatsu PC200-7, PC220-7Page 93
+A27-9Integrated Fan Belt Alternator (60A)600-861-3111 / 600-861-3112Komatsu PC200-8, PC240-8 (6D107)Page 94
+A27-9AAlternator Voltage Regulator Block7861-94-3000 Line SpecKomatsu Charging InfrastructurePage 94
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A27-13Charging Alternator Assembly1-81200-471-1 / 1-81200-484-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 95
+A27-14Heavy Charging Alternator (50A)1-81200-530-1 / 1-81200-530-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 95
+A27-14AAlternator Assembly (24V / 60A)8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 95
+A27-14BCharging System Voltage Regulator1-82550-3250 Component SpecIsuzu Charging SystemsPage 95
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A27-16Charging Alternator Array (24V)2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 95
+A27-17Heavy Infrastructure Alternator (60A)300613-00021 / 537-00010Doosan DX225, DX300Page 96
+A27-18Charging Alternator Assembly21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 96
+A27-19Alternator Unit (With Internal Vacuum)21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 96
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A27-10Charging Alternator AssemblyME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 94
+A27-10AHeavy Duty Alternator UnitME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 94
+A27-10BIntegrated Alternator SetupS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 94
+A27-10CCharging System AlternatorKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 94
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A27-20Charging Alternator System60114798 / 60114799Sany SY215C, SY235C-9Page 96
+A27-21Integrated Alternator Rig10213169 Terminal UnitLiugong 920E, 925EPage 97
+A27-22Charging Alternator Module1000168 Component UnitXCMG XE215C, XE215DPage 97
+A27-23Heavy Mechanical Alternator (12V)701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 98
+A27-24Charging Node Internal RegulatorAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 98

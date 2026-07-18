@@ -1,16 +1,17 @@
 {
-  "status": "sections_2_to_17_v2",
+  "status": "sections_2_to_18_v2",
   "supplier": "Kafu",
   "rawRows": 31,
-  "section17": 31,
-  "kept_prior": 1454,
-  "count": 1485,
+  "section18": 31,
+  "kept_prior": 1485,
+  "count": 1516,
   "categories": [
     "Air Alarm Sensor",
     "Air Intake Sensor",
     "Air Pressure Sensor",
     "Air Pressure Switch",
     "Air Temperature Sensor",
+    "Alternator Brush Kit",
     "Angle Sensor",
     "Barometric Pressure Sensor",
     "Battery Disconnect Switch",
@@ -20,6 +21,7 @@
     "Camshaft Sensor",
     "Camshaft Timing Sensor",
     "Cartridge / Pilot Valve",
+    "Charging Alternator",
     "Circuit Diode",
     "Circuit Protection",
     "Climate / Temperature Control",
@@ -30309,6 +30311,678 @@
       ],
       "section": "Section 17",
       "confidence": "user-section17-v2"
+    },
+    {
+      "catalogCode": "A27-1",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator (24V / 50A)",
+      "name": "Charging Alternator (24V / 50A) — Caterpillar E320B (3066 Engine)",
+      "oemNumbers": [
+        "100-8223",
+        "5I-7578"
+      ],
+      "compatibility": [
+        "Caterpillar E320B (3066 Engine)"
+      ],
+      "pages": [
+        "93"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-10",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator Assembly",
+      "name": "Charging Alternator Assembly — Mitsubishi 6D31, 6D34, Kobelco SK200-3/5",
+      "oemNumbers": [
+        "ME049233",
+        "ME049300"
+      ],
+      "compatibility": [
+        "Mitsubishi 6D31",
+        "6D34",
+        "Kobelco SK200-3/5"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-10A",
+      "category": "Charging Alternator",
+      "description": "Heavy Duty Alternator Unit",
+      "name": "Heavy Duty Alternator Unit — Kobelco SK200-6, SK200-6E",
+      "oemNumbers": [
+        "ME088233",
+        "YT24C00014F1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-6",
+        "SK200-6E"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-10B",
+      "category": "Charging Alternator",
+      "description": "Integrated Alternator Setup",
+      "name": "Integrated Alternator Setup — Kobelco SK200-8, SK350-8 (J05E Engine)",
+      "oemNumbers": [
+        "S8941-01570",
+        "LC50S00010P1"
+      ],
+      "compatibility": [
+        "Kobelco SK200-8",
+        "SK350-8 (J05E Engine)"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-10C",
+      "category": "Charging Alternator",
+      "description": "Charging System Alternator",
+      "name": "Charging System Alternator — Sumitomo SH200A3, SH210-5",
+      "oemNumbers": [
+        "KHR1141",
+        "KHR17530"
+      ],
+      "compatibility": [
+        "Sumitomo SH200A3",
+        "SH210-5"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Kobelco"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-11",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator (24V / 80A)",
+      "name": "Charging Alternator (24V / 80A) — Volvo EC210B (D6E Engine)",
+      "oemNumbers": [
+        "VOE 14518342",
+        "21391697"
+      ],
+      "compatibility": [
+        "Volvo EC210B (D6E Engine)"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-11A",
+      "category": "Charging Alternator",
+      "description": "Heavy Infrastructure Alternator",
+      "name": "Heavy Infrastructure Alternator — Volvo EC210D, EC220D",
+      "oemNumbers": [
+        "VOE 14616736",
+        "22422785"
+      ],
+      "compatibility": [
+        "Volvo EC210D",
+        "EC220D"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-12",
+      "category": "Voltage Regulator",
+      "description": "Electronic Voltage Regulator Module",
+      "name": "Electronic Voltage Regulator Module — Volvo, Deutz Alternator Lines",
+      "oemNumbers": [
+        "0118-2850"
+      ],
+      "compatibility": [
+        "Volvo",
+        "Deutz Alternator Lines"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Volvo"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-13",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator Assembly",
+      "name": "Charging Alternator Assembly — Isuzu 6BD1, 6BG1, Hitachi EX200-2/3/5",
+      "oemNumbers": [
+        "1-81200-471-1",
+        "1-81200-484-1"
+      ],
+      "compatibility": [
+        "Isuzu 6BD1",
+        "6BG1",
+        "Hitachi EX200-2/3/5"
+      ],
+      "pages": [
+        "95"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-14",
+      "category": "Charging Alternator",
+      "description": "Heavy Charging Alternator (50A)",
+      "name": "Heavy Charging Alternator (50A) — Isuzu 4HK1, 6HK1, Hitachi ZAX200-1",
+      "oemNumbers": [
+        "1-81200-530-1",
+        "1-81200-530-2"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1",
+        "6HK1",
+        "Hitachi ZAX200-1"
+      ],
+      "pages": [
+        "95"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-14A",
+      "category": "Charging Alternator",
+      "description": "Alternator Assembly (24V / 60A)",
+      "name": "Alternator Assembly (24V / 60A) — Isuzu 4HK1, Hitachi ZAX200-3, ZAX240-3",
+      "oemNumbers": [
+        "8-98014-831-0",
+        "4614911"
+      ],
+      "compatibility": [
+        "Isuzu 4HK1",
+        "Hitachi ZAX200-3",
+        "ZAX240-3"
+      ],
+      "pages": [
+        "95"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-14B",
+      "category": "Voltage Regulator",
+      "description": "Charging System Voltage Regulator",
+      "name": "Charging System Voltage Regulator — Isuzu Charging Systems",
+      "oemNumbers": [
+        "1-82550-3250"
+      ],
+      "compatibility": [
+        "Isuzu Charging Systems"
+      ],
+      "pages": [
+        "95"
+      ],
+      "brandGroups": [
+        "Hitachi"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-16",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator Array (24V)",
+      "name": "Charging Alternator Array (24V) — Daewoo Doosan DH220-5",
+      "oemNumbers": [
+        "2522-9014",
+        "2542-9015"
+      ],
+      "compatibility": [
+        "Daewoo Doosan DH220-5"
+      ],
+      "pages": [
+        "95"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-17",
+      "category": "Charging Alternator",
+      "description": "Heavy Infrastructure Alternator (60A)",
+      "name": "Heavy Infrastructure Alternator (60A) — Doosan DX225, DX300",
+      "oemNumbers": [
+        "300613-00021",
+        "537-00010"
+      ],
+      "compatibility": [
+        "Doosan DX225",
+        "DX300"
+      ],
+      "pages": [
+        "96"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-18",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator Assembly",
+      "name": "Charging Alternator Assembly — Hyundai R210-5, R225-7",
+      "oemNumbers": [
+        "21N6-20010",
+        "21N6-20011"
+      ],
+      "compatibility": [
+        "Hyundai R210-5",
+        "R225-7"
+      ],
+      "pages": [
+        "96"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-19",
+      "category": "Charging Alternator",
+      "description": "Alternator Unit (With Internal Vacuum)",
+      "name": "Alternator Unit (With Internal Vacuum) — Hyundai R210-9, R220-9",
+      "oemNumbers": [
+        "21Q6-20102",
+        "21Q6-20103"
+      ],
+      "compatibility": [
+        "Hyundai R210-9",
+        "R220-9"
+      ],
+      "pages": [
+        "96"
+      ],
+      "brandGroups": [
+        "Doosan"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-2",
+      "category": "Charging Alternator",
+      "description": "Heavy-Duty Alternator (24V / 65A)",
+      "name": "Heavy-Duty Alternator (24V / 65A) — Caterpillar E320C, E325C",
+      "oemNumbers": [
+        "197-8859",
+        "241-8368"
+      ],
+      "compatibility": [
+        "Caterpillar E320C",
+        "E325C"
+      ],
+      "pages": [
+        "93"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-20",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator System",
+      "name": "Charging Alternator System — Sany SY215C, SY235C-9",
+      "oemNumbers": [
+        "60114798",
+        "60114799"
+      ],
+      "compatibility": [
+        "Sany SY215C",
+        "SY235C-9"
+      ],
+      "pages": [
+        "96"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-21",
+      "category": "Charging Alternator",
+      "description": "Integrated Alternator Rig",
+      "name": "Integrated Alternator Rig — Liugong 920E, 925E",
+      "oemNumbers": [
+        "10213169"
+      ],
+      "compatibility": [
+        "Liugong 920E",
+        "925E"
+      ],
+      "pages": [
+        "97"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-22",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator Module",
+      "name": "Charging Alternator Module — XCMG XE215C, XE215D",
+      "oemNumbers": [
+        "1000168"
+      ],
+      "compatibility": [
+        "XCMG XE215C",
+        "XE215D"
+      ],
+      "pages": [
+        "97"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-23",
+      "category": "Charging Alternator",
+      "description": "Heavy Mechanical Alternator (12V)",
+      "name": "Heavy Mechanical Alternator (12V) — JCB 3CX, 4CX Backhoe Loaders",
+      "oemNumbers": [
+        "701",
+        "80184",
+        "320",
+        "04046"
+      ],
+      "compatibility": [
+        "JCB 3CX",
+        "4CX Backhoe Loaders"
+      ],
+      "pages": [
+        "98"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-24",
+      "category": "Voltage Regulator",
+      "description": "Charging Node Internal Regulator",
+      "name": "Charging Node Internal Regulator — John Deere Infrastructure Engine Series",
+      "oemNumbers": [
+        "AT103035",
+        "RE61812"
+      ],
+      "compatibility": [
+        "John Deere Infrastructure Engine Series"
+      ],
+      "pages": [
+        "98"
+      ],
+      "brandGroups": [
+        "Miscellaneous"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-3",
+      "category": "Charging Alternator",
+      "description": "Alternator Assembly (24V / 85A)",
+      "name": "Alternator Assembly (24V / 85A) — Caterpillar E320D, E323D (C6.4 Engine)",
+      "oemNumbers": [
+        "309-5769",
+        "349-7378"
+      ],
+      "compatibility": [
+        "Caterpillar E320D",
+        "E323D (C6.4 Engine)"
+      ],
+      "pages": [
+        "93"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-3A",
+      "category": "Alternator Brush Kit",
+      "description": "Brushless Alternator Unit",
+      "name": "Brushless Alternator Unit — Caterpillar E320D2 Series",
+      "oemNumbers": [
+        "386-3439",
+        "375-6988"
+      ],
+      "compatibility": [
+        "Caterpillar E320D2 Series"
+      ],
+      "pages": [
+        "93"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-4",
+      "category": "Voltage Regulator",
+      "description": "Solid-State Voltage Regulator",
+      "name": "Solid-State Voltage Regulator — Caterpillar Alternator Assemblies",
+      "oemNumbers": [
+        "105-2240"
+      ],
+      "compatibility": [
+        "Caterpillar Alternator Assemblies"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-5",
+      "category": "Alternator Brush Kit",
+      "description": "Alternator Carbon Brush Kit",
+      "name": "Alternator Carbon Brush Kit — Caterpillar Charging Systems",
+      "oemNumbers": [
+        "131-0427"
+      ],
+      "compatibility": [
+        "Caterpillar Charging Systems"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Caterpillar"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-6",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator (24V / 35A)",
+      "name": "Charging Alternator (24V / 35A) — Komatsu PC200-5, PC220-5 (6D95)",
+      "oemNumbers": [
+        "600-821-6110",
+        "600-821-6120"
+      ],
+      "compatibility": [
+        "Komatsu PC200-5",
+        "PC220-5 (6D95)"
+      ],
+      "pages": [
+        "93"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-7",
+      "category": "Charging Alternator",
+      "description": "Charging Alternator (24V / 50A)",
+      "name": "Charging Alternator (24V / 50A) — Komatsu PC200-6, PC220-6 (6D102)",
+      "oemNumbers": [
+        "600-821-7120",
+        "600-821-7130"
+      ],
+      "compatibility": [
+        "Komatsu PC200-6",
+        "PC220-6 (6D102)"
+      ],
+      "pages": [
+        "93"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-8",
+      "category": "Charging Alternator",
+      "description": "Heavy-Duty Alternator Unit",
+      "name": "Heavy-Duty Alternator Unit — Komatsu PC200-7, PC220-7",
+      "oemNumbers": [
+        "600-825-3120",
+        "600-825-3130"
+      ],
+      "compatibility": [
+        "Komatsu PC200-7",
+        "PC220-7"
+      ],
+      "pages": [
+        "93"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-9",
+      "category": "Charging Alternator",
+      "description": "Integrated Fan Belt Alternator (60A)",
+      "name": "Integrated Fan Belt Alternator (60A) — Komatsu PC200-8, PC240-8 (6D107)",
+      "oemNumbers": [
+        "600-861-3111",
+        "600-861-3112"
+      ],
+      "compatibility": [
+        "Komatsu PC200-8",
+        "PC240-8 (6D107)"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
+    },
+    {
+      "catalogCode": "A27-9A",
+      "category": "Voltage Regulator",
+      "description": "Alternator Voltage Regulator Block",
+      "name": "Alternator Voltage Regulator Block — Komatsu Charging Infrastructure",
+      "oemNumbers": [
+        "7861-94-3000"
+      ],
+      "compatibility": [
+        "Komatsu Charging Infrastructure"
+      ],
+      "pages": [
+        "94"
+      ],
+      "brandGroups": [
+        "Komatsu"
+      ],
+      "section": "Section 18",
+      "confidence": "user-section18-v2"
     }
   ]
 }
