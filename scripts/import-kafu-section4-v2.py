@@ -36,6 +36,10 @@ DESCRIPTIONS = sorted(
         "Water Temperature Sensor (180mm)",
         "Water Temperature Sensor (140mm)",
         "Water Temperature Sensor (220mm)",
+        "Water Temp Sensor (200mm)",
+        "Water Temp Sensor (180mm)",
+        "Water Temp Sensor (140mm)",
+        "Water Temp Sensor (220mm)",
         "Water Temperature Sensor",
         "Water Temp Sensor",
         "Water Temp Switch Component",
@@ -80,9 +84,9 @@ BRANDS = (
     r"Cummins|Isuzu|Yanmar|Perkins|John Deere|Bobcat|Kubota|Hino|Mitsubishi|"
     r"Deutz|DEUTZ|Scania|Liebherr|Rexroth|JCB|Daewoo|Foton|Yuchai|Zoomlion|Lonking|"
     r"Longking|Lishide|Ishikawa|Kawasaki|XCMG|Jonyang|Shandong|Shanshan|Sumitomo|"
-    r"Kato|Murphy|International|Toyota|Universal|General|Excavator|Heavy|"
-    r"Coolant|Custom|Domestic|ZAX\b|CAT\b"
-)
+        r"Kato|Murphy|International|Toyota|Universal|General|Excavator|Heavy|"
+        r"Coolant|Custom|Domestic|ZAX\b|J05E|CAT\b"
+    )
 
 
 def esc(s: str) -> str:
@@ -214,8 +218,8 @@ def split_glued(rest: str) -> tuple[str, str, str, str | None]:
             desc = "Kafu Part"
 
     # Normalize short aliases after match
-    if desc == "Water Temp Sensor":
-        desc = "Water Temperature Sensor"
+    if desc.startswith("Water Temp Sensor"):
+        desc = desc.replace("Water Temp Sensor", "Water Temperature Sensor", 1)
     if desc == "Oil/Water Temp Sensor":
         desc = "Oil/Water Temperature Sensor"
 

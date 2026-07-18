@@ -6975,10 +6975,10 @@
     {
       "catalogCode": "A05-2",
       "category": "Water Temperature Sensor",
-      "description": "Water Temperature Sensor",
-      "name": "Water Temperature Sensor — Volvo 210, 210B",
+      "description": "Water Temperature Sensor (200mm)",
+      "name": "Water Temperature Sensor (200mm) — Volvo 210, 210B",
       "oemNumbers": [
-        "(200mm)21391697",
+        "21391697",
         "20840227"
       ],
       "compatibility": [
@@ -7313,10 +7313,10 @@
     {
       "catalogCode": "A05-2A",
       "category": "Water Temperature Sensor",
-      "description": "Water Temperature Sensor",
-      "name": "Water Temperature Sensor — Volvo 210, 210B",
+      "description": "Water Temperature Sensor (180mm)",
+      "name": "Water Temperature Sensor (180mm) — Volvo 210, 210B",
       "oemNumbers": [
-        "(180mm)22383381"
+        "22383381"
       ],
       "compatibility": [
         "Volvo 210",
@@ -7334,10 +7334,10 @@
     {
       "catalogCode": "A05-3",
       "category": "Water Temperature Sensor",
-      "description": "Water Temperature Sensor",
-      "name": "Water Temperature Sensor — Volvo EC360, EC460, EC380",
+      "description": "Water Temperature Sensor (140mm)",
+      "name": "Water Temperature Sensor (140mm) — Volvo EC360, EC460, EC380",
       "oemNumbers": [
-        "(140mm)11423761"
+        "11423761"
       ],
       "compatibility": [
         "Volvo EC360",
@@ -7492,10 +7492,10 @@
     {
       "catalogCode": "A05-4",
       "category": "Water Temperature Sensor",
-      "description": "Water Temperature Sensor",
-      "name": "Water Temperature Sensor — Volvo EC290",
+      "description": "Water Temperature Sensor (220mm)",
+      "name": "Water Temperature Sensor (220mm) — Volvo EC290",
       "oemNumbers": [
-        "(220mm)VOE 22383318",
+        "VOE 22383318",
         "21391695"
       ],
       "compatibility": [
@@ -9629,12 +9629,13 @@
       "catalogCode": "A06-41",
       "category": "Fuel Temperature Sensor",
       "description": "Common Rail Fuel Temp Sensor",
-      "name": "Common Rail Fuel Temp Sensor — High-Pressure Common RailJ05E",
+      "name": "Common Rail Fuel Temp Sensor — J05E / 4HK1 Engines",
       "oemNumbers": [
-        "High-Pressure Common RailJ05E",
-        "4HK1 Engines"
+        "High-Pressure Common"
       ],
-      "compatibility": [],
+      "compatibility": [
+        "J05E / 4HK1 Engines"
+      ],
       "pages": [
         "17"
       ],
