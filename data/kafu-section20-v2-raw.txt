@@ -1,0 +1,48 @@
+Section 20: Engine Starters, Electric Starters, & Solenoid Assemblies (Pages 105–110)
+This section contains the precise technical data extraction for heavy machinery heavy-duty starting motors, engagement solenoids, drive pinions, and overrunning clutches from pages 105 to 110 of the product catalog. Non-English phrasing has been completely omitted, and Machine Compatibility is isolated into its own database column.
+🚜 Caterpillar (CAT) Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A29-1Starting Motor Assembly (24V / 5.5kW)106-8559 / 5I-7578CAT E320B (3066 Engine)Page 105
+A29-2Heavy-Duty Electric Starter (24V)143-0535 / 241-8368CAT E320C, E325CPage 105
+A29-3Starter Motor (10-Tooth Drive Pinion)309-5769 / 349-7378CAT E320D, E323D (C6.4 Engine)Page 105
+A29-3APlanetary Reduction Starter386-3439 / 375-6988CAT E320D2 SeriesPage 105
+A29-4Engagement Solenoid Switch105-2240 ActuatorCAT Starter ConfigurationsPage 106
+A29-5Starter Drive Pinion Gear Assembly131-0427 Component KitCAT Crank UnitsPage 106
+🇸🇪 Volvo & Deutz Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A29-11Gear Reduction Starter MotorVOE 14518342 / 11423761VOLVO EC210B (D6E Engine)Page 106
+A29-11AHeavy Infrastructure Starting MotorVOE 14616736 / 15048183VOLVO EC210D, EC220DPage 106
+A29-12Magnetic Engagement Switch0118-2850 Core SpecVOLVO / Deutz Starting BlocksPage 106
+🏯 Komatsu (PC Series)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A29-6Reduction Starter Motor (24V / 4.5kW)600-813-2170 / 600-813-2330Komatsu PC200-5, PC220-5 (6D95)Page 105
+A29-7Reduction Starter Motor (24V / 5.5kW)600-813-4411 / 600-813-4412Komatsu PC200-6, PC220-6 (6D102)Page 105
+A29-8Heavy-Duty Electric Starter600-863-2110 / 22U-06-22380Komatsu PC200-7, PC220-7Page 105
+A29-9Integrated Overrunning Clutch Starter600-863-3111 / 6D107 EngineKomatsu PC200-8, PC240-8Page 106
+A29-9AInternal Relay Solenoid Assembly7861-94-3000 Line SpecKomatsu Crank Line CircuitsPage 106
+🇯🇵 Hitachi (EX / ZAX Series) & Isuzu
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A29-13Heavy Electric Starting Motor1-81100-253-0 / 1-81100-343-1Isuzu 6BD1, 6BG1 / Hitachi EX200-2/3/5Page 107
+A29-14Direct-Drive Starter Assembly1-81100-432-1 / 1-81100-432-2Isuzu 4HK1, 6HK1 / Hitachi ZAX200-1Page 107
+A29-14ACharging Reduction Starting Motor8-98014-831-0 / 4614911Isuzu 4HK1 / Hitachi ZAX200-3, ZAX240-3Page 107
+A29-14BStarter Mechanical Shift Solenoid1-82550-3250 Component SpecIsuzu Electrical ControlsPage 107
+🇰🇷 Doosan & Hyundai Series
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A29-16Electric Starter Unit Array (24V)2522-9014 / 2542-9015Daewoo Doosan DH220-5Page 107
+A29-17High-Torque Starter Motor300613-00021 / 537-00010Doosan DX225, DX300Page 108
+A29-18Starting Motor Assembly21N6-20010 / 21N6-20011Hyundai R210-5, R225-7Page 108
+A29-19Smart Reduction Starter Unit21Q6-20102 / 21Q6-20103Hyundai R210-9, R220-9Page 108
+🇯🇵 Kobelco (SK Series) & Sumitomo Core
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A29-10Electric Reduction StarterME049233 / ME049300Mitsubishi 6D31, 6D34 / Kobelco SK200-3/5Page 106
+A29-10AHigh-Torque Electric StarterME088233 / YT24C00014F1Kobelco SK200-6, SK200-6EPage 106
+A29-10BIntegrated Gear Starter SetupS8941-01570 / LC50S00010P1Kobelco SK200-8, SK350-8 (J05E Engine)Page 106
+A29-10CReduction Gear Starting MotorKHR1141 / KHR17530Sumitomo SH200A3, SH210-5Page 106
+⚙️ Miscellaneous Global Engines & Parts
+(Sany, Liugong, XCMG, JCB, John Deere)
+Part CodePart Description / SpecificsOEM / Serial NumberMachine CompatibilityPage
+A29-20Heavy Duty Starting System60114798 / 60114799Sany SY215C, SY235C-9Page 108
+A29-21Integrated Starter Engine Rig10213169 Terminal UnitLiugong 920E, 925EPage 109
+A29-22Reduction Electric Starter Module1000168 Component UnitXCMG XE215C, XE215DPage 109
+A29-23Heavy Reduction Starter (12V)701/80184 / 320/04046JCB 3CX, 4CX Backhoe LoadersPage 110
+A29-24Solenoid Switch Shift CoreAT103035 / RE61812John Deere Infrastructure Engine SeriesPage 110
