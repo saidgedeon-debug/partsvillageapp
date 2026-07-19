@@ -1,14 +1,7 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
 
-import { loadJson, newLocalId, saveJson } from "@/lib/storage";
+import { useCloudState } from "@/lib/cloud-store";
+import { newLocalId } from "@/lib/storage";
 
 export type PartKit = {
   id: string;
@@ -29,44 +22,56 @@ const STORAGE_KEY = "parts-village-kits-v1";
 
 const KitsContext = createContext<KitsContextValue | null>(null);
 
+function isKitsEmpty(v: PartKit[]): boolean {
+  return (v?.length ?? 0) === 0;
+}
+
 export function KitsProvider({ children }: { children: ReactNode }) {
-  const [kits, setKits] = useState<PartKit[]>(() =>
-    loadJson<PartKit[]>(STORAGE_KEY, []),
+  const { value: kits, setValue: setKits } = useCloudState<PartKit[]>(
+    "kits",
+    STORAGE_KEY,
+    [],
+    isKitsEmpty,
   );
 
-  useEffect(() => {
-    saveJson(STORAGE_KEY, kits);
-  }, [kits]);
+  const addKit = useCallback(
+    (input: Omit<PartKit, "id"> & { id?: string }) => {
+      const kit: PartKit = {
+        id: input.id ?? newLocalId("kit"),
+        name: input.name.trim(),
+        machine: input.machine?.trim() || undefined,
+        partIds: [...new Set(input.partIds)],
+      };
+      setKits((prev) => [kit, ...prev]);
+      return kit;
+    },
+    [setKits],
+  );
 
-  const addKit = useCallback((input: Omit<PartKit, "id"> & { id?: string }) => {
-    const kit: PartKit = {
-      id: input.id ?? newLocalId("kit"),
-      name: input.name.trim(),
-      machine: input.machine?.trim() || undefined,
-      partIds: [...new Set(input.partIds)],
-    };
-    setKits((prev) => [kit, ...prev]);
-    return kit;
-  }, []);
+  const updateKit = useCallback(
+    (id: string, patch: Partial<PartKit>) => {
+      setKits((prev) =>
+        prev.map((k) =>
+          k.id === id
+            ? {
+                ...k,
+                ...patch,
+                id: k.id,
+                partIds: patch.partIds ? [...new Set(patch.partIds)] : k.partIds,
+              }
+            : k,
+        ),
+      );
+    },
+    [setKits],
+  );
 
-  const updateKit = useCallback((id: string, patch: Partial<PartKit>) => {
-    setKits((prev) =>
-      prev.map((k) =>
-        k.id === id
-          ? {
-              ...k,
-              ...patch,
-              id: k.id,
-              partIds: patch.partIds ? [...new Set(patch.partIds)] : k.partIds,
-            }
-          : k,
-      ),
-    );
-  }, []);
-
-  const removeKit = useCallback((id: string) => {
-    setKits((prev) => prev.filter((k) => k.id !== id));
-  }, []);
+  const removeKit = useCallback(
+    (id: string) => {
+      setKits((prev) => prev.filter((k) => k.id !== id));
+    },
+    [setKits],
+  );
 
   const value = useMemo(
     () => ({ kits, addKit, updateKit, removeKit }),

@@ -10,7 +10,14 @@ import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { currency } from "@/lib/mock-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
@@ -29,10 +36,7 @@ function Index() {
       invoices.filter((i) => i.status === "Paid").reduce((s, i) => s + i.total, 0) +
       orders
         .filter((o) => o.status === "Paid")
-        .reduce(
-          (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
-          0,
-        ),
+        .reduce((s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0), 0),
     [invoices, orders],
   );
 
@@ -78,8 +82,7 @@ function Index() {
     priced.length === 0
       ? 0
       : Math.round(
-          (priced.reduce((s, p) => s + (p.price - p.cost) / p.price, 0) / priced.length) *
-            100,
+          (priced.reduce((s, p) => s + (p.price - p.cost) / p.price, 0) / priced.length) * 100,
         );
 
   return (
@@ -88,8 +91,8 @@ function Index() {
         title="Dashboard"
         subtitle={
           isSupabaseConfigured
-            ? "Live from inventory, documents & fleet · Supabase ready"
-            : "Live from inventory, documents & fleet"
+            ? "Live from Supabase · synced across every device in real time"
+            : "Offline — connect Supabase to load live data"
         }
       />
       <main className="flex-1 space-y-6 p-4 md:p-6">

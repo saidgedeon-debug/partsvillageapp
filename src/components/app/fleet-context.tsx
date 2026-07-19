@@ -1,14 +1,7 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
 
-import { loadJson, newLocalId, saveJson } from "@/lib/storage";
+import { useCloudState } from "@/lib/cloud-store";
+import { newLocalId } from "@/lib/storage";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export type FleetMachine = {
@@ -50,9 +43,7 @@ type FleetContextValue = {
   machinesByClient: (clientId: string) => FleetMachine[];
   ordersByClient: (clientId: string) => FleetOrder[];
   ordersByMachine: (machineId: string) => FleetOrder[];
-  addMachine: (
-    input: Omit<FleetMachine, "id"> & { id?: string },
-  ) => FleetMachine;
+  addMachine: (input: Omit<FleetMachine, "id"> & { id?: string }) => FleetMachine;
   updateMachine: (id: string, patch: Partial<FleetMachine>) => void;
   removeMachine: (id: string) => void;
   addOrder: (input: Omit<FleetOrder, "id"> & { id?: string }) => FleetOrder;
@@ -64,6 +55,10 @@ const FleetContext = createContext<FleetContextValue | null>(null);
 
 function empty(): StoredFleet {
   return { machines: [], orders: [] };
+}
+
+function isFleetEmpty(v: StoredFleet): boolean {
+  return (v.machines?.length ?? 0) === 0 && (v.orders?.length ?? 0) === 0;
 }
 
 async function syncMachine(m: FleetMachine) {
@@ -108,13 +103,12 @@ async function syncOrder(o: FleetOrder) {
 }
 
 export function FleetProvider({ children }: { children: ReactNode }) {
-  const [store, setStore] = useState<StoredFleet>(() =>
-    loadJson<StoredFleet>(STORAGE_KEY, empty()),
+  const { value: store, setValue: setStore } = useCloudState<StoredFleet>(
+    "fleet",
+    STORAGE_KEY,
+    empty(),
+    isFleetEmpty,
   );
-
-  useEffect(() => {
-    saveJson(STORAGE_KEY, store);
-  }, [store]);
 
   const machinesByClient = useCallback(
     (clientId: string) => store.machines.filter((m) => m.clientId === clientId),
@@ -137,26 +131,23 @@ export function FleetProvider({ children }: { children: ReactNode }) {
     [store.orders],
   );
 
-  const addMachine = useCallback(
-    (input: Omit<FleetMachine, "id"> & { id?: string }) => {
-      const machine: FleetMachine = {
-        id: input.id ?? newLocalId("m"),
-        clientId: input.clientId,
-        make: input.make.trim(),
-        model: input.model.trim(),
-        serialNumber: input.serialNumber.trim(),
-        year: input.year || new Date().getFullYear(),
-        hours: input.hours || 0,
-      };
-      setStore((prev) => ({
-        ...prev,
-        machines: [...prev.machines, machine],
-      }));
-      void syncMachine(machine);
-      return machine;
-    },
-    [],
-  );
+  const addMachine = useCallback((input: Omit<FleetMachine, "id"> & { id?: string }) => {
+    const machine: FleetMachine = {
+      id: input.id ?? newLocalId("m"),
+      clientId: input.clientId,
+      make: input.make.trim(),
+      model: input.model.trim(),
+      serialNumber: input.serialNumber.trim(),
+      year: input.year || new Date().getFullYear(),
+      hours: input.hours || 0,
+    };
+    setStore((prev) => ({
+      ...prev,
+      machines: [...prev.machines, machine],
+    }));
+    void syncMachine(machine);
+    return machine;
+  }, []);
 
   const updateMachine = useCallback((id: string, patch: Partial<FleetMachine>) => {
     setStore((prev) => {
@@ -174,32 +165,27 @@ export function FleetProvider({ children }: { children: ReactNode }) {
     setStore((prev) => ({
       ...prev,
       machines: prev.machines.filter((m) => m.id !== id),
-      orders: prev.orders.map((o) =>
-        o.machineId === id ? { ...o, machineId: "" } : o,
-      ),
+      orders: prev.orders.map((o) => (o.machineId === id ? { ...o, machineId: "" } : o)),
     }));
   }, []);
 
-  const addOrder = useCallback(
-    (input: Omit<FleetOrder, "id"> & { id?: string }) => {
-      const order: FleetOrder = {
-        id: input.id ?? newLocalId("ord"),
-        clientId: input.clientId,
-        machineId: input.machineId || "",
-        date: input.date,
-        status: input.status,
-        documentId: input.documentId,
-        lines: input.lines,
-      };
-      setStore((prev) => ({
-        ...prev,
-        orders: [order, ...prev.orders],
-      }));
-      void syncOrder(order);
-      return order;
-    },
-    [],
-  );
+  const addOrder = useCallback((input: Omit<FleetOrder, "id"> & { id?: string }) => {
+    const order: FleetOrder = {
+      id: input.id ?? newLocalId("ord"),
+      clientId: input.clientId,
+      machineId: input.machineId || "",
+      date: input.date,
+      status: input.status,
+      documentId: input.documentId,
+      lines: input.lines,
+    };
+    setStore((prev) => ({
+      ...prev,
+      orders: [order, ...prev.orders],
+    }));
+    void syncOrder(order);
+    return order;
+  }, []);
 
   const value = useMemo(
     () => ({

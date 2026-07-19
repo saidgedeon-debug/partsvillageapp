@@ -10,11 +10,9 @@ import {
 } from "react";
 
 import { loadCatalogParts } from "@/lib/catalog-loader";
+import { useCloudState } from "@/lib/cloud-store";
 import type { Part } from "@/lib/mock-data";
-import {
-  buildInventoryCategories,
-  type InventoryCategoryDef,
-} from "@/lib/inventory-categories";
+import { buildInventoryCategories, type InventoryCategoryDef } from "@/lib/inventory-categories";
 
 export type PartInput = Partial<Part> & {
   partNumber: string;
@@ -58,8 +56,12 @@ type InventoryContextValue = {
   parts: Part[];
   categories: InventoryCategoryDef[];
   categoryLabels: string[];
-  /** False until the lazy catalog chunk has loaded. */
+  /** False until the lazy catalog chunk has loaded AND cloud data is ready. */
   catalogReady: boolean;
+  /** True once inventory state has loaded from Supabase. */
+  cloudReady: boolean;
+  /** Set if loading/saving cloud inventory state failed. */
+  cloudError: string | null;
   getPart: (id: string) => Part | undefined;
   addPart: (input: PartInput) => Part;
   updatePart: (id: string, patch: PartOverride) => Part | null;
@@ -82,7 +84,6 @@ type InventoryContextValue = {
 };
 
 const STORAGE_KEY = "parts-village-inventory-v2";
-const LEGACY_OVERRIDES_KEY = "parts-village-inventory-overrides-v1";
 
 const InventoryContext = createContext<InventoryContextValue | null>(null);
 
@@ -101,30 +102,12 @@ function emptyStore(): StoredState {
   return { overrides: {}, customParts: [], customCategories: [] };
 }
 
-function loadStore(): StoredState {
-  if (typeof window === "undefined") return emptyStore();
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw) as StoredState;
-      return {
-        overrides: parsed.overrides ?? {},
-        customParts: Array.isArray(parsed.customParts) ? parsed.customParts : [],
-        customCategories: Array.isArray(parsed.customCategories)
-          ? parsed.customCategories
-          : [],
-      };
-    }
-    // migrate v1 overrides
-    const legacy = localStorage.getItem(LEGACY_OVERRIDES_KEY);
-    if (legacy) {
-      const overrides = JSON.parse(legacy) as Record<string, PartOverride>;
-      return { overrides: overrides ?? {}, customParts: [], customCategories: [] };
-    }
-  } catch {
-    // fall through
-  }
-  return emptyStore();
+function isStoreEmpty(v: StoredState): boolean {
+  return (
+    Object.keys(v.overrides ?? {}).length === 0 &&
+    (v.customParts?.length ?? 0) === 0 &&
+    (v.customCategories?.length ?? 0) === 0
+  );
 }
 
 function applyOverride(base: Part, override?: PartOverride): Part {
@@ -162,16 +145,16 @@ function normalizePart(input: PartInput, id?: string): Part {
 }
 
 export function InventoryProvider({ children }: { children: ReactNode }) {
-  const [store, setStore] = useState<StoredState>(emptyStore);
-  const [hydrated, setHydrated] = useState(false);
+  const {
+    value: store,
+    setValue: setStore,
+    ready: cloudReady,
+    error: cloudError,
+  } = useCloudState<StoredState>("inventory", STORAGE_KEY, emptyStore(), isStoreEmpty);
   const [catalogBase, setCatalogBase] = useState<Part[]>([]);
-  const [catalogReady, setCatalogReady] = useState(false);
+  const [catalogChunkReady, setCatalogChunkReady] = useState(false);
   const catalogRef = useRef<Part[]>([]);
-
-  useEffect(() => {
-    setStore(loadStore());
-    setHydrated(true);
-  }, []);
+  const catalogReady = catalogChunkReady && cloudReady;
 
   useEffect(() => {
     let cancelled = false;
@@ -179,21 +162,12 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       if (cancelled) return;
       catalogRef.current = list;
       setCatalogBase(list);
-      setCatalogReady(true);
+      setCatalogChunkReady(true);
     });
     return () => {
       cancelled = true;
     };
   }, []);
-
-  useEffect(() => {
-    if (!hydrated || typeof window === "undefined") return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
-    } catch {
-      // ignore quota
-    }
-  }, [store, hydrated]);
 
   const parts = useMemo(() => {
     const overrides = store.overrides;
@@ -274,18 +248,20 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const bulkUpdateParts = useCallback(
-    (updates: {
-      id: string;
-      quantity?: number;
-      cost?: number;
-      price?: number;
-      reorderAt?: number;
-    }[]) => {
+    (
+      updates: {
+        id: string;
+        quantity?: number;
+        cost?: number;
+        price?: number;
+        reorderAt?: number;
+      }[],
+    ) => {
       let count = 0;
       const catalogParts = catalogRef.current;
       setStore((prev) => {
-        let overrides = { ...prev.overrides };
-        let customParts = [...prev.customParts];
+        const overrides = { ...prev.overrides };
+        const customParts = [...prev.customParts];
 
         for (const u of updates) {
           const patch: PartOverride = {};
@@ -327,9 +303,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     setStore((prev) => ({
       ...prev,
       customParts: prev.customParts.filter((p) => p.id !== id),
-      overrides: Object.fromEntries(
-        Object.entries(prev.overrides).filter(([k]) => k !== id),
-      ),
+      overrides: Object.fromEntries(Object.entries(prev.overrides).filter(([k]) => k !== id)),
     }));
   }, []);
 
@@ -347,9 +321,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     setStore((prev) => {
       const base = catalogRef.current;
       const exists =
-        prev.customCategories.some(
-          (c) => c.label.toLowerCase() === trimmed.toLowerCase(),
-        ) ||
+        prev.customCategories.some((c) => c.label.toLowerCase() === trimmed.toLowerCase()) ||
         base.some((p) => p.category.toLowerCase() === trimmed.toLowerCase()) ||
         prev.customParts.some((p) => p.category.toLowerCase() === trimmed.toLowerCase());
       if (exists) {
@@ -413,11 +385,14 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         );
 
         let customCategories = [...prev.customCategories];
-        const existingIdx = customCategories.findIndex(
-          (c) => c.id === id || c.label === oldLabel,
-        );
+        const existingIdx = customCategories.findIndex((c) => c.id === id || c.label === oldLabel);
         const record: CategoryRecord = {
-          id: existingIdx >= 0 ? customCategories[existingIdx].id : id.startsWith("cat-") ? id : `cat-${slug(label)}`,
+          id:
+            existingIdx >= 0
+              ? customCategories[existingIdx].id
+              : id.startsWith("cat-")
+                ? id
+                : `cat-${slug(label)}`,
           label,
           description:
             patch.description !== undefined
@@ -432,8 +407,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         // drop duplicate labels
         customCategories = customCategories.filter(
           (c, i, arr) =>
-            arr.findIndex((x) => x.label.toLowerCase() === c.label.toLowerCase()) ===
-            i,
+            arr.findIndex((x) => x.label.toLowerCase() === c.label.toLowerCase()) === i,
         );
 
         result = record;
@@ -471,6 +445,8 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       categories,
       categoryLabels,
       catalogReady,
+      cloudReady,
+      cloudError,
       getPart,
       addPart,
       updatePart,
@@ -485,6 +461,8 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       categories,
       categoryLabels,
       catalogReady,
+      cloudReady,
+      cloudError,
       getPart,
       addPart,
       updatePart,
@@ -496,9 +474,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return (
-    <InventoryContext.Provider value={value}>{children}</InventoryContext.Provider>
-  );
+  return <InventoryContext.Provider value={value}>{children}</InventoryContext.Provider>;
 }
 
 export function useInventory() {

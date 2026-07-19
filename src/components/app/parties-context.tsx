@@ -4,10 +4,11 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useRef,
   type ReactNode,
 } from "react";
 
+import { useCloudState } from "@/lib/cloud-store";
 import { clients as seedClients } from "@/lib/mock-data";
 
 export type PartyRecord = {
@@ -39,6 +40,36 @@ type PartiesContextValue = {
 
 const STORAGE_KEY = "parts-village-parties-v1";
 
+const SEED_SUPPLIERS: PartyRecord[] = [
+  {
+    id: "sup-kafu",
+    name: "Kafu Engineering Machine Fitting Co., Ltd.",
+    contactName: "",
+    email: "kafu2009@163.com",
+    phone: "0086-18988918836",
+    address:
+      "No. 221, The 2nd Street, Guangzhou International Machinery Parts Center, NO. 36, Zhuji Road, Tianhe District, Guangzhou",
+    notes: "Catalog 2025 · www.kafu08.com · WhatsApp 0086-18102782293",
+  },
+];
+
+type PartiesStored = { clients: PartyRecord[]; suppliers: PartyRecord[] };
+
+function emptyParties(): PartiesStored {
+  return { clients: [], suppliers: [] };
+}
+
+function isPartiesEmpty(v: PartiesStored): boolean {
+  return (v.clients?.length ?? 0) === 0 && (v.suppliers?.length ?? 0) === 0;
+}
+
+function seedDefaults(): PartiesStored {
+  return {
+    clients: seedClients.map((c) => ({ ...c })),
+    suppliers: SEED_SUPPLIERS.map((s) => ({ ...s })),
+  };
+}
+
 const PartiesContext = createContext<PartiesContextValue | null>(null);
 
 function newId(prefix: string) {
@@ -59,107 +90,100 @@ function normalizeParty(input: PartyInput, prefix: string, existingId?: string):
 
 function matchesParty(p: PartyRecord, q: string) {
   if (!q) return true;
-  const hay = `${p.name} ${p.contactName} ${p.email} ${p.phone} ${p.address} ${p.notes ?? ""}`.toLowerCase();
+  const hay =
+    `${p.name} ${p.contactName} ${p.email} ${p.phone} ${p.address} ${p.notes ?? ""}`.toLowerCase();
   return hay.includes(q);
 }
 
-function loadStored(): { clients: PartyRecord[]; suppliers: PartyRecord[] } {
-  if (typeof window === "undefined") {
-    return { clients: [], suppliers: [] };
-  }
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const seedSuppliers: PartyRecord[] = [
-      {
-        id: "sup-kafu",
-        name: "Kafu Engineering Machine Fitting Co., Ltd.",
-        contactName: "",
-        email: "kafu2009@163.com",
-        phone: "0086-18988918836",
-        address:
-          "No. 221, The 2nd Street, Guangzhou International Machinery Parts Center, NO. 36, Zhuji Road, Tianhe District, Guangzhou",
-        notes: "Catalog 2025 · www.kafu08.com · WhatsApp 0086-18102782293",
-      },
-    ];
-    if (!raw) {
-      return {
-        clients: seedClients.map((c) => ({ ...c })),
-        suppliers: seedSuppliers,
-      };
-    }
-    const parsed = JSON.parse(raw) as { clients?: PartyRecord[]; suppliers?: PartyRecord[] };
-    const clients = Array.isArray(parsed.clients) ? parsed.clients : [];
-    const suppliers = Array.isArray(parsed.suppliers) ? parsed.suppliers : [];
-    const byName = new Set(clients.map((c) => c.name.toLowerCase()));
-    for (const c of seedClients) {
-      if (!byName.has(c.name.toLowerCase())) clients.push({ ...c });
-    }
-    const bySupName = new Set(suppliers.map((s) => s.name.toLowerCase()));
-    for (const s of seedSuppliers) {
-      if (!bySupName.has(s.name.toLowerCase())) suppliers.push(s);
-    }
-    return { clients, suppliers };
-  } catch {
-    return { clients: seedClients.map((c) => ({ ...c })), suppliers: [] };
-  }
-}
-
 export function PartiesProvider({ children }: { children: ReactNode }) {
-  const [clients, setClients] = useState<PartyRecord[]>([]);
-  const [suppliers, setSuppliers] = useState<PartyRecord[]>([]);
-  const [hydrated, setHydrated] = useState(false);
+  const {
+    value: store,
+    setValue: setStore,
+    ready,
+  } = useCloudState<PartiesStored>("parties", STORAGE_KEY, emptyParties(), isPartiesEmpty);
+  const seededRef = useRef(false);
 
   useEffect(() => {
-    const data = loadStored();
-    setClients(data.clients);
-    setSuppliers(data.suppliers);
-    setHydrated(true);
-  }, []);
+    if (!ready || seededRef.current) return;
+    seededRef.current = true;
+    if (isPartiesEmpty(store)) {
+      setStore(seedDefaults());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- seed once when cloud finishes loading
+  }, [ready]);
 
-  useEffect(() => {
-    if (!hydrated) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ clients, suppliers }));
-  }, [clients, suppliers, hydrated]);
+  const clients = store.clients;
+  const suppliers = store.suppliers;
 
-  const addClient = useCallback((input: PartyInput) => {
-    const party = normalizeParty(input, "cli");
-    setClients((prev) => {
-      const exists = prev.find((c) => c.name.toLowerCase() === party.name.toLowerCase());
-      if (exists) return prev.map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c));
-      return [party, ...prev];
-    });
-    return party;
-  }, []);
+  const addClient = useCallback(
+    (input: PartyInput) => {
+      const party = normalizeParty(input, "cli");
+      setStore((prev) => {
+        const exists = prev.clients.find((c) => c.name.toLowerCase() === party.name.toLowerCase());
+        const clients = exists
+          ? prev.clients.map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
+          : [party, ...prev.clients];
+        return { ...prev, clients };
+      });
+      return party;
+    },
+    [setStore],
+  );
 
-  const addSupplier = useCallback((input: PartyInput) => {
-    const party = normalizeParty(input, "sup");
-    setSuppliers((prev) => {
-      const exists = prev.find((c) => c.name.toLowerCase() === party.name.toLowerCase());
-      if (exists) return prev.map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c));
-      return [party, ...prev];
-    });
-    return party;
-  }, []);
+  const addSupplier = useCallback(
+    (input: PartyInput) => {
+      const party = normalizeParty(input, "sup");
+      setStore((prev) => {
+        const exists = prev.suppliers.find(
+          (c) => c.name.toLowerCase() === party.name.toLowerCase(),
+        );
+        const suppliers = exists
+          ? prev.suppliers.map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
+          : [party, ...prev.suppliers];
+        return { ...prev, suppliers };
+      });
+      return party;
+    },
+    [setStore],
+  );
 
-  const updateClient = useCallback((id: string, input: PartyInput) => {
-    const party = normalizeParty(input, "cli", id);
-    setClients((prev) => prev.map((c) => (c.id === id ? party : c)));
-    return party;
-  }, []);
+  const updateClient = useCallback(
+    (id: string, input: PartyInput) => {
+      const party = normalizeParty(input, "cli", id);
+      setStore((prev) => ({
+        ...prev,
+        clients: prev.clients.map((c) => (c.id === id ? party : c)),
+      }));
+      return party;
+    },
+    [setStore],
+  );
 
-  const updateSupplier = useCallback((id: string, input: PartyInput) => {
-    const party = normalizeParty(input, "sup", id);
-    setSuppliers((prev) => prev.map((c) => (c.id === id ? party : c)));
-    return party;
-  }, []);
+  const updateSupplier = useCallback(
+    (id: string, input: PartyInput) => {
+      const party = normalizeParty(input, "sup", id);
+      setStore((prev) => ({
+        ...prev,
+        suppliers: prev.suppliers.map((c) => (c.id === id ? party : c)),
+      }));
+      return party;
+    },
+    [setStore],
+  );
 
-  const removeClient = useCallback((id: string) => {
-    setClients((prev) => prev.filter((c) => c.id !== id));
-  }, []);
+  const removeClient = useCallback(
+    (id: string) => {
+      setStore((prev) => ({ ...prev, clients: prev.clients.filter((c) => c.id !== id) }));
+    },
+    [setStore],
+  );
 
-  const removeSupplier = useCallback((id: string) => {
-    setSuppliers((prev) => prev.filter((c) => c.id !== id));
-  }, []);
+  const removeSupplier = useCallback(
+    (id: string) => {
+      setStore((prev) => ({ ...prev, suppliers: prev.suppliers.filter((c) => c.id !== id) }));
+    },
+    [setStore],
+  );
 
   const searchClients = useCallback(
     (q: string) => clients.filter((c) => matchesParty(c, q.trim().toLowerCase())),

@@ -1,16 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
 
+import { useCloudState } from "@/lib/cloud-store";
 import type { CategoryGroupId } from "@/lib/inventory-categories";
 import { categoryGroupIds } from "@/lib/inventory-categories";
-import { loadJson, saveJson } from "@/lib/storage";
 
 type PrefsState = {
   favoritePartIds: string[];
@@ -54,26 +46,36 @@ function empty(): PrefsState {
   };
 }
 
-function loadPrefs(): PrefsState {
-  const raw = loadJson<Partial<PrefsState>>(STORAGE_KEY, empty());
-  return {
-    favoritePartIds: Array.isArray(raw.favoritePartIds) ? raw.favoritePartIds : [],
-    machinePresets: Array.isArray(raw.machinePresets) ? raw.machinePresets : [],
-    favoriteCategoryGroups: Array.isArray(raw.favoriteCategoryGroups)
-      ? raw.favoriteCategoryGroups.filter(isGroupId)
-      : [],
-    recentCategoryGroups: Array.isArray(raw.recentCategoryGroups)
-      ? raw.recentCategoryGroups.filter(isGroupId)
-      : [],
-  };
+function isPrefsEmpty(v: PrefsState): boolean {
+  return (
+    (v.favoritePartIds?.length ?? 0) === 0 &&
+    (v.machinePresets?.length ?? 0) === 0 &&
+    (v.favoriteCategoryGroups?.length ?? 0) === 0 &&
+    (v.recentCategoryGroups?.length ?? 0) === 0
+  );
 }
 
 export function PrefsProvider({ children }: { children: ReactNode }) {
-  const [store, setStore] = useState<PrefsState>(() => loadPrefs());
+  const { value: rawStore, setValue: setStore } = useCloudState<PrefsState>(
+    "prefs",
+    STORAGE_KEY,
+    empty(),
+    isPrefsEmpty,
+  );
 
-  useEffect(() => {
-    saveJson(STORAGE_KEY, store);
-  }, [store]);
+  const store: PrefsState = useMemo(
+    () => ({
+      favoritePartIds: Array.isArray(rawStore.favoritePartIds) ? rawStore.favoritePartIds : [],
+      machinePresets: Array.isArray(rawStore.machinePresets) ? rawStore.machinePresets : [],
+      favoriteCategoryGroups: Array.isArray(rawStore.favoriteCategoryGroups)
+        ? rawStore.favoriteCategoryGroups.filter(isGroupId)
+        : [],
+      recentCategoryGroups: Array.isArray(rawStore.recentCategoryGroups)
+        ? rawStore.recentCategoryGroups.filter(isGroupId)
+        : [],
+    }),
+    [rawStore],
+  );
 
   const isFavorite = useCallback(
     (partId: string) => store.favoritePartIds.includes(partId),
@@ -106,9 +108,7 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   const removeMachinePreset = useCallback((machine: string) => {
     setStore((prev) => ({
       ...prev,
-      machinePresets: prev.machinePresets.filter(
-        (m) => m.toLowerCase() !== machine.toLowerCase(),
-      ),
+      machinePresets: prev.machinePresets.filter((m) => m.toLowerCase() !== machine.toLowerCase()),
     }));
   }, []);
 

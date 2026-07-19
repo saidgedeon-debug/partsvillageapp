@@ -12,6 +12,7 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app/app-sidebar";
+import { CloudGate } from "@/components/app/cloud-gate";
 import { SearchProvider } from "@/components/app/search-context";
 import { PartiesProvider } from "@/components/app/parties-context";
 import { InventoryProvider } from "@/components/app/inventory-context";
@@ -88,10 +89,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Parts Village — Heavy Equipment Parts CRM" },
-      { name: "description", content: "Inventory, CRM, and document generator for heavy equipment and vehicle parts dealers." },
+      {
+        name: "description",
+        content:
+          "Inventory, CRM, and document generator for heavy equipment and vehicle parts dealers.",
+      },
       { name: "author", content: "Parts Village" },
       { property: "og:title", content: "Parts Village — Heavy Equipment Parts CRM" },
-      { property: "og:description", content: "Inventory, CRM, and document generator for heavy equipment and vehicle parts dealers." },
+      {
+        property: "og:description",
+        content:
+          "Inventory, CRM, and document generator for heavy equipment and vehicle parts dealers.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@partsvillage" },
@@ -129,34 +138,36 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SearchProvider>
-        <PartiesProvider>
-          <InventoryProvider>
-            <DocumentsProvider>
-              <FleetProvider>
-                <PrefsProvider>
-                  <KitsProvider>
-                    <CartProvider>
-                      <SidebarProvider>
-                        <div className="flex min-h-screen w-full bg-background">
-                          <AppSidebar />
-                          <SidebarInset className="min-w-0">
-                            <Outlet />
-                          </SidebarInset>
-                        </div>
-                        <DocumentTypeDialog />
-                        <CartSheet />
-                        <CheckoutDialog />
-                        <Toaster />
-                      </SidebarProvider>
-                    </CartProvider>
-                  </KitsProvider>
-                </PrefsProvider>
-              </FleetProvider>
-            </DocumentsProvider>
-          </InventoryProvider>
-        </PartiesProvider>
-      </SearchProvider>
+      <CloudGate>
+        <SearchProvider>
+          <PartiesProvider>
+            <InventoryProvider>
+              <DocumentsProvider>
+                <FleetProvider>
+                  <PrefsProvider>
+                    <KitsProvider>
+                      <CartProvider>
+                        <SidebarProvider>
+                          <div className="flex min-h-screen w-full bg-background">
+                            <AppSidebar />
+                            <SidebarInset className="min-w-0">
+                              <Outlet />
+                            </SidebarInset>
+                          </div>
+                          <DocumentTypeDialog />
+                          <CartSheet />
+                          <CheckoutDialog />
+                          <Toaster />
+                        </SidebarProvider>
+                      </CartProvider>
+                    </KitsProvider>
+                  </PrefsProvider>
+                </FleetProvider>
+              </DocumentsProvider>
+            </InventoryProvider>
+          </PartiesProvider>
+        </SearchProvider>
+      </CloudGate>
     </QueryClientProvider>
   );
 }

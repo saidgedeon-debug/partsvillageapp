@@ -3,6 +3,20 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export type Database = {
   public: {
     Tables: {
+      shop_state: {
+        Row: {
+          key: string;
+          value: Json;
+          updated_at: string;
+        };
+        Insert: {
+          key: string;
+          value?: Json;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["shop_state"]["Insert"]>;
+        Relationships: [];
+      };
       clients: {
         Row: {
           id: string;
@@ -23,6 +37,7 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["clients"]["Insert"]>;
+        Relationships: [];
       };
       parts: {
         Row: {
@@ -58,6 +73,7 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["parts"]["Insert"]>;
+        Relationships: [];
       };
       machines: {
         Row: {
@@ -81,6 +97,7 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["machines"]["Insert"]>;
+        Relationships: [];
       };
       orders: {
         Row: {
@@ -100,6 +117,7 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["orders"]["Insert"]>;
+        Relationships: [];
       };
       order_lines: {
         Row: {
@@ -117,6 +135,7 @@ export type Database = {
           unit_price: number;
         };
         Update: Partial<Database["public"]["Tables"]["order_lines"]["Insert"]>;
+        Relationships: [];
       };
       quotations: {
         Row: {
@@ -136,6 +155,7 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["quotations"]["Insert"]>;
+        Relationships: [];
       };
       invoices: {
         Row: {
@@ -155,6 +175,7 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["invoices"]["Insert"]>;
+        Relationships: [];
       };
       supplier_inquiries: {
         Row: {
@@ -174,6 +195,7 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["supplier_inquiries"]["Insert"]>;
+        Relationships: [];
       };
     };
     Views: Record<string, never>;

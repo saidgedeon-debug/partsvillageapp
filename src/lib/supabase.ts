@@ -10,3 +10,13 @@ export const isSupabaseConfigured = Boolean(url && anonKey);
 export const supabase: SupabaseClient<Database> | null = isSupabaseConfigured
   ? createClient<Database>(url!, anonKey!)
   : null;
+
+/** Throws if Supabase env vars are missing — app is online-only. */
+export function requireSupabase(): SupabaseClient<Database> {
+  if (!supabase || !isSupabaseConfigured) {
+    throw new Error(
+      "Supabase is required. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+    );
+  }
+  return supabase;
+}
