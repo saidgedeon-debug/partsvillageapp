@@ -1,16 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  AlertTriangle,
   ArrowUpNarrowWide,
+  Boxes,
   ChevronDown,
+  ClipboardList,
   Download,
+  FileUp,
   FolderPlus,
   Package,
-  Boxes,
+  PackagePlus,
   Pencil,
   Plus,
   TableProperties,
 } from "lucide-react";
+import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
@@ -20,6 +25,8 @@ import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
 import { CatalogGrid } from "@/components/app/catalog-grid";
 import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
+import { ExcelImportDialog } from "@/components/app/excel-import-dialog";
+import { KitsDialog } from "@/components/app/kits-dialog";
 import { VirtualInventoryTable } from "@/components/app/virtual-inventory-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,13 +34,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  buildGroupCounts,
+  buildGroupSubcategories,
   catalogInventoryCategoryId,
+  categoryBelongsToGroup,
   defaultInventoryCategoryId,
+  type CategoryGroupId,
 } from "@/lib/inventory-categories";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
 import { partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 import {
   Popover,
   PopoverContent,
@@ -151,9 +161,11 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
-  const { parts, categories, catalogReady } = useInventory();
+  const { parts, categories, catalogReady, updatePart } = useInventory();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
+  /** null = all subtypes when a group tile is selected */
+  const [groupSub, setGroupSub] = useState<string | null>(null);
   const [thickness, setThickness] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("size");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -162,6 +174,8 @@ function InventoryPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [bulkOpen, setBulkOpen] = useState(false);
+  const [excelOpen, setExcelOpen] = useState(false);
+  const [kitsOpen, setKitsOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<{
     id: string;
     label: string;
@@ -173,7 +187,14 @@ function InventoryPage() {
   const activeCategory =
     categories.find((c) => c.id === categoryId) ?? categories[0];
   const isCatalogMode = categoryId === catalogInventoryCategoryId;
+  const activeGroup = activeCategory?.group ?? null;
+  const isGroupMode = activeGroup != null;
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
+
+  const groupSubs = useMemo(
+    () => (activeGroup ? buildGroupSubcategories(parts, activeGroup) : []),
+    [parts, activeGroup],
+  );
 
   const categoryCounts = useMemo(() => {
     const byCategory = new Map<string, number>();
@@ -182,11 +203,21 @@ function InventoryPage() {
       byCategory.set(p.category, (byCategory.get(p.category) ?? 0) + 1);
       if (p.category !== "O-Rings") catalog += 1;
     }
-    return { byCategory, all: parts.length, catalog };
+    return {
+      byCategory,
+      all: parts.length,
+      catalog,
+      groups: buildGroupCounts(parts),
+    };
   }, [parts]);
 
-  const countForCategory = (catId: string, matchCategory: string | null) => {
+  const countForCategory = (
+    catId: string,
+    matchCategory: string | null,
+    group?: CategoryGroupId,
+  ) => {
     if (catId === catalogInventoryCategoryId) return categoryCounts.catalog;
+    if (group) return categoryCounts.groups[group];
     if (!matchCategory) return categoryCounts.all;
     return categoryCounts.byCategory.get(matchCategory) ?? 0;
   };
@@ -238,7 +269,12 @@ function InventoryPage() {
 
     let list = parts;
 
-    if (activeCategory?.matchCategory) {
+    if (activeGroup) {
+      list = list.filter((p) => categoryBelongsToGroup(p.category, activeGroup));
+      if (groupSub) {
+        list = list.filter((p) => p.category === groupSub);
+      }
+    } else if (activeCategory?.matchCategory) {
       list = list.filter((p) => p.category === activeCategory.matchCategory);
     }
 
@@ -264,7 +300,17 @@ function InventoryPage() {
     }
 
     return sortParts(list, isORings ? sortMode : "box");
-  }, [q, thickness, sortMode, activeCategory, isORings, isCatalogMode, parts]);
+  }, [
+    q,
+    thickness,
+    sortMode,
+    activeCategory,
+    isORings,
+    isCatalogMode,
+    activeGroup,
+    groupSub,
+    parts,
+  ]);
 
   const filterActive = isORings && Boolean(thickness.trim());
   const totalPieces = useMemo(
@@ -274,6 +320,7 @@ function InventoryPage() {
   const catalogCount = countForCategory(
     categoryId,
     activeCategory?.matchCategory ?? null,
+    activeGroup ?? undefined,
   );
 
   useEffect(() => {
@@ -289,6 +336,7 @@ function InventoryPage() {
 
   const selectCategory = (catId: string, matchCategory: string | null) => {
     setCategoryId(catId);
+    setGroupSub(null);
     if (matchCategory !== "O-Rings") {
       setThickness("");
       setSearchOpen(false);
@@ -315,6 +363,27 @@ function InventoryPage() {
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button asChild type="button" variant="outline" className="gap-1.5">
+            <Link to="/stock-take">
+              <ClipboardList className="h-4 w-4" />
+              Stock take
+            </Link>
+          </Button>
+          <Button asChild type="button" variant="outline" className="gap-1.5">
+            <Link to="/low-stock">
+              <AlertTriangle className="h-4 w-4" />
+              Low stock
+            </Link>
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => setKitsOpen(true)}
+          >
+            <PackagePlus className="h-4 w-4" />
+            Kits
+          </Button>
           <Button
             type="button"
             variant="outline"
@@ -326,6 +395,15 @@ function InventoryPage() {
           >
             <Download className="h-4 w-4" />
             Download Excel
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => setExcelOpen(true)}
+          >
+            <FileUp className="h-4 w-4" />
+            Upload Excel
           </Button>
           <Button
             type="button"
@@ -346,12 +424,17 @@ function InventoryPage() {
           </Button>
         </div>
 
+        <p className="text-xs text-muted-foreground">
+          Tip: click Qty, Cost, or Price in the list to edit inline. Related parts are grouped
+          (Sensors, Switches, Valves, …) — open a group, then pick a subtype.
+        </p>
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categories.map((cat) => {
             const Icon = cat.icon;
-            const count = countForCategory(cat.id, cat.matchCategory);
+            const count = countForCategory(cat.id, cat.matchCategory, cat.group);
             const selected = cat.id === categoryId;
-            const canEdit = Boolean(cat.matchCategory);
+            const canEdit = Boolean(cat.matchCategory) && !cat.group;
             return (
               <div
                 key={cat.id}
@@ -406,7 +489,9 @@ function InventoryPage() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle className="flex items-center gap-2 text-base">
                 <Package className="h-4 w-4 text-accent" />
-                {activeCategory?.label ?? "Parts Catalog"}
+                {isGroupMode && groupSub
+                  ? groupSub
+                  : (activeCategory?.label ?? "Parts Catalog")}
               </CardTitle>
               {!isCatalogMode && (
                 <div className="text-xs text-muted-foreground">
@@ -423,6 +508,50 @@ function InventoryPage() {
                 Browse Kafu catalog parts as a grid. Filter by machine, category, or show all —
                 sorted gradually from A01 upward.
               </p>
+            )}
+
+            {isGroupMode && activeGroup && (
+              <div className="space-y-2">
+                <p className="text-xs text-muted-foreground">
+                  All {activeCategory?.label?.toLowerCase() ?? "items"} in one place. Pick a
+                  subtype to narrow the list.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={groupSub === null ? "default" : "outline"}
+                    className="h-8"
+                    onClick={() => {
+                      setGroupSub(null);
+                      setScrollToListToken((n) => n + 1);
+                    }}
+                  >
+                    All
+                    <Badge variant="secondary" className="ml-1.5">
+                      {categoryCounts.groups[activeGroup]}
+                    </Badge>
+                  </Button>
+                  {groupSubs.map((sub) => (
+                    <Button
+                      key={sub.label}
+                      type="button"
+                      size="sm"
+                      variant={groupSub === sub.label ? "default" : "outline"}
+                      className="h-8"
+                      onClick={() => {
+                        setGroupSub(sub.label);
+                        setScrollToListToken((n) => n + 1);
+                      }}
+                    >
+                      {sub.label}
+                      <Badge variant="secondary" className="ml-1.5">
+                        {sub.count}
+                      </Badge>
+                    </Button>
+                  ))}
+                </div>
+              </div>
             )}
 
             {isORings && (
@@ -576,6 +705,9 @@ function InventoryPage() {
                 onView={(p) => openPart(p, "view")}
                 onEdit={(p) => openPart(p, "edit")}
                 onAddToCart={askDocumentForPart}
+                onPatch={(p, patch) => {
+                  updatePart(p.id, patch);
+                }}
                 emptyMessage={
                   parts.length === 0
                     ? "No parts yet."
@@ -606,6 +738,8 @@ function InventoryPage() {
         onSaved={(cat) => setCategoryId(cat.id)}
       />
       <BulkStockDialog open={bulkOpen} onOpenChange={setBulkOpen} />
+      <ExcelImportDialog open={excelOpen} onOpenChange={setExcelOpen} />
+      <KitsDialog open={kitsOpen} onOpenChange={setKitsOpen} />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Package, Users, FileText, Wrench, Building2 } from "lucide-react";
+import { LayoutDashboard, Package, Users, FileText, Wrench, Building2, ClipboardList, AlertTriangle } from "lucide-react";
 
 import {
   Sidebar,
@@ -19,6 +19,8 @@ import logo from "@/assets/parts-village-logo.png";
 const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, exact: true },
   { title: "Stock / Inventory", url: "/inventory", icon: Package },
+  { title: "Stock take", url: "/stock-take", icon: ClipboardList },
+  { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
   { title: "Clients CRM", url: "/clients", icon: Users },
   { title: "Suppliers CRM", url: "/suppliers", icon: Building2 },
   { title: "Documents", url: "/documents", icon: FileText },

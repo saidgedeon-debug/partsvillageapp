@@ -42,6 +42,7 @@ type FormState = {
   crossSectionMm: string;
   compatibility: string;
   notes: string;
+  imageUrl: string;
 };
 
 const emptyForm = (category = ""): FormState => ({
@@ -57,6 +58,7 @@ const emptyForm = (category = ""): FormState => ({
   crossSectionMm: "",
   compatibility: "",
   notes: "",
+  imageUrl: "",
 });
 
 function partToForm(part: Part): FormState {
@@ -73,6 +75,7 @@ function partToForm(part: Part): FormState {
     crossSectionMm: part.crossSectionMm ?? "",
     compatibility: part.compatibility.join(", "),
     notes: part.notes ?? "",
+    imageUrl: part.imageUrl ?? "",
   };
 }
 
@@ -158,6 +161,7 @@ export function PartDetailDialog({
         .map((s) => s.trim())
         .filter(Boolean),
       notes: form.notes.trim() || undefined,
+      imageUrl: form.imageUrl.trim() || undefined,
     };
 
     if (creating) {
@@ -388,6 +392,45 @@ export function PartDetailDialog({
                 value={form.notes}
                 onChange={set("notes")}
               />
+            </div>
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="part-photo">Photo URL or upload</Label>
+              <Input
+                id="part-photo"
+                value={form.imageUrl}
+                onChange={set("imageUrl")}
+                placeholder="/kafu-parts/A01-1.jpg or https://…"
+              />
+              <Input
+                type="file"
+                accept="image/*"
+                className="text-xs"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = () => {
+                    const dataUrl = String(reader.result ?? "");
+                    // Keep small: reject huge data URLs (> ~400KB)
+                    if (dataUrl.length > 400_000) {
+                      toast.error("Image too large — use a smaller photo or a URL");
+                      return;
+                    }
+                    setForm((f) => ({ ...f, imageUrl: dataUrl }));
+                    toast.success("Photo attached");
+                  };
+                  reader.readAsDataURL(file);
+                }}
+              />
+              {form.imageUrl ? (
+                <div className="flex justify-center rounded-md border border-border bg-muted/20 p-2">
+                  <img
+                    src={form.imageUrl}
+                    alt="Preview"
+                    className="max-h-32 object-contain"
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
         )}

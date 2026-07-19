@@ -2,14 +2,10 @@ import { useRef, type ReactNode } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { AlertTriangle, Eye, Pencil, ShoppingCart } from "lucide-react";
 
+import { InlineNumberCell } from "@/components/app/inline-number-cell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  currency,
-  oemNumbersOf,
-  partDescriptionOf,
-  type Part,
-} from "@/lib/mock-data";
+import { oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -20,6 +16,10 @@ type Props = {
   onView: (part: Part) => void;
   onEdit: (part: Part) => void;
   onAddToCart: (part: Part) => void;
+  onPatch: (
+    part: Part,
+    patch: { quantity?: number; cost?: number; price?: number },
+  ) => void;
 };
 
 const ROW_H = 68;
@@ -32,6 +32,7 @@ export function VirtualInventoryTable({
   onView,
   onEdit,
   onAddToCart,
+  onPatch,
 }: Props) {
   const parentRef = useRef<HTMLDivElement>(null);
   const virtualizer = useVirtualizer({
@@ -132,21 +133,26 @@ export function VirtualInventoryTable({
                     <Badge variant="secondary" className="w-fit max-w-full truncate">
                       {p.category}
                     </Badge>
-                    <span
-                      className={cn(
-                        "inline-flex items-center justify-end gap-1 font-semibold",
-                        low && "text-accent",
-                      )}
-                    >
-                      {low && <AlertTriangle className="h-3.5 w-3.5" />}
-                      {p.quantity.toLocaleString()}
-                    </span>
-                    <span className="text-right text-muted-foreground">
-                      {p.cost > 0 ? currency(p.cost) : "—"}
-                    </span>
-                    <span className="text-right font-semibold">
-                      {p.price > 0 ? currency(p.price) : "—"}
-                    </span>
+                    <div className="flex items-center justify-end gap-0.5">
+                      {low && <AlertTriangle className="h-3.5 w-3.5 text-accent" />}
+                      <InlineNumberCell
+                        value={p.quantity}
+                        className={cn(low && "font-semibold text-accent")}
+                        onCommit={(n) => onPatch(p, { quantity: n })}
+                      />
+                    </div>
+                    <InlineNumberCell
+                      value={p.cost}
+                      decimal
+                      className="text-muted-foreground"
+                      onCommit={(n) => onPatch(p, { cost: n })}
+                    />
+                    <InlineNumberCell
+                      value={p.price}
+                      decimal
+                      className="font-semibold"
+                      onCommit={(n) => onPatch(p, { price: n })}
+                    />
                     <div className="flex flex-wrap items-center justify-end gap-1">
                       <RowActions
                         onView={() => onView(p)}
@@ -189,21 +195,26 @@ export function VirtualInventoryTable({
                     <Badge variant="secondary" className="w-fit max-w-full truncate text-[10px]">
                       {p.category}
                     </Badge>
-                    <span
-                      className={cn(
-                        "inline-flex items-center justify-end gap-1 font-semibold",
-                        low && "text-accent",
-                      )}
-                    >
-                      {low && <AlertTriangle className="h-3.5 w-3.5" />}
-                      {p.quantity.toLocaleString()}
-                    </span>
-                    <span className="text-right text-sm text-muted-foreground">
-                      {p.cost > 0 ? currency(p.cost) : "—"}
-                    </span>
-                    <span className="text-right text-sm font-semibold">
-                      {p.price > 0 ? currency(p.price) : "—"}
-                    </span>
+                    <div className="flex items-center justify-end gap-0.5">
+                      {low && <AlertTriangle className="h-3.5 w-3.5 text-accent" />}
+                      <InlineNumberCell
+                        value={p.quantity}
+                        className={cn(low && "font-semibold text-accent")}
+                        onCommit={(n) => onPatch(p, { quantity: n })}
+                      />
+                    </div>
+                    <InlineNumberCell
+                      value={p.cost}
+                      decimal
+                      className="text-muted-foreground"
+                      onCommit={(n) => onPatch(p, { cost: n })}
+                    />
+                    <InlineNumberCell
+                      value={p.price}
+                      decimal
+                      className="font-semibold"
+                      onCommit={(n) => onPatch(p, { price: n })}
+                    />
                     <div className="flex flex-wrap items-center justify-end gap-1">
                       <RowActions
                         onView={() => onView(p)}

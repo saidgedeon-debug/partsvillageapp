@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as InventoryRouteImport } from './routes/inventory'
+import { Route as LowStockRouteImport } from './routes/low-stock'
+import { Route as StockTakeRouteImport } from './routes/stock-take'
 import { Route as ClientsIndexRouteImport } from './routes/clients.index'
 import { Route as ClientsClientIdRouteImport } from './routes/clients.$clientId'
 import { Route as SuppliersIndexRouteImport } from './routes/suppliers.index'
@@ -30,6 +32,16 @@ const DocumentsRoute = DocumentsRouteImport.update({
 const InventoryRoute = InventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LowStockRoute = LowStockRouteImport.update({
+  id: '/low-stock',
+  path: '/low-stock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StockTakeRoute = StockTakeRouteImport.update({
+  id: '/stock-take',
+  path: '/stock-take',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClientsIndexRoute = ClientsIndexRouteImport.update({
@@ -57,6 +69,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
+  '/low-stock': typeof LowStockRoute
+  '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients/': typeof ClientsIndexRoute
@@ -66,6 +80,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
+  '/low-stock': typeof LowStockRoute
+  '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients': typeof ClientsIndexRoute
@@ -76,6 +92,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
+  '/low-stock': typeof LowStockRoute
+  '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients/': typeof ClientsIndexRoute
@@ -87,6 +105,8 @@ export interface FileRouteTypes {
     | '/'
     | '/documents'
     | '/inventory'
+    | '/low-stock'
+    | '/stock-take'
     | '/clients/$clientId'
     | '/suppliers/$supplierId'
     | '/clients/'
@@ -96,6 +116,8 @@ export interface FileRouteTypes {
     | '/'
     | '/documents'
     | '/inventory'
+    | '/low-stock'
+    | '/stock-take'
     | '/clients/$clientId'
     | '/suppliers/$supplierId'
     | '/clients'
@@ -105,6 +127,8 @@ export interface FileRouteTypes {
     | '/'
     | '/documents'
     | '/inventory'
+    | '/low-stock'
+    | '/stock-take'
     | '/clients/$clientId'
     | '/suppliers/$supplierId'
     | '/clients/'
@@ -115,6 +139,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DocumentsRoute: typeof DocumentsRoute
   InventoryRoute: typeof InventoryRoute
+  LowStockRoute: typeof LowStockRoute
+  StockTakeRoute: typeof StockTakeRoute
   ClientsClientIdRoute: typeof ClientsClientIdRoute
   SuppliersSupplierIdRoute: typeof SuppliersSupplierIdRoute
   ClientsIndexRoute: typeof ClientsIndexRoute
@@ -142,6 +168,20 @@ declare module '@tanstack/react-router' {
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof InventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/low-stock': {
+      id: '/low-stock'
+      path: '/low-stock'
+      fullPath: '/low-stock'
+      preLoaderRoute: typeof LowStockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stock-take': {
+      id: '/stock-take'
+      path: '/stock-take'
+      fullPath: '/stock-take'
+      preLoaderRoute: typeof StockTakeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/clients/': {
@@ -179,6 +219,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DocumentsRoute: DocumentsRoute,
   InventoryRoute: InventoryRoute,
+  LowStockRoute: LowStockRoute,
+  StockTakeRoute: StockTakeRoute,
   ClientsClientIdRoute: ClientsClientIdRoute,
   SuppliersSupplierIdRoute: SuppliersSupplierIdRoute,
   ClientsIndexRoute: ClientsIndexRoute,

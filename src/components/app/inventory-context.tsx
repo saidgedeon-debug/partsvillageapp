@@ -64,7 +64,13 @@ type InventoryContextValue = {
   addPart: (input: PartInput) => Part;
   updatePart: (id: string, patch: PartOverride) => Part | null;
   bulkUpdateParts: (
-    updates: { id: string; quantity?: number; cost?: number; price?: number }[],
+    updates: {
+      id: string;
+      quantity?: number;
+      cost?: number;
+      price?: number;
+      reorderAt?: number;
+    }[],
   ) => number;
   removePart: (id: string) => void;
   addCategory: (label: string, description?: string) => CategoryRecord | null;
@@ -268,7 +274,13 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const bulkUpdateParts = useCallback(
-    (updates: { id: string; quantity?: number; cost?: number; price?: number }[]) => {
+    (updates: {
+      id: string;
+      quantity?: number;
+      cost?: number;
+      price?: number;
+      reorderAt?: number;
+    }[]) => {
       let count = 0;
       const catalogParts = catalogRef.current;
       setStore((prev) => {
@@ -285,6 +297,9 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
           }
           if (u.price !== undefined && Number.isFinite(u.price)) {
             patch.price = Math.max(0, u.price);
+          }
+          if (u.reorderAt !== undefined && Number.isFinite(u.reorderAt)) {
+            patch.reorderAt = Math.max(0, Math.round(u.reorderAt));
           }
           if (Object.keys(patch).length === 0) continue;
 
