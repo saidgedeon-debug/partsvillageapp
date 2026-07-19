@@ -13,6 +13,7 @@ import {
   PackagePlus,
   Pencil,
   Plus,
+  Star,
   TableProperties,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -21,6 +22,7 @@ import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
+import { usePrefs } from "@/components/app/prefs-context";
 import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
 import { CatalogGrid } from "@/components/app/catalog-grid";
@@ -37,8 +39,10 @@ import {
   buildGroupCounts,
   buildGroupSubcategories,
   catalogInventoryCategoryId,
+  categoriesMatch,
   categoryBelongsToGroup,
   defaultInventoryCategoryId,
+  displayCategory,
   type CategoryGroupId,
 } from "@/lib/inventory-categories";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
@@ -162,10 +166,18 @@ function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
   const { parts, categories, catalogReady, updatePart } = useInventory();
+  const {
+    favoriteCategoryGroups,
+    recentCategoryGroups,
+    isFavoriteCategoryGroup,
+    toggleFavoriteCategoryGroup,
+    touchRecentCategoryGroup,
+  } = usePrefs();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
   /** null = all subtypes when a group tile is selected */
   const [groupSub, setGroupSub] = useState<string | null>(null);
+  const [groupFilter, setGroupFilter] = useState("");
   const [thickness, setThickness] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("size");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -191,16 +203,48 @@ function InventoryPage() {
   const isGroupMode = activeGroup != null;
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
 
+  const orderedCategories = useMemo(() => {
+    const base = categories.filter(
+      (c) => c.id === "all" || c.id === catalogInventoryCategoryId || c.id === "o-rings",
+    );
+    const groups = categories.filter((c) => c.group);
+    const rest = categories.filter(
+      (c) =>
+        c.id !== "all" &&
+        c.id !== catalogInventoryCategoryId &&
+        c.id !== "o-rings" &&
+        !c.group,
+    );
+    const byGroup = new Map(groups.map((g) => [g.group!, g]));
+    const fav = new Set(favoriteCategoryGroups);
+    const recent = recentCategoryGroups.filter((id) => !fav.has(id));
+    const orderedGroups = [
+      ...favoriteCategoryGroups.map((id) => byGroup.get(id)).filter(Boolean),
+      ...recent.map((id) => byGroup.get(id)).filter(Boolean),
+      ...groups.filter(
+        (g) => g.group && !fav.has(g.group) && !recent.includes(g.group),
+      ),
+    ] as typeof groups;
+    return [...base, ...orderedGroups, ...rest];
+  }, [categories, favoriteCategoryGroups, recentCategoryGroups]);
+
   const groupSubs = useMemo(
     () => (activeGroup ? buildGroupSubcategories(parts, activeGroup) : []),
     [parts, activeGroup],
   );
 
+  const visibleGroupSubs = useMemo(() => {
+    const gf = groupFilter.trim().toLowerCase();
+    if (!gf) return groupSubs;
+    return groupSubs.filter((s) => s.label.toLowerCase().includes(gf));
+  }, [groupSubs, groupFilter]);
+
   const categoryCounts = useMemo(() => {
     const byCategory = new Map<string, number>();
     let catalog = 0;
     for (const p of parts) {
-      byCategory.set(p.category, (byCategory.get(p.category) ?? 0) + 1);
+      const label = displayCategory(p.category);
+      byCategory.set(label, (byCategory.get(label) ?? 0) + 1);
       if (p.category !== "O-Rings") catalog += 1;
     }
     return {
@@ -272,10 +316,24 @@ function InventoryPage() {
     if (activeGroup) {
       list = list.filter((p) => categoryBelongsToGroup(p.category, activeGroup));
       if (groupSub) {
-        list = list.filter((p) => p.category === groupSub);
+        list = list.filter((p) => categoriesMatch(p.category, groupSub));
+      }
+      const gf = groupFilter.trim().toLowerCase();
+      if (gf) {
+        list = list.filter((p) => {
+          const numbers = partNumbersOf(p).join(" ").toLowerCase();
+          return (
+            p.category.toLowerCase().includes(gf) ||
+            p.partNumber.toLowerCase().includes(gf) ||
+            p.name.toLowerCase().includes(gf) ||
+            numbers.includes(gf)
+          );
+        });
       }
     } else if (activeCategory?.matchCategory) {
-      list = list.filter((p) => p.category === activeCategory.matchCategory);
+      list = list.filter((p) =>
+        categoriesMatch(p.category, activeCategory.matchCategory!),
+      );
     }
 
     if (isORings && thickness.trim()) {
@@ -309,6 +367,7 @@ function InventoryPage() {
     isCatalogMode,
     activeGroup,
     groupSub,
+    groupFilter,
     parts,
   ]);
 
@@ -334,9 +393,15 @@ function InventoryPage() {
     return () => window.cancelAnimationFrame(id);
   }, [scrollToListToken, categoryId, rows.length]);
 
-  const selectCategory = (catId: string, matchCategory: string | null) => {
+  const selectCategory = (
+    catId: string,
+    matchCategory: string | null,
+    group?: CategoryGroupId,
+  ) => {
     setCategoryId(catId);
     setGroupSub(null);
+    setGroupFilter("");
+    if (group) touchRecentCategoryGroup(group);
     if (matchCategory !== "O-Rings") {
       setThickness("");
       setSearchOpen(false);
@@ -425,16 +490,17 @@ function InventoryPage() {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Tip: click Qty, Cost, or Price in the list to edit inline. Related parts are grouped
-          (Sensors, Switches, Valves, …) — open a group, then pick a subtype.
+          Tip: star a group to pin it. Related parts are grouped — open one, search subtypes, then
+          pick.
         </p>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {categories.map((cat) => {
+          {orderedCategories.map((cat) => {
             const Icon = cat.icon;
             const count = countForCategory(cat.id, cat.matchCategory, cat.group);
             const selected = cat.id === categoryId;
             const canEdit = Boolean(cat.matchCategory) && !cat.group;
+            const favGroup = cat.group ? isFavoriteCategoryGroup(cat.group) : false;
             return (
               <div
                 key={cat.id}
@@ -447,7 +513,7 @@ function InventoryPage() {
               >
                 <button
                   type="button"
-                  onClick={() => selectCategory(cat.id, cat.matchCategory)}
+                  onClick={() => selectCategory(cat.id, cat.matchCategory, cat.group)}
                   className="w-full px-4 py-4 text-left"
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -464,6 +530,28 @@ function InventoryPage() {
                   <p className="mt-3 text-sm font-semibold text-foreground">{cat.label}</p>
                   <p className="text-xs text-muted-foreground">{cat.description}</p>
                 </button>
+                {cat.group && (
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="absolute right-2 top-2 h-7 w-7"
+                    title={favGroup ? "Unpin group" : "Pin group"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavoriteCategoryGroup(cat.group!);
+                    }}
+                  >
+                    <Star
+                      className={cn(
+                        "h-3.5 w-3.5",
+                        favGroup
+                          ? "fill-amber-400 text-amber-400"
+                          : "text-muted-foreground",
+                      )}
+                    />
+                  </Button>
+                )}
                 {canEdit && (
                   <Button
                     type="button"
@@ -513,9 +601,15 @@ function InventoryPage() {
             {isGroupMode && activeGroup && (
               <div className="space-y-2">
                 <p className="text-xs text-muted-foreground">
-                  All {activeCategory?.label?.toLowerCase() ?? "items"} in one place. Pick a
-                  subtype to narrow the list.
+                  All {activeCategory?.label?.toLowerCase() ?? "items"} in one place. Search or pick
+                  a subtype.
                 </p>
+                <Input
+                  value={groupFilter}
+                  onChange={(e) => setGroupFilter(e.target.value)}
+                  placeholder="Search within group…"
+                  className="h-9 max-w-md text-xs"
+                />
                 <div className="flex flex-wrap gap-2">
                   <Button
                     type="button"
@@ -532,7 +626,7 @@ function InventoryPage() {
                       {categoryCounts.groups[activeGroup]}
                     </Badge>
                   </Button>
-                  {groupSubs.map((sub) => (
+                  {visibleGroupSubs.map((sub) => (
                     <Button
                       key={sub.label}
                       type="button"

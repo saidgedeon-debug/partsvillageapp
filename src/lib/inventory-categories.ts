@@ -189,6 +189,102 @@ const GROUP_RULES: GroupRule[] = [
 
 export const categoryGroupIds = GROUP_RULES.map((r) => r.id);
 
+export function getCategoryGroupLabel(groupId: CategoryGroupId): string {
+  return GROUP_RULES.find((r) => r.id === groupId)?.label ?? groupId;
+}
+
+export function getCategoryGroupIcon(groupId: CategoryGroupId): LucideIcon {
+  return GROUP_RULES.find((r) => r.id === groupId)?.icon ?? Package;
+}
+
+/**
+ * Collapse hyphen / slash / spacing variants so near-duplicates share one key.
+ * e.g. "High Pressure Sensor" ↔ "High-Pressure Sensor"
+ */
+export function categoryKey(category: string): string {
+  return category
+    .trim()
+    .toLowerCase()
+    .replace(/[–—]/g, "/")
+    .replace(/[-_]+/g, " ")
+    .replace(/\//g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Preferred display spelling for merged keys. */
+const PREFERRED_LABEL: Record<string, string> = {
+  "high pressure sensor": "High-Pressure Sensor",
+  "low pressure sensor": "Low-Pressure Sensor",
+  "scu control valve": "SCU Control Valve",
+  "oil water temperature sensor": "Oil/Water Temperature Sensor",
+  "oil water pressure switch": "Oil/Water Pressure Switch",
+  "fuel oil temperature sensor": "Fuel/Oil Temperature Sensor",
+  "pressure control switch": "Pressure / Control Switch",
+  "flameout fuel shut off": "Flameout / Fuel Shut-off",
+  "flameout shut off solenoid": "Flameout / Shut-off Solenoid",
+  "fuel shut off flameout solenoid": "Fuel Shut-off / Flameout Solenoid",
+  "glow preheater plug": "Glow / Preheater Plug",
+  "preheater glow control": "Preheater / Glow Control",
+  "relay glow control": "Relay / Glow Control",
+  "cartridge pilot valve": "Cartridge / Pilot Valve",
+  "check non return valve": "Check / Non-Return Valve",
+  "common rail injection harness": "Common Rail / Injection Harness",
+  "engine control harness": "Engine / Control Harness",
+  "pilot cartridge solenoid": "Pilot / Cartridge Solenoid",
+  "relief pressure valve": "Relief / Pressure Valve",
+  "motor relief control valve": "Motor Relief / Control Valve",
+  "throttle drive board": "Throttle Drive Board",
+  "travel final drive motor": "Travel / Final Drive Motor",
+  "water pump cooling": "Water Pump / Cooling",
+  "intercooler aftercooler": "Intercooler / Aftercooler",
+  "thermostat cooling control": "Thermostat / Cooling Control",
+  "bearing bushing": "Bearing / Bushing",
+  "engine gasket seal": "Engine Gasket / Seal",
+  "linkage bushing bearing": "Linkage Bushing / Bearing",
+  "thrust washer bearing": "Thrust Washer / Bearing",
+  "idler tensioner": "Idler / Tensioner",
+  "track chain link": "Track Chain / Link",
+  "final drive gear carrier": "Final Drive Gear / Carrier",
+  "cabin control interface": "Cabin Control Interface",
+  "climate temperature control": "Climate / Temperature Control",
+  "cooling fan mount hardware": "Cooling Fan / Mount / Hardware",
+  "exhaust mounting hardware": "Exhaust Mounting / Hardware",
+  "muffler silencer": "Muffler / Silencer",
+  "diode block array": "Diode Block / Array",
+  "fuse protection": "Fuse / Protection",
+  "circuit protection": "Circuit Protection",
+  "sensor connector plug kit": "Sensor Connector / Plug Kit",
+  "solenoid manifold cartridge": "Solenoid Manifold / Cartridge",
+  "starter control relay": "Starter / Control Relay",
+  "starter drive clutch": "Starter Drive / Clutch",
+  "parking brake disc": "Parking Brake / Disc",
+  "piston cylinder rod": "Piston / Cylinder Rod",
+  "piston power assembly": "Piston / Power Assembly",
+  "rocker lifter assembly": "Rocker / Lifter Assembly",
+  "lifter pushrod": "Lifter / Pushrod",
+  "timing gear drive": "Timing Gear / Drive",
+  "timing module relay": "Timing Module / Relay",
+  "valve guide seat": "Valve Guide / Seat",
+  "engine valve valve train": "Engine Valve / Valve Train",
+  "cylinder liner sleeve": "Cylinder Liner / Sleeve",
+  "fuel water separator": "Fuel / Water Separator",
+  "fuel feed primer pump": "Fuel Feed / Primer Pump",
+  "horn alarm": "Horn / Alarm",
+  "governor accelerator cable": "Governor / Accelerator Cable",
+  "water alarm sensor": "Water Alarm Sensor",
+  "air alarm sensor": "Air Alarm Sensor",
+};
+
+export function displayCategory(category: string): string {
+  const key = categoryKey(category);
+  return PREFERRED_LABEL[key] ?? category.trim();
+}
+
+export function categoriesMatch(a: string, b: string): boolean {
+  return categoryKey(a) === categoryKey(b);
+}
+
 /** Which group a Part.category belongs to, if any. */
 export function resolveCategoryGroup(category: string): CategoryGroupId | null {
   const c = category.trim().toLowerCase();
@@ -268,14 +364,22 @@ export function buildGroupSubcategories(
   parts: Part[],
   groupId: CategoryGroupId,
 ): GroupSubcategory[] {
-  const counts = new Map<string, number>();
+  /** key → { display, count } */
+  const byKey = new Map<string, { label: string; count: number }>();
   for (const p of parts) {
     if (!categoryBelongsToGroup(p.category, groupId)) continue;
-    counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
+    const key = categoryKey(p.category);
+    const preferred = displayCategory(p.category);
+    const prev = byKey.get(key);
+    if (prev) {
+      prev.count += 1;
+      // Prefer PREFERRED_LABEL spelling when present
+      if (PREFERRED_LABEL[key]) prev.label = PREFERRED_LABEL[key];
+    } else {
+      byKey.set(key, { label: preferred, count: 1 });
+    }
   }
-  return [...counts.entries()]
-    .map(([label, count]) => ({ label, count }))
-    .sort((a, b) => a.label.localeCompare(b.label));
+  return [...byKey.values()].sort((a, b) => a.label.localeCompare(b.label));
 }
 
 export function buildSensorSubcategories(parts: Part[]): GroupSubcategory[] {
@@ -301,13 +405,56 @@ export function buildGroupCounts(parts: Part[]): Record<CategoryGroupId, number>
   return out;
 }
 
+/** Ungrouped leftover categories, merged by near-duplicate key. */
+export function buildUngroupedCategories(parts: Part[]): GroupSubcategory[] {
+  const byKey = new Map<string, { label: string; count: number }>();
+  for (const p of parts) {
+    if (p.category === "O-Rings") continue;
+    if (isGroupedCategory(p.category)) continue;
+    const key = categoryKey(p.category);
+    const preferred = displayCategory(p.category);
+    const prev = byKey.get(key);
+    if (prev) {
+      prev.count += 1;
+      if (PREFERRED_LABEL[key]) prev.label = PREFERRED_LABEL[key];
+    } else {
+      byKey.set(key, { label: preferred, count: 1 });
+    }
+  }
+  return [...byKey.values()].sort((a, b) => a.label.localeCompare(b.label));
+}
+
+export type CategoryBrowsePick =
+  | { kind: "group"; id: CategoryGroupId; label: string; count: number }
+  | { kind: "category"; label: string; count: number };
+
+/** Catalog / picker options: groups first, then ungrouped leftovers. */
+export function buildCategoryBrowsePicks(parts: Part[]): CategoryBrowsePick[] {
+  const groupCounts = buildGroupCounts(parts);
+  const groups: CategoryBrowsePick[] = GROUP_RULES.map((r) => ({
+    kind: "group" as const,
+    id: r.id,
+    label: r.label,
+    count: groupCounts[r.id],
+  })).filter((g) => g.count > 0);
+
+  const loose: CategoryBrowsePick[] = buildUngroupedCategories(parts).map((c) => ({
+    kind: "category" as const,
+    label: c.label,
+    count: c.count,
+  }));
+
+  return [...groups, ...loose];
+}
+
 export function buildInventoryCategories(
   parts: Part[],
   customCategories: CustomCategoryInput[] = [],
 ): InventoryCategoryDef[] {
   const counts = new Map<string, number>();
   for (const p of parts) {
-    counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
+    const label = displayCategory(p.category);
+    counts.set(label, (counts.get(label) ?? 0) + 1);
   }
 
   const customByLabel = new Map(
@@ -319,7 +466,7 @@ export function buildInventoryCategories(
   );
 
   const labels = new Set<string>([...counts.keys()]);
-  for (const c of customCategories) labels.add(c.label);
+  for (const c of customCategories) labels.add(displayCategory(c.label));
 
   const groupCounts = buildGroupCounts(parts);
   const groups = groupTiles().map((tile) => {

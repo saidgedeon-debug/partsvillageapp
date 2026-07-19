@@ -22,6 +22,14 @@ import {
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  buildCategoryBrowsePicks,
+  buildGroupSubcategories,
+  categoriesMatch,
+  categoryBelongsToGroup,
+  type CategoryBrowsePick,
+  type CategoryGroupId,
+} from "@/lib/inventory-categories";
 import { currency, oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +42,8 @@ type Props = {
   onAddToCart: (part: Part) => void;
 };
 
+const PAGE_SIZE = 60;
+
 /** Sort catalog codes gradually from A01 upward (A01-1 → A01-2 → A01-10…). */
 export function compareCatalogCodes(a: string, b: string): number {
   return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
@@ -45,18 +55,37 @@ function machineLabel(part: Part): string {
   return "";
 }
 
+function pickValue(p: CategoryBrowsePick): string {
+  return p.kind === "group" ? `g:${p.id}` : `c:${p.label}`;
+}
+
+function parsePick(value: string): {
+  groupId: CategoryGroupId | null;
+  looseCategory: string;
+} {
+  if (value.startsWith("g:")) {
+    return { groupId: value.slice(2) as CategoryGroupId, looseCategory: "" };
+  }
+  if (value.startsWith("c:")) {
+    return { groupId: null, looseCategory: value.slice(2) };
+  }
+  return { groupId: null, looseCategory: "" };
+}
+
 function SearchablePick({
   label,
   placeholder,
   value,
   options,
   onChange,
+  formatOption,
 }: {
   label: string;
   placeholder: string;
   value: string;
   options: string[];
   onChange: (next: string) => void;
+  formatOption?: (opt: string) => string;
 }) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -65,9 +94,14 @@ function SearchablePick({
     const q = search.trim().toLowerCase();
     const filtered = !q
       ? options
-      : options.filter((o) => o.toLowerCase().includes(q));
+      : options.filter((o) => {
+          const display = (formatOption?.(o) ?? o).toLowerCase();
+          return display.includes(q) || o.toLowerCase().includes(q);
+        });
     return filtered.slice(0, 80);
-  }, [options, search]);
+  }, [options, search, formatOption]);
+
+  const displayValue = value ? (formatOption?.(value) ?? value) : "";
 
   return (
     <div className="min-w-[220px] flex-1 space-y-1.5">
@@ -88,7 +122,7 @@ function SearchablePick({
             className="h-10 w-full justify-between font-normal"
           >
             <span className={cn("truncate", !value && "text-muted-foreground")}>
-              {value || placeholder}
+              {displayValue || placeholder}
             </span>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -119,7 +153,7 @@ function SearchablePick({
                         value === opt ? "opacity-100" : "opacity-0",
                       )}
                     />
-                    <span className="truncate">{opt}</span>
+                    <span className="truncate">{formatOption?.(opt) ?? opt}</span>
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -136,8 +170,6 @@ function SearchablePick({
   );
 }
 
-const PAGE_SIZE = 60;
-
 export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Props) {
   const {
     favoritePartIds,
@@ -146,10 +178,15 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
     machinePresets,
     addMachinePreset,
     removeMachinePreset,
+    favoriteCategoryGroups,
+    recentCategoryGroups,
+    touchRecentCategoryGroup,
   } = usePrefs();
   const [mode, setMode] = useState<BrowseMode>("all");
   const [machine, setMachine] = useState("");
-  const [category, setCategory] = useState("");
+  const [categoryPick, setCategoryPick] = useState("");
+  const [categorySub, setCategorySub] = useState<string | null>(null);
+  const [groupFilter, setGroupFilter] = useState("");
   const [oemQuery, setOemQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -169,18 +206,62 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
     return [...set].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
   }, [catalogParts]);
 
-  const categories = useMemo(() => {
-    const set = new Set<string>();
-    for (const p of catalogParts) {
-      if (p.category.trim()) set.add(p.category.trim());
+  const browsePicks = useMemo(() => {
+    const picks = buildCategoryBrowsePicks(catalogParts);
+    const fav = new Set(favoriteCategoryGroups);
+    const recent = recentCategoryGroups.filter((id) => !fav.has(id));
+    const groups = picks.filter((p) => p.kind === "group");
+    const loose = picks.filter((p) => p.kind === "category");
+    const byId = new Map(
+      groups
+        .filter((g): g is Extract<CategoryBrowsePick, { kind: "group" }> => g.kind === "group")
+        .map((g) => [g.id, g]),
+    );
+    const orderedGroups: CategoryBrowsePick[] = [
+      ...(favoriteCategoryGroups
+        .map((id) => byId.get(id))
+        .filter(Boolean) as CategoryBrowsePick[]),
+      ...(recent.map((id) => byId.get(id)).filter(Boolean) as CategoryBrowsePick[]),
+      ...groups.filter(
+        (g) => g.kind === "group" && !fav.has(g.id) && !recent.includes(g.id),
+      ),
+    ];
+    return [...orderedGroups, ...loose];
+  }, [catalogParts, favoriteCategoryGroups, recentCategoryGroups]);
+
+  const pickOptions = useMemo(() => browsePicks.map(pickValue), [browsePicks]);
+  const pickLabelByValue = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const p of browsePicks) {
+      const v = pickValue(p);
+      map.set(
+        v,
+        p.kind === "group"
+          ? `${p.label} · group · ${p.count}`
+          : `${p.label} · ${p.count}`,
+      );
     }
-    return [...set].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-  }, [catalogParts]);
+    return map;
+  }, [browsePicks]);
+
+  const { groupId: activeGroup, looseCategory } = parsePick(categoryPick);
+
+  const groupSubs = useMemo(
+    () => (activeGroup ? buildGroupSubcategories(catalogParts, activeGroup) : []),
+    [catalogParts, activeGroup],
+  );
+
+  const filteredSubs = useMemo(() => {
+    const q = groupFilter.trim().toLowerCase();
+    if (!q) return groupSubs;
+    return groupSubs.filter((s) => s.label.toLowerCase().includes(q));
+  }, [groupSubs, groupFilter]);
 
   const rows = useMemo(() => {
     let list = catalogParts;
     const q = searchQuery.trim().toLowerCase();
     const oem = oemQuery.trim().toLowerCase();
+    const gf = groupFilter.trim().toLowerCase();
 
     if (mode === "favorites") {
       const fav = new Set(favoritePartIds);
@@ -191,14 +272,31 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
         p.compatibility.some((c) => c.trim().toLowerCase() === machine.toLowerCase()),
       );
     }
-    if (mode === "category" && category) {
-      list = list.filter((p) => p.category.trim().toLowerCase() === category.toLowerCase());
+    if (mode === "category" && categoryPick) {
+      if (activeGroup) {
+        list = list.filter((p) => categoryBelongsToGroup(p.category, activeGroup));
+        if (categorySub) {
+          list = list.filter((p) => categoriesMatch(p.category, categorySub));
+        }
+        if (gf) {
+          list = list.filter(
+            (p) =>
+              p.category.toLowerCase().includes(gf) ||
+              p.partNumber.toLowerCase().includes(gf) ||
+              p.name.toLowerCase().includes(gf) ||
+              oemNumbersOf(p).some((n) => n.toLowerCase().includes(gf)),
+          );
+        }
+      } else if (looseCategory) {
+        list = list.filter((p) => categoriesMatch(p.category, looseCategory));
+      }
     }
 
     if (oem) {
-      list = list.filter((p) =>
-        oemNumbersOf(p).some((n) => n.toLowerCase().includes(oem)) ||
-        p.partNumber.toLowerCase().includes(oem),
+      list = list.filter(
+        (p) =>
+          oemNumbersOf(p).some((n) => n.toLowerCase().includes(oem)) ||
+          p.partNumber.toLowerCase().includes(oem),
       );
     }
 
@@ -223,7 +321,11 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
     catalogParts,
     mode,
     machine,
-    category,
+    categoryPick,
+    categorySub,
+    activeGroup,
+    looseCategory,
+    groupFilter,
     searchQuery,
     oemQuery,
     favoritePartIds,
@@ -234,7 +336,7 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [searchQuery, mode, machine, category, oemQuery]);
+  }, [searchQuery, mode, machine, categoryPick, categorySub, oemQuery, groupFilter]);
 
   const modes: { id: BrowseMode; label: string }[] = [
     { id: "all", label: "All" },
@@ -244,6 +346,15 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
   ];
 
   const resetVisible = () => setVisibleCount(PAGE_SIZE);
+
+  const categorySummary =
+    mode === "category" && categoryPick
+      ? activeGroup
+        ? `${pickLabelByValue.get(categoryPick)?.split(" · ")[0] ?? activeGroup}${
+            categorySub ? ` · ${categorySub}` : ""
+          }`
+        : looseCategory
+      : "";
 
   return (
     <div className="space-y-4 p-4 md:p-6">
@@ -320,16 +431,65 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
           </div>
         )}
         {mode === "category" && (
-          <SearchablePick
-            label="Category"
-            placeholder="Choose a category…"
-            value={category}
-            options={categories}
-            onChange={(next) => {
-              setCategory(next);
-              resetVisible();
-            }}
-          />
+          <div className="flex w-full flex-col gap-2 lg:max-w-lg">
+            <SearchablePick
+              label="Category / group"
+              placeholder="Choose Sensors, Switches, …"
+              value={categoryPick}
+              options={pickOptions}
+              formatOption={(v) => pickLabelByValue.get(v) ?? v}
+              onChange={(next) => {
+                setCategoryPick(next);
+                setCategorySub(null);
+                setGroupFilter("");
+                resetVisible();
+                const parsed = parsePick(next);
+                if (parsed.groupId) touchRecentCategoryGroup(parsed.groupId);
+              }}
+            />
+            {activeGroup && (
+              <>
+                <Input
+                  value={groupFilter}
+                  onChange={(e) => setGroupFilter(e.target.value)}
+                  placeholder="Search within group…"
+                  className="h-9 text-xs"
+                />
+                <div className="flex flex-wrap gap-1.5">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={categorySub === null ? "default" : "outline"}
+                    className="h-7 text-xs"
+                    onClick={() => {
+                      setCategorySub(null);
+                      resetVisible();
+                    }}
+                  >
+                    All
+                  </Button>
+                  {filteredSubs.map((sub) => (
+                    <Button
+                      key={sub.label}
+                      type="button"
+                      size="sm"
+                      variant={categorySub === sub.label ? "default" : "outline"}
+                      className="h-7 text-xs"
+                      onClick={() => {
+                        setCategorySub(sub.label);
+                        resetVisible();
+                      }}
+                    >
+                      {sub.label}
+                      <Badge variant="secondary" className="ml-1">
+                        {sub.count}
+                      </Badge>
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         )}
       </div>
 
@@ -346,7 +506,7 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
       <p className="text-xs text-muted-foreground">
         {rows.length.toLocaleString()} part{rows.length === 1 ? "" : "s"}
         {mode === "machine" && machine ? ` · ${machine}` : ""}
-        {mode === "category" && category ? ` · ${category}` : ""}
+        {categorySummary ? ` · ${categorySummary}` : ""}
         {" · "}sorted A01 → up
       </p>
 
@@ -354,101 +514,70 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
         <div className="rounded-lg border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
           Choose a machine to see its catalog parts.
         </div>
-      ) : mode === "category" && !category ? (
+      ) : mode === "category" && !categoryPick ? (
         <div className="rounded-lg border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-          Choose a category to see matching parts.
+          Choose a group (Sensors, Switches, …) or a leftover category.
         </div>
       ) : rows.length === 0 ? (
         <div className="rounded-lg border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-          No catalog parts match.
+          No parts match these filters.
         </div>
       ) : (
         <>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {visibleRows.map((p) => {
-              const description = partDescriptionOf(p);
-              const machineText = machineLabel(p);
-              const low = p.quantity > 0 && p.quantity <= p.reorderAt;
+              const fav = isFavorite(p.id);
+              const oems = oemNumbersOf(p);
               return (
-                <button
+                <div
                   key={p.id}
-                  type="button"
-                  onClick={() => onView(p)}
-                  className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-left transition-colors hover:border-accent/50 hover:bg-muted/30"
+                  className="flex flex-col rounded-xl border border-border bg-card p-3 text-left"
                 >
-                  <div className="flex aspect-[4/3] items-center justify-center border-b border-border bg-muted/20">
-                    {p.imageUrl ? (
-                      <img
-                        src={p.imageUrl}
-                        alt={p.partNumber}
-                        className="h-full w-full object-contain p-3"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <Package className="h-10 w-10 text-muted-foreground/40" />
-                    )}
-                  </div>
-                  <div className="flex flex-1 flex-col gap-2 p-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="font-mono text-sm font-semibold text-foreground">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-mono text-xs font-semibold text-foreground">
                         {p.partNumber}
-                      </span>
-                      <div className="flex shrink-0 items-center gap-1">
-                        {p.catalogPage ? (
-                          <span className="font-mono text-[10px] text-muted-foreground">
-                            p.{p.catalogPage}
-                          </span>
-                        ) : null}
-                        <button
-                          type="button"
-                          className="rounded p-0.5 text-muted-foreground hover:text-accent"
-                          aria-label={
-                            isFavorite(p.id) ? "Remove favorite" : "Add favorite"
-                          }
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleFavorite(p.id);
-                          }}
-                        >
-                          <Star
-                            className={cn(
-                              "h-3.5 w-3.5",
-                              isFavorite(p.id) && "fill-accent text-accent",
-                            )}
-                          />
-                        </button>
-                      </div>
-                    </div>
-                    <p className="line-clamp-2 text-xs text-foreground/90">
-                      {description || "—"}
-                    </p>
-                    {machineText ? (
-                      <p className="line-clamp-1 text-[11px] text-muted-foreground">
-                        {machineText}
                       </p>
-                    ) : null}
-                    <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
-                      <Badge variant="secondary" className="max-w-full truncate text-[10px]">
-                        {p.category}
-                      </Badge>
-                      <span
-                        className={cn(
-                          "text-[11px] font-medium",
-                          low ? "text-accent" : "text-muted-foreground",
-                        )}
-                      >
-                        Qty {p.quantity.toLocaleString()}
-                      </span>
-                      <span className="ml-auto text-xs font-semibold">
-                        {p.price > 0 ? currency(p.price) : "—"}
-                      </span>
+                      <p className="mt-0.5 line-clamp-2 text-sm text-foreground">
+                        {partDescriptionOf(p)}
+                      </p>
                     </div>
-                    <div className="flex gap-1.5 pt-1" onClick={(e) => e.stopPropagation()}>
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      className="h-8 w-8 shrink-0"
+                      onClick={() => toggleFavorite(p.id)}
+                      aria-label={fav ? "Remove favorite" : "Add favorite"}
+                    >
+                      <Star
+                        className={cn(
+                          "h-4 w-4",
+                          fav ? "fill-amber-400 text-amber-400" : "text-muted-foreground",
+                        )}
+                      />
+                    </Button>
+                  </div>
+                  <p className="mt-2 text-[11px] text-muted-foreground">{p.category}</p>
+                  {machineLabel(p) ? (
+                    <p className="mt-0.5 line-clamp-1 text-[11px] text-muted-foreground">
+                      {machineLabel(p)}
+                    </p>
+                  ) : null}
+                  {oems.length > 0 && (
+                    <p className="mt-1 font-mono text-[10px] text-muted-foreground">
+                      OEM {oems.slice(0, 2).join(" · ")}
+                      {oems.length > 2 ? ` +${oems.length - 2}` : ""}
+                    </p>
+                  )}
+                  <div className="mt-auto flex items-center justify-between gap-2 pt-3">
+                    <span className="text-xs font-medium">{currency(p.price)}</span>
+                    <div className="flex gap-1">
                       <Button
                         type="button"
                         size="sm"
                         variant="outline"
-                        className="h-8 flex-1 gap-1"
+                        className="h-7 gap-1 px-2"
                         onClick={() => onView(p)}
                       >
                         <Eye className="h-3.5 w-3.5" />
@@ -457,7 +586,7 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
                       <Button
                         type="button"
                         size="sm"
-                        className="h-8 flex-1 gap-1"
+                        className="h-7 gap-1 px-2"
                         onClick={() => onAddToCart(p)}
                       >
                         <ShoppingCart className="h-3.5 w-3.5" />
@@ -465,7 +594,7 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
                       </Button>
                     </div>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>
@@ -476,8 +605,9 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
                 variant="outline"
                 onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
               >
+                <Package className="mr-1.5 h-4 w-4" />
                 Show more ({Math.min(PAGE_SIZE, rows.length - visibleCount)} of{" "}
-                {(rows.length - visibleCount).toLocaleString()} left)
+                {rows.length - visibleCount} left)
               </Button>
             </div>
           )}
