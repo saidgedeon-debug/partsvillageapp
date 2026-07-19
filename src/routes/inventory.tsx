@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   ArrowUpNarrowWide,
   ChevronDown,
+  Download,
   Eye,
   FolderPlus,
   Package,
@@ -32,8 +33,10 @@ import {
   catalogInventoryCategoryId,
   defaultInventoryCategoryId,
 } from "@/lib/inventory-categories";
+import { downloadInventoryExcel } from "@/lib/inventory-export";
 import { currency, oemNumbersOf, partDescriptionOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import {
   Popover,
   PopoverContent,
@@ -302,6 +305,18 @@ function InventoryPage() {
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => {
+              const file = downloadInventoryExcel(parts);
+              toast.success(`Downloaded ${file} (${parts.length.toLocaleString()} parts)`);
+            }}
+          >
+            <Download className="h-4 w-4" />
+            Download Excel
+          </Button>
           <Button
             type="button"
             variant="outline"
