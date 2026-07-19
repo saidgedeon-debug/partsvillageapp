@@ -1,6 +1,3 @@
-import { oringParts } from "@/lib/orings-inventory";
-import { kafuParts } from "@/lib/kafu-inventory";
-
 export type Part = {
   id: string;
   /** Catalog part code (e.g. A03-12). */
@@ -124,7 +121,11 @@ export type SupplierInquiry = {
   status: "Open" | "Answered" | "Closed";
 };
 
-export const parts: Part[] = [...oringParts, ...kafuParts];
+/**
+ * Live catalog is lazy-loaded via InventoryProvider (`loadCatalogParts`).
+ * Kept empty so importing mock-data does not pull the ~1MB inventory bundles.
+ */
+export const parts: Part[] = [];
 
 export const clients: Client[] = [];
 
@@ -145,14 +146,12 @@ export const ordersByClient = (id: string) => orders.filter((o) => o.clientId ==
 export const ordersByMachine = (id: string) => orders.filter((o) => o.machineId === id);
 
 export const currency = (n: number) =>
-  n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  n.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  });
 
-export const totalSales = invoices
-  .filter((i) => i.status === "Paid")
-  .reduce((s, i) => s + i.total, 0) +
-  orders
-    .filter((o) => o.status === "Paid")
-    .reduce((s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0), 0);
-
-export const activeQuotesCount = quotations.filter((q) => q.status === "Sent" || q.status === "Draft").length;
-export const lowStockParts = parts.filter((p) => p.quantity <= p.reorderAt);
+export const totalSales = 0;
+export const activeQuotesCount = 0;
+export const lowStockParts: Part[] = [];

@@ -5,11 +5,11 @@ import { Users, ChevronRight, Truck, Plus } from "lucide-react";
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useParties } from "@/components/app/parties-context";
+import { useFleet } from "@/components/app/fleet-context";
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { machinesByClient, ordersByClient } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/clients/")({
   head: () => ({
@@ -24,6 +24,7 @@ export const Route = createFileRoute("/clients/")({
 function ClientsPage() {
   const { query } = useSearch();
   const { clients } = useParties();
+  const { machinesByClient, ordersByClient } = useFleet();
   const navigate = useNavigate();
   const [addOpen, setAddOpen] = useState(false);
   const q = query.trim().toLowerCase();
@@ -45,7 +46,7 @@ function ClientsPage() {
         )
       );
     });
-  }, [q, clients]);
+  }, [q, clients, machinesByClient]);
 
   return (
     <>

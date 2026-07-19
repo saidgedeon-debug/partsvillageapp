@@ -1,17 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  AlertTriangle,
   ArrowUpNarrowWide,
   ChevronDown,
   Download,
-  Eye,
   FolderPlus,
   Package,
   Boxes,
   Pencil,
   Plus,
-  ShoppingCart,
   TableProperties,
 } from "lucide-react";
 
@@ -23,18 +20,18 @@ import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
 import { CatalogGrid } from "@/components/app/catalog-grid";
 import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
+import { VirtualInventoryTable } from "@/components/app/virtual-inventory-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import {
   catalogInventoryCategoryId,
   defaultInventoryCategoryId,
 } from "@/lib/inventory-categories";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
-import { currency, oemNumbersOf, partDescriptionOf, partNumbersOf, type Part } from "@/lib/mock-data";
+import { partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import {
@@ -154,7 +151,7 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
-  const { parts, categories } = useInventory();
+  const { parts, categories, catalogReady } = useInventory();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
   const [thickness, setThickness] = useState("");
@@ -178,12 +175,20 @@ function InventoryPage() {
   const isCatalogMode = categoryId === catalogInventoryCategoryId;
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
 
-  const countForCategory = (catId: string, matchCategory: string | null) => {
-    if (catId === catalogInventoryCategoryId) {
-      return parts.filter((p) => p.category !== "O-Rings").length;
+  const categoryCounts = useMemo(() => {
+    const byCategory = new Map<string, number>();
+    let catalog = 0;
+    for (const p of parts) {
+      byCategory.set(p.category, (byCategory.get(p.category) ?? 0) + 1);
+      if (p.category !== "O-Rings") catalog += 1;
     }
-    if (!matchCategory) return parts.length;
-    return parts.filter((p) => p.category === matchCategory).length;
+    return { byCategory, all: parts.length, catalog };
+  }, [parts]);
+
+  const countForCategory = (catId: string, matchCategory: string | null) => {
+    if (catId === catalogInventoryCategoryId) return categoryCounts.catalog;
+    if (!matchCategory) return categoryCounts.all;
+    return categoryCounts.byCategory.get(matchCategory) ?? 0;
   };
 
   const openPart = (part: Part, mode: DialogMode) => {
@@ -262,7 +267,10 @@ function InventoryPage() {
   }, [q, thickness, sortMode, activeCategory, isORings, isCatalogMode, parts]);
 
   const filterActive = isORings && Boolean(thickness.trim());
-  const totalPieces = rows.reduce((s, p) => s + p.quantity, 0);
+  const totalPieces = useMemo(
+    () => rows.reduce((s, p) => s + p.quantity, 0),
+    [rows],
+  );
   const catalogCount = countForCategory(
     categoryId,
     activeCategory?.matchCategory ?? null,
@@ -298,9 +306,11 @@ function InventoryPage() {
       <PageHeader
         title="Stock / Inventory"
         subtitle={
-          isCatalogMode
-            ? `Catalog grid · ${catalogCount.toLocaleString()} parts · A01 → up`
-            : `Add, edit, or cart · ${rows.length} of ${catalogCount} parts`
+          !catalogReady
+            ? "Loading catalog…"
+            : isCatalogMode
+              ? `Catalog grid · ${catalogCount.toLocaleString()} parts · A01 → up`
+              : `Add, edit, or cart · ${rows.length} of ${catalogCount} parts`
         }
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
@@ -545,7 +555,11 @@ function InventoryPage() {
             )}
           </CardHeader>
           <CardContent className="p-0">
-            {isCatalogMode ? (
+            {!catalogReady ? (
+              <div className="py-16 text-center text-sm text-muted-foreground">
+                Loading catalog parts…
+              </div>
+            ) : isCatalogMode ? (
               <CatalogGrid
                 parts={parts}
                 searchQuery={query}
@@ -553,176 +567,25 @@ function InventoryPage() {
                 onAddToCart={askDocumentForPart}
               />
             ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    {!isORings && <TableHead className="w-14">Photo</TableHead>}
-                    {isORings && <TableHead>Box</TableHead>}
-                    <TableHead>{isORings ? "Part #" : "Part Code"}</TableHead>
-                    {isORings && <TableHead>ID (mm)</TableHead>}
-                    {isORings && <TableHead>CS (mm)</TableHead>}
-                    {!isORings && <TableHead>Description</TableHead>}
-                    {!isORings && <TableHead>OEM / Serial</TableHead>}
-                    {!isORings && <TableHead>Machine</TableHead>}
-                    {!isORings && <TableHead className="w-16">Page</TableHead>}
-                    <TableHead>Category</TableHead>
-                    <TableHead className="text-right">Qty</TableHead>
-                    <TableHead className="text-right">Cost</TableHead>
-                    <TableHead className="text-right">Price</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {rows.map((p) => {
-                    const low = p.quantity > 0 && p.quantity <= p.reorderAt;
-                    const description = partDescriptionOf(p);
-                    const machine =
-                      p.compatibility.length > 0
-                        ? p.compatibility.join(", ")
-                        : p.name.includes(" — ")
-                          ? p.name.split(" — ").slice(1).join(" — ")
-                          : "";
-                    const oems = oemNumbersOf(p);
-                    const page =
-                      p.catalogPage ||
-                      p.notes?.match(/Catalog p\.?\s*([\d,\s]+)/i)?.[1]?.trim() ||
-                      "";
-                    return (
-                      <TableRow key={p.id}>
-                        {!isORings && (
-                          <TableCell>
-                            {p.imageUrl ? (
-                              <button
-                                type="button"
-                                className="block overflow-hidden rounded-md border border-border bg-muted/30"
-                                onClick={() => openPart(p, "view")}
-                                title="View part"
-                              >
-                                <img
-                                  src={p.imageUrl}
-                                  alt={p.partNumber}
-                                  className="h-11 w-11 object-contain"
-                                  loading="lazy"
-                                />
-                              </button>
-                            ) : (
-                              <div className="flex h-11 w-11 items-center justify-center rounded-md border border-dashed border-border text-[10px] text-muted-foreground">
-                                —
-                              </div>
-                            )}
-                          </TableCell>
-                        )}
-                        {isORings && (
-                          <TableCell className="font-mono text-xs text-muted-foreground">
-                            {p.boxNumber ?? "—"}
-                          </TableCell>
-                        )}
-                        <TableCell>
-                          <PartNumbersCell part={p} catalogMode={!isORings} />
-                        </TableCell>
-                        {isORings && (
-                          <TableCell className="font-mono text-xs">
-                            {p.insideDiameterMm || "—"}
-                          </TableCell>
-                        )}
-                        {isORings && (
-                          <TableCell className="font-mono text-xs">
-                            {p.crossSectionMm || "—"}
-                          </TableCell>
-                        )}
-                        {!isORings && (
-                          <TableCell className="max-w-[200px] text-xs">
-                            <span className="line-clamp-2">{description || "—"}</span>
-                          </TableCell>
-                        )}
-                        {!isORings && (
-                          <TableCell className="max-w-[160px] font-mono text-xs text-muted-foreground">
-                            <span className="line-clamp-2">
-                              {oems.length > 0 ? oems.join(" / ") : "—"}
-                            </span>
-                          </TableCell>
-                        )}
-                        {!isORings && (
-                          <TableCell className="max-w-[180px] text-xs text-muted-foreground">
-                            <span className="line-clamp-2">{machine || "—"}</span>
-                          </TableCell>
-                        )}
-                        {!isORings && (
-                          <TableCell className="font-mono text-xs text-muted-foreground">
-                            {page || "—"}
-                          </TableCell>
-                        )}
-                        <TableCell>
-                          <Badge variant="secondary">{p.category}</Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <span
-                            className={`inline-flex items-center gap-1 font-semibold ${low ? "text-accent" : ""}`}
-                          >
-                            {low && <AlertTriangle className="h-3.5 w-3.5" />}
-                            {p.quantity.toLocaleString()}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-right text-muted-foreground">
-                          {p.cost > 0 ? currency(p.cost) : "—"}
-                        </TableCell>
-                        <TableCell className="text-right font-semibold">
-                          {p.price > 0 ? currency(p.price) : "—"}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex flex-wrap items-center justify-end gap-1">
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              className="h-8 gap-1 px-2"
-                              onClick={() => openPart(p, "view")}
-                            >
-                              <Eye className="h-3.5 w-3.5" />
-                              View
-                            </Button>
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              className="h-8 gap-1 px-2"
-                              onClick={() => openPart(p, "edit")}
-                            >
-                              <Pencil className="h-3.5 w-3.5" />
-                              Edit
-                            </Button>
-                            <Button
-                              type="button"
-                              size="sm"
-                              className="h-8 gap-1 px-2"
-                              onClick={() => askDocumentForPart(p)}
-                            >
-                              <ShoppingCart className="h-3.5 w-3.5" />
-                              Add to cart
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  {rows.length === 0 && (
-                    <TableRow>
-                      <TableCell
-                        colSpan={isORings ? 9 : 9}
-                        className="py-12 text-center text-sm text-muted-foreground"
-                      >
-                        {parts.length === 0
-                          ? "No parts yet."
-                          : filterActive
-                            ? `No O-rings with thickness ${thickness.trim()} mm.`
-                            : q
-                              ? `No parts match “${query}”.`
-                              : `No parts in ${activeCategory?.label ?? "this category"} yet.`}
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+              <VirtualInventoryTable
+                rows={rows}
+                isORings={isORings}
+                partNumbersCell={(p) => (
+                  <PartNumbersCell part={p} catalogMode={!isORings} />
+                )}
+                onView={(p) => openPart(p, "view")}
+                onEdit={(p) => openPart(p, "edit")}
+                onAddToCart={askDocumentForPart}
+                emptyMessage={
+                  parts.length === 0
+                    ? "No parts yet."
+                    : filterActive
+                      ? `No O-rings with thickness ${thickness.trim()} mm.`
+                      : q
+                        ? `No parts match “${query}”.`
+                        : `No parts in ${activeCategory?.label ?? "this category"} yet.`
+                }
+              />
             )}
           </CardContent>
         </Card>

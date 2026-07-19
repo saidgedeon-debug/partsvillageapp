@@ -59,11 +59,26 @@ function SearchablePick({
   onChange: (next: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const visibleOptions = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    const filtered = !q
+      ? options
+      : options.filter((o) => o.toLowerCase().includes(q));
+    return filtered.slice(0, 80);
+  }, [options, search]);
 
   return (
     <div className="min-w-[220px] flex-1 space-y-1.5">
       <p className="text-xs font-medium text-muted-foreground">{label}</p>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover
+        open={open}
+        onOpenChange={(next) => {
+          setOpen(next);
+          if (!next) setSearch("");
+        }}
+      >
         <PopoverTrigger asChild>
           <Button
             type="button"
@@ -79,18 +94,23 @@ function SearchablePick({
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[min(100vw-2rem,360px)] p-0" align="start">
-          <Command>
-            <CommandInput placeholder={`Search ${label.toLowerCase()}…`} />
+          <Command shouldFilter={false}>
+            <CommandInput
+              placeholder={`Search ${label.toLowerCase()}…`}
+              value={search}
+              onValueChange={setSearch}
+            />
             <CommandList>
               <CommandEmpty>No match.</CommandEmpty>
               <CommandGroup>
-                {options.map((opt) => (
+                {visibleOptions.map((opt) => (
                   <CommandItem
                     key={opt}
                     value={opt}
                     onSelect={() => {
                       onChange(opt === value ? "" : opt);
                       setOpen(false);
+                      setSearch("");
                     }}
                   >
                     <Check
@@ -105,6 +125,11 @@ function SearchablePick({
               </CommandGroup>
             </CommandList>
           </Command>
+          {search.trim() && visibleOptions.length >= 80 ? (
+            <p className="border-t border-border px-3 py-2 text-[11px] text-muted-foreground">
+              Showing top 80 matches — type more to narrow.
+            </p>
+          ) : null}
         </PopoverContent>
       </Popover>
     </div>
