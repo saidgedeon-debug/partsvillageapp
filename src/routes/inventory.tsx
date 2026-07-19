@@ -19,13 +19,17 @@ import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
+import { CatalogGrid } from "@/components/app/catalog-grid";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { defaultInventoryCategoryId } from "@/lib/inventory-categories";
+import {
+  catalogInventoryCategoryId,
+  defaultInventoryCategoryId,
+} from "@/lib/inventory-categories";
 import { currency, oemNumbersOf, partDescriptionOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import {
@@ -165,9 +169,13 @@ function InventoryPage() {
 
   const activeCategory =
     categories.find((c) => c.id === categoryId) ?? categories[0];
-  const isORings = activeCategory?.matchCategory === "O-Rings";
+  const isCatalogMode = categoryId === catalogInventoryCategoryId;
+  const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
 
-  const countForCategory = (matchCategory: string | null) => {
+  const countForCategory = (catId: string, matchCategory: string | null) => {
+    if (catId === catalogInventoryCategoryId) {
+      return parts.filter((p) => p.category !== "O-Rings").length;
+    }
     if (!matchCategory) return parts.length;
     return parts.filter((p) => p.category === matchCategory).length;
   };
@@ -215,6 +223,8 @@ function InventoryPage() {
   }, [parts]);
 
   const rows = useMemo(() => {
+    if (isCatalogMode) return [];
+
     let list = parts;
 
     if (activeCategory?.matchCategory) {
@@ -243,11 +253,14 @@ function InventoryPage() {
     }
 
     return sortParts(list, isORings ? sortMode : "box");
-  }, [q, thickness, sortMode, activeCategory, isORings, parts]);
+  }, [q, thickness, sortMode, activeCategory, isORings, isCatalogMode, parts]);
 
   const filterActive = isORings && Boolean(thickness.trim());
   const totalPieces = rows.reduce((s, p) => s + p.quantity, 0);
-  const catalogCount = countForCategory(activeCategory?.matchCategory ?? null);
+  const catalogCount = countForCategory(
+    categoryId,
+    activeCategory?.matchCategory ?? null,
+  );
 
   useEffect(() => {
     if (!scrollToListToken) return;
@@ -278,7 +291,11 @@ function InventoryPage() {
     <>
       <PageHeader
         title="Stock / Inventory"
-        subtitle={`Add, edit, or cart · ${rows.length} of ${catalogCount} parts`}
+        subtitle={
+          isCatalogMode
+            ? `Catalog grid · ${catalogCount.toLocaleString()} parts · A01 → up`
+            : `Add, edit, or cart · ${rows.length} of ${catalogCount} parts`
+        }
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap items-center justify-end gap-2">
@@ -295,7 +312,7 @@ function InventoryPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categories.map((cat) => {
             const Icon = cat.icon;
-            const count = countForCategory(cat.matchCategory);
+            const count = countForCategory(cat.id, cat.matchCategory);
             const selected = cat.id === categoryId;
             const canEdit = Boolean(cat.matchCategory);
             return (
@@ -354,11 +371,22 @@ function InventoryPage() {
                 <Package className="h-4 w-4 text-accent" />
                 {activeCategory?.label ?? "Parts Catalog"}
               </CardTitle>
-              <div className="text-xs text-muted-foreground">
-                Showing pieces:{" "}
-                <span className="font-semibold text-foreground">{totalPieces.toLocaleString()}</span>
-              </div>
+              {!isCatalogMode && (
+                <div className="text-xs text-muted-foreground">
+                  Showing pieces:{" "}
+                  <span className="font-semibold text-foreground">
+                    {totalPieces.toLocaleString()}
+                  </span>
+                </div>
+              )}
             </div>
+
+            {isCatalogMode && (
+              <p className="text-xs text-muted-foreground">
+                Browse Kafu catalog parts as a grid. Filter by machine, category, or show all —
+                sorted gradually from A01 upward.
+              </p>
+            )}
 
             {isORings && (
               <div className="rounded-lg border border-border bg-muted/30">
@@ -490,172 +518,185 @@ function InventoryPage() {
             )}
           </CardHeader>
           <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {!isORings && <TableHead className="w-14">Photo</TableHead>}
-                  {isORings && <TableHead>Box</TableHead>}
-                  <TableHead>{isORings ? "Part #" : "Part Code"}</TableHead>
-                  {isORings && <TableHead>ID (mm)</TableHead>}
-                  {isORings && <TableHead>CS (mm)</TableHead>}
-                  {!isORings && <TableHead>Description</TableHead>}
-                  {!isORings && <TableHead>OEM / Serial</TableHead>}
-                  {!isORings && <TableHead>Machine</TableHead>}
-                  {!isORings && <TableHead className="w-16">Page</TableHead>}
-                  <TableHead>Category</TableHead>
-                  <TableHead className="text-right">Qty</TableHead>
-                  <TableHead className="text-right">Cost</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rows.map((p) => {
-                  const low = p.quantity > 0 && p.quantity <= p.reorderAt;
-                  const description = partDescriptionOf(p);
-                  const machine =
-                    p.compatibility.length > 0
-                      ? p.compatibility.join(", ")
-                      : p.name.includes(" — ")
-                        ? p.name.split(" — ").slice(1).join(" — ")
-                        : "";
-                  const oems = oemNumbersOf(p);
-                  const page =
-                    p.catalogPage ||
-                    p.notes?.match(/Catalog p\.?\s*([\d,\s]+)/i)?.[1]?.trim() ||
-                    "";
-                  return (
-                    <TableRow key={p.id}>
-                      {!isORings && (
+            {isCatalogMode ? (
+              <CatalogGrid
+                parts={parts}
+                searchQuery={query}
+                onView={(p) => openPart(p, "view")}
+                onAddToCart={askDocumentForPart}
+              />
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {!isORings && <TableHead className="w-14">Photo</TableHead>}
+                    {isORings && <TableHead>Box</TableHead>}
+                    <TableHead>{isORings ? "Part #" : "Part Code"}</TableHead>
+                    {isORings && <TableHead>ID (mm)</TableHead>}
+                    {isORings && <TableHead>CS (mm)</TableHead>}
+                    {!isORings && <TableHead>Description</TableHead>}
+                    {!isORings && <TableHead>OEM / Serial</TableHead>}
+                    {!isORings && <TableHead>Machine</TableHead>}
+                    {!isORings && <TableHead className="w-16">Page</TableHead>}
+                    <TableHead>Category</TableHead>
+                    <TableHead className="text-right">Qty</TableHead>
+                    <TableHead className="text-right">Cost</TableHead>
+                    <TableHead className="text-right">Price</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {rows.map((p) => {
+                    const low = p.quantity > 0 && p.quantity <= p.reorderAt;
+                    const description = partDescriptionOf(p);
+                    const machine =
+                      p.compatibility.length > 0
+                        ? p.compatibility.join(", ")
+                        : p.name.includes(" — ")
+                          ? p.name.split(" — ").slice(1).join(" — ")
+                          : "";
+                    const oems = oemNumbersOf(p);
+                    const page =
+                      p.catalogPage ||
+                      p.notes?.match(/Catalog p\.?\s*([\d,\s]+)/i)?.[1]?.trim() ||
+                      "";
+                    return (
+                      <TableRow key={p.id}>
+                        {!isORings && (
+                          <TableCell>
+                            {p.imageUrl ? (
+                              <button
+                                type="button"
+                                className="block overflow-hidden rounded-md border border-border bg-muted/30"
+                                onClick={() => openPart(p, "view")}
+                                title="View part"
+                              >
+                                <img
+                                  src={p.imageUrl}
+                                  alt={p.partNumber}
+                                  className="h-11 w-11 object-contain"
+                                  loading="lazy"
+                                />
+                              </button>
+                            ) : (
+                              <div className="flex h-11 w-11 items-center justify-center rounded-md border border-dashed border-border text-[10px] text-muted-foreground">
+                                —
+                              </div>
+                            )}
+                          </TableCell>
+                        )}
+                        {isORings && (
+                          <TableCell className="font-mono text-xs text-muted-foreground">
+                            {p.boxNumber ?? "—"}
+                          </TableCell>
+                        )}
                         <TableCell>
-                          {p.imageUrl ? (
-                            <button
-                              type="button"
-                              className="block overflow-hidden rounded-md border border-border bg-muted/30"
-                              onClick={() => openPart(p, "view")}
-                              title="View part"
-                            >
-                              <img
-                                src={p.imageUrl}
-                                alt={p.partNumber}
-                                className="h-11 w-11 object-contain"
-                                loading="lazy"
-                              />
-                            </button>
-                          ) : (
-                            <div className="flex h-11 w-11 items-center justify-center rounded-md border border-dashed border-border text-[10px] text-muted-foreground">
-                              —
-                            </div>
-                          )}
+                          <PartNumbersCell part={p} catalogMode={!isORings} />
                         </TableCell>
-                      )}
-                      {isORings && (
-                        <TableCell className="font-mono text-xs text-muted-foreground">
-                          {p.boxNumber ?? "—"}
+                        {isORings && (
+                          <TableCell className="font-mono text-xs">
+                            {p.insideDiameterMm || "—"}
+                          </TableCell>
+                        )}
+                        {isORings && (
+                          <TableCell className="font-mono text-xs">
+                            {p.crossSectionMm || "—"}
+                          </TableCell>
+                        )}
+                        {!isORings && (
+                          <TableCell className="max-w-[200px] text-xs">
+                            <span className="line-clamp-2">{description || "—"}</span>
+                          </TableCell>
+                        )}
+                        {!isORings && (
+                          <TableCell className="max-w-[160px] font-mono text-xs text-muted-foreground">
+                            <span className="line-clamp-2">
+                              {oems.length > 0 ? oems.join(" / ") : "—"}
+                            </span>
+                          </TableCell>
+                        )}
+                        {!isORings && (
+                          <TableCell className="max-w-[180px] text-xs text-muted-foreground">
+                            <span className="line-clamp-2">{machine || "—"}</span>
+                          </TableCell>
+                        )}
+                        {!isORings && (
+                          <TableCell className="font-mono text-xs text-muted-foreground">
+                            {page || "—"}
+                          </TableCell>
+                        )}
+                        <TableCell>
+                          <Badge variant="secondary">{p.category}</Badge>
                         </TableCell>
-                      )}
-                      <TableCell>
-                        <PartNumbersCell part={p} catalogMode={!isORings} />
-                      </TableCell>
-                      {isORings && (
-                        <TableCell className="font-mono text-xs">{p.insideDiameterMm || "—"}</TableCell>
-                      )}
-                      {isORings && (
-                        <TableCell className="font-mono text-xs">{p.crossSectionMm || "—"}</TableCell>
-                      )}
-                      {!isORings && (
-                        <TableCell className="max-w-[200px] text-xs">
-                          <span className="line-clamp-2">{description || "—"}</span>
-                        </TableCell>
-                      )}
-                      {!isORings && (
-                        <TableCell className="max-w-[160px] font-mono text-xs text-muted-foreground">
-                          <span className="line-clamp-2">
-                            {oems.length > 0 ? oems.join(" / ") : "—"}
+                        <TableCell className="text-right">
+                          <span
+                            className={`inline-flex items-center gap-1 font-semibold ${low ? "text-accent" : ""}`}
+                          >
+                            {low && <AlertTriangle className="h-3.5 w-3.5" />}
+                            {p.quantity.toLocaleString()}
                           </span>
                         </TableCell>
-                      )}
-                      {!isORings && (
-                        <TableCell className="max-w-[180px] text-xs text-muted-foreground">
-                          <span className="line-clamp-2">{machine || "—"}</span>
+                        <TableCell className="text-right text-muted-foreground">
+                          {p.cost > 0 ? currency(p.cost) : "—"}
                         </TableCell>
-                      )}
-                      {!isORings && (
-                        <TableCell className="font-mono text-xs text-muted-foreground">
-                          {page || "—"}
+                        <TableCell className="text-right font-semibold">
+                          {p.price > 0 ? currency(p.price) : "—"}
                         </TableCell>
-                      )}
-                      <TableCell>
-                        <Badge variant="secondary">{p.category}</Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <span
-                          className={`inline-flex items-center gap-1 font-semibold ${low ? "text-accent" : ""}`}
-                        >
-                          {low && <AlertTriangle className="h-3.5 w-3.5" />}
-                          {p.quantity.toLocaleString()}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right text-muted-foreground">
-                        {p.cost > 0 ? currency(p.cost) : "—"}
-                      </TableCell>
-                      <TableCell className="text-right font-semibold">
-                        {p.price > 0 ? currency(p.price) : "—"}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex flex-wrap items-center justify-end gap-1">
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            className="h-8 gap-1 px-2"
-                            onClick={() => openPart(p, "view")}
-                          >
-                            <Eye className="h-3.5 w-3.5" />
-                            View
-                          </Button>
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            className="h-8 gap-1 px-2"
-                            onClick={() => openPart(p, "edit")}
-                          >
-                            <Pencil className="h-3.5 w-3.5" />
-                            Edit
-                          </Button>
-                          <Button
-                            type="button"
-                            size="sm"
-                            className="h-8 gap-1 px-2"
-                            onClick={() => askDocumentForPart(p)}
-                          >
-                            <ShoppingCart className="h-3.5 w-3.5" />
-                            Add to cart
-                          </Button>
-                        </div>
+                        <TableCell className="text-right">
+                          <div className="flex flex-wrap items-center justify-end gap-1">
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              className="h-8 gap-1 px-2"
+                              onClick={() => openPart(p, "view")}
+                            >
+                              <Eye className="h-3.5 w-3.5" />
+                              View
+                            </Button>
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              className="h-8 gap-1 px-2"
+                              onClick={() => openPart(p, "edit")}
+                            >
+                              <Pencil className="h-3.5 w-3.5" />
+                              Edit
+                            </Button>
+                            <Button
+                              type="button"
+                              size="sm"
+                              className="h-8 gap-1 px-2"
+                              onClick={() => askDocumentForPart(p)}
+                            >
+                              <ShoppingCart className="h-3.5 w-3.5" />
+                              Add to cart
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  {rows.length === 0 && (
+                    <TableRow>
+                      <TableCell
+                        colSpan={isORings ? 9 : 9}
+                        className="py-12 text-center text-sm text-muted-foreground"
+                      >
+                        {parts.length === 0
+                          ? "No parts yet."
+                          : filterActive
+                            ? `No O-rings with thickness ${thickness.trim()} mm.`
+                            : q
+                              ? `No parts match “${query}”.`
+                              : `No parts in ${activeCategory?.label ?? "this category"} yet.`}
                       </TableCell>
                     </TableRow>
-                  );
-                })}
-                {rows.length === 0 && (
-                  <TableRow>
-                    <TableCell
-                      colSpan={isORings ? 9 : 9}
-                      className="py-12 text-center text-sm text-muted-foreground"
-                    >
-                      {parts.length === 0
-                        ? "No parts yet."
-                        : filterActive
-                          ? `No O-rings with thickness ${thickness.trim()} mm.`
-                          : q
-                            ? `No parts match “${query}”.`
-                            : `No parts in ${activeCategory?.label ?? "this category"} yet.`}
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+                  )}
+                </TableBody>
+              </Table>
+            )}
           </CardContent>
         </Card>
       </main>

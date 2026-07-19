@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import {
+  BookOpen,
   CircleDot,
   LayoutGrid,
   Cpu,
@@ -16,6 +17,7 @@ import type { Part } from "@/lib/mock-data";
 /**
  * Inventory category tiles.
  * `matchCategory: null` = All items (no category filter).
+ * `id: "catalog"` = Catalog grid browse mode (handled in inventory page).
  */
 export type InventoryCategoryDef = {
   id: string;
@@ -27,6 +29,9 @@ export type InventoryCategoryDef = {
   /** True when category was user-created / renamed (editable). */
   custom?: boolean;
 };
+
+/** Special tile id for the catalog grid browse view. */
+export const catalogInventoryCategoryId = "catalog";
 
 export type CustomCategoryInput = {
   id: string;
@@ -61,6 +66,13 @@ const pinned: InventoryCategoryDef[] = [
     description: "Full catalog",
     matchCategory: null,
     icon: LayoutGrid,
+  },
+  {
+    id: catalogInventoryCategoryId,
+    label: "Catalog",
+    description: "Grid · A01 → up",
+    matchCategory: null,
+    icon: BookOpen,
   },
   {
     id: "o-rings",
