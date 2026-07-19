@@ -1,6 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import { Check, ChevronsUpDown, Eye, Package, ShoppingCart } from "lucide-react";
+import {
+  Bookmark,
+  Check,
+  ChevronsUpDown,
+  Eye,
+  Package,
+  ShoppingCart,
+  Star,
+} from "lucide-react";
 
+import { usePrefs } from "@/components/app/prefs-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,11 +20,12 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { currency, partDescriptionOf, type Part } from "@/lib/mock-data";
+import { currency, oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
-type BrowseMode = "all" | "machine" | "category";
+type BrowseMode = "all" | "machine" | "category" | "favorites";
 
 type Props = {
   parts: Part[];
@@ -104,9 +114,18 @@ function SearchablePick({
 const PAGE_SIZE = 60;
 
 export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Props) {
+  const {
+    favoritePartIds,
+    isFavorite,
+    toggleFavorite,
+    machinePresets,
+    addMachinePreset,
+    removeMachinePreset,
+  } = usePrefs();
   const [mode, setMode] = useState<BrowseMode>("all");
   const [machine, setMachine] = useState("");
   const [category, setCategory] = useState("");
+  const [oemQuery, setOemQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const catalogParts = useMemo(
@@ -136,7 +155,12 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
   const rows = useMemo(() => {
     let list = catalogParts;
     const q = searchQuery.trim().toLowerCase();
+    const oem = oemQuery.trim().toLowerCase();
 
+    if (mode === "favorites") {
+      const fav = new Set(favoritePartIds);
+      list = list.filter((p) => fav.has(p.id));
+    }
     if (mode === "machine" && machine) {
       list = list.filter((p) =>
         p.compatibility.some((c) => c.trim().toLowerCase() === machine.toLowerCase()),
@@ -146,13 +170,22 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
       list = list.filter((p) => p.category.trim().toLowerCase() === category.toLowerCase());
     }
 
+    if (oem) {
+      list = list.filter((p) =>
+        oemNumbersOf(p).some((n) => n.toLowerCase().includes(oem)) ||
+        p.partNumber.toLowerCase().includes(oem),
+      );
+    }
+
     if (q) {
       list = list.filter((p) => {
         const desc = partDescriptionOf(p).toLowerCase();
+        const oems = oemNumbersOf(p).join(" ").toLowerCase();
         return (
           p.partNumber.toLowerCase().includes(q) ||
           p.name.toLowerCase().includes(q) ||
           desc.includes(q) ||
+          oems.includes(q) ||
           p.category.toLowerCase().includes(q) ||
           p.compatibility.some((c) => c.toLowerCase().includes(q)) ||
           (p.catalogPage ?? "").toLowerCase().includes(q)
@@ -161,19 +194,28 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
     }
 
     return [...list].sort((a, b) => compareCatalogCodes(a.partNumber, b.partNumber));
-  }, [catalogParts, mode, machine, category, searchQuery]);
+  }, [
+    catalogParts,
+    mode,
+    machine,
+    category,
+    searchQuery,
+    oemQuery,
+    favoritePartIds,
+  ]);
 
   const visibleRows = rows.slice(0, visibleCount);
   const hasMore = visibleCount < rows.length;
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [searchQuery, mode, machine, category]);
+  }, [searchQuery, mode, machine, category, oemQuery]);
 
   const modes: { id: BrowseMode; label: string }[] = [
     { id: "all", label: "All" },
     { id: "machine", label: "By machine" },
     { id: "category", label: "By category" },
+    { id: "favorites", label: "Favorites" },
   ];
 
   const resetVisible = () => setVisibleCount(PAGE_SIZE);
@@ -203,16 +245,54 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
         </div>
 
         {mode === "machine" && (
-          <SearchablePick
-            label="Machine"
-            placeholder="Choose a machine…"
-            value={machine}
-            options={machines}
-            onChange={(next) => {
-              setMachine(next);
-              resetVisible();
-            }}
-          />
+          <div className="flex w-full flex-col gap-2 lg:max-w-md">
+            <SearchablePick
+              label="Machine"
+              placeholder="Choose a machine…"
+              value={machine}
+              options={machines}
+              onChange={(next) => {
+                setMachine(next);
+                resetVisible();
+              }}
+            />
+            {machine && (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="h-8 gap-1 self-start"
+                onClick={() => addMachinePreset(machine)}
+              >
+                <Bookmark className="h-3.5 w-3.5" />
+                Save machine preset
+              </Button>
+            )}
+            {machinePresets.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {machinePresets.map((m) => (
+                  <Button
+                    key={m}
+                    type="button"
+                    size="sm"
+                    variant={machine === m ? "default" : "secondary"}
+                    className="h-7 max-w-full truncate text-xs"
+                    onClick={() => {
+                      setMachine(m);
+                      resetVisible();
+                    }}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      removeMachinePreset(m);
+                    }}
+                    title="Click to use · right-click to remove"
+                  >
+                    {m}
+                  </Button>
+                ))}
+              </div>
+            )}
+          </div>
         )}
         {mode === "category" && (
           <SearchablePick
@@ -226,6 +306,16 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
             }}
           />
         )}
+      </div>
+
+      <div className="max-w-sm space-y-1.5">
+        <p className="text-xs font-medium text-muted-foreground">OEM / serial search</p>
+        <Input
+          value={oemQuery}
+          onChange={(e) => setOemQuery(e.target.value)}
+          placeholder="e.g. 701/80184"
+          className="h-9 font-mono text-xs"
+        />
       </div>
 
       <p className="text-xs text-muted-foreground">
@@ -278,11 +368,31 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
                       <span className="font-mono text-sm font-semibold text-foreground">
                         {p.partNumber}
                       </span>
-                      {p.catalogPage ? (
-                        <span className="shrink-0 font-mono text-[10px] text-muted-foreground">
-                          p.{p.catalogPage}
-                        </span>
-                      ) : null}
+                      <div className="flex shrink-0 items-center gap-1">
+                        {p.catalogPage ? (
+                          <span className="font-mono text-[10px] text-muted-foreground">
+                            p.{p.catalogPage}
+                          </span>
+                        ) : null}
+                        <button
+                          type="button"
+                          className="rounded p-0.5 text-muted-foreground hover:text-accent"
+                          aria-label={
+                            isFavorite(p.id) ? "Remove favorite" : "Add favorite"
+                          }
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFavorite(p.id);
+                          }}
+                        >
+                          <Star
+                            className={cn(
+                              "h-3.5 w-3.5",
+                              isFavorite(p.id) && "fill-accent text-accent",
+                            )}
+                          />
+                        </button>
+                      </div>
                     </div>
                     <p className="line-clamp-2 text-xs text-foreground/90">
                       {description || "—"}

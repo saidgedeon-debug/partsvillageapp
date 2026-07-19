@@ -26,7 +26,7 @@ export type CategoryRecord = {
   description?: string;
 };
 
-type PartOverride = Partial<
+export type PartOverride = Partial<
   Pick<
     Part,
     | "partNumber"
@@ -59,6 +59,9 @@ type InventoryContextValue = {
   getPart: (id: string) => Part | undefined;
   addPart: (input: PartInput) => Part;
   updatePart: (id: string, patch: PartOverride) => Part | null;
+  bulkUpdateParts: (
+    updates: { id: string; quantity?: number; cost?: number; price?: number }[],
+  ) => number;
   removePart: (id: string) => void;
   addCategory: (label: string, description?: string) => CategoryRecord | null;
   updateCategory: (
@@ -238,6 +241,46 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     return updated;
   }, []);
 
+  const bulkUpdateParts = useCallback(
+    (updates: { id: string; quantity?: number; cost?: number; price?: number }[]) => {
+      let count = 0;
+      setStore((prev) => {
+        let overrides = { ...prev.overrides };
+        let customParts = [...prev.customParts];
+
+        for (const u of updates) {
+          const patch: PartOverride = {};
+          if (u.quantity !== undefined && Number.isFinite(u.quantity)) {
+            patch.quantity = Math.max(0, Math.round(u.quantity));
+          }
+          if (u.cost !== undefined && Number.isFinite(u.cost)) {
+            patch.cost = Math.max(0, u.cost);
+          }
+          if (u.price !== undefined && Number.isFinite(u.price)) {
+            patch.price = Math.max(0, u.price);
+          }
+          if (Object.keys(patch).length === 0) continue;
+
+          const catalogBase = catalogParts.find((p) => p.id === u.id);
+          if (catalogBase) {
+            overrides[u.id] = { ...overrides[u.id], ...patch };
+            count += 1;
+            continue;
+          }
+          const idx = customParts.findIndex((p) => p.id === u.id);
+          if (idx >= 0) {
+            customParts[idx] = { ...customParts[idx], ...patch };
+            count += 1;
+          }
+        }
+
+        return { ...prev, overrides, customParts };
+      });
+      return count;
+    },
+    [],
+  );
+
   const removePart = useCallback((id: string) => {
     setStore((prev) => ({
       ...prev,
@@ -385,6 +428,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       getPart,
       addPart,
       updatePart,
+      bulkUpdateParts,
       removePart,
       addCategory,
       updateCategory,
@@ -397,6 +441,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       getPart,
       addPart,
       updatePart,
+      bulkUpdateParts,
       removePart,
       addCategory,
       updateCategory,

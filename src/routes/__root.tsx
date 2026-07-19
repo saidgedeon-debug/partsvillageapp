@@ -13,9 +13,12 @@ import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { SearchProvider } from "@/components/app/search-context";
-import { CartProvider } from "@/components/app/cart-context";
 import { PartiesProvider } from "@/components/app/parties-context";
 import { InventoryProvider } from "@/components/app/inventory-context";
+import { DocumentsProvider } from "@/components/app/documents-context";
+import { FleetProvider } from "@/components/app/fleet-context";
+import { PrefsProvider } from "@/components/app/prefs-context";
+import { CartProvider } from "@/components/app/cart-context";
 import { DocumentTypeDialog } from "@/components/app/document-type-dialog";
 import { CartSheet } from "@/components/app/cart-sheet";
 import { CheckoutDialog } from "@/components/app/checkout-dialog";
@@ -128,20 +131,26 @@ function RootComponent() {
       <SearchProvider>
         <PartiesProvider>
           <InventoryProvider>
-            <CartProvider>
-              <SidebarProvider>
-                <div className="flex min-h-screen w-full bg-background">
-                  <AppSidebar />
-                  <SidebarInset className="min-w-0">
-                    <Outlet />
-                  </SidebarInset>
-                </div>
-                <DocumentTypeDialog />
-                <CartSheet />
-                <CheckoutDialog />
-                <Toaster />
-              </SidebarProvider>
-            </CartProvider>
+            <DocumentsProvider>
+              <FleetProvider>
+                <PrefsProvider>
+                  <CartProvider>
+                    <SidebarProvider>
+                      <div className="flex min-h-screen w-full bg-background">
+                        <AppSidebar />
+                        <SidebarInset className="min-w-0">
+                          <Outlet />
+                        </SidebarInset>
+                      </div>
+                      <DocumentTypeDialog />
+                      <CartSheet />
+                      <CheckoutDialog />
+                      <Toaster />
+                    </SidebarProvider>
+                  </CartProvider>
+                </PrefsProvider>
+              </FleetProvider>
+            </DocumentsProvider>
           </InventoryProvider>
         </PartiesProvider>
       </SearchProvider>

@@ -29,7 +29,12 @@ function docId(kind: DocumentKind, date: Date) {
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
   const prefix = kind === "quotation" ? "Q" : kind === "invoice" ? "INV" : "SI";
-  return `${prefix}-${y}${m}${d}-${String(date.getHours()).padStart(2, "0")}${String(date.getMinutes()).padStart(2, "0")}`;
+  return `${prefix}-${y}${m}${d}-${String(date.getHours()).padStart(2, "0")}${String(date.getMinutes()).padStart(2, "0")}${String(date.getSeconds()).padStart(2, "0")}`;
+}
+
+/** Public helper for document ids (checkout persistence). */
+export function generateDocId(kind: DocumentKind, date = new Date()) {
+  return docId(kind, date);
 }
 
 /** Selling price for quotes/invoices; supplier cost for inquiries. */

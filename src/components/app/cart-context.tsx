@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -9,6 +10,7 @@ import {
 import { toast } from "sonner";
 
 import type { Part } from "@/lib/mock-data";
+import { loadJson, saveJson } from "@/lib/storage";
 
 export type DocumentKind = "quotation" | "invoice" | "inquiry";
 export type PartyKind = "client" | "supplier";
@@ -28,6 +30,11 @@ export type CartLine = {
   qty: number;
 };
 
+type CartStored = {
+  documentKind: DocumentKind | null;
+  lines: CartLine[];
+};
+
 type CartContextValue = {
   documentKind: DocumentKind | null;
   setDocumentKind: (kind: DocumentKind | null) => void;
@@ -43,9 +50,13 @@ type CartContextValue = {
   confirmDocumentAndAdd: (kind: DocumentKind) => void;
   addPart: (part: Part, qty?: number) => void;
   updateQty: (partId: string, qty: number) => void;
+  updateLinePrice: (partId: string, unitPrice: number) => void;
+  updateLineCost: (partId: string, unitCost: number) => void;
   removeLine: (partId: string) => void;
   clearCart: () => void;
 };
+
+const STORAGE_KEY = "parts-village-cart-v1";
 
 const CartContext = createContext<CartContextValue | null>(null);
 
@@ -65,11 +76,25 @@ function partToLine(part: Part, qty = 1): CartLine {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [documentKind, setDocumentKind] = useState<DocumentKind | null>(null);
-  const [lines, setLines] = useState<CartLine[]>([]);
+  const stored = loadJson<CartStored>(STORAGE_KEY, {
+    documentKind: null,
+    lines: [],
+  });
+  const [documentKind, setDocumentKindState] = useState<DocumentKind | null>(
+    stored.documentKind,
+  );
+  const [lines, setLines] = useState<CartLine[]>(stored.lines);
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [pendingPart, setPendingPart] = useState<Part | null>(null);
+
+  useEffect(() => {
+    saveJson(STORAGE_KEY, { documentKind, lines });
+  }, [documentKind, lines]);
+
+  const setDocumentKind = useCallback((kind: DocumentKind | null) => {
+    setDocumentKindState(kind);
+  }, []);
 
   const addPart = useCallback((part: Part, qty = 1) => {
     setLines((prev) => {
@@ -85,7 +110,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const askDocumentForPart = useCallback(
     (part: Part) => {
-      // After the first document type is chosen, later clicks go straight into the cart
       if (documentKind) {
         addPart(part, 1);
         setCartOpen(true);
@@ -102,7 +126,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const confirmDocumentAndAdd = useCallback(
     (kind: DocumentKind) => {
       if (!pendingPart) return;
-      setDocumentKind(kind);
+      setDocumentKindState(kind);
       addPart(pendingPart, 1);
       setPendingPart(null);
       setCartOpen(true);
@@ -118,13 +142,33 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const updateLinePrice = useCallback((partId: string, unitPrice: number) => {
+    setLines((prev) =>
+      prev.map((l) =>
+        l.partId === partId
+          ? { ...l, unitPrice: Number.isFinite(unitPrice) ? Math.max(0, unitPrice) : 0 }
+          : l,
+      ),
+    );
+  }, []);
+
+  const updateLineCost = useCallback((partId: string, unitCost: number) => {
+    setLines((prev) =>
+      prev.map((l) =>
+        l.partId === partId
+          ? { ...l, unitCost: Number.isFinite(unitCost) ? Math.max(0, unitCost) : 0 }
+          : l,
+      ),
+    );
+  }, []);
+
   const removeLine = useCallback((partId: string) => {
     setLines((prev) => prev.filter((l) => l.partId !== partId));
   }, []);
 
   const clearCart = useCallback(() => {
     setLines([]);
-    setDocumentKind(null);
+    setDocumentKindState(null);
     setCheckoutOpen(false);
   }, []);
 
@@ -146,11 +190,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       confirmDocumentAndAdd,
       addPart,
       updateQty,
+      updateLinePrice,
+      updateLineCost,
       removeLine,
       clearCart,
     }),
     [
       documentKind,
+      setDocumentKind,
       lines,
       itemCount,
       cartOpen,
@@ -161,6 +208,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       confirmDocumentAndAdd,
       addPart,
       updateQty,
+      updateLinePrice,
+      updateLineCost,
       removeLine,
       clearCart,
     ],

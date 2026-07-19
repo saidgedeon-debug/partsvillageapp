@@ -11,6 +11,7 @@ import {
   Pencil,
   Plus,
   ShoppingCart,
+  TableProperties,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/app/page-header";
@@ -20,6 +21,7 @@ import { useInventory } from "@/components/app/inventory-context";
 import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
 import { CatalogGrid } from "@/components/app/catalog-grid";
+import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -159,6 +161,7 @@ function InventoryPage() {
   const [dialogMode, setDialogMode] = useState<DialogMode>("view");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
+  const [bulkOpen, setBulkOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<{
     id: string;
     label: string;
@@ -299,6 +302,15 @@ function InventoryPage() {
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => setBulkOpen(true)}
+          >
+            <TableProperties className="h-4 w-4" />
+            Bulk stock / prices
+          </Button>
           <Button type="button" variant="outline" className="gap-1.5" onClick={openCreateCategory}>
             <FolderPlus className="h-4 w-4" />
             Add category
@@ -715,6 +727,7 @@ function InventoryPage() {
         category={editingCategory}
         onSaved={(cat) => setCategoryId(cat.id)}
       />
+      <BulkStockDialog open={bulkOpen} onOpenChange={setBulkOpen} />
     </>
   );
 }
