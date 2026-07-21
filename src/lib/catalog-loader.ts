@@ -3,16 +3,13 @@ import type { Part } from "@/lib/mock-data";
 let cached: Part[] | null = null;
 let loading: Promise<Part[]> | null = null;
 
-/** Lazy-load Kafu + O-ring catalogs (code-split out of the main bundle). */
+/** Lazy-load only the O-ring catalog for now. */
 export function loadCatalogParts(): Promise<Part[]> {
   if (cached) return Promise.resolve(cached);
   if (loading) return loading;
 
-  loading = Promise.all([
-    import("@/lib/orings-inventory"),
-    import("@/lib/kafu-inventory"),
-  ]).then(([orings, kafu]) => {
-    cached = [...orings.oringParts, ...kafu.kafuParts];
+  loading = import("@/lib/orings-inventory").then((orings) => {
+    cached = [...orings.oringParts];
     return cached;
   });
 
