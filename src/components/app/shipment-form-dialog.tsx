@@ -34,6 +34,13 @@ const STATUSES: ShipmentStatus[] = [
   "Cancelled",
 ];
 
+const FREIGHT_MODES: NonNullable<ChinaShipment["freightMode"]>[] = [
+  "Air",
+  "Sea LCL",
+  "Sea FCL",
+  "Other",
+];
+
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -43,6 +50,12 @@ type Props = {
 
 function todayIso() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function parseOptNumber(raw: string): number | undefined {
+  if (!raw.trim()) return undefined;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : undefined;
 }
 
 export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: Props) {
@@ -59,6 +72,13 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
   const [notes, setNotes] = useState("");
   const [totalCost, setTotalCost] = useState("");
   const [currency, setCurrency] = useState<"USD" | "RMB">("USD");
+  const [freightMode, setFreightMode] = useState<ChinaShipment["freightMode"]>("Air");
+  const [freightCost, setFreightCost] = useState("");
+  const [freightCurrency, setFreightCurrency] = useState<"USD" | "RMB">("USD");
+  const [weightKg, setWeightKg] = useState("");
+  const [volumeCbm, setVolumeCbm] = useState("");
+  const [cartons, setCartons] = useState("");
+  const [titusLocation, setTitusLocation] = useState("");
 
   useEffect(() => {
     if (!open) return;
@@ -77,6 +97,29 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
           : "",
       );
       setCurrency(shipment.currency);
+      setFreightMode(shipment.freightMode ?? "Air");
+      setFreightCost(
+        shipment.freightCost != null && Number.isFinite(shipment.freightCost)
+          ? String(shipment.freightCost)
+          : "",
+      );
+      setFreightCurrency(shipment.freightCurrency ?? "USD");
+      setWeightKg(
+        shipment.weightKg != null && Number.isFinite(shipment.weightKg)
+          ? String(shipment.weightKg)
+          : "",
+      );
+      setVolumeCbm(
+        shipment.volumeCbm != null && Number.isFinite(shipment.volumeCbm)
+          ? String(shipment.volumeCbm)
+          : "",
+      );
+      setCartons(
+        shipment.cartons != null && Number.isFinite(shipment.cartons)
+          ? String(shipment.cartons)
+          : "",
+      );
+      setTitusLocation(shipment.titusLocation ?? "");
       return;
     }
     setTitle("");
@@ -89,6 +132,13 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     setNotes("");
     setTotalCost("");
     setCurrency("USD");
+    setFreightMode("Air");
+    setFreightCost("");
+    setFreightCurrency("USD");
+    setWeightKg("");
+    setVolumeCbm("");
+    setCartons("");
+    setTitusLocation("");
   }, [open, shipment]);
 
   const save = () => {
@@ -96,7 +146,6 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       toast.error("Give the shipment a name");
       return;
     }
-    const costRaw = totalCost.trim() === "" ? undefined : Number(totalCost);
     const input: ShipmentInput = {
       title: title.trim(),
       supplier,
@@ -106,8 +155,15 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       trackingNumber,
       status,
       notes,
-      totalCost: costRaw,
+      totalCost: parseOptNumber(totalCost),
       currency,
+      freightMode,
+      freightCost: parseOptNumber(freightCost),
+      freightCurrency,
+      weightKg: parseOptNumber(weightKg),
+      volumeCbm: parseOptNumber(volumeCbm),
+      cartons: parseOptNumber(cartons),
+      titusLocation,
     };
 
     if (isEdit && shipment) {
@@ -129,7 +185,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
         <DialogHeader>
           <DialogTitle>{isEdit ? "Edit shipment" : "New China shipment"}</DialogTitle>
           <DialogDescription>
-            Track orders from China — dates, tracking, cost, then attach invoice photos.
+            Save Titus shipment #, freight cost, and where it is — open Titus app for live tracking.
           </DialogDescription>
         </DialogHeader>
 
@@ -198,19 +254,119 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
               </Select>
             </div>
           </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="ship-track">Tracking #</Label>
-            <Input
-              id="ship-track"
-              value={trackingNumber}
-              onChange={(e) => setTrackingNumber(e.target.value)}
-              placeholder="Optional"
-              className="font-mono text-sm"
-            />
+
+          <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              Titus Logistics
+            </p>
+            <div className="space-y-1.5">
+              <Label htmlFor="ship-track">Titus shipment #</Label>
+              <Input
+                id="ship-track"
+                value={trackingNumber}
+                onChange={(e) => setTrackingNumber(e.target.value)}
+                placeholder="e.g. GZ20…"
+                className="font-mono text-sm"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label>Mode</Label>
+                <Select
+                  value={freightMode ?? "Air"}
+                  onValueChange={(v) => setFreightMode(v as ChinaShipment["freightMode"])}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {FREIGHT_MODES.map((m) => (
+                      <SelectItem key={m} value={m}>
+                        {m}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-cartons">Cartons</Label>
+                <Input
+                  id="ship-cartons"
+                  type="number"
+                  min={0}
+                  step={1}
+                  value={cartons}
+                  onChange={(e) => setCartons(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-kg">Weight (kg)</Label>
+                <Input
+                  id="ship-kg"
+                  type="number"
+                  min={0}
+                  step={0.01}
+                  value={weightKg}
+                  onChange={(e) => setWeightKg(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-cbm">Volume (CBM)</Label>
+                <Input
+                  id="ship-cbm"
+                  type="number"
+                  min={0}
+                  step={0.001}
+                  value={volumeCbm}
+                  onChange={(e) => setVolumeCbm(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-[1fr_6.5rem] gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-freight">Freight cost (Titus)</Label>
+                <Input
+                  id="ship-freight"
+                  type="number"
+                  min={0}
+                  step={0.01}
+                  value={freightCost}
+                  onChange={(e) => setFreightCost(e.target.value)}
+                  placeholder="Shipping fee"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Currency</Label>
+                <Select
+                  value={freightCurrency}
+                  onValueChange={(v) => setFreightCurrency(v as "USD" | "RMB")}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USD">USD</SelectItem>
+                    <SelectItem value="RMB">RMB</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="ship-titus-loc">Where is it now? (from Titus)</Label>
+              <Input
+                id="ship-titus-loc"
+                value={titusLocation}
+                onChange={(e) => setTitusLocation(e.target.value)}
+                placeholder="e.g. Guangzhou warehouse · on vessel · Beirut customs"
+              />
+            </div>
           </div>
+
           <div className="grid grid-cols-[1fr_6.5rem] gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="ship-cost">Total cost</Label>
+              <Label htmlFor="ship-cost">Goods cost</Label>
               <Input
                 id="ship-cost"
                 type="number"
@@ -218,15 +374,12 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
                 step={0.01}
                 value={totalCost}
                 onChange={(e) => setTotalCost(e.target.value)}
-                placeholder="Optional"
+                placeholder="Parts / factory invoice"
               />
             </div>
             <div className="space-y-1.5">
               <Label>Currency</Label>
-              <Select
-                value={currency}
-                onValueChange={(v) => setCurrency(v as "USD" | "RMB")}
-              >
+              <Select value={currency} onValueChange={(v) => setCurrency(v as "USD" | "RMB")}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>

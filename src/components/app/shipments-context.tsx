@@ -31,12 +31,22 @@ export type ChinaShipment = {
   orderedAt: string;
   expectedAt?: string;
   arrivedAt?: string;
+  /** Titus / carrier shipment number (e.g. GZ20…) */
   trackingNumber?: string;
   status: ShipmentStatus;
   notes?: string;
-  /** Cost in the currency below */
+  /** Goods cost */
   totalCost?: number;
   currency: "USD" | "RMB";
+  /** Titus Logistics freight details */
+  freightMode?: "Air" | "Sea LCL" | "Sea FCL" | "Other";
+  freightCost?: number;
+  freightCurrency?: "USD" | "RMB";
+  weightKg?: number;
+  volumeCbm?: number;
+  cartons?: number;
+  /** Last location / status copied from Titus app */
+  titusLocation?: string;
   attachments: ShipmentAttachment[];
   createdAt: string;
   updatedAt: string;
@@ -53,6 +63,13 @@ export type ShipmentInput = {
   notes?: string;
   totalCost?: number;
   currency?: "USD" | "RMB";
+  freightMode?: ChinaShipment["freightMode"];
+  freightCost?: number;
+  freightCurrency?: "USD" | "RMB";
+  weightKg?: number;
+  volumeCbm?: number;
+  cartons?: number;
+  titusLocation?: string;
 };
 
 type ShipmentsContextValue = {
@@ -110,6 +127,13 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
         notes: input.notes?.trim() || undefined,
         totalCost: Number.isFinite(input.totalCost) ? input.totalCost : undefined,
         currency: input.currency ?? "USD",
+        freightMode: input.freightMode,
+        freightCost: Number.isFinite(input.freightCost) ? input.freightCost : undefined,
+        freightCurrency: input.freightCurrency ?? "USD",
+        weightKg: Number.isFinite(input.weightKg) ? input.weightKg : undefined,
+        volumeCbm: Number.isFinite(input.volumeCbm) ? input.volumeCbm : undefined,
+        cartons: Number.isFinite(input.cartons) ? input.cartons : undefined,
+        titusLocation: input.titusLocation?.trim() || undefined,
         attachments: [],
         createdAt: now,
         updatedAt: now,
@@ -123,6 +147,8 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
   const updateShipment = useCallback(
     (id: string, patch: Partial<ShipmentInput>) => {
       let updated: ChinaShipment | null = null;
+      const num = (v: number | undefined) =>
+        v !== undefined ? (Number.isFinite(v) ? v : undefined) : undefined;
       setShipments((prev) => {
         const rows = Array.isArray(prev) ? prev : [];
         return rows.map((s) => {
@@ -140,13 +166,18 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
             expectedAt:
               patch.expectedAt !== undefined ? patch.expectedAt || undefined : s.expectedAt,
             arrivedAt: patch.arrivedAt !== undefined ? patch.arrivedAt || undefined : s.arrivedAt,
-            totalCost:
-              patch.totalCost !== undefined
-                ? Number.isFinite(patch.totalCost)
-                  ? patch.totalCost
-                  : undefined
-                : s.totalCost,
+            totalCost: patch.totalCost !== undefined ? num(patch.totalCost) : s.totalCost,
             currency: patch.currency ?? s.currency,
+            freightMode: patch.freightMode !== undefined ? patch.freightMode : s.freightMode,
+            freightCost: patch.freightCost !== undefined ? num(patch.freightCost) : s.freightCost,
+            freightCurrency: patch.freightCurrency ?? s.freightCurrency,
+            weightKg: patch.weightKg !== undefined ? num(patch.weightKg) : s.weightKg,
+            volumeCbm: patch.volumeCbm !== undefined ? num(patch.volumeCbm) : s.volumeCbm,
+            cartons: patch.cartons !== undefined ? num(patch.cartons) : s.cartons,
+            titusLocation:
+              patch.titusLocation !== undefined
+                ? patch.titusLocation.trim() || undefined
+                : s.titusLocation,
             updatedAt: new Date().toISOString(),
           };
           return updated;

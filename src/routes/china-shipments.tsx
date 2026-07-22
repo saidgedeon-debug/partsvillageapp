@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useRef, useState } from "react";
-import { ChevronRight, FileImage, Plus, Ship, Trash2, Upload } from "lucide-react";
+import { ChevronRight, Copy, ExternalLink, FileImage, Plus, Ship, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
@@ -32,6 +32,9 @@ import {
 } from "@/components/ui/select";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { cn } from "@/lib/utils";
+
+const TITUS_PORTAL = "https://login.titus-logistics.com/index.php?lang=en_us";
+const TITUS_MOBILE = "https://login.titus-logistics.com/mobile/index.php";
 
 export const Route = createFileRoute("/china-shipments")({
   head: () => ({
@@ -72,7 +75,9 @@ function ChinaShipmentsPage() {
         s.title.toLowerCase().includes(q) ||
         s.supplier.toLowerCase().includes(q) ||
         (s.trackingNumber ?? "").toLowerCase().includes(q) ||
+        (s.titusLocation ?? "").toLowerCase().includes(q) ||
         (s.notes ?? "").toLowerCase().includes(q) ||
+        (s.freightMode ?? "").toLowerCase().includes(q) ||
         s.status.toLowerCase().includes(q),
     );
   }, [shipments, q]);
@@ -83,10 +88,20 @@ function ChinaShipmentsPage() {
     <>
       <PageHeader
         title="China shipments"
-        subtitle={`${rows.length} of ${shipments.length} · orders, dates & papers`}
+        subtitle={`${rows.length} of ${shipments.length} · Titus tracking + papers`}
       />
       <main className="flex-1 space-y-3 p-4 md:p-6">
-        <div className="flex justify-end">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="gap-1.5"
+            onClick={() => window.open(TITUS_PORTAL, "_blank", "noopener,noreferrer")}
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            Titus account
+          </Button>
           <Button
             type="button"
             className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90"
@@ -126,12 +141,13 @@ function ChinaShipmentsPage() {
                 <p className="truncate text-sm text-muted-foreground">
                   {[
                     s.supplier || null,
+                    s.trackingNumber ? `Titus ${s.trackingNumber}` : null,
+                    s.titusLocation || null,
                     s.orderedAt ? `Ordered ${s.orderedAt}` : null,
-                    s.expectedAt ? `ETA ${s.expectedAt}` : null,
-                    s.trackingNumber ? `#${s.trackingNumber}` : null,
+                    s.freightMode || null,
                   ]
                     .filter(Boolean)
-                    .join(" · ") || "Open to add details & photos"}
+                    .join(" · ") || "Open to add Titus #, cost & photos"}
                 </p>
               </div>
               <div className="hidden text-right md:block">
@@ -269,20 +285,102 @@ function ShipmentDetailDialog({
               </Select>
             </div>
 
+            <div className="rounded-lg border border-accent/40 bg-accent/5 p-3 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-accent">
+                  Titus Logistics
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {shipment.trackingNumber && (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-7 gap-1 text-xs"
+                      onClick={() => {
+                        void navigator.clipboard.writeText(shipment.trackingNumber!);
+                        toast.success("Titus # copied");
+                      }}
+                    >
+                      <Copy className="h-3 w-3" />
+                      Copy #
+                    </Button>
+                  )}
+                  <Button
+                    type="button"
+                    size="sm"
+                    className="h-7 gap-1 text-xs bg-accent text-accent-foreground hover:bg-accent/90"
+                    onClick={() =>
+                      window.open(TITUS_PORTAL, "_blank", "noopener,noreferrer")
+                    }
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Open Titus
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    className="h-7 gap-1 text-xs"
+                    onClick={() =>
+                      window.open(TITUS_MOBILE, "_blank", "noopener,noreferrer")
+                    }
+                  >
+                    Mobile login
+                  </Button>
+                </div>
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                Live location & bills stay in your Titus account — paste the shipment # and costs
+                here so Parts Village keeps your own record.
+              </p>
+              <dl className="grid grid-cols-2 gap-2 text-sm">
+                <Meta label="Titus #" value={shipment.trackingNumber || "—"} mono />
+                <Meta label="Mode" value={shipment.freightMode || "—"} />
+                <Meta
+                  label="Freight"
+                  value={
+                    shipment.freightCost != null
+                      ? `${shipment.freightCurrency === "RMB" ? "¥" : "$"}${shipment.freightCost}`
+                      : "—"
+                  }
+                />
+                <Meta
+                  label="Size"
+                  value={
+                    [
+                      shipment.cartons != null ? `${shipment.cartons} ctns` : null,
+                      shipment.weightKg != null ? `${shipment.weightKg} kg` : null,
+                      shipment.volumeCbm != null ? `${shipment.volumeCbm} CBM` : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ") || "—"
+                  }
+                />
+              </dl>
+              {shipment.titusLocation?.trim() && (
+                <div className="rounded-md border border-border bg-background px-3 py-2">
+                  <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                    Where now
+                  </p>
+                  <p className="text-sm font-medium">{shipment.titusLocation}</p>
+                </div>
+              )}
+            </div>
+
             <dl className="grid grid-cols-2 gap-3 text-sm">
               <Meta label="Ordered" value={shipment.orderedAt || "—"} />
               <Meta label="Expected" value={shipment.expectedAt || "—"} />
               <Meta label="Arrived" value={shipment.arrivedAt || "—"} />
-              <Meta label="Tracking" value={shipment.trackingNumber || "—"} mono />
+              <Meta label="Supplier" value={shipment.supplier || "—"} />
               <Meta
-                label="Cost"
+                label="Goods cost"
                 value={
                   shipment.totalCost != null
                     ? `${shipment.currency === "RMB" ? "¥" : "$"}${shipment.totalCost}`
                     : "—"
                 }
               />
-              <Meta label="Supplier" value={shipment.supplier || "—"} />
             </dl>
 
             {shipment.notes?.trim() && (
