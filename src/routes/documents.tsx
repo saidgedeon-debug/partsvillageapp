@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, type ReactNode } from "react";
-import { Eye, FileText, PackageSearch, Pencil, Receipt, StickyNote } from "lucide-react";
+import { Download, Eye, FileText, PackageSearch, Pencil, Receipt, StickyNote } from "lucide-react";
 import { toast } from "sonner";
 
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
 import { PageHeader } from "@/components/app/page-header";
+import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
 import {
@@ -25,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { openSavedDocument } from "@/lib/document-export";
+import { downloadSavedDocument, openSavedDocument } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -42,11 +43,6 @@ export const Route = createFileRoute("/documents")({
   component: DocumentsPage,
 });
 
-function openDoc(doc: SavedDocument) {
-  openSavedDocument(doc);
-  toast.success(`Opened ${doc.id}`);
-}
-
 function DocumentsPage() {
   const { query } = useSearch();
   const q = query.trim().toLowerCase();
@@ -54,6 +50,9 @@ function DocumentsPage() {
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState<SavedDocument | null>(null);
+  const [preview, setPreview] = useState<{ id: string; blobUrl: string; doc: SavedDocument } | null>(
+    null,
+  );
 
   const filteredQuotes = useMemo(
     () =>
@@ -107,6 +106,16 @@ function DocumentsPage() {
     setInvoiceOpen(true);
   };
 
+  const openDoc = (doc: SavedDocument) => {
+    const { id, blobUrl } = openSavedDocument(doc);
+    setPreview({ id, blobUrl, doc });
+  };
+
+  const downloadDoc = (doc: SavedDocument) => {
+    downloadSavedDocument(doc);
+    toast.success(`Downloaded ${doc.id}.pdf`);
+  };
+
   return (
     <>
       <PageHeader
@@ -120,6 +129,17 @@ function DocumentsPage() {
           onOpenChange={(open) => {
             setInvoiceOpen(open);
             if (!open) setEditingInvoice(null);
+          }}
+        />
+        <PdfPreviewDialog
+          open={Boolean(preview)}
+          onOpenChange={(open) => {
+            if (!open) setPreview(null);
+          }}
+          title={preview?.id ?? "Document"}
+          blobUrl={preview?.blobUrl ?? null}
+          onDownload={() => {
+            if (preview) downloadDoc(preview.doc);
           }}
         />
         <Tabs defaultValue={invoices.length > 0 ? "invoices" : "quotations"}>
@@ -162,7 +182,7 @@ function DocumentsPage() {
                     options={["Draft", "Sent", "Accepted", "Rejected"]}
                     onChange={(s) => updateDocumentStatus(qu.id, s as QuoteStatus)}
                   />,
-                  <OpenButton key="o" onOpen={() => openDoc(qu)} />,
+                  <OpenButton key="o" onOpen={() => openDoc(qu)} onDownload={() => downloadDoc(qu)} />,
                 ],
               }))}
               empty={q ? `No quotations match “${query}”.` : "No quotations yet — finish a cart checkout."}
@@ -202,7 +222,7 @@ function DocumentsPage() {
                   />,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
                     <EditButton onEdit={() => openEditInvoice(iv)} />
-                    <OpenButton onOpen={() => openDoc(iv)} />
+                    <OpenButton onOpen={() => openDoc(iv)} onDownload={() => downloadDoc(iv)} />
                   </div>,
                 ],
               }))}
@@ -235,7 +255,7 @@ function DocumentsPage() {
                     options={["Open", "Answered", "Closed"]}
                     onChange={(st) => updateDocumentStatus(s.id, st as InquiryStatus)}
                   />,
-                  <OpenButton key="o" onOpen={() => openDoc(s)} />,
+                  <OpenButton key="o" onOpen={() => openDoc(s)} onDownload={() => downloadDoc(s)} />,
                 ],
               }))}
               empty={q ? `No inquiries match “${query}”.` : "No inquiries yet — finish a cart checkout."}
@@ -262,21 +282,42 @@ function DocIdLink({ id, onOpen }: { id: string; onOpen: () => void }) {
   );
 }
 
-function OpenButton({ onOpen }: { onOpen: () => void }) {
+function OpenButton({
+  onOpen,
+  onDownload,
+}: {
+  onOpen: () => void;
+  onDownload: () => void;
+}) {
   return (
-    <Button
-      type="button"
-      size="sm"
-      variant="outline"
-      className="h-8 gap-1.5"
-      onClick={(e) => {
-        e.stopPropagation();
-        onOpen();
-      }}
-    >
-      <Eye className="h-3.5 w-3.5" />
-      Open
-    </Button>
+    <div className="flex items-center gap-1.5">
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        className="h-8 gap-1.5"
+        onClick={(e) => {
+          e.stopPropagation();
+          onOpen();
+        }}
+      >
+        <Eye className="h-3.5 w-3.5" />
+        Open
+      </Button>
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        className="h-8 gap-1.5"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDownload();
+        }}
+      >
+        <Download className="h-3.5 w-3.5" />
+        Download
+      </Button>
+    </div>
   );
 }
 

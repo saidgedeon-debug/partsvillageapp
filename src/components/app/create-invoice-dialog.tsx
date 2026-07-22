@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { downloadPdf } from "@/lib/document-export";
+import { generateDocId } from "@/lib/document-export";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -185,29 +185,13 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
         internalNote: note,
       };
       updateDocument(saved);
-      downloadPdf({
-        id: saved.id,
-        documentKind: "invoice",
-        partyKind: "client",
-        partyName: saved.partyName,
-        lines: saved.lines,
-        createdAt: new Date(saved.createdAt),
-        includeCost: true,
-      });
       toast.success(`Invoice ${saved.id} updated`);
       onOpenChange(false);
       return;
     }
 
     const createdAt = new Date();
-    const exportedId = downloadPdf({
-      documentKind: "invoice",
-      partyKind: "client",
-      partyName: partyName.trim(),
-      lines,
-      createdAt,
-      includeCost: true,
-    });
+    const exportedId = generateDocId("invoice", createdAt);
 
     let stockDeducted = false;
     if (deductStock) {

@@ -168,7 +168,8 @@ function drawRoundedRect(
   pdf.roundedRect(x, y, w, h, r, r, "F");
 }
 
-export function downloadPdf(doc: ExportDoc) {
+/** Build the branded PDF document (no download / no open). */
+export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   const date = doc.createdAt ?? new Date();
   const id = resolveDocId(doc, date);
   const partyLabel = doc.partyKind === "client" ? "Bill to" : "Supplier";
@@ -371,15 +372,45 @@ export function downloadPdf(doc: ExportDoc) {
   pdf.setFont("helvetica", "bold");
   pdf.text(id, pageW - margin, footerY + 6, { align: "right" });
 
-  const blobUrl = pdf.output("bloburl") as string;
-  const opened = window.open(blobUrl, "_blank", "noopener,noreferrer");
-  if (!opened) {
-    pdf.save(`${id}.pdf`);
-  }
+  return { pdf, id };
+}
+
+/** Build PDF and return a blob URL for in-app preview (does not download). */
+export function viewPdf(doc: ExportDoc): { id: string; blobUrl: string } {
+  const { pdf, id } = buildPdf(doc);
+  const blob = pdf.output("blob");
+  const blobUrl = URL.createObjectURL(blob);
+  return { id, blobUrl };
+}
+
+/** Explicit download only — call when the user asks to download. */
+export function downloadPdf(doc: ExportDoc): string {
+  const { pdf, id } = buildPdf(doc);
+  pdf.save(`${id}.pdf`);
   return id;
 }
 
-/** Re-open a saved quotation / invoice / inquiry as PDF. */
+function toExportDoc(doc: {
+  id: string;
+  kind: DocumentKind;
+  partyKind: PartyKind;
+  partyName: string;
+  lines: CartLine[];
+  createdAt: string;
+  includeCost?: boolean;
+}): ExportDoc {
+  return {
+    id: doc.id,
+    documentKind: doc.kind,
+    partyKind: doc.partyKind,
+    partyName: doc.partyName,
+    lines: doc.lines,
+    createdAt: new Date(doc.createdAt),
+    includeCost: doc.includeCost,
+  };
+}
+
+/** Preview a saved document (no download). */
 export function openSavedDocument(doc: {
   id: string;
   kind: DocumentKind;
@@ -388,16 +419,21 @@ export function openSavedDocument(doc: {
   lines: CartLine[];
   createdAt: string;
   includeCost?: boolean;
+}): { id: string; blobUrl: string } {
+  return viewPdf(toExportDoc(doc));
+}
+
+/** Download a saved document PDF. */
+export function downloadSavedDocument(doc: {
+  id: string;
+  kind: DocumentKind;
+  partyKind: PartyKind;
+  partyName: string;
+  lines: CartLine[];
+  createdAt: string;
+  includeCost?: boolean;
 }): string {
-  return downloadPdf({
-    id: doc.id,
-    documentKind: doc.kind,
-    partyKind: doc.partyKind,
-    partyName: doc.partyName,
-    lines: doc.lines,
-    createdAt: new Date(doc.createdAt),
-    includeCost: doc.includeCost,
-  });
+  return downloadPdf(toExportDoc(doc));
 }
 
 export function openWhatsApp(doc: ExportDoc) {
