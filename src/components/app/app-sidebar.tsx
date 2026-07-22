@@ -1,5 +1,14 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Package, Users, FileText, Wrench, Building2, ClipboardList, AlertTriangle } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  Users,
+  FileText,
+  Building2,
+  ClipboardList,
+  AlertTriangle,
+  Ship,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -24,6 +33,7 @@ const items = [
   { title: "Clients CRM", url: "/clients", icon: Users },
   { title: "Suppliers CRM", url: "/suppliers", icon: Building2 },
   { title: "Documents", url: "/documents", icon: FileText },
+  { title: "China shipments", url: "/china-shipments", icon: Ship },
 ];
 
 export function AppSidebar() {

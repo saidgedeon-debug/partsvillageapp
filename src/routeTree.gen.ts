@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as LowStockRouteImport } from './routes/low-stock'
@@ -22,6 +23,11 @@ import { Route as SuppliersSupplierIdRouteImport } from './routes/suppliers.$sup
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChinaShipmentsRoute = ChinaShipmentsRouteImport.update({
+  id: '/china-shipments',
+  path: '/china-shipments',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentsRoute = DocumentsRouteImport.update({
@@ -67,6 +73,7 @@ const SuppliersSupplierIdRoute = SuppliersSupplierIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/china-shipments': typeof ChinaShipmentsRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/china-shipments': typeof ChinaShipmentsRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/china-shipments': typeof ChinaShipmentsRoute
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/china-shipments'
     | '/documents'
     | '/inventory'
     | '/low-stock'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/china-shipments'
     | '/documents'
     | '/inventory'
     | '/low-stock'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/china-shipments'
     | '/documents'
     | '/inventory'
     | '/low-stock'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChinaShipmentsRoute: typeof ChinaShipmentsRoute
   DocumentsRoute: typeof DocumentsRoute
   InventoryRoute: typeof InventoryRoute
   LowStockRoute: typeof LowStockRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/china-shipments': {
+      id: '/china-shipments'
+      path: '/china-shipments'
+      fullPath: '/china-shipments'
+      preLoaderRoute: typeof ChinaShipmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documents': {
@@ -217,6 +237,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChinaShipmentsRoute: ChinaShipmentsRoute,
   DocumentsRoute: DocumentsRoute,
   InventoryRoute: InventoryRoute,
   LowStockRoute: LowStockRoute,

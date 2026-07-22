@@ -9,7 +9,8 @@ export type ShopStateKey =
   | "fleet"
   | "cart"
   | "kits"
-  | "prefs";
+  | "prefs"
+  | "shipments";
 
 const MIGRATE_FLAG = "parts-village-cloud-migrated-v1";
 
