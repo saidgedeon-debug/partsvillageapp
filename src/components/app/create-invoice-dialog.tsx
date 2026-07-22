@@ -19,13 +19,16 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { exportAndDeliver } from "@/lib/document-export";
+import { Textarea } from "@/components/ui/textarea";
+import { downloadPdf } from "@/lib/document-export";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  /** When set, dialog edits this invoice instead of creating a new one. */
+  document?: SavedDocument | null;
 };
 
 function formatSize(id?: string, cs?: string): string {
@@ -59,26 +62,38 @@ function partToLine(part: Part, qty = 1): CartLine {
   };
 }
 
-export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
+export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: Props) {
   const { parts, updatePart, getPart } = useInventory();
-  const { addDocument } = useDocuments();
+  const { addDocument, updateDocument } = useDocuments();
   const { addOrder } = useFleet();
   const { clients } = useParties();
+  const isEdit = Boolean(editing?.id);
 
   const [partyName, setPartyName] = useState("");
   const [partyId, setPartyId] = useState<string | undefined>();
   const [lines, setLines] = useState<CartLine[]>([]);
   const [partQuery, setPartQuery] = useState("");
   const [deductStock, setDeductStock] = useState(true);
+  const [internalNote, setInternalNote] = useState("");
 
   useEffect(() => {
     if (!open) return;
+    if (editing) {
+      setPartyName(editing.partyName);
+      setPartyId(editing.partyId);
+      setLines(editing.lines.map((l) => ({ ...l })));
+      setInternalNote(editing.internalNote ?? "");
+      setDeductStock(false);
+      setPartQuery("");
+      return;
+    }
     setPartyName("");
     setPartyId(undefined);
     setLines([]);
     setPartQuery("");
     setDeductStock(true);
-  }, [open]);
+    setInternalNote("");
+  }, [open, editing]);
 
   const partMatches = useMemo(() => {
     const q = partQuery.trim().toLowerCase();
@@ -157,19 +172,42 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
       return;
     }
 
-    const createdAt = new Date();
-    const exportedId = exportAndDeliver(
-      {
+    const note = internalNote.trim() || undefined;
+    const invoiceTotal = lines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0);
+
+    if (isEdit && editing) {
+      const saved: SavedDocument = {
+        ...editing,
+        partyId,
+        partyName: partyName.trim(),
+        total: invoiceTotal,
+        lines: [...lines],
+        internalNote: note,
+      };
+      updateDocument(saved);
+      downloadPdf({
+        id: saved.id,
         documentKind: "invoice",
         partyKind: "client",
-        partyName: partyName.trim(),
-        lines,
-        createdAt,
+        partyName: saved.partyName,
+        lines: saved.lines,
+        createdAt: new Date(saved.createdAt),
         includeCost: true,
-      },
-      "pdf",
-      "offline",
-    );
+      });
+      toast.success(`Invoice ${saved.id} updated`);
+      onOpenChange(false);
+      return;
+    }
+
+    const createdAt = new Date();
+    const exportedId = downloadPdf({
+      documentKind: "invoice",
+      partyKind: "client",
+      partyName: partyName.trim(),
+      lines,
+      createdAt,
+      includeCost: true,
+    });
 
     let stockDeducted = false;
     if (deductStock) {
@@ -183,7 +221,6 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
       stockDeducted = deducted > 0;
     }
 
-    const invoiceTotal = lines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0);
     const saved: SavedDocument = {
       id: exportedId,
       kind: "invoice",
@@ -196,6 +233,7 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
       status: "Unpaid",
       lines: [...lines],
       stockDeducted,
+      internalNote: note,
     };
     addDocument(saved);
 
@@ -230,9 +268,11 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex max-h-[92vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
         <DialogHeader className="space-y-1 border-b border-border px-6 py-4">
-          <DialogTitle>New invoice</DialogTitle>
+          <DialogTitle>{isEdit ? `Edit invoice ${editing?.id}` : "New invoice"}</DialogTitle>
           <DialogDescription>
-            Choose a client, add parts, edit description and size, then create the invoice.
+            {isEdit
+              ? "Update client, lines, prices, or your private note — then save."
+              : "Choose a client, add parts, edit description and size, then create the invoice."}
           </DialogDescription>
         </DialogHeader>
 
@@ -378,26 +418,42 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
           </section>
 
           <section className="space-y-2">
-            <Label>Stock</Label>
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                className="flex-1"
-                variant={deductStock ? "default" : "outline"}
-                onClick={() => setDeductStock(true)}
-              >
-                Deduct qty
-              </Button>
-              <Button
-                type="button"
-                className="flex-1"
-                variant={!deductStock ? "default" : "outline"}
-                onClick={() => setDeductStock(false)}
-              >
-                Keep qty
-              </Button>
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="invoice-internal-note">Internal note</Label>
+              <span className="text-[11px] text-muted-foreground">Private · not on PDF</span>
             </div>
+            <Textarea
+              id="invoice-internal-note"
+              value={internalNote}
+              onChange={(e) => setInternalNote(e.target.value)}
+              placeholder="Staff-only note (delivery tip, reminder, etc.) — never printed on the invoice…"
+              className="min-h-[72px] resize-y"
+            />
           </section>
+
+          {!isEdit && (
+            <section className="space-y-2">
+              <Label>Stock</Label>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  className="flex-1"
+                  variant={deductStock ? "default" : "outline"}
+                  onClick={() => setDeductStock(true)}
+                >
+                  Deduct qty
+                </Button>
+                <Button
+                  type="button"
+                  className="flex-1"
+                  variant={!deductStock ? "default" : "outline"}
+                  onClick={() => setDeductStock(false)}
+                >
+                  Keep qty
+                </Button>
+              </div>
+            </section>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-3 border-t border-border px-6 py-4">
@@ -416,7 +472,7 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
               className="bg-accent text-accent-foreground hover:bg-accent/90"
               onClick={saveInvoice}
             >
-              Create invoice
+              {isEdit ? "Save changes" : "Create invoice"}
             </Button>
           </div>
         </div>

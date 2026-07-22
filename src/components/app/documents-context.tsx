@@ -21,6 +21,8 @@ export type SavedDocument = {
   includeCost?: boolean;
   lines: CartLine[];
   stockDeducted?: boolean;
+  /** Private staff note — never printed on the PDF. */
+  internalNote?: string;
 };
 
 type DocumentsContextValue = {
@@ -29,6 +31,7 @@ type DocumentsContextValue = {
   invoices: SavedDocument[];
   inquiries: SavedDocument[];
   addDocument: (doc: SavedDocument) => void;
+  updateDocument: (doc: SavedDocument) => void;
   updateDocumentStatus: (id: string, status: SavedDocument["status"]) => void;
   removeDocument: (id: string) => void;
 };
@@ -90,6 +93,18 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     [setDocuments],
   );
 
+  const updateDocument = useCallback(
+    (doc: SavedDocument) => {
+      setDocuments((prev) => {
+        const list = Array.isArray(prev) ? prev : [];
+        const next = list.map((d) => (d.id === doc.id ? doc : d));
+        void syncDocumentToSupabase(doc);
+        return next;
+      });
+    },
+    [setDocuments],
+  );
+
   const updateDocumentStatus = useCallback(
     (id: string, status: SavedDocument["status"]) => {
       setDocuments((prev) => {
@@ -123,10 +138,20 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       invoices,
       inquiries,
       addDocument,
+      updateDocument,
       updateDocumentStatus,
       removeDocument,
     }),
-    [docs, quotations, invoices, inquiries, addDocument, updateDocumentStatus, removeDocument],
+    [
+      docs,
+      quotations,
+      invoices,
+      inquiries,
+      addDocument,
+      updateDocument,
+      updateDocumentStatus,
+      removeDocument,
+    ],
   );
 
   return <DocumentsContext.Provider value={value}>{children}</DocumentsContext.Provider>;
