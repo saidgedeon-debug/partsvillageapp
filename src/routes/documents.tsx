@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, type ReactNode } from "react";
-import { FileText, PackageSearch, Receipt } from "lucide-react";
+import { Eye, FileText, PackageSearch, Receipt } from "lucide-react";
 import { toast } from "sonner";
 
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
@@ -25,7 +25,9 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { openSavedDocument } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/documents")({
   head: () => ({
@@ -39,6 +41,11 @@ export const Route = createFileRoute("/documents")({
   }),
   component: DocumentsPage,
 });
+
+function openDoc(doc: SavedDocument) {
+  openSavedDocument(doc);
+  toast.success(`Opened ${doc.id}`);
+}
 
 function DocumentsPage() {
   const { query } = useSearch();
@@ -96,7 +103,7 @@ function DocumentsPage() {
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <CreateInvoiceDialog open={invoiceOpen} onOpenChange={setInvoiceOpen} />
-        <Tabs defaultValue="quotations">
+        <Tabs defaultValue={invoices.length > 0 ? "invoices" : "quotations"}>
           <TabsList>
             <TabsTrigger value="quotations">
               <FileText className="mr-2 h-4 w-4" />
@@ -116,26 +123,29 @@ function DocumentsPage() {
             <DocCard
               title="Quotations"
               onNew={() => startNew("quotation")}
-              headers={["#", "Client", "Date", "Parts", "Total", "Status"]}
-              rows={filteredQuotes.map((qu) => [
-                <span key="i" className="font-mono text-xs">
-                  {qu.id}
-                </span>,
-                qu.partyName,
-                qu.date,
-                <span key="p" className="font-mono text-xs text-muted-foreground">
-                  {qu.lines.map((l) => l.partNumber).join(", ")}
-                </span>,
-                <span key="t" className="font-semibold">
-                  {currency(qu.total)}
-                </span>,
-                <StatusSelect
-                  key="s"
-                  doc={qu}
-                  options={["Draft", "Sent", "Accepted", "Rejected"]}
-                  onChange={(s) => updateDocumentStatus(qu.id, s as QuoteStatus)}
-                />,
-              ])}
+              headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
+              rows={filteredQuotes.map((qu) => ({
+                key: qu.id,
+                onOpen: () => openDoc(qu),
+                cells: [
+                  <DocIdLink key="i" id={qu.id} onOpen={() => openDoc(qu)} />,
+                  qu.partyName,
+                  qu.date,
+                  <span key="p" className="font-mono text-xs text-muted-foreground">
+                    {qu.lines.map((l) => l.partNumber).join(", ")}
+                  </span>,
+                  <span key="t" className="font-semibold">
+                    {currency(qu.total)}
+                  </span>,
+                  <StatusSelect
+                    key="s"
+                    doc={qu}
+                    options={["Draft", "Sent", "Accepted", "Rejected"]}
+                    onChange={(s) => updateDocumentStatus(qu.id, s as QuoteStatus)}
+                  />,
+                  <OpenButton key="o" onOpen={() => openDoc(qu)} />,
+                ],
+              }))}
               empty={q ? `No quotations match “${query}”.` : "No quotations yet — finish a cart checkout."}
             />
           </TabsContent>
@@ -144,26 +154,29 @@ function DocumentsPage() {
             <DocCard
               title="Invoices"
               onNew={() => setInvoiceOpen(true)}
-              headers={["#", "Client", "Date", "Parts", "Total", "Status"]}
-              rows={filteredInvoices.map((iv) => [
-                <span key="i" className="font-mono text-xs">
-                  {iv.id}
-                </span>,
-                iv.partyName,
-                iv.date,
-                <span key="p" className="font-mono text-xs text-muted-foreground">
-                  {iv.lines.map((l) => l.partNumber).join(", ")}
-                </span>,
-                <span key="t" className="font-semibold">
-                  {currency(iv.total)}
-                </span>,
-                <StatusSelect
-                  key="s"
-                  doc={iv}
-                  options={["Paid", "Unpaid", "Overdue"]}
-                  onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
-                />,
-              ])}
+              headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
+              rows={filteredInvoices.map((iv) => ({
+                key: iv.id,
+                onOpen: () => openDoc(iv),
+                cells: [
+                  <DocIdLink key="i" id={iv.id} onOpen={() => openDoc(iv)} />,
+                  iv.partyName,
+                  iv.date,
+                  <span key="p" className="font-mono text-xs text-muted-foreground">
+                    {iv.lines.map((l) => l.partNumber).join(", ")}
+                  </span>,
+                  <span key="t" className="font-semibold">
+                    {currency(iv.total)}
+                  </span>,
+                  <StatusSelect
+                    key="s"
+                    doc={iv}
+                    options={["Paid", "Unpaid", "Overdue"]}
+                    onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
+                  />,
+                  <OpenButton key="o" onOpen={() => openDoc(iv)} />,
+                ],
+              }))}
               empty={
                 q
                   ? `No invoices match “${query}”.`
@@ -176,29 +189,65 @@ function DocumentsPage() {
             <DocCard
               title="Supplier Inquiries"
               onNew={() => startNew("inquiry")}
-              headers={["#", "Supplier", "Date", "Part Numbers", "Status"]}
-              rows={filteredInquiries.map((s) => [
-                <span key="i" className="font-mono text-xs">
-                  {s.id}
-                </span>,
-                s.partyName,
-                s.date,
-                <span key="p" className="font-mono text-xs text-muted-foreground">
-                  {s.lines.map((l) => l.partNumber).join(", ")}
-                </span>,
-                <StatusSelect
-                  key="st"
-                  doc={s}
-                  options={["Open", "Answered", "Closed"]}
-                  onChange={(st) => updateDocumentStatus(s.id, st as InquiryStatus)}
-                />,
-              ])}
+              headers={["#", "Supplier", "Date", "Part Numbers", "Status", ""]}
+              rows={filteredInquiries.map((s) => ({
+                key: s.id,
+                onOpen: () => openDoc(s),
+                cells: [
+                  <DocIdLink key="i" id={s.id} onOpen={() => openDoc(s)} />,
+                  s.partyName,
+                  s.date,
+                  <span key="p" className="font-mono text-xs text-muted-foreground">
+                    {s.lines.map((l) => l.partNumber).join(", ")}
+                  </span>,
+                  <StatusSelect
+                    key="st"
+                    doc={s}
+                    options={["Open", "Answered", "Closed"]}
+                    onChange={(st) => updateDocumentStatus(s.id, st as InquiryStatus)}
+                  />,
+                  <OpenButton key="o" onOpen={() => openDoc(s)} />,
+                ],
+              }))}
               empty={q ? `No inquiries match “${query}”.` : "No inquiries yet — finish a cart checkout."}
             />
           </TabsContent>
         </Tabs>
       </main>
     </>
+  );
+}
+
+function DocIdLink({ id, onOpen }: { id: string; onOpen: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpen();
+      }}
+      className="font-mono text-xs font-medium text-accent underline-offset-2 hover:underline"
+    >
+      {id}
+    </button>
+  );
+}
+
+function OpenButton({ onOpen }: { onOpen: () => void }) {
+  return (
+    <Button
+      type="button"
+      size="sm"
+      variant="outline"
+      className="h-8 gap-1.5"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpen();
+      }}
+    >
+      <Eye className="h-3.5 w-3.5" />
+      Open
+    </Button>
   );
 }
 
@@ -212,18 +261,20 @@ function StatusSelect({
   onChange: (status: string) => void;
 }) {
   return (
-    <Select value={doc.status} onValueChange={onChange}>
-      <SelectTrigger className="h-8 w-[120px]">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {options.map((o) => (
-          <SelectItem key={o} value={o}>
-            {o}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+      <Select value={doc.status} onValueChange={onChange}>
+        <SelectTrigger className="h-8 w-[120px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((o) => (
+            <SelectItem key={o} value={o}>
+              {o}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
 
@@ -237,7 +288,7 @@ function DocCard({
   title: string;
   onNew: () => void;
   headers: string[];
-  rows: ReactNode[][];
+  rows: { key: string; onOpen: () => void; cells: ReactNode[] }[];
   empty: string;
 }) {
   return (
@@ -256,15 +307,19 @@ function DocCard({
         <Table>
           <TableHeader>
             <TableRow>
-              {headers.map((h) => (
-                <TableHead key={h}>{h}</TableHead>
+              {headers.map((h, i) => (
+                <TableHead key={`${h}-${i}`}>{h}</TableHead>
               ))}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rows.map((r, i) => (
-              <TableRow key={i}>
-                {r.map((cell, j) => (
+            {rows.map((r) => (
+              <TableRow
+                key={r.key}
+                className={cn("cursor-pointer hover:bg-muted/50")}
+                onClick={r.onOpen}
+              >
+                {r.cells.map((cell, j) => (
                   <TableCell key={j}>{cell}</TableCell>
                 ))}
               </TableRow>

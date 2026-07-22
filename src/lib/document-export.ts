@@ -6,6 +6,8 @@ import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-co
 import { currency } from "@/lib/mock-data";
 
 export type ExportDoc = {
+  /** When set (re-opening a saved doc), reuse this reference instead of generating a new one. */
+  id?: string;
   documentKind: DocumentKind;
   partyKind: PartyKind;
   partyName: string;
@@ -60,9 +62,13 @@ function showMoney(doc: ExportDoc) {
   return true;
 }
 
+function resolveDocId(doc: ExportDoc, date: Date) {
+  return doc.id?.trim() || docId(doc.documentKind, date);
+}
+
 export function buildShareText(doc: ExportDoc): string {
   const date = doc.createdAt ?? new Date();
-  const id = docId(doc.documentKind, date);
+  const id = resolveDocId(doc, date);
   const title = docLabels[doc.documentKind];
   const partyLabel = doc.partyKind === "client" ? "Client" : "Supplier";
   const withMoney = showMoney(doc);
@@ -102,7 +108,7 @@ export function buildShareText(doc: ExportDoc): string {
 
 export function downloadExcel(doc: ExportDoc) {
   const date = doc.createdAt ?? new Date();
-  const id = docId(doc.documentKind, date);
+  const id = resolveDocId(doc, date);
   const partyLabel = doc.partyKind === "client" ? "Client" : "Supplier";
   const withMoney = showMoney(doc);
   const moneyLabel = doc.documentKind === "inquiry" ? "Unit Cost" : "Unit Price";
@@ -141,7 +147,7 @@ export function downloadExcel(doc: ExportDoc) {
 
 export function downloadPdf(doc: ExportDoc) {
   const date = doc.createdAt ?? new Date();
-  const id = docId(doc.documentKind, date);
+  const id = resolveDocId(doc, date);
   const partyLabel = doc.partyKind === "client" ? "Client" : "Supplier";
   const withMoney = showMoney(doc);
   const moneyLabel = doc.documentKind === "inquiry" ? "Cost" : "Price";
@@ -196,8 +202,34 @@ export function downloadPdf(doc: ExportDoc) {
     });
   }
 
-  pdf.save(`${id}.pdf`);
+  // Prefer opening in a new tab; fall back to download if popups are blocked.
+  const blobUrl = pdf.output("bloburl") as string;
+  const opened = window.open(blobUrl, "_blank", "noopener,noreferrer");
+  if (!opened) {
+    pdf.save(`${id}.pdf`);
+  }
   return id;
+}
+
+/** Re-open a saved quotation / invoice / inquiry as PDF. */
+export function openSavedDocument(doc: {
+  id: string;
+  kind: DocumentKind;
+  partyKind: PartyKind;
+  partyName: string;
+  lines: CartLine[];
+  createdAt: string;
+  includeCost?: boolean;
+}): string {
+  return downloadPdf({
+    id: doc.id,
+    documentKind: doc.kind,
+    partyKind: doc.partyKind,
+    partyName: doc.partyName,
+    lines: doc.lines,
+    createdAt: new Date(doc.createdAt),
+    includeCost: doc.includeCost,
+  });
 }
 
 export function openWhatsApp(doc: ExportDoc) {
@@ -213,7 +245,7 @@ export function openWeChatShare(doc: ExportDoc) {
 
 export function openEmailShare(doc: ExportDoc) {
   const date = doc.createdAt ?? new Date();
-  const id = docId(doc.documentKind, date);
+  const id = resolveDocId(doc, date);
   const subject = `Parts Village — ${docLabels[doc.documentKind]} ${id}`;
   const body = buildShareText(doc);
   window.open(
