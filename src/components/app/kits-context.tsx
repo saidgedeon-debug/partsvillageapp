@@ -34,6 +34,8 @@ export function KitsProvider({ children }: { children: ReactNode }) {
     isKitsEmpty,
   );
 
+  const safeKits = Array.isArray(kits) ? kits : [];
+
   const addKit = useCallback(
     (input: Omit<PartKit, "id"> & { id?: string }) => {
       const kit: PartKit = {
@@ -42,7 +44,7 @@ export function KitsProvider({ children }: { children: ReactNode }) {
         machine: input.machine?.trim() || undefined,
         partIds: [...new Set(input.partIds)],
       };
-      setKits((prev) => [kit, ...prev]);
+      setKits((prev) => [kit, ...(Array.isArray(prev) ? prev : [])]);
       return kit;
     },
     [setKits],
@@ -51,7 +53,7 @@ export function KitsProvider({ children }: { children: ReactNode }) {
   const updateKit = useCallback(
     (id: string, patch: Partial<PartKit>) => {
       setKits((prev) =>
-        prev.map((k) =>
+        (Array.isArray(prev) ? prev : []).map((k) =>
           k.id === id
             ? {
                 ...k,
@@ -68,14 +70,14 @@ export function KitsProvider({ children }: { children: ReactNode }) {
 
   const removeKit = useCallback(
     (id: string) => {
-      setKits((prev) => prev.filter((k) => k.id !== id));
+      setKits((prev) => (Array.isArray(prev) ? prev : []).filter((k) => k.id !== id));
     },
     [setKits],
   );
 
   const value = useMemo(
-    () => ({ kits, addKit, updateKit, removeKit }),
-    [kits, addKit, updateKit, removeKit],
+    () => ({ kits: safeKits, addKit, updateKit, removeKit }),
+    [safeKits, addKit, updateKit, removeKit],
   );
 
   return <KitsContext.Provider value={value}>{children}</KitsContext.Provider>;

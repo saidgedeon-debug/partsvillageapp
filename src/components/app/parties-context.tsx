@@ -112,18 +112,18 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- seed once when cloud finishes loading
   }, [ready]);
 
-  const clients = store.clients;
-  const suppliers = store.suppliers;
+  const clients = store.clients ?? [];
+  const suppliers = store.suppliers ?? [];
 
   const addClient = useCallback(
     (input: PartyInput) => {
       const party = normalizeParty(input, "cli");
       setStore((prev) => {
-        const exists = prev.clients.find((c) => c.name.toLowerCase() === party.name.toLowerCase());
+        const exists = (prev.clients ?? []).find((c) => c.name.toLowerCase() === party.name.toLowerCase());
         const clients = exists
-          ? prev.clients.map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
-          : [party, ...prev.clients];
-        return { ...prev, clients };
+          ? (prev.clients ?? []).map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
+          : [party, ...(prev.clients ?? [])];
+        return { clients, suppliers: prev.suppliers ?? [] };
       });
       return party;
     },
@@ -134,13 +134,13 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
     (input: PartyInput) => {
       const party = normalizeParty(input, "sup");
       setStore((prev) => {
-        const exists = prev.suppliers.find(
+        const exists = (prev.suppliers ?? []).find(
           (c) => c.name.toLowerCase() === party.name.toLowerCase(),
         );
         const suppliers = exists
-          ? prev.suppliers.map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
-          : [party, ...prev.suppliers];
-        return { ...prev, suppliers };
+          ? (prev.suppliers ?? []).map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
+          : [party, ...(prev.suppliers ?? [])];
+        return { clients: prev.clients ?? [], suppliers };
       });
       return party;
     },
@@ -151,8 +151,8 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
     (id: string, input: PartyInput) => {
       const party = normalizeParty(input, "cli", id);
       setStore((prev) => ({
-        ...prev,
-        clients: prev.clients.map((c) => (c.id === id ? party : c)),
+        clients: (prev.clients ?? []).map((c) => (c.id === id ? party : c)),
+        suppliers: prev.suppliers ?? [],
       }));
       return party;
     },
@@ -163,8 +163,8 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
     (id: string, input: PartyInput) => {
       const party = normalizeParty(input, "sup", id);
       setStore((prev) => ({
-        ...prev,
-        suppliers: prev.suppliers.map((c) => (c.id === id ? party : c)),
+        clients: prev.clients ?? [],
+        suppliers: (prev.suppliers ?? []).map((c) => (c.id === id ? party : c)),
       }));
       return party;
     },
@@ -173,14 +173,20 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
 
   const removeClient = useCallback(
     (id: string) => {
-      setStore((prev) => ({ ...prev, clients: prev.clients.filter((c) => c.id !== id) }));
+      setStore((prev) => ({
+        clients: (prev.clients ?? []).filter((c) => c.id !== id),
+        suppliers: prev.suppliers ?? [],
+      }));
     },
     [setStore],
   );
 
   const removeSupplier = useCallback(
     (id: string) => {
-      setStore((prev) => ({ ...prev, suppliers: prev.suppliers.filter((c) => c.id !== id) }));
+      setStore((prev) => ({
+        clients: prev.clients ?? [],
+        suppliers: (prev.suppliers ?? []).filter((c) => c.id !== id),
+      }));
     },
     [setStore],
   );

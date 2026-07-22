@@ -110,25 +110,28 @@ export function FleetProvider({ children }: { children: ReactNode }) {
     isFleetEmpty,
   );
 
+  const machines = store.machines ?? [];
+  const orders = store.orders ?? [];
+
   const machinesByClient = useCallback(
-    (clientId: string) => store.machines.filter((m) => m.clientId === clientId),
-    [store.machines],
+    (clientId: string) => machines.filter((m) => m.clientId === clientId),
+    [machines],
   );
 
   const ordersByClient = useCallback(
     (clientId: string) =>
-      [...store.orders]
+      [...orders]
         .filter((o) => o.clientId === clientId)
         .sort((a, b) => b.date.localeCompare(a.date)),
-    [store.orders],
+    [orders],
   );
 
   const ordersByMachine = useCallback(
     (machineId: string) =>
-      [...store.orders]
+      [...orders]
         .filter((o) => o.machineId === machineId)
         .sort((a, b) => b.date.localeCompare(a.date)),
-    [store.orders],
+    [orders],
   );
 
   const addMachine = useCallback((input: Omit<FleetMachine, "id"> & { id?: string }) => {
@@ -142,32 +145,31 @@ export function FleetProvider({ children }: { children: ReactNode }) {
       hours: input.hours || 0,
     };
     setStore((prev) => ({
-      ...prev,
-      machines: [...prev.machines, machine],
+      machines: [...(prev.machines ?? []), machine],
+      orders: prev.orders ?? [],
     }));
     void syncMachine(machine);
     return machine;
-  }, []);
+  }, [setStore]);
 
   const updateMachine = useCallback((id: string, patch: Partial<FleetMachine>) => {
     setStore((prev) => {
-      const machines = prev.machines.map((m) => {
+      const machines = (prev.machines ?? []).map((m) => {
         if (m.id !== id) return m;
         const next = { ...m, ...patch, id: m.id };
         void syncMachine(next);
         return next;
       });
-      return { ...prev, machines };
+      return { machines, orders: prev.orders ?? [] };
     });
-  }, []);
+  }, [setStore]);
 
   const removeMachine = useCallback((id: string) => {
     setStore((prev) => ({
-      ...prev,
-      machines: prev.machines.filter((m) => m.id !== id),
-      orders: prev.orders.map((o) => (o.machineId === id ? { ...o, machineId: "" } : o)),
+      machines: (prev.machines ?? []).filter((m) => m.id !== id),
+      orders: (prev.orders ?? []).map((o) => (o.machineId === id ? { ...o, machineId: "" } : o)),
     }));
-  }, []);
+  }, [setStore]);
 
   const addOrder = useCallback((input: Omit<FleetOrder, "id"> & { id?: string }) => {
     const order: FleetOrder = {
@@ -180,17 +182,17 @@ export function FleetProvider({ children }: { children: ReactNode }) {
       lines: input.lines,
     };
     setStore((prev) => ({
-      ...prev,
-      orders: [order, ...prev.orders],
+      machines: prev.machines ?? [],
+      orders: [order, ...(prev.orders ?? [])],
     }));
     void syncOrder(order);
     return order;
-  }, []);
+  }, [setStore]);
 
   const value = useMemo(
     () => ({
-      machines: store.machines,
-      orders: store.orders,
+      machines,
+      orders,
       machinesByClient,
       ordersByClient,
       ordersByMachine,
@@ -200,8 +202,8 @@ export function FleetProvider({ children }: { children: ReactNode }) {
       addOrder,
     }),
     [
-      store.machines,
-      store.orders,
+      machines,
+      orders,
       machinesByClient,
       ordersByClient,
       ordersByMachine,

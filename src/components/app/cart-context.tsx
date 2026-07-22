@@ -82,8 +82,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     emptyCart(),
     isCartEmpty,
   );
-  const documentKind = store.documentKind;
-  const lines = store.lines;
+  const documentKind = store.documentKind ?? null;
+  const lines = store.lines ?? [];
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [pendingPart, setPendingPart] = useState<Part | null>(null);
@@ -98,11 +98,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addPart = useCallback(
     (part: Part, qty = 1) => {
       setStore((prev) => {
-        const existing = prev.lines.find((l) => l.partId === part.id);
+        const existing = (prev.lines ?? []).find((l) => l.partId === part.id);
         const lines = existing
-          ? prev.lines.map((l) => (l.partId === part.id ? { ...l, qty: l.qty + qty } : l))
-          : [...prev.lines, partToLine(part, qty)];
-        return { ...prev, lines };
+          ? (prev.lines ?? []).map((l) => (l.partId === part.id ? { ...l, qty: l.qty + qty } : l))
+          : [...(prev.lines ?? []), partToLine(part, qty)];
+        return { documentKind: prev.documentKind ?? null, lines };
       });
     },
     [setStore],

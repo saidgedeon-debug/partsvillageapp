@@ -169,16 +169,19 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const overrides = store.overrides ?? {};
+  const customParts = store.customParts ?? [];
+  const customCategories = store.customCategories ?? [];
+
   const parts = useMemo(() => {
-    const overrides = store.overrides;
     const fromCatalog = catalogBase.map((p) => {
       const o = overrides[p.id];
       return o ? applyOverride(p, o) : p;
     });
     const catalogIds = new Set(catalogBase.map((p) => p.id));
-    const custom = store.customParts.filter((p) => !catalogIds.has(p.id));
+    const custom = customParts.filter((p) => !catalogIds.has(p.id));
     return [...fromCatalog, ...custom];
-  }, [catalogBase, store.overrides, store.customParts]);
+  }, [catalogBase, overrides, customParts]);
 
   const partsById = useMemo(() => {
     const map = new Map<string, Part>();
@@ -187,27 +190,28 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   }, [parts]);
 
   const categories = useMemo(
-    () => buildInventoryCategories(parts, store.customCategories),
-    [parts, store.customCategories],
+    () => buildInventoryCategories(parts, customCategories),
+    [parts, customCategories],
   );
 
   const categoryLabels = useMemo(() => {
     const labels = new Set<string>();
     for (const p of parts) labels.add(p.category);
-    for (const c of store.customCategories) labels.add(c.label);
+    for (const c of customCategories) labels.add(c.label);
     return [...labels].sort((a, b) => a.localeCompare(b));
-  }, [parts, store.customCategories]);
+  }, [parts, customCategories]);
 
   const getPart = useCallback((id: string) => partsById.get(id), [partsById]);
 
   const addPart = useCallback((input: PartInput) => {
     const part = normalizePart(input);
     setStore((prev) => ({
-      ...prev,
-      customParts: [...prev.customParts, part],
+      overrides: prev.overrides ?? {},
+      customCategories: prev.customCategories ?? [],
+      customParts: [...(prev.customParts ?? []), part],
     }));
     return part;
-  }, []);
+  }, [setStore]);
 
   const updatePart = useCallback((id: string, patch: PartOverride) => {
     const catalogParts = catalogRef.current;
@@ -215,11 +219,14 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     if (catalogBasePart) {
       let merged: Part | null = null;
       setStore((prev) => {
-        const nextPatch: PartOverride = { ...prev.overrides[id], ...patch };
+        const prevOverrides = prev.overrides ?? {};
+        const nextPatch: PartOverride = { ...prevOverrides[id], ...patch };
         merged = applyOverride(catalogBasePart, nextPatch);
         return {
           ...prev,
-          overrides: { ...prev.overrides, [id]: nextPatch },
+          overrides: { ...prevOverrides, [id]: nextPatch },
+          customParts: prev.customParts ?? [],
+          customCategories: prev.customCategories ?? [],
         };
       });
       return merged;
@@ -227,9 +234,10 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
     let updated: Part | null = null;
     setStore((prev) => {
-      const idx = prev.customParts.findIndex((p) => p.id === id);
+      const prevCustom = prev.customParts ?? [];
+      const idx = prevCustom.findIndex((p) => p.id === id);
       if (idx < 0) return prev;
-      const current = prev.customParts[idx];
+      const current = prevCustom[idx];
       updated = normalizePart(
         {
           ...current,
@@ -240,12 +248,16 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         },
         id,
       );
-      const customParts = [...prev.customParts];
-      customParts[idx] = updated;
-      return { ...prev, customParts };
+      const nextCustom = [...prevCustom];
+      nextCustom[idx] = updated;
+      return {
+        overrides: prev.overrides ?? {},
+        customCategories: prev.customCategories ?? [],
+        customParts: nextCustom,
+      };
     });
     return updated;
-  }, []);
+  }, [setStore]);
 
   const bulkUpdateParts = useCallback(
     (
@@ -260,8 +272,8 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       let count = 0;
       const catalogParts = catalogRef.current;
       setStore((prev) => {
-        const overrides = { ...prev.overrides };
-        const customParts = [...prev.customParts];
+        const overrides = { ...(prev.overrides ?? {}) };
+        const customParts = [...(prev.customParts ?? [])];
 
         for (const u of updates) {
           const patch: PartOverride = {};
@@ -292,20 +304,26 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
           }
         }
 
-        return { ...prev, overrides, customParts };
+        return {
+          overrides,
+          customParts,
+          customCategories: prev.customCategories ?? [],
+        };
       });
       return count;
     },
-    [],
+    [setStore],
   );
 
   const removePart = useCallback((id: string) => {
     setStore((prev) => ({
-      ...prev,
-      customParts: prev.customParts.filter((p) => p.id !== id),
-      overrides: Object.fromEntries(Object.entries(prev.overrides).filter(([k]) => k !== id)),
+      customCategories: prev.customCategories ?? [],
+      customParts: (prev.customParts ?? []).filter((p) => p.id !== id),
+      overrides: Object.fromEntries(
+        Object.entries(prev.overrides ?? {}).filter(([k]) => k !== id),
+      ),
     }));
-  }, []);
+  }, [setStore]);
 
   const addCategory = useCallback((label: string, description?: string) => {
     const trimmed = label.trim();
@@ -320,21 +338,24 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     let ok = true;
     setStore((prev) => {
       const base = catalogRef.current;
+      const customCategories = prev.customCategories ?? [];
+      const customParts = prev.customParts ?? [];
       const exists =
-        prev.customCategories.some((c) => c.label.toLowerCase() === trimmed.toLowerCase()) ||
+        customCategories.some((c) => c.label.toLowerCase() === trimmed.toLowerCase()) ||
         base.some((p) => p.category.toLowerCase() === trimmed.toLowerCase()) ||
-        prev.customParts.some((p) => p.category.toLowerCase() === trimmed.toLowerCase());
+        customParts.some((p) => p.category.toLowerCase() === trimmed.toLowerCase());
       if (exists) {
         ok = false;
         return prev;
       }
       return {
-        ...prev,
-        customCategories: [...prev.customCategories, record],
+        overrides: prev.overrides ?? {},
+        customParts,
+        customCategories: [...customCategories, record],
       };
     });
     return ok ? record : null;
-  }, []);
+  }, [setStore]);
 
   const updateCategory = useCallback(
     (id: string, patch: { label?: string; description?: string }) => {
@@ -343,12 +364,15 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
       setStore((prev) => {
         const base = catalogRef.current;
+        const prevCustomCategories = prev.customCategories ?? [];
+        const prevCustomParts = prev.customParts ?? [];
+        const prevOverrides = prev.overrides ?? {};
         // Resolve current label from custom list or from built-in match via parts
-        const custom = prev.customCategories.find((c) => c.id === id);
+        const custom = prevCustomCategories.find((c) => c.id === id);
         const allLabels = new Set([
           ...base.map((p) => p.category),
-          ...prev.customParts.map((p) => p.category),
-          ...prev.customCategories.map((c) => c.label),
+          ...prevCustomParts.map((p) => p.category),
+          ...prevCustomCategories.map((c) => c.label),
         ]);
 
         let oldLabel = custom?.label;
@@ -367,7 +391,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         if (!label) return prev;
 
         // Remap parts when renaming
-        const overrides = { ...prev.overrides };
+        const overrides = { ...prevOverrides };
         if (label !== oldLabel) {
           for (const basePart of base) {
             const current = applyOverride(basePart, overrides[basePart.id]);
@@ -380,11 +404,11 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
           }
         }
 
-        const customParts = prev.customParts.map((p) =>
+        const customParts = prevCustomParts.map((p) =>
           p.category === oldLabel ? { ...p, category: label } : p,
         );
 
-        let customCategories = [...prev.customCategories];
+        let customCategories = [...prevCustomCategories];
         const existingIdx = customCategories.findIndex((c) => c.id === id || c.label === oldLabel);
         const record: CategoryRecord = {
           id:
@@ -411,7 +435,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
         );
 
         result = record;
-        return { ...prev, overrides, customParts, customCategories };
+        return { overrides, customParts, customCategories };
       });
 
       return result;
@@ -422,22 +446,26 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const removeCategory = useCallback((id: string) => {
     let removed = false;
     setStore((prev) => {
-      const custom = prev.customCategories.find((c) => c.id === id);
+      const customCategories = prev.customCategories ?? [];
+      const customParts = prev.customParts ?? [];
+      const overrides = prev.overrides ?? {};
+      const custom = customCategories.find((c) => c.id === id);
       if (!custom) return prev;
       const base = catalogRef.current;
       const inUse = [
-        ...base.map((p) => applyOverride(p, prev.overrides[p.id])),
-        ...prev.customParts,
+        ...base.map((p) => applyOverride(p, overrides[p.id])),
+        ...customParts,
       ].some((p) => p.category === custom.label);
       if (inUse) return prev;
       removed = true;
       return {
-        ...prev,
-        customCategories: prev.customCategories.filter((c) => c.id !== id),
+        overrides,
+        customParts,
+        customCategories: customCategories.filter((c) => c.id !== id),
       };
     });
     return removed;
-  }, []);
+  }, [setStore]);
 
   const value = useMemo(
     () => ({

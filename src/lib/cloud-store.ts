@@ -49,17 +49,17 @@ export async function loadOrMigrateShopState<T>(
 
   try {
     const raw = localStorage.getItem(localStorageKey);
-    if (!raw) return cloud;
+    if (!raw) return fallback;
 
     const local = JSON.parse(raw) as T;
-    if (isEmpty(local)) return cloud;
+    if (isEmpty(local)) return fallback;
 
     await saveShopState(key, local);
     return local;
   } catch {
     // ignore parse / migrate errors
   }
-  return cloud;
+  return fallback;
 }
 
 export function markCloudMigrated() {

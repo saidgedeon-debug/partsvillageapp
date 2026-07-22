@@ -84,7 +84,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
   const addDocument = useCallback(
     (doc: SavedDocument) => {
-      setDocuments((prev) => [doc, ...prev.filter((d) => d.id !== doc.id)]);
+      setDocuments((prev) => [doc, ...(Array.isArray(prev) ? prev : []).filter((d) => d.id !== doc.id)]);
       void syncDocumentToSupabase(doc);
     },
     [setDocuments],
@@ -93,7 +93,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
   const updateDocumentStatus = useCallback(
     (id: string, status: SavedDocument["status"]) => {
       setDocuments((prev) => {
-        const next = prev.map((d) => (d.id === id ? { ...d, status } : d));
+        const list = Array.isArray(prev) ? prev : [];
+        const next = list.map((d) => (d.id === id ? { ...d, status } : d));
         const updated = next.find((d) => d.id === id);
         if (updated) void syncDocumentToSupabase(updated);
         return next;
@@ -104,18 +105,20 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
   const removeDocument = useCallback(
     (id: string) => {
-      setDocuments((prev) => prev.filter((d) => d.id !== id));
+      setDocuments((prev) => (Array.isArray(prev) ? prev : []).filter((d) => d.id !== id));
     },
     [setDocuments],
   );
 
-  const quotations = useMemo(() => documents.filter((d) => d.kind === "quotation"), [documents]);
-  const invoices = useMemo(() => documents.filter((d) => d.kind === "invoice"), [documents]);
-  const inquiries = useMemo(() => documents.filter((d) => d.kind === "inquiry"), [documents]);
+  const docs = Array.isArray(documents) ? documents : [];
+
+  const quotations = useMemo(() => docs.filter((d) => d.kind === "quotation"), [docs]);
+  const invoices = useMemo(() => docs.filter((d) => d.kind === "invoice"), [docs]);
+  const inquiries = useMemo(() => docs.filter((d) => d.kind === "inquiry"), [docs]);
 
   const value = useMemo(
     () => ({
-      documents,
+      documents: docs,
       quotations,
       invoices,
       inquiries,
@@ -123,7 +126,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       updateDocumentStatus,
       removeDocument,
     }),
-    [documents, quotations, invoices, inquiries, addDocument, updateDocumentStatus, removeDocument],
+    [docs, quotations, invoices, inquiries, addDocument, updateDocumentStatus, removeDocument],
   );
 
   return <DocumentsContext.Provider value={value}>{children}</DocumentsContext.Provider>;
