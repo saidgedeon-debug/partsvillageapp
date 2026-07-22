@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState, type ReactNode } from "react";
-import { Eye, FileText, PackageSearch, Receipt } from "lucide-react";
+import { Eye, FileText, PackageSearch, Pencil, Receipt, StickyNote } from "lucide-react";
 import { toast } from "sonner";
 
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
@@ -53,6 +53,7 @@ function DocumentsPage() {
   const { quotations, invoices, inquiries, updateDocumentStatus } = useDocuments();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
+  const [editingInvoice, setEditingInvoice] = useState<SavedDocument | null>(null);
 
   const filteredQuotes = useMemo(
     () =>
@@ -72,6 +73,7 @@ function DocumentsPage() {
           !q ||
           x.id.toLowerCase().includes(q) ||
           x.partyName.toLowerCase().includes(q) ||
+          (x.internalNote ?? "").toLowerCase().includes(q) ||
           x.lines.some((l) => l.partNumber.toLowerCase().includes(q)),
       ),
     [q, invoices],
@@ -95,6 +97,16 @@ function DocumentsPage() {
     toast.message(`New ${kind} — add parts from inventory`);
   };
 
+  const openNewInvoice = () => {
+    setEditingInvoice(null);
+    setInvoiceOpen(true);
+  };
+
+  const openEditInvoice = (doc: SavedDocument) => {
+    setEditingInvoice(doc);
+    setInvoiceOpen(true);
+  };
+
   return (
     <>
       <PageHeader
@@ -102,7 +114,14 @@ function DocumentsPage() {
         subtitle="Quotations, invoices, and supplier inquiries"
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
-        <CreateInvoiceDialog open={invoiceOpen} onOpenChange={setInvoiceOpen} />
+        <CreateInvoiceDialog
+          open={invoiceOpen}
+          document={editingInvoice}
+          onOpenChange={(open) => {
+            setInvoiceOpen(open);
+            if (!open) setEditingInvoice(null);
+          }}
+        />
         <Tabs defaultValue={invoices.length > 0 ? "invoices" : "quotations"}>
           <TabsList>
             <TabsTrigger value="quotations">
@@ -153,13 +172,20 @@ function DocumentsPage() {
           <TabsContent value="invoices" className="mt-4">
             <DocCard
               title="Invoices"
-              onNew={() => setInvoiceOpen(true)}
+              onNew={openNewInvoice}
               headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
               rows={filteredInvoices.map((iv) => ({
                 key: iv.id,
                 onOpen: () => openDoc(iv),
                 cells: [
-                  <DocIdLink key="i" id={iv.id} onOpen={() => openDoc(iv)} />,
+                  <div key="i" className="flex items-center gap-1.5">
+                    <DocIdLink id={iv.id} onOpen={() => openDoc(iv)} />
+                    {iv.internalNote?.trim() ? (
+                      <span title={iv.internalNote} className="text-muted-foreground">
+                        <StickyNote className="h-3.5 w-3.5" />
+                      </span>
+                    ) : null}
+                  </div>,
                   iv.partyName,
                   iv.date,
                   <span key="p" className="font-mono text-xs text-muted-foreground">
@@ -174,7 +200,10 @@ function DocumentsPage() {
                     options={["Paid", "Unpaid", "Overdue"]}
                     onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
                   />,
-                  <OpenButton key="o" onOpen={() => openDoc(iv)} />,
+                  <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
+                    <EditButton onEdit={() => openEditInvoice(iv)} />
+                    <OpenButton onOpen={() => openDoc(iv)} />
+                  </div>,
                 ],
               }))}
               empty={
@@ -247,6 +276,24 @@ function OpenButton({ onOpen }: { onOpen: () => void }) {
     >
       <Eye className="h-3.5 w-3.5" />
       Open
+    </Button>
+  );
+}
+
+function EditButton({ onEdit }: { onEdit: () => void }) {
+  return (
+    <Button
+      type="button"
+      size="sm"
+      variant="outline"
+      className="h-8 gap-1.5"
+      onClick={(e) => {
+        e.stopPropagation();
+        onEdit();
+      }}
+    >
+      <Pencil className="h-3.5 w-3.5" />
+      Edit
     </Button>
   );
 }
