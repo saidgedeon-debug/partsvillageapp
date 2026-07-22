@@ -14,7 +14,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import logo from "@/assets/parts-village-logo.png";
+import logo from "@/assets/parts-village-logo-clear.png";
 
 const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, exact: true },
