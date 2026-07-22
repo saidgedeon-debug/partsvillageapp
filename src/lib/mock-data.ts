@@ -149,7 +149,8 @@ export const currency = (n: number) =>
   n.toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
-    maximumFractionDigits: 0,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 
 export const totalSales = 0;
