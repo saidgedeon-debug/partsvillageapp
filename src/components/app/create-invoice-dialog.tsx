@@ -28,6 +28,22 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 
+function formatSize(id?: string, cs?: string): string {
+  const a = id?.trim() ?? "";
+  const b = cs?.trim() ?? "";
+  if (a && b) return `${a} x ${b}`;
+  return a || b;
+}
+
+/** Parse "26.5 x 3" / "26.5×3" / "26.5*3" into ID + CS. */
+function parseSize(raw: string): { insideDiameterMm?: string; crossSectionMm?: string } {
+  const t = raw.trim();
+  if (!t) return { insideDiameterMm: undefined, crossSectionMm: undefined };
+  const m = t.match(/^([\d.]+)\s*[x×*]\s*([\d.]+)$/i);
+  if (m) return { insideDiameterMm: m[1], crossSectionMm: m[2] };
+  return { insideDiameterMm: t, crossSectionMm: undefined };
+}
+
 function partToLine(part: Part, qty = 1): CartLine {
   return {
     partId: part.id,
@@ -99,11 +115,16 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
     toast.success(`Added ${part.partNumber}`);
   };
 
-  const updateLine = (partId: string, patch: Partial<Pick<CartLine, "qty" | "unitPrice">>) => {
+  const updateLine = (
+    partId: string,
+    patch: Partial<Pick<CartLine, "qty" | "unitPrice" | "name" | "partNumber">> & {
+      size?: string;
+    },
+  ) => {
     setLines((prev) =>
       prev.map((l) => {
         if (l.partId !== partId) return l;
-        const next = { ...l, ...patch };
+        const next = { ...l };
         if (patch.qty !== undefined) {
           next.qty = Number.isFinite(patch.qty) ? Math.max(1, Math.round(patch.qty)) : l.qty;
         }
@@ -111,6 +132,13 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
           next.unitPrice = Number.isFinite(patch.unitPrice)
             ? Math.max(0, patch.unitPrice)
             : l.unitPrice;
+        }
+        if (patch.name !== undefined) next.name = patch.name;
+        if (patch.partNumber !== undefined) next.partNumber = patch.partNumber;
+        if (patch.size !== undefined) {
+          const parsed = parseSize(patch.size);
+          next.insideDiameterMm = parsed.insideDiameterMm;
+          next.crossSectionMm = parsed.crossSectionMm;
         }
         return next;
       }),
@@ -200,11 +228,11 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="flex max-h-[92vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-3xl">
+      <DialogContent className="flex max-h-[92vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
         <DialogHeader className="space-y-1 border-b border-border px-6 py-4">
           <DialogTitle>New invoice</DialogTitle>
           <DialogDescription>
-            Choose a client, add parts, edit qty and prices, then create the invoice.
+            Choose a client, add parts, edit description and size, then create the invoice.
           </DialogDescription>
         </DialogHeader>
 
@@ -249,7 +277,11 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
                     >
                       <div className="min-w-0">
                         <p className="font-mono text-xs font-semibold">{p.partNumber}</p>
-                        <p className="truncate text-xs text-muted-foreground">{p.name}</p>
+                        <p className="truncate text-xs text-muted-foreground">
+                          {p.insideDiameterMm && p.crossSectionMm
+                            ? `${p.insideDiameterMm} x ${p.crossSectionMm}`
+                            : p.name}
+                        </p>
                       </div>
                       <div className="flex shrink-0 items-center gap-2">
                         <Badge variant="secondary">stock {p.quantity}</Badge>
@@ -274,8 +306,10 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
               </p>
             ) : (
               <div className="overflow-hidden rounded-lg border border-border">
-                <div className="grid grid-cols-[minmax(0,1fr)_4.5rem_5.5rem_5.5rem_2.25rem] gap-2 border-b border-border bg-muted/40 px-3 py-2 text-[11px] font-medium text-muted-foreground">
-                  <span>Part</span>
+                <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] gap-2 border-b border-border bg-muted/40 px-3 py-2 text-[11px] font-medium text-muted-foreground">
+                  <span>Code</span>
+                  <span>Description</span>
+                  <span>Size</span>
                   <span>Qty</span>
                   <span>Price</span>
                   <span className="text-right">Total</span>
@@ -284,12 +318,28 @@ export function CreateInvoiceDialog({ open, onOpenChange }: Props) {
                 {lines.map((l) => (
                   <div
                     key={l.partId}
-                    className="grid grid-cols-[minmax(0,1fr)_4.5rem_5.5rem_5.5rem_2.25rem] items-center gap-2 border-b border-border px-3 py-2 last:border-b-0"
+                    className="grid grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] items-center gap-2 border-b border-border px-3 py-2 last:border-b-0"
                   >
-                    <div className="min-w-0">
-                      <p className="truncate font-mono text-xs font-semibold">{l.partNumber}</p>
-                      <p className="truncate text-[11px] text-muted-foreground">{l.name}</p>
-                    </div>
+                    <Input
+                      value={l.partNumber}
+                      onChange={(e) => updateLine(l.partId, { partNumber: e.target.value })}
+                      className="h-8 font-mono text-xs font-semibold"
+                      aria-label={`Code for ${l.partNumber}`}
+                    />
+                    <Input
+                      value={l.name}
+                      onChange={(e) => updateLine(l.partId, { name: e.target.value })}
+                      placeholder="Description…"
+                      className="h-8 text-xs"
+                      aria-label={`Description for ${l.partNumber}`}
+                    />
+                    <Input
+                      value={formatSize(l.insideDiameterMm, l.crossSectionMm)}
+                      onChange={(e) => updateLine(l.partId, { size: e.target.value })}
+                      placeholder="26.5 x 3"
+                      className="h-8 font-mono text-xs"
+                      aria-label={`Size for ${l.partNumber}`}
+                    />
                     <Input
                       type="number"
                       min={1}

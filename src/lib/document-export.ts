@@ -47,6 +47,14 @@ function lineTotal(line: CartLine, kind: DocumentKind) {
   return line.qty * lineUnitAmount(line, kind);
 }
 
+/** Display size on invoices: "26.5 x 3". */
+export function lineSizeLabel(line: CartLine): string {
+  const id = line.insideDiameterMm?.trim() ?? "";
+  const cs = line.crossSectionMm?.trim() ?? "";
+  if (id && cs) return `${id} x ${cs}`;
+  return id || cs || "";
+}
+
 function showMoney(doc: ExportDoc) {
   if (doc.documentKind === "inquiry") return Boolean(doc.includeCost);
   return true;
@@ -61,11 +69,12 @@ export function buildShareText(doc: ExportDoc): string {
   const rows = doc.lines
     .map((l) => {
       const unit = lineUnitAmount(l, doc.documentKind);
+      const size = lineSizeLabel(l);
       return (
-        `• ${l.partNumber} × ${l.qty}` +
-        (l.insideDiameterMm || l.crossSectionMm
-          ? ` (${l.insideDiameterMm ?? "?"}×${l.crossSectionMm ?? "?"} mm)`
-          : "") +
+        `• ${l.partNumber}` +
+        (l.name ? ` — ${l.name}` : "") +
+        (size ? ` · size ${size}` : "") +
+        ` × ${l.qty}` +
         (withMoney && unit > 0 ? ` — ${currency(lineTotal(l, doc.documentKind))}` : "")
       );
     })
@@ -108,18 +117,11 @@ export function downloadExcel(doc: ExportDoc) {
   ];
 
   const header = withMoney
-    ? ["Part #", "Name", "Box", "ID (mm)", "CS (mm)", "Qty", moneyLabel, "Line Total"]
-    : ["Part #", "Name", "Box", "ID (mm)", "CS (mm)", "Qty"];
+    ? ["Part #", "Description", "Size", "Qty", moneyLabel, "Line Total"]
+    : ["Part #", "Description", "Size", "Qty"];
 
   const body = doc.lines.map((l) => {
-    const base = [
-      l.partNumber,
-      l.name,
-      l.boxNumber ?? "",
-      l.insideDiameterMm ?? "",
-      l.crossSectionMm ?? "",
-      l.qty,
-    ];
+    const base = [l.partNumber, l.name, lineSizeLabel(l), l.qty];
     if (!withMoney) return base;
     const unit = lineUnitAmount(l, doc.documentKind);
     return [...base, unit || "", unit > 0 ? lineTotal(l, doc.documentKind) : ""];
@@ -127,7 +129,7 @@ export function downloadExcel(doc: ExportDoc) {
 
   if (withMoney) {
     const total = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
-    body.push(["", "", "", "", "", "", "TOTAL", total > 0 ? total : ""]);
+    body.push(["", "", "", "", "TOTAL", total > 0 ? total : ""]);
   }
 
   const sheet = XLSX.utils.aoa_to_sheet([...meta, header, ...body]);
@@ -159,37 +161,37 @@ export function downloadPdf(doc: ExportDoc) {
   if (withMoney) {
     autoTable(pdf, {
       startY: 52,
-      head: [["Part #", "Name", "Box", "ID", "CS", "Qty", moneyLabel, "Total"]],
+      head: [["Part #", "Description", "Size", "Qty", moneyLabel, "Total"]],
       body: doc.lines.map((l) => {
         const unit = lineUnitAmount(l, doc.documentKind);
         return [
           l.partNumber,
-          l.name,
-          l.boxNumber ?? "—",
-          l.insideDiameterMm ?? "—",
-          l.crossSectionMm ?? "—",
+          l.name || "—",
+          lineSizeLabel(l) || "—",
           String(l.qty),
           unit > 0 ? currency(unit) : "—",
           unit > 0 ? currency(lineTotal(l, doc.documentKind)) : "—",
         ];
       }),
-      foot: [["", "", "", "", "", "", "TOTAL", total > 0 ? currency(total) : "TBD"]],
-      styles: { fontSize: 8 },
+      foot: [["", "", "", "", "TOTAL", total > 0 ? currency(total) : "TBD"]],
+      styles: { fontSize: 9 },
       headStyles: { fillColor: [30, 41, 59] },
+      columnStyles: {
+        0: { cellWidth: 28 },
+        2: { cellWidth: 28, fontStyle: "bold" },
+      },
     });
   } else {
     autoTable(pdf, {
       startY: 52,
-      head: [["Part #", "Name", "Box", "ID", "CS", "Qty"]],
+      head: [["Part #", "Description", "Size", "Qty"]],
       body: doc.lines.map((l) => [
         l.partNumber,
-        l.name,
-        l.boxNumber ?? "—",
-        l.insideDiameterMm ?? "—",
-        l.crossSectionMm ?? "—",
+        l.name || "—",
+        lineSizeLabel(l) || "—",
         String(l.qty),
       ]),
-      styles: { fontSize: 8 },
+      styles: { fontSize: 9 },
       headStyles: { fillColor: [30, 41, 59] },
     });
   }
