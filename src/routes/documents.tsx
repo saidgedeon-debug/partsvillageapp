@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { FileText, PackageSearch, Receipt } from "lucide-react";
 import { toast } from "sonner";
 
+import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
@@ -14,7 +15,6 @@ import {
   type SavedDocument,
 } from "@/components/app/documents-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -45,6 +45,7 @@ function DocumentsPage() {
   const q = query.trim().toLowerCase();
   const { quotations, invoices, inquiries, updateDocumentStatus } = useDocuments();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
+  const [invoiceOpen, setInvoiceOpen] = useState(false);
 
   const filteredQuotes = useMemo(
     () =>
@@ -91,9 +92,10 @@ function DocumentsPage() {
     <>
       <PageHeader
         title="Documents"
-        subtitle="Saved from checkout · quotations, invoices, inquiries"
+        subtitle="Quotations, invoices, and supplier inquiries"
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
+        <CreateInvoiceDialog open={invoiceOpen} onOpenChange={setInvoiceOpen} />
         <Tabs defaultValue="quotations">
           <TabsList>
             <TabsTrigger value="quotations">
@@ -141,7 +143,7 @@ function DocumentsPage() {
           <TabsContent value="invoices" className="mt-4">
             <DocCard
               title="Invoices"
-              onNew={() => startNew("invoice")}
+              onNew={() => setInvoiceOpen(true)}
               headers={["#", "Client", "Date", "Parts", "Total", "Status"]}
               rows={filteredInvoices.map((iv) => [
                 <span key="i" className="font-mono text-xs">
@@ -162,7 +164,11 @@ function DocumentsPage() {
                   onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
                 />,
               ])}
-              empty={q ? `No invoices match “${query}”.` : "No invoices yet — finish a cart checkout."}
+              empty={
+                q
+                  ? `No invoices match “${query}”.`
+                  : "No invoices yet — click + New Invoice to create one."
+              }
             />
           </TabsContent>
 
