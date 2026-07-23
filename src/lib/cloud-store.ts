@@ -10,7 +10,8 @@ export type ShopStateKey =
   | "cart"
   | "kits"
   | "prefs"
-  | "shipments";
+  | "shipments"
+  | "share-inbox";
 
 const MIGRATE_FLAG = "parts-village-cloud-migrated-v1";
 

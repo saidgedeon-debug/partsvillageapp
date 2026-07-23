@@ -12,7 +12,7 @@ import {
 import { loadCatalogParts } from "@/lib/catalog-loader";
 import { useCloudState } from "@/lib/cloud-store";
 import type { Part } from "@/lib/mock-data";
-import { buildInventoryCategories, type InventoryCategoryDef } from "@/lib/inventory-categories";
+import { buildInventoryCategories, STANDARD_CATEGORY_LABELS, type InventoryCategoryDef } from "@/lib/inventory-categories";
 
 export type PartInput = Partial<Part> & {
   partNumber: string;
@@ -196,6 +196,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
   const categoryLabels = useMemo(() => {
     const labels = new Set<string>();
+    for (const c of STANDARD_CATEGORY_LABELS) labels.add(c);
     for (const p of parts) labels.add(p.category);
     for (const c of customCategories) labels.add(c.label);
     return [...labels].sort((a, b) => a.localeCompare(b));
@@ -341,6 +342,9 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       const customCategories = prev.customCategories ?? [];
       const customParts = prev.customParts ?? [];
       const exists =
+        (STANDARD_CATEGORY_LABELS as readonly string[]).some(
+          (c) => c.toLowerCase() === trimmed.toLowerCase(),
+        ) ||
         customCategories.some((c) => c.label.toLowerCase() === trimmed.toLowerCase()) ||
         base.some((p) => p.category.toLowerCase() === trimmed.toLowerCase()) ||
         customParts.some((p) => p.category.toLowerCase() === trimmed.toLowerCase());

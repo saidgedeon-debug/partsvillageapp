@@ -63,7 +63,7 @@ const customParts = [
     id: "order-g26-26-5-3",
     partNumber: "G26",
     partNumbers: ["G26"],
-    name: "O-Ring G26",
+    name: "26.5 x 3",
     category: "O-Rings",
     quantity: 200,
     reorderAt: 20,
@@ -72,7 +72,7 @@ const customParts = [
     compatibility: [],
     insideDiameterMm: "26.5",
     crossSectionMm: "3",
-    notes: "Size 26.5×3 · order received (price TBD)",
+    notes: "Size 26.5 x 3 · order received (price TBD)",
   },
   {
     id: "order-as276-279-353",

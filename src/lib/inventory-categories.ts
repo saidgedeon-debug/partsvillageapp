@@ -37,7 +37,8 @@ export type CategoryGroupId =
   | "bearings"
   | "gaskets"
   | "cooling"
-  | "harnesses";
+  | "harnesses"
+  | "couplings";
 
 export type InventoryCategoryDef = {
   id: string;
@@ -145,6 +146,12 @@ const GROUP_RULES: GroupRule[] = [
     match: (c) => /gasket|seal kit/.test(c),
   },
   {
+    id: "couplings",
+    label: "Couplings",
+    icon: Link2,
+    match: (c) => /coupling|coupler|\bjoint\b|universal joint|u-joint/.test(c),
+  },
+  {
     id: "motors",
     label: "Motors & starters",
     icon: Fan,
@@ -188,6 +195,12 @@ const GROUP_RULES: GroupRule[] = [
 ];
 
 export const categoryGroupIds = GROUP_RULES.map((r) => r.id);
+
+/** Always offered in the part form category datalist (even with 0 stock). */
+export const STANDARD_CATEGORY_LABELS = [
+  "O-Rings",
+  "Couplings",
+] as const;
 
 export function getCategoryGroupLabel(groupId: CategoryGroupId): string {
   return GROUP_RULES.find((r) => r.id === groupId)?.label ?? groupId;
@@ -240,6 +253,8 @@ const PREFERRED_LABEL: Record<string, string> = {
   "intercooler aftercooler": "Intercooler / Aftercooler",
   "thermostat cooling control": "Thermostat / Cooling Control",
   "bearing bushing": "Bearing / Bushing",
+  "coupling joint": "Coupling / Joint",
+  "universal joint": "Universal Joint",
   "engine gasket seal": "Engine Gasket / Seal",
   "linkage bushing bearing": "Linkage Bushing / Bearing",
   "thrust washer bearing": "Thrust Washer / Bearing",

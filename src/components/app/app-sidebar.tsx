@@ -9,6 +9,7 @@ import {
   AlertTriangle,
   Ship,
   Wrench,
+  Inbox,
 } from "lucide-react";
 
 import {
@@ -25,6 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import logo from "@/assets/parts-village-logo-clear.png";
+import { useShareInbox } from "@/components/app/share-inbox-context";
 
 const items = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, exact: true },
@@ -34,13 +36,15 @@ const items = [
   { title: "Clients CRM", url: "/clients", icon: Users },
   { title: "Suppliers CRM", url: "/suppliers", icon: Building2 },
   { title: "Documents", url: "/documents", icon: FileText },
-  { title: "China shipments", url: "/china-shipments", icon: Ship },
+  { title: "Shipments", url: "/china-shipments", icon: Ship },
+  { title: "Share inbox", url: "/share-inbox", icon: Inbox },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const { pendingCount } = useShareInbox();
   const isActive = (url: string, exact?: boolean) =>
     exact ? pathname === url : pathname === url || pathname.startsWith(url + "/");
 
@@ -74,7 +78,16 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild isActive={isActive(item.url, item.exact)} tooltip={item.title}>
                     <Link to={item.url} className="flex items-center gap-2">
                       <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      {!collapsed && (
+                        <span className="flex flex-1 items-center justify-between gap-2">
+                          {item.title}
+                          {item.url === "/share-inbox" && pendingCount > 0 && (
+                            <span className="rounded-full bg-accent px-1.5 text-[10px] font-semibold text-accent-foreground">
+                              {pendingCount}
+                            </span>
+                          )}
+                        </span>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

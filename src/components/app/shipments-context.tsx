@@ -8,6 +8,17 @@ import {
 
 import { useCloudState } from "@/lib/cloud-store";
 
+export type ShipmentCategory = "titus" | "other";
+
+/** What the shipment is for */
+export type ShipmentCargoType = "divers" | "heavy" | "private";
+
+export const CARGO_TYPE_LABELS: Record<ShipmentCargoType, string> = {
+  divers: "Divers",
+  heavy: "Heavy equipment",
+  private: "Private",
+};
+
 export type ShipmentStatus =
   | "Ordered"
   | "In transit"
@@ -20,7 +31,7 @@ export type ShipmentAttachment = {
   name: string;
   /** Compressed JPEG data URL */
   dataUrl: string;
-  kind: "invoice" | "paper" | "other";
+  kind: "invoice" | "quotation" | "paper" | "other";
   createdAt: string;
 };
 
@@ -34,6 +45,10 @@ export type ChinaShipment = {
   /** Titus / carrier shipment number (e.g. GZ20…) */
   trackingNumber?: string;
   status: ShipmentStatus;
+  /** Titus freight shipments vs everything else */
+  category?: ShipmentCategory;
+  /** Divers parts / heavy equipment / private */
+  cargoType?: ShipmentCargoType;
   notes?: string;
   /** Goods cost */
   totalCost?: number;
@@ -47,6 +62,14 @@ export type ChinaShipment = {
   cartons?: number;
   /** Last location / status copied from Titus app */
   titusLocation?: string;
+  /** Titus stage: Planned, pre-arranged, Loaded, Delivered… */
+  titusStatus?: string;
+  /** Titus container / flight group e.g. AIR6068 */
+  containerNo?: string;
+  /** Estimated time of departure (YYYY-MM-DD) */
+  etd?: string;
+  /** Estimated time of arrival (YYYY-MM-DD) */
+  eta?: string;
   attachments: ShipmentAttachment[];
   createdAt: string;
   updatedAt: string;
@@ -60,6 +83,8 @@ export type ShipmentInput = {
   arrivedAt?: string;
   trackingNumber?: string;
   status: ShipmentStatus;
+  category?: ShipmentCategory;
+  cargoType?: ShipmentCargoType;
   notes?: string;
   totalCost?: number;
   currency?: "USD" | "RMB";
@@ -70,6 +95,10 @@ export type ShipmentInput = {
   volumeCbm?: number;
   cartons?: number;
   titusLocation?: string;
+  titusStatus?: string;
+  containerNo?: string;
+  etd?: string;
+  eta?: string;
 };
 
 type ShipmentsContextValue = {
@@ -95,6 +124,25 @@ function newId(prefix: string) {
 
 function isEmpty(v: ChinaShipment[]): boolean {
   return (v?.length ?? 0) === 0;
+}
+
+/** Resolve category for display/filter (legacy rows inferred). */
+export function getShipmentCategory(s: ChinaShipment): ShipmentCategory {
+  if (s.category === "titus" || s.category === "other") return s.category;
+  const supplier = (s.supplier ?? "").toLowerCase();
+  if (supplier.includes("titus")) return "titus";
+  if (s.titusStatus || s.titusLocation || s.containerNo) return "titus";
+  if ((s.notes ?? "").toLowerCase().includes("imported from titus")) return "titus";
+  if ((s.trackingNumber ?? "").toUpperCase().startsWith("GA")) return "titus";
+  return "other";
+}
+
+/** Resolve cargo type (default divers for unset legacy rows). */
+export function getShipmentCargoType(s: ChinaShipment): ShipmentCargoType {
+  if (s.cargoType === "divers" || s.cargoType === "heavy" || s.cargoType === "private") {
+    return s.cargoType;
+  }
+  return "divers";
 }
 
 export function ShipmentsProvider({ children }: { children: ReactNode }) {
@@ -124,6 +172,8 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
         arrivedAt: input.arrivedAt || undefined,
         trackingNumber: input.trackingNumber?.trim() || undefined,
         status: input.status,
+        category: input.category ?? "other",
+        cargoType: input.cargoType ?? "divers",
         notes: input.notes?.trim() || undefined,
         totalCost: Number.isFinite(input.totalCost) ? input.totalCost : undefined,
         currency: input.currency ?? "USD",
@@ -134,6 +184,10 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
         volumeCbm: Number.isFinite(input.volumeCbm) ? input.volumeCbm : undefined,
         cartons: Number.isFinite(input.cartons) ? input.cartons : undefined,
         titusLocation: input.titusLocation?.trim() || undefined,
+        titusStatus: input.titusStatus?.trim() || undefined,
+        containerNo: input.containerNo?.trim() || undefined,
+        etd: input.etd || undefined,
+        eta: input.eta || undefined,
         attachments: [],
         createdAt: now,
         updatedAt: now,
@@ -162,6 +216,8 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
               patch.trackingNumber !== undefined
                 ? patch.trackingNumber.trim() || undefined
                 : s.trackingNumber,
+            category: patch.category !== undefined ? patch.category : s.category,
+            cargoType: patch.cargoType !== undefined ? patch.cargoType : s.cargoType,
             notes: patch.notes !== undefined ? patch.notes.trim() || undefined : s.notes,
             expectedAt:
               patch.expectedAt !== undefined ? patch.expectedAt || undefined : s.expectedAt,
@@ -178,6 +234,16 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
               patch.titusLocation !== undefined
                 ? patch.titusLocation.trim() || undefined
                 : s.titusLocation,
+            titusStatus:
+              patch.titusStatus !== undefined
+                ? patch.titusStatus.trim() || undefined
+                : s.titusStatus,
+            containerNo:
+              patch.containerNo !== undefined
+                ? patch.containerNo.trim() || undefined
+                : s.containerNo,
+            etd: patch.etd !== undefined ? patch.etd || undefined : s.etd,
+            eta: patch.eta !== undefined ? patch.eta || undefined : s.eta,
             updatedAt: new Date().toISOString(),
           };
           return updated;

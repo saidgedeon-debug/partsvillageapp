@@ -434,7 +434,7 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
           <div className="flex w-full flex-col gap-2 lg:max-w-lg">
             <SearchablePick
               label="Category / group"
-              placeholder="Choose Sensors, Switches, …"
+              placeholder="Choose Sensors, Switches, Couplings, …"
               value={categoryPick}
               options={pickOptions}
               formatOption={(v) => pickLabelByValue.get(v) ?? v}
@@ -516,7 +516,7 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
         </div>
       ) : mode === "category" && !categoryPick ? (
         <div className="rounded-lg border border-dashed border-border py-16 text-center text-sm text-muted-foreground">
-          Choose a group (Sensors, Switches, …) or a leftover category.
+          Choose a group (Sensors, Switches, Couplings, …) or a leftover category.
         </div>
       ) : rows.length === 0 ? (
         <div className="rounded-lg border border-dashed border-border py-16 text-center text-sm text-muted-foreground">

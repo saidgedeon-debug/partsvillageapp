@@ -3,7 +3,11 @@ import { toast } from "sonner";
 
 import {
   useShipments,
+  getShipmentCategory,
+  getShipmentCargoType,
   type ChinaShipment,
+  type ShipmentCargoType,
+  type ShipmentCategory,
   type ShipmentInput,
   type ShipmentStatus,
 } from "@/components/app/shipments-context";
@@ -69,6 +73,8 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
   const [arrivedAt, setArrivedAt] = useState("");
   const [trackingNumber, setTrackingNumber] = useState("");
   const [status, setStatus] = useState<ShipmentStatus>("Ordered");
+  const [category, setCategory] = useState<ShipmentCategory>("other");
+  const [cargoType, setCargoType] = useState<ShipmentCargoType>("divers");
   const [notes, setNotes] = useState("");
   const [totalCost, setTotalCost] = useState("");
   const [currency, setCurrency] = useState<"USD" | "RMB">("USD");
@@ -79,6 +85,10 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
   const [volumeCbm, setVolumeCbm] = useState("");
   const [cartons, setCartons] = useState("");
   const [titusLocation, setTitusLocation] = useState("");
+  const [titusStatus, setTitusStatus] = useState("");
+  const [containerNo, setContainerNo] = useState("");
+  const [etd, setEtd] = useState("");
+  const [eta, setEta] = useState("");
 
   useEffect(() => {
     if (!open) return;
@@ -90,6 +100,8 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       setArrivedAt(shipment.arrivedAt ?? "");
       setTrackingNumber(shipment.trackingNumber ?? "");
       setStatus(shipment.status);
+      setCategory(getShipmentCategory(shipment));
+      setCargoType(getShipmentCargoType(shipment));
       setNotes(shipment.notes ?? "");
       setTotalCost(
         shipment.totalCost != null && Number.isFinite(shipment.totalCost)
@@ -120,6 +132,10 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
           : "",
       );
       setTitusLocation(shipment.titusLocation ?? "");
+      setTitusStatus(shipment.titusStatus ?? "");
+      setContainerNo(shipment.containerNo ?? "");
+      setEtd(shipment.etd ?? "");
+      setEta(shipment.eta ?? shipment.expectedAt ?? "");
       return;
     }
     setTitle("");
@@ -129,6 +145,8 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     setArrivedAt("");
     setTrackingNumber("");
     setStatus("Ordered");
+    setCategory("other");
+    setCargoType("divers");
     setNotes("");
     setTotalCost("");
     setCurrency("USD");
@@ -139,6 +157,10 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     setVolumeCbm("");
     setCartons("");
     setTitusLocation("");
+    setTitusStatus("");
+    setContainerNo("");
+    setEtd("");
+    setEta("");
   }, [open, shipment]);
 
   const save = () => {
@@ -150,10 +172,12 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       title: title.trim(),
       supplier,
       orderedAt,
-      expectedAt: expectedAt || undefined,
+      expectedAt: eta || expectedAt || undefined,
       arrivedAt: arrivedAt || undefined,
       trackingNumber,
       status,
+      category,
+      cargoType,
       notes,
       totalCost: parseOptNumber(totalCost),
       currency,
@@ -164,6 +188,10 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       volumeCbm: parseOptNumber(volumeCbm),
       cartons: parseOptNumber(cartons),
       titusLocation,
+      titusStatus: titusStatus || undefined,
+      containerNo: containerNo || undefined,
+      etd: etd || undefined,
+      eta: eta || undefined,
     };
 
     if (isEdit && shipment) {
@@ -183,7 +211,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit shipment" : "New China shipment"}</DialogTitle>
+          <DialogTitle>{isEdit ? "Edit shipment" : "New shipment"}</DialogTitle>
           <DialogDescription>
             Save Titus shipment #, freight cost, and where it is — open Titus app for live tracking.
           </DialogDescription>
@@ -230,14 +258,38 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="ship-arrived">Arrived</Label>
-              <Input
-                id="ship-arrived"
-                type="date"
-                value={arrivedAt}
-                onChange={(e) => setArrivedAt(e.target.value)}
-              />
+              <Label>Type</Label>
+              <Select
+                value={cargoType}
+                onValueChange={(v) => setCargoType(v as ShipmentCargoType)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="divers">Divers</SelectItem>
+                  <SelectItem value="heavy">Heavy equipment</SelectItem>
+                  <SelectItem value="private">Private</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
+            <div className="space-y-1.5">
+              <Label>Category</Label>
+              <Select
+                value={category}
+                onValueChange={(v) => setCategory(v as ShipmentCategory)}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="titus">Titus</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>Status</Label>
               <Select value={status} onValueChange={(v) => setStatus(v as ShipmentStatus)}>
@@ -253,6 +305,15 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
                 </SelectContent>
               </Select>
             </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="ship-arrived">Arrived</Label>
+              <Input
+                id="ship-arrived"
+                type="date"
+                value={arrivedAt}
+                onChange={(e) => setArrivedAt(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="rounded-lg border border-border bg-muted/30 p-3 space-y-3">
@@ -260,14 +321,55 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
               Titus Logistics
             </p>
             <div className="space-y-1.5">
-              <Label htmlFor="ship-track">Titus shipment #</Label>
+              <Label htmlFor="ship-track">Titus order #</Label>
               <Input
                 id="ship-track"
                 value={trackingNumber}
                 onChange={(e) => setTrackingNumber(e.target.value)}
-                placeholder="e.g. GZ20…"
+                placeholder="e.g. GA2607152046"
                 className="font-mono text-sm"
               />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-titus-status">Titus status</Label>
+                <Input
+                  id="ship-titus-status"
+                  value={titusStatus}
+                  onChange={(e) => setTitusStatus(e.target.value)}
+                  placeholder="Planned / Loaded…"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-container">Container</Label>
+                <Input
+                  id="ship-container"
+                  value={containerNo}
+                  onChange={(e) => setContainerNo(e.target.value)}
+                  placeholder="e.g. AIR6068"
+                  className="font-mono text-sm"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-etd">ETD</Label>
+                <Input
+                  id="ship-etd"
+                  type="date"
+                  value={etd}
+                  onChange={(e) => setEtd(e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="ship-eta">ETA</Label>
+                <Input
+                  id="ship-eta"
+                  type="date"
+                  value={eta}
+                  onChange={(e) => setEta(e.target.value)}
+                />
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">

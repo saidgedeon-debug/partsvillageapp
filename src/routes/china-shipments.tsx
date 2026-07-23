@@ -1,14 +1,30 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useRef, useState } from "react";
-import { ChevronRight, Copy, ExternalLink, FileImage, Plus, Ship, Trash2, Upload } from "lucide-react";
+import {
+  ChevronRight,
+  Copy,
+  ExternalLink,
+  FileImage,
+  Plus,
+  RefreshCw,
+  Ship,
+  Trash2,
+  Upload,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
 import { ShipmentFormDialog } from "@/components/app/shipment-form-dialog";
+import { TitusImportDialog } from "@/components/app/titus-import-dialog";
 import {
   useShipments,
+  getShipmentCategory,
+  getShipmentCargoType,
+  CARGO_TYPE_LABELS,
   type ChinaShipment,
   type ShipmentAttachment,
+  type ShipmentCargoType,
+  type ShipmentCategory,
   type ShipmentStatus,
 } from "@/components/app/shipments-context";
 import { useSearch } from "@/components/app/search-context";
@@ -30,6 +46,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTitusAutoSync } from "@/hooks/use-titus-auto-sync";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +57,7 @@ const TITUS_MOBILE = "https://login.titus-logistics.com/mobile/index.php";
 export const Route = createFileRoute("/china-shipments")({
   head: () => ({
     meta: [
-      { title: "China shipments — Parts Village" },
+      { title: "Shipments — Parts Village" },
       {
         name: "description",
         content: "Track China orders: dates, tracking, costs, and invoice photos.",
@@ -57,51 +75,148 @@ const STATUS_STYLE: Record<ShipmentStatus, string> = {
   Cancelled: "border-rose-300 text-rose-700 bg-rose-50",
 };
 
+/** 0 = in transit, 1 = pending, 2 = delivered, 3 = cancelled */
+function shipmentSortRank(s: ChinaShipment): number {
+  const titus = (s.titusStatus ?? "").toLowerCase();
+  if (s.status === "Cancelled" || titus.includes("cancel")) return 3;
+  if (
+    s.status === "Arrived" ||
+    s.status === "In stock" ||
+    titus.includes("deliver") ||
+    titus.includes("signed") ||
+    titus.includes("complet")
+  ) {
+    return 2;
+  }
+  if (
+    s.status === "In transit" ||
+    titus.includes("load") ||
+    titus.includes("transit")
+  ) {
+    return 0;
+  }
+  // Ordered / Planned / pre-arranged / waiting → pending
+  return 1;
+}
+
+function compareShipments(a: ChinaShipment, b: ChinaShipment): number {
+  const rank = shipmentSortRank(a) - shipmentSortRank(b);
+  if (rank !== 0) return rank;
+  return (b.orderedAt || b.createdAt).localeCompare(a.orderedAt || a.createdAt);
+}
+
 function ChinaShipmentsPage() {
   const { query } = useSearch();
   const { shipments, removeShipment } = useShipments();
   const [formOpen, setFormOpen] = useState(false);
+  const [titusOpen, setTitusOpen] = useState(false);
   const [editing, setEditing] = useState<ChinaShipment | null>(null);
   const [detailId, setDetailId] = useState<string | null>(null);
+  const [categoryTab, setCategoryTab] = useState<"all" | ShipmentCategory>("all");
+  const [cargoTab, setCargoTab] = useState<"all" | ShipmentCargoType>("all");
   const q = query.trim().toLowerCase();
+  useTitusAutoSync(true);
+
+  const counts = useMemo(() => {
+    let titus = 0;
+    let other = 0;
+    let divers = 0;
+    let heavy = 0;
+    let priv = 0;
+    for (const s of shipments) {
+      if (getShipmentCategory(s) === "titus") titus += 1;
+      else other += 1;
+      const cargo = getShipmentCargoType(s);
+      if (cargo === "divers") divers += 1;
+      else if (cargo === "heavy") heavy += 1;
+      else priv += 1;
+    }
+    return { all: shipments.length, titus, other, divers, heavy, private: priv };
+  }, [shipments]);
 
   const rows = useMemo(() => {
-    const sorted = [...shipments].sort((a, b) =>
-      (b.orderedAt || b.createdAt).localeCompare(a.orderedAt || a.createdAt),
-    );
-    if (!q) return sorted;
-    return sorted.filter(
-      (s) =>
-        s.title.toLowerCase().includes(q) ||
-        s.supplier.toLowerCase().includes(q) ||
-        (s.trackingNumber ?? "").toLowerCase().includes(q) ||
-        (s.titusLocation ?? "").toLowerCase().includes(q) ||
-        (s.notes ?? "").toLowerCase().includes(q) ||
-        (s.freightMode ?? "").toLowerCase().includes(q) ||
-        s.status.toLowerCase().includes(q),
-    );
-  }, [shipments, q]);
+    let filtered = [...shipments];
+    if (categoryTab !== "all") {
+      filtered = filtered.filter((s) => getShipmentCategory(s) === categoryTab);
+    }
+    if (cargoTab !== "all") {
+      filtered = filtered.filter((s) => getShipmentCargoType(s) === cargoTab);
+    }
+    if (q) {
+      filtered = filtered.filter(
+        (s) =>
+          s.title.toLowerCase().includes(q) ||
+          s.supplier.toLowerCase().includes(q) ||
+          (s.trackingNumber ?? "").toLowerCase().includes(q) ||
+          (s.titusLocation ?? "").toLowerCase().includes(q) ||
+          (s.titusStatus ?? "").toLowerCase().includes(q) ||
+          (s.containerNo ?? "").toLowerCase().includes(q) ||
+          (s.etd ?? "").toLowerCase().includes(q) ||
+          (s.eta ?? "").toLowerCase().includes(q) ||
+          (s.notes ?? "").toLowerCase().includes(q) ||
+          (s.freightMode ?? "").toLowerCase().includes(q) ||
+          CARGO_TYPE_LABELS[getShipmentCargoType(s)].toLowerCase().includes(q) ||
+          s.status.toLowerCase().includes(q),
+      );
+    }
+    return filtered.sort(compareShipments);
+  }, [shipments, q, categoryTab, cargoTab]);
 
   const detail = detailId ? shipments.find((s) => s.id === detailId) ?? null : null;
 
   return (
     <>
       <PageHeader
-        title="China shipments"
-        subtitle={`${rows.length} of ${shipments.length} · Titus tracking + papers`}
+        title="Shipments"
+        subtitle={`${rows.length} shown · ${counts.all} total`}
       />
       <main className="flex-1 space-y-3 p-4 md:p-6">
+        <Tabs
+          value={categoryTab}
+          onValueChange={(v) => setCategoryTab(v as "all" | ShipmentCategory)}
+        >
+          <TabsList className="grid w-full grid-cols-3 sm:w-auto sm:inline-grid">
+            <TabsTrigger value="all">All ({counts.all})</TabsTrigger>
+            <TabsTrigger value="titus">Titus ({counts.titus})</TabsTrigger>
+            <TabsTrigger value="other">Other ({counts.other})</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
+        <Tabs
+          value={cargoTab}
+          onValueChange={(v) => setCargoTab(v as "all" | ShipmentCargoType)}
+        >
+          <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:w-auto sm:inline-grid sm:grid-cols-4">
+            <TabsTrigger value="all">All types</TabsTrigger>
+            <TabsTrigger value="divers">Divers ({counts.divers})</TabsTrigger>
+            <TabsTrigger value="heavy">Heavy ({counts.heavy})</TabsTrigger>
+            <TabsTrigger value="private">Private ({counts.private})</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="gap-1.5"
-            onClick={() => window.open(TITUS_PORTAL, "_blank", "noopener,noreferrer")}
-          >
-            <ExternalLink className="h-3.5 w-3.5" />
-            Titus account
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-1.5"
+              onClick={() => setTitusOpen(true)}
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+              Sync Titus
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-1.5"
+              onClick={() => window.open(TITUS_PORTAL, "_blank", "noopener,noreferrer")}
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              Titus site
+            </Button>
+          </div>
           <Button
             type="button"
             className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90"
@@ -128,6 +243,25 @@ function ChinaShipmentsPage() {
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="truncate font-semibold text-foreground">{s.title}</h3>
+                  <Badge
+                    variant="outline"
+                    className={cn(
+                      "text-[10px]",
+                      getShipmentCategory(s) === "titus"
+                        ? "border-accent/50 bg-accent/10 text-accent"
+                        : "border-slate-300 text-slate-700",
+                    )}
+                  >
+                    {getShipmentCategory(s) === "titus" ? "Titus" : "Other"}
+                  </Badge>
+                  <Badge variant="secondary" className="text-[10px]">
+                    {CARGO_TYPE_LABELS[getShipmentCargoType(s)]}
+                  </Badge>
+                  {s.titusStatus && (
+                    <Badge variant="outline" className="border-accent/50 bg-accent/10 text-[10px] text-accent">
+                      {s.titusStatus}
+                    </Badge>
+                  )}
                   <Badge variant="outline" className={cn("text-[10px]", STATUS_STYLE[s.status])}>
                     {s.status}
                   </Badge>
@@ -140,18 +274,29 @@ function ChinaShipmentsPage() {
                 </div>
                 <p className="truncate text-sm text-muted-foreground">
                   {[
-                    s.supplier || null,
-                    s.trackingNumber ? `Titus ${s.trackingNumber}` : null,
-                    s.titusLocation || null,
-                    s.orderedAt ? `Ordered ${s.orderedAt}` : null,
+                    s.trackingNumber ? s.trackingNumber : null,
+                    s.containerNo ? `Ship ${s.containerNo}` : null,
+                    s.etd ? `ETD ${s.etd}` : null,
+                    s.eta ? `ETA ${s.eta}` : null,
                     s.freightMode || null,
                   ]
                     .filter(Boolean)
-                    .join(" · ") || "Open to add Titus #, cost & photos"}
+                    .join(" · ") || "Open to add tracking, cost & photos"}
                 </p>
               </div>
               <div className="hidden text-right md:block">
-                {s.totalCost != null ? (
+                {s.freightCost != null ? (
+                  <>
+                    <p className="text-sm font-semibold">
+                      $
+                      {s.freightCost.toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2,
+                      })}
+                    </p>
+                    <p className="text-xs text-muted-foreground">Titus freight</p>
+                  </>
+                ) : s.totalCost != null ? (
                   <>
                     <p className="text-sm font-semibold">
                       {s.currency === "RMB" ? "¥" : "$"}
@@ -163,7 +308,7 @@ function ChinaShipmentsPage() {
                     <p className="text-xs text-muted-foreground">{s.currency}</p>
                   </>
                 ) : (
-                  <p className="text-xs text-muted-foreground">No cost set</p>
+                  <p className="text-xs text-muted-foreground">No cost yet</p>
                 )}
               </div>
               <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -175,7 +320,11 @@ function ChinaShipmentsPage() {
           <div className="py-16 text-center text-sm text-muted-foreground">
             {q
               ? `No shipments match “${query}”.`
-              : "No China shipments yet — add one when you place an order."}
+              : categoryTab === "titus"
+                ? "No Titus shipments yet — Sync Titus to import."
+                : categoryTab === "other"
+                  ? "No other shipments yet — add one with New shipment."
+                  : "No shipments yet — add one when you place an order."}
           </div>
         )}
       </main>
@@ -186,6 +335,7 @@ function ChinaShipmentsPage() {
         onOpenChange={setFormOpen}
         onCreated={(id) => setDetailId(id)}
       />
+      <TitusImportDialog open={titusOpen} onOpenChange={setTitusOpen} />
 
       <ShipmentDetailDialog
         shipment={detail}
@@ -265,6 +415,37 @@ function ShipmentDetailDialog({
 
           <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-6 py-4">
             <div className="flex flex-wrap items-center gap-2">
+              <Label className="text-xs text-muted-foreground">Type</Label>
+              <Select
+                value={getShipmentCargoType(shipment)}
+                onValueChange={(v) =>
+                  updateShipment(shipment.id, { cargoType: v as ShipmentCargoType })
+                }
+              >
+                <SelectTrigger className="h-8 w-[160px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="divers">Divers</SelectItem>
+                  <SelectItem value="heavy">Heavy equipment</SelectItem>
+                  <SelectItem value="private">Private</SelectItem>
+                </SelectContent>
+              </Select>
+              <Label className="text-xs text-muted-foreground">Category</Label>
+              <Select
+                value={getShipmentCategory(shipment)}
+                onValueChange={(v) =>
+                  updateShipment(shipment.id, { category: v as ShipmentCategory })
+                }
+              >
+                <SelectTrigger className="h-8 w-[120px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="titus">Titus</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
               <Label className="text-xs text-muted-foreground">Status</Label>
               <Select
                 value={shipment.status}
@@ -322,21 +503,27 @@ function ShipmentDetailDialog({
                     size="sm"
                     variant="outline"
                     className="h-7 gap-1 text-xs"
-                    onClick={() =>
-                      window.open(TITUS_MOBILE, "_blank", "noopener,noreferrer")
-                    }
+                    onClick={() => {
+                      const url = shipment.containerNo
+                        ? `https://login.titus-logistics.com/mobile/my_order.php?act=list&ys_status=all&hgh=${encodeURIComponent(shipment.containerNo)}`
+                        : TITUS_MOBILE;
+                      window.open(url, "_blank", "noopener,noreferrer");
+                    }}
                   >
-                    Mobile login
+                    Mobile
                   </Button>
                 </div>
               </div>
               <p className="text-[11px] text-muted-foreground">
-                Live location & bills stay in your Titus account — paste the shipment # and costs
-                here so Parts Village keeps your own record.
+                Synced from Titus — stage, ETD/ETA, and freight update when you Sync Titus.
               </p>
               <dl className="grid grid-cols-2 gap-2 text-sm">
                 <Meta label="Titus #" value={shipment.trackingNumber || "—"} mono />
+                <Meta label="Titus status" value={shipment.titusStatus || "—"} />
+                <Meta label="Container" value={shipment.containerNo || "—"} mono />
                 <Meta label="Mode" value={shipment.freightMode || "—"} />
+                <Meta label="ETD" value={shipment.etd || "—"} />
+                <Meta label="ETA" value={shipment.eta || shipment.expectedAt || "—"} />
                 <Meta
                   label="Freight"
                   value={
@@ -361,7 +548,7 @@ function ShipmentDetailDialog({
               {shipment.titusLocation?.trim() && (
                 <div className="rounded-md border border-border bg-background px-3 py-2">
                   <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
-                    Where now
+                    Titus summary
                   </p>
                   <p className="text-sm font-medium">{shipment.titusLocation}</p>
                 </div>
@@ -462,11 +649,17 @@ function ShipmentDetailDialog({
                         className="block w-full"
                         onClick={() => setViewer(a)}
                       >
-                        <img
-                          src={a.dataUrl}
-                          alt={a.name}
-                          className="aspect-[4/3] w-full object-cover"
-                        />
+                        {a.dataUrl.startsWith("data:image/") ? (
+                          <img
+                            src={a.dataUrl}
+                            alt={a.name}
+                            className="aspect-[4/3] w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex aspect-[4/3] w-full items-center justify-center bg-muted text-xs text-muted-foreground">
+                            {a.kind} file
+                          </div>
+                        )}
                       </button>
                       <div className="flex items-center justify-between gap-1 border-t border-border px-2 py-1">
                         <div className="min-w-0">

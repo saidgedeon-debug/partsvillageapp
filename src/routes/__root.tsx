@@ -22,10 +22,14 @@ import { PrefsProvider } from "@/components/app/prefs-context";
 import { KitsProvider } from "@/components/app/kits-context";
 import { CartProvider } from "@/components/app/cart-context";
 import { ShipmentsProvider } from "@/components/app/shipments-context";
+import { ShareInboxProvider } from "@/components/app/share-inbox-context";
 import { DocumentTypeDialog } from "@/components/app/document-type-dialog";
 import { CartSheet } from "@/components/app/cart-sheet";
 import { CheckoutDialog } from "@/components/app/checkout-dialog";
 import { Toaster } from "@/components/ui/sonner";
+import { registerShareServiceWorker } from "@/lib/share-target";
+
+registerShareServiceWorker();
 
 function NotFoundComponent() {
   return (
@@ -110,6 +114,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@partsvillage" },
+      { name: "theme-color", content: "#0f172a" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "Parts Village" },
     ],
     links: [
       {
@@ -117,6 +125,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icon-512.png" },
     ],
   }),
   shellComponent: RootShell,
@@ -153,20 +163,22 @@ function RootComponent() {
                   <PrefsProvider>
                     <KitsProvider>
                       <ShipmentsProvider>
-                        <CartProvider>
-                          <SidebarProvider>
-                            <div className="flex min-h-screen w-full bg-background">
-                              <AppSidebar />
-                              <SidebarInset className="min-w-0">
-                                <Outlet />
-                              </SidebarInset>
-                            </div>
-                            <DocumentTypeDialog />
-                            <CartSheet />
-                            <CheckoutDialog />
-                            <Toaster />
-                          </SidebarProvider>
-                        </CartProvider>
+                        <ShareInboxProvider>
+                          <CartProvider>
+                            <SidebarProvider>
+                              <div className="flex min-h-screen w-full bg-background">
+                                <AppSidebar />
+                                <SidebarInset className="min-w-0">
+                                  <Outlet />
+                                </SidebarInset>
+                              </div>
+                              <DocumentTypeDialog />
+                              <CartSheet />
+                              <CheckoutDialog />
+                              <Toaster />
+                            </SidebarProvider>
+                          </CartProvider>
+                        </ShareInboxProvider>
                       </ShipmentsProvider>
                     </KitsProvider>
                   </PrefsProvider>

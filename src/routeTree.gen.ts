@@ -14,6 +14,8 @@ import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as LowStockRouteImport } from './routes/low-stock'
+import { Route as ShareRouteImport } from './routes/share'
+import { Route as ShareInboxRouteImport } from './routes/share-inbox'
 import { Route as StockTakeRouteImport } from './routes/stock-take'
 import { Route as ClientsIndexRouteImport } from './routes/clients.index'
 import { Route as ClientsClientIdRouteImport } from './routes/clients.$clientId'
@@ -43,6 +45,16 @@ const InventoryRoute = InventoryRouteImport.update({
 const LowStockRoute = LowStockRouteImport.update({
   id: '/low-stock',
   path: '/low-stock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShareRoute = ShareRouteImport.update({
+  id: '/share',
+  path: '/share',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShareInboxRoute = ShareInboxRouteImport.update({
+  id: '/share-inbox',
+  path: '/share-inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StockTakeRoute = StockTakeRouteImport.update({
@@ -77,6 +89,8 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/share': typeof ShareRoute
+  '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
@@ -89,6 +103,8 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/share': typeof ShareRoute
+  '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
@@ -102,6 +118,8 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/share': typeof ShareRoute
+  '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
@@ -116,6 +134,8 @@ export interface FileRouteTypes {
     | '/documents'
     | '/inventory'
     | '/low-stock'
+    | '/share'
+    | '/share-inbox'
     | '/stock-take'
     | '/clients/$clientId'
     | '/suppliers/$supplierId'
@@ -128,6 +148,8 @@ export interface FileRouteTypes {
     | '/documents'
     | '/inventory'
     | '/low-stock'
+    | '/share'
+    | '/share-inbox'
     | '/stock-take'
     | '/clients/$clientId'
     | '/suppliers/$supplierId'
@@ -140,6 +162,8 @@ export interface FileRouteTypes {
     | '/documents'
     | '/inventory'
     | '/low-stock'
+    | '/share'
+    | '/share-inbox'
     | '/stock-take'
     | '/clients/$clientId'
     | '/suppliers/$supplierId'
@@ -153,6 +177,8 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   InventoryRoute: typeof InventoryRoute
   LowStockRoute: typeof LowStockRoute
+  ShareRoute: typeof ShareRoute
+  ShareInboxRoute: typeof ShareInboxRoute
   StockTakeRoute: typeof StockTakeRoute
   ClientsClientIdRoute: typeof ClientsClientIdRoute
   SuppliersSupplierIdRoute: typeof SuppliersSupplierIdRoute
@@ -195,6 +221,20 @@ declare module '@tanstack/react-router' {
       path: '/low-stock'
       fullPath: '/low-stock'
       preLoaderRoute: typeof LowStockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/share': {
+      id: '/share'
+      path: '/share'
+      fullPath: '/share'
+      preLoaderRoute: typeof ShareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/share-inbox': {
+      id: '/share-inbox'
+      path: '/share-inbox'
+      fullPath: '/share-inbox'
+      preLoaderRoute: typeof ShareInboxRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stock-take': {
@@ -241,6 +281,8 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   InventoryRoute: InventoryRoute,
   LowStockRoute: LowStockRoute,
+  ShareRoute: ShareRoute,
+  ShareInboxRoute: ShareInboxRoute,
   StockTakeRoute: StockTakeRoute,
   ClientsClientIdRoute: ClientsClientIdRoute,
   SuppliersSupplierIdRoute: SuppliersSupplierIdRoute,
