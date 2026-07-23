@@ -204,29 +204,9 @@ function InventoryPage() {
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
 
   const orderedCategories = useMemo(() => {
-    const base = categories.filter(
-      (c) => c.id === "all" || c.id === catalogInventoryCategoryId || c.id === "o-rings",
-    );
-    const groups = categories.filter((c) => c.group);
-    const rest = categories.filter(
-      (c) =>
-        c.id !== "all" &&
-        c.id !== catalogInventoryCategoryId &&
-        c.id !== "o-rings" &&
-        !c.group,
-    );
-    const byGroup = new Map(groups.map((g) => [g.group!, g]));
-    const fav = new Set(favoriteCategoryGroups);
-    const recent = recentCategoryGroups.filter((id) => !fav.has(id));
-    const orderedGroups = [
-      ...favoriteCategoryGroups.map((id) => byGroup.get(id)).filter(Boolean),
-      ...recent.map((id) => byGroup.get(id)).filter(Boolean),
-      ...groups.filter(
-        (g) => g.group && !fav.has(g.group) && !recent.includes(g.group),
-      ),
-    ] as typeof groups;
-    return [...base, ...orderedGroups, ...rest];
-  }, [categories, favoriteCategoryGroups, recentCategoryGroups]);
+    const allowed = new Set(["all", "o-rings", "couplings"]);
+    return categories.filter((c) => allowed.has(c.id));
+  }, [categories]);
 
   const groupSubs = useMemo(
     () => (activeGroup ? buildGroupSubcategories(parts, activeGroup) : []),
@@ -490,8 +470,8 @@ function InventoryPage() {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Tip: star a group to pin it. Related parts are grouped — open one, search subtypes, then
-          pick.
+          Categories: All items, O-Rings, and Couplings. More can be added as you seed new stock
+          lines.
         </p>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
