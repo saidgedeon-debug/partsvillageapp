@@ -4,7 +4,7 @@ import type { ComponentType } from "react";
 import { useMemo } from "react";
 
 import { PageHeader } from "@/components/app/page-header";
-import { useDocuments } from "@/components/app/documents-context";
+import { useDocuments, invoiceAmountPaid } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
@@ -33,7 +33,7 @@ function Index() {
 
   const paidSales = useMemo(
     () =>
-      invoices.filter((i) => i.status === "Paid").reduce((s, i) => s + i.total, 0) +
+      invoices.reduce((s, i) => s + invoiceAmountPaid(i), 0) +
       orders
         .filter((o) => o.status === "Paid")
         .reduce((s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0), 0),

@@ -1,14 +1,26 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState, type ReactNode } from "react";
-import { Download, Eye, FileText, PackageSearch, Pencil, Receipt, StickyNote } from "lucide-react";
+import {
+  Banknote,
+  Download,
+  Eye,
+  FileText,
+  PackageSearch,
+  Pencil,
+  Receipt,
+  StickyNote,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
+import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
 import { PageHeader } from "@/components/app/page-header";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
 import {
+  invoiceAmountPaid,
+  invoiceRemaining,
   useDocuments,
   type InquiryStatus,
   type InvoiceStatus,
@@ -61,10 +73,12 @@ function DocumentsPage() {
   const { tab } = Route.useSearch();
   const { query } = useSearch();
   const q = query.trim().toLowerCase();
-  const { quotations, invoices, inquiries, updateDocumentStatus } = useDocuments();
+  const { quotations, invoices, receipts, inquiries, updateDocumentStatus } = useDocuments();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState<SavedDocument | null>(null);
+  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
   const [preview, setPreview] = useState<{ id: string; blobUrl: string; doc: SavedDocument } | null>(
     null,
   );
@@ -93,8 +107,18 @@ function DocumentsPage() {
     [q, invoices],
   );
   const filteredReceipts = useMemo(
-    () => filteredInvoices.filter((x) => x.status === "Paid"),
-    [filteredInvoices],
+    () =>
+      receipts.filter(
+        (x) =>
+          !q ||
+          x.id.toLowerCase().includes(q) ||
+          x.partyName.toLowerCase().includes(q) ||
+          (x.invoiceId ?? "").toLowerCase().includes(q) ||
+          (x.paymentMethod ?? "").toLowerCase().includes(q) ||
+          (x.paymentMobile ?? "").toLowerCase().includes(q) ||
+          (x.internalNote ?? "").toLowerCase().includes(q),
+      ),
+    [q, receipts],
   );
   const filteredInquiries = useMemo(
     () =>
@@ -132,13 +156,30 @@ function DocumentsPage() {
     setInvoiceOpen(true);
   };
 
+  const openReceivePayment = (doc?: SavedDocument | null) => {
+    setPaymentInvoice(doc ?? null);
+    setPaymentOpen(true);
+  };
+
+  const withReceiptBalance = (doc: SavedDocument) => {
+    if (doc.kind !== "receipt" || !doc.invoiceId) return doc;
+    const inv = invoices.find((i) => i.id === doc.invoiceId);
+    if (!inv) return doc;
+    return {
+      ...doc,
+      invoiceTotal: inv.total,
+      amountPaidAfter: invoiceAmountPaid(inv),
+    } as SavedDocument & { invoiceTotal: number; amountPaidAfter: number };
+  };
+
   const openDoc = (doc: SavedDocument) => {
-    const { id, blobUrl } = openSavedDocument(doc);
+    const enriched = withReceiptBalance(doc);
+    const { id, blobUrl } = openSavedDocument(enriched);
     setPreview({ id, blobUrl, doc });
   };
 
   const downloadDoc = (doc: SavedDocument) => {
-    downloadSavedDocument(doc);
+    downloadSavedDocument(withReceiptBalance(doc));
     toast.success(`Downloaded ${doc.id}.pdf`);
   };
 
@@ -155,6 +196,18 @@ function DocumentsPage() {
           onOpenChange={(open) => {
             setInvoiceOpen(open);
             if (!open) setEditingInvoice(null);
+          }}
+        />
+        <RecordPaymentDialog
+          open={paymentOpen}
+          invoice={paymentInvoice}
+          onOpenChange={(open) => {
+            setPaymentOpen(open);
+            if (!open) setPaymentInvoice(null);
+          }}
+          onRecorded={(receipt) => {
+            openDoc(receipt);
+            void navigate({ search: { tab: "receipts" }, replace: true });
           }}
         />
         <PdfPreviewDialog
@@ -180,7 +233,7 @@ function DocumentsPage() {
             </TabsTrigger>
             <TabsTrigger value="receipts">
               <Receipt className="mr-2 h-4 w-4" />
-              Receipts ({invoices.filter((i) => i.status === "Paid").length})
+              Receipts ({receipts.length})
             </TabsTrigger>
             <TabsTrigger value="inquiries">
               <PackageSearch className="mr-2 h-4 w-4" />
@@ -223,7 +276,19 @@ function DocumentsPage() {
             <DocCard
               title="Invoices"
               onNew={openNewInvoice}
-              headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
+              extraAction={
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="secondary"
+                  className="gap-1.5"
+                  onClick={() => openReceivePayment(null)}
+                >
+                  <Banknote className="h-3.5 w-3.5" />
+                  Record payment
+                </Button>
+              }
+              headers={["#", "Client", "Date", "Parts", "Paid / Total", "Status", ""]}
               rows={filteredInvoices.map((iv) => ({
                 key: iv.id,
                 onOpen: () => openDoc(iv),
@@ -242,15 +307,34 @@ function DocumentsPage() {
                     {iv.lines.map((l) => l.partNumber).join(", ")}
                   </span>,
                   <span key="t" className="font-semibold">
-                    {currency(iv.total)}
+                    {currency(invoiceAmountPaid(iv))}
+                    <span className="font-normal text-muted-foreground">
+                      {" "}
+                      / {currency(iv.total)}
+                    </span>
                   </span>,
                   <StatusSelect
                     key="s"
                     doc={iv}
-                    options={["Paid", "Unpaid", "Overdue"]}
+                    options={["Paid", "Partial", "Unpaid", "Overdue"]}
                     onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
                   />,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
+                    {invoiceRemaining(iv) > 0.005 ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="secondary"
+                        className="h-8 gap-1.5"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openReceivePayment(iv);
+                        }}
+                      >
+                        <Banknote className="h-3.5 w-3.5" />
+                        Pay
+                      </Button>
+                    ) : null}
                     <EditButton onEdit={() => openEditInvoice(iv)} />
                     <OpenButton onOpen={() => openDoc(iv)} onDownload={() => downloadDoc(iv)} />
                   </div>,
@@ -267,44 +351,35 @@ function DocumentsPage() {
           <TabsContent value="receipts" className="mt-4">
             <DocCard
               title="Receipts"
-              onNew={openNewInvoice}
-              headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
-              rows={filteredReceipts.map((iv) => ({
-                key: iv.id,
-                onOpen: () => openDoc(iv),
+              onNew={() => openReceivePayment(null)}
+              newLabel="Record payment"
+              headers={["#", "Client", "Date", "Invoice", "Method", "Amount", ""]}
+              rows={filteredReceipts.map((rc) => ({
+                key: rc.id,
+                onOpen: () => openDoc(rc),
                 cells: [
-                  <div key="i" className="flex items-center gap-1.5">
-                    <DocIdLink id={iv.id} onOpen={() => openDoc(iv)} />
-                    {iv.internalNote?.trim() ? (
-                      <span title={iv.internalNote} className="text-muted-foreground">
-                        <StickyNote className="h-3.5 w-3.5" />
-                      </span>
+                  <DocIdLink key="i" id={rc.id} onOpen={() => openDoc(rc)} />,
+                  rc.partyName,
+                  rc.paymentDate || rc.date,
+                  <span key="inv" className="font-mono text-xs">
+                    {rc.invoiceId ?? "—"}
+                  </span>,
+                  <span key="m" className="text-xs">
+                    {rc.paymentMethod ?? "—"}
+                    {rc.paymentMobile ? (
+                      <span className="block text-muted-foreground">{rc.paymentMobile}</span>
                     ) : null}
-                  </div>,
-                  iv.partyName,
-                  iv.date,
-                  <span key="p" className="font-mono text-xs text-muted-foreground">
-                    {iv.lines.map((l) => l.partNumber).join(", ")}
                   </span>,
                   <span key="t" className="font-semibold">
-                    {currency(iv.total)}
+                    {currency(rc.total)}
                   </span>,
-                  <StatusSelect
-                    key="s"
-                    doc={iv}
-                    options={["Paid", "Unpaid", "Overdue"]}
-                    onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
-                  />,
-                  <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
-                    <EditButton onEdit={() => openEditInvoice(iv)} />
-                    <OpenButton onOpen={() => openDoc(iv)} onDownload={() => downloadDoc(iv)} />
-                  </div>,
+                  <OpenButton key="o" onOpen={() => openDoc(rc)} onDownload={() => downloadDoc(rc)} />,
                 ],
               }))}
               empty={
                 q
-                  ? `No paid receipts match “${query}”.`
-                  : "No receipts yet — mark an invoice as Paid to list it here."
+                  ? `No receipts match “${query}”.`
+                  : "No receipts yet — record a payment on an invoice."
               }
             />
           </TabsContent>
@@ -444,27 +519,34 @@ function StatusSelect({
 function DocCard({
   title,
   onNew,
+  newLabel,
+  extraAction,
   headers,
   rows,
   empty,
 }: {
   title: string;
   onNew: () => void;
+  newLabel?: string;
+  extraAction?: ReactNode;
   headers: string[];
   rows: { key: string; onOpen: () => void; cells: ReactNode[] }[];
   empty: string;
 }) {
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
+      <CardHeader className="flex flex-row items-center justify-between gap-2">
         <CardTitle className="text-base">{title}</CardTitle>
-        <Button
-          size="sm"
-          onClick={onNew}
-          className="bg-accent text-accent-foreground hover:bg-accent/90"
-        >
-          + New {title.replace(/s$/, "")}
-        </Button>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          {extraAction}
+          <Button
+            size="sm"
+            onClick={onNew}
+            className="bg-accent text-accent-foreground hover:bg-accent/90"
+          >
+            {newLabel ?? `+ New ${title.replace(/s$/, "")}`}
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="p-0">
         <Table>

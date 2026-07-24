@@ -6,6 +6,18 @@ import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-co
 import { currency } from "@/lib/mock-data";
 import { PARTS_VILLAGE_LOGO_PNG_BASE64 } from "@/lib/parts-village-logo-base64";
 
+const docLabels: Record<DocumentKind, string> = {
+  quotation: "Quotation",
+  invoice: "Invoice",
+  inquiry: "Supplier Inquiry",
+  receipt: "Receipt",
+};
+
+export type ExportFormat = "pdf" | "excel";
+export type DeliveryMethod = "whatsapp" | "wechat" | "email" | "offline";
+
+export type PaymentMethod = "OMT" | "Whish" | "Cash";
+
 export type ExportDoc = {
   /** When set (re-opening a saved doc), reuse this reference instead of generating a new one. */
   id?: string;
@@ -16,15 +28,14 @@ export type ExportDoc = {
   createdAt?: Date;
   /** For supplier inquiries: include cost columns when true. */
   includeCost?: boolean;
-};
-
-export type ExportFormat = "pdf" | "excel";
-export type DeliveryMethod = "whatsapp" | "wechat" | "email" | "offline";
-
-const docLabels: Record<DocumentKind, string> = {
-  quotation: "Quotation",
-  invoice: "Invoice",
-  inquiry: "Supplier Inquiry",
+  /** Receipt fields */
+  invoiceId?: string;
+  paymentMethod?: PaymentMethod;
+  paymentDate?: string;
+  paymentMobile?: string;
+  invoiceTotal?: number;
+  amountPaidAfter?: number;
+  internalNote?: string;
 };
 
 /** Brand palette from Parts Village logo */
@@ -40,7 +51,14 @@ function docId(kind: DocumentKind, date: Date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
-  const prefix = kind === "quotation" ? "Q" : kind === "invoice" ? "INV" : "SI";
+  const prefix =
+    kind === "quotation"
+      ? "Q"
+      : kind === "invoice"
+        ? "INV"
+        : kind === "receipt"
+          ? "RCP"
+          : "SI";
   return `${prefix}-${y}${m}${d}-${String(date.getHours()).padStart(2, "0")}${String(date.getMinutes()).padStart(2, "0")}${String(date.getSeconds()).padStart(2, "0")}`;
 }
 
@@ -70,6 +88,17 @@ export function lineSizeLabel(line: CartLine): string {
 function showMoney(doc: ExportDoc) {
   if (doc.documentKind === "inquiry") return Boolean(doc.includeCost);
   return true;
+}
+
+function receiptMetaLines(doc: ExportDoc): string[] {
+  const lines: string[] = [];
+  if (doc.invoiceId) lines.push(`Invoice  ${doc.invoiceId}`);
+  if (doc.paymentMethod) lines.push(`Method  ${doc.paymentMethod}`);
+  if (doc.paymentDate) lines.push(`Paid on  ${doc.paymentDate}`);
+  if (doc.paymentMethod && doc.paymentMethod !== "Cash" && doc.paymentMobile) {
+    lines.push(`Mobile  ${doc.paymentMobile}`);
+  }
+  return lines;
 }
 
 function resolveDocId(doc: ExportDoc, date: Date) {
@@ -262,8 +291,31 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   pdf.setFontSize(8.5);
   pdf.text(`Date  ${date.toISOString().slice(0, 10)}`, rightX + 5, cardY + 21);
 
+  // Receipt payment details under meta cards
+  let tableStart = cardY + cardH + 8;
+  if (doc.documentKind === "receipt") {
+    const meta = receiptMetaLines(doc);
+    let metaY = cardY + cardH + 6;
+    pdf.setTextColor(...NAVY);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(9);
+    pdf.text("PAYMENT DETAILS", margin, metaY);
+    metaY += 5;
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.setTextColor(...SLATE);
+    for (const line of meta) {
+      pdf.text(line, margin, metaY);
+      metaY += 5;
+    }
+    if (doc.internalNote?.trim()) {
+      pdf.text(`Note  ${doc.internalNote.trim()}`, margin, metaY);
+      metaY += 5;
+    }
+    tableStart = metaY + 4;
+  }
+
   const total = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
-  const tableStart = cardY + cardH + 8;
 
   if (withMoney) {
     autoTable(pdf, {
@@ -345,7 +397,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   // Total hero box
   if (withMoney) {
     const boxW = 72;
-    const boxH = 22;
+    const boxH = doc.documentKind === "receipt" ? 28 : 22;
     const boxX = pageW - margin - boxW;
     drawRoundedRect(pdf, boxX, finalY, boxW, boxH, 2.5, NAVY);
     pdf.setFillColor(...ORANGE);
@@ -353,10 +405,24 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     pdf.setTextColor(...ORANGE);
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(8);
-    pdf.text("AMOUNT DUE", boxX + 8, finalY + 8);
+    pdf.text(doc.documentKind === "receipt" ? "AMOUNT PAID" : "AMOUNT DUE", boxX + 8, finalY + 8);
     pdf.setTextColor(...WHITE);
     pdf.setFontSize(16);
     pdf.text(total > 0 ? currency(total) : "TBD", boxX + 8, finalY + 17);
+    if (
+      doc.documentKind === "receipt" &&
+      typeof doc.invoiceTotal === "number" &&
+      typeof doc.amountPaidAfter === "number"
+    ) {
+      const rem = Math.max(0, Math.round((doc.invoiceTotal - doc.amountPaidAfter) * 100) / 100);
+      pdf.setFontSize(7.5);
+      pdf.setTextColor(...ORANGE);
+      pdf.text(
+        rem <= 0.005 ? "Invoice paid in full" : `Remaining  ${currency(rem)}`,
+        boxX + 8,
+        finalY + 24,
+      );
+    }
   }
 
   // Footer
@@ -398,6 +464,13 @@ function toExportDoc(doc: {
   lines: CartLine[];
   createdAt: string;
   includeCost?: boolean;
+  invoiceId?: string;
+  paymentMethod?: PaymentMethod;
+  paymentDate?: string;
+  paymentMobile?: string;
+  invoiceTotal?: number;
+  amountPaidAfter?: number;
+  internalNote?: string;
 }): ExportDoc {
   return {
     id: doc.id,
@@ -407,6 +480,13 @@ function toExportDoc(doc: {
     lines: doc.lines,
     createdAt: new Date(doc.createdAt),
     includeCost: doc.includeCost,
+    invoiceId: doc.invoiceId,
+    paymentMethod: doc.paymentMethod,
+    paymentDate: doc.paymentDate,
+    paymentMobile: doc.paymentMobile,
+    invoiceTotal: doc.invoiceTotal,
+    amountPaidAfter: doc.amountPaidAfter,
+    internalNote: doc.internalNote,
   };
 }
 
@@ -419,6 +499,13 @@ export function openSavedDocument(doc: {
   lines: CartLine[];
   createdAt: string;
   includeCost?: boolean;
+  invoiceId?: string;
+  paymentMethod?: PaymentMethod;
+  paymentDate?: string;
+  paymentMobile?: string;
+  invoiceTotal?: number;
+  amountPaidAfter?: number;
+  internalNote?: string;
 }): { id: string; blobUrl: string } {
   return viewPdf(toExportDoc(doc));
 }
@@ -432,6 +519,13 @@ export function downloadSavedDocument(doc: {
   lines: CartLine[];
   createdAt: string;
   includeCost?: boolean;
+  invoiceId?: string;
+  paymentMethod?: PaymentMethod;
+  paymentDate?: string;
+  paymentMobile?: string;
+  invoiceTotal?: number;
+  amountPaidAfter?: number;
+  internalNote?: string;
 }): string {
   return downloadPdf(toExportDoc(doc));
 }

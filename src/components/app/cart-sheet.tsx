@@ -21,7 +21,8 @@ const kindLabel = {
   quotation: "Quotation",
   invoice: "Invoice",
   inquiry: "Inquiry",
-} as const;
+  receipt: "Receipt",
+} as const satisfies Record<DocumentKind, string>;
 
 function QtyField({
   qty,
