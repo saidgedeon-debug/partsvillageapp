@@ -1,5 +1,6 @@
 /** Hydraulic Parts catalog seed — Parts Village. */
 import type { Part } from "@/lib/mock-data";
+import { retainerSetPlateParts } from "@/lib/hydraulic-retainer-set-plates";
 import { valvePlateParts } from "@/lib/hydraulic-valve-plates";
 
 /** Known Hydraulic Parts subtypes — add new labels here as stock lines grow. */
@@ -8,6 +9,7 @@ export const HYDRAULIC_SUBCATEGORIES = [
   "Ball Guide",
   "shoe/thrust plate",
   "Valve Plate",
+  "retainer / set plate",
 ] as const;
 export type HydraulicSubcategory = (typeof HYDRAULIC_SUBCATEGORIES)[number];
 
@@ -827,4 +829,5 @@ export const hydraulicParts: Part[] = [
       "Subcategory: shoe/thrust plate · Stand 29 · Manufacturer: Aftermarket Premium Grade · OEM xref: AP2D36-TP, AF-AP2D36-TP",
   },
   ...valvePlateParts,
+  ...retainerSetPlateParts,
 ];

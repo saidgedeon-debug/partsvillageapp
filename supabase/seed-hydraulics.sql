@@ -1,5 +1,5 @@
 -- Hydraulic Parts inventory seed (optional; app also loads from src/lib/hydraulics-inventory.ts)
--- Subcategories: Center Pin, Ball Guide, shoe/thrust plate, Valve Plate
+-- Subcategories: Center Pin, Ball Guide, shoe/thrust plate, Valve Plate, retainer / set plate
 insert into public.parts (id, part_number, name, category, quantity, reorder_at, cost, price, compatibility, box_number, inside_diameter_mm, cross_section_mm, notes)
 values
   (
@@ -627,6 +627,256 @@ At C:\Users\saidg\AppData\Local\Temp\ps-script-0c7fd5a1-543c-4181-9fa4-2d3986de5
     ARRAY['Rexroth A10VO71','Rexroth A10VO71DFR','Rexroth A10VO71DR'],
     31, null, null,
     'Subcategory: Valve Plate · Stand 31 · Manufacturer: Aftermarket Premium Grade · OEM xref: A10VO71-VP-L-AF, A10VO71-VP-L, AF-A10VO71-VP-L, A10VO71FLR'
+  ),
+(
+    'hydraulic-sp-a7vo250-flat-hd',
+    'A7VO250-SP-FLAT-HD',
+    'Handok A7VO250 Retainer / Set Plate (Flat Type - Old Type)',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Rexroth A7VO250','Rexroth A7VO250L','Rexroth A7VO250EL'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: A7VO250-SP-FLAT-HD, A7VO250-SP-FLAT, HD-A7VO250-SP-OLD'
+  ),
+  (
+    'hydraulic-sp-a8vo107-eg',
+    'A8VO107-SP-EG',
+    'Engrenax A8VO107 Retainer / Set Plate',
+    'Hydraulic Parts',
+    11, 2, 0, 0,
+    ARRAY['Rexroth A8VO107','Rexroth A8VO107LA1HN1'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Engrenax (Canada) ┬╖ OEM xref: A8VO107-SP-EG, A8VO107-SP, EG-A8VO107-SP'
+  ),
+  (
+    'hydraulic-sp-m2x120-eg',
+    'M2X120-SP-EG',
+    'Engrenax M2X120 Retainer / Set Plate',
+    'Hydraulic Parts',
+    8, 2, 0, 0,
+    ARRAY['Kawasaki M2X120','Kawasaki M2X120B'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Engrenax (Canada) ┬╖ OEM xref: M2X120-SP-EG, M2X120-SP, EG-M2X120-SP'
+  ),
+  (
+    'hydraulic-sp-m2x150-170-eg',
+    'M2X150-170-SP-EG',
+    'Engrenax M2X150/170 Retainer / Set Plate',
+    'Hydraulic Parts',
+    3, 1, 0, 0,
+    ARRAY['Kawasaki M2X150','Kawasaki M2X170','Kawasaki M2X170B'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Engrenax (Canada) ┬╖ OEM xref: M2X150-170-SP-EG, M2X150-SP, M2X170-SP, EG-M2X150-170-SP'
+  ),
+  (
+    'hydraulic-sp-a8vo160-eg',
+    'A8VO160-SP-EG',
+    'Engrenax A8VO160 Retainer / Set Plate',
+    'Hydraulic Parts',
+    6, 2, 0, 0,
+    ARRAY['Rexroth A8VO160','Rexroth A8VO160LA1HN1'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Engrenax (Canada) ┬╖ OEM xref: A8VO160-SP-EG, A8VO160-SP, EG-A8VO160-SP'
+  ),
+  (
+    'hydraulic-sp-a7vo250-hd',
+    'A7VO250-SP-HD',
+    'Handok A7VO250 Retainer / Set Plate',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Rexroth A7VO250'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: A7VO250-SP-HD, A7VO250-SP, HD-A7VO250-SP'
+  ),
+  (
+    'hydraulic-sp-a8v86-hd',
+    'A8V86-SP-HD',
+    'Handok A8V86 Retainer / Set Plate',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Rexroth A8V86','Rexroth A8V86ESBR'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: A8V86-SP-HD, A8V86-SP, HD-A8V86-SP'
+  ),
+  (
+    'hydraulic-sp-kmf90-pc200-3-taper-hd',
+    'KMF90-SP-PC200-3-TAPER-HD',
+    'Handok KMF90 Retainer / Set Plate (Taper Type - PC200-3)',
+    'Hydraulic Parts',
+    7, 2, 0, 0,
+    ARRAY['Komatsu PC200-3','Komatsu PC200LC-3','Komatsu PC210-3','Komatsu PC220-3'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: KMF90-SP-PC200-3-TAPER-HD, 706-74-11110, 7067411110, HD-KMF90-SP-TAPER'
+  ),
+  (
+    'hydraulic-sp-a7vo250-old-hd',
+    'A7VO250-SP-OLD-HD',
+    'Handok A7VO250 Retainer / Set Plate (Standard - Old Type)',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Rexroth A7VO250'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: A7VO250-SP-OLD-HD, HD-A7VO250-SP-OLD-STD'
+  ),
+  (
+    'hydraulic-sp-a8v107sr1r-hd',
+    'A8V107SR1R-SP-HD',
+    'Handok A8V107SR1R Retainer / Set Plate',
+    'Hydraulic Parts',
+    4, 2, 0, 0,
+    ARRAY['Rexroth A8V107SR1R'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: A8V107SR1R-SP-HD, HD-A8V107SR1R-SP'
+  ),
+  (
+    'hydraulic-sp-kmf125-7h-hd',
+    'KMF125-SP-7H-HD',
+    'Handok KMF125 Retainer / Set Plate (7 Holes)',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Komatsu PC300-5','Komatsu PC300-6','Komatsu PC350-6'],
+    27, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 27 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: KMF125-SP-7H-HD, 706-75-11110, 7067511110, HD-KMF125-SP-7H'
+  ),
+  (
+    'hydraulic-sp-m2x210-hd',
+    'M2X210-SP-HD',
+    'Handok M2X210 Retainer / Set Plate',
+    'Hydraulic Parts',
+    5, 2, 0, 0,
+    ARRAY['Kawasaki M2X210','Kawasaki M2X210B'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: M2X210-SP-HD, M2X210-SP, HD-M2X210-SP'
+  ),
+  (
+    'hydraulic-sp-ap2d12-hd',
+    'AP2D12-SP-HD',
+    'Handok AP2D12 Retainer / Set Plate',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Uchida AP2D12','Uchida AP2D12LV','Rexroth AP2D12','Rexroth AP2D12LV'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: AP2D12-SP-HD, AP2D12-SP, HD-AP2D12-SP'
+  ),
+  (
+    'hydraulic-sp-hpv160-hd',
+    'HPV160-SP-HD',
+    'Handok HPV160 Retainer / Set Plate',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Komatsu HPV160 Series'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV160-SP-HD, HD-HPV160-SP'
+  ),
+  (
+    'hydraulic-sp-m2x150-170-hd',
+    'M2X150-170-SP-HD',
+    'Handok M2X150/170 Retainer / Set Plate',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Kawasaki M2X150','Kawasaki M2X170'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: M2X150-170-SP-HD, M2X150-SP, M2X170-SP, HD-M2X150-170-SP'
+  ),
+  (
+    'hydraulic-sp-hpv90-pc200-3-5-hd',
+    'HPV90-SP-PC200-3-5-HD',
+    'Handok HPV90 Retainer / Set Plate (PC200-3/5)',
+    'Hydraulic Parts',
+    5, 2, 0, 0,
+    ARRAY['Komatsu PC200-3','Komatsu PC200-5','Komatsu PC220-3','Komatsu PC220-5'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV90-SP-PC200-3-5-HD, 708-2H-11210, 7082H11210, HD-HPV90-SP'
+  ),
+  (
+    'hydraulic-sp-hpv132c-pc300-6-hd',
+    'HPV132C-SP-PC300-6-HD',
+    'Handok HPV132C Retainer / Set Plate (PC300-6)',
+    'Hydraulic Parts',
+    4, 2, 0, 0,
+    ARRAY['Komatsu PC300-6','Komatsu PC300LC-6'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV132C-SP-PC300-6-HD, HD-HPV132C-SP'
+  ),
+  (
+    'hydraulic-sp-hpv132-new-pc300-6-hd',
+    'HPV132-SP-NEW-PC300-6-HD',
+    'Handok HPV132 Retainer / Set Plate (New Type - PC300-6)',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Komatsu PC300-6','Komatsu PC350-6'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV132-SP-NEW-PC300-6-HD, 708-2H-11240, 7082H11240, HD-HPV132-SP-NEW'
+  ),
+  (
+    'hydraulic-sp-hpv160-pc300-400-3-5-hd',
+    'HPV160-SP-PC300-400-3-5-HD',
+    'Handok HPV160 Retainer / Set Plate (PC300/400-3/5)',
+    'Hydraulic Parts',
+    8, 2, 0, 0,
+    ARRAY['Komatsu PC300-3','Komatsu PC300-5','Komatsu PC400-3','Komatsu PC400-5'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV160-SP-PC300-400-3-5-HD, 708-2L-11210, 7082L11210, HD-HPV160-SP-3-5'
+  ),
+  (
+    'hydraulic-sp-sg08-hd',
+    'SG08-SP-HD',
+    'Handok SG08 Retainer / Set Plate',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Kawasaki SG08'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: SG08-SP-HD, SG08-SP, HD-SG08-SP'
+  ),
+  (
+    'hydraulic-sp-m2x120-hd',
+    'M2X120-SP-HD',
+    'Handok M2X120 Retainer / Set Plate',
+    'Hydraulic Parts',
+    3, 1, 0, 0,
+    ARRAY['Kawasaki M2X120','Kawasaki M2X120B'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: M2X120-SP-HD, M2X120-SP, HD-M2X120-SP'
+  ),
+  (
+    'hydraulic-sp-kmf41-hd',
+    'KMF41-SP-HD',
+    'Handok KMF41 Retainer / Set Plate',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Komatsu PC60-7','Komatsu PC70-7'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: KMF41-SP-HD, 706-73-11110, 7067311110, HD-KMF41-SP'
+  ),
+  (
+    'hydraulic-sp-hpv75-new-pc60-6-7-8-hd',
+    'HPV75-SP-NEW-PC60-6-7-8-HD',
+    'Handok HPV75 Retainer / Set Plate (New Type - PC60-6/7/8)',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Komatsu PC60-6','Komatsu PC60-7','Komatsu PC60-8'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV75-SP-NEW-PC60-6-7-8-HD, 708-2G-11220, 7082G11220, HD-HPV75-SP-NEW'
+  ),
+  (
+    'hydraulic-sp-hpv95a-pc200-7-hd',
+    'HPV95A-SP-PC200-7-HD',
+    'Handok HPV95A Retainer / Set Plate (PC200-7)',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Komatsu PC200-7','Komatsu PC220-7'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV95A-SP-PC200-7-HD, 708-2G-11240, 7082G11240, HD-HPV95A-SP'
+  ),
+  (
+    'hydraulic-sp-hpv140-pc300-7-8-hd',
+    'HPV140-SP-PC300-7-8-HD',
+    'Handok HPV140 Retainer / Set Plate (PC300-7/8)',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Komatsu PC300-7','Komatsu PC300-8'],
+    26, null, null,
+    'Subcategory: retainer / set plate ┬╖ Stand 26 ┬╖ Manufacturer: Handok Hydraulic (South Korea) ┬╖ OEM xref: HPV140-SP-PC300-7-8-HD, 708-2L-11230, 7082L11230, HD-HPV140-SP'
   )
 on conflict (id) do update set
   part_number = excluded.part_number,
