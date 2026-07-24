@@ -6,6 +6,8 @@ import { categoryGroupIds } from "@/lib/inventory-categories";
 
 type PrefsState = {
   favoritePartIds: string[];
+  /** RMB value of one USD, used for operational estimates. */
+  rmbPerUsd: number;
   /** Saved machine names for quick catalog filter presets. */
   machinePresets: string[];
   /** Pinned category group tiles (Sensors, Switches, …). */
@@ -16,6 +18,8 @@ type PrefsState = {
 
 type PrefsContextValue = {
   favoritePartIds: string[];
+  rmbPerUsd: number;
+  setRmbPerUsd: (rate: number) => void;
   machinePresets: string[];
   favoriteCategoryGroups: CategoryGroupId[];
   recentCategoryGroups: CategoryGroupId[];
@@ -40,6 +44,7 @@ function isGroupId(v: unknown): v is CategoryGroupId {
 function empty(): PrefsState {
   return {
     favoritePartIds: [],
+    rmbPerUsd: 7.15,
     machinePresets: [],
     favoriteCategoryGroups: [],
     recentCategoryGroups: [],
@@ -66,6 +71,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   const store: PrefsState = useMemo(
     () => ({
       favoritePartIds: Array.isArray(rawStore.favoritePartIds) ? rawStore.favoritePartIds : [],
+      rmbPerUsd:
+        Number.isFinite(rawStore.rmbPerUsd) && rawStore.rmbPerUsd > 0 ? rawStore.rmbPerUsd : 7.15,
       machinePresets: Array.isArray(rawStore.machinePresets) ? rawStore.machinePresets : [],
       favoriteCategoryGroups: Array.isArray(rawStore.favoriteCategoryGroups)
         ? rawStore.favoriteCategoryGroups.filter(isGroupId)
@@ -80,6 +87,14 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   const isFavorite = useCallback(
     (partId: string) => store.favoritePartIds.includes(partId),
     [store.favoritePartIds],
+  );
+
+  const setRmbPerUsd = useCallback(
+    (rate: number) => {
+      if (!Number.isFinite(rate) || rate <= 0) return;
+      setStore((prev) => ({ ...prev, rmbPerUsd: rate }));
+    },
+    [setStore],
   );
 
   const toggleFavorite = useCallback((partId: string) => {
@@ -142,6 +157,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       favoritePartIds: store.favoritePartIds,
+      rmbPerUsd: store.rmbPerUsd,
+      setRmbPerUsd,
       machinePresets: store.machinePresets,
       favoriteCategoryGroups: store.favoriteCategoryGroups,
       recentCategoryGroups: store.recentCategoryGroups,
@@ -155,6 +172,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     }),
     [
       store.favoritePartIds,
+      store.rmbPerUsd,
+      setRmbPerUsd,
       store.machinePresets,
       store.favoriteCategoryGroups,
       store.recentCategoryGroups,

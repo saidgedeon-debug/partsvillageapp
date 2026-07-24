@@ -2,6 +2,7 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import { toast } from "sonner";
 
 import { useCart } from "@/components/app/cart-context";
+import { useDocuments } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ import {
 import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { compressImageToDataUrl } from "@/lib/image-compress";
+import { partPriceHistory } from "@/lib/part-price-history";
 
 type Mode = "view" | "edit" | "create";
 
@@ -103,23 +105,28 @@ export function PartDetailDialog({
 }: Props) {
   const { addPart, updatePart, categoryLabels } = useInventory();
   const { askDocumentForPart } = useCart();
+  const { documents } = useDocuments();
   const [form, setForm] = useState<FormState>(emptyForm());
+  const [gallery, setGallery] = useState<string[]>([]);
   const creating = mode === "create";
   const editing = mode === "edit" || creating;
+  const priceHistory = part ? partPriceHistory(part.id, part.partNumber, documents) : [];
+  const lastSale = priceHistory.find((event) => event.kind === "sale");
+  const lastCost = priceHistory.find((event) => event.kind === "cost");
 
   useEffect(() => {
     if (!open) return;
     if (creating || !part) {
       setForm(emptyForm(defaultCategory));
+      setGallery([]);
     } else {
       setForm(partToForm(part));
+      setGallery(part.imageUrls?.length ? part.imageUrls : part.imageUrl ? [part.imageUrl] : []);
     }
   }, [open, part, creating, defaultCategory]);
 
-  const set =
-    (key: keyof FormState) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((f) => ({ ...f, [key]: e.target.value }));
+  const set = (key: keyof FormState) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const save = () => {
     const numbers = form.partNumbers
@@ -172,6 +179,7 @@ export function PartDetailDialog({
         .filter(Boolean),
       notes: form.notes.trim() || undefined,
       imageUrl: form.imageUrl.trim() || undefined,
+      imageUrls: gallery.length ? gallery : undefined,
     };
 
     if (creating) {
@@ -194,8 +202,7 @@ export function PartDetailDialog({
     onOpenChange(false);
   };
 
-  const showORingFields =
-    form.category === "O-Rings" || part?.category === "O-Rings";
+  const showORingFields = form.category === "O-Rings" || part?.category === "O-Rings";
   const dialogOpen = open && (creating || Boolean(part));
 
   return (
@@ -218,13 +225,25 @@ export function PartDetailDialog({
 
         {!editing && part ? (
           <div className="grid gap-4 sm:grid-cols-2">
-            {part.imageUrl ? (
-              <div className="sm:col-span-2 flex justify-center rounded-lg border border-border bg-muted/20 p-3">
+            {part.imageUrls?.[0] || part.imageUrl ? (
+              <div className="sm:col-span-2 space-y-2 rounded-lg border border-border bg-muted/20 p-3">
                 <img
-                  src={part.imageUrl}
+                  src={part.imageUrls?.[0] || part.imageUrl}
                   alt={part.partNumber}
-                  className="max-h-56 w-auto object-contain"
+                  className="mx-auto max-h-56 w-auto object-contain"
                 />
+                {(part.imageUrls?.length ?? 0) > 1 ? (
+                  <div className="flex gap-2 overflow-x-auto">
+                    {part.imageUrls!.map((url) => (
+                      <img
+                        key={url}
+                        src={url}
+                        alt=""
+                        className="h-14 w-14 shrink-0 rounded border object-contain"
+                      />
+                    ))}
+                  </div>
+                ) : null}
               </div>
             ) : null}
             <div className="sm:col-span-2">
@@ -248,10 +267,7 @@ export function PartDetailDialog({
               <Field label="Subcategory" value={part.subcategory ?? ""} />
             )}
             <div className="sm:col-span-2">
-              <Field
-                label="Part Description"
-                value={part.description?.trim() || part.name}
-              />
+              <Field label="Part Description" value={part.description?.trim() || part.name} />
             </div>
             {part.category === "O-Rings" && (
               <>
@@ -273,6 +289,22 @@ export function PartDetailDialog({
             )}
             <Field label="Cost" value={part.cost > 0 ? currency(part.cost) : ""} />
             <Field label="Price" value={part.price > 0 ? currency(part.price) : ""} />
+            <Field
+              label="Last sold"
+              value={
+                lastSale
+                  ? `${currency(lastSale.amount)} · ${lastSale.partyName} · ${lastSale.date}`
+                  : ""
+              }
+            />
+            <Field
+              label="Last supplier cost"
+              value={
+                lastCost
+                  ? `${currency(lastCost.amount)} · ${lastCost.partyName} · ${lastCost.date}`
+                  : ""
+              }
+            />
             <Field label="Reorder at" value={String(part.reorderAt)} />
             <div className="sm:col-span-2">
               <Field label="Notes" value={part.notes ?? ""} />
@@ -399,12 +431,7 @@ export function PartDetailDialog({
             )}
             <div className="space-y-1.5">
               <Label htmlFor="part-cost">Cost</Label>
-              <Input
-                id="part-cost"
-                inputMode="decimal"
-                value={form.cost}
-                onChange={set("cost")}
-              />
+              <Input id="part-cost" inputMode="decimal" value={form.cost} onChange={set("cost")} />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="part-price">Price</Label>
@@ -426,12 +453,7 @@ export function PartDetailDialog({
             </div>
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="part-notes">Notes</Label>
-              <Textarea
-                id="part-notes"
-                rows={2}
-                value={form.notes}
-                onChange={set("notes")}
-              />
+              <Textarea id="part-notes" rows={2} value={form.notes} onChange={set("notes")} />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="part-photo">Photo URL or upload</Label>
@@ -444,30 +466,60 @@ export function PartDetailDialog({
               <Input
                 type="file"
                 accept="image/*"
+                multiple
                 className="text-xs"
                 onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
+                  const files = [...(e.target.files ?? [])].slice(
+                    0,
+                    Math.max(0, 5 - gallery.length),
+                  );
+                  if (!files.length) return;
                   void (async () => {
                     try {
-                      const dataUrl = await compressImageToDataUrl(file);
-                      setForm((f) => ({ ...f, imageUrl: dataUrl }));
-                      toast.success("Photo attached");
-                    } catch (err) {
-                      toast.error(
-                        err instanceof Error ? err.message : "Could not compress photo",
+                      const urls = await Promise.all(
+                        files.map((file) => compressImageToDataUrl(file)),
                       );
+                      setGallery((current) => [...current, ...urls].slice(0, 5));
+                      setForm((f) => ({ ...f, imageUrl: f.imageUrl || urls[0] || "" }));
+                      toast.success(`${urls.length} photo${urls.length === 1 ? "" : "s"} attached`);
+                    } catch (err) {
+                      toast.error(err instanceof Error ? err.message : "Could not compress photo");
                     }
                   })();
                 }}
               />
-              {form.imageUrl ? (
-                <div className="flex justify-center rounded-md border border-border bg-muted/20 p-2">
-                  <img
-                    src={form.imageUrl}
-                    alt="Preview"
-                    className="max-h-32 object-contain"
-                  />
+              {gallery.length ? (
+                <div className="flex flex-wrap gap-2">
+                  {gallery.map((url, index) => (
+                    <div key={url} className="relative">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setGallery((items) => [
+                            items[index],
+                            ...items.filter((_, i) => i !== index),
+                          ]);
+                          setForm((f) => ({ ...f, imageUrl: url }));
+                        }}
+                        className={`rounded border p-1 ${index === 0 ? "border-accent" : "border-border"}`}
+                        title="Set as primary"
+                      >
+                        <img src={url} alt="" className="h-16 w-16 object-contain" />
+                      </button>
+                      <button
+                        type="button"
+                        className="absolute -right-1 -top-1 rounded-full bg-destructive px-1 text-xs text-destructive-foreground"
+                        onClick={() => {
+                          const next = gallery.filter((_, i) => i !== index);
+                          setGallery(next);
+                          setForm((f) => ({ ...f, imageUrl: next[0] ?? "" }));
+                        }}
+                        aria-label="Remove photo"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
                 </div>
               ) : null}
             </div>

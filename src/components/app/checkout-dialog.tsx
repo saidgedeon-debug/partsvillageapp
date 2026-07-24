@@ -26,18 +26,11 @@ import {
 import { cn } from "@/lib/utils";
 
 export function CheckoutDialog() {
-  const {
-    checkoutOpen,
-    setCheckoutOpen,
-    lines,
-    documentKind,
-    clearCart,
-    setCartOpen,
-  } = useCart();
+  const { checkoutOpen, setCheckoutOpen, lines, documentKind, clearCart, setCartOpen } = useCart();
   const { addDocument } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
-  const { addOrder } = useFleet();
-  const { clients } = useParties();
+  const { addOrder, machinesByClient } = useFleet();
+  const { clients, suppliers } = useParties();
   const [partyKind, setPartyKind] = useState<PartyKind>("client");
   const [partyName, setPartyName] = useState("");
   const [partyId, setPartyId] = useState<string | undefined>();
@@ -45,6 +38,7 @@ export function CheckoutDialog() {
   const [includeCost, setIncludeCost] = useState(true);
   const [delivery, setDelivery] = useState<DeliveryMethod>("offline");
   const [deductStock, setDeductStock] = useState(true);
+  const [machineId, setMachineId] = useState("");
 
   const isInquiry = documentKind === "inquiry";
   const isInvoice = documentKind === "invoice";
@@ -58,6 +52,7 @@ export function CheckoutDialog() {
       setIncludeCost(true);
       setDelivery("offline");
       setDeductStock(true);
+      setMachineId("");
     }
   }, [checkoutOpen, documentKind]);
 
@@ -68,16 +63,18 @@ export function CheckoutDialog() {
   const runExport = (andClose: boolean) => {
     if (!ready) return;
     const createdAt = new Date();
-    const total = lines.reduce(
-      (s, l) => s + l.qty * lineUnitAmount(l, documentKind),
-      0,
-    );
+    const selectedParty =
+      partyKind === "client"
+        ? clients.find((party) => party.id === partyId)
+        : suppliers.find((party) => party.id === partyId);
+    const total = lines.reduce((s, l) => s + l.qty * lineUnitAmount(l, documentKind), 0);
 
     const id = exportAndDeliver(
       {
         documentKind,
         partyKind,
         partyName: partyName.trim(),
+        partyPhone: selectedParty?.phone,
         lines,
         createdAt,
         includeCost: isInquiry ? includeCost : true,
@@ -98,11 +95,7 @@ export function CheckoutDialog() {
     }
 
     const status: SavedDocument["status"] =
-      documentKind === "quotation"
-        ? "Sent"
-        : documentKind === "invoice"
-          ? "Unpaid"
-          : "Open";
+      documentKind === "quotation" ? "Sent" : documentKind === "invoice" ? "Unpaid" : "Open";
 
     const saved: SavedDocument = {
       id,
@@ -128,7 +121,7 @@ export function CheckoutDialog() {
         addOrder({
           id: `ord-${id}`,
           clientId: client.id,
-          machineId: "",
+          machineId,
           date: saved.date,
           status: "Pending",
           documentId: id,
@@ -168,8 +161,8 @@ export function CheckoutDialog() {
         <DialogHeader>
           <DialogTitle>Finish document</DialogTitle>
           <DialogDescription>
-            Search a saved client/supplier or create a new one, then choose format and delivery.
-            The document is saved to Documents automatically.
+            Search a saved client/supplier or create a new one, then choose format and delivery. The
+            document is saved to Documents automatically.
           </DialogDescription>
         </DialogHeader>
 
@@ -208,8 +201,27 @@ export function CheckoutDialog() {
               onSelect={(p) => {
                 setPartyName(p.name);
                 setPartyId(p.id);
+                setMachineId("");
               }}
             />
+            {isInvoice && partyId ? (
+              <div className="space-y-1.5">
+                <Label htmlFor="checkout-machine">Machine (optional)</Label>
+                <select
+                  id="checkout-machine"
+                  className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+                  value={machineId}
+                  onChange={(event) => setMachineId(event.target.value)}
+                >
+                  <option value="">No machine</option>
+                  {machinesByClient(partyId).map((machine) => (
+                    <option key={machine.id} value={machine.id}>
+                      {machine.make} {machine.model} · {machine.serialNumber}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : null}
           </section>
 
           {isInquiry && (

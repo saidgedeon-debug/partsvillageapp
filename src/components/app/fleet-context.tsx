@@ -47,6 +47,7 @@ type FleetContextValue = {
   updateMachine: (id: string, patch: Partial<FleetMachine>) => void;
   removeMachine: (id: string) => void;
   addOrder: (input: Omit<FleetOrder, "id"> & { id?: string }) => FleetOrder;
+  updateOrder: (id: string, patch: Partial<FleetOrder>) => void;
 };
 
 const STORAGE_KEY = "parts-village-fleet-v1";
@@ -133,60 +134,87 @@ export function FleetProvider({ children }: { children: ReactNode }) {
     [orders],
   );
 
-  const addMachine = useCallback((input: Omit<FleetMachine, "id"> & { id?: string }) => {
-    const machine: FleetMachine = {
-      id: input.id ?? newLocalId("m"),
-      clientId: input.clientId,
-      make: input.make.trim(),
-      model: input.model.trim(),
-      serialNumber: input.serialNumber.trim(),
-      year: input.year || new Date().getFullYear(),
-      hours: input.hours || 0,
-    };
-    setStore((prev) => ({
-      machines: [...(prev.machines ?? []), machine],
-      orders: prev.orders ?? [],
-    }));
-    void syncMachine(machine);
-    return machine;
-  }, [setStore]);
+  const addMachine = useCallback(
+    (input: Omit<FleetMachine, "id"> & { id?: string }) => {
+      const machine: FleetMachine = {
+        id: input.id ?? newLocalId("m"),
+        clientId: input.clientId,
+        make: input.make.trim(),
+        model: input.model.trim(),
+        serialNumber: input.serialNumber.trim(),
+        year: input.year || new Date().getFullYear(),
+        hours: input.hours || 0,
+      };
+      setStore((prev) => ({
+        machines: [...(prev.machines ?? []), machine],
+        orders: prev.orders ?? [],
+      }));
+      void syncMachine(machine);
+      return machine;
+    },
+    [setStore],
+  );
 
-  const updateMachine = useCallback((id: string, patch: Partial<FleetMachine>) => {
-    setStore((prev) => {
-      const machines = (prev.machines ?? []).map((m) => {
-        if (m.id !== id) return m;
-        const next = { ...m, ...patch, id: m.id };
-        void syncMachine(next);
-        return next;
+  const updateMachine = useCallback(
+    (id: string, patch: Partial<FleetMachine>) => {
+      setStore((prev) => {
+        const machines = (prev.machines ?? []).map((m) => {
+          if (m.id !== id) return m;
+          const next = { ...m, ...patch, id: m.id };
+          void syncMachine(next);
+          return next;
+        });
+        return { machines, orders: prev.orders ?? [] };
       });
-      return { machines, orders: prev.orders ?? [] };
-    });
-  }, [setStore]);
+    },
+    [setStore],
+  );
 
-  const removeMachine = useCallback((id: string) => {
-    setStore((prev) => ({
-      machines: (prev.machines ?? []).filter((m) => m.id !== id),
-      orders: (prev.orders ?? []).map((o) => (o.machineId === id ? { ...o, machineId: "" } : o)),
-    }));
-  }, [setStore]);
+  const removeMachine = useCallback(
+    (id: string) => {
+      setStore((prev) => ({
+        machines: (prev.machines ?? []).filter((m) => m.id !== id),
+        orders: (prev.orders ?? []).map((o) => (o.machineId === id ? { ...o, machineId: "" } : o)),
+      }));
+    },
+    [setStore],
+  );
 
-  const addOrder = useCallback((input: Omit<FleetOrder, "id"> & { id?: string }) => {
-    const order: FleetOrder = {
-      id: input.id ?? newLocalId("ord"),
-      clientId: input.clientId,
-      machineId: input.machineId || "",
-      date: input.date,
-      status: input.status,
-      documentId: input.documentId,
-      lines: input.lines,
-    };
-    setStore((prev) => ({
-      machines: prev.machines ?? [],
-      orders: [order, ...(prev.orders ?? [])],
-    }));
-    void syncOrder(order);
-    return order;
-  }, [setStore]);
+  const addOrder = useCallback(
+    (input: Omit<FleetOrder, "id"> & { id?: string }) => {
+      const order: FleetOrder = {
+        id: input.id ?? newLocalId("ord"),
+        clientId: input.clientId,
+        machineId: input.machineId || "",
+        date: input.date,
+        status: input.status,
+        documentId: input.documentId,
+        lines: input.lines,
+      };
+      setStore((prev) => ({
+        machines: prev.machines ?? [],
+        orders: [order, ...(prev.orders ?? [])],
+      }));
+      void syncOrder(order);
+      return order;
+    },
+    [setStore],
+  );
+
+  const updateOrder = useCallback(
+    (id: string, patch: Partial<FleetOrder>) => {
+      setStore((prev) => ({
+        machines: prev.machines ?? [],
+        orders: (prev.orders ?? []).map((order) => {
+          if (order.id !== id) return order;
+          const next = { ...order, ...patch, id: order.id };
+          void syncOrder(next);
+          return next;
+        }),
+      }));
+    },
+    [setStore],
+  );
 
   const value = useMemo(
     () => ({
@@ -199,6 +227,7 @@ export function FleetProvider({ children }: { children: ReactNode }) {
       updateMachine,
       removeMachine,
       addOrder,
+      updateOrder,
     }),
     [
       machines,
@@ -210,6 +239,7 @@ export function FleetProvider({ children }: { children: ReactNode }) {
       updateMachine,
       removeMachine,
       addOrder,
+      updateOrder,
     ],
   );
 

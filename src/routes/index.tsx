@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { DollarSign, FileText, AlertTriangle, TrendingUp, Package, Users } from "lucide-react";
 import type { ComponentType } from "react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useDocuments, invoiceAmountPaid } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
+import { useShipments } from "@/components/app/shipments-context";
+import { usePrefs } from "@/components/app/prefs-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -20,6 +22,9 @@ import {
 } from "@/components/ui/table";
 import { currency } from "@/lib/mock-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
+import { toUsd } from "@/lib/fx";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -28,8 +33,15 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { parts } = useInventory();
   const { clients } = useParties();
-  const { invoices, quotations } = useDocuments();
+  const { invoices, quotations, receipts } = useDocuments();
   const { orders } = useFleet();
+  const { shipments } = useShipments();
+  const { rmbPerUsd } = usePrefs();
+  const now = new Date();
+  const [pnlFrom, setPnlFrom] = useState(
+    `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`,
+  );
+  const [pnlTo, setPnlTo] = useState(now.toLocaleDateString("en-CA"));
 
   const paidSales = useMemo(
     () =>
@@ -67,9 +79,7 @@ function Index() {
     // Orders created from checkout use id `ord-${invoiceId}` — skip those duplicates.
     const fromOrders = orders
       .filter((o) => {
-        const linkedInvoiceId =
-          o.documentId ||
-          (o.id.startsWith("ord-") ? o.id.slice(4) : "");
+        const linkedInvoiceId = o.documentId || (o.id.startsWith("ord-") ? o.id.slice(4) : "");
         return !linkedInvoiceId || !invoiceIds.has(linkedInvoiceId);
       })
       .map((o) => ({
@@ -95,6 +105,65 @@ function Index() {
           (priced.reduce((s, p) => s + (p.price - p.cost) * p.quantity, 0) / revenueWeight) * 100,
         );
 
+  const pnl = useMemo(() => {
+    const inRange = (date: string) => date >= pnlFrom && date <= pnlTo;
+    const rangeReceipts = receipts.filter((receipt) => inRange(receipt.date));
+    const receiptInvoiceIds = new Set(receipts.map((receipt) => receipt.invoiceId).filter(Boolean));
+    const collectedByInvoice = new Map<string, number>();
+    for (const receipt of rangeReceipts) {
+      if (!receipt.invoiceId) continue;
+      collectedByInvoice.set(
+        receipt.invoiceId,
+        (collectedByInvoice.get(receipt.invoiceId) ?? 0) + receipt.total,
+      );
+    }
+    const receiptSales = rangeReceipts.reduce((s, receipt) => s + receipt.total, 0);
+    const legacyPaidInvoices = invoices
+      .filter((invoice) => inRange(invoice.date))
+      .filter((invoice) => !receiptInvoiceIds.has(invoice.id))
+      .filter((invoice) => invoiceAmountPaid(invoice) > 0);
+    const legacyPaidSales = legacyPaidInvoices.reduce(
+      (sum, invoice) => sum + invoiceAmountPaid(invoice),
+      0,
+    );
+    const sales = receiptSales + legacyPaidSales;
+    const soldInvoices = invoices.filter(
+      (invoice) =>
+        (collectedByInvoice.get(invoice.id) ?? 0) > 0 ||
+        legacyPaidInvoices.some((legacy) => legacy.id === invoice.id),
+    );
+    const costById = new Map(parts.map((part) => [part.id, part.cost]));
+    const cogs = soldInvoices.reduce((sum, invoice) => {
+      const collected =
+        collectedByInvoice.get(invoice.id) ??
+        (legacyPaidInvoices.some((legacy) => legacy.id === invoice.id)
+          ? invoiceAmountPaid(invoice)
+          : 0);
+      const paidRatio = invoice.total > 0 ? Math.min(1, collected / invoice.total) : 0;
+      return (
+        sum +
+        invoice.lines.reduce(
+          (lineSum, line) => lineSum + line.qty * (line.unitCost || costById.get(line.partId) || 0),
+          0,
+        ) *
+          paidRatio
+      );
+    }, 0);
+    const freight = shipments
+      .filter((shipment) => inRange(shipment.orderedAt))
+      .reduce(
+        (sum, shipment) =>
+          sum +
+          toUsd(
+            shipment.freightCost ?? 0,
+            shipment.freightCurrency ?? shipment.currency,
+            rmbPerUsd,
+          ),
+        0,
+      );
+    return { sales, cogs, freight, net: sales - cogs - freight };
+  }, [receipts, invoices, parts, shipments, rmbPerUsd, pnlFrom, pnlTo]);
+
   return (
     <>
       <PageHeader
@@ -117,6 +186,49 @@ function Index() {
           />
           <MetricCard label="Clients" value={`${clients.length} saved`} icon={Users} />
         </div>
+
+        <Card>
+          <CardHeader className="gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <CardTitle className="text-base">Simple P&amp;L</CardTitle>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Collected sales minus invoice COGS and shipment freight
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <div>
+                <Label className="text-[10px]">From</Label>
+                <Input type="date" value={pnlFrom} onChange={(e) => setPnlFrom(e.target.value)} />
+              </div>
+              <div>
+                <Label className="text-[10px]">To</Label>
+                <Input type="date" value={pnlTo} onChange={(e) => setPnlTo(e.target.value)} />
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="grid gap-3 sm:grid-cols-4">
+            <div>
+              <p className="text-xs text-muted-foreground">Collected sales</p>
+              <p className="text-xl font-semibold">{currency(pnl.sales)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">COGS</p>
+              <p className="text-xl font-semibold">{currency(pnl.cogs)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">Freight</p>
+              <p className="text-xl font-semibold">{currency(pnl.freight)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">Net</p>
+              <p
+                className={`text-xl font-bold ${pnl.net >= 0 ? "text-emerald-700" : "text-destructive"}`}
+              >
+                {currency(pnl.net)}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         <div className="grid gap-4 lg:grid-cols-3">
           <Card className="lg:col-span-2">

@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
@@ -14,6 +21,34 @@ export type ShopStateKey =
   | "share-inbox";
 
 const MIGRATE_FLAG = "parts-village-cloud-migrated-v1";
+
+export type CloudHealthStatus = "loading" | "syncing" | "synced" | "error";
+const healthByKey = new Map<ShopStateKey, CloudHealthStatus>();
+const healthListeners = new Set<() => void>();
+let healthVersion = 0;
+
+function setCloudHealth(key: ShopStateKey, status: CloudHealthStatus) {
+  if (healthByKey.get(key) === status) return;
+  healthByKey.set(key, status);
+  healthVersion += 1;
+  healthListeners.forEach((listener) => listener());
+}
+
+export function useCloudHealth(): CloudHealthStatus {
+  useSyncExternalStore(
+    (listener) => {
+      healthListeners.add(listener);
+      return () => healthListeners.delete(listener);
+    },
+    () => healthVersion,
+    () => 0,
+  );
+  const statuses = [...healthByKey.values()];
+  if (statuses.includes("error")) return "error";
+  if (statuses.includes("syncing")) return "syncing";
+  if (statuses.length === 0 || statuses.includes("loading")) return "loading";
+  return "synced";
+}
 
 /** Read a shop_state JSON value from Supabase. */
 export async function fetchShopState<T>(key: ShopStateKey, fallback: T): Promise<T> {
@@ -131,6 +166,10 @@ export function useCloudState<T>(
   const valueRef = useRef(value);
   valueRef.current = value;
 
+  useEffect(() => {
+    setCloudHealth(key, "loading");
+  }, [key]);
+
   const setValue: Dispatch<SetStateAction<T>> = (action) => {
     setValueState((prev) => {
       const next = typeof action === "function" ? (action as (p: T) => T)(prev) : action;
@@ -142,6 +181,7 @@ export function useCloudState<T>(
   useEffect(() => {
     if (!isSupabaseConfigured) {
       setError("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+      setCloudHealth(key, "error");
       return;
     }
 
@@ -155,6 +195,8 @@ export function useCloudState<T>(
         baseUpdatedAtRef.current = loaded.updatedAt;
         setValueState(loaded.value);
         setReady(true);
+        setError(null);
+        setCloudHealth(key, "synced");
         markCloudMigrated();
         try {
           localStorage.removeItem(localStorageKey);
@@ -164,6 +206,7 @@ export function useCloudState<T>(
       } catch (e) {
         if (cancelled) return;
         setError(e instanceof Error ? e.message : "Failed to load cloud data");
+        setCloudHealth(key, "error");
       }
     })();
 
@@ -182,6 +225,7 @@ export function useCloudState<T>(
     const t = window.setTimeout(() => {
       if (savingRef.current) return;
       savingRef.current = true;
+      setCloudHealth(key, "syncing");
       const snapshot = valueRef.current;
       const expected = baseUpdatedAtRef.current;
       void saveShopState(key, snapshot, expected)
@@ -189,9 +233,14 @@ export function useCloudState<T>(
           if (result.saved) {
             baseUpdatedAtRef.current = result.updatedAt;
             // Only clear dirty if nothing newer was typed during the save.
-            if (valueRef.current === snapshot || JSON.stringify(valueRef.current) === JSON.stringify(snapshot)) {
+            if (
+              valueRef.current === snapshot ||
+              JSON.stringify(valueRef.current) === JSON.stringify(snapshot)
+            ) {
               dirtyRef.current = false;
             }
+            setError(null);
+            setCloudHealth(key, "synced");
           } else {
             // Remote moved ahead — keep local dirty; next save will overwrite after refresh of base.
             // Adopt remote timestamp only if we intentionally force-save next time without expected.
@@ -200,16 +249,25 @@ export function useCloudState<T>(
             );
             baseUpdatedAtRef.current = result.updatedAt;
             // Force another save of our local snapshot (user edits win for single-tenant shop).
-            void saveShopState(key, valueRef.current).then((forced) => {
-              if (forced.saved) {
-                baseUpdatedAtRef.current = forced.updatedAt;
-                dirtyRef.current = false;
-              }
-            });
+            void saveShopState(key, valueRef.current)
+              .then((forced) => {
+                if (forced.saved) {
+                  baseUpdatedAtRef.current = forced.updatedAt;
+                  dirtyRef.current = false;
+                  setError(null);
+                  setCloudHealth(key, "synced");
+                }
+              })
+              .catch((e) => {
+                setError(e instanceof Error ? e.message : `Failed to save ${key}`);
+                setCloudHealth(key, "error");
+              });
           }
         })
         .catch((e) => {
           console.error(`Failed to save ${key}`, e);
+          setError(e instanceof Error ? e.message : `Failed to save ${key}`);
+          setCloudHealth(key, "error");
         })
         .finally(() => {
           savingRef.current = false;

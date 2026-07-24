@@ -8,7 +8,9 @@ export type PartKit = {
   name: string;
   /** Optional machine label for the kit. */
   machine?: string;
-  partIds: string[];
+  lines: Array<{ partId: string; qty: number }>;
+  /** Legacy shape retained only while old cloud rows migrate. */
+  partIds?: string[];
 };
 
 type KitsContextValue = {
@@ -34,7 +36,22 @@ export function KitsProvider({ children }: { children: ReactNode }) {
     isKitsEmpty,
   );
 
-  const safeKits = Array.isArray(kits) ? kits : [];
+  const safeKits = useMemo(
+    () =>
+      (Array.isArray(kits) ? kits : []).map((kit) => ({
+        ...kit,
+        lines: Array.isArray(kit.lines)
+          ? kit.lines
+              .filter((line) => line?.partId)
+              .map((line) => ({
+                partId: line.partId,
+                qty: Math.max(1, Math.round(Number(line.qty) || 1)),
+              }))
+          : [...new Set(kit.partIds ?? [])].map((partId) => ({ partId, qty: 1 })),
+        partIds: undefined,
+      })),
+    [kits],
+  );
 
   const addKit = useCallback(
     (input: Omit<PartKit, "id"> & { id?: string }) => {
@@ -42,7 +59,12 @@ export function KitsProvider({ children }: { children: ReactNode }) {
         id: input.id ?? newLocalId("kit"),
         name: input.name.trim(),
         machine: input.machine?.trim() || undefined,
-        partIds: [...new Set(input.partIds)],
+        lines: input.lines
+          .filter((line) => line.partId)
+          .map((line) => ({
+            partId: line.partId,
+            qty: Math.max(1, Math.round(Number(line.qty) || 1)),
+          })),
       };
       setKits((prev) => [kit, ...(Array.isArray(prev) ? prev : [])]);
       return kit;
@@ -59,7 +81,12 @@ export function KitsProvider({ children }: { children: ReactNode }) {
                 ...k,
                 ...patch,
                 id: k.id,
-                partIds: patch.partIds ? [...new Set(patch.partIds)] : k.partIds,
+                lines: patch.lines
+                  ? patch.lines.map((line) => ({
+                      partId: line.partId,
+                      qty: Math.max(1, Math.round(Number(line.qty) || 1)),
+                    }))
+                  : k.lines,
               }
             : k,
         ),

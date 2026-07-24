@@ -13,6 +13,7 @@ import {
   PackagePlus,
   Pencil,
   Plus,
+  ScanLine,
   Star,
   TableProperties,
 } from "lucide-react";
@@ -24,6 +25,7 @@ import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { usePrefs } from "@/components/app/prefs-context";
 import { PartDetailDialog } from "@/components/app/part-detail-dialog";
+import { PartScanDialog } from "@/components/app/part-scan-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
 import { CatalogGrid } from "@/components/app/catalog-grid";
 import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
@@ -46,17 +48,11 @@ import {
   MAIN_INVENTORY_CATEGORY_IDS,
   type CategoryGroupId,
 } from "@/lib/inventory-categories";
-import {
-  HYDRAULIC_SUBCATEGORIES,
-} from "@/lib/hydraulics-inventory";
+import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
 import { partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export const Route = createFileRoute("/inventory")({
   head: () => ({
@@ -169,8 +165,15 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
-  const { parts, categories, catalogReady, catalogError, retryCatalogLoad, updatePart, cloudError } =
-    useInventory();
+  const {
+    parts,
+    categories,
+    catalogReady,
+    catalogError,
+    retryCatalogLoad,
+    updatePart,
+    cloudError,
+  } = useInventory();
   const {
     favoriteCategoryGroups,
     recentCategoryGroups,
@@ -193,6 +196,7 @@ function InventoryPage() {
   const [bulkOpen, setBulkOpen] = useState(false);
   const [excelOpen, setExcelOpen] = useState(false);
   const [kitsOpen, setKitsOpen] = useState(false);
+  const [scanOpen, setScanOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<{
     id: string;
     label: string;
@@ -201,14 +205,12 @@ function InventoryPage() {
   const [scrollToListToken, setScrollToListToken] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const activeCategory =
-    categories.find((c) => c.id === categoryId) ?? categories[0];
+  const activeCategory = categories.find((c) => c.id === categoryId) ?? categories[0];
   const isCatalogMode = categoryId === catalogInventoryCategoryId;
   const activeGroup = activeCategory?.group ?? null;
   const isGroupMode = activeGroup != null;
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
-  const isHydraulics =
-    !isCatalogMode && activeCategory?.matchCategory === "Hydraulic Parts";
+  const isHydraulics = !isCatalogMode && activeCategory?.matchCategory === "Hydraulic Parts";
 
   const orderedCategories = useMemo(() => {
     const allowed = new Set<string>(MAIN_INVENTORY_CATEGORY_IDS);
@@ -332,9 +334,7 @@ function InventoryPage() {
         });
       }
     } else if (activeCategory?.matchCategory) {
-      list = list.filter((p) =>
-        categoriesMatch(p.category, activeCategory.matchCategory!),
-      );
+      list = list.filter((p) => categoriesMatch(p.category, activeCategory.matchCategory!));
       if (isHydraulics && groupSub) {
         list = list.filter(
           (p) => (p.subcategory ?? "").trim().toLowerCase() === groupSub.toLowerCase(),
@@ -380,10 +380,7 @@ function InventoryPage() {
   ]);
 
   const filterActive = isORings && Boolean(thickness.trim());
-  const totalPieces = useMemo(
-    () => rows.reduce((s, p) => s + p.quantity, 0),
-    [rows],
-  );
+  const totalPieces = useMemo(() => rows.reduce((s, p) => s + p.quantity, 0), [rows]);
   const catalogCount = countForCategory(
     categoryId,
     activeCategory?.matchCategory ?? null,
@@ -401,11 +398,7 @@ function InventoryPage() {
     return () => window.cancelAnimationFrame(id);
   }, [scrollToListToken, categoryId, rows.length]);
 
-  const selectCategory = (
-    catId: string,
-    matchCategory: string | null,
-    group?: CategoryGroupId,
-  ) => {
+  const selectCategory = (catId: string, matchCategory: string | null, group?: CategoryGroupId) => {
     setCategoryId(catId);
     setGroupSub(null);
     setGroupFilter("");
@@ -418,9 +411,7 @@ function InventoryPage() {
   };
 
   // Keep dialog part in sync after edits
-  const dialogPart = activePart
-    ? (parts.find((p) => p.id === activePart.id) ?? activePart)
-    : null;
+  const dialogPart = activePart ? (parts.find((p) => p.id === activePart.id) ?? activePart) : null;
 
   return (
     <>
@@ -436,6 +427,15 @@ function InventoryPage() {
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap items-center justify-end gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => setScanOpen(true)}
+          >
+            <ScanLine className="h-4 w-4" />
+            Scan part
+          </Button>
           <Button asChild type="button" variant="outline" className="gap-1.5">
             <Link to="/stock-take">
               <ClipboardList className="h-4 w-4" />
@@ -552,9 +552,7 @@ function InventoryPage() {
                     <Star
                       className={cn(
                         "h-3.5 w-3.5",
-                        favGroup
-                          ? "fill-amber-400 text-amber-400"
-                          : "text-muted-foreground",
+                        favGroup ? "fill-amber-400 text-amber-400" : "text-muted-foreground",
                       )}
                     />
                   </Button>
@@ -859,9 +857,7 @@ function InventoryPage() {
               <VirtualInventoryTable
                 rows={rows}
                 isORings={isORings}
-                partNumbersCell={(p) => (
-                  <PartNumbersCell part={p} catalogMode={!isORings} />
-                )}
+                partNumbersCell={(p) => <PartNumbersCell part={p} catalogMode={!isORings} />}
                 onView={(p) => openPart(p, "view")}
                 onEdit={(p) => openPart(p, "edit")}
                 onAddToCart={askDocumentForPart}
@@ -890,6 +886,11 @@ function InventoryPage() {
         mode={dialogMode}
         onModeChange={setDialogMode}
         defaultCategory={activeCategory?.matchCategory ?? ""}
+      />
+      <PartScanDialog
+        open={scanOpen}
+        onOpenChange={setScanOpen}
+        onOpenPart={(part) => openPart(part, "view")}
       />
       <CategoryFormDialog
         open={categoryDialogOpen}

@@ -29,6 +29,8 @@ export type Part = {
   notes?: string;
   /** Public URL for product photo (e.g. /kafu-parts/A01-1.jpg). */
   imageUrl?: string;
+  /** Gallery images; first item is the primary image. */
+  imageUrls?: string[];
 };
 
 /** Primary + OEM / alternate part numbers for display. */

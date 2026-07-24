@@ -42,19 +42,25 @@ export function KitsDialog({ open, onOpenChange }: Props) {
       toast.error("Enter a kit name");
       return;
     }
-    const partIds: string[] = [];
+    const lines: Array<{ partId: string; qty: number }> = [];
     for (const raw of codes.split(/[\n,;]+/)) {
-      const code = raw.trim().toLowerCase();
+      const match = raw.trim().match(/^(.+?)(?:\s*[x×*]\s*(\d+))?$/i);
+      const code = (match?.[1] ?? "").trim().toLowerCase();
       if (!code) continue;
       const id = index.get(code);
-      if (id) partIds.push(id);
+      if (id) {
+        const qty = Math.max(1, Math.round(Number(match?.[2]) || 1));
+        const existing = lines.find((line) => line.partId === id);
+        if (existing) existing.qty += qty;
+        else lines.push({ partId: id, qty });
+      }
     }
-    if (partIds.length === 0) {
+    if (lines.length === 0) {
       toast.error("Add at least one valid part code");
       return;
     }
-    addKit({ name: name.trim(), machine: machine.trim() || undefined, partIds });
-    toast.success(`Saved kit “${name.trim()}” (${partIds.length} parts)`);
+    addKit({ name: name.trim(), machine: machine.trim() || undefined, lines });
+    toast.success(`Saved kit “${name.trim()}” (${lines.length} parts)`);
     setName("");
     setMachine("");
     setCodes("");
@@ -65,10 +71,10 @@ export function KitsDialog({ open, onOpenChange }: Props) {
     if (!kit) return;
     if (!documentKind) setDocumentKind("quotation");
     let n = 0;
-    for (const id of kit.partIds) {
-      const p = getPart(id);
+    for (const line of kit.lines) {
+      const p = getPart(line.partId);
       if (p) {
-        addPart(p, 1);
+        addPart(p, line.qty);
         n += 1;
       }
     }
@@ -113,7 +119,7 @@ export function KitsDialog({ open, onOpenChange }: Props) {
               className="min-h-[88px] w-full rounded-md border border-input bg-background px-3 py-2 font-mono text-xs"
               value={codes}
               onChange={(e) => setCodes(e.target.value)}
-              placeholder={"A01-1\nA01-2\nA03-12"}
+              placeholder={"A01-1 x2\nA01-2\nA03-12 x4"}
             />
           </div>
           <Button type="button" onClick={create}>
@@ -136,18 +142,18 @@ export function KitsDialog({ open, onOpenChange }: Props) {
                   <p className="text-xs text-muted-foreground">{kit.machine}</p>
                 ) : null}
                 <div className="mt-1 flex flex-wrap gap-1">
-                  <Badge variant="secondary">{kit.partIds.length} parts</Badge>
-                  {kit.partIds.slice(0, 4).map((id) => {
-                    const p = getPart(id);
+                  <Badge variant="secondary">{kit.lines.length} parts</Badge>
+                  {kit.lines.slice(0, 4).map((line) => {
+                    const p = getPart(line.partId);
                     return p ? (
-                      <Badge key={id} variant="outline" className="font-mono text-[10px]">
-                        {p.partNumber}
+                      <Badge key={line.partId} variant="outline" className="font-mono text-[10px]">
+                        {p.partNumber} ×{line.qty}
                       </Badge>
                     ) : null;
                   })}
-                  {kit.partIds.length > 4 ? (
+                  {kit.lines.length > 4 ? (
                     <Badge variant="outline" className="text-[10px]">
-                      +{kit.partIds.length - 4}
+                      +{kit.lines.length - 4}
                     </Badge>
                   ) : null}
                 </div>

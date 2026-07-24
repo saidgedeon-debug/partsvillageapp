@@ -40,6 +40,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -51,6 +52,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTitusAutoSync } from "@/hooks/use-titus-auto-sync";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { TITUS_ORIGIN } from "@/lib/titus-sync";
+import { formatMoneyWithUsd } from "@/lib/fx";
+import { usePrefs } from "@/components/app/prefs-context";
 import { cn } from "@/lib/utils";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 
@@ -106,11 +109,7 @@ function shipmentSortRank(s: ChinaShipment): number {
   ) {
     return 2;
   }
-  if (
-    s.status === "In transit" ||
-    titus.includes("load") ||
-    titus.includes("transit")
-  ) {
+  if (s.status === "In transit" || titus.includes("load") || titus.includes("transit")) {
     return 0;
   }
   // Ordered / Planned / pre-arranged / waiting → pending
@@ -128,6 +127,7 @@ function compareShipments(a: ChinaShipment, b: ChinaShipment): number {
 function ChinaShipmentsPage() {
   const { query } = useSearch();
   const { shipments, removeShipment } = useShipments();
+  const { rmbPerUsd, setRmbPerUsd } = usePrefs();
   const { unlinkShipment } = useShareInbox();
   const [formOpen, setFormOpen] = useState(false);
   const [titusOpen, setTitusOpen] = useState(false);
@@ -183,7 +183,7 @@ function ChinaShipmentsPage() {
     return filtered.sort(compareShipments);
   }, [shipments, q, categoryTab, cargoTab]);
 
-  const detail = detailId ? shipments.find((s) => s.id === detailId) ?? null : null;
+  const detail = detailId ? (shipments.find((s) => s.id === detailId) ?? null) : null;
 
   useEffect(() => {
     if (!detailId) return;
@@ -194,10 +194,7 @@ function ChinaShipmentsPage() {
 
   return (
     <>
-      <PageHeader
-        title="Shipments"
-        subtitle={`${rows.length} shown · ${counts.all} total`}
-      />
+      <PageHeader title="Shipments" subtitle={`${rows.length} shown · ${counts.all} total`} />
       <main className="flex-1 space-y-3 p-4 md:p-6">
         <Tabs
           value={categoryTab}
@@ -210,10 +207,7 @@ function ChinaShipmentsPage() {
           </TabsList>
         </Tabs>
 
-        <Tabs
-          value={cargoTab}
-          onValueChange={(v) => setCargoTab(v as "all" | ShipmentCargoType)}
-        >
+        <Tabs value={cargoTab} onValueChange={(v) => setCargoTab(v as "all" | ShipmentCargoType)}>
           <TabsList className="grid h-auto w-full grid-cols-2 gap-1 sm:w-auto sm:inline-grid sm:grid-cols-4">
             <TabsTrigger value="all">All types</TabsTrigger>
             <TabsTrigger value="divers">Divers ({counts.divers})</TabsTrigger>
@@ -244,6 +238,20 @@ function ChinaShipmentsPage() {
               <ExternalLink className="h-3.5 w-3.5" />
               Titus site
             </Button>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="rmb-rate" className="text-xs">
+                RMB / USD
+              </Label>
+              <Input
+                id="rmb-rate"
+                type="number"
+                min="0.01"
+                step="0.01"
+                className="h-8 w-24"
+                value={rmbPerUsd}
+                onChange={(event) => setRmbPerUsd(Number(event.target.value))}
+              />
+            </div>
           </div>
           <Button
             type="button"
@@ -286,7 +294,10 @@ function ChinaShipmentsPage() {
                     {CARGO_TYPE_LABELS[getShipmentCargoType(s)]}
                   </Badge>
                   {s.titusStatus && (
-                    <Badge variant="outline" className="border-accent/50 bg-accent/10 text-[10px] text-accent">
+                    <Badge
+                      variant="outline"
+                      className="border-accent/50 bg-accent/10 text-[10px] text-accent"
+                    >
                       {s.titusStatus}
                     </Badge>
                   )}
@@ -316,22 +327,18 @@ function ChinaShipmentsPage() {
                 {s.freightCost != null ? (
                   <>
                     <p className="text-sm font-semibold">
-                      $
-                      {s.freightCost.toLocaleString(undefined, {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 2,
-                      })}
+                      {formatMoneyWithUsd(
+                        s.freightCost,
+                        s.freightCurrency ?? s.currency,
+                        rmbPerUsd,
+                      )}
                     </p>
                     <p className="text-xs text-muted-foreground">Titus freight</p>
                   </>
                 ) : s.totalCost != null ? (
                   <>
                     <p className="text-sm font-semibold">
-                      {s.currency === "RMB" ? "¥" : "$"}
-                      {s.totalCost.toLocaleString(undefined, {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 2,
-                      })}
+                      {formatMoneyWithUsd(s.totalCost, s.currency, rmbPerUsd)}
                     </p>
                     <p className="text-xs text-muted-foreground">{s.currency}</p>
                   </>
@@ -403,6 +410,7 @@ function ShipmentDetailDialog({
   onDelete: () => void;
 }) {
   const { updateShipment, addAttachment, removeAttachment } = useShipments();
+  const { rmbPerUsd } = usePrefs();
   const [uploading, setUploading] = useState(false);
   const [viewer, setViewer] = useState<ShipmentAttachment | null>(null);
   const invoiceInputRef = useRef<HTMLInputElement>(null);
@@ -524,9 +532,7 @@ function ShipmentDetailDialog({
                     type="button"
                     size="sm"
                     className="h-7 gap-1 text-xs bg-accent text-accent-foreground hover:bg-accent/90"
-                    onClick={() =>
-                      window.open(TITUS_PORTAL, "_blank", "noopener,noreferrer")
-                    }
+                    onClick={() => window.open(TITUS_PORTAL, "_blank", "noopener,noreferrer")}
                   >
                     <ExternalLink className="h-3 w-3" />
                     Open Titus
@@ -561,7 +567,11 @@ function ShipmentDetailDialog({
                   label="Freight"
                   value={
                     shipment.freightCost != null
-                      ? `${shipment.freightCurrency === "RMB" ? "¥" : "$"}${shipment.freightCost}`
+                      ? formatMoneyWithUsd(
+                          shipment.freightCost,
+                          shipment.freightCurrency ?? shipment.currency,
+                          rmbPerUsd,
+                        )
                       : "—"
                   }
                 />
@@ -597,7 +607,7 @@ function ShipmentDetailDialog({
                 label="Goods cost"
                 value={
                   shipment.totalCost != null
-                    ? `${shipment.currency === "RMB" ? "¥" : "$"}${shipment.totalCost}`
+                    ? formatMoneyWithUsd(shipment.totalCost, shipment.currency, rmbPerUsd)
                     : "—"
                 }
               />
@@ -673,15 +683,8 @@ function ShipmentDetailDialog({
               ) : (
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {shipment.attachments.map((a) => (
-                    <div
-                      key={a.id}
-                      className="overflow-hidden rounded-md border border-border"
-                    >
-                      <button
-                        type="button"
-                        className="block w-full"
-                        onClick={() => setViewer(a)}
-                      >
+                    <div key={a.id} className="overflow-hidden rounded-md border border-border">
+                      <button type="button" className="block w-full" onClick={() => setViewer(a)}>
                         {a.dataUrl.startsWith("data:image/") ? (
                           <img
                             src={a.dataUrl}
@@ -761,15 +764,7 @@ function ShipmentDetailDialog({
   );
 }
 
-function Meta({
-  label,
-  value,
-  mono,
-}: {
-  label: string;
-  value: string;
-  mono?: boolean;
-}) {
+function Meta({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div className="rounded-md border border-border px-3 py-2">
       <dt className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">

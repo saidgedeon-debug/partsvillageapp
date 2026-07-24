@@ -1,16 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
-import { AlertTriangle, ArrowLeft, ShoppingCart } from "lucide-react";
+import { useMemo, useState } from "react";
+import { AlertTriangle, ArrowLeft, Ship, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { InlineNumberCell } from "@/components/app/inline-number-cell";
+import { ShipmentFormDialog } from "@/components/app/shipment-form-dialog";
+import { useParties } from "@/components/app/parties-context";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { partDescriptionOf } from "@/lib/mock-data";
+import { partDescriptionOf, type Part } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/low-stock")({
   head: () => ({
@@ -24,8 +26,10 @@ export const Route = createFileRoute("/low-stock")({
 
 function LowStockPage() {
   const { parts, updatePart, catalogReady } = useInventory();
-  const { askDocumentForPart, setDocumentKind, documentKind, setCartOpen, addPart } =
-    useCart();
+  const { askDocumentForPart, setDocumentKind, documentKind, setCartOpen, addPart } = useCart();
+  const { suppliers } = useParties();
+  const [shipmentOpen, setShipmentOpen] = useState(false);
+  const [shipmentPart, setShipmentPart] = useState<Part | null>(null);
 
   const low = useMemo(
     () =>
@@ -45,6 +49,34 @@ function LowStockPage() {
     setCartOpen(true);
     toast.success(`Added ${n} low-stock parts to inquiry cart`);
   };
+
+  const shipmentDraft = useMemo(
+    () => ({
+      title: shipmentPart
+        ? `Reorder ${shipmentPart.partNumber}`
+        : `Low-stock reorder · ${low.length} SKUs`,
+      orderedAt: new Date().toLocaleDateString("en-CA"),
+      notes: shipmentPart
+        ? `${shipmentPart.partNumber} × ${Math.max(1, shipmentPart.reorderAt - shipmentPart.quantity || 1)}`
+        : low
+            .slice(0, 80)
+            .map((p) => `${p.partNumber} × ${Math.max(1, p.reorderAt - p.quantity || 1)}`)
+            .join("\n"),
+      status: "Ordered" as const,
+      category: "other" as const,
+      cargoType: "divers" as const,
+      currency: "USD" as const,
+    }),
+    [low, shipmentPart],
+  );
+  const fastestLead = suppliers
+    .map((s) => s.leadTimeDays)
+    .filter((n): n is number => Number.isFinite(n))
+    .sort((a, b) => a - b)[0];
+  const reorderBy =
+    fastestLead != null
+      ? new Date(Date.now() + fastestLead * 86_400_000).toLocaleDateString()
+      : null;
 
   return (
     <>
@@ -73,6 +105,25 @@ function LowStockPage() {
             <ShoppingCart className="h-3.5 w-3.5" />
             Add all to supplier inquiry
           </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="gap-1.5"
+            disabled={low.length === 0}
+            onClick={() => {
+              setShipmentPart(null);
+              setShipmentOpen(true);
+            }}
+          >
+            <Ship className="h-3.5 w-3.5" />
+            New reorder shipment
+          </Button>
+          {fastestLead != null ? (
+            <span className="text-xs text-muted-foreground">
+              Fastest supplier lead time: ~{fastestLead} days · order by {reorderBy}
+            </span>
+          ) : null}
         </div>
 
         <Card>
@@ -100,9 +151,7 @@ function LowStockPage() {
                       {p.category}
                     </Badge>
                   </div>
-                  <p className="truncate text-xs text-muted-foreground">
-                    {partDescriptionOf(p)}
-                  </p>
+                  <p className="truncate text-xs text-muted-foreground">{partDescriptionOf(p)}</p>
                   <p className="mt-0.5 text-[11px] text-muted-foreground">
                     Reorder at {p.reorderAt}
                   </p>
@@ -127,11 +176,29 @@ function LowStockPage() {
                   <ShoppingCart className="h-3.5 w-3.5" />
                   Cart
                 </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="gap-1"
+                  onClick={() => {
+                    setShipmentPart(p);
+                    setShipmentOpen(true);
+                  }}
+                >
+                  <Ship className="h-3.5 w-3.5" />
+                  Ship
+                </Button>
               </div>
             ))}
           </CardContent>
         </Card>
       </main>
+      <ShipmentFormDialog
+        open={shipmentOpen}
+        onOpenChange={setShipmentOpen}
+        initialValues={shipmentDraft}
+      />
     </>
   );
 }

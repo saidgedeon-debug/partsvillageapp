@@ -19,6 +19,8 @@ export type PartyRecord = {
   phone: string;
   address: string;
   notes?: string;
+  /** Typical supplier lead time; unused for clients. */
+  leadTimeDays?: number;
 };
 
 type PartyInput = Partial<PartyRecord> & { name: string };
@@ -85,6 +87,10 @@ function normalizeParty(input: PartyInput, prefix: string, existingId?: string):
     phone: (input.phone ?? "").trim(),
     address: (input.address ?? "").trim(),
     notes: (input.notes ?? "").trim() || undefined,
+    leadTimeDays:
+      Number.isFinite(input.leadTimeDays) && Number(input.leadTimeDays) >= 0
+        ? Math.round(Number(input.leadTimeDays))
+        : undefined,
   };
 }
 
@@ -119,7 +125,9 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
     (input: PartyInput) => {
       const party = normalizeParty(input, "cli");
       setStore((prev) => {
-        const exists = (prev.clients ?? []).find((c) => c.name.toLowerCase() === party.name.toLowerCase());
+        const exists = (prev.clients ?? []).find(
+          (c) => c.name.toLowerCase() === party.name.toLowerCase(),
+        );
         const clients = exists
           ? (prev.clients ?? []).map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
           : [party, ...(prev.clients ?? [])];
@@ -138,7 +146,9 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
           (c) => c.name.toLowerCase() === party.name.toLowerCase(),
         );
         const suppliers = exists
-          ? (prev.suppliers ?? []).map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
+          ? (prev.suppliers ?? []).map((c) =>
+              c.id === exists.id ? { ...party, id: exists.id } : c,
+            )
           : [party, ...(prev.suppliers ?? [])];
         return { clients: prev.clients ?? [], suppliers };
       });

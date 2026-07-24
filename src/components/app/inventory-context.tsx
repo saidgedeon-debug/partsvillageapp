@@ -12,7 +12,11 @@ import {
 import { loadCatalogParts, resetCatalogPartsCache } from "@/lib/catalog-loader";
 import { useCloudState } from "@/lib/cloud-store";
 import type { Part } from "@/lib/mock-data";
-import { buildInventoryCategories, STANDARD_CATEGORY_LABELS, type InventoryCategoryDef } from "@/lib/inventory-categories";
+import {
+  buildInventoryCategories,
+  STANDARD_CATEGORY_LABELS,
+  type InventoryCategoryDef,
+} from "@/lib/inventory-categories";
 
 export type PartInput = Partial<Part> & {
   partNumber: string;
@@ -44,6 +48,7 @@ export type PartOverride = Partial<
     | "crossSectionMm"
     | "notes"
     | "imageUrl"
+    | "imageUrls"
   >
 >;
 
@@ -133,7 +138,9 @@ function applyOverride(base: Part, override?: PartOverride): Part {
   return {
     ...merged,
     quantity:
-      override.quantity !== undefined ? clampNonNeg(Number(override.quantity), true) : base.quantity,
+      override.quantity !== undefined
+        ? clampNonNeg(Number(override.quantity), true)
+        : base.quantity,
     reorderAt:
       override.reorderAt !== undefined
         ? clampNonNeg(Number(override.reorderAt), true)
@@ -244,93 +251,102 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
 
   const getPart = useCallback((id: string) => partsById.get(id), [partsById]);
 
-  const addPart = useCallback((input: PartInput) => {
-    const part = normalizePart(input);
-    setStore((prev) => ({
-      overrides: prev.overrides ?? {},
-      customCategories: prev.customCategories ?? [],
-      customParts: [...(prev.customParts ?? []), part],
-    }));
-    return part;
-  }, [setStore]);
-
-  const updatePart = useCallback((id: string, patch: PartOverride) => {
-    const catalogParts = catalogRef.current;
-    const catalogBasePart = catalogParts.find((p) => p.id === id);
-    if (catalogBasePart) {
-      let merged: Part | null = null;
-      setStore((prev) => {
-        const prevOverrides = prev.overrides ?? {};
-        const nextPatch: PartOverride = { ...prevOverrides[id], ...patch };
-        merged = applyOverride(catalogBasePart, nextPatch);
-        return {
-          ...prev,
-          overrides: { ...prevOverrides, [id]: nextPatch },
-          customParts: prev.customParts ?? [],
-          customCategories: prev.customCategories ?? [],
-        };
-      });
-      return merged;
-    }
-
-    let updated: Part | null = null;
-    setStore((prev) => {
-      const prevCustom = prev.customParts ?? [];
-      const idx = prevCustom.findIndex((p) => p.id === id);
-      if (idx < 0) return prev;
-      const current = prevCustom[idx];
-      updated = normalizePart(
-        {
-          ...current,
-          ...patch,
-          partNumber: patch.partNumber ?? current.partNumber,
-          name: patch.name ?? current.name,
-          category: patch.category ?? current.category,
-          subcategory: patch.subcategory ?? current.subcategory,
-        },
-        id,
-      );
-      const nextCustom = [...prevCustom];
-      nextCustom[idx] = updated;
-      return {
+  const addPart = useCallback(
+    (input: PartInput) => {
+      const part = normalizePart(input);
+      setStore((prev) => ({
         overrides: prev.overrides ?? {},
         customCategories: prev.customCategories ?? [],
-        customParts: nextCustom,
-      };
-    });
-    return updated;
-  }, [setStore]);
+        customParts: [...(prev.customParts ?? []), part],
+      }));
+      return part;
+    },
+    [setStore],
+  );
 
-  const adjustPartQuantity = useCallback((id: string, delta: number) => {
-    if (!Number.isFinite(delta) || delta === 0) return null;
-    let nextQty: number | null = null;
-    const catalogParts = catalogRef.current;
-    setStore((prev) => {
-      const overrides = { ...(prev.overrides ?? {}) };
-      const customParts = [...(prev.customParts ?? [])];
+  const updatePart = useCallback(
+    (id: string, patch: PartOverride) => {
+      const catalogParts = catalogRef.current;
       const catalogBasePart = catalogParts.find((p) => p.id === id);
       if (catalogBasePart) {
-        const current = applyOverride(catalogBasePart, overrides[id]);
-        nextQty = Math.max(0, Math.round(current.quantity + delta));
-        overrides[id] = { ...overrides[id], quantity: nextQty };
+        let merged: Part | null = null;
+        setStore((prev) => {
+          const prevOverrides = prev.overrides ?? {};
+          const nextPatch: PartOverride = { ...prevOverrides[id], ...patch };
+          merged = applyOverride(catalogBasePart, nextPatch);
+          return {
+            ...prev,
+            overrides: { ...prevOverrides, [id]: nextPatch },
+            customParts: prev.customParts ?? [],
+            customCategories: prev.customCategories ?? [],
+          };
+        });
+        return merged;
+      }
+
+      let updated: Part | null = null;
+      setStore((prev) => {
+        const prevCustom = prev.customParts ?? [];
+        const idx = prevCustom.findIndex((p) => p.id === id);
+        if (idx < 0) return prev;
+        const current = prevCustom[idx];
+        updated = normalizePart(
+          {
+            ...current,
+            ...patch,
+            partNumber: patch.partNumber ?? current.partNumber,
+            name: patch.name ?? current.name,
+            category: patch.category ?? current.category,
+            subcategory: patch.subcategory ?? current.subcategory,
+          },
+          id,
+        );
+        const nextCustom = [...prevCustom];
+        nextCustom[idx] = updated;
+        return {
+          overrides: prev.overrides ?? {},
+          customCategories: prev.customCategories ?? [],
+          customParts: nextCustom,
+        };
+      });
+      return updated;
+    },
+    [setStore],
+  );
+
+  const adjustPartQuantity = useCallback(
+    (id: string, delta: number) => {
+      if (!Number.isFinite(delta) || delta === 0) return null;
+      let nextQty: number | null = null;
+      const catalogParts = catalogRef.current;
+      setStore((prev) => {
+        const overrides = { ...(prev.overrides ?? {}) };
+        const customParts = [...(prev.customParts ?? [])];
+        const catalogBasePart = catalogParts.find((p) => p.id === id);
+        if (catalogBasePart) {
+          const current = applyOverride(catalogBasePart, overrides[id]);
+          nextQty = Math.max(0, Math.round(current.quantity + delta));
+          overrides[id] = { ...overrides[id], quantity: nextQty };
+          return {
+            overrides,
+            customParts,
+            customCategories: prev.customCategories ?? [],
+          };
+        }
+        const idx = customParts.findIndex((p) => p.id === id);
+        if (idx < 0) return prev;
+        nextQty = Math.max(0, Math.round(customParts[idx].quantity + delta));
+        customParts[idx] = { ...customParts[idx], quantity: nextQty };
         return {
           overrides,
           customParts,
           customCategories: prev.customCategories ?? [],
         };
-      }
-      const idx = customParts.findIndex((p) => p.id === id);
-      if (idx < 0) return prev;
-      nextQty = Math.max(0, Math.round(customParts[idx].quantity + delta));
-      customParts[idx] = { ...customParts[idx], quantity: nextQty };
-      return {
-        overrides,
-        customParts,
-        customCategories: prev.customCategories ?? [],
-      };
-    });
-    return nextQty;
-  }, [setStore]);
+      });
+      return nextQty;
+    },
+    [setStore],
+  );
 
   const bulkUpdateParts = useCallback(
     (
@@ -388,50 +404,56 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     [setStore],
   );
 
-  const removePart = useCallback((id: string) => {
-    setStore((prev) => ({
-      customCategories: prev.customCategories ?? [],
-      customParts: (prev.customParts ?? []).filter((p) => p.id !== id),
-      overrides: Object.fromEntries(
-        Object.entries(prev.overrides ?? {}).filter(([k]) => k !== id),
-      ),
-    }));
-  }, [setStore]);
+  const removePart = useCallback(
+    (id: string) => {
+      setStore((prev) => ({
+        customCategories: prev.customCategories ?? [],
+        customParts: (prev.customParts ?? []).filter((p) => p.id !== id),
+        overrides: Object.fromEntries(
+          Object.entries(prev.overrides ?? {}).filter(([k]) => k !== id),
+        ),
+      }));
+    },
+    [setStore],
+  );
 
-  const addCategory = useCallback((label: string, description?: string) => {
-    const trimmed = label.trim();
-    if (!trimmed) return null;
-    const id = `cat-${slug(trimmed) || newId("cat")}`;
-    const record: CategoryRecord = {
-      id,
-      label: trimmed,
-      description: description?.trim() || undefined,
-    };
-
-    let ok = true;
-    setStore((prev) => {
-      const base = catalogRef.current;
-      const customCategories = prev.customCategories ?? [];
-      const customParts = prev.customParts ?? [];
-      const exists =
-        (STANDARD_CATEGORY_LABELS as readonly string[]).some(
-          (c) => c.toLowerCase() === trimmed.toLowerCase(),
-        ) ||
-        customCategories.some((c) => c.label.toLowerCase() === trimmed.toLowerCase()) ||
-        base.some((p) => p.category.toLowerCase() === trimmed.toLowerCase()) ||
-        customParts.some((p) => p.category.toLowerCase() === trimmed.toLowerCase());
-      if (exists) {
-        ok = false;
-        return prev;
-      }
-      return {
-        overrides: prev.overrides ?? {},
-        customParts,
-        customCategories: [...customCategories, record],
+  const addCategory = useCallback(
+    (label: string, description?: string) => {
+      const trimmed = label.trim();
+      if (!trimmed) return null;
+      const id = `cat-${slug(trimmed) || newId("cat")}`;
+      const record: CategoryRecord = {
+        id,
+        label: trimmed,
+        description: description?.trim() || undefined,
       };
-    });
-    return ok ? record : null;
-  }, [setStore]);
+
+      let ok = true;
+      setStore((prev) => {
+        const base = catalogRef.current;
+        const customCategories = prev.customCategories ?? [];
+        const customParts = prev.customParts ?? [];
+        const exists =
+          (STANDARD_CATEGORY_LABELS as readonly string[]).some(
+            (c) => c.toLowerCase() === trimmed.toLowerCase(),
+          ) ||
+          customCategories.some((c) => c.label.toLowerCase() === trimmed.toLowerCase()) ||
+          base.some((p) => p.category.toLowerCase() === trimmed.toLowerCase()) ||
+          customParts.some((p) => p.category.toLowerCase() === trimmed.toLowerCase());
+        if (exists) {
+          ok = false;
+          return prev;
+        }
+        return {
+          overrides: prev.overrides ?? {},
+          customParts,
+          customCategories: [...customCategories, record],
+        };
+      });
+      return ok ? record : null;
+    },
+    [setStore],
+  );
 
   const updateCategory = useCallback(
     (id: string, patch: { label?: string; description?: string }) => {
@@ -519,29 +541,31 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  const removeCategory = useCallback((id: string) => {
-    let removed = false;
-    setStore((prev) => {
-      const customCategories = prev.customCategories ?? [];
-      const customParts = prev.customParts ?? [];
-      const overrides = prev.overrides ?? {};
-      const custom = customCategories.find((c) => c.id === id);
-      if (!custom) return prev;
-      const base = catalogRef.current;
-      const inUse = [
-        ...base.map((p) => applyOverride(p, overrides[p.id])),
-        ...customParts,
-      ].some((p) => p.category === custom.label);
-      if (inUse) return prev;
-      removed = true;
-      return {
-        overrides,
-        customParts,
-        customCategories: customCategories.filter((c) => c.id !== id),
-      };
-    });
-    return removed;
-  }, [setStore]);
+  const removeCategory = useCallback(
+    (id: string) => {
+      let removed = false;
+      setStore((prev) => {
+        const customCategories = prev.customCategories ?? [];
+        const customParts = prev.customParts ?? [];
+        const overrides = prev.overrides ?? {};
+        const custom = customCategories.find((c) => c.id === id);
+        if (!custom) return prev;
+        const base = catalogRef.current;
+        const inUse = [...base.map((p) => applyOverride(p, overrides[p.id])), ...customParts].some(
+          (p) => p.category === custom.label,
+        );
+        if (inUse) return prev;
+        removed = true;
+        return {
+          overrides,
+          customParts,
+          customCategories: customCategories.filter((c) => c.id !== id),
+        };
+      });
+      return removed;
+    },
+    [setStore],
+  );
 
   const value = useMemo(
     () => ({

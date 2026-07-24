@@ -14,6 +14,7 @@ import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as LowStockRouteImport } from './routes/low-stock'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShareRouteImport } from './routes/share'
 import { Route as ShareInboxRouteImport } from './routes/share-inbox'
 import { Route as StockTakeRouteImport } from './routes/stock-take'
@@ -45,6 +46,11 @@ const InventoryRoute = InventoryRouteImport.update({
 const LowStockRoute = LowStockRouteImport.update({
   id: '/low-stock',
   path: '/low-stock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShareRoute = ShareRouteImport.update({
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/inventory'
     | '/low-stock'
+    | '/search'
     | '/share'
     | '/share-inbox'
     | '/stock-take'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/inventory'
     | '/low-stock'
+    | '/search'
     | '/share'
     | '/share-inbox'
     | '/stock-take'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/inventory'
     | '/low-stock'
+    | '/search'
     | '/share'
     | '/share-inbox'
     | '/stock-take'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   InventoryRoute: typeof InventoryRoute
   LowStockRoute: typeof LowStockRoute
+  SearchRoute: typeof SearchRoute
   ShareRoute: typeof ShareRoute
   ShareInboxRoute: typeof ShareInboxRoute
   StockTakeRoute: typeof StockTakeRoute
@@ -221,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/low-stock'
       fullPath: '/low-stock'
       preLoaderRoute: typeof LowStockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/share': {
@@ -281,6 +301,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   InventoryRoute: InventoryRoute,
   LowStockRoute: LowStockRoute,
+  SearchRoute: SearchRoute,
   ShareRoute: ShareRoute,
   ShareInboxRoute: ShareInboxRoute,
   StockTakeRoute: StockTakeRoute,

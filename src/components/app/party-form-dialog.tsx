@@ -32,6 +32,7 @@ const empty = {
   phone: "",
   address: "",
   notes: "",
+  leadTimeDays: "",
 };
 
 export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Props) {
@@ -50,6 +51,10 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
         phone: party.phone,
         address: party.address,
         notes: party.notes ?? "",
+        leadTimeDays:
+          party.leadTimeDays != null && Number.isFinite(party.leadTimeDays)
+            ? String(party.leadTimeDays)
+            : "",
       });
     } else {
       setForm(empty);
@@ -57,8 +62,7 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
   }, [open, party]);
 
   const set =
-    (key: keyof typeof empty) =>
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    (key: keyof typeof empty) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const save = () => {
@@ -83,6 +87,10 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
       phone,
       address: form.address,
       notes: form.notes,
+      leadTimeDays:
+        kind === "supplier" && form.leadTimeDays.trim()
+          ? Math.max(0, Math.round(Number(form.leadTimeDays)))
+          : undefined,
     };
     const saved =
       kind === "client"
@@ -109,16 +117,19 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
         <DialogHeader>
           <DialogTitle>{editing ? `Edit ${label}` : `Add ${label}`}</DialogTitle>
           <DialogDescription>
-            {editing
-              ? `Update ${label} contact details.`
-              : `Save a new ${label} to your CRM.`}
+            {editing ? `Update ${label} contact details.` : `Save a new ${label} to your CRM.`}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3 py-1">
           <div className="space-y-1.5">
             <Label htmlFor="party-name">Name *</Label>
-            <Input id="party-name" value={form.name} onChange={set("name")} placeholder="Company name" />
+            <Input
+              id="party-name"
+              value={form.name}
+              onChange={set("name")}
+              placeholder="Company name"
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="party-contact">Contact person</Label>
@@ -159,6 +170,20 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
               placeholder="Street, city, country"
             />
           </div>
+          {kind === "supplier" ? (
+            <div className="space-y-1.5">
+              <Label htmlFor="party-lead-time">Typical lead time (days)</Label>
+              <Input
+                id="party-lead-time"
+                type="number"
+                min={0}
+                step={1}
+                value={form.leadTimeDays}
+                onChange={set("leadTimeDays")}
+                placeholder="14"
+              />
+            </div>
+          ) : null}
           <div className="space-y-1.5">
             <Label htmlFor="party-notes">Notes</Label>
             <Input

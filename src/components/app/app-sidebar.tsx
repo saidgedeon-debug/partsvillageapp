@@ -12,6 +12,7 @@ import {
   Inbox,
   Receipt,
   StickyNote,
+  Search,
 } from "lucide-react";
 
 import {
@@ -29,6 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import logo from "@/assets/parts-village-logo-clear.png";
 import { useShareInbox } from "@/components/app/share-inbox-context";
+import { useCloudHealth } from "@/lib/cloud-store";
 
 type NavItem = {
   title: string;
@@ -41,6 +43,7 @@ type NavItem = {
 
 const items: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, exact: true },
+  { title: "Search all", url: "/search", icon: Search },
   { title: "Stock / Inventory", url: "/inventory", icon: Package },
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
@@ -63,16 +66,14 @@ const items: NavItem[] = [
     url: "/documents",
     search: { tab: "invoices" as const },
     icon: StickyNote,
-    match: (pathname, search) =>
-      pathname === "/documents" && search.includes("tab=invoices"),
+    match: (pathname, search) => pathname === "/documents" && search.includes("tab=invoices"),
   },
   {
     title: "Receipt",
     url: "/documents",
     search: { tab: "receipts" as const },
     icon: Receipt,
-    match: (pathname, search) =>
-      pathname === "/documents" && search.includes("tab=receipts"),
+    match: (pathname, search) => pathname === "/documents" && search.includes("tab=receipts"),
   },
   { title: "Shipments", url: "/china-shipments", icon: Ship },
   { title: "Share inbox", url: "/share-inbox", icon: Inbox },
@@ -99,6 +100,7 @@ export function AppSidebar() {
     },
   });
   const { pendingCount } = useShareInbox();
+  const cloudHealth = useCloudHealth();
 
   const isActive = (item: NavItem) => {
     if (item.match) return item.match(pathname, searchStr);
@@ -135,11 +137,7 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={isActive(item)} tooltip={item.title}>
-                    <Link
-                      to={item.url}
-                      search={item.search}
-                      className="flex items-center gap-2"
-                    >
+                    <Link to={item.url} search={item.search} className="flex items-center gap-2">
                       <item.icon className="h-4 w-4" />
                       {!collapsed && (
                         <span className="flex flex-1 items-center justify-between gap-2">
@@ -163,7 +161,18 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-2 text-xs text-sidebar-foreground/70">
           <Wrench className="h-3.5 w-3.5 text-accent" />
-          {!collapsed && <span>Depot #01 — Online</span>}
+          {!collapsed && (
+            <span>
+              Depot #01 —{" "}
+              {cloudHealth === "synced"
+                ? "Synced"
+                : cloudHealth === "syncing"
+                  ? "Syncing…"
+                  : cloudHealth === "error"
+                    ? "Sync error"
+                    : "Loading…"}
+            </span>
+          )}
         </div>
       </SidebarFooter>
     </Sidebar>

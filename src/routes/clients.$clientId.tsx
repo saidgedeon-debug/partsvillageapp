@@ -9,16 +9,26 @@ import {
   Pencil,
   StickyNote,
   Plus,
+  Download,
+  MessageCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useParties } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
+import { useDocuments } from "@/components/app/documents-context";
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,6 +40,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { clientById, currency } from "@/lib/mock-data";
+import { buildArStatement, downloadStatementPdf, openStatementWhatsApp } from "@/lib/ar-statement";
 
 export const Route = createFileRoute("/clients/$clientId")({
   head: () => ({
@@ -44,12 +55,8 @@ export const Route = createFileRoute("/clients/$clientId")({
 function ClientDetail() {
   const { clientId } = Route.useParams();
   const { clients } = useParties();
-  const {
-    machinesByClient,
-    ordersByClient,
-    ordersByMachine,
-    addMachine,
-  } = useFleet();
+  const { invoices } = useDocuments();
+  const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
   const [make, setMake] = useState("");
@@ -73,6 +80,7 @@ function ClientDetail() {
 
   const fleet = machinesByClient(client.id);
   const allOrders = ordersByClient(client.id);
+  const statement = buildArStatement(client.id, invoices);
   const spend = allOrders.reduce(
     (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
     0,
@@ -166,6 +174,56 @@ function ClientDetail() {
             </CardContent>
           </Card>
         </div>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between gap-3">
+            <div>
+              <CardTitle className="text-base">Accounts receivable</CardTitle>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {statement.invoices.length} open invoice{statement.invoices.length === 1 ? "" : "s"}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                disabled={!statement.invoices.length}
+                onClick={() => downloadStatementPdf(client, statement)}
+              >
+                <Download className="mr-1 h-3.5 w-3.5" />
+                PDF
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                disabled={!statement.invoices.length}
+                onClick={() => openStatementWhatsApp(client, statement)}
+              >
+                <MessageCircle className="mr-1 h-3.5 w-3.5" />
+                WhatsApp
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="grid gap-3 sm:grid-cols-4">
+            <div>
+              <p className="text-xs text-muted-foreground">0–30 days</p>
+              <p className="font-semibold">{currency(statement.current)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">31–60 days</p>
+              <p className="font-semibold">{currency(statement.days31To60)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">61+ days</p>
+              <p className="font-semibold">{currency(statement.days61Plus)}</p>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground">Total due</p>
+              <p className="font-bold text-accent">{currency(statement.total)}</p>
+            </div>
+          </CardContent>
+        </Card>
 
         {allOrders.length > 0 && fleet.length === 0 && (
           <Card>
@@ -274,10 +332,7 @@ function ClientDetail() {
                       </TableHeader>
                       <TableBody>
                         {mOrders.map((o) => {
-                          const total = o.lines.reduce(
-                            (s, l) => s + l.qty * l.unitPrice,
-                            0,
-                          );
+                          const total = o.lines.reduce((s, l) => s + l.qty * l.unitPrice, 0);
                           return (
                             <TableRow key={o.id}>
                               <TableCell className="font-mono text-xs">{o.id}</TableCell>

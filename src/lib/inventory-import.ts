@@ -10,6 +10,107 @@ export type InventoryExcelUpdate = {
   reorderAt?: number;
 };
 
+export type InventoryImportMapping = {
+  partNumber: string;
+  name: string;
+  category: string;
+  quantity: string;
+  cost: string;
+  price: string;
+  reorderAt: string;
+};
+
+export type InventoryImportPreviewRow =
+  | { action: "update"; code: string; name: string; update: InventoryExcelUpdate }
+  | {
+      action: "create";
+      code: string;
+      name: string;
+      part: Pick<
+        Part,
+        | "partNumber"
+        | "name"
+        | "category"
+        | "quantity"
+        | "cost"
+        | "price"
+        | "reorderAt"
+        | "compatibility"
+      >;
+    }
+  | { action: "skip"; code: string; name: string; reason: string };
+
+export function readInventoryWorkbook(data: ArrayBuffer): {
+  headers: string[];
+  rows: Record<string, unknown>[];
+} {
+  const book = XLSX.read(data, { type: "array" });
+  const sheetName = book.SheetNames[0];
+  if (!sheetName) return { headers: [], rows: [] };
+  const sheet = book.Sheets[sheetName];
+  const rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: "" });
+  return { headers: rows[0] ? Object.keys(rows[0]) : [], rows };
+}
+
+export function guessInventoryMapping(headers: string[]): InventoryImportMapping {
+  const find = (...names: string[]) =>
+    headers.find((header) => names.includes(header.trim().toLowerCase())) ?? "";
+  return {
+    partNumber: find("part code", "partcode", "part #", "part#", "partnumber", "oem"),
+    name: find("name", "description", "part name"),
+    category: find("category", "group"),
+    quantity: find("qty", "quantity"),
+    cost: find("cost", "unit cost"),
+    price: find("price", "unit price"),
+    reorderAt: find("reorder at", "reorder", "reorderat"),
+  };
+}
+
+export function buildInventoryImportPreview(
+  rows: Record<string, unknown>[],
+  mapping: InventoryImportMapping,
+  parts: Part[],
+): InventoryImportPreviewRow[] {
+  const index = new Map<string, Part>();
+  for (const part of parts) {
+    index.set(part.partNumber.trim().toLowerCase(), part);
+    for (const number of oemNumbersOf(part)) index.set(number.trim().toLowerCase(), part);
+  }
+  return rows.map((row) => {
+    const code = String(row[mapping.partNumber] ?? "").trim();
+    const name = String(row[mapping.name] ?? "").trim() || code;
+    if (!code) return { action: "skip", code: "", name, reason: "Missing part number" };
+    const quantity = toNum(row[mapping.quantity]);
+    const cost = toNum(row[mapping.cost]);
+    const price = toNum(row[mapping.price]);
+    const reorderAt = toNum(row[mapping.reorderAt]);
+    const existing = index.get(code.toLowerCase());
+    if (existing) {
+      return {
+        action: "update",
+        code,
+        name: existing.name,
+        update: { id: existing.id, quantity, cost, price, reorderAt },
+      };
+    }
+    return {
+      action: "create",
+      code,
+      name,
+      part: {
+        partNumber: code,
+        name,
+        category: String(row[mapping.category] ?? "").trim() || "Imported",
+        quantity: Math.max(0, Math.round(quantity ?? 0)),
+        cost: Math.max(0, cost ?? 0),
+        price: Math.max(0, price ?? 0),
+        reorderAt: Math.max(0, Math.round(reorderAt ?? 0)),
+        compatibility: [],
+      },
+    };
+  });
+}
+
 function pick(row: Record<string, unknown>, keys: string[]): unknown {
   for (const k of keys) {
     if (row[k] !== undefined && row[k] !== null && String(row[k]).trim() !== "") {

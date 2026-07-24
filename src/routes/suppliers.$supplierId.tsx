@@ -85,6 +85,12 @@ function SupplierDetail() {
               <MapPin className="h-4 w-4 text-accent" />
               {supplier.address || "—"}
             </p>
+            <p className="text-muted-foreground">
+              Lead time:{" "}
+              <span className="text-foreground">
+                {supplier.leadTimeDays != null ? `~${supplier.leadTimeDays} days` : "Not set"}
+              </span>
+            </p>
             {supplier.notes && (
               <p className="flex items-start gap-2 sm:col-span-2">
                 <StickyNote className="mt-0.5 h-4 w-4 shrink-0 text-accent" />

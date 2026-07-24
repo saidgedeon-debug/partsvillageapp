@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSearch } from "./search-context";
 import { useCart } from "./cart-context";
+import { useNavigate } from "@tanstack/react-router";
 
 export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   const { query, setQuery } = useSearch();
   const { itemCount, setCartOpen, documentKind } = useCart();
+  const navigate = useNavigate();
 
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/90 px-4 backdrop-blur md:px-6">
@@ -25,6 +27,11 @@ export function PageHeader({ title, subtitle }: { title: string; subtitle?: stri
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && query.trim()) {
+                void navigate({ to: "/search", search: { q: query.trim() } });
+              }
+            }}
             placeholder="Search part #, serial #, or client…"
             className="h-10 pl-9"
           />

@@ -25,6 +25,7 @@ export type ExportDoc = {
   documentKind: DocumentKind;
   partyKind: PartyKind;
   partyName: string;
+  partyPhone?: string;
   lines: CartLine[];
   createdAt?: Date;
   /** For supplier inquiries: include cost columns when true. */
@@ -53,13 +54,7 @@ function docId(kind: DocumentKind, date: Date) {
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
   const prefix =
-    kind === "quotation"
-      ? "Q"
-      : kind === "invoice"
-        ? "INV"
-        : kind === "receipt"
-          ? "RCP"
-          : "SI";
+    kind === "quotation" ? "Q" : kind === "invoice" ? "INV" : kind === "receipt" ? "RCP" : "SI";
   const hh = String(date.getHours()).padStart(2, "0");
   const mm = String(date.getMinutes()).padStart(2, "0");
   const ss = String(date.getSeconds()).padStart(2, "0");
@@ -145,6 +140,8 @@ export function buildShareText(doc: ExportDoc): string {
         : "Prices TBD";
 
   return [
+    `Hello ${doc.partyName},`,
+    "",
     `Parts Village — ${title}`,
     `Ref: ${id}`,
     `${partyLabel}: ${doc.partyName}`,
@@ -152,6 +149,8 @@ export function buildShareText(doc: ExportDoc): string {
     rows,
     "",
     footer,
+    "",
+    "Your document file has been prepared for you.",
   ].join("\n");
 }
 
@@ -545,7 +544,9 @@ export function downloadSavedDocument(doc: {
 
 export function openWhatsApp(doc: ExportDoc) {
   const text = buildShareText(doc);
-  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+  const phone = (doc.partyPhone ?? "").replace(/\D/g, "");
+  const base = phone ? `https://wa.me/${phone}` : "https://wa.me/";
+  window.open(`${base}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
 }
 
 export function openWeChatShare(doc: ExportDoc) {

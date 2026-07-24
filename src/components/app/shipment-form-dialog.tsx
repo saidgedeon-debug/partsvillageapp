@@ -33,13 +33,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { localTodayIso } from "@/lib/date-local";
 
-const STATUSES: ShipmentStatus[] = [
-  "Ordered",
-  "In transit",
-  "Arrived",
-  "In stock",
-  "Cancelled",
-];
+const STATUSES: ShipmentStatus[] = ["Ordered", "In transit", "Arrived", "In stock", "Cancelled"];
 
 const FREIGHT_MODES: NonNullable<ChinaShipment["freightMode"]>[] = [
   "Air",
@@ -52,6 +46,7 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   shipment?: ChinaShipment | null;
+  initialValues?: Partial<ShipmentInput>;
   onCreated?: (id: string) => void;
 };
 
@@ -73,7 +68,13 @@ function preferLiveIfUnchanged(
   return formVal;
 }
 
-export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: Props) {
+export function ShipmentFormDialog({
+  open,
+  onOpenChange,
+  shipment,
+  initialValues,
+  onCreated,
+}: Props) {
   const { shipments, addShipment, updateShipment } = useShipments();
   const isEdit = Boolean(shipment?.id);
 
@@ -149,16 +150,16 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       setEta(shipment.eta ?? shipment.expectedAt ?? "");
       return;
     }
-    setTitle("");
-    setSupplier("");
-    setOrderedAt(localTodayIso());
+    setTitle(initialValues?.title ?? "");
+    setSupplier(initialValues?.supplier ?? "");
+    setOrderedAt(initialValues?.orderedAt ?? localTodayIso());
     setExpectedAt("");
     setArrivedAt("");
     setTrackingNumber("");
     setStatus("Ordered");
     setCategory("other");
     setCargoType("divers");
-    setNotes("");
+    setNotes(initialValues?.notes ?? "");
     setTotalCost("");
     setCurrency("USD");
     setFreightMode("Air");
@@ -172,7 +173,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     setContainerNo("");
     setEtd("");
     setEta("");
-  }, [open, shipment]);
+  }, [open, shipment, initialValues]);
 
   const save = () => {
     if (!title.trim()) {
@@ -181,9 +182,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     }
 
     const live =
-      isEdit && shipment
-        ? (shipments.find((s) => s.id === shipment.id) ?? shipment)
-        : null;
+      isEdit && shipment ? (shipments.find((s) => s.id === shipment.id) ?? shipment) : null;
 
     const titusFields =
       live && shipment
@@ -193,16 +192,8 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
               shipment.titusLocation,
               live.titusLocation,
             ),
-            titusStatus: preferLiveIfUnchanged(
-              titusStatus,
-              shipment.titusStatus,
-              live.titusStatus,
-            ),
-            containerNo: preferLiveIfUnchanged(
-              containerNo,
-              shipment.containerNo,
-              live.containerNo,
-            ),
+            titusStatus: preferLiveIfUnchanged(titusStatus, shipment.titusStatus, live.titusStatus),
+            containerNo: preferLiveIfUnchanged(containerNo, shipment.containerNo, live.containerNo),
             etd: preferLiveIfUnchanged(etd, shipment.etd, live.etd),
             eta: preferLiveIfUnchanged(eta, shipment.eta, live.eta),
             freightCost:
@@ -214,7 +205,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
                 : parseOptNumber(freightCost),
             freightCurrency:
               freightCurrency === (shipment.freightCurrency ?? "USD")
-                ? live.freightCurrency ?? freightCurrency
+                ? (live.freightCurrency ?? freightCurrency)
                 : freightCurrency,
             weightKg:
               weightKg.trim() ===
@@ -347,10 +338,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>Type</Label>
-              <Select
-                value={cargoType}
-                onValueChange={(v) => setCargoType(v as ShipmentCargoType)}
-              >
+              <Select value={cargoType} onValueChange={(v) => setCargoType(v as ShipmentCargoType)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -363,10 +351,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
             </div>
             <div className="space-y-1.5">
               <Label>Category</Label>
-              <Select
-                value={category}
-                onValueChange={(v) => setCategory(v as ShipmentCategory)}
-              >
+              <Select value={category} onValueChange={(v) => setCategory(v as ShipmentCategory)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -385,10 +370,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {(shipment
-                    ? allowedShipmentStatuses(shipment.status)
-                    : STATUSES
-                  ).map((s) => (
+                  {(shipment ? allowedShipmentStatuses(shipment.status) : STATUSES).map((s) => (
                     <SelectItem key={s} value={s}>
                       {s}
                     </SelectItem>
