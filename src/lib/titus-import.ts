@@ -98,8 +98,11 @@ export function mapTitusFreightMode(
   return "Other";
 }
 
-export function mapTitusStatus(raw?: string): ShipmentStatus {
-  if (!raw) return "In transit";
+export function mapTitusStatus(
+  raw?: string,
+  fallback: ShipmentStatus = "In transit",
+): ShipmentStatus {
+  if (!raw?.trim()) return fallback;
   const s = raw.toLowerCase();
   if (
     s.includes("complet") ||
@@ -133,7 +136,7 @@ export function mapTitusStatus(raw?: string): ShipmentStatus {
   ) {
     return "In transit";
   }
-  return "In transit";
+  return fallback;
 }
 
 export function titusOrderToParsed(row: TitusOrderRow): ParsedTitusShipment {
@@ -235,7 +238,7 @@ export function mergeTitusIntoExisting(
     existing.status !== "In stock" &&
     existing.status !== "Cancelled"
   ) {
-    const next = mapTitusStatus(p.titusStatus || p.titusLocation);
+    const next = mapTitusStatus(p.titusStatus || p.titusLocation, existing.status);
     if (canTransitionShipmentStatus(existing.status, next)) {
       patch.status = next;
     }

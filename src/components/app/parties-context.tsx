@@ -149,24 +149,38 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
 
   const updateClient = useCallback(
     (id: string, input: PartyInput) => {
-      const party = normalizeParty(input, "cli", id);
-      setStore((prev) => ({
-        clients: (prev.clients ?? []).map((c) => (c.id === id ? party : c)),
-        suppliers: prev.suppliers ?? [],
-      }));
-      return party;
+      let found = false;
+      let party: PartyRecord | null = null;
+      setStore((prev) => {
+        const clients = prev.clients ?? [];
+        if (!clients.some((c) => c.id === id)) return prev;
+        found = true;
+        party = normalizeParty(input, "cli", id);
+        return {
+          clients: clients.map((c) => (c.id === id ? party! : c)),
+          suppliers: prev.suppliers ?? [],
+        };
+      });
+      return found ? party : null;
     },
     [setStore],
   );
 
   const updateSupplier = useCallback(
     (id: string, input: PartyInput) => {
-      const party = normalizeParty(input, "sup", id);
-      setStore((prev) => ({
-        clients: prev.clients ?? [],
-        suppliers: (prev.suppliers ?? []).map((c) => (c.id === id ? party : c)),
-      }));
-      return party;
+      let found = false;
+      let party: PartyRecord | null = null;
+      setStore((prev) => {
+        const suppliers = prev.suppliers ?? [];
+        if (!suppliers.some((c) => c.id === id)) return prev;
+        found = true;
+        party = normalizeParty(input, "sup", id);
+        return {
+          clients: prev.clients ?? [],
+          suppliers: suppliers.map((c) => (c.id === id ? party! : c)),
+        };
+      });
+      return found ? party : null;
     },
     [setStore],
   );

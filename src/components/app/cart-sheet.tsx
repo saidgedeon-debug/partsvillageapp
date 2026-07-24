@@ -15,7 +15,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { currency } from "@/lib/mock-data";
-import { lineUnitAmount } from "@/lib/document-export";
+import { lineTotal, lineUnitAmount } from "@/lib/document-export";
+import { documentGrandTotal, roundMoney } from "@/lib/document-money";
 
 const kindLabel = {
   quotation: "Quotation",
@@ -146,10 +147,9 @@ export function CartSheet() {
   } = useCart();
 
   const isInquiry = documentKind === "inquiry";
-  const total = lines.reduce((s, l) => {
-    if (!documentKind) return s;
-    return s + l.qty * lineUnitAmount(l, documentKind);
-  }, 0);
+  const total = documentKind
+    ? documentGrandTotal(roundMoney(lines.reduce((s, l) => s + lineTotal(l, documentKind), 0)))
+    : 0;
 
   const kinds: DocumentKind[] = ["quotation", "invoice", "inquiry"];
 
@@ -233,7 +233,11 @@ export function CartSheet() {
                     />
                   )}
                   <span className="ml-auto text-sm font-medium">
-                    {unit > 0 ? currency(line.qty * unit) : isInquiry ? "Cost TBD" : "Price TBD"}
+                    {unit > 0 && documentKind
+                      ? currency(lineTotal(line, documentKind))
+                      : isInquiry
+                        ? "Cost TBD"
+                        : "Price TBD"}
                   </span>
                 </div>
               </div>

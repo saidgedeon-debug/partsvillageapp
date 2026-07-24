@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ChevronRight,
   Copy,
@@ -50,10 +50,12 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTitusAutoSync } from "@/hooks/use-titus-auto-sync";
 import { compressImageToDataUrl } from "@/lib/image-compress";
+import { TITUS_ORIGIN } from "@/lib/titus-sync";
 import { cn } from "@/lib/utils";
+import { useShareInbox } from "@/components/app/share-inbox-context";
 
-const TITUS_PORTAL = "https://login.titus-logistics.com/index.php?lang=en_us";
-const TITUS_MOBILE = "https://login.titus-logistics.com/mobile/index.php";
+const TITUS_PORTAL = `${TITUS_ORIGIN}/index.php?lang=en_us`;
+const TITUS_MOBILE = `${TITUS_ORIGIN}/mobile/index.php`;
 
 export const Route = createFileRoute("/china-shipments")({
   head: () => ({
@@ -75,6 +77,21 @@ const STATUS_STYLE: Record<ShipmentStatus, string> = {
   "In stock": "border-emerald-500 text-emerald-800 bg-emerald-50",
   Cancelled: "border-rose-300 text-rose-700 bg-rose-50",
 };
+
+/** Normalize mixed date formats for sorting (YYYY-MM-DD preferred). */
+function sortableDate(raw?: string): string {
+  if (!raw) return "";
+  const t = raw.trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(t)) return t.slice(0, 10);
+  const mdy = t.match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{2,4})$/);
+  if (mdy) {
+    const y = mdy[3].length === 2 ? `20${mdy[3]}` : mdy[3];
+    return `${y}-${mdy[1].padStart(2, "0")}-${mdy[2].padStart(2, "0")}`;
+  }
+  const ms = Date.parse(t);
+  if (Number.isFinite(ms)) return new Date(ms).toISOString().slice(0, 10);
+  return t;
+}
 
 /** 0 = in transit, 1 = pending, 2 = delivered, 3 = cancelled */
 function shipmentSortRank(s: ChinaShipment): number {
@@ -103,12 +120,15 @@ function shipmentSortRank(s: ChinaShipment): number {
 function compareShipments(a: ChinaShipment, b: ChinaShipment): number {
   const rank = shipmentSortRank(a) - shipmentSortRank(b);
   if (rank !== 0) return rank;
-  return (b.orderedAt || b.createdAt).localeCompare(a.orderedAt || a.createdAt);
+  return sortableDate(b.orderedAt || b.createdAt).localeCompare(
+    sortableDate(a.orderedAt || a.createdAt),
+  );
 }
 
 function ChinaShipmentsPage() {
   const { query } = useSearch();
   const { shipments, removeShipment } = useShipments();
+  const { unlinkShipment } = useShareInbox();
   const [formOpen, setFormOpen] = useState(false);
   const [titusOpen, setTitusOpen] = useState(false);
   const [editing, setEditing] = useState<ChinaShipment | null>(null);
@@ -164,6 +184,13 @@ function ChinaShipmentsPage() {
   }, [shipments, q, categoryTab, cargoTab]);
 
   const detail = detailId ? shipments.find((s) => s.id === detailId) ?? null : null;
+
+  useEffect(() => {
+    if (!detailId) return;
+    if (detail) return;
+    setDetailId(null);
+    toast.message("That shipment was removed or no longer exists");
+  }, [detailId, detail]);
 
   return (
     <>
@@ -353,6 +380,7 @@ function ChinaShipmentsPage() {
           if (!detail) return;
           if (!confirm(`Delete shipment “${detail.title}”?`)) return;
           removeShipment(detail.id);
+          unlinkShipment(detail.id);
           setDetailId(null);
           toast.success("Shipment deleted");
         }}
@@ -510,7 +538,7 @@ function ShipmentDetailDialog({
                     className="h-7 gap-1 text-xs"
                     onClick={() => {
                       const url = shipment.containerNo
-                        ? `https://login.titus-logistics.com/mobile/my_order.php?act=list&ys_status=all&hgh=${encodeURIComponent(shipment.containerNo)}`
+                        ? `${TITUS_ORIGIN}/mobile/my_order.php?act=list&ys_status=all&hgh=${encodeURIComponent(shipment.containerNo)}`
                         : TITUS_MOBILE;
                       window.open(url, "_blank", "noopener,noreferrer");
                     }}

@@ -3,7 +3,13 @@ import { Plus, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import type { CartLine } from "@/components/app/cart-context";
-import { useDocuments, type SavedDocument } from "@/components/app/documents-context";
+import {
+  invoiceAmountPaid,
+  resolveInvoiceStatus,
+  useDocuments,
+  type InvoiceStatus,
+  type SavedDocument,
+} from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
@@ -20,7 +26,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { generateDocId } from "@/lib/document-export";
+import { generateDocId, lineTotal } from "@/lib/document-export";
+import { documentGrandTotal, roundMoney } from "@/lib/document-money";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -114,7 +121,7 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
   }, [partQuery, parts]);
 
   const total = useMemo(
-    () => lines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0),
+    () => documentGrandTotal(roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0))),
     [lines],
   );
 
@@ -173,14 +180,23 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     }
 
     const note = internalNote.trim() || undefined;
-    const invoiceTotal = lines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0);
+    const subtotal = roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0));
+    const invoiceTotal = documentGrandTotal(subtotal);
 
     if (isEdit && editing) {
+      const paid = Math.min(invoiceAmountPaid(editing), invoiceTotal);
+      const status = resolveInvoiceStatus(
+        { ...editing, total: invoiceTotal },
+        paid,
+        editing.status as InvoiceStatus | undefined,
+      );
       const saved: SavedDocument = {
         ...editing,
         partyId,
         partyName: partyName.trim(),
         total: invoiceTotal,
+        amountPaid: paid,
+        status,
         lines: [...lines],
         internalNote: note,
       };
@@ -382,7 +398,7 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
                       className="h-8 font-mono text-xs"
                     />
                     <p className="text-right text-xs font-medium">
-                      {currency(l.qty * (l.unitPrice || 0))}
+                      {currency(lineTotal(l, "invoice"))}
                     </p>
                     <Button
                       type="button"

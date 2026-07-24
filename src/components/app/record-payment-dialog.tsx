@@ -27,6 +27,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { currency } from "@/lib/mock-data";
+import { localTodayIso } from "@/lib/date-local";
+import { roundMoney } from "@/lib/document-money";
 
 const METHODS: PaymentMethod[] = ["OMT", "Whish", "Cash"];
 
@@ -37,10 +39,6 @@ type Props = {
   invoice?: SavedDocument | null;
   onRecorded?: (receipt: SavedDocument) => void;
 };
-
-function todayIso() {
-  return new Date().toISOString().slice(0, 10);
-}
 
 export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }: Props) {
   const { invoices, recordInvoicePayment } = useDocuments();
@@ -55,7 +53,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
   const [invoiceId, setInvoiceId] = useState("");
   const [method, setMethod] = useState<PaymentMethod>("Cash");
   const [amount, setAmount] = useState("");
-  const [paymentDate, setPaymentDate] = useState(todayIso());
+  const [paymentDate, setPaymentDate] = useState(localTodayIso());
   const [mobile, setMobile] = useState("");
   const [note, setNote] = useState("");
 
@@ -76,16 +74,16 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
     setInvoiceId(nextId);
     const inv = invoices.find((i) => i.id === nextId);
     setMethod("Cash");
-    setPaymentDate(todayIso());
+    setPaymentDate(localTodayIso());
     setMobile("");
     setNote("");
-    setAmount(inv ? String(invoiceRemaining(inv)) : "");
+    setAmount(inv ? String(roundMoney(invoiceRemaining(inv))) : "");
     setSubmitting(false);
   }, [open, invoice, unpaidInvoices, invoices]);
 
   useEffect(() => {
     if (!selected) return;
-    setAmount(String(invoiceRemaining(selected)));
+    setAmount(String(roundMoney(invoiceRemaining(selected))));
   }, [invoiceId]); // eslint-disable-line react-hooks/exhaustive-deps -- reset amount when invoice changes
 
   const submit = () => {
@@ -95,7 +93,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
         toast.error("Select an invoice");
         return;
       }
-      const value = Number(amount);
+      const value = roundMoney(Number(amount));
       if (!Number.isFinite(value) || value <= 0) {
         toast.error("Enter a valid payment amount");
         return;

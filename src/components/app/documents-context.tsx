@@ -59,11 +59,13 @@ export function invoiceAmountPaid(inv: SavedDocument): number {
   if (typeof inv.amountPaid === "number" && Number.isFinite(inv.amountPaid)) {
     return Math.max(0, inv.amountPaid);
   }
-  return inv.status === "Paid" ? inv.total : 0;
+  const total = Number.isFinite(inv.total) ? inv.total : 0;
+  return inv.status === "Paid" ? total : 0;
 }
 
 export function invoiceRemaining(inv: SavedDocument): number {
-  return Math.max(0, Math.round((inv.total - invoiceAmountPaid(inv)) * 100) / 100);
+  const total = Number.isFinite(inv.total) ? inv.total : 0;
+  return Math.max(0, Math.round((total - invoiceAmountPaid(inv)) * 100) / 100);
 }
 
 export function resolveInvoiceStatus(
@@ -71,7 +73,8 @@ export function resolveInvoiceStatus(
   paid: number,
   preferred?: InvoiceStatus,
 ): InvoiceStatus {
-  const remaining = Math.max(0, inv.total - paid);
+  const total = Number.isFinite(inv.total) ? inv.total : 0;
+  const remaining = Math.max(0, total - paid);
   if (remaining <= 0.005) return "Paid";
   if (paid > 0.005) return "Partial";
   if (preferred === "Overdue") return "Overdue";
@@ -99,35 +102,39 @@ async function syncDocumentToSupabase(doc: SavedDocument) {
   if (!supabase || !isSupabaseConfigured) return;
   try {
     if (doc.kind === "quotation") {
-      await supabase.from("quotations").upsert({
+      const { error } = await supabase.from("quotations").upsert({
         id: doc.id,
         client_id: doc.partyId || doc.partyName,
         date: doc.date,
         total: doc.total,
         status: (doc.status as QuoteStatus) || "Sent",
       } as never);
+      if (error) console.error("quotation sync failed", error.message);
     } else if (doc.kind === "invoice") {
       const raw = (doc.status as InvoiceStatus) || "Unpaid";
+      // Relational invoices table has no Partial; shop_state JSON keeps Partial + amountPaid.
       const status = raw === "Partial" ? "Unpaid" : raw;
-      await supabase.from("invoices").upsert({
+      const { error } = await supabase.from("invoices").upsert({
         id: doc.id,
         client_id: doc.partyId || doc.partyName,
         date: doc.date,
         total: doc.total,
         status,
       } as never);
+      if (error) console.error("invoice sync failed", error.message);
     } else if (doc.kind === "inquiry") {
-      await supabase.from("supplier_inquiries").upsert({
+      const { error } = await supabase.from("supplier_inquiries").upsert({
         id: doc.id,
         supplier: doc.partyName,
         date: doc.date,
         part_numbers: doc.lines.map((l) => l.partNumber),
         status: (doc.status as InquiryStatus) || "Open",
       } as never);
+      if (error) console.error("inquiry sync failed", error.message);
     }
     // receipts stay in cloud documents JSON only
-  } catch {
-    // local is source of truth
+  } catch (e) {
+    console.error("document sync failed", e);
   }
 }
 
@@ -229,7 +236,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         }
 
         const paidBefore = invoiceAmountPaid(invoice);
-        const remaining = Math.max(0, Math.round((invoice.total - paidBefore) * 100) / 100);
+        const remaining = Math.max(
+          0,
+          Math.round((invoice.total - paidBefore) * 100) / 100,
+        );
         if (amount - remaining > 0.005) {
           failure = new Error(`Amount exceeds remaining balance (${remaining})`);
           return cur;

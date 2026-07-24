@@ -169,7 +169,7 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
-  const { parts, categories, catalogReady, catalogError, retryCatalogLoad, updatePart } =
+  const { parts, categories, catalogReady, catalogError, retryCatalogLoad, updatePart, cloudError } =
     useInventory();
   const {
     favoriteCategoryGroups,
@@ -660,8 +660,7 @@ function InventoryPage() {
             {isHydraulics && (
               <div className="space-y-2">
                 <p className="text-xs text-muted-foreground">
-                  Pick a hydraulic subtype — Center Pin, Ball Guide, shoe/thrust plate, Valve
-                  Plate, retainer / set plate, or servo piston.
+                  Pick a hydraulic subtype — {HYDRAULIC_SUBCATEGORIES.join(" · ")}.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <Button
@@ -831,6 +830,11 @@ function InventoryPage() {
             )}
           </CardHeader>
           <CardContent className="p-0">
+            {cloudError ? (
+              <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900">
+                Cloud sync issue: {cloudError}
+              </div>
+            ) : null}
             {!catalogReady ? (
               <div className="space-y-3 py-16 text-center text-sm text-muted-foreground">
                 {catalogError ? (

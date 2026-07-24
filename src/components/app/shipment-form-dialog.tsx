@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { localTodayIso } from "@/lib/date-local";
 
 const STATUSES: ShipmentStatus[] = [
   "Ordered",
@@ -54,23 +55,31 @@ type Props = {
   onCreated?: (id: string) => void;
 };
 
-function todayIso() {
-  return new Date().toISOString().slice(0, 10);
-}
-
 function parseOptNumber(raw: string): number | undefined {
   if (!raw.trim()) return undefined;
   const n = Number(raw);
   return Number.isFinite(n) ? n : undefined;
 }
 
+/** Prefer live value when the form field was left unchanged from the open snapshot. */
+function preferLiveIfUnchanged(
+  formVal: string | undefined,
+  openVal: string | undefined,
+  liveVal: string | undefined,
+): string | undefined {
+  const f = (formVal ?? "").trim();
+  const o = (openVal ?? "").trim();
+  if (f === o) return liveVal;
+  return formVal;
+}
+
 export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: Props) {
-  const { addShipment, updateShipment } = useShipments();
+  const { shipments, addShipment, updateShipment } = useShipments();
   const isEdit = Boolean(shipment?.id);
 
   const [title, setTitle] = useState("");
   const [supplier, setSupplier] = useState("");
-  const [orderedAt, setOrderedAt] = useState(todayIso());
+  const [orderedAt, setOrderedAt] = useState(localTodayIso());
   const [expectedAt, setExpectedAt] = useState("");
   const [arrivedAt, setArrivedAt] = useState("");
   const [trackingNumber, setTrackingNumber] = useState("");
@@ -142,7 +151,7 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     }
     setTitle("");
     setSupplier("");
-    setOrderedAt(todayIso());
+    setOrderedAt(localTodayIso());
     setExpectedAt("");
     setArrivedAt("");
     setTrackingNumber("");
@@ -170,11 +179,83 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       toast.error("Give the shipment a name");
       return;
     }
+
+    const live =
+      isEdit && shipment
+        ? (shipments.find((s) => s.id === shipment.id) ?? shipment)
+        : null;
+
+    const titusFields =
+      live && shipment
+        ? {
+            titusLocation: preferLiveIfUnchanged(
+              titusLocation,
+              shipment.titusLocation,
+              live.titusLocation,
+            ),
+            titusStatus: preferLiveIfUnchanged(
+              titusStatus,
+              shipment.titusStatus,
+              live.titusStatus,
+            ),
+            containerNo: preferLiveIfUnchanged(
+              containerNo,
+              shipment.containerNo,
+              live.containerNo,
+            ),
+            etd: preferLiveIfUnchanged(etd, shipment.etd, live.etd),
+            eta: preferLiveIfUnchanged(eta, shipment.eta, live.eta),
+            freightCost:
+              freightCost.trim() ===
+              (shipment.freightCost != null && Number.isFinite(shipment.freightCost)
+                ? String(shipment.freightCost)
+                : "")
+                ? live.freightCost
+                : parseOptNumber(freightCost),
+            freightCurrency:
+              freightCurrency === (shipment.freightCurrency ?? "USD")
+                ? live.freightCurrency ?? freightCurrency
+                : freightCurrency,
+            weightKg:
+              weightKg.trim() ===
+              (shipment.weightKg != null && Number.isFinite(shipment.weightKg)
+                ? String(shipment.weightKg)
+                : "")
+                ? live.weightKg
+                : parseOptNumber(weightKg),
+            volumeCbm:
+              volumeCbm.trim() ===
+              (shipment.volumeCbm != null && Number.isFinite(shipment.volumeCbm)
+                ? String(shipment.volumeCbm)
+                : "")
+                ? live.volumeCbm
+                : parseOptNumber(volumeCbm),
+            cartons:
+              cartons.trim() ===
+              (shipment.cartons != null && Number.isFinite(shipment.cartons)
+                ? String(shipment.cartons)
+                : "")
+                ? live.cartons
+                : parseOptNumber(cartons),
+          }
+        : {
+            titusLocation,
+            titusStatus: titusStatus || undefined,
+            containerNo: containerNo || undefined,
+            etd: etd || undefined,
+            eta: eta || undefined,
+            freightCost: parseOptNumber(freightCost),
+            freightCurrency,
+            weightKg: parseOptNumber(weightKg),
+            volumeCbm: parseOptNumber(volumeCbm),
+            cartons: parseOptNumber(cartons),
+          };
+
     const input: ShipmentInput = {
       title: title.trim(),
       supplier,
       orderedAt,
-      expectedAt: eta || expectedAt || undefined,
+      expectedAt: (titusFields.eta as string | undefined) || expectedAt || undefined,
       arrivedAt: arrivedAt || undefined,
       trackingNumber,
       status,
@@ -184,21 +265,22 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
       totalCost: parseOptNumber(totalCost),
       currency,
       freightMode,
-      freightCost: parseOptNumber(freightCost),
-      freightCurrency,
-      weightKg: parseOptNumber(weightKg),
-      volumeCbm: parseOptNumber(volumeCbm),
-      cartons: parseOptNumber(cartons),
-      titusLocation,
-      titusStatus: titusStatus || undefined,
-      containerNo: containerNo || undefined,
-      etd: etd || undefined,
-      eta: eta || undefined,
+      freightCost: titusFields.freightCost,
+      freightCurrency: titusFields.freightCurrency,
+      weightKg: titusFields.weightKg,
+      volumeCbm: titusFields.volumeCbm,
+      cartons: titusFields.cartons,
+      titusLocation: titusFields.titusLocation,
+      titusStatus: titusFields.titusStatus || undefined,
+      containerNo: titusFields.containerNo || undefined,
+      etd: titusFields.etd || undefined,
+      eta: titusFields.eta || undefined,
     };
 
     if (isEdit && shipment) {
-      if (!canTransitionShipmentStatus(shipment.status, status)) {
-        toast.error(`Cannot move from ${shipment.status} to ${status}`);
+      const fromStatus = live?.status ?? shipment.status;
+      if (!canTransitionShipmentStatus(fromStatus, status)) {
+        toast.error(`Cannot move from ${fromStatus} to ${status}`);
         return;
       }
       updateShipment(shipment.id, input);

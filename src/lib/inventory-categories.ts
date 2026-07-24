@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import { CircleDot, Disc, Gauge, LayoutGrid, Link2, Package } from "lucide-react";
 
+import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulic-subcategories";
 import type { Part } from "@/lib/mock-data";
 
 /**
@@ -159,7 +160,7 @@ const basePinned: InventoryCategoryDef[] = [
   {
     id: "hydraulics",
     label: "Hydraulic Parts",
-    description: "Center Pin · Ball Guide · shoe/thrust plate · Valve Plate · retainer / set plate · servo piston",
+    description: HYDRAULIC_SUBCATEGORIES.join(" · "),
     matchCategory: "Hydraulic Parts",
     icon: Disc,
   },

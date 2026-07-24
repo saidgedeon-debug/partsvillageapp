@@ -46,6 +46,8 @@ type ShareInboxContextValue = {
   ) => void;
   removeItem: (id: string) => void;
   clearAssigned: () => void;
+  /** Clear shipment links when a shipment is deleted. */
+  unlinkShipment: (shipmentId: string) => void;
 };
 
 const STORAGE_KEY = "parts-village-share-inbox-v1";
@@ -133,6 +135,23 @@ export function ShareInboxProvider({ children }: { children: ReactNode }) {
     );
   }, [setItems]);
 
+  const unlinkShipment = useCallback(
+    (shipmentId: string) => {
+      setItems((prev) =>
+        (Array.isArray(prev) ? prev : []).map((it) =>
+          it.shipmentId !== shipmentId
+            ? it
+            : {
+                ...it,
+                shipmentId: undefined,
+                updatedAt: new Date().toISOString(),
+              },
+        ),
+      );
+    },
+    [setItems],
+  );
+
   const pendingCount = list.filter((it) => it.kind === "unassigned").length;
 
   const value = useMemo(
@@ -143,8 +162,9 @@ export function ShareInboxProvider({ children }: { children: ReactNode }) {
       updateItem,
       removeItem,
       clearAssigned,
+      unlinkShipment,
     }),
-    [list, pendingCount, addItems, updateItem, removeItem, clearAssigned],
+    [list, pendingCount, addItems, updateItem, removeItem, clearAssigned, unlinkShipment],
   );
 
   return <ShareInboxContext.Provider value={value}>{children}</ShareInboxContext.Provider>;

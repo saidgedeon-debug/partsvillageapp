@@ -27,9 +27,8 @@ import {
   markTitusSyncedNow,
   saveTitusCreds,
   syncTitusOrders,
+  TITUS_USER_URL,
 } from "@/lib/titus-sync";
-
-const TITUS_USER = "https://login.titus-logistics.com/user.php";
 
 type Props = {
   open: boolean;
@@ -200,7 +199,7 @@ export function TitusImportDialog({ open, onOpenChange }: Props) {
           type="button"
           variant="outline"
           className="w-full gap-1.5"
-          onClick={() => window.open(TITUS_USER, "_blank", "noopener,noreferrer")}
+          onClick={() => window.open(TITUS_USER_URL, "_blank", "noopener,noreferrer")}
         >
           <ExternalLink className="h-4 w-4" />
           Open Titus

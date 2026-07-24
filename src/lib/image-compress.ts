@@ -1,11 +1,14 @@
 /** Compress an image file to a JPEG data URL for cloud storage. */
+
+export const IMAGE_DATA_URL_MAX_CHARS = 700_000;
+
 export async function compressImageToDataUrl(
   file: File,
   opts?: { maxEdge?: number; quality?: number; maxChars?: number },
 ): Promise<string> {
   const maxEdge = opts?.maxEdge ?? 1400;
   const quality = opts?.quality ?? 0.72;
-  const maxChars = opts?.maxChars ?? 700_000;
+  const maxChars = opts?.maxChars ?? IMAGE_DATA_URL_MAX_CHARS;
 
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxEdge / Math.max(bitmap.width, bitmap.height));

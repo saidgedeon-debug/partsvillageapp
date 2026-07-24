@@ -147,13 +147,15 @@ export const machinesByClient = (id: string) => machines.filter((m) => m.clientI
 export const ordersByClient = (id: string) => orders.filter((o) => o.clientId === id);
 export const ordersByMachine = (id: string) => orders.filter((o) => o.machineId === id);
 
-export const currency = (n: number) =>
-  n.toLocaleString("en-US", {
+export const currency = (n: number) => {
+  if (!Number.isFinite(n)) return "—";
+  return n.toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+};
 
 export const totalSales = 0;
 export const activeQuotesCount = 0;

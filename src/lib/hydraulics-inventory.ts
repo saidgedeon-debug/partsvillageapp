@@ -2,18 +2,13 @@
 import type { Part } from "@/lib/mock-data";
 import { retainerSetPlateParts } from "@/lib/hydraulic-retainer-set-plates";
 import { servoPistonParts } from "@/lib/hydraulic-servo-pistons";
+import {
+  HYDRAULIC_SUBCATEGORIES,
+  type HydraulicSubcategory,
+} from "@/lib/hydraulic-subcategories";
 import { valvePlateParts } from "@/lib/hydraulic-valve-plates";
 
-/** Known Hydraulic Parts subtypes — add new labels here as stock lines grow. */
-export const HYDRAULIC_SUBCATEGORIES = [
-  "Center Pin",
-  "Ball Guide",
-  "shoe/thrust plate",
-  "Valve Plate",
-  "retainer / set plate",
-  "servo piston",
-] as const;
-export type HydraulicSubcategory = (typeof HYDRAULIC_SUBCATEGORIES)[number];
+export { HYDRAULIC_SUBCATEGORIES, type HydraulicSubcategory };
 
 export const hydraulicParts: Part[] = [
   {

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
+import { compressImageToDataUrl } from "@/lib/image-compress";
 
 type Mode = "view" | "edit" | "create";
 
@@ -447,18 +448,17 @@ export function PartDetailDialog({
                 onChange={(e) => {
                   const file = e.target.files?.[0];
                   if (!file) return;
-                  const reader = new FileReader();
-                  reader.onload = () => {
-                    const dataUrl = String(reader.result ?? "");
-                    // Keep small: reject huge data URLs (> ~400KB)
-                    if (dataUrl.length > 400_000) {
-                      toast.error("Image too large — use a smaller photo or a URL");
-                      return;
+                  void (async () => {
+                    try {
+                      const dataUrl = await compressImageToDataUrl(file);
+                      setForm((f) => ({ ...f, imageUrl: dataUrl }));
+                      toast.success("Photo attached");
+                    } catch (err) {
+                      toast.error(
+                        err instanceof Error ? err.message : "Could not compress photo",
+                      );
                     }
-                    setForm((f) => ({ ...f, imageUrl: dataUrl }));
-                    toast.success("Photo attached");
-                  };
-                  reader.readAsDataURL(file);
+                  })();
                 }}
               />
               {form.imageUrl ? (

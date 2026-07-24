@@ -86,12 +86,13 @@ function Index() {
   }, [orders, invoices, clients]);
 
   const inventoryValue = parts.reduce((s, p) => s + p.cost * p.quantity, 0);
-  const priced = parts.filter((p) => p.price > 0);
+  const priced = parts.filter((p) => p.price > 0 && p.quantity > 0);
+  const revenueWeight = priced.reduce((s, p) => s + p.price * p.quantity, 0);
   const avgMargin =
-    priced.length === 0
+    revenueWeight === 0
       ? 0
       : Math.round(
-          (priced.reduce((s, p) => s + (p.price - p.cost) / p.price, 0) / priced.length) * 100,
+          (priced.reduce((s, p) => s + (p.price - p.cost) * p.quantity, 0) / revenueWeight) * 100,
         );
 
   return (

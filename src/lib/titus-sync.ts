@@ -11,7 +11,8 @@ import {
   type TitusOrderRow,
 } from "@/lib/titus-scrape";
 
-const TITUS_ORIGIN = "https://login.titus-logistics.com";
+export const TITUS_ORIGIN = "https://login.titus-logistics.com";
+export const TITUS_USER_URL = `${TITUS_ORIGIN}/user.php`;
 const CREDS_KEY = "parts-village-titus-creds-v1";
 const LAST_SYNC_KEY = "parts-village-titus-last-sync-v1";
 
@@ -263,26 +264,42 @@ export function loadTitusCreds(): TitusCreds | null {
 
 export function saveTitusCreds(creds: TitusCreds) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(
-    CREDS_KEY,
-    JSON.stringify({
-      username: creds.username.trim(),
-      password: creds.password,
-    }),
-  );
+  try {
+    localStorage.setItem(
+      CREDS_KEY,
+      JSON.stringify({
+        username: creds.username.trim(),
+        password: creds.password,
+      }),
+    );
+  } catch (e) {
+    console.error("Failed to save Titus credentials", e);
+  }
 }
 
 export function clearTitusCreds() {
   if (typeof window === "undefined") return;
-  localStorage.removeItem(CREDS_KEY);
+  try {
+    localStorage.removeItem(CREDS_KEY);
+  } catch (e) {
+    console.error("Failed to clear Titus credentials", e);
+  }
 }
 
 export function loadLastTitusSyncAt(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem(LAST_SYNC_KEY);
+  try {
+    return localStorage.getItem(LAST_SYNC_KEY);
+  } catch {
+    return null;
+  }
 }
 
 export function markTitusSyncedNow() {
   if (typeof window === "undefined") return;
-  localStorage.setItem(LAST_SYNC_KEY, new Date().toISOString());
+  try {
+    localStorage.setItem(LAST_SYNC_KEY, new Date().toISOString());
+  } catch (e) {
+    console.error("Failed to mark Titus sync time", e);
+  }
 }

@@ -4,6 +4,7 @@ import * as XLSX from "xlsx";
 
 import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-context";
 import { currency } from "@/lib/mock-data";
+import { documentGrandTotal, documentTaxAmount, roundMoney } from "@/lib/document-money";
 import { PARTS_VILLAGE_LOGO_PNG_BASE64 } from "@/lib/parts-village-logo-base64";
 
 const docLabels: Record<DocumentKind, string> = {
@@ -78,8 +79,8 @@ export function lineUnitAmount(line: CartLine, kind: DocumentKind): number {
   return line.unitPrice || 0;
 }
 
-function lineTotal(line: CartLine, kind: DocumentKind) {
-  return line.qty * lineUnitAmount(line, kind);
+export function lineTotal(line: CartLine, kind: DocumentKind) {
+  return roundMoney(line.qty * lineUnitAmount(line, kind));
 }
 
 /** Display size on invoices: "26.5 x 3". */
@@ -129,10 +130,14 @@ export function buildShareText(doc: ExportDoc): string {
       );
     })
     .join("\n");
-  const total = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
+  const subtotal = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
+  const tax = documentTaxAmount(subtotal);
+  const total = documentGrandTotal(subtotal);
   const footer =
     withMoney && total > 0
-      ? `Total: ${currency(total)}`
+      ? tax > 0
+        ? `Subtotal: ${currency(subtotal)}\nTax: ${currency(tax)}\nTotal: ${currency(total)}`
+        : `Total: ${currency(total)}`
       : doc.documentKind === "inquiry"
         ? withMoney
           ? "Costs TBD"
@@ -178,7 +183,9 @@ export function downloadExcel(doc: ExportDoc) {
   });
 
   if (withMoney) {
-    const total = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
+    const total = documentGrandTotal(
+      doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0),
+    );
     body.push(["", "", "", "", "TOTAL", total > 0 ? total : ""]);
   }
 
@@ -320,7 +327,8 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     tableStart = metaY + 4;
   }
 
-  const total = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
+  const subtotal = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
+  const total = documentGrandTotal(subtotal);
 
   if (withMoney) {
     autoTable(pdf, {

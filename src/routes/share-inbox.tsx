@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { compressImageToDataUrl } from "@/lib/image-compress";
+import { localTodayIso } from "@/lib/date-local";
 import { takeSharedPending } from "@/lib/share-target";
 
 export const Route = createFileRoute("/share-inbox")({
@@ -47,7 +48,7 @@ const KINDS: ShareItemKind[] = [
 ];
 
 function todayIso() {
-  return new Date().toISOString().slice(0, 10);
+  return localTodayIso();
 }
 
 async function fileToInboxPayload(file: File | Blob, name: string) {

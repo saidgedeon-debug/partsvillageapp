@@ -66,22 +66,37 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
       toast.error(`Enter a ${label} name`);
       return;
     }
+    const email = form.email.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Enter a valid email address");
+      return;
+    }
+    const phone = form.phone.trim();
+    if (phone && !/^[\d\s+().-]{7,}$/.test(phone)) {
+      toast.error("Enter a valid phone number");
+      return;
+    }
     const payload = {
       name: form.name,
       contactName: form.contactName,
-      email: form.email,
-      phone: form.phone,
+      email,
+      phone,
       address: form.address,
       notes: form.notes,
     };
     const saved =
       kind === "client"
         ? editing && party
-          ? updateClient(party.id, payload)!
+          ? updateClient(party.id, payload)
           : addClient(payload)
         : editing && party
-          ? updateSupplier(party.id, payload)!
+          ? updateSupplier(party.id, payload)
           : addSupplier(payload);
+
+    if (!saved) {
+      toast.error(`Could not update ${label} — it may have been deleted`);
+      return;
+    }
 
     toast.success(editing ? `${label} updated` : `${label} created`);
     onOpenChange(false);
