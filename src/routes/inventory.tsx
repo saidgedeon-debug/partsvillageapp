@@ -43,6 +43,7 @@ import {
   categoryBelongsToGroup,
   defaultInventoryCategoryId,
   displayCategory,
+  MAIN_INVENTORY_CATEGORY_IDS,
   type CategoryGroupId,
 } from "@/lib/inventory-categories";
 import {
@@ -209,7 +210,7 @@ function InventoryPage() {
     !isCatalogMode && activeCategory?.matchCategory === "Hydraulic Parts";
 
   const orderedCategories = useMemo(() => {
-    const allowed = new Set(["all", "o-rings", "couplings", "gauges", "hydraulics"]);
+    const allowed = new Set<string>(MAIN_INVENTORY_CATEGORY_IDS);
     return categories.filter((c) => allowed.has(c.id));
   }, [categories]);
 

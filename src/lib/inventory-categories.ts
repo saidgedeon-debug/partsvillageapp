@@ -65,6 +65,7 @@ export const STANDARD_CATEGORY_LABELS = [
   "Couplings",
   "Gauges & Accessories",
   "Hydraulic Parts",
+  "MISC",
 ] as const;
 
 export function getCategoryGroupLabel(groupId: CategoryGroupId): string {
@@ -162,6 +163,13 @@ const basePinned: InventoryCategoryDef[] = [
     matchCategory: "Hydraulic Parts",
     icon: Disc,
   },
+  {
+    id: "misc",
+    label: "MISC",
+    description: "Mufflers, tanks & other accessories",
+    matchCategory: "MISC",
+    icon: Package,
+  },
 ];
 
 /** Whitelist — nothing else is shown on the inventory tiles. */
@@ -171,6 +179,7 @@ export const MAIN_INVENTORY_CATEGORY_IDS = [
   "couplings",
   "gauges",
   "hydraulics",
+  "misc",
 ] as const;
 
 export function buildGroupSubcategories(
