@@ -947,6 +947,66 @@ At C:\Users\saidg\AppData\Local\Temp\ps-script-0c7fd5a1-543c-4181-9fa4-2d3986de5
     ARRAY['Rexroth A8V86','Rexroth A8V86ESBR'],
     25, null, null,
     'Subcategory: Center Pin · Stand 25 · Handok · Spherical Cylinder Barrel Core Guide Pin · xref: A8V86-CP, HD-A8V86-CP'
+  ),
+  (
+    'hydraulic-cp-0350308',
+    '0350308',
+    'Handok A7VO250 Center Pin',
+    'Hydraulic Parts',
+    3, 1, 0, 0,
+    ARRAY['Rexroth A7VO250','Rexroth A7VO250L','Rexroth A7VO250EL'],
+    24, null, null,
+    'Subcategory: Center Pin · Stand 24 · Handok · Spherical Cylinder Barrel Core Guide Pin · xref: 0350308, HD-0350308, A7VO250-CP'
+  ),
+  (
+    'hydraulic-cp-a8v107sr1r-hd',
+    'A8V107SR1R-CP-HD',
+    'Handok A8V107SR1R Center Pin',
+    'Hydraulic Parts',
+    4, 2, 0, 0,
+    ARRAY['Rexroth A8V107SR1R'],
+    24, null, null,
+    'Subcategory: Center Pin · Stand 24 · Handok · Spherical Cylinder Barrel Core Guide Pin · ~0.47 kg · xref: HD-A8V107SR1R-CP'
+  ),
+  (
+    'hydraulic-cp-hpvo102-a',
+    'HPVO102-CP-HD-A',
+    'Handok HPVO102 Center Pin (Variant A)',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Hitachi EX200-2','Hitachi EX200-3','Hitachi EX220-2','Hitachi EX220-3'],
+    24, null, null,
+    'Subcategory: Center Pin · Stand 24 · Handok · Spherical Cylinder Barrel Core Guide Pin · xref: HD-HPVO102-CP-A'
+  ),
+  (
+    'hydraulic-cp-37036',
+    '37036',
+    'Handok HPVO102 Center Pin (Variant B)',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Hitachi EX200-2','Hitachi EX200-3','Hitachi EX220-2','Hitachi EX220-3'],
+    24, null, null,
+    'Subcategory: Center Pin · Stand 24 · Handok · Spherical Cylinder Barrel Core Guide Pin · ~0.48 kg · xref: 37036, HD-37036, HPVO102-CP-B'
+  ),
+  (
+    'hydraulic-cp-464046',
+    '464046',
+    'Handok HMGC48 / HMT135 Center Pin',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Kawasaki HMGC48','Kawasaki HMT135','Teijin Seiki HMGC48','Teijin Seiki HMT135'],
+    24, null, null,
+    'Subcategory: Center Pin · Stand 24 · Handok · Spherical Motor Block Hub Guide Shaft · xref: 464046, HD-464046, HMGC48-CP, HMT135-CP'
+  ),
+  (
+    'hydraulic-cp-4337035',
+    '4337035',
+    'Handok HPVO102 Center Pin (Variant C)',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Hitachi EX200-2','Hitachi EX200-3','Hitachi EX220-2','Hitachi EX220-3'],
+    24, null, null,
+    'Subcategory: Center Pin · Stand 24 · Handok · Spherical Cylinder Barrel Core Guide Pin · xref: 4337035, HD-4337035, HPVO102-CP-C'
   )
 on conflict (id) do update set
   part_number = excluded.part_number,
