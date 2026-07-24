@@ -658,8 +658,8 @@ function InventoryPage() {
             {isHydraulics && (
               <div className="space-y-2">
                 <p className="text-xs text-muted-foreground">
-                  Pick a hydraulic subtype — Center Pin is stocked; Ball Guide is ready for new
-                  items.
+                  Pick a hydraulic subtype — Center Pin, Ball Guide, shoe/thrust plate, or Valve
+                  Plate.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <Button
