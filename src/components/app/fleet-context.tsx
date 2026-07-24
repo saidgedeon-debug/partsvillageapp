@@ -64,7 +64,7 @@ function isFleetEmpty(v: StoredFleet): boolean {
 async function syncMachine(m: FleetMachine) {
   if (!supabase || !isSupabaseConfigured) return;
   try {
-    await supabase.from("machines").upsert({
+    const { error } = await supabase.from("machines").upsert({
       id: m.id,
       client_id: m.clientId,
       make: m.make,
@@ -73,32 +73,31 @@ async function syncMachine(m: FleetMachine) {
       year: m.year,
       hours: m.hours,
     } as never);
-  } catch {
-    // ignore
+    if (error) console.error("machines sync failed", error.message);
+  } catch (e) {
+    console.error("machines sync failed", e);
   }
 }
 
+/**
+ * Sync order header only when a real machine id is present.
+ * Skip order_lines — catalog part ids are not in public.parts and order_lines.id is uuid.
+ * Fleet data remains authoritative in shop_state JSON.
+ */
 async function syncOrder(o: FleetOrder) {
   if (!supabase || !isSupabaseConfigured) return;
+  if (!o.machineId?.trim()) return;
   try {
-    await supabase.from("orders").upsert({
+    const { error } = await supabase.from("orders").upsert({
       id: o.id,
       client_id: o.clientId,
-      machine_id: o.machineId || o.clientId,
+      machine_id: o.machineId,
       date: o.date,
       status: o.status,
     } as never);
-    for (const line of o.lines) {
-      await supabase.from("order_lines").upsert({
-        id: `${o.id}-${line.partId}`,
-        order_id: o.id,
-        part_id: line.partId,
-        qty: line.qty,
-        unit_price: line.unitPrice,
-      } as never);
-    }
-  } catch {
-    // ignore
+    if (error) console.error("orders sync failed", error.message);
+  } catch (e) {
+    console.error("orders sync failed", e);
   }
 }
 

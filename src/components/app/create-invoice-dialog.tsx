@@ -63,7 +63,7 @@ function partToLine(part: Part, qty = 1): CartLine {
 }
 
 export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: Props) {
-  const { parts, updatePart, getPart } = useInventory();
+  const { parts, adjustPartQuantity, getPart } = useInventory();
   const { addDocument, updateDocument } = useDocuments();
   const { addOrder } = useFleet();
   const { clients } = useParties();
@@ -197,9 +197,8 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     if (deductStock) {
       let deducted = 0;
       for (const line of lines) {
-        const part = getPart(line.partId);
-        if (!part) continue;
-        updatePart(line.partId, { quantity: Math.max(0, part.quantity - line.qty) });
+        if (!getPart(line.partId)) continue;
+        adjustPartQuantity(line.partId, -line.qty);
         deducted += 1;
       }
       stockDeducted = deducted > 0;

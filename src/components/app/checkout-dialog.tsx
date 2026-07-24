@@ -35,7 +35,7 @@ export function CheckoutDialog() {
     setCartOpen,
   } = useCart();
   const { addDocument } = useDocuments();
-  const { updatePart, getPart } = useInventory();
+  const { adjustPartQuantity, getPart } = useInventory();
   const { addOrder } = useFleet();
   const { clients } = useParties();
   const [partyKind, setPartyKind] = useState<PartyKind>("client");
@@ -90,10 +90,8 @@ export function CheckoutDialog() {
     if (isInvoice && deductStock) {
       let deducted = 0;
       for (const line of lines) {
-        const part = getPart(line.partId);
-        if (!part) continue;
-        const nextQty = Math.max(0, part.quantity - line.qty);
-        updatePart(line.partId, { quantity: nextQty });
+        if (!getPart(line.partId)) continue;
+        adjustPartQuantity(line.partId, -line.qty);
         deducted += 1;
       }
       stockDeducted = deducted > 0;

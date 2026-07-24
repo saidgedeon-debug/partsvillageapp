@@ -5,6 +5,8 @@ import {
   useShipments,
   getShipmentCategory,
   getShipmentCargoType,
+  allowedShipmentStatuses,
+  canTransitionShipmentStatus,
   type ChinaShipment,
   type ShipmentCargoType,
   type ShipmentCategory,
@@ -195,6 +197,10 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
     };
 
     if (isEdit && shipment) {
+      if (!canTransitionShipmentStatus(shipment.status, status)) {
+        toast.error(`Cannot move from ${shipment.status} to ${status}`);
+        return;
+      }
       updateShipment(shipment.id, input);
       toast.success("Shipment updated");
       onOpenChange(false);
@@ -297,7 +303,10 @@ export function ShipmentFormDialog({ open, onOpenChange, shipment, onCreated }: 
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {STATUSES.map((s) => (
+                  {(shipment
+                    ? allowedShipmentStatuses(shipment.status)
+                    : STATUSES
+                  ).map((s) => (
                     <SelectItem key={s} value={s}>
                       {s}
                     </SelectItem>

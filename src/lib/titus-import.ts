@@ -3,6 +3,7 @@ import type {
   ShipmentInput,
   ShipmentStatus,
 } from "@/components/app/shipments-context";
+import { canTransitionShipmentStatus } from "@/components/app/shipments-context";
 import type { TitusOrderRow } from "@/lib/titus-scrape";
 
 export type ParsedTitusShipment = {
@@ -234,7 +235,10 @@ export function mergeTitusIntoExisting(
     existing.status !== "In stock" &&
     existing.status !== "Cancelled"
   ) {
-    patch.status = mapTitusStatus(p.titusStatus || p.titusLocation);
+    const next = mapTitusStatus(p.titusStatus || p.titusLocation);
+    if (canTransitionShipmentStatus(existing.status, next)) {
+      patch.status = next;
+    }
   }
 
   if (p.chinaTracking) {

@@ -212,66 +212,76 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       }
       if (!input.paymentDate.trim()) throw new Error("Payment date is required");
 
-      const list = Array.isArray(documents) ? documents : [];
-      const invoice = list.find((d) => d.id === input.invoiceId && d.kind === "invoice");
-      if (!invoice) throw new Error("Invoice not found");
-
-      const paidBefore = invoiceAmountPaid(invoice);
-      const remaining = Math.max(0, Math.round((invoice.total - paidBefore) * 100) / 100);
-      if (amount - remaining > 0.005) {
-        throw new Error(`Amount exceeds remaining balance (${remaining})`);
-      }
-
       const now = new Date();
-      const paidAfter = Math.round((paidBefore + amount) * 100) / 100;
-      const status = resolveInvoiceStatus(invoice, paidAfter);
-
       const receiptId = generateDocId("receipt", now);
       const mobileBit =
         input.method !== "Cash" && input.mobile?.trim() ? ` · ${input.mobile.trim()}` : "";
 
-      const receipt: SavedDocument = {
-        id: receiptId,
-        kind: "receipt",
-        partyKind: "client",
-        partyId: invoice.partyId,
-        partyName: invoice.partyName,
-        date: input.paymentDate,
-        createdAt: now.toISOString(),
-        total: amount,
-        status: "Paid",
-        invoiceId: invoice.id,
-        paymentMethod: input.method,
-        paymentDate: input.paymentDate,
-        paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
-        internalNote: input.note?.trim() || undefined,
-        lines: [
-          {
-            partId: `pay-${invoice.id}`,
-            partNumber: invoice.id,
-            name: `Payment toward ${invoice.id} · ${input.method}${mobileBit}`,
-            category: "Payment",
-            unitPrice: amount,
-            unitCost: 0,
-            qty: 1,
-          },
-        ],
-      };
-
-      const updatedInvoice: SavedDocument = {
-        ...invoice,
-        amountPaid: paidAfter,
-        status,
-      };
+      let created: SavedDocument | null = null;
+      let failure: Error | null = null;
 
       setDocuments((prev) => {
         const cur = Array.isArray(prev) ? prev : [];
+        const invoice = cur.find((d) => d.id === input.invoiceId && d.kind === "invoice");
+        if (!invoice) {
+          failure = new Error("Invoice not found");
+          return cur;
+        }
+
+        const paidBefore = invoiceAmountPaid(invoice);
+        const remaining = Math.max(0, Math.round((invoice.total - paidBefore) * 100) / 100);
+        if (amount - remaining > 0.005) {
+          failure = new Error(`Amount exceeds remaining balance (${remaining})`);
+          return cur;
+        }
+
+        const paidAfter = Math.round((paidBefore + amount) * 100) / 100;
+        const status = resolveInvoiceStatus(invoice, paidAfter);
+
+        const receipt: SavedDocument = {
+          id: receiptId,
+          kind: "receipt",
+          partyKind: "client",
+          partyId: invoice.partyId,
+          partyName: invoice.partyName,
+          date: input.paymentDate,
+          createdAt: now.toISOString(),
+          total: amount,
+          status: "Paid",
+          invoiceId: invoice.id,
+          paymentMethod: input.method,
+          paymentDate: input.paymentDate,
+          paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
+          internalNote: input.note?.trim() || undefined,
+          lines: [
+            {
+              partId: `pay-${invoice.id}`,
+              partNumber: invoice.id,
+              name: `Payment toward ${invoice.id} · ${input.method}${mobileBit}`,
+              category: "Payment",
+              unitPrice: amount,
+              unitCost: 0,
+              qty: 1,
+            },
+          ],
+        };
+
+        const updatedInvoice: SavedDocument = {
+          ...invoice,
+          amountPaid: paidAfter,
+          status,
+        };
+
+        created = receipt;
+        void syncDocumentToSupabase(updatedInvoice);
         return [receipt, ...cur.map((d) => (d.id === invoice.id ? updatedInvoice : d))];
       });
-      void syncDocumentToSupabase(updatedInvoice);
-      return receipt;
+
+      if (failure) throw failure;
+      if (!created) throw new Error("Failed to record payment");
+      return created;
     },
-    [documents, setDocuments],
+    [setDocuments],
   );
 
   const docs = Array.isArray(documents) ? documents : [];

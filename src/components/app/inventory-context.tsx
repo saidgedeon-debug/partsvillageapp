@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 
-import { loadCatalogParts } from "@/lib/catalog-loader";
+import { loadCatalogParts, resetCatalogPartsCache } from "@/lib/catalog-loader";
 import { useCloudState } from "@/lib/cloud-store";
 import type { Part } from "@/lib/mock-data";
 import { buildInventoryCategories, STANDARD_CATEGORY_LABELS, type InventoryCategoryDef } from "@/lib/inventory-categories";
@@ -59,6 +59,10 @@ type InventoryContextValue = {
   categoryLabels: string[];
   /** False until the lazy catalog chunk has loaded AND cloud data is ready. */
   catalogReady: boolean;
+  /** Catalog chunk load error (null when ok / still loading). */
+  catalogError: string | null;
+  /** Retry a failed catalog chunk load. */
+  retryCatalogLoad: () => void;
   /** True once inventory state has loaded from Supabase. */
   cloudReady: boolean;
   /** Set if loading/saving cloud inventory state failed. */
@@ -66,6 +70,8 @@ type InventoryContextValue = {
   getPart: (id: string) => Part | undefined;
   addPart: (input: PartInput) => Part;
   updatePart: (id: string, patch: PartOverride) => Part | null;
+  /** Atomically apply qty delta inside setStore (avoids stale absolute overwrites). */
+  adjustPartQuantity: (id: string, delta: number) => number | null;
   bulkUpdateParts: (
     updates: {
       id: string;
@@ -111,13 +117,29 @@ function isStoreEmpty(v: StoredState): boolean {
   );
 }
 
+function clampNonNeg(n: number, integers = false): number {
+  const v = Number.isFinite(n) ? Math.max(0, n) : 0;
+  return integers ? Math.round(v) : v;
+}
+
 function applyOverride(base: Part, override?: PartOverride): Part {
   if (!override) return base;
-  return {
+  const merged = {
     ...base,
     ...override,
     compatibility: override.compatibility ?? base.compatibility,
     partNumbers: override.partNumbers ?? base.partNumbers,
+  };
+  return {
+    ...merged,
+    quantity:
+      override.quantity !== undefined ? clampNonNeg(Number(override.quantity), true) : base.quantity,
+    reorderAt:
+      override.reorderAt !== undefined
+        ? clampNonNeg(Number(override.reorderAt), true)
+        : base.reorderAt,
+    cost: override.cost !== undefined ? clampNonNeg(Number(override.cost)) : base.cost,
+    price: override.price !== undefined ? clampNonNeg(Number(override.price)) : base.price,
   };
 }
 
@@ -133,10 +155,10 @@ function normalizePart(input: PartInput, id?: string): Part {
     name: (input.name || numbers[0]).trim(),
     category: input.category.trim(),
     subcategory: input.subcategory?.trim() || undefined,
-    quantity: Number.isFinite(input.quantity) ? Number(input.quantity) : 0,
-    reorderAt: Number.isFinite(input.reorderAt) ? Number(input.reorderAt) : 0,
-    cost: Number.isFinite(input.cost) ? Number(input.cost) : 0,
-    price: Number.isFinite(input.price) ? Number(input.price) : 0,
+    quantity: clampNonNeg(Number(input.quantity), true),
+    reorderAt: clampNonNeg(Number(input.reorderAt), true),
+    cost: clampNonNeg(Number(input.cost)),
+    price: clampNonNeg(Number(input.price)),
     compatibility: input.compatibility ?? [],
     boxNumber: input.boxNumber,
     insideDiameterMm: input.insideDiameterMm,
@@ -155,20 +177,36 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   } = useCloudState<StoredState>("inventory", STORAGE_KEY, emptyStore(), isStoreEmpty);
   const [catalogBase, setCatalogBase] = useState<Part[]>([]);
   const [catalogChunkReady, setCatalogChunkReady] = useState(false);
+  const [catalogError, setCatalogError] = useState<string | null>(null);
+  const [catalogRetryToken, setCatalogRetryToken] = useState(0);
   const catalogRef = useRef<Part[]>([]);
   const catalogReady = catalogChunkReady && cloudReady;
 
   useEffect(() => {
     let cancelled = false;
-    void loadCatalogParts().then((list) => {
-      if (cancelled) return;
-      catalogRef.current = list;
-      setCatalogBase(list);
-      setCatalogChunkReady(true);
-    });
+    setCatalogError(null);
+    void loadCatalogParts()
+      .then((list) => {
+        if (cancelled) return;
+        catalogRef.current = list;
+        setCatalogBase(list);
+        setCatalogChunkReady(true);
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        setCatalogChunkReady(false);
+        setCatalogError(e instanceof Error ? e.message : "Failed to load catalog");
+      });
     return () => {
       cancelled = true;
     };
+  }, [catalogRetryToken]);
+
+  const retryCatalogLoad = useCallback(() => {
+    resetCatalogPartsCache();
+    setCatalogChunkReady(false);
+    setCatalogError(null);
+    setCatalogRetryToken((n) => n + 1);
   }, []);
 
   const overrides = store.overrides ?? {};
@@ -261,6 +299,37 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       };
     });
     return updated;
+  }, [setStore]);
+
+  const adjustPartQuantity = useCallback((id: string, delta: number) => {
+    if (!Number.isFinite(delta) || delta === 0) return null;
+    let nextQty: number | null = null;
+    const catalogParts = catalogRef.current;
+    setStore((prev) => {
+      const overrides = { ...(prev.overrides ?? {}) };
+      const customParts = [...(prev.customParts ?? [])];
+      const catalogBasePart = catalogParts.find((p) => p.id === id);
+      if (catalogBasePart) {
+        const current = applyOverride(catalogBasePart, overrides[id]);
+        nextQty = Math.max(0, Math.round(current.quantity + delta));
+        overrides[id] = { ...overrides[id], quantity: nextQty };
+        return {
+          overrides,
+          customParts,
+          customCategories: prev.customCategories ?? [],
+        };
+      }
+      const idx = customParts.findIndex((p) => p.id === id);
+      if (idx < 0) return prev;
+      nextQty = Math.max(0, Math.round(customParts[idx].quantity + delta));
+      customParts[idx] = { ...customParts[idx], quantity: nextQty };
+      return {
+        overrides,
+        customParts,
+        customCategories: prev.customCategories ?? [],
+      };
+    });
+    return nextQty;
   }, [setStore]);
 
   const bulkUpdateParts = useCallback(
@@ -480,11 +549,14 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       categories,
       categoryLabels,
       catalogReady,
+      catalogError,
+      retryCatalogLoad,
       cloudReady,
       cloudError,
       getPart,
       addPart,
       updatePart,
+      adjustPartQuantity,
       bulkUpdateParts,
       removePart,
       addCategory,
@@ -496,11 +568,14 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       categories,
       categoryLabels,
       catalogReady,
+      catalogError,
+      retryCatalogLoad,
       cloudReady,
       cloudError,
       getPart,
       addPart,
       updatePart,
+      adjustPartQuantity,
       bulkUpdateParts,
       removePart,
       addCategory,

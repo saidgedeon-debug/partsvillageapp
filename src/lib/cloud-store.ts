@@ -24,15 +24,50 @@ export async function fetchShopState<T>(key: ShopStateKey, fallback: T): Promise
   return data.value as T;
 }
 
-/** Upsert shop_state JSON value. */
-export async function saveShopState(key: ShopStateKey, value: unknown): Promise<void> {
+/** Read value + updated_at for optimistic concurrency. */
+async function fetchShopStateRow<T>(
+  key: ShopStateKey,
+): Promise<{ value: T | null; updatedAt: string | null }> {
   const sb = requireSupabase();
+  const { data, error } = await sb
+    .from("shop_state")
+    .select("value, updated_at")
+    .eq("key", key)
+    .maybeSingle();
+  if (error) throw error;
+  return {
+    value: (data?.value as T | null | undefined) ?? null,
+    updatedAt: (data?.updated_at as string | null | undefined) ?? null,
+  };
+}
+
+/**
+ * Upsert shop_state JSON value.
+ * When `expectedUpdatedAt` is set, refuses to overwrite a newer remote revision
+ * (optimistic concurrency). Returns whether the write landed.
+ */
+export async function saveShopState(
+  key: ShopStateKey,
+  value: unknown,
+  expectedUpdatedAt?: string | null,
+): Promise<{ saved: boolean; updatedAt: string | null }> {
+  const sb = requireSupabase();
+
+  if (expectedUpdatedAt) {
+    const remote = await fetchShopStateRow(key);
+    if (remote.updatedAt && remote.updatedAt !== expectedUpdatedAt) {
+      return { saved: false, updatedAt: remote.updatedAt };
+    }
+  }
+
+  const updatedAt = new Date().toISOString();
   const { error } = await sb.from("shop_state").upsert({
     key,
     value: value as never,
-    updated_at: new Date().toISOString(),
+    updated_at: updatedAt,
   });
   if (error) throw error;
+  return { saved: true, updatedAt };
 }
 
 /**
@@ -43,25 +78,27 @@ export async function loadOrMigrateShopState<T>(
   localStorageKey: string,
   fallback: T,
   isEmpty: (v: T) => boolean,
-): Promise<T> {
-  const cloud = await fetchShopState<T>(key, fallback);
-  if (!isEmpty(cloud)) return cloud;
+): Promise<{ value: T; updatedAt: string | null }> {
+  const row = await fetchShopStateRow<T>(key);
+  if (row.value != null && !isEmpty(row.value)) {
+    return { value: row.value, updatedAt: row.updatedAt };
+  }
 
-  if (typeof window === "undefined") return fallback;
+  if (typeof window === "undefined") return { value: fallback, updatedAt: null };
 
   try {
     const raw = localStorage.getItem(localStorageKey);
-    if (!raw) return fallback;
+    if (!raw) return { value: fallback, updatedAt: row.updatedAt };
 
     const local = JSON.parse(raw) as T;
-    if (isEmpty(local)) return fallback;
+    if (isEmpty(local)) return { value: fallback, updatedAt: row.updatedAt };
 
-    await saveShopState(key, local);
-    return local;
+    const saved = await saveShopState(key, local);
+    return { value: local, updatedAt: saved.updatedAt };
   } catch {
     // ignore parse / migrate errors
   }
-  return fallback;
+  return { value: fallback, updatedAt: row.updatedAt };
 }
 
 export function markCloudMigrated() {
@@ -71,7 +108,7 @@ export function markCloudMigrated() {
 
 /**
  * Hook: cloud is source of truth. Debounced save + realtime refresh.
- * No offline persistence after hydrate.
+ * Local dirty edits are not discarded by incoming realtime until saved.
  */
 export function useCloudState<T>(
   key: ShopStateKey,
@@ -84,12 +121,23 @@ export function useCloudState<T>(
   ready: boolean;
   error: string | null;
 } {
-  const [value, setValue] = useState<T>(fallback);
+  const [value, setValueState] = useState<T>(fallback);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const skipSave = useRef(true);
+  const dirtyRef = useRef(false);
+  const savingRef = useRef(false);
+  const baseUpdatedAtRef = useRef<string | null>(null);
   const valueRef = useRef(value);
   valueRef.current = value;
+
+  const setValue: Dispatch<SetStateAction<T>> = (action) => {
+    setValueState((prev) => {
+      const next = typeof action === "function" ? (action as (p: T) => T)(prev) : action;
+      if (!skipSave.current) dirtyRef.current = true;
+      return next;
+    });
+  };
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -103,7 +151,9 @@ export function useCloudState<T>(
         const loaded = await loadOrMigrateShopState(key, localStorageKey, fallback, isEmpty);
         if (cancelled) return;
         skipSave.current = true;
-        setValue(loaded);
+        dirtyRef.current = false;
+        baseUpdatedAtRef.current = loaded.updatedAt;
+        setValueState(loaded.value);
         setReady(true);
         markCloudMigrated();
         try {
@@ -130,9 +180,40 @@ export function useCloudState<T>(
       return;
     }
     const t = window.setTimeout(() => {
-      void saveShopState(key, valueRef.current).catch((e) => {
-        console.error(`Failed to save ${key}`, e);
-      });
+      if (savingRef.current) return;
+      savingRef.current = true;
+      const snapshot = valueRef.current;
+      const expected = baseUpdatedAtRef.current;
+      void saveShopState(key, snapshot, expected)
+        .then((result) => {
+          if (result.saved) {
+            baseUpdatedAtRef.current = result.updatedAt;
+            // Only clear dirty if nothing newer was typed during the save.
+            if (valueRef.current === snapshot || JSON.stringify(valueRef.current) === JSON.stringify(snapshot)) {
+              dirtyRef.current = false;
+            }
+          } else {
+            // Remote moved ahead — keep local dirty; next save will overwrite after refresh of base.
+            // Adopt remote timestamp only if we intentionally force-save next time without expected.
+            console.warn(
+              `shop_state:${key} remote revision changed; keeping local edits and retrying save`,
+            );
+            baseUpdatedAtRef.current = result.updatedAt;
+            // Force another save of our local snapshot (user edits win for single-tenant shop).
+            void saveShopState(key, valueRef.current).then((forced) => {
+              if (forced.saved) {
+                baseUpdatedAtRef.current = forced.updatedAt;
+                dirtyRef.current = false;
+              }
+            });
+          }
+        })
+        .catch((e) => {
+          console.error(`Failed to save ${key}`, e);
+        })
+        .finally(() => {
+          savingRef.current = false;
+        });
     }, 400);
     return () => window.clearTimeout(t);
   }, [value, ready, key]);
@@ -151,13 +232,22 @@ export function useCloudState<T>(
           filter: `key=eq.${key}`,
         },
         (payload) => {
-          const next = (payload.new as { value?: T } | null)?.value;
+          const row = payload.new as { value?: T; updated_at?: string } | null;
+          const next = row?.value;
           if (next === undefined) return;
+
+          // Never discard unsaved local edits.
+          if (dirtyRef.current || savingRef.current) return;
+
           const cur = JSON.stringify(valueRef.current);
           const incoming = JSON.stringify(next);
-          if (cur === incoming) return;
+          if (cur === incoming) {
+            if (row?.updated_at) baseUpdatedAtRef.current = row.updated_at;
+            return;
+          }
           skipSave.current = true;
-          setValue(next);
+          if (row?.updated_at) baseUpdatedAtRef.current = row.updated_at;
+          setValueState(next);
         },
       )
       .subscribe();

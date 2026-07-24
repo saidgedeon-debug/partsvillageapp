@@ -26,6 +26,24 @@ export type ShipmentStatus =
   | "In stock"
   | "Cancelled";
 
+/** Allowed next statuses from a given status (no arbitrary jumps). */
+export const SHIPMENT_STATUS_TRANSITIONS: Record<ShipmentStatus, ShipmentStatus[]> = {
+  Ordered: ["Ordered", "In transit", "Cancelled"],
+  "In transit": ["In transit", "Ordered", "Arrived", "Cancelled"],
+  Arrived: ["Arrived", "In transit", "In stock", "Cancelled"],
+  "In stock": ["In stock", "Arrived"],
+  Cancelled: ["Cancelled", "Ordered"],
+};
+
+export function allowedShipmentStatuses(from: ShipmentStatus): ShipmentStatus[] {
+  return SHIPMENT_STATUS_TRANSITIONS[from] ?? [from];
+}
+
+export function canTransitionShipmentStatus(from: ShipmentStatus, to: ShipmentStatus): boolean {
+  if (from === to) return true;
+  return allowedShipmentStatuses(from).includes(to);
+}
+
 export type ShipmentAttachment = {
   id: string;
   name: string;
@@ -201,12 +219,20 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
   const updateShipment = useCallback(
     (id: string, patch: Partial<ShipmentInput>) => {
       let updated: ChinaShipment | null = null;
+      let rejectedFrom: ShipmentStatus | null = null;
+      let rejectedTo: ShipmentStatus | null = null;
       const num = (v: number | undefined) =>
         v !== undefined ? (Number.isFinite(v) ? v : undefined) : undefined;
       setShipments((prev) => {
         const rows = Array.isArray(prev) ? prev : [];
         return rows.map((s) => {
           if (s.id !== id) return s;
+          if (patch.status !== undefined && !canTransitionShipmentStatus(s.status, patch.status)) {
+            rejectedFrom = s.status;
+            rejectedTo = patch.status;
+            updated = s;
+            return s;
+          }
           updated = {
             ...s,
             ...patch,
@@ -244,11 +270,15 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
                 : s.containerNo,
             etd: patch.etd !== undefined ? patch.etd || undefined : s.etd,
             eta: patch.eta !== undefined ? patch.eta || undefined : s.eta,
+            status: patch.status !== undefined ? patch.status : s.status,
             updatedAt: new Date().toISOString(),
           };
           return updated;
         });
       });
+      if (rejectedFrom && rejectedTo) {
+        console.warn(`Blocked shipment status ${rejectedFrom} → ${rejectedTo}`);
+      }
       return updated;
     },
     [setShipments],

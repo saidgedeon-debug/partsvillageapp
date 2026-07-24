@@ -44,6 +44,7 @@ function todayIso() {
 
 export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }: Props) {
   const { invoices, recordInvoicePayment } = useDocuments();
+  const [submitting, setSubmitting] = useState(false);
 
   const unpaidInvoices = useMemo(
     () =>
@@ -79,6 +80,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
     setMobile("");
     setNote("");
     setAmount(inv ? String(invoiceRemaining(inv)) : "");
+    setSubmitting(false);
   }, [open, invoice, unpaidInvoices, invoices]);
 
   useEffect(() => {
@@ -87,6 +89,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
   }, [invoiceId]); // eslint-disable-line react-hooks/exhaustive-deps -- reset amount when invoice changes
 
   const submit = () => {
+    if (submitting) return;
     try {
       if (!invoiceId) {
         toast.error("Select an invoice");
@@ -105,6 +108,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
         toast.error("Payment date is required");
         return;
       }
+      setSubmitting(true);
       const receipt = recordInvoicePayment({
         invoiceId,
         amount: value,
@@ -118,6 +122,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
       onRecorded?.(receipt);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not record payment");
+      setSubmitting(false);
     }
   };
 
@@ -220,11 +225,16 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
         </div>
 
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            type="button"
+            variant="outline"
+            disabled={submitting}
+            onClick={() => onOpenChange(false)}
+          >
             Cancel
           </Button>
-          <Button type="button" onClick={submit} disabled={!selected}>
-            Save receipt
+          <Button type="button" onClick={submit} disabled={!selected || submitting}>
+            {submitting ? "Saving…" : "Save receipt"}
           </Button>
         </DialogFooter>
       </DialogContent>

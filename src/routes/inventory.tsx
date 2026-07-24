@@ -169,7 +169,8 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 function InventoryPage() {
   const { query } = useSearch();
   const { askDocumentForPart } = useCart();
-  const { parts, categories, catalogReady, updatePart } = useInventory();
+  const { parts, categories, catalogReady, catalogError, retryCatalogLoad, updatePart } =
+    useInventory();
   const {
     favoriteCategoryGroups,
     recentCategoryGroups,
@@ -831,8 +832,17 @@ function InventoryPage() {
           </CardHeader>
           <CardContent className="p-0">
             {!catalogReady ? (
-              <div className="py-16 text-center text-sm text-muted-foreground">
-                Loading catalog parts…
+              <div className="space-y-3 py-16 text-center text-sm text-muted-foreground">
+                {catalogError ? (
+                  <>
+                    <p className="text-destructive">Catalog failed to load: {catalogError}</p>
+                    <Button type="button" size="sm" variant="outline" onClick={retryCatalogLoad}>
+                      Retry
+                    </Button>
+                  </>
+                ) : (
+                  <p>Loading catalog parts…</p>
+                )}
               </div>
             ) : isCatalogMode ? (
               <CatalogGrid

@@ -59,7 +59,12 @@ function docId(kind: DocumentKind, date: Date) {
         : kind === "receipt"
           ? "RCP"
           : "SI";
-  return `${prefix}-${y}${m}${d}-${String(date.getHours()).padStart(2, "0")}${String(date.getMinutes()).padStart(2, "0")}${String(date.getSeconds()).padStart(2, "0")}`;
+  const hh = String(date.getHours()).padStart(2, "0");
+  const mm = String(date.getMinutes()).padStart(2, "0");
+  const ss = String(date.getSeconds()).padStart(2, "0");
+  const ms = String(date.getMilliseconds()).padStart(3, "0");
+  const rand = Math.random().toString(36).slice(2, 6);
+  return `${prefix}-${y}${m}${d}-${hh}${mm}${ss}${ms}-${rand}`;
 }
 
 /** Public helper for document ids (checkout persistence). */

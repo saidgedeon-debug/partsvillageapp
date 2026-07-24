@@ -141,6 +141,10 @@ export function PartDetailDialog({
       toast.error("Qty, reorder, cost, and price must be numbers");
       return;
     }
+    if ([qty, reorder, cost, price].some((n) => n < 0)) {
+      toast.error("Qty, reorder, cost, and price cannot be negative");
+      return;
+    }
     const boxRaw = form.boxNumber.trim();
     const boxNumber = boxRaw === "" ? undefined : Number(boxRaw);
     if (boxRaw !== "" && !Number.isFinite(boxNumber)) {
@@ -154,10 +158,10 @@ export function PartDetailDialog({
       name: form.name.trim() || numbers[0],
       category: form.category.trim(),
       subcategory: form.subcategory.trim() || undefined,
-      quantity: qty,
-      reorderAt: reorder,
-      cost,
-      price,
+      quantity: Math.max(0, Math.round(qty)),
+      reorderAt: Math.max(0, Math.round(reorder)),
+      cost: Math.max(0, cost),
+      price: Math.max(0, price),
       boxNumber,
       insideDiameterMm: form.insideDiameterMm.trim() || undefined,
       crossSectionMm: form.crossSectionMm.trim() || undefined,

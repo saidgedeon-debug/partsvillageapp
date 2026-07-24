@@ -21,6 +21,7 @@ import {
   getShipmentCategory,
   getShipmentCargoType,
   CARGO_TYPE_LABELS,
+  allowedShipmentStatuses,
   type ChinaShipment,
   type ShipmentAttachment,
   type ShipmentCargoType,
@@ -449,15 +450,19 @@ function ShipmentDetailDialog({
               <Label className="text-xs text-muted-foreground">Status</Label>
               <Select
                 value={shipment.status}
-                onValueChange={(v) =>
-                  updateShipment(shipment.id, { status: v as ShipmentStatus })
-                }
+                onValueChange={(v) => {
+                  const next = v as ShipmentStatus;
+                  const updated = updateShipment(shipment.id, { status: next });
+                  if (updated && updated.status !== next) {
+                    toast.error(`Cannot move from ${shipment.status} to ${next}`);
+                  }
+                }}
               >
                 <SelectTrigger className="h-8 w-[140px]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {(Object.keys(STATUS_STYLE) as ShipmentStatus[]).map((st) => (
+                  {allowedShipmentStatuses(shipment.status).map((st) => (
                     <SelectItem key={st} value={st}>
                       {st}
                     </SelectItem>
