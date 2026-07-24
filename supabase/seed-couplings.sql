@@ -106,7 +106,7 @@ values
     null,
     null,
     null,
-    'OD 252 mm · Inner core Ø125 mm · 6 mounting holes · Nominal torque 1600 Nm · Max torque 3200 Nm · Weight 2.50 kg · Material: heavy-duty elastomer (Hytrel) with built-in metal bushes · Power 170–190 HP · Max speed 3600 rpm · Temperature −40 to +120 °C · Common engines: Deutz, Perkins, CAT 3306, Cummins 6CT'
+    'OD 252 mm · Inner core Ø125 mm · 6 mounting holes · Nominal torque 1600 Nm · Max torque 3200 Nm · Weight 2.50 kg · Material: heavy-duty elastomer (Hytrel) with built-in metal bushes · Power 170–190 HP · Max speed 3600 rpm · Temperature −40 to +120 °C · Common engines: Deutz, Perkins, CAT 3306, Cummins 6CT · OEM xref: CF-H-140-0-ELEMENT, CF-H-140-4, 10720829, 208-38-11120, 1R-8201, 096-3973, 4243644, 4240751, YN20S00002P1, XKAH-00438 (also non-dashed: 2083811120, 1R8201, 0963973, XKAH00438)'
   ),
   (
     'coupling-cf-a-050',

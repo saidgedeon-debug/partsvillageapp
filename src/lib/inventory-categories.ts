@@ -1,13 +1,12 @@
 import type { LucideIcon } from "lucide-react";
-import { CircleDot, LayoutGrid, Link2, Package } from "lucide-react";
+import { CircleDot, Disc, Gauge, LayoutGrid, Link2, Package } from "lucide-react";
 
 import type { Part } from "@/lib/mock-data";
 
 /**
  * Inventory category tiles.
- * Main categories are O-Rings and Couplings only — add more pinned tiles as you seed new lines.
- * `matchCategory: null` = All items / Catalog.
- * `id: "catalog"` = Catalog grid browse mode.
+ * Main categories are added one by one as stock lines are seeded.
+ * `matchCategory: null` = All items.
  */
 export type CategoryGroupId = string;
 
@@ -61,7 +60,12 @@ const GROUP_RULES: {
 export const categoryGroupIds = GROUP_RULES.map((r) => r.id);
 
 /** Always offered in the part form category datalist. */
-export const STANDARD_CATEGORY_LABELS = ["O-Rings", "Couplings"] as const;
+export const STANDARD_CATEGORY_LABELS = [
+  "O-Rings",
+  "Couplings",
+  "Gauges & Accessories",
+  "Hydraulic Parts",
+] as const;
 
 export function getCategoryGroupLabel(groupId: CategoryGroupId): string {
   return GROUP_RULES.find((r) => r.id === groupId)?.label ?? groupId;
@@ -116,10 +120,12 @@ function iconFor(category: string): LucideIcon {
   const c = category.toLowerCase();
   if (c.includes("o-ring") || c.includes("oring")) return CircleDot;
   if (c.includes("coupling") || c.includes("coupler")) return Link2;
+  if (c.includes("gauge")) return Gauge;
+  if (c.includes("hydraulic")) return Disc;
   return Package;
 }
 
-/** Fixed main tiles — All, O-Rings, Couplings only. */
+/** Fixed main tiles — add new stock lines here one by one. */
 const basePinned: InventoryCategoryDef[] = [
   {
     id: "all",
@@ -142,10 +148,30 @@ const basePinned: InventoryCategoryDef[] = [
     matchCategory: "Couplings",
     icon: Link2,
   },
+  {
+    id: "gauges",
+    label: "Gauges & Accessories",
+    description: "Sight gauges & tank accessories",
+    matchCategory: "Gauges & Accessories",
+    icon: Gauge,
+  },
+  {
+    id: "hydraulics",
+    label: "Hydraulic Parts",
+    description: "Pump internals & hydraulics",
+    matchCategory: "Hydraulic Parts",
+    icon: Disc,
+  },
 ];
 
 /** Whitelist — nothing else is shown on the inventory tiles. */
-export const MAIN_INVENTORY_CATEGORY_IDS = ["all", "o-rings", "couplings"] as const;
+export const MAIN_INVENTORY_CATEGORY_IDS = [
+  "all",
+  "o-rings",
+  "couplings",
+  "gauges",
+  "hydraulics",
+] as const;
 
 export function buildGroupSubcategories(
   _parts: Part[],
@@ -175,9 +201,11 @@ export function buildGroupCounts(parts: Part[]): Record<string, number> {
   return out;
 }
 
-/** Leftover categories outside the two main tiles (for catalog browse). */
+/** Leftover categories outside the main tiles (for catalog browse). */
 export function buildUngroupedCategories(parts: Part[]): GroupSubcategory[] {
-  const main = new Set(["o-rings", "couplings"]);
+  const main = new Set(
+    STANDARD_CATEGORY_LABELS.map((l) => categoryKey(l)),
+  );
   const byKey = new Map<string, { label: string; count: number }>();
   for (const p of parts) {
     const label = displayCategory(p.category);

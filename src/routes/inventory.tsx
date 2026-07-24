@@ -204,7 +204,7 @@ function InventoryPage() {
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
 
   const orderedCategories = useMemo(() => {
-    const allowed = new Set(["all", "o-rings", "couplings"]);
+    const allowed = new Set(["all", "o-rings", "couplings", "gauges", "hydraulics"]);
     return categories.filter((c) => allowed.has(c.id));
   }, [categories]);
 
@@ -470,8 +470,7 @@ function InventoryPage() {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Categories: All items, O-Rings, and Couplings. More can be added as you seed new stock
-          lines.
+          Categories grow as you seed stock lines (O-Rings, Couplings, Gauges & Accessories, …).
         </p>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
