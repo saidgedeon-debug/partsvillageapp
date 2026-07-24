@@ -10,6 +10,8 @@ import {
   Ship,
   Wrench,
   Inbox,
+  Receipt,
+  StickyNote,
 } from "lucide-react";
 
 import {
@@ -28,14 +30,50 @@ import {
 import logo from "@/assets/parts-village-logo-clear.png";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 
-const items = [
+type NavItem = {
+  title: string;
+  url: string;
+  icon: typeof LayoutDashboard;
+  exact?: boolean;
+  search?: { tab: "quotations" | "invoices" | "receipts" | "inquiries" };
+  match?: (pathname: string, search: string) => boolean;
+};
+
+const items: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, exact: true },
   { title: "Stock / Inventory", url: "/inventory", icon: Package },
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
   { title: "Clients CRM", url: "/clients", icon: Users },
   { title: "Suppliers CRM", url: "/suppliers", icon: Building2 },
-  { title: "Documents", url: "/documents", icon: FileText },
+  {
+    title: "Quotation",
+    url: "/documents",
+    search: { tab: "quotations" as const },
+    icon: FileText,
+    match: (pathname, search) =>
+      pathname === "/documents" &&
+      (search.includes("tab=quotations") ||
+        (!search.includes("tab=invoices") &&
+          !search.includes("tab=receipts") &&
+          !search.includes("tab=inquiries"))),
+  },
+  {
+    title: "Invoice",
+    url: "/documents",
+    search: { tab: "invoices" as const },
+    icon: StickyNote,
+    match: (pathname, search) =>
+      pathname === "/documents" && search.includes("tab=invoices"),
+  },
+  {
+    title: "Receipt",
+    url: "/documents",
+    search: { tab: "receipts" as const },
+    icon: Receipt,
+    match: (pathname, search) =>
+      pathname === "/documents" && search.includes("tab=receipts"),
+  },
   { title: "Shipments", url: "/china-shipments", icon: Ship },
   { title: "Share inbox", url: "/share-inbox", icon: Inbox },
 ];
@@ -43,10 +81,31 @@ const items = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const { pathname, searchStr } = useRouterState({
+    select: (r) => {
+      const search = r.location.search;
+      const searchStr =
+        typeof search === "string"
+          ? search
+          : new URLSearchParams(
+              Object.entries((search ?? {}) as Record<string, unknown>)
+                .filter(([, v]) => v != null && v !== "")
+                .map(([k, v]) => [k, String(v)]),
+            ).toString();
+      return {
+        pathname: r.location.pathname,
+        searchStr,
+      };
+    },
+  });
   const { pendingCount } = useShareInbox();
-  const isActive = (url: string, exact?: boolean) =>
-    exact ? pathname === url : pathname === url || pathname.startsWith(url + "/");
+
+  const isActive = (item: NavItem) => {
+    if (item.match) return item.match(pathname, searchStr);
+    if (item.exact) return pathname === item.url;
+    const path = item.url.split("?")[0];
+    return pathname === path || pathname.startsWith(path + "/");
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -75,8 +134,12 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item.url, item.exact)} tooltip={item.title}>
-                    <Link to={item.url} className="flex items-center gap-2">
+                  <SidebarMenuButton asChild isActive={isActive(item)} tooltip={item.title}>
+                    <Link
+                      to={item.url}
+                      search={item.search}
+                      className="flex items-center gap-2"
+                    >
                       <item.icon className="h-4 w-4" />
                       {!collapsed && (
                         <span className="flex flex-1 items-center justify-between gap-2">

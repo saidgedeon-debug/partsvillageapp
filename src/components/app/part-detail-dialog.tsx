@@ -16,6 +16,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
+import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 
 type Mode = "view" | "edit" | "create";
 
@@ -33,6 +34,7 @@ type FormState = {
   partNumbers: string;
   name: string;
   category: string;
+  subcategory: string;
   quantity: string;
   reorderAt: string;
   cost: string;
@@ -49,6 +51,7 @@ const emptyForm = (category = ""): FormState => ({
   partNumbers: "",
   name: "",
   category,
+  subcategory: category === "Hydraulic Parts" ? "Center Pin" : "",
   quantity: "0",
   reorderAt: "0",
   cost: "0",
@@ -66,6 +69,7 @@ function partToForm(part: Part): FormState {
     partNumbers: partNumbersOf(part).join("\n"),
     name: part.name,
     category: part.category,
+    subcategory: part.subcategory ?? "",
     quantity: String(part.quantity),
     reorderAt: String(part.reorderAt),
     cost: String(part.cost),
@@ -149,6 +153,7 @@ export function PartDetailDialog({
       partNumbers: numbers,
       name: form.name.trim() || numbers[0],
       category: form.category.trim(),
+      subcategory: form.subcategory.trim() || undefined,
       quantity: qty,
       reorderAt: reorder,
       cost,
@@ -234,6 +239,9 @@ export function PartDetailDialog({
               </div>
             )}
             <Field label="Category" value={part.category} />
+            {part.category === "Hydraulic Parts" && (
+              <Field label="Subcategory" value={part.subcategory ?? ""} />
+            )}
             <div className="sm:col-span-2">
               <Field
                 label="Part Description"
@@ -284,7 +292,17 @@ export function PartDetailDialog({
                 id="part-category"
                 list="inventory-category-options"
                 value={form.category}
-                onChange={set("category")}
+                onChange={(e) => {
+                  const category = e.target.value;
+                  setForm((f) => ({
+                    ...f,
+                    category,
+                    subcategory:
+                      category === "Hydraulic Parts"
+                        ? f.subcategory || "Center Pin"
+                        : f.subcategory,
+                  }));
+                }}
                 placeholder="Select or type a category"
               />
               <datalist id="inventory-category-options">
@@ -293,6 +311,23 @@ export function PartDetailDialog({
                 ))}
               </datalist>
             </div>
+            {form.category === "Hydraulic Parts" && (
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="part-subcategory">Subcategory</Label>
+                <Input
+                  id="part-subcategory"
+                  list="hydraulic-subcategory-options"
+                  value={form.subcategory}
+                  onChange={set("subcategory")}
+                  placeholder="Center Pin or Ball Guide"
+                />
+                <datalist id="hydraulic-subcategory-options">
+                  {HYDRAULIC_SUBCATEGORIES.map((s) => (
+                    <option key={s} value={s} />
+                  ))}
+                </datalist>
+              </div>
+            )}
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="part-name">Description / name</Label>
               <Input id="part-name" value={form.name} onChange={set("name")} />

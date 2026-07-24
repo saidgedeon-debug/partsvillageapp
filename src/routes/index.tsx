@@ -55,14 +55,7 @@ function Index() {
   );
 
   const recent = useMemo(() => {
-    const fromOrders = orders.map((o) => ({
-      id: o.id,
-      party: clients.find((c) => c.id === o.clientId)?.name ?? "Client",
-      parts: o.lines.map((l) => l.partNumber).join(", "),
-      total: o.lines.reduce((s, l) => s + l.qty * l.unitPrice, 0),
-      status: o.status,
-      date: o.date,
-    }));
+    const invoiceIds = new Set(invoices.map((i) => i.id));
     const fromInvoices = invoices.map((i) => ({
       id: i.id,
       party: i.partyName,
@@ -71,8 +64,24 @@ function Index() {
       status: i.status,
       date: i.date,
     }));
+    // Orders created from checkout use id `ord-${invoiceId}` — skip those duplicates.
+    const fromOrders = orders
+      .filter((o) => {
+        const linkedInvoiceId =
+          o.documentId ||
+          (o.id.startsWith("ord-") ? o.id.slice(4) : "");
+        return !linkedInvoiceId || !invoiceIds.has(linkedInvoiceId);
+      })
+      .map((o) => ({
+        id: o.id,
+        party: clients.find((c) => c.id === o.clientId)?.name ?? "Client",
+        parts: o.lines.map((l) => l.partNumber).join(", "),
+        total: o.lines.reduce((s, l) => s + l.qty * l.unitPrice, 0),
+        status: o.status,
+        date: o.date,
+      }));
     return [...fromOrders, ...fromInvoices]
-      .sort((a, b) => b.date.localeCompare(a.date))
+      .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id))
       .slice(0, 8);
   }, [orders, invoices, clients]);
 
@@ -115,7 +124,11 @@ function Index() {
                 <TrendingUp className="h-4 w-4 text-accent" />
                 Recent invoices & orders
               </CardTitle>
-              <Link to="/documents" className="text-xs font-medium text-accent hover:underline">
+              <Link
+                to="/documents"
+                search={{ tab: "invoices" }}
+                className="text-xs font-medium text-accent hover:underline"
+              >
                 View documents →
               </Link>
             </CardHeader>

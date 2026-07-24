@@ -33,6 +33,7 @@ export type PartOverride = Partial<
     | "partNumbers"
     | "name"
     | "category"
+    | "subcategory"
     | "quantity"
     | "reorderAt"
     | "cost"
@@ -131,6 +132,7 @@ function normalizePart(input: PartInput, id?: string): Part {
     partNumbers: numbers,
     name: (input.name || numbers[0]).trim(),
     category: input.category.trim(),
+    subcategory: input.subcategory?.trim() || undefined,
     quantity: Number.isFinite(input.quantity) ? Number(input.quantity) : 0,
     reorderAt: Number.isFinite(input.reorderAt) ? Number(input.reorderAt) : 0,
     cost: Number.isFinite(input.cost) ? Number(input.cost) : 0,
@@ -246,6 +248,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
           partNumber: patch.partNumber ?? current.partNumber,
           name: patch.name ?? current.name,
           category: patch.category ?? current.category,
+          subcategory: patch.subcategory ?? current.subcategory,
         },
         id,
       );

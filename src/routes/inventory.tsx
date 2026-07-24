@@ -45,6 +45,9 @@ import {
   displayCategory,
   type CategoryGroupId,
 } from "@/lib/inventory-categories";
+import {
+  HYDRAULIC_SUBCATEGORIES,
+} from "@/lib/hydraulics-inventory";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
 import { partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
@@ -202,6 +205,8 @@ function InventoryPage() {
   const activeGroup = activeCategory?.group ?? null;
   const isGroupMode = activeGroup != null;
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
+  const isHydraulics =
+    !isCatalogMode && activeCategory?.matchCategory === "Hydraulic Parts";
 
   const orderedCategories = useMemo(() => {
     const allowed = new Set(["all", "o-rings", "couplings", "gauges", "hydraulics"]);
@@ -212,6 +217,20 @@ function InventoryPage() {
     () => (activeGroup ? buildGroupSubcategories(parts, activeGroup) : []),
     [parts, activeGroup],
   );
+
+  const hydraulicSubs = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const p of parts) {
+      if (p.category !== "Hydraulic Parts") continue;
+      const sub = (p.subcategory ?? "").trim();
+      if (!sub) continue;
+      counts.set(sub, (counts.get(sub) ?? 0) + 1);
+    }
+    return HYDRAULIC_SUBCATEGORIES.map((label) => ({
+      label,
+      count: counts.get(label) ?? 0,
+    }));
+  }, [parts]);
 
   const visibleGroupSubs = useMemo(() => {
     const gf = groupFilter.trim().toLowerCase();
@@ -314,6 +333,11 @@ function InventoryPage() {
       list = list.filter((p) =>
         categoriesMatch(p.category, activeCategory.matchCategory!),
       );
+      if (isHydraulics && groupSub) {
+        list = list.filter(
+          (p) => (p.subcategory ?? "").trim().toLowerCase() === groupSub.toLowerCase(),
+        );
+      }
     }
 
     if (isORings && thickness.trim()) {
@@ -328,6 +352,7 @@ function InventoryPage() {
           p.partNumber.toLowerCase().includes(q) ||
           p.name.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
+          (p.subcategory ?? "").toLowerCase().includes(q) ||
           String(p.boxNumber ?? "").includes(q) ||
           (p.insideDiameterMm ?? "").toLowerCase().includes(q) ||
           (p.crossSectionMm ?? "").toLowerCase().includes(q) ||
@@ -344,6 +369,7 @@ function InventoryPage() {
     sortMode,
     activeCategory,
     isORings,
+    isHydraulics,
     isCatalogMode,
     activeGroup,
     groupSub,
@@ -558,7 +584,9 @@ function InventoryPage() {
                 <Package className="h-4 w-4 text-accent" />
                 {isGroupMode && groupSub
                   ? groupSub
-                  : (activeCategory?.label ?? "Parts Catalog")}
+                  : isHydraulics && groupSub
+                    ? groupSub
+                    : (activeCategory?.label ?? "Parts Catalog")}
               </CardTitle>
               {!isCatalogMode && (
                 <div className="text-xs text-muted-foreground">
@@ -606,6 +634,50 @@ function InventoryPage() {
                     </Badge>
                   </Button>
                   {visibleGroupSubs.map((sub) => (
+                    <Button
+                      key={sub.label}
+                      type="button"
+                      size="sm"
+                      variant={groupSub === sub.label ? "default" : "outline"}
+                      className="h-8"
+                      onClick={() => {
+                        setGroupSub(sub.label);
+                        setScrollToListToken((n) => n + 1);
+                      }}
+                    >
+                      {sub.label}
+                      <Badge variant="secondary" className="ml-1.5">
+                        {sub.count}
+                      </Badge>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isHydraulics && (
+              <div className="space-y-2">
+                <p className="text-xs text-muted-foreground">
+                  Pick a hydraulic subtype — Center Pin is stocked; Ball Guide is ready for new
+                  items.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={groupSub === null ? "default" : "outline"}
+                    className="h-8"
+                    onClick={() => {
+                      setGroupSub(null);
+                      setScrollToListToken((n) => n + 1);
+                    }}
+                  >
+                    All
+                    <Badge variant="secondary" className="ml-1.5">
+                      {categoryCounts.byCategory.get("Hydraulic Parts") ?? 0}
+                    </Badge>
+                  </Button>
+                  {hydraulicSubs.map((sub) => (
                     <Button
                       key={sub.label}
                       type="button"

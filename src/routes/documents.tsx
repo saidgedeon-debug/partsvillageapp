@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState, type ReactNode } from "react";
 import { Download, Eye, FileText, PackageSearch, Pencil, Receipt, StickyNote } from "lucide-react";
 import { toast } from "sonner";
@@ -30,13 +30,26 @@ import { downloadSavedDocument, openSavedDocument } from "@/lib/document-export"
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
+const DOC_TABS = ["quotations", "invoices", "receipts", "inquiries"] as const;
+type DocTab = (typeof DOC_TABS)[number];
+
+function parseDocTab(value: unknown): DocTab {
+  if (typeof value === "string" && (DOC_TABS as readonly string[]).includes(value)) {
+    return value as DocTab;
+  }
+  return "quotations";
+}
+
 export const Route = createFileRoute("/documents")({
+  validateSearch: (search: Record<string, unknown>): { tab: DocTab } => ({
+    tab: parseDocTab(search.tab),
+  }),
   head: () => ({
     meta: [
       { title: "Documents — Parts Village" },
       {
         name: "description",
-        content: "Generate and manage quotations, invoices, and supplier inquiries.",
+        content: "Generate and manage quotations, invoices, receipts, and supplier inquiries.",
       },
     ],
   }),
@@ -44,6 +57,8 @@ export const Route = createFileRoute("/documents")({
 });
 
 function DocumentsPage() {
+  const navigate = useNavigate({ from: "/documents" });
+  const { tab } = Route.useSearch();
   const { query } = useSearch();
   const q = query.trim().toLowerCase();
   const { quotations, invoices, inquiries, updateDocumentStatus } = useDocuments();
@@ -77,6 +92,10 @@ function DocumentsPage() {
       ),
     [q, invoices],
   );
+  const filteredReceipts = useMemo(
+    () => filteredInvoices.filter((x) => x.status === "Paid"),
+    [filteredInvoices],
+  );
   const filteredInquiries = useMemo(
     () =>
       inquiries.filter(
@@ -88,6 +107,13 @@ function DocumentsPage() {
       ),
     [q, inquiries],
   );
+
+  const setTab = (next: string) => {
+    void navigate({
+      search: { tab: parseDocTab(next) },
+      replace: true,
+    });
+  };
 
   const startNew = (kind: "quotation" | "invoice" | "inquiry") => {
     clearCart();
@@ -120,7 +146,7 @@ function DocumentsPage() {
     <>
       <PageHeader
         title="Documents"
-        subtitle="Quotations, invoices, and supplier inquiries"
+        subtitle="Quotations, invoices, receipts, and supplier inquiries"
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <CreateInvoiceDialog
@@ -142,15 +168,19 @@ function DocumentsPage() {
             if (preview) downloadDoc(preview.doc);
           }}
         />
-        <Tabs defaultValue={invoices.length > 0 ? "invoices" : "quotations"}>
+        <Tabs value={tab} onValueChange={setTab}>
           <TabsList>
             <TabsTrigger value="quotations">
               <FileText className="mr-2 h-4 w-4" />
               Quotations ({quotations.length})
             </TabsTrigger>
             <TabsTrigger value="invoices">
-              <Receipt className="mr-2 h-4 w-4" />
+              <StickyNote className="mr-2 h-4 w-4" />
               Invoices ({invoices.length})
+            </TabsTrigger>
+            <TabsTrigger value="receipts">
+              <Receipt className="mr-2 h-4 w-4" />
+              Receipts ({invoices.filter((i) => i.status === "Paid").length})
             </TabsTrigger>
             <TabsTrigger value="inquiries">
               <PackageSearch className="mr-2 h-4 w-4" />
@@ -230,6 +260,51 @@ function DocumentsPage() {
                 q
                   ? `No invoices match “${query}”.`
                   : "No invoices yet — click + New Invoice to create one."
+              }
+            />
+          </TabsContent>
+
+          <TabsContent value="receipts" className="mt-4">
+            <DocCard
+              title="Receipts"
+              onNew={openNewInvoice}
+              headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
+              rows={filteredReceipts.map((iv) => ({
+                key: iv.id,
+                onOpen: () => openDoc(iv),
+                cells: [
+                  <div key="i" className="flex items-center gap-1.5">
+                    <DocIdLink id={iv.id} onOpen={() => openDoc(iv)} />
+                    {iv.internalNote?.trim() ? (
+                      <span title={iv.internalNote} className="text-muted-foreground">
+                        <StickyNote className="h-3.5 w-3.5" />
+                      </span>
+                    ) : null}
+                  </div>,
+                  iv.partyName,
+                  iv.date,
+                  <span key="p" className="font-mono text-xs text-muted-foreground">
+                    {iv.lines.map((l) => l.partNumber).join(", ")}
+                  </span>,
+                  <span key="t" className="font-semibold">
+                    {currency(iv.total)}
+                  </span>,
+                  <StatusSelect
+                    key="s"
+                    doc={iv}
+                    options={["Paid", "Unpaid", "Overdue"]}
+                    onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
+                  />,
+                  <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
+                    <EditButton onEdit={() => openEditInvoice(iv)} />
+                    <OpenButton onOpen={() => openDoc(iv)} onDownload={() => downloadDoc(iv)} />
+                  </div>,
+                ],
+              }))}
+              empty={
+                q
+                  ? `No paid receipts match “${query}”.`
+                  : "No receipts yet — mark an invoice as Paid to list it here."
               }
             />
           </TabsContent>

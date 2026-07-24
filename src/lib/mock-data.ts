@@ -9,6 +9,8 @@ export type Part = {
   /** Part Description / Specifics (catalog column). */
   description?: string;
   category: string;
+  /** Optional subtype within a category (e.g. Hydraulic Parts → Center Pin). */
+  subcategory?: string;
   quantity: number;
   reorderAt: number;
   cost: number;
