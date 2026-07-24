@@ -907,6 +907,46 @@ At C:\Users\saidg\AppData\Local\Temp\ps-script-0c7fd5a1-543c-4181-9fa4-2d3986de5
     ARRAY['Kobelco SK330','Kobelco SK330-6','Kobelco SK350','Kobelco SK350-8','Hyundai R320LC-7','Hyundai R320LC-9','Hyundai R360LC-7','Volvo EC360B','Volvo EC360C'],
     25, null, null,
     'Subcategory: servo piston · Stand 25 · Manufacturer: Handok Hydraulic (South Korea) · Weight: ~0.99 kg · Pump series: Handok / Kawasaki H3V140 Series; H3V180DT Series Type · OEM xref: 18210, HD-18210, H3V140-SERVO, H3V180DT-SERVO'
+  ),
+  (
+    'hydraulic-cp-04121',
+    '04121',
+    'Handok A8V172 / A8VO160 Center Pin',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Rexroth A8V172','Rexroth A8VO160','Rexroth A8VO160LA1HN1'],
+    25, null, null,
+    'Subcategory: Center Pin · Stand 25 · Handok · Spherical Cylinder Barrel Core Guide Pin · ~0.48 kg · xref: 04121, HD-04121, A8V172-CP, A8VO160-CP'
+  ),
+  (
+    'hydraulic-cp-63855',
+    '63855',
+    'Handok KMF125 Center Pin',
+    'Hydraulic Parts',
+    2, 1, 0, 0,
+    ARRAY['Komatsu PC300-5','Komatsu PC300-6','Komatsu PC350-6'],
+    25, null, null,
+    'Subcategory: Center Pin · Stand 25 · Handok · Spherical Motor Block Hub Guide Shaft · ~0.31 kg · xref: 63855, HD-63855, KMF125-CP, 706-75-11120'
+  ),
+  (
+    'hydraulic-cp-04145',
+    '04145',
+    'Handok A8VO107 Center Pin',
+    'Hydraulic Parts',
+    6, 2, 0, 0,
+    ARRAY['Rexroth A8VO107','Rexroth A8VO107LA1HN1'],
+    25, null, null,
+    'Subcategory: Center Pin · Stand 25 · Handok · Spherical Cylinder Barrel Core Guide Pin · ~0.31 kg · xref: 04145, HD-04145, A8VO107-CP'
+  ),
+  (
+    'hydraulic-cp-a8v86-hd',
+    'A8V86-CP-HD',
+    'Handok A8V86 Center Pin',
+    'Hydraulic Parts',
+    1, 1, 0, 0,
+    ARRAY['Rexroth A8V86','Rexroth A8V86ESBR'],
+    25, null, null,
+    'Subcategory: Center Pin · Stand 25 · Handok · Spherical Cylinder Barrel Core Guide Pin · xref: A8V86-CP, HD-A8V86-CP'
   )
 on conflict (id) do update set
   part_number = excluded.part_number,

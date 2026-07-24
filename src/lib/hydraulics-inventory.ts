@@ -105,6 +105,78 @@ export const hydraulicParts: Part[] = [
     notes:
       "Subcategory: Center Pin · Manufacturer: Handok Hydraulic (South Korea) · Material: high-density hardened carbon steel · Surface: precision ground & polished to OEM micro-tolerances · Pump displacement 145cc · OEM xref: HPV145-CENTER-PIN, 3081023, 4243645, 71402450, HD-HPV145-CP · Fitment: Fiat Hitachi/New Holland main pump group; Hitachi rotary group central piston; John Deere main hydraulic cylinder barrel guide pin",
   },
+  {
+    id: "hydraulic-cp-04121",
+    partNumber: "04121",
+    partNumbers: ["04121", "HD-04121", "A8V172-CP", "A8VO160-CP"],
+    name: "Handok A8V172 / A8VO160 Center Pin",
+    description:
+      "Handok Hydraulic (South Korea) · A8V172 / A8VO160 center pin · Spherical cylinder barrel core guide pin · ~0.48 kg",
+    category: "Hydraulic Parts",
+    subcategory: "Center Pin",
+    boxNumber: 25,
+    quantity: 2,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Rexroth A8V172", "Rexroth A8VO160", "Rexroth A8VO160LA1HN1"],
+    notes:
+      "Subcategory: Center Pin · Stand 25 · Manufacturer: Handok Hydraulic (South Korea) · Type: Spherical Cylinder Barrel Core Guide Pin · Weight: ~0.48 kg · OEM xref: 04121, HD-04121, A8V172-CP, A8VO160-CP",
+  },
+  {
+    id: "hydraulic-cp-63855",
+    partNumber: "63855",
+    partNumbers: ["63855", "HD-63855", "KMF125-CP", "706-75-11120"],
+    name: "Handok KMF125 Center Pin",
+    description:
+      "Handok Hydraulic (South Korea) · KMF125 center pin · Spherical motor block hub guide shaft · ~0.31 kg",
+    category: "Hydraulic Parts",
+    subcategory: "Center Pin",
+    boxNumber: 25,
+    quantity: 2,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Komatsu PC300-5", "Komatsu PC300-6", "Komatsu PC350-6"],
+    notes:
+      "Subcategory: Center Pin · Stand 25 · Manufacturer: Handok Hydraulic (South Korea) · Type: Spherical Motor Block Hub Guide Shaft · Weight: ~0.31 kg · OEM xref: 63855, HD-63855, KMF125-CP, 706-75-11120",
+  },
+  {
+    id: "hydraulic-cp-04145",
+    partNumber: "04145",
+    partNumbers: ["04145", "HD-04145", "A8VO107-CP"],
+    name: "Handok A8VO107 Center Pin",
+    description:
+      "Handok Hydraulic (South Korea) · A8VO107 center pin · Spherical cylinder barrel core guide pin · ~0.31 kg",
+    category: "Hydraulic Parts",
+    subcategory: "Center Pin",
+    boxNumber: 25,
+    quantity: 6,
+    reorderAt: 2,
+    cost: 0,
+    price: 0,
+    compatibility: ["Rexroth A8VO107", "Rexroth A8VO107LA1HN1"],
+    notes:
+      "Subcategory: Center Pin · Stand 25 · Manufacturer: Handok Hydraulic (South Korea) · Type: Spherical Cylinder Barrel Core Guide Pin · Weight: ~0.31 kg · OEM xref: 04145, HD-04145, A8VO107-CP",
+  },
+  {
+    id: "hydraulic-cp-a8v86-hd",
+    partNumber: "A8V86-CP-HD",
+    partNumbers: ["A8V86-CP-HD", "A8V86-CP", "HD-A8V86-CP"],
+    name: "Handok A8V86 Center Pin",
+    description:
+      "Handok Hydraulic (South Korea) · A8V86 center pin · Spherical cylinder barrel core guide pin",
+    category: "Hydraulic Parts",
+    subcategory: "Center Pin",
+    boxNumber: 25,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Rexroth A8V86", "Rexroth A8V86ESBR"],
+    notes:
+      "Subcategory: Center Pin · Stand 25 · Manufacturer: Handok Hydraulic (South Korea) · Type: Spherical Cylinder Barrel Core Guide Pin · OEM xref: A8V86-CP, HD-A8V86-CP",
+  },
   // —— Ball Guide ——
   {
     id: "hydraulic-bg-03384",
