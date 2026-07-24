@@ -158,7 +158,7 @@ const basePinned: InventoryCategoryDef[] = [
   {
     id: "hydraulics",
     label: "Hydraulic Parts",
-    description: "Center Pin · Ball Guide · shoe/thrust plate · Valve Plate · retainer / set plate",
+    description: "Center Pin · Ball Guide · shoe/thrust plate · Valve Plate · retainer / set plate · servo piston",
     matchCategory: "Hydraulic Parts",
     icon: Disc,
   },
