@@ -92,6 +92,11 @@ type DocumentsContextValue = {
   updateDocumentStatus: (id: string, status: SavedDocument["status"]) => void;
   removeDocument: (id: string) => void;
   recordInvoicePayment: (input: RecordPaymentInput) => SavedDocument;
+  /** Create an invoice and optionally a linked receipt in one write (avoids stale state). */
+  addInvoiceWithOptionalReceipt: (
+    invoice: SavedDocument,
+    payment?: Omit<RecordPaymentInput, "invoiceId">,
+  ) => { invoice: SavedDocument; receipt?: SavedDocument };
 };
 
 const STORAGE_KEY = "parts-village-documents-v1";
@@ -315,6 +320,92 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     [setDocuments],
   );
 
+  const addInvoiceWithOptionalReceipt = useCallback(
+    (
+      invoiceInput: SavedDocument,
+      payment?: Omit<RecordPaymentInput, "invoiceId">,
+    ): { invoice: SavedDocument; receipt?: SavedDocument } => {
+      if (invoiceInput.kind !== "invoice") {
+        throw new Error("Document must be an invoice");
+      }
+
+      let resultInvoice = invoiceInput;
+      let resultReceipt: SavedDocument | undefined;
+      let failure: Error | null = null;
+
+      if (payment) {
+        const amount = Math.round(payment.amount * 100) / 100;
+        if (!(amount > 0)) throw new Error("Payment amount must be greater than zero");
+        if (payment.method !== "Cash" && !payment.mobile?.trim()) {
+          throw new Error("Mobile number is required for OMT and Whish");
+        }
+        if (!payment.paymentDate.trim()) throw new Error("Payment date is required");
+        if (amount - invoiceInput.total > 0.005) {
+          throw new Error(`Amount exceeds invoice total (${invoiceInput.total})`);
+        }
+
+        const now = new Date();
+        const receiptId = generateDocId("receipt", now);
+        const mobileBit =
+          payment.method !== "Cash" && payment.mobile?.trim()
+            ? ` · ${payment.mobile.trim()}`
+            : "";
+        const paidAfter = amount;
+        const status = resolveInvoiceStatus(invoiceInput, paidAfter);
+
+        resultReceipt = {
+          id: receiptId,
+          kind: "receipt",
+          partyKind: "client",
+          partyId: invoiceInput.partyId,
+          partyName: invoiceInput.partyName,
+          date: payment.paymentDate,
+          createdAt: now.toISOString(),
+          total: amount,
+          status: "Paid",
+          invoiceId: invoiceInput.id,
+          paymentMethod: payment.method,
+          paymentDate: payment.paymentDate,
+          paymentMobile: payment.method === "Cash" ? undefined : payment.mobile?.trim(),
+          internalNote: payment.note?.trim() || undefined,
+          lines: [
+            {
+              partId: `pay-${invoiceInput.id}`,
+              partNumber: invoiceInput.id,
+              name: `Payment toward ${invoiceInput.id} · ${payment.method}${mobileBit}`,
+              category: "Payment",
+              unitPrice: amount,
+              unitCost: 0,
+              qty: 1,
+            },
+          ],
+        };
+        resultInvoice = {
+          ...invoiceInput,
+          amountPaid: paidAfter,
+          status,
+        };
+      }
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        if (cur.some((d) => d.id === resultInvoice.id)) {
+          failure = new Error("Invoice id already exists");
+          return cur;
+        }
+        const next = resultReceipt
+          ? [resultReceipt, resultInvoice, ...cur]
+          : [resultInvoice, ...cur];
+        return next;
+      });
+
+      if (failure) throw failure;
+      void syncDocumentToSupabase(resultInvoice);
+      return { invoice: resultInvoice, receipt: resultReceipt };
+    },
+    [setDocuments],
+  );
+
   const docs = Array.isArray(documents) ? documents : [];
 
   const quotations = useMemo(() => docs.filter((d) => d.kind === "quotation"), [docs]);
@@ -334,6 +425,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      addInvoiceWithOptionalReceipt,
     }),
     [
       docs,
@@ -346,6 +438,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      addInvoiceWithOptionalReceipt,
     ],
   );
 

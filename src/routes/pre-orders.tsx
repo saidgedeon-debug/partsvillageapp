@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ClipboardList, MoreHorizontal, Plus, Ship, Trash2 } from "lucide-react";
+import { ClipboardList, FileText, MoreHorizontal, Plus, Receipt, Ship, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
+import { PreOrderConvertDialog } from "@/components/app/preorder-convert-dialog";
 import { PreOrderFormDialog } from "@/components/app/preorder-form-dialog";
 import { usePreOrders } from "@/components/app/preorders-context";
 import { useShipments, type ShipmentLine } from "@/components/app/shipments-context";
@@ -66,6 +67,8 @@ function PreOrdersPage() {
   const [editing, setEditing] = useState<CustomerPreOrder | null>(null);
   const [depositOrder, setDepositOrder] = useState<CustomerPreOrder | null>(null);
   const [depositAmount, setDepositAmount] = useState("");
+  const [convertOrder, setConvertOrder] = useState<CustomerPreOrder | null>(null);
+  const [convertWithReceipt, setConvertWithReceipt] = useState(false);
 
   const rows = useMemo(
     () =>
@@ -233,6 +236,24 @@ function PreOrdersPage() {
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setConvertWithReceipt(false);
+                                    setConvertOrder(order);
+                                  }}
+                                >
+                                  <FileText className="h-3.5 w-3.5" />
+                                  Create invoice
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setConvertWithReceipt(true);
+                                    setConvertOrder(order);
+                                  }}
+                                >
+                                  <Receipt className="h-3.5 w-3.5" />
+                                  Create invoice + receipt
+                                </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => createShipmentFromOrder(order)}>
                                   <Ship className="h-3.5 w-3.5" />
                                   Create China shipment
@@ -285,6 +306,20 @@ function PreOrdersPage() {
         open={formOpen}
         onOpenChange={setFormOpen}
         order={editing}
+      />
+      <PreOrderConvertDialog
+        open={Boolean(convertOrder)}
+        onOpenChange={(open) => {
+          if (!open) setConvertOrder(null);
+        }}
+        order={convertOrder}
+        withReceiptDefault={convertWithReceipt}
+        onCreated={({ receipt }) => {
+          void navigate({
+            to: "/documents",
+            search: { tab: receipt ? "receipts" : "invoices" },
+          });
+        }}
       />
       <SupplierOrderListDialog open={supplierOpen} onOpenChange={setSupplierOpen} />
 
