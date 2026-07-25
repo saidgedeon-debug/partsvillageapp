@@ -90,11 +90,13 @@ function PreOrdersPage() {
       name: line.name,
       qtyOrdered: Math.max(0, Math.round(line.qty) || 0),
       qtyReceived: 0,
+      unitCost: line.unitCost && line.unitCost > 0 ? line.unitCost : undefined,
     }));
     const ship = addShipment({
       title: `Pre-order · ${order.clientName}`,
       orderedAt: localTodayIso(),
       status: "Ordered",
+      freightCost: order.shipmentCost && order.shipmentCost > 0 ? order.shipmentCost : undefined,
       category: "other",
       cargoType: "divers",
       notes: `From customer pre-order ${order.id}${order.notes ? `\n${order.notes}` : ""}`,

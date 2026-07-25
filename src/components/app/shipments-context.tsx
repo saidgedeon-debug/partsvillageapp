@@ -62,6 +62,8 @@ export type ShipmentLine = {
   qtyOrdered: number;
   /** Cumulative qty already posted to inventory. */
   qtyReceived: number;
+  /** Buying cost per unit (USD), carried from a linked pre-order. */
+  unitCost?: number;
 };
 
 export type ChinaShipment = {

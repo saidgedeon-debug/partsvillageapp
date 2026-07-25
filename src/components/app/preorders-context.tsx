@@ -21,6 +21,7 @@ export type PreOrderInput = {
   orderedAt: string;
   lines: PreOrderLine[];
   amountPaid?: number;
+  shipmentCost?: number;
   notes?: string;
   needsProcurement?: boolean;
 };
@@ -50,7 +51,13 @@ function normalizeLines(lines: PreOrderLine[]): PreOrderLine[] {
       name: line.name.trim() || line.partNumber.trim(),
       qty: Math.max(1, Math.round(line.qty) || 1),
       unitPrice: Math.max(0, Number(line.unitPrice) || 0),
+      unitCost: Math.max(0, Number(line.unitCost) || 0),
     }));
+}
+
+function normalizeShipmentCost(value: unknown): number | undefined {
+  const n = roundMoney(Number(value) || 0);
+  return n > 0 ? n : undefined;
 }
 
 export function PreOrdersProvider({ children }: { children: ReactNode }) {
@@ -80,6 +87,7 @@ export function PreOrdersProvider({ children }: { children: ReactNode }) {
         total,
         amountPaid,
         lines,
+        shipmentCost: normalizeShipmentCost(input.shipmentCost),
         notes: input.notes?.trim() || undefined,
         needsProcurement: input.needsProcurement !== false,
         createdAt: now,
@@ -112,6 +120,10 @@ export function PreOrdersProvider({ children }: { children: ReactNode }) {
             lines,
             total,
             amountPaid,
+            shipmentCost:
+              patch.shipmentCost !== undefined
+                ? normalizeShipmentCost(patch.shipmentCost)
+                : order.shipmentCost,
             notes:
               patch.notes !== undefined
                 ? patch.notes.trim() || undefined
