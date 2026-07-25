@@ -20,7 +20,6 @@ import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-dat
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { partPriceHistory } from "@/lib/part-price-history";
-import { useAppRole } from "@/hooks/use-app-role";
 
 type Mode = "view" | "edit" | "create";
 
@@ -32,6 +31,12 @@ type Props = {
   onModeChange?: (mode: Mode) => void;
   /** Prefill category when creating. */
   defaultCategory?: string;
+  /** Prefill fields when creating (e.g. from stock take). */
+  createPrefill?: {
+    partNumber?: string;
+    name?: string;
+    quantity?: string;
+  };
 };
 
 type FormState = {
@@ -51,15 +56,15 @@ type FormState = {
   imageUrl: string;
 };
 
-const emptyForm = (category = ""): FormState => ({
-  partNumbers: "",
-  name: "",
+const emptyForm = (category = "", prefill?: Props["createPrefill"]): FormState => ({
+  partNumbers: prefill?.partNumber?.trim() ?? "",
+  name: prefill?.name?.trim() ?? "",
   category,
   subcategory: category === "Hydraulic Parts" ? "Center Pin" : "",
-  quantity: "0",
+  quantity: prefill?.quantity?.trim() ?? "0",
   reorderAt: "0",
-  cost: "0",
-  price: "0",
+  cost: "",
+  price: "",
   boxNumber: "",
   insideDiameterMm: "",
   crossSectionMm: "",
@@ -103,11 +108,11 @@ export function PartDetailDialog({
   mode,
   onModeChange,
   defaultCategory = "",
+  createPrefill,
 }: Props) {
   const { addPart, updatePart, categoryLabels } = useInventory();
   const { askDocumentForPart } = useCart();
   const { documents } = useDocuments();
-  const { canSeeCosts } = useAppRole();
   const [form, setForm] = useState<FormState>(emptyForm());
   const [gallery, setGallery] = useState<string[]>([]);
   const creating = mode === "create";
@@ -119,13 +124,13 @@ export function PartDetailDialog({
   useEffect(() => {
     if (!open) return;
     if (creating || !part) {
-      setForm(emptyForm(defaultCategory));
+      setForm(emptyForm(defaultCategory, createPrefill));
       setGallery([]);
     } else {
       setForm(partToForm(part));
       setGallery(part.imageUrls?.length ? part.imageUrls : part.imageUrl ? [part.imageUrl] : []);
     }
-  }, [open, part, creating, defaultCategory]);
+  }, [open, part, creating, defaultCategory, createPrefill]);
 
   const set = (key: keyof FormState) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -145,8 +150,8 @@ export function PartDetailDialog({
     }
     const qty = Number(form.quantity);
     const reorder = Number(form.reorderAt);
-    const cost = Number(form.cost);
-    const price = Number(form.price);
+    const cost = form.cost.trim() === "" ? 0 : Number(form.cost);
+    const price = form.price.trim() === "" ? 0 : Number(form.price);
     if (![qty, reorder, cost, price].every((n) => Number.isFinite(n))) {
       toast.error("Qty, reorder, cost, and price must be numbers");
       return;
@@ -289,7 +294,7 @@ export function PartDetailDialog({
                 <Field label="Catalog page" value={part.catalogPage ?? ""} />
               </>
             )}
-            <Field label="Cost" value={canSeeCosts && part.cost > 0 ? currency(part.cost) : canSeeCosts ? "" : "Hidden"} />
+            <Field label="Cost" value={part.cost > 0 ? currency(part.cost) : ""} />
             <Field label="Price" value={part.price > 0 ? currency(part.price) : ""} />
             <Field
               label="Last sold"
@@ -299,7 +304,6 @@ export function PartDetailDialog({
                   : ""
               }
             />
-            {canSeeCosts ? (
             <Field
               label="Last supplier cost"
               value={
@@ -308,7 +312,6 @@ export function PartDetailDialog({
                   : ""
               }
             />
-            ) : null}
             <Field label="Reorder at" value={String(part.reorderAt)} />
             <div className="sm:col-span-2">
               <Field label="Notes" value={part.notes ?? ""} />
@@ -433,19 +436,24 @@ export function PartDetailDialog({
                 />
               </div>
             )}
-            {canSeeCosts ? (
             <div className="space-y-1.5">
               <Label htmlFor="part-cost">Cost</Label>
-              <Input id="part-cost" inputMode="decimal" value={form.cost} onChange={set("cost")} />
+              <Input
+                id="part-cost"
+                inputMode="decimal"
+                value={form.cost}
+                onChange={set("cost")}
+                placeholder="Leave empty if unknown"
+              />
             </div>
-            ) : null}
             <div className="space-y-1.5">
-              <Label htmlFor="part-price">Price</Label>
+              <Label htmlFor="part-price">Selling price</Label>
               <Input
                 id="part-price"
                 inputMode="decimal"
                 value={form.price}
                 onChange={set("price")}
+                placeholder="Leave empty if unknown"
               />
             </div>
             <div className="space-y-1.5">

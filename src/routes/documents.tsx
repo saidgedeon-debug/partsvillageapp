@@ -49,8 +49,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { downloadSavedDocument, openSavedDocument } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
-import { useAppRole } from "@/hooks/use-app-role";
-
 const DOC_TABS = ["quotations", "invoices", "receipts", "inquiries"] as const;
 type DocTab = (typeof DOC_TABS)[number];
 
@@ -84,7 +82,6 @@ function DocumentsPage() {
   const q = query.trim().toLowerCase();
   const { quotations, invoices, receipts, inquiries, updateDocumentStatus } = useDocuments();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
-  const { canSeePayments } = useAppRole();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState<SavedDocument | null>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -291,7 +288,6 @@ function DocumentsPage() {
               title="Invoices"
               onNew={openNewInvoice}
               extraAction={
-                canSeePayments ? (
                 <Button
                   type="button"
                   size="sm"
@@ -302,7 +298,6 @@ function DocumentsPage() {
                   <Banknote className="h-3.5 w-3.5" />
                   Record payment
                 </Button>
-                ) : undefined
               }
               headers={["#", "Client", "Date", "Parts", "Paid / Total", "Status", ""]}
               rows={filteredInvoices.map((iv) => ({
@@ -336,7 +331,7 @@ function DocumentsPage() {
                     onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
                   />,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
-                    {canSeePayments && invoiceRemaining(iv) > 0.005 ? (
+                    {invoiceRemaining(iv) > 0.005 ? (
                       <Button
                         type="button"
                         size="sm"
@@ -379,9 +374,7 @@ function DocumentsPage() {
               onNew={() => openReceivePayment(null)}
               newLabel="Record payment"
               headers={["#", "Client", "Date", "Invoice", "Method", "Amount", ""]}
-              rows={
-                canSeePayments
-                  ? filteredReceipts.map((rc) => ({
+              rows={filteredReceipts.map((rc) => ({
                 key: rc.id,
                 onOpen: () => openDoc(rc),
                 cells: [
@@ -402,22 +395,12 @@ function DocumentsPage() {
                   </span>,
                   <OpenButton key="o" onOpen={() => openDoc(rc)} onDownload={() => downloadDoc(rc)} />,
                 ],
-              }))
-                  : []
-              }
+              }))}
               emptyTitle={
-                !canSeePayments
-                  ? "Receipts hidden for warehouse role"
-                  : q
-                    ? `No receipts match “${query}”`
-                    : "No receipts yet"
+                q ? `No receipts match “${query}”` : "No receipts yet"
               }
               emptyDescription={
-                !canSeePayments
-                  ? "Switch to Sales in the sidebar to manage payments."
-                  : q
-                    ? "Try a different search."
-                    : "Record a payment on an invoice."
+                q ? "Try a different search." : "Record a payment on an invoice."
               }
               emptyIcon={Banknote}
             />

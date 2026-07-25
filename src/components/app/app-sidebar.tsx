@@ -30,14 +30,6 @@ import {
 import logo from "@/assets/parts-village-logo-clear.png";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 import { useCloudHealth } from "@/lib/cloud-store";
-import { useAppRole } from "@/hooks/use-app-role";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 type NavItem = {
   title: string;
@@ -68,7 +60,6 @@ export function AppSidebar() {
   });
   const { pendingCount } = useShareInbox();
   const cloudHealth = useCloudHealth();
-  const { role, setRole } = useAppRole();
 
   const isActive = (item: NavItem) => {
     if (item.exact) return pathname === item.url;
@@ -125,21 +116,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border space-y-2 p-2">
-        {!collapsed ? (
-          <div className="space-y-1 px-1">
-            <p className="text-xs text-sidebar-foreground/60">This device role</p>
-            <Select value={role} onValueChange={(v) => setRole(v as "sales" | "warehouse")}>
-              <SelectTrigger className="h-8 text-xs">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sales">Sales</SelectItem>
-                <SelectItem value="warehouse">Warehouse</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        ) : null}
+      <SidebarFooter className="border-t border-sidebar-border p-2">
         <div className="flex items-center gap-2 px-2 py-1 text-xs text-sidebar-foreground/70">
           <Wrench className="h-3.5 w-3.5 text-muted-foreground" />
           {!collapsed && (

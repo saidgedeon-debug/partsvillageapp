@@ -44,8 +44,6 @@ import {
   type CustomerPreOrder,
 } from "@/lib/preorders";
 import { statusChipClass } from "@/lib/status-styles";
-import { useAppRole } from "@/hooks/use-app-role";
-
 export const Route = createFileRoute("/pre-orders")({
   head: () => ({
     meta: [
@@ -63,7 +61,6 @@ function PreOrdersPage() {
   const navigate = useNavigate();
   const { orders, recordDeposit, removeOrder, updateOrder } = usePreOrders();
   const { addShipment } = useShipments();
-  const { canSeePayments } = useAppRole();
   const [formOpen, setFormOpen] = useState(false);
   const [supplierOpen, setSupplierOpen] = useState(false);
   const [editing, setEditing] = useState<CustomerPreOrder | null>(null);
@@ -212,19 +209,17 @@ function PreOrdersPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex flex-wrap items-center justify-end gap-1">
-                            {canSeePayments ? (
-                              <Button
-                                type="button"
-                                size="sm"
-                                variant="outline"
-                                onClick={() => {
-                                  setDepositOrder(order);
-                                  setDepositAmount(String(remaining > 0 ? remaining : ""));
-                                }}
-                              >
-                                Deposit
-                              </Button>
-                            ) : null}
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setDepositOrder(order);
+                                setDepositAmount(String(remaining > 0 ? remaining : ""));
+                              }}
+                            >
+                              Deposit
+                            </Button>
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button

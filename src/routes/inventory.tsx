@@ -33,7 +33,6 @@ import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
 import { ExcelImportDialog } from "@/components/app/excel-import-dialog";
 import { KitsDialog } from "@/components/app/kits-dialog";
 import { VirtualInventoryTable } from "@/components/app/virtual-inventory-table";
-import { useAppRole } from "@/hooks/use-app-role";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -190,7 +189,6 @@ function InventoryPage() {
     toggleFavoriteCategoryGroup,
     touchRecentCategoryGroup,
   } = usePrefs();
-  const { canSeeCosts } = useAppRole();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
   /** null = all subtypes when a group tile is selected */
@@ -860,7 +858,6 @@ function InventoryPage() {
               <VirtualInventoryTable
                 rows={rows}
                 isORings={isORings}
-                showCosts={canSeeCosts}
                 partNumbersCell={(p) => <PartNumbersCell part={p} catalogMode={!isORings} />}
                 onView={(p) => openPart(p, "view")}
                 onEdit={(p) => openPart(p, "edit")}

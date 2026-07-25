@@ -60,8 +60,6 @@ import { EmptyState } from "@/components/app/empty-state";
 import { statusToneClass } from "@/lib/status-styles";
 import { cn } from "@/lib/utils";
 import { useShareInbox } from "@/components/app/share-inbox-context";
-import { useAppRole } from "@/hooks/use-app-role";
-
 const TITUS_PORTAL = `${TITUS_ORIGIN}/index.php?lang=en_us`;
 const TITUS_MOBILE = `${TITUS_ORIGIN}/mobile/index.php`;
 
@@ -138,7 +136,6 @@ function ChinaShipmentsPage() {
   const navigate = Route.useNavigate();
   const { shipments, removeShipment } = useShipments();
   const { rmbPerUsd, setRmbPerUsd } = usePrefs();
-  const { canSeeCosts } = useAppRole();
   const { unlinkShipment } = useShareInbox();
   const [formOpen, setFormOpen] = useState(false);
   const [titusOpen, setTitusOpen] = useState(false);
@@ -341,7 +338,7 @@ function ChinaShipmentsPage() {
                 </p>
               </div>
             <div className="hidden text-right md:block">
-                {canSeeCosts && s.freightCost != null ? (
+                {s.freightCost != null ? (
                   <>
                     <p className="text-sm font-semibold">
                       {formatMoneyWithUsd(
@@ -352,7 +349,7 @@ function ChinaShipmentsPage() {
                     </p>
                     <p className="text-xs text-muted-foreground">Titus freight</p>
                   </>
-                ) : canSeeCosts && s.totalCost != null ? (
+                ) : s.totalCost != null ? (
                   <>
                     <p className="text-sm font-semibold">
                       {formatMoneyWithUsd(s.totalCost, s.currency, rmbPerUsd)}
@@ -455,7 +452,6 @@ function ShipmentDetailDialog({
 }) {
   const { updateShipment, addAttachment, removeAttachment } = useShipments();
   const { rmbPerUsd } = usePrefs();
-  const { canSeeCosts } = useAppRole();
   const [uploading, setUploading] = useState(false);
   const [viewer, setViewer] = useState<ShipmentAttachment | null>(null);
   const invoiceInputRef = useRef<HTMLInputElement>(null);
@@ -611,15 +607,13 @@ function ShipmentDetailDialog({
                 <Meta
                   label="Freight"
                   value={
-                    canSeeCosts && shipment.freightCost != null
+                    shipment.freightCost != null
                       ? formatMoneyWithUsd(
                           shipment.freightCost,
                           shipment.freightCurrency ?? shipment.currency,
                           rmbPerUsd,
                         )
-                      : canSeeCosts
-                        ? "—"
-                        : "Hidden"
+                      : "—"
                   }
                 />
                 <Meta
@@ -650,16 +644,14 @@ function ShipmentDetailDialog({
               <Meta label="Expected" value={shipment.expectedAt || "—"} />
               <Meta label="Arrived" value={shipment.arrivedAt || "—"} />
               <Meta label="Supplier" value={shipment.supplier || "—"} />
-              {canSeeCosts ? (
-                <Meta
-                  label="Goods cost"
-                  value={
-                    shipment.totalCost != null
-                      ? formatMoneyWithUsd(shipment.totalCost, shipment.currency, rmbPerUsd)
-                      : "—"
-                  }
-                />
-              ) : null}
+              <Meta
+                label="Goods cost"
+                value={
+                  shipment.totalCost != null
+                    ? formatMoneyWithUsd(shipment.totalCost, shipment.currency, rmbPerUsd)
+                    : "—"
+                }
+              />
             </dl>
 
             {(shipment.lines?.length ?? 0) > 0 ? (

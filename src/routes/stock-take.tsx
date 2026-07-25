@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ClipboardList, ScanLine } from "lucide-react";
+import { ArrowLeft, ClipboardList, Plus, ScanLine } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
+import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { PartScanDialog } from "@/components/app/part-scan-dialog";
 import { useInventory } from "@/components/app/inventory-context";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,19 @@ function StockTakePage() {
   const [qty, setQty] = useState("");
   const [log, setLog] = useState<LogEntry[]>([]);
   const [scanOpen, setScanOpen] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [createPrefill, setCreatePrefill] = useState<{
+    partNumber?: string;
+    quantity?: string;
+  }>({});
+
+  const openCreate = () => {
+    setCreatePrefill({
+      partNumber: code.trim() || undefined,
+      quantity: qty.trim() || undefined,
+    });
+    setCreateOpen(true);
+  };
 
   const index = useMemo(() => {
     const map = new Map<string, (typeof parts)[0]>();
@@ -52,11 +66,12 @@ function StockTakePage() {
   }, [parts]);
 
   const matched = index.get(code.trim().toLowerCase());
+  const unknownCode = Boolean(code.trim()) && !matched;
 
   const apply = () => {
     const n = Number(qty);
     if (!matched) {
-      toast.error("Part not found — check the code");
+      toast.error("Part not found — add it first, or check the code");
       return;
     }
     if (!Number.isFinite(n) || n < 0) {
@@ -113,6 +128,10 @@ function StockTakePage() {
             <ScanLine className="h-4 w-4" />
             Scan part
           </Button>
+          <Button type="button" variant="outline" className="gap-1.5" onClick={openCreate}>
+            <Plus className="h-4 w-4" />
+            Add new part
+          </Button>
         </div>
 
         <Card>
@@ -154,8 +173,20 @@ function StockTakePage() {
                     {matched.name} · on hand {matched.quantity}
                     {partDescriptionOf(matched) ? ` · ${partDescriptionOf(matched)}` : ""}
                   </p>
-                ) : code.trim() ? (
-                  <p className="text-xs text-destructive">No match</p>
+                ) : unknownCode ? (
+                  <div className="space-y-2">
+                    <p className="text-xs text-destructive">Not in inventory</p>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      className="gap-1.5"
+                      onClick={openCreate}
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                      Add full details (cost &amp; price optional)
+                    </Button>
+                  </div>
                 ) : null}
               </div>
               <div className="space-y-1.5">
@@ -168,10 +199,11 @@ function StockTakePage() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") apply();
                   }}
+                  disabled={unknownCode}
                 />
               </div>
             </div>
-            <Button type="button" onClick={apply} disabled={!catalogReady}>
+            <Button type="button" onClick={apply} disabled={!catalogReady || unknownCode || !matched}>
               Apply
             </Button>
           </CardContent>
@@ -197,6 +229,13 @@ function StockTakePage() {
       </main>
 
       <PartScanDialog open={scanOpen} onOpenChange={setScanOpen} onOpenPart={onScanned} />
+      <PartDetailDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        part={null}
+        mode="create"
+        createPrefill={createPrefill}
+      />
     </>
   );
 }

@@ -15,8 +15,6 @@ import { Button } from "@/components/ui/button";
 import { buildClientsArQueue, openOverdueWhatsApp } from "@/lib/ar-statement";
 import { currency } from "@/lib/mock-data";
 import { statusChipClass } from "@/lib/status-styles";
-import { useAppRole } from "@/hooks/use-app-role";
-
 export const Route = createFileRoute("/clients/")({
   head: () => ({
     meta: [
@@ -33,7 +31,6 @@ function ClientsPage() {
   const { invoices } = useDocuments();
   const { machinesByClient, ordersByClient } = useFleet();
   const navigate = useNavigate();
-  const { canSeePayments } = useAppRole();
   const [addOpen, setAddOpen] = useState(false);
   const q = query.trim().toLowerCase();
 
@@ -57,8 +54,8 @@ function ClientsPage() {
   }, [q, clients, machinesByClient]);
 
   const arQueue = useMemo(
-    () => (canSeePayments ? buildClientsArQueue(clients, invoices).slice(0, 8) : []),
-    [canSeePayments, clients, invoices],
+    () => buildClientsArQueue(clients, invoices).slice(0, 8),
+    [clients, invoices],
   );
 
   return (

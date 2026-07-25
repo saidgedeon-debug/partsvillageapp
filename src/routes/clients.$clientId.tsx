@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowLeft,
+  Eye,
+  FileText,
   Mail,
   Phone,
   MapPin,
@@ -17,8 +19,13 @@ import { toast } from "sonner";
 import { PageHeader } from "@/components/app/page-header";
 import { useParties } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
-import { useDocuments } from "@/components/app/documents-context";
+import {
+  invoiceAmountPaid,
+  useDocuments,
+  type SavedDocument,
+} from "@/components/app/documents-context";
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
+import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -46,8 +53,8 @@ import {
   openOverdueWhatsApp,
   openStatementWhatsApp,
 } from "@/lib/ar-statement";
+import { openSavedDocument, downloadSavedDocument } from "@/lib/document-export";
 import { statusChipClass } from "@/lib/status-styles";
-import { useAppRole } from "@/hooks/use-app-role";
 
 export const Route = createFileRoute("/clients/$clientId")({
   head: () => ({
@@ -59,12 +66,18 @@ export const Route = createFileRoute("/clients/$clientId")({
   component: ClientDetail,
 });
 
+function kindLabel(kind: SavedDocument["kind"]) {
+  if (kind === "quotation") return "Quotation";
+  if (kind === "invoice") return "Invoice";
+  if (kind === "receipt") return "Receipt";
+  return kind;
+}
+
 function ClientDetail() {
   const { clientId } = Route.useParams();
   const { clients } = useParties();
-  const { invoices } = useDocuments();
+  const { quotations, invoices, receipts } = useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
-  const { canSeePayments } = useAppRole();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
   const [make, setMake] = useState("");
@@ -72,8 +85,44 @@ function ClientDetail() {
   const [serial, setSerial] = useState("");
   const [year, setYear] = useState(String(new Date().getFullYear()));
   const [hours, setHours] = useState("0");
+  const [preview, setPreview] = useState<{
+    id: string;
+    blobUrl: string;
+    doc: SavedDocument;
+  } | null>(null);
 
   const client = clients.find((c) => c.id === clientId) ?? clientById(clientId);
+
+  const clientDocs = useMemo(() => {
+    if (!client) return [] as SavedDocument[];
+    const nameKey = client.name.trim().toLowerCase();
+    const match = (doc: SavedDocument) =>
+      doc.partyKind === "client" &&
+      (doc.partyId === client.id || doc.partyName.trim().toLowerCase() === nameKey);
+    return [...quotations, ...invoices, ...receipts]
+      .filter(match)
+      .sort((a, b) => {
+        if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+        return b.createdAt.localeCompare(a.createdAt);
+      });
+  }, [client, quotations, invoices, receipts]);
+
+  const openDoc = (doc: SavedDocument) => {
+    const enriched =
+      doc.kind === "receipt" && doc.invoiceId
+        ? (() => {
+            const inv = invoices.find((i) => i.id === doc.invoiceId);
+            if (!inv) return doc;
+            return {
+              ...doc,
+              invoiceTotal: inv.total,
+              amountPaidAfter: invoiceAmountPaid(inv),
+            } as SavedDocument & { invoiceTotal: number; amountPaidAfter: number };
+          })()
+        : doc;
+    const { id, blobUrl } = openSavedDocument(enriched);
+    setPreview({ id, blobUrl, doc });
+  };
 
   if (!client) {
     return (
@@ -89,10 +138,14 @@ function ClientDetail() {
   const fleet = machinesByClient(client.id);
   const allOrders = ordersByClient(client.id);
   const statement = buildArStatement(client.id, invoices);
-  const spend = allOrders.reduce(
+  const docSpend = clientDocs
+    .filter((d) => d.kind === "invoice" || d.kind === "receipt")
+    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
+  const fleetSpend = allOrders.reduce(
     (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
     0,
   );
+  const spend = Math.max(docSpend, fleetSpend);
 
   const saveMachine = () => {
     if (!make.trim() || !model.trim()) {
@@ -177,13 +230,12 @@ function ClientDetail() {
             <CardContent>
               <div className="text-3xl font-bold text-foreground">{currency(spend)}</div>
               <p className="mt-1 text-xs text-muted-foreground">
-                {allOrders.length} orders · {fleet.length} machines
+                {clientDocs.length} documents · {fleet.length} machines
               </p>
             </CardContent>
           </Card>
         </div>
 
-        {canSeePayments ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-3">
             <div>
@@ -257,8 +309,23 @@ function ClientDetail() {
                 </TableHeader>
                 <TableBody>
                   {statement.rows.map((row) => (
-                    <TableRow key={row.invoice.id}>
-                      <TableCell className="font-mono text-xs">{row.invoice.id}</TableCell>
+                    <TableRow
+                      key={row.invoice.id}
+                      className="cursor-pointer hover:bg-muted/40"
+                      onClick={() => openDoc(row.invoice)}
+                    >
+                      <TableCell>
+                        <button
+                          type="button"
+                          className="font-mono text-xs font-semibold text-primary hover:underline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openDoc(row.invoice);
+                          }}
+                        >
+                          {row.invoice.id}
+                        </button>
+                      </TableCell>
                       <TableCell>{row.invoice.date}</TableCell>
                       <TableCell className="text-right text-xs">
                         <span
@@ -283,7 +350,83 @@ function ClientDetail() {
             ) : null}
           </CardContent>
         </Card>
-        ) : null}
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <FileText className="h-4 w-4 text-muted-foreground" />
+              Documents
+            </CardTitle>
+            <p className="text-xs text-muted-foreground">
+              Quotations, invoices, and receipts — click a row to open
+            </p>
+          </CardHeader>
+          <CardContent className="p-0">
+            {clientDocs.length === 0 ? (
+              <p className="p-4 text-sm text-muted-foreground">
+                No quotations, invoices, or receipts for this client yet.
+              </p>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Type</TableHead>
+                    <TableHead>#</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead className="text-right">Total</TableHead>
+                    <TableHead className="text-right">Status</TableHead>
+                    <TableHead className="w-12" />
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {clientDocs.map((doc) => (
+                    <TableRow
+                      key={doc.id}
+                      className="cursor-pointer hover:bg-muted/40"
+                      onClick={() => openDoc(doc)}
+                    >
+                      <TableCell className="text-sm">{kindLabel(doc.kind)}</TableCell>
+                      <TableCell>
+                        <button
+                          type="button"
+                          className="font-mono text-xs font-semibold text-primary hover:underline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openDoc(doc);
+                          }}
+                        >
+                          {doc.id}
+                        </button>
+                      </TableCell>
+                      <TableCell>{doc.date}</TableCell>
+                      <TableCell className="text-right font-semibold">
+                        {currency(doc.total)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Badge variant="secondary">{doc.status}</Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          className="h-8 w-8"
+                          aria-label={`Open ${doc.id}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openDoc(doc);
+                          }}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
 
         {allOrders.length > 0 && fleet.length === 0 && (
           <Card>
@@ -453,6 +596,20 @@ function ClientDetail() {
               })
             : null
         }
+      />
+
+      <PdfPreviewDialog
+        open={Boolean(preview)}
+        onOpenChange={(open) => {
+          if (!open) setPreview(null);
+        }}
+        title={preview?.id ?? "Document"}
+        blobUrl={preview?.blobUrl ?? null}
+        onDownload={() => {
+          if (!preview) return;
+          downloadSavedDocument(preview.doc);
+          toast.success(`Downloaded ${preview.doc.id}.pdf`);
+        }}
       />
 
       <Dialog open={machineOpen} onOpenChange={setMachineOpen}>
