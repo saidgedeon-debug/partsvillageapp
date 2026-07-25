@@ -37,6 +37,10 @@ export function PartScanDialog({
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
+    const exact = parts.filter((part) =>
+      partNumbersOf(part).some((number) => number.toLowerCase() === q),
+    );
+    if (exact.length) return exact.slice(0, 8);
     return parts
       .filter((part) => partNumbersOf(part).some((number) => number.toLowerCase().includes(q)))
       .slice(0, 8);
@@ -74,6 +78,14 @@ export function PartScanDialog({
             if (code) {
               setQuery(code);
               setCameraOn(false);
+              const hit = parts.find((part) =>
+                partNumbersOf(part).some((number) => number.toLowerCase() === code.toLowerCase()),
+              );
+              if (hit) {
+                onOpenChange(false);
+                onOpenPart(hit);
+                toast.success(`Opened ${hit.partNumber}`);
+              }
               return;
             }
           } catch {
@@ -94,7 +106,7 @@ export function PartScanDialog({
       streamRef.current?.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     };
-  }, [open, cameraOn]);
+  }, [open, cameraOn, parts, onOpenChange, onOpenPart]);
 
   useEffect(() => {
     if (!open) {

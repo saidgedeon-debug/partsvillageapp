@@ -20,6 +20,7 @@ import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-dat
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { partPriceHistory } from "@/lib/part-price-history";
+import { useAppRole } from "@/hooks/use-app-role";
 
 type Mode = "view" | "edit" | "create";
 
@@ -106,6 +107,7 @@ export function PartDetailDialog({
   const { addPart, updatePart, categoryLabels } = useInventory();
   const { askDocumentForPart } = useCart();
   const { documents } = useDocuments();
+  const { canSeeCosts } = useAppRole();
   const [form, setForm] = useState<FormState>(emptyForm());
   const [gallery, setGallery] = useState<string[]>([]);
   const creating = mode === "create";
@@ -287,7 +289,7 @@ export function PartDetailDialog({
                 <Field label="Catalog page" value={part.catalogPage ?? ""} />
               </>
             )}
-            <Field label="Cost" value={part.cost > 0 ? currency(part.cost) : ""} />
+            <Field label="Cost" value={canSeeCosts && part.cost > 0 ? currency(part.cost) : canSeeCosts ? "" : "Hidden"} />
             <Field label="Price" value={part.price > 0 ? currency(part.price) : ""} />
             <Field
               label="Last sold"
@@ -297,6 +299,7 @@ export function PartDetailDialog({
                   : ""
               }
             />
+            {canSeeCosts ? (
             <Field
               label="Last supplier cost"
               value={
@@ -305,6 +308,7 @@ export function PartDetailDialog({
                   : ""
               }
             />
+            ) : null}
             <Field label="Reorder at" value={String(part.reorderAt)} />
             <div className="sm:col-span-2">
               <Field label="Notes" value={part.notes ?? ""} />
@@ -429,10 +433,12 @@ export function PartDetailDialog({
                 />
               </div>
             )}
+            {canSeeCosts ? (
             <div className="space-y-1.5">
               <Label htmlFor="part-cost">Cost</Label>
               <Input id="part-cost" inputMode="decimal" value={form.cost} onChange={set("cost")} />
             </div>
+            ) : null}
             <div className="space-y-1.5">
               <Label htmlFor="part-price">Price</Label>
               <Input

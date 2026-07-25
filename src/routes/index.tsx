@@ -25,6 +25,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { toUsd } from "@/lib/fx";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAppRole } from "@/hooks/use-app-role";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -37,6 +38,7 @@ function Index() {
   const { orders } = useFleet();
   const { shipments } = useShipments();
   const { rmbPerUsd } = usePrefs();
+  const { canSeeCosts, canSeePayments } = useAppRole();
   const now = new Date();
   const [pnlFrom, setPnlFrom] = useState(
     `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`,
@@ -180,7 +182,11 @@ function Index() {
             Overview
           </p>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MetricCard label="Paid Sales" value={currency(paidSales)} icon={DollarSign} accent />
+            {canSeePayments ? (
+              <MetricCard label="Paid Sales" value={currency(paidSales)} icon={DollarSign} accent />
+            ) : (
+              <MetricCard label="Parts on hand" value={String(parts.length)} icon={Package} />
+            )}
             <MetricCard label="Active Quotes" value={String(activeQuotes)} icon={FileText} />
             <MetricCard
               label="Low Stock Alerts"
@@ -192,6 +198,7 @@ function Index() {
           </div>
         </section>
 
+        {canSeeCosts ? (
         <section className="space-y-3">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Profit &amp; loss
@@ -239,6 +246,7 @@ function Index() {
           </CardContent>
         </Card>
         </section>
+        ) : null}
 
         <section className="space-y-3">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -380,7 +388,7 @@ function Index() {
               <CardTitle className="text-sm text-muted-foreground">Margin (avg)</CardTitle>
             </CardHeader>
             <CardContent className="text-2xl font-bold text-primary">
-              {priced.length ? `${avgMargin}%` : "—"}
+              {canSeeCosts && priced.length ? `${avgMargin}%` : canSeeCosts ? "—" : "—"}
             </CardContent>
           </Card>
           </div>

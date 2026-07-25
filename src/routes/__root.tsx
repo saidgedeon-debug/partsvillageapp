@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { CloudGate } from "@/components/app/cloud-gate";
+import { CloudSyncBanner } from "@/components/app/cloud-sync-banner";
 import { SearchProvider } from "@/components/app/search-context";
 import { PartiesProvider } from "@/components/app/parties-context";
 import { InventoryProvider } from "@/components/app/inventory-context";
@@ -171,6 +172,7 @@ function RootComponent() {
                                 <div className="flex min-h-screen w-full bg-background">
                                   <AppSidebar />
                                   <SidebarInset className="min-w-0">
+                                    <CloudSyncBanner />
                                     <Outlet />
                                   </SidebarInset>
                                 </div>

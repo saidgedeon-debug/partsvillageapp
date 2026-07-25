@@ -1,16 +1,21 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Users, ChevronRight, Truck, Plus } from "lucide-react";
+import { Users, ChevronRight, Truck, Plus, MessageCircle } from "lucide-react";
 
 import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useParties } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
+import { useDocuments } from "@/components/app/documents-context";
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { buildClientsArQueue, openOverdueWhatsApp } from "@/lib/ar-statement";
+import { currency } from "@/lib/mock-data";
+import { statusChipClass } from "@/lib/status-styles";
+import { useAppRole } from "@/hooks/use-app-role";
 
 export const Route = createFileRoute("/clients/")({
   head: () => ({
@@ -25,8 +30,10 @@ export const Route = createFileRoute("/clients/")({
 function ClientsPage() {
   const { query } = useSearch();
   const { clients } = useParties();
+  const { invoices } = useDocuments();
   const { machinesByClient, ordersByClient } = useFleet();
   const navigate = useNavigate();
+  const { canSeePayments } = useAppRole();
   const [addOpen, setAddOpen] = useState(false);
   const q = query.trim().toLowerCase();
 
@@ -49,10 +56,15 @@ function ClientsPage() {
     });
   }, [q, clients, machinesByClient]);
 
+  const arQueue = useMemo(
+    () => (canSeePayments ? buildClientsArQueue(clients, invoices).slice(0, 8) : []),
+    [canSeePayments, clients, invoices],
+  );
+
   return (
     <>
       <PageHeader title="Clients CRM" subtitle={`${rows.length} of ${clients.length} clients`} />
-      <main className="flex-1 space-y-3 p-4 md:p-6">
+      <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex justify-end">
           <Button type="button" className="gap-1.5" onClick={() => setAddOpen(true)}>
             <Plus className="h-4 w-4" />
@@ -60,12 +72,65 @@ function ClientsPage() {
           </Button>
         </div>
 
+        {arQueue.length > 0 ? (
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">AR follow-up queue</CardTitle>
+              <p className="text-xs text-muted-foreground">
+                Open balances by aging — WhatsApp overdue clients first thing.
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {arQueue.map(({ client, statement }) => (
+                <div
+                  key={client.id}
+                  className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border px-3 py-2"
+                >
+                  <Link
+                    to="/clients/$clientId"
+                    params={{ clientId: client.id }}
+                    className="min-w-0 font-medium hover:underline"
+                  >
+                    {client.name}
+                  </Link>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {statement.days61Plus > 0 ? (
+                      <span className={statusChipClass("danger")}>
+                        61+ {currency(statement.days61Plus)}
+                      </span>
+                    ) : statement.days31To60 > 0 ? (
+                      <span className={statusChipClass("warning")}>
+                        31–60 {currency(statement.days31To60)}
+                      </span>
+                    ) : (
+                      <span className={statusChipClass("info")}>
+                        0–30 {currency(statement.current)}
+                      </span>
+                    )}
+                    <span className="text-xs font-semibold">{currency(statement.total)}</span>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="gap-1"
+                      onClick={() => openOverdueWhatsApp(client, statement)}
+                    >
+                      <MessageCircle className="h-3.5 w-3.5" />
+                      WhatsApp
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        ) : null}
+
         {rows.map((c) => {
           const fleet = machinesByClient(c.id);
           const orderCount = ordersByClient(c.id).length;
           return (
             <Link key={c.id} to="/clients/$clientId" params={{ clientId: c.id }} className="block">
-              <Card className="transition hover:border-accent/60 hover:shadow-md">
+              <Card className="transition hover:border-primary/40 hover:shadow-md">
                 <CardContent className="flex items-center gap-4 p-4">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
                     <Users className="h-5 w-5" />
@@ -122,7 +187,7 @@ function ClientsPage() {
         open={addOpen}
         onOpenChange={setAddOpen}
         kind="client"
-        onSaved={(p) => navigate({ to: "/clients/$clientId", params: { clientId: p.id } })}
+        onSaved={(party) => void navigate({ to: "/clients/$clientId", params: { clientId: party.id } })}
       />
     </>
   );

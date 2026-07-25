@@ -40,7 +40,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { clientById, currency } from "@/lib/mock-data";
-import { buildArStatement, downloadStatementPdf, openStatementWhatsApp } from "@/lib/ar-statement";
+import {
+  buildArStatement,
+  downloadStatementPdf,
+  openOverdueWhatsApp,
+  openStatementWhatsApp,
+} from "@/lib/ar-statement";
+import { statusChipClass } from "@/lib/status-styles";
+import { useAppRole } from "@/hooks/use-app-role";
 
 export const Route = createFileRoute("/clients/$clientId")({
   head: () => ({
@@ -57,6 +64,7 @@ function ClientDetail() {
   const { clients } = useParties();
   const { invoices } = useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
+  const { canSeePayments } = useAppRole();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
   const [make, setMake] = useState("");
@@ -175,6 +183,7 @@ function ClientDetail() {
           </Card>
         </div>
 
+        {canSeePayments ? (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-3">
             <div>
@@ -183,7 +192,7 @@ function ClientDetail() {
                 {statement.invoices.length} open invoice{statement.invoices.length === 1 ? "" : "s"}
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Button
                 type="button"
                 size="sm"
@@ -197,33 +206,84 @@ function ClientDetail() {
               <Button
                 type="button"
                 size="sm"
+                variant="outline"
                 disabled={!statement.invoices.length}
                 onClick={() => openStatementWhatsApp(client, statement)}
               >
                 <MessageCircle className="mr-1 h-3.5 w-3.5" />
-                WhatsApp
+                Statement
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                disabled={!statement.invoices.length}
+                onClick={() => openOverdueWhatsApp(client, statement)}
+              >
+                <MessageCircle className="mr-1 h-3.5 w-3.5" />
+                Overdue WhatsApp
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="grid gap-3 sm:grid-cols-4">
-            <div>
-              <p className="text-xs text-muted-foreground">0–30 days</p>
-              <p className="font-semibold">{currency(statement.current)}</p>
+          <CardContent className="space-y-4">
+            <div className="grid gap-3 sm:grid-cols-4">
+              <div>
+                <p className="text-xs text-muted-foreground">0–30 days</p>
+                <p className="font-semibold">{currency(statement.current)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">31–60 days</p>
+                <p className="font-semibold">{currency(statement.days31To60)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">61+ days</p>
+                <p className={statusChipClass(statement.days61Plus > 0 ? "danger" : "neutral")}>
+                  {currency(statement.days61Plus)}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">Total due</p>
+                <p className="font-bold text-accent">{currency(statement.total)}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs text-muted-foreground">31–60 days</p>
-              <p className="font-semibold">{currency(statement.days31To60)}</p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">61+ days</p>
-              <p className="font-semibold">{currency(statement.days61Plus)}</p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">Total due</p>
-              <p className="font-bold text-accent">{currency(statement.total)}</p>
-            </div>
+            {statement.rows.length > 0 ? (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Invoice</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead className="text-right">Age</TableHead>
+                    <TableHead className="text-right">Due</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {statement.rows.map((row) => (
+                    <TableRow key={row.invoice.id}>
+                      <TableCell className="font-mono text-xs">{row.invoice.id}</TableCell>
+                      <TableCell>{row.invoice.date}</TableCell>
+                      <TableCell className="text-right text-xs">
+                        <span
+                          className={statusChipClass(
+                            row.bucket === "days61Plus"
+                              ? "danger"
+                              : row.bucket === "days31To60"
+                                ? "warning"
+                                : "info",
+                          )}
+                        >
+                          {row.ageDays}d
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right font-semibold">
+                        {currency(row.remaining)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : null}
           </CardContent>
         </Card>
+        ) : null}
 
         {allOrders.length > 0 && fleet.length === 0 && (
           <Card>

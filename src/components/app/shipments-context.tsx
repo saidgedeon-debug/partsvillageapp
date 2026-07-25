@@ -53,6 +53,17 @@ export type ShipmentAttachment = {
   createdAt: string;
 };
 
+/** Parts expected / received on a China shipment. */
+export type ShipmentLine = {
+  id: string;
+  partId?: string;
+  partNumber: string;
+  name: string;
+  qtyOrdered: number;
+  /** Cumulative qty already posted to inventory. */
+  qtyReceived: number;
+};
+
 export type ChinaShipment = {
   id: string;
   title: string;
@@ -88,6 +99,12 @@ export type ChinaShipment = {
   etd?: string;
   /** Estimated time of arrival (YYYY-MM-DD) */
   eta?: string;
+  /** Parts on this shipment (for receive → stock). */
+  lines?: ShipmentLine[];
+  /** Last time stock was posted from this shipment. */
+  stockReceivedAt?: string;
+  /** Optional link back to a customer pre-order. */
+  preOrderId?: string;
   attachments: ShipmentAttachment[];
   createdAt: string;
   updatedAt: string;
@@ -117,6 +134,9 @@ export type ShipmentInput = {
   containerNo?: string;
   etd?: string;
   eta?: string;
+  lines?: ShipmentLine[];
+  stockReceivedAt?: string;
+  preOrderId?: string;
 };
 
 type ShipmentsContextValue = {
@@ -206,6 +226,9 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
         containerNo: input.containerNo?.trim() || undefined,
         etd: input.etd || undefined,
         eta: input.eta || undefined,
+        lines: Array.isArray(input.lines) ? input.lines : undefined,
+        stockReceivedAt: input.stockReceivedAt || undefined,
+        preOrderId: input.preOrderId || undefined,
         attachments: [],
         createdAt: now,
         updatedAt: now,
@@ -228,10 +251,14 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
         return rows.map((s) => {
           if (s.id !== id) return s;
           if (patch.status !== undefined && !canTransitionShipmentStatus(s.status, patch.status)) {
-            rejectedFrom = s.status;
-            rejectedTo = patch.status;
-            updated = s;
-            return s;
+            const receivingIntoStock =
+              Boolean(patch.stockReceivedAt) && patch.status === "In stock";
+            if (!receivingIntoStock) {
+              rejectedFrom = s.status;
+              rejectedTo = patch.status;
+              updated = s;
+              return s;
+            }
           }
           updated = {
             ...s,
@@ -270,6 +297,13 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
                 : s.containerNo,
             etd: patch.etd !== undefined ? patch.etd || undefined : s.etd,
             eta: patch.eta !== undefined ? patch.eta || undefined : s.eta,
+            lines: patch.lines !== undefined ? patch.lines : s.lines,
+            stockReceivedAt:
+              patch.stockReceivedAt !== undefined
+                ? patch.stockReceivedAt || undefined
+                : s.stockReceivedAt,
+            preOrderId:
+              patch.preOrderId !== undefined ? patch.preOrderId || undefined : s.preOrderId,
             status: patch.status !== undefined ? patch.status : s.status,
             updatedAt: new Date().toISOString(),
           };

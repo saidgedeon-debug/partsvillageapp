@@ -5,6 +5,7 @@ import {
   Copy,
   ExternalLink,
   FileImage,
+  PackagePlus,
   Plus,
   RefreshCw,
   Ship,
@@ -15,6 +16,7 @@ import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
 import { ShipmentFormDialog } from "@/components/app/shipment-form-dialog";
+import { ShipmentReceiveDialog } from "@/components/app/shipment-receive-dialog";
 import { TitusImportDialog } from "@/components/app/titus-import-dialog";
 import {
   useShipments,
@@ -58,11 +60,15 @@ import { EmptyState } from "@/components/app/empty-state";
 import { statusToneClass } from "@/lib/status-styles";
 import { cn } from "@/lib/utils";
 import { useShareInbox } from "@/components/app/share-inbox-context";
+import { useAppRole } from "@/hooks/use-app-role";
 
 const TITUS_PORTAL = `${TITUS_ORIGIN}/index.php?lang=en_us`;
 const TITUS_MOBILE = `${TITUS_ORIGIN}/mobile/index.php`;
 
 export const Route = createFileRoute("/china-shipments")({
+  validateSearch: (search: Record<string, unknown>): { open?: string } => ({
+    open: typeof search.open === "string" ? search.open : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Shipments — Parts Village" },
@@ -128,17 +134,29 @@ function compareShipments(a: ChinaShipment, b: ChinaShipment): number {
 
 function ChinaShipmentsPage() {
   const { query } = useSearch();
+  const { open: openId } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const { shipments, removeShipment } = useShipments();
   const { rmbPerUsd, setRmbPerUsd } = usePrefs();
+  const { canSeeCosts } = useAppRole();
   const { unlinkShipment } = useShareInbox();
   const [formOpen, setFormOpen] = useState(false);
   const [titusOpen, setTitusOpen] = useState(false);
   const [editing, setEditing] = useState<ChinaShipment | null>(null);
   const [detailId, setDetailId] = useState<string | null>(null);
+  const [receiveId, setReceiveId] = useState<string | null>(null);
   const [categoryTab, setCategoryTab] = useState<"all" | ShipmentCategory>("all");
   const [cargoTab, setCargoTab] = useState<"all" | ShipmentCargoType>("all");
   const q = query.trim().toLowerCase();
   useTitusAutoSync(true);
+
+  useEffect(() => {
+    if (!openId) return;
+    if (shipments.some((s) => s.id === openId)) {
+      setDetailId(openId);
+      void navigate({ search: { open: undefined }, replace: true });
+    }
+  }, [openId, shipments, navigate]);
 
   const counts = useMemo(() => {
     let titus = 0;
@@ -322,8 +340,8 @@ function ChinaShipmentsPage() {
                     .join(" · ") || "Open to add tracking, cost & photos"}
                 </p>
               </div>
-              <div className="hidden text-right md:block">
-                {s.freightCost != null ? (
+            <div className="hidden text-right md:block">
+                {canSeeCosts && s.freightCost != null ? (
                   <>
                     <p className="text-sm font-semibold">
                       {formatMoneyWithUsd(
@@ -334,7 +352,7 @@ function ChinaShipmentsPage() {
                     </p>
                     <p className="text-xs text-muted-foreground">Titus freight</p>
                   </>
-                ) : s.totalCost != null ? (
+                ) : canSeeCosts && s.totalCost != null ? (
                   <>
                     <p className="text-sm font-semibold">
                       {formatMoneyWithUsd(s.totalCost, s.currency, rmbPerUsd)}
@@ -342,7 +360,11 @@ function ChinaShipmentsPage() {
                     <p className="text-xs text-muted-foreground">{s.currency}</p>
                   </>
                 ) : (
-                  <p className="text-xs text-muted-foreground">No cost yet</p>
+                  <p className="text-xs text-muted-foreground">
+                    {(s.lines?.length ?? 0) > 0
+                      ? `${s.lines!.length} part line${s.lines!.length === 1 ? "" : "s"}`
+                      : "Open details"}
+                  </p>
                 )}
               </div>
               <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -392,6 +414,10 @@ function ChinaShipmentsPage() {
           setEditing(detail);
           setFormOpen(true);
         }}
+        onReceive={() => {
+          if (!detail) return;
+          setReceiveId(detail.id);
+        }}
         onDelete={() => {
           if (!detail) return;
           if (!confirm(`Delete shipment “${detail.title}”?`)) return;
@@ -399,6 +425,13 @@ function ChinaShipmentsPage() {
           unlinkShipment(detail.id);
           setDetailId(null);
           toast.success("Shipment deleted");
+        }}
+      />
+      <ShipmentReceiveDialog
+        open={Boolean(receiveId)}
+        shipment={receiveId ? (shipments.find((s) => s.id === receiveId) ?? null) : null}
+        onOpenChange={(open) => {
+          if (!open) setReceiveId(null);
         }}
       />
     </>
@@ -410,16 +443,19 @@ function ShipmentDetailDialog({
   open,
   onOpenChange,
   onEdit,
+  onReceive,
   onDelete,
 }: {
   shipment: ChinaShipment | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onEdit: () => void;
+  onReceive: () => void;
   onDelete: () => void;
 }) {
   const { updateShipment, addAttachment, removeAttachment } = useShipments();
   const { rmbPerUsd } = usePrefs();
+  const { canSeeCosts } = useAppRole();
   const [uploading, setUploading] = useState(false);
   const [viewer, setViewer] = useState<ShipmentAttachment | null>(null);
   const invoiceInputRef = useRef<HTMLInputElement>(null);
@@ -575,13 +611,15 @@ function ShipmentDetailDialog({
                 <Meta
                   label="Freight"
                   value={
-                    shipment.freightCost != null
+                    canSeeCosts && shipment.freightCost != null
                       ? formatMoneyWithUsd(
                           shipment.freightCost,
                           shipment.freightCurrency ?? shipment.currency,
                           rmbPerUsd,
                         )
-                      : "—"
+                      : canSeeCosts
+                        ? "—"
+                        : "Hidden"
                   }
                 />
                 <Meta
@@ -612,15 +650,43 @@ function ShipmentDetailDialog({
               <Meta label="Expected" value={shipment.expectedAt || "—"} />
               <Meta label="Arrived" value={shipment.arrivedAt || "—"} />
               <Meta label="Supplier" value={shipment.supplier || "—"} />
-              <Meta
-                label="Goods cost"
-                value={
-                  shipment.totalCost != null
-                    ? formatMoneyWithUsd(shipment.totalCost, shipment.currency, rmbPerUsd)
-                    : "—"
-                }
-              />
+              {canSeeCosts ? (
+                <Meta
+                  label="Goods cost"
+                  value={
+                    shipment.totalCost != null
+                      ? formatMoneyWithUsd(shipment.totalCost, shipment.currency, rmbPerUsd)
+                      : "—"
+                  }
+                />
+              ) : null}
             </dl>
+
+            {(shipment.lines?.length ?? 0) > 0 ? (
+              <div className="rounded-md border border-border">
+                <p className="border-b border-border px-3 py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Parts on shipment
+                </p>
+                <ul className="divide-y divide-border">
+                  {shipment.lines!.map((line) => (
+                    <li
+                      key={line.id}
+                      className="flex items-center justify-between gap-2 px-3 py-2 text-sm"
+                    >
+                      <span className="min-w-0">
+                        <span className="font-mono text-xs font-semibold">{line.partNumber}</span>
+                        <span className="block truncate text-xs text-muted-foreground">
+                          {line.name}
+                        </span>
+                      </span>
+                      <span className="shrink-0 text-xs text-muted-foreground">
+                        {line.qtyReceived}/{line.qtyOrdered} received
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
 
             {shipment.notes?.trim() && (
               <div className="rounded-md border border-border bg-muted/30 px-3 py-2 text-sm">
@@ -739,6 +805,12 @@ function ShipmentDetailDialog({
               Delete
             </Button>
             <div className="flex gap-2">
+              {shipment.status !== "Cancelled" ? (
+                <Button type="button" className="gap-1.5" onClick={onReceive}>
+                  <PackagePlus className="h-4 w-4" />
+                  Receive to stock
+                </Button>
+              ) : null}
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Close
               </Button>

@@ -27,10 +27,20 @@ export type CloudHealthStatus = "loading" | "syncing" | "synced" | "error";
 const healthByKey = new Map<ShopStateKey, CloudHealthStatus>();
 const healthListeners = new Set<() => void>();
 let healthVersion = 0;
+let lastCloudError: string | null = null;
+const retryListeners = new Set<() => void>();
+let retryToken = 0;
 
 function setCloudHealth(key: ShopStateKey, status: CloudHealthStatus) {
   if (healthByKey.get(key) === status) return;
   healthByKey.set(key, status);
+  healthVersion += 1;
+  healthListeners.forEach((listener) => listener());
+}
+
+function setLastCloudError(message: string | null) {
+  if (lastCloudError === message) return;
+  lastCloudError = message;
   healthVersion += 1;
   healthListeners.forEach((listener) => listener());
 }
@@ -49,6 +59,39 @@ export function useCloudHealth(): CloudHealthStatus {
   if (statuses.includes("syncing")) return "syncing";
   if (statuses.length === 0 || statuses.includes("loading")) return "loading";
   return "synced";
+}
+
+export function useCloudError(): string | null {
+  useSyncExternalStore(
+    (listener) => {
+      healthListeners.add(listener);
+      return () => healthListeners.delete(listener);
+    },
+    () => healthVersion,
+    () => 0,
+  );
+  return lastCloudError;
+}
+
+/** Bump retry token so every useCloudState remounts its load effect. */
+export function retryCloudSync() {
+  setLastCloudError(null);
+  for (const key of healthByKey.keys()) {
+    setCloudHealth(key, "loading");
+  }
+  retryToken += 1;
+  retryListeners.forEach((listener) => listener());
+}
+
+function useCloudRetryToken() {
+  return useSyncExternalStore(
+    (listener) => {
+      retryListeners.add(listener);
+      return () => retryListeners.delete(listener);
+    },
+    () => retryToken,
+    () => 0,
+  );
 }
 
 /** Read a shop_state JSON value from Supabase. */
@@ -157,6 +200,7 @@ export function useCloudState<T>(
   ready: boolean;
   error: string | null;
 } {
+  const retry = useCloudRetryToken();
   const [value, setValueState] = useState<T>(fallback);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -169,7 +213,7 @@ export function useCloudState<T>(
 
   useEffect(() => {
     setCloudHealth(key, "loading");
-  }, [key]);
+  }, [key, retry]);
 
   const setValue: Dispatch<SetStateAction<T>> = (action) => {
     setValueState((prev) => {
@@ -181,12 +225,15 @@ export function useCloudState<T>(
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
-      setError("Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+      const msg = "Supabase is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.";
+      setError(msg);
+      setLastCloudError(msg);
       setCloudHealth(key, "error");
       return;
     }
 
     let cancelled = false;
+    setReady(false);
     void (async () => {
       try {
         const loaded = await loadOrMigrateShopState(key, localStorageKey, fallback, isEmpty);
@@ -197,6 +244,7 @@ export function useCloudState<T>(
         setValueState(loaded.value);
         setReady(true);
         setError(null);
+        setLastCloudError(null);
         setCloudHealth(key, "synced");
         markCloudMigrated();
         try {
@@ -206,7 +254,9 @@ export function useCloudState<T>(
         }
       } catch (e) {
         if (cancelled) return;
-        setError(e instanceof Error ? e.message : "Failed to load cloud data");
+        const msg = e instanceof Error ? e.message : "Failed to load cloud data";
+        setError(msg);
+        setLastCloudError(msg);
         setCloudHealth(key, "error");
       }
     })();
@@ -214,8 +264,8 @@ export function useCloudState<T>(
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- load once per key
-  }, [key]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- load once per key / retry
+  }, [key, retry]);
 
   useEffect(() => {
     if (!ready || !isSupabaseConfigured) return;
@@ -241,6 +291,7 @@ export function useCloudState<T>(
               dirtyRef.current = false;
             }
             setError(null);
+            setLastCloudError(null);
             setCloudHealth(key, "synced");
           } else {
             // Remote moved ahead — keep local dirty; next save will overwrite after refresh of base.
@@ -256,18 +307,23 @@ export function useCloudState<T>(
                   baseUpdatedAtRef.current = forced.updatedAt;
                   dirtyRef.current = false;
                   setError(null);
+                  setLastCloudError(null);
                   setCloudHealth(key, "synced");
                 }
               })
               .catch((e) => {
-                setError(e instanceof Error ? e.message : `Failed to save ${key}`);
+                const msg = e instanceof Error ? e.message : `Failed to save ${key}`;
+                setError(msg);
+                setLastCloudError(msg);
                 setCloudHealth(key, "error");
               });
           }
         })
         .catch((e) => {
           console.error(`Failed to save ${key}`, e);
-          setError(e instanceof Error ? e.message : `Failed to save ${key}`);
+          const msg = e instanceof Error ? e.message : `Failed to save ${key}`;
+          setError(msg);
+          setLastCloudError(msg);
           setCloudHealth(key, "error");
         })
         .finally(() => {

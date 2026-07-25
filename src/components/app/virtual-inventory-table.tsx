@@ -13,6 +13,7 @@ type Props = {
   isORings: boolean;
   emptyMessage: string;
   partNumbersCell: (part: Part) => ReactNode;
+  showCosts?: boolean;
   onView: (part: Part) => void;
   onEdit: (part: Part) => void;
   onAddToCart: (part: Part) => void;
@@ -29,6 +30,7 @@ export function VirtualInventoryTable({
   isORings,
   emptyMessage,
   partNumbersCell,
+  showCosts = true,
   onView,
   onEdit,
   onAddToCart,
@@ -43,8 +45,12 @@ export function VirtualInventoryTable({
   });
 
   const gridClass = isORings
-    ? "grid grid-cols-[56px_minmax(100px,1.1fr)_72px_72px_minmax(100px,1fr)_72px_72px_72px_minmax(160px,1.2fr)] gap-2"
-    : "grid grid-cols-[52px_minmax(90px,0.9fr)_minmax(120px,1.4fr)_minmax(100px,1fr)_minmax(110px,1.1fr)_56px_minmax(90px,1fr)_64px_72px_72px_minmax(150px,1.1fr)] gap-2";
+    ? showCosts
+      ? "grid grid-cols-[56px_minmax(100px,1.1fr)_72px_72px_minmax(100px,1fr)_72px_72px_72px_minmax(160px,1.2fr)] gap-2"
+      : "grid grid-cols-[56px_minmax(100px,1.1fr)_72px_72px_minmax(100px,1fr)_72px_72px_minmax(160px,1.2fr)] gap-2"
+    : showCosts
+      ? "grid grid-cols-[52px_minmax(90px,0.9fr)_minmax(120px,1.4fr)_minmax(100px,1fr)_minmax(110px,1.1fr)_56px_minmax(90px,1fr)_64px_72px_72px_minmax(150px,1.1fr)] gap-2"
+      : "grid grid-cols-[52px_minmax(90px,0.9fr)_minmax(120px,1.4fr)_minmax(100px,1fr)_minmax(110px,1.1fr)_56px_minmax(90px,1fr)_64px_72px_minmax(150px,1.1fr)] gap-2";
 
   if (rows.length === 0) {
     return (
@@ -68,7 +74,7 @@ export function VirtualInventoryTable({
             <span>CS</span>
             <span>Category</span>
             <span className="text-right">Qty</span>
-            <span className="text-right">Cost</span>
+            {showCosts ? <span className="text-right">Cost</span> : null}
             <span className="text-right">Price</span>
             <span className="text-right">Actions</span>
           </>
@@ -82,7 +88,7 @@ export function VirtualInventoryTable({
             <span>Page</span>
             <span>Category</span>
             <span className="text-right">Qty</span>
-            <span className="text-right">Cost</span>
+            {showCosts ? <span className="text-right">Cost</span> : null}
             <span className="text-right">Price</span>
             <span className="text-right">Actions</span>
           </>
@@ -141,12 +147,14 @@ export function VirtualInventoryTable({
                         onCommit={(n) => onPatch(p, { quantity: n })}
                       />
                     </div>
-                    <InlineNumberCell
-                      value={p.cost}
-                      decimal
-                      className="text-muted-foreground"
-                      onCommit={(n) => onPatch(p, { cost: n })}
-                    />
+                    {showCosts ? (
+                      <InlineNumberCell
+                        value={p.cost}
+                        decimal
+                        className="text-muted-foreground"
+                        onCommit={(n) => onPatch(p, { cost: n })}
+                      />
+                    ) : null}
                     <InlineNumberCell
                       value={p.price}
                       decimal
@@ -203,12 +211,14 @@ export function VirtualInventoryTable({
                         onCommit={(n) => onPatch(p, { quantity: n })}
                       />
                     </div>
-                    <InlineNumberCell
-                      value={p.cost}
-                      decimal
-                      className="text-muted-foreground"
-                      onCommit={(n) => onPatch(p, { cost: n })}
-                    />
+                    {showCosts ? (
+                      <InlineNumberCell
+                        value={p.cost}
+                        decimal
+                        className="text-muted-foreground"
+                        onCommit={(n) => onPatch(p, { cost: n })}
+                      />
+                    ) : null}
                     <InlineNumberCell
                       value={p.price}
                       decimal

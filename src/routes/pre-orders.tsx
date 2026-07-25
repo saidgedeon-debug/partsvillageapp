@@ -1,12 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ClipboardList, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { ClipboardList, MoreHorizontal, Plus, Ship, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { PreOrderFormDialog } from "@/components/app/preorder-form-dialog";
 import { usePreOrders } from "@/components/app/preorders-context";
+import { useShipments, type ShipmentLine } from "@/components/app/shipments-context";
 import { SupplierOrderListDialog } from "@/components/app/supplier-order-list-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { localTodayIso } from "@/lib/date-local";
 import { currency } from "@/lib/mock-data";
 import {
   preOrderIsPaid,
@@ -42,6 +44,7 @@ import {
   type CustomerPreOrder,
 } from "@/lib/preorders";
 import { statusChipClass } from "@/lib/status-styles";
+import { useAppRole } from "@/hooks/use-app-role";
 
 export const Route = createFileRoute("/pre-orders")({
   head: () => ({
@@ -57,7 +60,10 @@ export const Route = createFileRoute("/pre-orders")({
 });
 
 function PreOrdersPage() {
+  const navigate = useNavigate();
   const { orders, recordDeposit, removeOrder, updateOrder } = usePreOrders();
+  const { addShipment } = useShipments();
+  const { canSeePayments } = useAppRole();
   const [formOpen, setFormOpen] = useState(false);
   const [supplierOpen, setSupplierOpen] = useState(false);
   const [editing, setEditing] = useState<CustomerPreOrder | null>(null);
@@ -75,6 +81,30 @@ function PreOrdersPage() {
 
   const pendingBalance = rows.filter((order) => !preOrderIsPaid(order)).length;
   const openProcurement = rows.filter((order) => order.needsProcurement).length;
+
+  const createShipmentFromOrder = (order: CustomerPreOrder) => {
+    const lines: ShipmentLine[] = order.lines.map((line, index) => ({
+      id: `sl-${order.id}-${index}`,
+      partId: line.partId || undefined,
+      partNumber: line.partNumber,
+      name: line.name,
+      qtyOrdered: Math.max(0, Math.round(line.qty) || 0),
+      qtyReceived: 0,
+    }));
+    const ship = addShipment({
+      title: `Pre-order · ${order.clientName}`,
+      orderedAt: localTodayIso(),
+      status: "Ordered",
+      category: "other",
+      cargoType: "divers",
+      notes: `From customer pre-order ${order.id}${order.notes ? `\n${order.notes}` : ""}`,
+      lines,
+      preOrderId: order.id,
+    });
+    updateOrder(order.id, { needsProcurement: false });
+    toast.success("China shipment draft created");
+    void navigate({ to: "/china-shipments", search: { open: ship.id } });
+  };
 
   return (
     <>
@@ -180,17 +210,19 @@ function PreOrdersPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex flex-wrap items-center justify-end gap-1">
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setDepositOrder(order);
-                                setDepositAmount(String(remaining > 0 ? remaining : ""));
-                              }}
-                            >
-                              Deposit
-                            </Button>
+                            {canSeePayments ? (
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setDepositOrder(order);
+                                  setDepositAmount(String(remaining > 0 ? remaining : ""));
+                                }}
+                              >
+                                Deposit
+                              </Button>
+                            ) : null}
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button
@@ -204,6 +236,10 @@ function PreOrdersPage() {
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
+                                <DropdownMenuItem onClick={() => createShipmentFromOrder(order)}>
+                                  <Ship className="h-3.5 w-3.5" />
+                                  Create China shipment
+                                </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => {
                                     setEditing(order);
