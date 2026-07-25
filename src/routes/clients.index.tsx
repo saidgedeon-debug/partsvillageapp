@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Users, ChevronRight, Truck, Plus } from "lucide-react";
 
+import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useParties } from "@/components/app/parties-context";
@@ -72,7 +73,7 @@ function ClientsPage() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <h3 className="truncate font-semibold text-foreground">{c.name}</h3>
-                      <Badge variant="outline" className="text-[10px]">
+                      <Badge variant="outline" className="text-xs">
                         {orderCount} orders
                       </Badge>
                     </div>
@@ -82,7 +83,7 @@ function ClientsPage() {
                     </p>
                   </div>
                   <div className="hidden items-center gap-2 md:flex">
-                    <Truck className="h-4 w-4 text-accent" />
+                    <Truck className="h-4 w-4 text-muted-foreground" />
                     <div className="text-right">
                       <p className="text-sm font-semibold">{fleet.length} machines</p>
                       <p className="max-w-[220px] truncate text-xs text-muted-foreground">
@@ -97,19 +98,23 @@ function ClientsPage() {
           );
         })}
         {rows.length === 0 && (
-          <div className="py-16 text-center text-sm text-muted-foreground">
-            {clients.length === 0 ? (
-              <div className="space-y-3">
-                <p>No clients yet.</p>
+          <EmptyState
+            icon={Users}
+            title={clients.length === 0 ? "No clients yet" : `No clients match “${query}”`}
+            description={
+              clients.length === 0
+                ? "Add your first client to track contacts and fleet."
+                : "Try a different search."
+            }
+            action={
+              clients.length === 0 ? (
                 <Button type="button" onClick={() => setAddOpen(true)} className="gap-1.5">
                   <Plus className="h-4 w-4" />
                   Add first client
                 </Button>
-              </div>
-            ) : (
-              `No clients match “${query}”.`
-            )}
-          </div>
+              ) : null
+            }
+          />
         )}
       </main>
 

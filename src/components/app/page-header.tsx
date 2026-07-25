@@ -1,4 +1,6 @@
 import { Search, ShoppingCart } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -6,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSearch } from "./search-context";
 import { useCart } from "./cart-context";
-import { useNavigate } from "@tanstack/react-router";
 
 export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
   const { query, setQuery } = useSearch();
@@ -14,15 +15,17 @@ export function PageHeader({ title, subtitle }: { title: string; subtitle?: stri
   const navigate = useNavigate();
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border bg-background/90 px-4 backdrop-blur md:px-6">
-      <SidebarTrigger />
-      <Separator orientation="vertical" className="h-6" />
-      <div className="flex min-w-0 flex-1 items-center gap-4">
-        <div className="hidden min-w-0 md:block">
+    <header className="sticky top-0 z-20 border-b border-border bg-background/90 px-4 backdrop-blur md:px-6">
+      <div className="flex min-h-16 items-center gap-3 py-2">
+        <SidebarTrigger />
+        <Separator orientation="vertical" className="hidden h-6 sm:block" />
+        <div className="min-w-0 flex-1">
           <h1 className="truncate text-base font-semibold text-foreground">{title}</h1>
-          {subtitle && <p className="truncate text-xs text-muted-foreground">{subtitle}</p>}
+          {subtitle ? (
+            <p className="truncate text-xs text-muted-foreground">{subtitle}</p>
+          ) : null}
         </div>
-        <div className="relative ml-auto w-full max-w-md">
+        <div className="relative hidden w-full max-w-md md:block">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={query}
@@ -46,16 +49,30 @@ export function PageHeader({ title, subtitle }: { title: string; subtitle?: stri
         >
           <ShoppingCart className="h-4 w-4" />
           {itemCount > 0 && (
-            <Badge className="absolute -right-2 -top-2 h-5 min-w-5 px-1 text-[10px]">
+            <Badge className="absolute -right-2 -top-2 h-5 min-w-5 px-1 text-xs">
               {itemCount}
             </Badge>
           )}
         </Button>
-        {documentKind && (
+        {documentKind ? (
           <span className="hidden text-xs capitalize text-muted-foreground sm:inline">
             {documentKind}
           </span>
-        )}
+        ) : null}
+      </div>
+      <div className="relative pb-3 md:hidden">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && query.trim()) {
+              void navigate({ to: "/search", search: { q: query.trim() } });
+            }
+          }}
+          placeholder="Search part #, serial #, or client…"
+          className="h-10 pl-9"
+        />
       </div>
     </header>
   );

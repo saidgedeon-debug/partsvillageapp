@@ -9,6 +9,7 @@ import {
   Download,
   FileUp,
   FolderPlus,
+  MoreHorizontal,
   Package,
   PackagePlus,
   Pencil,
@@ -35,6 +36,13 @@ import { VirtualInventoryTable } from "@/components/app/virtual-inventory-table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -434,7 +442,7 @@ function InventoryPage() {
             onClick={() => setScanOpen(true)}
           >
             <ScanLine className="h-4 w-4" />
-            Scan part
+            Scan
           </Button>
           <Button asChild type="button" variant="outline" className="gap-1.5">
             <Link to="/stock-take">
@@ -448,49 +456,42 @@ function InventoryPage() {
               Low stock
             </Link>
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="gap-1.5"
-            onClick={() => setKitsOpen(true)}
-          >
-            <PackagePlus className="h-4 w-4" />
-            Kits
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="gap-1.5"
-            onClick={() => {
-              const file = downloadInventoryExcel(parts);
-              toast.success(`Downloaded ${file} (${parts.length.toLocaleString()} parts)`);
-            }}
-          >
-            <Download className="h-4 w-4" />
-            Download Excel
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="gap-1.5"
-            onClick={() => setExcelOpen(true)}
-          >
-            <FileUp className="h-4 w-4" />
-            Upload Excel
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="gap-1.5"
-            onClick={() => setBulkOpen(true)}
-          >
-            <TableProperties className="h-4 w-4" />
-            Bulk stock / prices
-          </Button>
-          <Button type="button" variant="outline" className="gap-1.5" onClick={openCreateCategory}>
-            <FolderPlus className="h-4 w-4" />
-            Add category
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button type="button" variant="outline" className="gap-1.5">
+                <MoreHorizontal className="h-4 w-4" />
+                More
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              <DropdownMenuItem onClick={() => setKitsOpen(true)}>
+                <PackagePlus className="h-4 w-4" />
+                Kits
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  const file = downloadInventoryExcel(parts);
+                  toast.success(`Downloaded ${file} (${parts.length.toLocaleString()} parts)`);
+                }}
+              >
+                <Download className="h-4 w-4" />
+                Download Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setExcelOpen(true)}>
+                <FileUp className="h-4 w-4" />
+                Upload Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setBulkOpen(true)}>
+                <TableProperties className="h-4 w-4" />
+                Bulk stock / prices
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={openCreateCategory}>
+                <FolderPlus className="h-4 w-4" />
+                Add category
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button type="button" className="gap-1.5" onClick={openCreatePart}>
             <Plus className="h-4 w-4" />
             Add item

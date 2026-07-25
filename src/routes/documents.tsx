@@ -5,6 +5,7 @@ import {
   Download,
   Eye,
   FileText,
+  MoreHorizontal,
   PackageSearch,
   Pencil,
   Receipt,
@@ -13,6 +14,7 @@ import {
 import { toast } from "sonner";
 
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
+import { EmptyState } from "@/components/app/empty-state";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
 import { PageHeader } from "@/components/app/page-header";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
@@ -29,6 +31,12 @@ import {
 } from "@/components/app/documents-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -268,7 +276,11 @@ function DocumentsPage() {
                   <OpenButton key="o" onOpen={() => openDoc(qu)} onDownload={() => downloadDoc(qu)} />,
                 ],
               }))}
-              empty={q ? `No quotations match “${query}”.` : "No quotations yet — finish a cart checkout."}
+              emptyTitle={q ? `No quotations match “${query}”` : "No quotations yet"}
+              emptyDescription={
+                q ? "Try a different search." : "Finish a cart checkout to create one."
+              }
+              emptyIcon={FileText}
             />
           </TabsContent>
 
@@ -335,16 +347,25 @@ function DocumentsPage() {
                         Pay
                       </Button>
                     ) : null}
-                    <EditButton onEdit={() => openEditInvoice(iv)} />
-                    <OpenButton onOpen={() => openDoc(iv)} onDownload={() => downloadDoc(iv)} />
+                    <OpenButton
+                      onOpen={() => openDoc(iv)}
+                      onDownload={() => downloadDoc(iv)}
+                      extraItems={[
+                        {
+                          label: "Edit",
+                          icon: Pencil,
+                          onSelect: () => openEditInvoice(iv),
+                        },
+                      ]}
+                    />
                   </div>,
                 ],
               }))}
-              empty={
-                q
-                  ? `No invoices match “${query}”.`
-                  : "No invoices yet — click + New Invoice to create one."
+              emptyTitle={q ? `No invoices match “${query}”` : "No invoices yet"}
+              emptyDescription={
+                q ? "Try a different search." : "Click + New Invoice to create one."
               }
+              emptyIcon={Receipt}
             />
           </TabsContent>
 
@@ -376,11 +397,11 @@ function DocumentsPage() {
                   <OpenButton key="o" onOpen={() => openDoc(rc)} onDownload={() => downloadDoc(rc)} />,
                 ],
               }))}
-              empty={
-                q
-                  ? `No receipts match “${query}”.`
-                  : "No receipts yet — record a payment on an invoice."
+              emptyTitle={q ? `No receipts match “${query}”` : "No receipts yet"}
+              emptyDescription={
+                q ? "Try a different search." : "Record a payment on an invoice."
               }
+              emptyIcon={Banknote}
             />
           </TabsContent>
 
@@ -408,7 +429,11 @@ function DocumentsPage() {
                   <OpenButton key="o" onOpen={() => openDoc(s)} onDownload={() => downloadDoc(s)} />,
                 ],
               }))}
-              empty={q ? `No inquiries match “${query}”.` : "No inquiries yet — finish a cart checkout."}
+              emptyTitle={q ? `No inquiries match “${query}”` : "No inquiries yet"}
+              emptyDescription={
+                q ? "Try a different search." : "Finish a cart checkout to create one."
+              }
+              emptyIcon={PackageSearch}
             />
           </TabsContent>
         </Tabs>
@@ -425,7 +450,7 @@ function DocIdLink({ id, onOpen }: { id: string; onOpen: () => void }) {
         e.stopPropagation();
         onOpen();
       }}
-      className="font-mono text-xs font-medium text-accent underline-offset-2 hover:underline"
+      className="font-mono text-xs font-medium text-primary underline-offset-2 hover:underline"
     >
       {id}
     </button>
@@ -435,57 +460,50 @@ function DocIdLink({ id, onOpen }: { id: string; onOpen: () => void }) {
 function OpenButton({
   onOpen,
   onDownload,
+  extraItems,
 }: {
   onOpen: () => void;
   onDownload: () => void;
+  extraItems?: { label: string; icon?: typeof Pencil; onSelect: () => void }[];
 }) {
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
       <Button
         type="button"
         size="sm"
         variant="outline"
         className="h-8 gap-1.5"
-        onClick={(e) => {
-          e.stopPropagation();
-          onOpen();
-        }}
+        onClick={onOpen}
       >
         <Eye className="h-3.5 w-3.5" />
         Open
       </Button>
-      <Button
-        type="button"
-        size="sm"
-        variant="outline"
-        className="h-8 gap-1.5"
-        onClick={(e) => {
-          e.stopPropagation();
-          onDownload();
-        }}
-      >
-        <Download className="h-3.5 w-3.5" />
-        Download
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            className="h-8 w-8 p-0"
+            aria-label="More document actions"
+          >
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {(extraItems ?? []).map((item) => (
+            <DropdownMenuItem key={item.label} onClick={item.onSelect}>
+              {item.icon ? <item.icon className="h-3.5 w-3.5" /> : null}
+              {item.label}
+            </DropdownMenuItem>
+          ))}
+          <DropdownMenuItem onClick={onDownload}>
+            <Download className="h-3.5 w-3.5" />
+            Download
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
-  );
-}
-
-function EditButton({ onEdit }: { onEdit: () => void }) {
-  return (
-    <Button
-      type="button"
-      size="sm"
-      variant="outline"
-      className="h-8 gap-1.5"
-      onClick={(e) => {
-        e.stopPropagation();
-        onEdit();
-      }}
-    >
-      <Pencil className="h-3.5 w-3.5" />
-      Edit
-    </Button>
   );
 }
 
@@ -523,7 +541,9 @@ function DocCard({
   extraAction,
   headers,
   rows,
-  empty,
+  emptyTitle,
+  emptyDescription,
+  emptyIcon: EmptyIcon,
 }: {
   title: string;
   onNew: () => void;
@@ -531,7 +551,9 @@ function DocCard({
   extraAction?: ReactNode;
   headers: string[];
   rows: { key: string; onOpen: () => void; cells: ReactNode[] }[];
-  empty: string;
+  emptyTitle: string;
+  emptyDescription?: string;
+  emptyIcon?: typeof FileText;
 }) {
   return (
     <Card>
@@ -571,11 +593,8 @@ function DocCard({
             ))}
             {rows.length === 0 && (
               <TableRow>
-                <TableCell
-                  colSpan={headers.length}
-                  className="py-12 text-center text-sm text-muted-foreground"
-                >
-                  {empty}
+                <TableCell colSpan={headers.length}>
+                  <EmptyState icon={EmptyIcon} title={emptyTitle} description={emptyDescription} />
                 </TableCell>
               </TableRow>
             )}

@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ClipboardList, Plus, Trash2 } from "lucide-react";
+import { ClipboardList, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
+import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { PreOrderFormDialog } from "@/components/app/preorder-form-dialog";
 import { usePreOrders } from "@/components/app/preorders-context";
@@ -10,6 +11,13 @@ import { SupplierOrderListDialog } from "@/components/app/supplier-order-list-di
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -33,7 +41,7 @@ import {
   preOrderRemaining,
   type CustomerPreOrder,
 } from "@/lib/preorders";
-import { cn } from "@/lib/utils";
+import { statusChipClass } from "@/lib/status-styles";
 
 export const Route = createFileRoute("/pre-orders")({
   head: () => ({
@@ -118,8 +126,12 @@ function PreOrdersPage() {
               <TableBody>
                 {rows.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="py-10 text-center text-sm text-muted-foreground">
-                      No customer pre-orders yet. Create one to track deposits for abroad parts.
+                    <TableCell colSpan={7}>
+                      <EmptyState
+                        icon={ClipboardList}
+                        title="No customer pre-orders yet"
+                        description="Create one to track deposits for abroad parts."
+                      />
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -132,11 +144,11 @@ function PreOrdersPage() {
                           <p className="font-medium">{order.clientName}</p>
                           <div className="mt-1 flex flex-wrap gap-1">
                             {order.needsProcurement ? (
-                              <Badge variant="secondary" className="text-[10px]">
+                              <Badge variant="secondary" className="text-xs">
                                 Abroad pending
                               </Badge>
                             ) : (
-                              <Badge variant="outline" className="text-[10px]">
+                              <Badge variant="outline" className="text-xs">
                                 Ordered / closed
                               </Badge>
                             )}
@@ -159,22 +171,15 @@ function PreOrdersPage() {
                         </TableCell>
                         <TableCell className="text-right">{currency(order.amountPaid)}</TableCell>
                         <TableCell className="text-right">
-                          <span
-                            className={cn(
-                              "inline-flex rounded-md px-2 py-1 text-sm font-semibold",
-                              paid
-                                ? "bg-emerald-50 text-emerald-800"
-                                : "bg-orange-50 text-orange-800",
-                            )}
-                          >
+                          <span className={statusChipClass(paid ? "success" : "warning")}>
                             {currency(remaining)}
                           </span>
-                          <p className="mt-1 text-[10px] uppercase tracking-wide text-muted-foreground">
+                          <p className="mt-1 text-xs uppercase tracking-wide text-muted-foreground">
                             {paid ? "Fully paid" : "Pending balance"}
                           </p>
                         </TableCell>
                         <TableCell className="text-right">
-                          <div className="flex flex-wrap justify-end gap-1">
+                          <div className="flex flex-wrap items-center justify-end gap-1">
                             <Button
                               type="button"
                               size="sm"
@@ -186,42 +191,51 @@ function PreOrdersPage() {
                             >
                               Deposit
                             </Button>
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setEditing(order);
-                                setFormOpen(true);
-                              }}
-                            >
-                              Edit
-                            </Button>
-                            {order.needsProcurement ? (
-                              <Button
-                                type="button"
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => {
-                                  updateOrder(order.id, { needsProcurement: false });
-                                  toast.success("Marked as ordered from supplier");
-                                }}
-                              >
-                                Mark ordered
-                              </Button>
-                            ) : null}
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => {
-                                if (!confirm(`Delete pre-order for ${order.clientName}?`)) return;
-                                removeOrder(order.id);
-                                toast.message("Pre-order deleted");
-                              }}
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </Button>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  variant="ghost"
+                                  className="h-8 w-8 p-0"
+                                  aria-label="More actions"
+                                >
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    setEditing(order);
+                                    setFormOpen(true);
+                                  }}
+                                >
+                                  Edit
+                                </DropdownMenuItem>
+                                {order.needsProcurement ? (
+                                  <DropdownMenuItem
+                                    onClick={() => {
+                                      updateOrder(order.id, { needsProcurement: false });
+                                      toast.success("Marked as ordered from supplier");
+                                    }}
+                                  >
+                                    Mark ordered
+                                  </DropdownMenuItem>
+                                ) : null}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-destructive focus:text-destructive"
+                                  onClick={() => {
+                                    if (!confirm(`Delete pre-order for ${order.clientName}?`)) return;
+                                    removeOrder(order.id);
+                                    toast.message("Pre-order deleted");
+                                  }}
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </TableCell>
                       </TableRow>

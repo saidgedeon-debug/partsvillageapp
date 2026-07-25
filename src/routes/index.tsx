@@ -175,19 +175,28 @@ function Index() {
         }
       />
       <main className="flex-1 space-y-6 p-4 md:p-6">
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <MetricCard label="Paid Sales" value={currency(paidSales)} icon={DollarSign} accent />
-          <MetricCard label="Active Quotes" value={String(activeQuotes)} icon={FileText} />
-          <MetricCard
-            label="Low Stock Alerts"
-            value={String(lowStockParts.length)}
-            icon={AlertTriangle}
-            warn
-          />
-          <MetricCard label="Clients" value={`${clients.length} saved`} icon={Users} />
-        </div>
+        <section className="space-y-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Overview
+          </p>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <MetricCard label="Paid Sales" value={currency(paidSales)} icon={DollarSign} accent />
+            <MetricCard label="Active Quotes" value={String(activeQuotes)} icon={FileText} />
+            <MetricCard
+              label="Low Stock Alerts"
+              value={String(lowStockParts.length)}
+              icon={AlertTriangle}
+              warn
+            />
+            <MetricCard label="Clients" value={`${clients.length} saved`} icon={Users} />
+          </div>
+        </section>
 
-        <Card>
+        <section className="space-y-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Profit &amp; loss
+          </p>
+          <Card>
           <CardHeader className="gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <CardTitle className="text-base">Simple P&amp;L</CardTitle>
@@ -197,11 +206,11 @@ function Index() {
             </div>
             <div className="flex gap-2">
               <div>
-                <Label className="text-[10px]">From</Label>
+                <Label className="text-xs">From</Label>
                 <Input type="date" value={pnlFrom} onChange={(e) => setPnlFrom(e.target.value)} />
               </div>
               <div>
-                <Label className="text-[10px]">To</Label>
+                <Label className="text-xs">To</Label>
                 <Input type="date" value={pnlTo} onChange={(e) => setPnlTo(e.target.value)} />
               </div>
             </div>
@@ -222,25 +231,30 @@ function Index() {
             <div>
               <p className="text-xs text-muted-foreground">Net</p>
               <p
-                className={`text-xl font-bold ${pnl.net >= 0 ? "text-emerald-700" : "text-destructive"}`}
+                className={`text-xl font-bold ${pnl.net >= 0 ? "text-foreground" : "text-destructive"}`}
               >
                 {currency(pnl.net)}
               </p>
             </div>
           </CardContent>
         </Card>
+        </section>
 
-        <div className="grid gap-4 lg:grid-cols-3">
+        <section className="space-y-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Recent activity
+          </p>
+          <div className="grid gap-4 lg:grid-cols-3">
           <Card className="lg:col-span-2">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="flex items-center gap-2 text-base">
-                <TrendingUp className="h-4 w-4 text-accent" />
+                <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 Recent invoices & orders
               </CardTitle>
               <Link
                 to="/documents"
                 search={{ tab: "invoices" }}
-                className="text-xs font-medium text-accent hover:underline"
+                className="text-xs font-medium text-primary hover:underline"
               >
                 View documents →
               </Link>
@@ -323,7 +337,7 @@ function Index() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-bold text-accent">{p.quantity}</p>
-                    <p className="text-[10px] uppercase text-muted-foreground">
+                    <p className="text-xs uppercase text-muted-foreground">
                       of {p.reorderAt} min
                     </p>
                   </div>
@@ -331,21 +345,26 @@ function Index() {
               ))}
               <Link
                 to="/inventory"
-                className="block pt-1 text-xs font-medium text-accent hover:underline"
+                className="block pt-1 text-xs font-medium text-primary hover:underline"
               >
                 Manage inventory →
               </Link>
             </CardContent>
           </Card>
-        </div>
+          </div>
+        </section>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <section className="space-y-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Catalog
+          </p>
+          <div className="grid gap-4 md:grid-cols-3">
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-muted-foreground">Parts Catalog</CardTitle>
             </CardHeader>
             <CardContent className="flex items-baseline gap-2">
-              <Package className="h-5 w-5 text-accent" />
+              <Package className="h-5 w-5 text-muted-foreground" />
               <span className="text-2xl font-bold">{parts.length}</span>
               <span className="text-xs text-muted-foreground">SKUs tracked</span>
             </CardContent>
@@ -360,11 +379,12 @@ function Index() {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm text-muted-foreground">Margin (avg)</CardTitle>
             </CardHeader>
-            <CardContent className="text-2xl font-bold text-accent">
+            <CardContent className="text-2xl font-bold text-primary">
               {priced.length ? `${avgMargin}%` : "—"}
             </CardContent>
           </Card>
-        </div>
+          </div>
+        </section>
       </main>
     </>
   );

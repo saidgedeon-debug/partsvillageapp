@@ -54,6 +54,8 @@ import { compressImageToDataUrl } from "@/lib/image-compress";
 import { TITUS_ORIGIN } from "@/lib/titus-sync";
 import { formatMoneyWithUsd } from "@/lib/fx";
 import { usePrefs } from "@/components/app/prefs-context";
+import { EmptyState } from "@/components/app/empty-state";
+import { statusToneClass } from "@/lib/status-styles";
 import { cn } from "@/lib/utils";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 
@@ -74,11 +76,11 @@ export const Route = createFileRoute("/china-shipments")({
 });
 
 const STATUS_STYLE: Record<ShipmentStatus, string> = {
-  Ordered: "border-slate-300 text-slate-700",
-  "In transit": "border-sky-400 text-sky-800 bg-sky-50",
-  Arrived: "border-amber-400 text-amber-900 bg-amber-50",
-  "In stock": "border-emerald-500 text-emerald-800 bg-emerald-50",
-  Cancelled: "border-rose-300 text-rose-700 bg-rose-50",
+  Ordered: statusToneClass.neutral,
+  "In transit": statusToneClass.info,
+  Arrived: statusToneClass.warning,
+  "In stock": statusToneClass.success,
+  Cancelled: statusToneClass.danger,
 };
 
 /** Normalize mixed date formats for sorting (YYYY-MM-DD preferred). */
@@ -269,7 +271,7 @@ function ChinaShipmentsPage() {
         {rows.map((s) => (
           <Card
             key={s.id}
-            className="cursor-pointer transition hover:border-accent/60 hover:shadow-md"
+            className="cursor-pointer transition hover:border-primary/40 hover:shadow-md"
             onClick={() => setDetailId(s.id)}
           >
             <CardContent className="flex items-center gap-4 p-4">
@@ -282,30 +284,27 @@ function ChinaShipmentsPage() {
                   <Badge
                     variant="outline"
                     className={cn(
-                      "text-[10px]",
+                      "text-xs",
                       getShipmentCategory(s) === "titus"
-                        ? "border-accent/50 bg-accent/10 text-accent"
-                        : "border-slate-300 text-slate-700",
+                        ? statusToneClass.info
+                        : statusToneClass.neutral,
                     )}
                   >
                     {getShipmentCategory(s) === "titus" ? "Titus" : "Other"}
                   </Badge>
-                  <Badge variant="secondary" className="text-[10px]">
+                  <Badge variant="secondary" className="text-xs">
                     {CARGO_TYPE_LABELS[getShipmentCargoType(s)]}
                   </Badge>
                   {s.titusStatus && (
-                    <Badge
-                      variant="outline"
-                      className="border-accent/50 bg-accent/10 text-[10px] text-accent"
-                    >
+                    <Badge variant="outline" className={cn("text-xs", statusToneClass.info)}>
                       {s.titusStatus}
                     </Badge>
                   )}
-                  <Badge variant="outline" className={cn("text-[10px]", STATUS_STYLE[s.status])}>
+                  <Badge variant="outline" className={cn("text-xs", STATUS_STYLE[s.status])}>
                     {s.status}
                   </Badge>
                   {(s.attachments?.length ?? 0) > 0 && (
-                    <Badge variant="secondary" className="gap-1 text-[10px]">
+                    <Badge variant="secondary" className="gap-1 text-xs">
                       <FileImage className="h-3 w-3" />
                       {s.attachments.length}
                     </Badge>
@@ -352,15 +351,25 @@ function ChinaShipmentsPage() {
         ))}
 
         {rows.length === 0 && (
-          <div className="py-16 text-center text-sm text-muted-foreground">
-            {q
-              ? `No shipments match “${query}”.`
-              : categoryTab === "titus"
-                ? "No Titus shipments yet — Sync Titus to import."
-                : categoryTab === "other"
-                  ? "No other shipments yet — add one with New shipment."
-                  : "No shipments yet — add one when you place an order."}
-          </div>
+          <EmptyState
+            icon={Ship}
+            title={
+              q
+                ? `No shipments match “${query}”`
+                : categoryTab === "titus"
+                  ? "No Titus shipments yet"
+                  : categoryTab === "other"
+                    ? "No other shipments yet"
+                    : "No shipments yet"
+            }
+            description={
+              q
+                ? "Try a different search."
+                : categoryTab === "titus"
+                  ? "Sync Titus to import tracking from the portal."
+                  : "Add one when you place an order with New shipment."
+            }
+          />
         )}
       </main>
 
@@ -507,9 +516,9 @@ function ShipmentDetailDialog({
               </Select>
             </div>
 
-            <div className="rounded-lg border border-accent/40 bg-accent/5 p-3 space-y-3">
+            <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="text-xs font-semibold uppercase tracking-wide text-accent">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
                   Titus Logistics
                 </p>
                 <div className="flex flex-wrap gap-1.5">

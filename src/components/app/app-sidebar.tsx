@@ -10,8 +10,6 @@ import {
   Ship,
   Wrench,
   Inbox,
-  Receipt,
-  StickyNote,
   Search,
   ClipboardCheck,
 } from "lucide-react";
@@ -38,45 +36,18 @@ type NavItem = {
   url: string;
   icon: typeof LayoutDashboard;
   exact?: boolean;
-  search?: { tab: "quotations" | "invoices" | "receipts" | "inquiries" };
-  match?: (pathname: string, search: string) => boolean;
 };
 
 const items: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, exact: true },
-  { title: "Search all", url: "/search", icon: Search },
-  { title: "Stock / Inventory", url: "/inventory", icon: Package },
+  { title: "Search", url: "/search", icon: Search },
+  { title: "Inventory", url: "/inventory", icon: Package },
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
-  { title: "Clients CRM", url: "/clients", icon: Users },
+  { title: "Clients", url: "/clients", icon: Users },
   { title: "Pre-orders", url: "/pre-orders", icon: ClipboardCheck },
-  { title: "Suppliers CRM", url: "/suppliers", icon: Building2 },
-  {
-    title: "Quotation",
-    url: "/documents",
-    search: { tab: "quotations" as const },
-    icon: FileText,
-    match: (pathname, search) =>
-      pathname === "/documents" &&
-      (search.includes("tab=quotations") ||
-        (!search.includes("tab=invoices") &&
-          !search.includes("tab=receipts") &&
-          !search.includes("tab=inquiries"))),
-  },
-  {
-    title: "Invoice",
-    url: "/documents",
-    search: { tab: "invoices" as const },
-    icon: StickyNote,
-    match: (pathname, search) => pathname === "/documents" && search.includes("tab=invoices"),
-  },
-  {
-    title: "Receipt",
-    url: "/documents",
-    search: { tab: "receipts" as const },
-    icon: Receipt,
-    match: (pathname, search) => pathname === "/documents" && search.includes("tab=receipts"),
-  },
+  { title: "Suppliers", url: "/suppliers", icon: Building2 },
+  { title: "Documents", url: "/documents", icon: FileText },
   { title: "Shipments", url: "/china-shipments", icon: Ship },
   { title: "Share inbox", url: "/share-inbox", icon: Inbox },
 ];
@@ -84,28 +55,13 @@ const items: NavItem[] = [
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const { pathname, searchStr } = useRouterState({
-    select: (r) => {
-      const search = r.location.search;
-      const searchStr =
-        typeof search === "string"
-          ? search
-          : new URLSearchParams(
-              Object.entries((search ?? {}) as Record<string, unknown>)
-                .filter(([, v]) => v != null && v !== "")
-                .map(([k, v]) => [k, String(v)]),
-            ).toString();
-      return {
-        pathname: r.location.pathname,
-        searchStr,
-      };
-    },
+  const { pathname } = useRouterState({
+    select: (r) => ({ pathname: r.location.pathname }),
   });
   const { pendingCount } = useShareInbox();
   const cloudHealth = useCloudHealth();
 
   const isActive = (item: NavItem) => {
-    if (item.match) return item.match(pathname, searchStr);
     if (item.exact) return pathname === item.url;
     const path = item.url.split("?")[0];
     return pathname === path || pathname.startsWith(path + "/");
@@ -123,7 +79,7 @@ export function AppSidebar() {
               <span className="text-sm font-bold tracking-wide text-sidebar-foreground">
                 PARTS VILLAGE
               </span>
-              <span className="text-[10px] uppercase tracking-widest text-sidebar-foreground/60">
+              <span className="text-xs uppercase tracking-widest text-sidebar-foreground/60">
                 Heavy Equipment Parts
               </span>
             </div>
@@ -139,13 +95,13 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={isActive(item)} tooltip={item.title}>
-                    <Link to={item.url} search={item.search} className="flex items-center gap-2">
+                    <Link to={item.url} className="flex items-center gap-2">
                       <item.icon className="h-4 w-4" />
                       {!collapsed && (
                         <span className="flex flex-1 items-center justify-between gap-2">
                           {item.title}
                           {item.url === "/share-inbox" && pendingCount > 0 && (
-                            <span className="rounded-full bg-accent px-1.5 text-[10px] font-semibold text-accent-foreground">
+                            <span className="rounded-full bg-accent px-1.5 text-xs font-semibold text-accent-foreground">
                               {pendingCount}
                             </span>
                           )}
@@ -162,7 +118,7 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t border-sidebar-border">
         <div className="flex items-center gap-2 px-2 py-2 text-xs text-sidebar-foreground/70">
-          <Wrench className="h-3.5 w-3.5 text-accent" />
+          <Wrench className="h-3.5 w-3.5 text-muted-foreground" />
           {!collapsed && (
             <span>
               Depot #01 —{" "}
