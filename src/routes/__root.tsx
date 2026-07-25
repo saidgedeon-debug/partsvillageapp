@@ -23,6 +23,7 @@ import { KitsProvider } from "@/components/app/kits-context";
 import { CartProvider } from "@/components/app/cart-context";
 import { ShipmentsProvider } from "@/components/app/shipments-context";
 import { ShareInboxProvider } from "@/components/app/share-inbox-context";
+import { PreOrdersProvider } from "@/components/app/preorders-context";
 import { DocumentTypeDialog } from "@/components/app/document-type-dialog";
 import { CartSheet } from "@/components/app/cart-sheet";
 import { CheckoutDialog } from "@/components/app/checkout-dialog";
@@ -164,20 +165,22 @@ function RootComponent() {
                     <KitsProvider>
                       <ShipmentsProvider>
                         <ShareInboxProvider>
-                          <CartProvider>
-                            <SidebarProvider>
-                              <div className="flex min-h-screen w-full bg-background">
-                                <AppSidebar />
-                                <SidebarInset className="min-w-0">
-                                  <Outlet />
-                                </SidebarInset>
-                              </div>
-                              <DocumentTypeDialog />
-                              <CartSheet />
-                              <CheckoutDialog />
-                              <Toaster />
-                            </SidebarProvider>
-                          </CartProvider>
+                          <PreOrdersProvider>
+                            <CartProvider>
+                              <SidebarProvider>
+                                <div className="flex min-h-screen w-full bg-background">
+                                  <AppSidebar />
+                                  <SidebarInset className="min-w-0">
+                                    <Outlet />
+                                  </SidebarInset>
+                                </div>
+                                <DocumentTypeDialog />
+                                <CartSheet />
+                                <CheckoutDialog />
+                                <Toaster />
+                              </SidebarProvider>
+                            </CartProvider>
+                          </PreOrdersProvider>
                         </ShareInboxProvider>
                       </ShipmentsProvider>
                     </KitsProvider>

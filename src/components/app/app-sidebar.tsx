@@ -13,6 +13,7 @@ import {
   Receipt,
   StickyNote,
   Search,
+  ClipboardCheck,
 } from "lucide-react";
 
 import {
@@ -48,6 +49,7 @@ const items: NavItem[] = [
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
   { title: "Clients CRM", url: "/clients", icon: Users },
+  { title: "Pre-orders", url: "/pre-orders", icon: ClipboardCheck },
   { title: "Suppliers CRM", url: "/suppliers", icon: Building2 },
   {
     title: "Quotation",
