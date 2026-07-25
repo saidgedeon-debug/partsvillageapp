@@ -240,13 +240,28 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           0,
           Math.round((invoice.total - paidBefore) * 100) / 100,
         );
-        if (amount - remaining > 0.005) {
-          failure = new Error(`Amount exceeds remaining balance (${remaining})`);
+        const alreadyPaid = remaining <= 0.005;
+        // For already-paid invoices, allow a receipt for the record (up to total paid).
+        const maxAmount = alreadyPaid
+          ? Math.max(paidBefore, invoice.total)
+          : remaining;
+        if (amount - maxAmount > 0.005) {
+          failure = new Error(
+            alreadyPaid
+              ? `Amount exceeds invoice total (${maxAmount})`
+              : `Amount exceeds remaining balance (${remaining})`,
+          );
           return cur;
         }
 
-        const paidAfter = Math.round((paidBefore + amount) * 100) / 100;
-        const status = resolveInvoiceStatus(invoice, paidAfter);
+        const paidAfter = alreadyPaid
+          ? paidBefore
+          : Math.round((paidBefore + amount) * 100) / 100;
+        const status = alreadyPaid
+          ? ((invoice.status as InvoiceStatus) === "Paid"
+              ? "Paid"
+              : resolveInvoiceStatus(invoice, paidAfter))
+          : resolveInvoiceStatus(invoice, paidAfter);
 
         const receipt: SavedDocument = {
           id: receiptId,
@@ -262,12 +277,16 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           paymentMethod: input.method,
           paymentDate: input.paymentDate,
           paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
-          internalNote: input.note?.trim() || undefined,
+          internalNote:
+            input.note?.trim() ||
+            (alreadyPaid ? "Receipt created for already-paid invoice" : undefined),
           lines: [
             {
               partId: `pay-${invoice.id}`,
               partNumber: invoice.id,
-              name: `Payment toward ${invoice.id} · ${input.method}${mobileBit}`,
+              name: alreadyPaid
+                ? `Payment record for ${invoice.id} · ${input.method}${mobileBit}`
+                : `Payment toward ${invoice.id} · ${input.method}${mobileBit}`,
               category: "Payment",
               unitPrice: amount,
               unitCost: 0,
@@ -276,14 +295,16 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           ],
         };
 
-        const updatedInvoice: SavedDocument = {
-          ...invoice,
-          amountPaid: paidAfter,
-          status,
-        };
+        const updatedInvoice: SavedDocument = alreadyPaid
+          ? invoice
+          : {
+              ...invoice,
+              amountPaid: paidAfter,
+              status,
+            };
 
         created = receipt;
-        void syncDocumentToSupabase(updatedInvoice);
+        if (!alreadyPaid) void syncDocumentToSupabase(updatedInvoice);
         return [receipt, ...cur.map((d) => (d.id === invoice.id ? updatedInvoice : d))];
       });
 

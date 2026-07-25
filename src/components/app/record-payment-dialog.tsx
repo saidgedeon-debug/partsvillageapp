@@ -41,13 +41,30 @@ type Props = {
 };
 
 export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }: Props) {
-  const { invoices, recordInvoicePayment } = useDocuments();
+  const { invoices, receipts, recordInvoicePayment } = useDocuments();
   const [submitting, setSubmitting] = useState(false);
 
   const unpaidInvoices = useMemo(
     () =>
-      invoices.filter((iv) => invoiceRemaining(iv) > 0.005).sort((a, b) => b.date.localeCompare(a.date)),
+      invoices
+        .filter((iv) => invoiceRemaining(iv) > 0.005)
+        .sort((a, b) => b.date.localeCompare(a.date)),
     [invoices],
+  );
+
+  /** Paid invoices that still need a receipt document for the record. */
+  const paidWithoutReceipt = useMemo(() => {
+    const receiptInvoiceIds = new Set(
+      receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id)),
+    );
+    return invoices
+      .filter((iv) => invoiceRemaining(iv) <= 0.005 && !receiptInvoiceIds.has(iv.id))
+      .sort((a, b) => b.date.localeCompare(a.date));
+  }, [invoices, receipts]);
+
+  const selectableInvoices = useMemo(
+    () => [...unpaidInvoices, ...paidWithoutReceipt],
+    [unpaidInvoices, paidWithoutReceipt],
   );
 
   const [invoiceId, setInvoiceId] = useState("");
@@ -57,33 +74,43 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
   const [mobile, setMobile] = useState("");
   const [note, setNote] = useState("");
 
-  const selected =
-    invoices.find((iv) => iv.id === invoiceId) ??
-    unpaidInvoices.find((iv) => iv.id === invoiceId) ??
-    null;
+  const selected = invoices.find((iv) => iv.id === invoiceId) ?? null;
 
   const remaining = selected ? invoiceRemaining(selected) : 0;
   const paid = selected ? invoiceAmountPaid(selected) : 0;
+  const alreadyPaid = Boolean(selected && remaining <= 0.005);
   const needsMobile = method === "OMT" || method === "Whish";
+
+  const defaultAmountFor = (inv: SavedDocument | undefined) => {
+    if (!inv) return "";
+    const rem = invoiceRemaining(inv);
+    if (rem > 0.005) return String(roundMoney(rem));
+    return String(roundMoney(invoiceAmountPaid(inv) || inv.total));
+  };
 
   useEffect(() => {
     if (!open) return;
-    const pre = invoice?.id && invoiceRemaining(invoice) > 0 ? invoice.id : "";
-    const fallback = unpaidInvoices[0]?.id ?? "";
+    const pre =
+      invoice?.id &&
+      selectableInvoices.some((iv) => iv.id === invoice.id)
+        ? invoice.id
+        : "";
+    const fallback = selectableInvoices[0]?.id ?? "";
     const nextId = pre || fallback;
     setInvoiceId(nextId);
     const inv = invoices.find((i) => i.id === nextId);
     setMethod("Cash");
-    setPaymentDate(localTodayIso());
+    setPaymentDate(inv?.date || localTodayIso());
     setMobile("");
     setNote("");
-    setAmount(inv ? String(roundMoney(invoiceRemaining(inv))) : "");
+    setAmount(defaultAmountFor(inv));
     setSubmitting(false);
-  }, [open, invoice, unpaidInvoices, invoices]);
+  }, [open, invoice, selectableInvoices, invoices]);
 
   useEffect(() => {
     if (!selected) return;
-    setAmount(String(roundMoney(invoiceRemaining(selected))));
+    setAmount(defaultAmountFor(selected));
+    if (alreadyPaid && selected.date) setPaymentDate(selected.date);
   }, [invoiceId]); // eslint-disable-line react-hooks/exhaustive-deps -- reset amount when invoice changes
 
   const submit = () => {
@@ -128,9 +155,11 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Record payment</DialogTitle>
+          <DialogTitle>{alreadyPaid ? "Create receipt" : "Record payment"}</DialogTitle>
           <DialogDescription>
-            Create a receipt for a full or partial payment and link it to an invoice.
+            {alreadyPaid
+              ? "This invoice is already paid — create a receipt for your records without changing the balance."
+              : "Create a receipt for a full or partial payment and link it to an invoice."}
           </DialogDescription>
         </DialogHeader>
 
@@ -142,9 +171,16 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
                 <SelectValue placeholder="Select invoice" />
               </SelectTrigger>
               <SelectContent>
-                {unpaidInvoices.map((iv) => (
+                {unpaidInvoices.length > 0 ? (
+                  unpaidInvoices.map((iv) => (
+                    <SelectItem key={iv.id} value={iv.id}>
+                      {iv.id} · {iv.partyName} · {currency(invoiceRemaining(iv))} left
+                    </SelectItem>
+                  ))
+                ) : null}
+                {paidWithoutReceipt.map((iv) => (
                   <SelectItem key={iv.id} value={iv.id}>
-                    {iv.id} · {iv.partyName} · {currency(invoiceRemaining(iv))} left
+                    {iv.id} · {iv.partyName} · Paid · make receipt
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -153,9 +189,12 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
               <p className="text-xs text-muted-foreground">
                 Total {currency(selected.total)} · Paid {currency(paid)} · Remaining{" "}
                 {currency(remaining)}
+                {alreadyPaid ? " · receipt for record only" : ""}
               </p>
             ) : (
-              <p className="text-xs text-muted-foreground">No open invoice balance to collect.</p>
+              <p className="text-xs text-muted-foreground">
+                No invoices available — open balances or paid invoices without a receipt.
+              </p>
             )}
           </div>
 
@@ -232,7 +271,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
             Cancel
           </Button>
           <Button type="button" onClick={submit} disabled={!selected || submitting}>
-            {submitting ? "Saving…" : "Save receipt"}
+            {submitting ? "Saving…" : alreadyPaid ? "Create receipt" : "Save receipt"}
           </Button>
         </DialogFooter>
       </DialogContent>

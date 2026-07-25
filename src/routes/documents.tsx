@@ -127,6 +127,11 @@ function DocumentsPage() {
       ),
     [q, receipts],
   );
+  const invoicesWithReceipt = useMemo(
+    () =>
+      new Set(receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id))),
+    [receipts],
+  );
   const filteredInquiries = useMemo(
     () =>
       inquiries.filter(
@@ -345,6 +350,20 @@ function DocumentsPage() {
                         <Banknote className="h-3.5 w-3.5" />
                         Pay
                       </Button>
+                    ) : !invoicesWithReceipt.has(iv.id) ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="secondary"
+                        className="h-8 gap-1.5"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openReceivePayment(iv);
+                        }}
+                      >
+                        <Banknote className="h-3.5 w-3.5" />
+                        Receipt
+                      </Button>
                     ) : null}
                     <OpenButton
                       onOpen={() => openDoc(iv)}
@@ -355,6 +374,15 @@ function DocumentsPage() {
                           icon: Pencil,
                           onSelect: () => openEditInvoice(iv),
                         },
+                        ...(invoiceRemaining(iv) <= 0.005
+                          ? [
+                              {
+                                label: "Create receipt",
+                                icon: Banknote,
+                                onSelect: () => openReceivePayment(iv),
+                              },
+                            ]
+                          : []),
                       ]}
                     />
                   </div>,
