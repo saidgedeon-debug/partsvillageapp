@@ -1,4 +1,4 @@
-/** cylinder block subcategory seed — Hydraulic Parts (Stands 48–57). */
+/** cylinder block subcategory seed — Hydraulic Parts (Stands 44–57). */
 import type { Part } from "@/lib/mock-data";
 
 const handok = "Handok Hydraulic (South Korea)";
@@ -6,7 +6,7 @@ const aftermarket = "Aftermarket Premium Grade";
 const engrenax = "Engrenax (Canada)";
 const sub = "cylinder block";
 
-type Stand = 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
+type Stand = 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
 
 function block(opts: {
   id: string;
@@ -65,8 +65,45 @@ function block(opts: {
   };
 }
 
-/** Stands 48–57 cylinder blocks / barrels / rotary groups */
+/** Stands 44–57 cylinder blocks / barrels / rotary groups */
 export const cylinderBlockParts: Part[] = [
+  // —— Stand 46 ——
+  block({
+    id: "hydraulic-cb-43847-s46",
+    partNumber: "43847",
+    partNumbers: ["43847", "HD-43847"],
+    name: "Cylinder Block R (HPV160 PC300/400-5)",
+    quantity: 4,
+    stand: 46,
+    orientation: "Right",
+    compatibility: ["Komatsu PC300-5", "Komatsu PC400-5", "HPV160"],
+  }),
+
+  // —— Stand 45 ——
+  block({
+    id: "hydraulic-cb-05128-s45",
+    partNumber: "05128",
+    partNumbers: ["05128", "HD-05128"],
+    name: "Cylinder Block (M2X210 S=17.4)",
+    quantity: 4,
+    stand: 45,
+    sizeParameter: "17.4",
+    compatibility: ["Kawasaki M2X210"],
+  }),
+
+  // —— Stand 44 ——
+  block({
+    id: "hydraulic-cb-43847-s44",
+    partNumber: "43847",
+    partNumbers: ["43847", "HD-43847"],
+    name: "Cylinder Block R (HPV160 PC300/400-5 B)",
+    quantity: 4,
+    stand: 44,
+    orientation: "Right",
+    variant: "B",
+    compatibility: ["Komatsu PC300-5", "Komatsu PC400-5", "HPV160"],
+  }),
+
   // —— Stand 57 ——
   block({
     id: "hydraulic-cb-63854",
@@ -182,7 +219,7 @@ export const cylinderBlockParts: Part[] = [
     compatibility: ["Komatsu PC300-5", "Komatsu PC400-5", "HPV160"],
   }),
   block({
-    id: "hydraulic-cb-05128",
+    id: "hydraulic-cb-05128-s53",
     partNumber: "05128",
     partNumbers: ["05128", "HD-05128"],
     name: "Cylinder Block (M2X210 S=17.4)",
