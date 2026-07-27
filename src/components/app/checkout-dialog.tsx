@@ -1,19 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FileSpreadsheet, FileText, HardDrive, Mail, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 
 import { useCart, type PartyKind } from "@/components/app/cart-context";
+import { DocumentDiscountControls } from "@/components/app/document-discount-controls";
 import { useDocuments, type SavedDocument } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
 import { PartySearchPicker } from "@/components/app/party-search-picker";
-import {
-  exportAndDeliver,
-  lineUnitAmount,
-  type DeliveryMethod,
-  type ExportFormat,
-} from "@/lib/document-export";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -23,6 +18,19 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  exportAndDeliver,
+  lineTotal,
+  type DeliveryMethod,
+  type ExportFormat,
+} from "@/lib/document-export";
+import {
+  documentGrandTotal,
+  normalizeDocumentDiscount,
+  roundMoney,
+  type DocumentDiscountType,
+} from "@/lib/document-money";
+import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 export function CheckoutDialog() {
@@ -39,9 +47,12 @@ export function CheckoutDialog() {
   const [delivery, setDelivery] = useState<DeliveryMethod>("offline");
   const [deductStock, setDeductStock] = useState(true);
   const [machineId, setMachineId] = useState("");
+  const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
+  const [discountValue, setDiscountValue] = useState(0);
 
   const isInquiry = documentKind === "inquiry";
   const isInvoice = documentKind === "invoice";
+  const canDiscount = documentKind === "quotation" || documentKind === "invoice";
 
   useEffect(() => {
     if (checkoutOpen) {
@@ -53,8 +64,22 @@ export function CheckoutDialog() {
       setDelivery("offline");
       setDeductStock(true);
       setMachineId("");
+      setDiscountType("percent");
+      setDiscountValue(0);
     }
   }, [checkoutOpen, documentKind]);
+
+  const subtotal = useMemo(() => {
+    if (!documentKind) return 0;
+    return roundMoney(lines.reduce((s, l) => s + lineTotal(l, documentKind), 0));
+  }, [lines, documentKind]);
+
+  const discount = useMemo(
+    () => (canDiscount ? normalizeDocumentDiscount(discountType, discountValue) : undefined),
+    [canDiscount, discountType, discountValue],
+  );
+
+  const total = useMemo(() => documentGrandTotal(subtotal, discount), [subtotal, discount]);
 
   if (!documentKind) return null;
 
@@ -67,7 +92,10 @@ export function CheckoutDialog() {
       partyKind === "client"
         ? clients.find((party) => party.id === partyId)
         : suppliers.find((party) => party.id === partyId);
-    const total = lines.reduce((s, l) => s + l.qty * lineUnitAmount(l, documentKind), 0);
+    const appliedDiscount = canDiscount
+      ? normalizeDocumentDiscount(discountType, discountValue)
+      : undefined;
+    const computedTotal = documentGrandTotal(subtotal, appliedDiscount);
 
     const id = exportAndDeliver(
       {
@@ -78,6 +106,8 @@ export function CheckoutDialog() {
         lines,
         createdAt,
         includeCost: isInquiry ? includeCost : true,
+        discountType: appliedDiscount?.type,
+        discountValue: appliedDiscount?.value,
       },
       format,
       delivery,
@@ -105,11 +135,13 @@ export function CheckoutDialog() {
       partyName: partyName.trim(),
       date: createdAt.toISOString().slice(0, 10),
       createdAt: createdAt.toISOString(),
-      total,
+      total: computedTotal,
       status,
       includeCost: isInquiry ? includeCost : undefined,
       lines: [...lines],
       stockDeducted,
+      discountType: appliedDiscount?.type,
+      discountValue: appliedDiscount?.value,
     };
     addDocument(saved);
 
@@ -224,6 +256,16 @@ export function CheckoutDialog() {
             ) : null}
           </section>
 
+          {canDiscount && lines.length > 0 ? (
+            <DocumentDiscountControls
+              subtotal={subtotal}
+              discountType={discountType}
+              discountValue={discountValue}
+              onTypeChange={setDiscountType}
+              onValueChange={setDiscountValue}
+            />
+          ) : null}
+
           {isInquiry && (
             <section className="space-y-2">
               <Label>Include supplier cost?</Label>
@@ -324,6 +366,7 @@ export function CheckoutDialog() {
             </div>
             <p className="text-xs text-muted-foreground">
               File always downloads. Document is always saved in the app.
+              {canDiscount && total > 0 ? ` · Total ${currency(total)}` : ""}
             </p>
           </section>
 

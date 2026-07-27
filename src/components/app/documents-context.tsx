@@ -31,6 +31,10 @@ export type SavedDocument = {
   includeCost?: boolean;
   lines: CartLine[];
   stockDeducted?: boolean;
+  /** Document-level discount type (percent of subtotal, or fixed USD). */
+  discountType?: "percent" | "amount";
+  /** Document-level discount value (percent 0–100, or USD amount). */
+  discountValue?: number;
   /** Private staff note — never printed on the PDF. */
   internalNote?: string;
   /** Cumulative amount collected on an invoice. */

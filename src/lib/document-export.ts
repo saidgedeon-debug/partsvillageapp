@@ -4,7 +4,8 @@ import * as XLSX from "xlsx";
 
 import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-context";
 import { currency } from "@/lib/mock-data";
-import { documentGrandTotal, documentTaxAmount, roundMoney } from "@/lib/document-money";
+import { documentGrandTotal, documentTaxAmount, documentDiscountAmount, normalizeDocumentDiscount, roundMoney } from "@/lib/document-money";
+import type { DocumentDiscountType } from "@/lib/document-money";
 import { PARTS_VILLAGE_LOGO_PNG_BASE64 } from "@/lib/parts-village-logo-base64";
 
 const docLabels: Record<DocumentKind, string> = {
@@ -30,6 +31,9 @@ export type ExportDoc = {
   createdAt?: Date;
   /** For supplier inquiries: include cost columns when true. */
   includeCost?: boolean;
+  /** Document-level discount. */
+  discountType?: DocumentDiscountType;
+  discountValue?: number;
   /** Receipt fields */
   invoiceId?: string;
   paymentMethod?: PaymentMethod;
@@ -39,6 +43,13 @@ export type ExportDoc = {
   amountPaidAfter?: number;
   internalNote?: string;
 };
+
+function exportDiscount(doc: ExportDoc) {
+  return normalizeDocumentDiscount(
+    doc.discountType === "amount" ? "amount" : "percent",
+    typeof doc.discountValue === "number" ? doc.discountValue : 0,
+  );
+}
 
 /** Brand palette from Parts Village logo */
 const NAVY: [number, number, number] = [18, 42, 86];
@@ -125,14 +136,23 @@ export function buildShareText(doc: ExportDoc): string {
       );
     })
     .join("\n");
-  const subtotal = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
-  const tax = documentTaxAmount(subtotal);
-  const total = documentGrandTotal(subtotal);
+  const subtotal = roundMoney(doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0));
+  const discount = exportDiscount(doc);
+  const discountAmt = documentDiscountAmount(subtotal, discount);
+  const tax = documentTaxAmount(subtotal - discountAmt);
+  const total = documentGrandTotal(subtotal, discount);
   const footer =
     withMoney && total > 0
-      ? tax > 0
-        ? `Subtotal: ${currency(subtotal)}\nTax: ${currency(tax)}\nTotal: ${currency(total)}`
-        : `Total: ${currency(total)}`
+      ? [
+          discountAmt > 0 ? `Subtotal: ${currency(subtotal)}` : null,
+          discountAmt > 0
+            ? `Discount${discount?.type === "percent" ? ` (${discount.value}%)` : ""}: −${currency(discountAmt)}`
+            : null,
+          tax > 0 ? `Tax: ${currency(tax)}` : null,
+          `Total: ${currency(total)}`,
+        ]
+          .filter(Boolean)
+          .join("\n")
       : doc.documentKind === "inquiry"
         ? withMoney
           ? "Costs TBD"
@@ -182,9 +202,21 @@ export function downloadExcel(doc: ExportDoc) {
   });
 
   if (withMoney) {
-    const total = documentGrandTotal(
-      doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0),
-    );
+    const subtotal = roundMoney(doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0));
+    const discount = exportDiscount(doc);
+    const discountAmt = documentDiscountAmount(subtotal, discount);
+    const total = documentGrandTotal(subtotal, discount);
+    if (discountAmt > 0) {
+      body.push(["", "", "", "", "SUBTOTAL", subtotal]);
+      body.push([
+        "",
+        "",
+        "",
+        "",
+        discount?.type === "percent" ? `DISCOUNT (${discount.value}%)` : "DISCOUNT",
+        -discountAmt,
+      ]);
+    }
     body.push(["", "", "", "", "TOTAL", total > 0 ? total : ""]);
   }
 
@@ -326,8 +358,10 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     tableStart = metaY + 4;
   }
 
-  const subtotal = doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0);
-  const total = documentGrandTotal(subtotal);
+  const subtotal = roundMoney(doc.lines.reduce((s, l) => s + lineTotal(l, doc.documentKind), 0));
+  const discount = exportDiscount(doc);
+  const discountAmt = documentDiscountAmount(subtotal, discount);
+  const total = documentGrandTotal(subtotal, discount);
 
   if (withMoney) {
     autoTable(pdf, {
@@ -409,18 +443,34 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   // Total hero box
   if (withMoney) {
     const boxW = 72;
-    const boxH = doc.documentKind === "receipt" ? 28 : 22;
+    const hasDiscount = discountAmt > 0;
+    const boxH =
+      doc.documentKind === "receipt" ? 28 : hasDiscount ? 36 : 22;
     const boxX = pageW - margin - boxW;
     drawRoundedRect(pdf, boxX, finalY, boxW, boxH, 2.5, NAVY);
     pdf.setFillColor(...ORANGE);
     pdf.rect(boxX, finalY, 2.2, boxH, "F");
+    let textY = finalY + 7;
+    if (hasDiscount) {
+      pdf.setTextColor(...ORANGE);
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(7);
+      pdf.text(`Subtotal  ${currency(subtotal)}`, boxX + 8, textY);
+      textY += 5;
+      pdf.text(
+        `Discount${discount?.type === "percent" ? ` ${discount.value}%` : ""}  −${currency(discountAmt)}`,
+        boxX + 8,
+        textY,
+      );
+      textY += 6;
+    }
     pdf.setTextColor(...ORANGE);
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(8);
-    pdf.text(doc.documentKind === "receipt" ? "AMOUNT PAID" : "AMOUNT DUE", boxX + 8, finalY + 8);
+    pdf.text(doc.documentKind === "receipt" ? "AMOUNT PAID" : "AMOUNT DUE", boxX + 8, textY);
     pdf.setTextColor(...WHITE);
     pdf.setFontSize(16);
-    pdf.text(total > 0 ? currency(total) : "TBD", boxX + 8, finalY + 17);
+    pdf.text(total > 0 ? currency(total) : "TBD", boxX + 8, textY + 9);
     if (
       doc.documentKind === "receipt" &&
       typeof doc.invoiceTotal === "number" &&
@@ -432,7 +482,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       pdf.text(
         rem <= 0.005 ? "Invoice paid in full" : `Remaining  ${currency(rem)}`,
         boxX + 8,
-        finalY + 24,
+        textY + 16,
       );
     }
   }
@@ -476,6 +526,8 @@ function toExportDoc(doc: {
   lines: CartLine[];
   createdAt: string;
   includeCost?: boolean;
+  discountType?: DocumentDiscountType;
+  discountValue?: number;
   invoiceId?: string;
   paymentMethod?: PaymentMethod;
   paymentDate?: string;
@@ -492,6 +544,8 @@ function toExportDoc(doc: {
     lines: doc.lines,
     createdAt: new Date(doc.createdAt),
     includeCost: doc.includeCost,
+    discountType: doc.discountType,
+    discountValue: doc.discountValue,
     invoiceId: doc.invoiceId,
     paymentMethod: doc.paymentMethod,
     paymentDate: doc.paymentDate,
@@ -511,6 +565,8 @@ export function openSavedDocument(doc: {
   lines: CartLine[];
   createdAt: string;
   includeCost?: boolean;
+  discountType?: DocumentDiscountType;
+  discountValue?: number;
   invoiceId?: string;
   paymentMethod?: PaymentMethod;
   paymentDate?: string;
@@ -531,6 +587,8 @@ export function downloadSavedDocument(doc: {
   lines: CartLine[];
   createdAt: string;
   includeCost?: boolean;
+  discountType?: DocumentDiscountType;
+  discountValue?: number;
   invoiceId?: string;
   paymentMethod?: PaymentMethod;
   paymentDate?: string;

@@ -3,6 +3,7 @@ import { Plus, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import type { CartLine } from "@/components/app/cart-context";
+import { DocumentDiscountControls } from "@/components/app/document-discount-controls";
 import {
   invoiceAmountPaid,
   resolveInvoiceStatus,
@@ -27,7 +28,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { generateDocId, lineTotal } from "@/lib/document-export";
-import { documentGrandTotal, roundMoney } from "@/lib/document-money";
+import {
+  documentGrandTotal,
+  normalizeDocumentDiscount,
+  roundMoney,
+  type DocumentDiscountType,
+} from "@/lib/document-money";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -82,6 +88,8 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
   const [partQuery, setPartQuery] = useState("");
   const [deductStock, setDeductStock] = useState(true);
   const [internalNote, setInternalNote] = useState("");
+  const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
+  const [discountValue, setDiscountValue] = useState(0);
 
   useEffect(() => {
     if (!open) return;
@@ -90,6 +98,12 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
       setPartyId(editing.partyId);
       setLines(editing.lines.map((l) => ({ ...l })));
       setInternalNote(editing.internalNote ?? "");
+      setDiscountType(editing.discountType === "amount" ? "amount" : "percent");
+      setDiscountValue(
+        typeof editing.discountValue === "number" && editing.discountValue > 0
+          ? editing.discountValue
+          : 0,
+      );
       setDeductStock(false);
       setPartQuery("");
       return;
@@ -100,6 +114,8 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     setPartQuery("");
     setDeductStock(true);
     setInternalNote("");
+    setDiscountType("percent");
+    setDiscountValue(0);
   }, [open, editing]);
 
   const partMatches = useMemo(() => {
@@ -120,10 +136,15 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
       .slice(0, 40);
   }, [partQuery, parts]);
 
-  const total = useMemo(
-    () => documentGrandTotal(roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0))),
+  const subtotal = useMemo(
+    () => roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0)),
     [lines],
   );
+  const discount = useMemo(
+    () => normalizeDocumentDiscount(discountType, discountValue),
+    [discountType, discountValue],
+  );
+  const total = useMemo(() => documentGrandTotal(subtotal, discount), [subtotal, discount]);
 
   const addPartLine = (part: Part) => {
     setLines((prev) => {
@@ -180,8 +201,9 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     }
 
     const note = internalNote.trim() || undefined;
-    const subtotal = roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0));
-    const invoiceTotal = documentGrandTotal(subtotal);
+    const lineSubtotal = roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0));
+    const appliedDiscount = normalizeDocumentDiscount(discountType, discountValue);
+    const invoiceTotal = documentGrandTotal(lineSubtotal, appliedDiscount);
 
     if (isEdit && editing) {
       const paid = Math.min(invoiceAmountPaid(editing), invoiceTotal);
@@ -199,6 +221,8 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
         status,
         lines: [...lines],
         internalNote: note,
+        discountType: appliedDiscount?.type,
+        discountValue: appliedDiscount?.value,
       };
       updateDocument(saved);
       toast.success(`Invoice ${saved.id} updated`);
@@ -233,6 +257,8 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
       lines: [...lines],
       stockDeducted,
       internalNote: note,
+      discountType: appliedDiscount?.type,
+      discountValue: appliedDiscount?.value,
     };
     addDocument(saved);
 
@@ -415,6 +441,16 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
               </div>
             )}
           </section>
+
+          {lines.length > 0 ? (
+            <DocumentDiscountControls
+              subtotal={subtotal}
+              discountType={discountType}
+              discountValue={discountValue}
+              onTypeChange={setDiscountType}
+              onValueChange={setDiscountValue}
+            />
+          ) : null}
 
           <section className="space-y-2">
             <div className="flex items-center justify-between gap-2">
