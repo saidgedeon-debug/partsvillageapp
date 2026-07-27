@@ -1,4 +1,4 @@
-/** piston shoe subcategory seed — Hydraulic Parts (Stand 59 / 60 / 61). */
+/** piston shoe subcategory seed — Hydraulic Parts (Stand 59–62). */
 import type { Part } from "@/lib/mock-data";
 
 type Fit = { brand: string; models: string[] };
@@ -19,7 +19,7 @@ function pistonShoe(opts: {
   partNumbers: string[];
   name: string;
   quantity: number;
-  stand: 59 | 60 | 61;
+  stand: 59 | 60 | 61 | 62;
   weightKg?: number;
   ringConfig?: string;
   boxSetQty?: number;
@@ -61,7 +61,7 @@ function pistonShoe(opts: {
   };
 }
 
-/** Stand 59 + Stand 60 + Stand 61 Handok piston shoes */
+/** Stand 59–62 Handok piston shoes */
 export const pistonShoeParts: Part[] = [
   // —— Stand 59 ——
   pistonShoe({
@@ -238,5 +238,90 @@ export const pistonShoeParts: Part[] = [
         models: ["EX200-2", "EX200-3", "EX220-2", "EX220-3"],
       },
     ],
+  }),
+
+  // —— Stand 62 ——
+  pistonShoe({
+    id: "hydraulic-piston-shoe-15707",
+    partNumber: "15707",
+    partNumbers: ["15707", "HD-15707", "HPV116-PS-ASSY"],
+    name: "Handok HPV116 Piston Assembly (⌀ 26)",
+    quantity: 11,
+    stand: 62,
+    weightKg: 0.34,
+    boxSetQty: 7,
+    fitment: [
+      {
+        brand: "Hitachi ZAXIS Series",
+        models: ["ZX200", "ZX200-3", "ZX210-3", "ZX240-3", "ZX270-3"],
+      },
+    ],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-06341",
+    partNumber: "06341",
+    partNumbers: ["06341", "HD-06341", "KMF90-PS-EDGE"],
+    name: "Handok KMF90 / PC200-3 Piston Assembly (Edge Type - ⌀ 23.5)",
+    quantity: 1,
+    stand: 62,
+    weightKg: 0.27,
+    boxSetQty: 7,
+    fitment: [
+      {
+        brand: "Komatsu",
+        models: ["PC200-3", "PC200LC-3", "PC210-3", "PC220-3"],
+      },
+    ],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-03094",
+    partNumber: "03094",
+    partNumbers: ["03094", "HD-03094", "A8V107SR1R-PS-ASSY"],
+    name: "Handok A8V107SR1R Piston Assembly",
+    quantity: 4,
+    stand: 62,
+    weightKg: 0.36,
+    boxSetQty: 7,
+    fitment: [{ brand: "Rexroth", models: ["A8V107SR1R"] }],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-02637",
+    partNumber: "02637",
+    partNumbers: ["02637", "HD-02637", "KMF90-PS-R-OLD"],
+    name: "Handok KMF90 / PC200-2 Piston Assembly with Ring (Old Type - ⌀ 23.5)",
+    quantity: 1,
+    stand: 62,
+    weightKg: 0.27,
+    ringConfig: "With Ring",
+    boxSetQty: 7,
+    lengthMm: 96.4,
+    fitment: [{ brand: "Komatsu", models: ["PC200-2", "PC200LC-2"] }],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-15738",
+    partNumber: "15738",
+    partNumbers: ["15738", "HD-15738", "HPV145-PS-ASSY"],
+    name: "Handok HPV145 Piston Assembly (⌀ 28)",
+    quantity: 1,
+    stand: 62,
+    weightKg: 0.34,
+    boxSetQty: 7,
+    fitment: [
+      {
+        brand: "Hitachi ZAXIS Series",
+        models: ["ZX330", "ZX330-3", "ZX350-3", "ZX350LC-5G"],
+      },
+    ],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-0350291",
+    partNumber: "0350291",
+    partNumbers: ["0350291", "HD-0350291", "A7VO250-PS-1R"],
+    name: "Handok A7VO250 Piston with One Ring",
+    quantity: 3,
+    stand: 62,
+    ringConfig: "One Ring",
+    boxSetQty: 7,
+    fitment: [{ brand: "Rexroth", models: ["A7VO250", "A7VO250L", "A7VO250EL"] }],
   }),
 ];
