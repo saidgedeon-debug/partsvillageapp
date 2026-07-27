@@ -2,6 +2,7 @@
 import type { Part } from "@/lib/mock-data";
 import { hydraulicAccessoryParts } from "@/lib/hydraulic-accessories";
 import { cylinderBlockParts } from "@/lib/hydraulic-cylinder-blocks";
+import { gearPilotPumpParts } from "@/lib/hydraulic-gear-pilot-pumps";
 import { gearsAndShaftsParts } from "@/lib/hydraulic-gears-shafts";
 import { pistonShoeParts } from "@/lib/hydraulic-piston-shoes";
 import { retainerSetPlateParts } from "@/lib/hydraulic-retainer-set-plates";
@@ -1049,4 +1050,5 @@ export const hydraulicParts: Part[] = [
   ...hydraulicAccessoryParts,
   ...cylinderBlockParts,
   ...gearsAndShaftsParts,
+  ...gearPilotPumpParts,
 ];
