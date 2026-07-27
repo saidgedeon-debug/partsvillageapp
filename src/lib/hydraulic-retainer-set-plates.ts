@@ -18,10 +18,11 @@ function sp(opts: {
   name: string;
   quantity: number;
   manufacturer: string;
-  boxNumber: 26 | 27;
-  location: "Stand 26" | "Stand 27";
+  boxNumber: 26 | 27 | 58;
+  location: "Stand 26" | "Stand 27" | "Stand 58";
   fitment: Fit[];
   reorderAt?: number;
+  componentType?: string;
 }): Part {
   return {
     id: opts.id,
@@ -38,7 +39,15 @@ function sp(opts: {
     cost: 0,
     price: 0,
     compatibility: flatCompat(opts.fitment),
-    notes: `Subcategory: retainer / set plate · ${opts.location} · Manufacturer: ${opts.manufacturer} · OEM xref: ${opts.partNumbers.join(", ")}`,
+    notes: [
+      `Subcategory: retainer / set plate`,
+      opts.location,
+      `Manufacturer: ${opts.manufacturer}`,
+      opts.componentType ? `Type: ${opts.componentType}` : null,
+      `OEM xref: ${opts.partNumbers.join(", ")}`,
+    ]
+      .filter(Boolean)
+      .join(" · "),
   };
 }
 
@@ -371,5 +380,20 @@ export const retainerSetPlateParts: Part[] = [
     boxNumber: 26,
     location: "Stand 26",
     fitment: [{ brand: "Komatsu", models: ["PC300-7", "PC300-8"] }],
+  }),
+  // —— Stand 58 ——
+  sp({
+    id: "hydraulic-sp-06088",
+    partNumber: "06088",
+    partNumbers: ["06088", "HD-06088"],
+    name: "Fix Plate of Set Plate (HPV90/70)",
+    quantity: 15,
+    manufacturer: handok,
+    boxNumber: 58,
+    location: "Stand 58",
+    componentType: "Fix Plate",
+    fitment: [
+      { brand: "Komatsu", models: ["HPV90", "HPV70"] },
+    ],
   }),
 ];

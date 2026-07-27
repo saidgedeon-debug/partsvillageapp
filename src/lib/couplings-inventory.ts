@@ -1058,4 +1058,55 @@ export const couplingParts: Part[] = [
     notes:
       "Stand 59 · Manufacturer: Handok Hydraulic (South Korea) · Teeth: 13T · Type: Drive Shaft Coupling · OEM xref: 42253, HD-42253, H3V180DTH-13T",
   },
+  {
+    id: "coupling-04572",
+    partNumber: "04572",
+    partNumbers: ["04572", "HD-04572", "H3V180DT-13T"],
+    name: "Coupling of Drive Shaft (H3V180DT 13T)",
+    description:
+      "Handok Hydraulic (South Korea) · H3V180DT drive shaft coupling · 13T",
+    category: "Couplings",
+    boxNumber: 58,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Hitachi H3V180DT"],
+    notes:
+      "Stand 58 · Manufacturer: Handok Hydraulic (South Korea) · Teeth: 13T · Type: Drive Shaft Coupling · OEM xref: 04572, HD-04572, H3V180DT-13T",
+  },
+  {
+    id: "coupling-2953801867",
+    partNumber: "2953801867",
+    partNumbers: ["2953801867", "HD-2953801867"],
+    name: "Coupling of Drive Shaft (K3V180DT)",
+    description:
+      "Handok Hydraulic (South Korea) · K3V180DT drive shaft coupling",
+    category: "Couplings",
+    boxNumber: 58,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Kawasaki K3V180DT"],
+    notes:
+      "Stand 58 · Manufacturer: Handok Hydraulic (South Korea) · Type: Drive Shaft Coupling · OEM xref: 2953801867, HD-2953801867",
+  },
+  {
+    id: "coupling-2943800613",
+    partNumber: "2943800613",
+    partNumbers: ["2943800613", "HD-2943800613"],
+    name: "Coupling of Drive Shaft (K3V180DTH)",
+    description:
+      "Handok Hydraulic (South Korea) · K3V180DTH drive shaft coupling",
+    category: "Couplings",
+    boxNumber: 58,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Kawasaki K3V180DTH"],
+    notes:
+      "Stand 58 · Manufacturer: Handok Hydraulic (South Korea) · Type: Drive Shaft Coupling · OEM xref: 2943800613, HD-2943800613",
+  },
 ];
