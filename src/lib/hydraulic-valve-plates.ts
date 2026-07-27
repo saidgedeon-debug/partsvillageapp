@@ -412,6 +412,44 @@ export const valvePlateParts: Part[] = [
 
   // —— Aftermarket Premium Grade (Stand 23) ——
   vp({
+    id: "hydraulic-vp-59828",
+    partNumber: "59828",
+    partNumbers: ["59828", "HD-59828"],
+    name: "Valve Plate (HMGF35 / HMV116)",
+    quantity: 1,
+    manufacturer: handok,
+    boxNumber: 23,
+    location: "Stand 23",
+    fitment: [
+      { brand: "Hitachi", models: ["HMGF35", "HMV116"] },
+    ],
+  }),
+  vp({
+    id: "hydraulic-vp-365315",
+    partNumber: "365315",
+    partNumbers: ["365315", "HD-365315"],
+    name: "Valve Plate (M2X150)",
+    quantity: 1,
+    manufacturer: handok,
+    boxNumber: 23,
+    location: "Stand 23",
+    fitment: [{ brand: "Kawasaki", models: ["M2X150"] }],
+  }),
+  vp({
+    id: "hydraulic-vp-0350307",
+    partNumber: "0350307",
+    partNumbers: ["0350307", "HD-0350307"],
+    name: "Valve Plate L (A7VO250L/EL)",
+    quantity: 1,
+    manufacturer: handok,
+    boxNumber: 23,
+    location: "Stand 23",
+    componentType: "Valve Plate · Left (L)",
+    fitment: [
+      { brand: "Rexroth", models: ["A7VO250L", "A7VO250EL"] },
+    ],
+  }),
+  vp({
     id: "hydraulic-vp-yc35-6-af",
     partNumber: "YC35-6-VP-AF",
     partNumbers: ["YC35-6-VP-AF", "YC35-6-VP", "AF-YC35-6-VP"],
