@@ -135,7 +135,7 @@ export const pistonShoeParts: Part[] = [
     partNumber: "708-2H-23311",
     partNumbers: ["708-2H-23311", "7082H23311", "HPV132C-PS"],
     name: "Handok HPV132C Piston Shoe (PC300-6 - ⌀ 25)",
-    quantity: 1,
+    quantity: 2,
     stand: 60,
     boxSetQty: 9,
     fitment: [{ brand: "Komatsu", models: ["PC300-6", "PC300LC-6"] }],
