@@ -3,6 +3,7 @@ export const HYDRAULIC_SUBCATEGORIES = [
   "Center Pin",
   "Ball Guide",
   "shoe/thrust plate",
+  "piston shoe",
   "Valve Plate",
   "retainer / set plate",
   "servo piston",

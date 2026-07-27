@@ -1,5 +1,6 @@
 /** Hydraulic Parts catalog seed — Parts Village. */
 import type { Part } from "@/lib/mock-data";
+import { pistonShoeParts } from "@/lib/hydraulic-piston-shoes";
 import { retainerSetPlateParts } from "@/lib/hydraulic-retainer-set-plates";
 import { servoPistonParts } from "@/lib/hydraulic-servo-pistons";
 import {
@@ -1023,4 +1024,5 @@ export const hydraulicParts: Part[] = [
   ...valvePlateParts,
   ...retainerSetPlateParts,
   ...servoPistonParts,
+  ...pistonShoeParts,
 ];
