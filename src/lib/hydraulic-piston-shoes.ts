@@ -12,6 +12,7 @@ function flatCompat(groups: Fit[]): string[] {
 }
 
 const handok = "Handok Hydraulic (South Korea)";
+const aftermarket = "Aftermarket Premium Grade";
 
 function pistonShoe(opts: {
   id: string;
@@ -20,12 +21,15 @@ function pistonShoe(opts: {
   name: string;
   quantity: number;
   stand: 59 | 60 | 61 | 62;
+  manufacturer?: string;
   weightKg?: number;
   ringConfig?: string;
   boxSetQty?: number;
   lengthMm?: number;
+  pumpType?: string;
   fitment: Fit[];
 }): Part {
+  const mfr = opts.manufacturer ?? handok;
   const detailBits = [
     opts.ringConfig,
     opts.weightKg != null ? `~${opts.weightKg} kg` : null,
@@ -35,7 +39,8 @@ function pistonShoe(opts: {
   const noteBits = [
     `Subcategory: piston shoe`,
     `Stand ${opts.stand}`,
-    `Manufacturer: ${handok}`,
+    `Manufacturer: ${mfr}`,
+    opts.pumpType ? `Pump type: ${opts.pumpType}` : null,
     opts.weightKg != null ? `Weight: ~${opts.weightKg} kg` : null,
     opts.lengthMm != null ? `Length: ${opts.lengthMm} mm` : null,
     opts.ringConfig ? `Rings: ${opts.ringConfig}` : null,
@@ -48,7 +53,7 @@ function pistonShoe(opts: {
     partNumber: opts.partNumber,
     partNumbers: opts.partNumbers,
     name: opts.name,
-    description: [handok, opts.name, ...detailBits].join(" · "),
+    description: [mfr, opts.name, ...detailBits].join(" · "),
     category: "Hydraulic Parts",
     subcategory: "piston shoe",
     boxNumber: opts.stand,
@@ -237,6 +242,67 @@ export const pistonShoeParts: Part[] = [
         brand: "Hitachi",
         models: ["EX200-2", "EX200-3", "EX220-2", "EX220-3"],
       },
+    ],
+  }),
+
+  // —— Stand 61 · Aftermarket mini excavator series ——
+  pistonShoe({
+    id: "hydraulic-piston-shoe-pvd-2b-34",
+    partNumber: "PVD-2B-34-PS",
+    partNumbers: ["PVD-2B-34-PS", "PVD-2B-34", "PVD2B34-PS", "Nachitech-PVD-2B-34"],
+    name: "Aftermarket PVD-2B-34 Piston Shoe Set",
+    quantity: 1,
+    stand: 61,
+    manufacturer: aftermarket,
+    boxSetQty: 10,
+    pumpType: "Dual Axial Piston Pump with Pilot Gear Pump Block",
+    fitment: [
+      { brand: "Nachi Pumps", models: ["PVD-2B-34", "PVD-2B-34L", "PVD-2B-34P"] },
+      { brand: "Kubota Mini Excavators", models: ["KX91-3", "KX101-3", "U35"] },
+      { brand: "Takeuchi Mini Excavators", models: ["TB135", "TB138FR"] },
+      { brand: "Yanmar Mini Excavators", models: ["Vio35", "Vio35-3", "Vio35-5"] },
+    ],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-pvk-2b-505",
+    partNumber: "PVK-2B-505-PS",
+    partNumbers: ["PVK-2B-505-PS", "PVK-2B-505", "PVK2B505-PS", "Nachi-PVK-2B-505"],
+    name: "Aftermarket PVK-2B-505 Piston Shoe Set",
+    quantity: 1,
+    stand: 61,
+    manufacturer: aftermarket,
+    boxSetQty: 11,
+    pumpType: "Regulating Variable Displacement Axial Piston Pump Assembly",
+    fitment: [
+      { brand: "Nachi Pumps", models: ["PVK-2B-505", "PVK-2B-505-N"] },
+      {
+        brand: "Kubota Mini Excavators",
+        models: ["KX121-2", "KX121-3", "KX161-2", "KX161-3", "U45"],
+      },
+      { brand: "Yanmar Mini Excavators", models: ["Vio45", "Vio50", "Vio55"] },
+    ],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-ap2d25",
+    partNumber: "AP2D25-PS",
+    partNumbers: ["AP2D25-PS", "AP2D25", "AP2D25-PS-SET", "Uchida-AP2D25"],
+    name: "Aftermarket AP2D25 Piston Shoe Set",
+    quantity: 1,
+    stand: 61,
+    manufacturer: aftermarket,
+    boxSetQty: 10,
+    pumpType: "Double Axial Piston Component with Gear Pump Interface",
+    fitment: [
+      { brand: "Uchida / Rexroth Pumps", models: ["AP2D25", "AP2D25LV", "AP2D25FL3"] },
+      {
+        brand: "Komatsu Mini Excavators",
+        models: ["PC40MR-2", "PC45MR-2", "PC50MR-2", "PC55MR-2"],
+      },
+      {
+        brand: "Caterpillar (CAT) Mini Excavators",
+        models: ["304C CR", "305C CR", "304D CR", "305D CR"],
+      },
+      { brand: "Takeuchi Mini Excavators", models: ["TB145", "TB250"] },
     ],
   }),
 
