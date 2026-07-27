@@ -1,4 +1,4 @@
-/** servo piston subcategory seed — Hydraulic Parts (Stand 25). */
+/** servo piston subcategory seed — Hydraulic Parts (Stand 25 / 59). */
 import type { Part } from "@/lib/mock-data";
 
 type Fit = { brand: string; models: string[] };
@@ -19,25 +19,42 @@ function servo(opts: {
   partNumbers: string[];
   name: string;
   quantity: number;
-  weightKg: number;
+  weightKg?: number;
+  componentType?: string;
   pumpSeries: string[];
   fitment: Fit[];
+  stand?: 25 | 59;
 }): Part {
+  const stand = opts.stand ?? 25;
+  const detail =
+    opts.weightKg != null
+      ? `~${opts.weightKg} kg`
+      : opts.componentType ?? null;
+  const noteBits = [
+    `Subcategory: servo piston`,
+    `Stand ${stand}`,
+    `Manufacturer: ${handok}`,
+    opts.componentType ? `Type: ${opts.componentType}` : null,
+    opts.weightKg != null ? `Weight: ~${opts.weightKg} kg` : null,
+    `Pump series: ${opts.pumpSeries.join("; ")}`,
+    `OEM xref: ${opts.partNumbers.join(", ")}`,
+  ].filter(Boolean);
+
   return {
     id: opts.id,
     partNumber: opts.partNumber,
     partNumbers: opts.partNumbers,
     name: opts.name,
-    description: `${handok} · ${opts.name} · ~${opts.weightKg} kg`,
+    description: [handok, opts.name, detail].filter(Boolean).join(" · "),
     category: "Hydraulic Parts",
     subcategory: "servo piston",
-    boxNumber: 25,
+    boxNumber: stand,
     quantity: opts.quantity,
     reorderAt: Math.max(1, Math.min(2, Math.floor(opts.quantity / 2) || 1)),
     cost: 0,
     price: 0,
     compatibility: flatCompat(opts.fitment),
-    notes: `Subcategory: servo piston · Stand 25 · Manufacturer: ${handok} · Weight: ~${opts.weightKg} kg · Pump series: ${opts.pumpSeries.join("; ")} · OEM xref: ${opts.partNumbers.join(", ")}`,
+    notes: noteBits.join(" · "),
   };
 }
 
@@ -86,5 +103,17 @@ export const servoPistonParts: Part[] = [
       { brand: "Hyundai", models: ["R320LC-7", "R320LC-9", "R360LC-7"] },
       { brand: "Volvo", models: ["EC360B", "EC360C"] },
     ],
+  }),
+  // —— Stand 59 ——
+  servo({
+    id: "hydraulic-servo-38911",
+    partNumber: "38911",
+    partNumbers: ["38911", "HD-38911"],
+    name: "Servo Piston Pin (HPV0102)",
+    quantity: 32,
+    componentType: "Servo Piston Pin",
+    pumpSeries: ["Komatsu HPV0102"],
+    fitment: [{ brand: "Komatsu", models: ["HPV0102"] }],
+    stand: 59,
   }),
 ];

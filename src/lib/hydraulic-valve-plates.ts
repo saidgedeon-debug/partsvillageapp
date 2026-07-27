@@ -18,11 +18,12 @@ function vp(opts: {
   name: string;
   quantity: number;
   manufacturer: string;
-  /** Physical location number (Stand 30 / Stand 31 / Floor 31). */
-  boxNumber: 30 | 31;
-  location: "Stand 30" | "Stand 31" | "Floor 31";
+  /** Physical location number (Stand 30 / Stand 31 / Floor 31 / Stand 59). */
+  boxNumber: 30 | 31 | 59;
+  location: "Stand 30" | "Stand 31" | "Floor 31" | "Stand 59";
   fitment: Fit[];
   reorderAt?: number;
+  componentType?: string;
 }): Part {
   return {
     id: opts.id,
@@ -38,7 +39,15 @@ function vp(opts: {
     cost: 0,
     price: 0,
     compatibility: flatCompat(opts.fitment),
-    notes: `Subcategory: Valve Plate · ${opts.location} · Manufacturer: ${opts.manufacturer} · OEM xref: ${opts.partNumbers.join(", ")}`,
+    notes: [
+      `Subcategory: Valve Plate`,
+      opts.location,
+      `Manufacturer: ${opts.manufacturer}`,
+      opts.componentType ? `Type: ${opts.componentType}` : null,
+      `OEM xref: ${opts.partNumbers.join(", ")}`,
+    ]
+      .filter(Boolean)
+      .join(" · "),
   };
 }
 
@@ -439,5 +448,18 @@ export const valvePlateParts: Part[] = [
     boxNumber: 31,
     location: "Stand 31",
     fitment: [{ brand: "Rexroth", models: ["A10VO71", "A10VO71DFR", "A10VO71DR"] }],
+  }),
+  // —— Stand 59 ——
+  vp({
+    id: "hydraulic-vp-28318",
+    partNumber: "28318",
+    partNumbers: ["28318", "HD-28318"],
+    name: "Link/Lever of Valve Plate (HPV116)",
+    quantity: 10,
+    manufacturer: handok,
+    boxNumber: 59,
+    location: "Stand 59",
+    componentType: "Valve Plate Link",
+    fitment: [{ brand: "Komatsu", models: ["HPV116"] }],
   }),
 ];

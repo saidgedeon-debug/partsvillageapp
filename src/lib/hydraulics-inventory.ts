@@ -1,5 +1,6 @@
 /** Hydraulic Parts catalog seed — Parts Village. */
 import type { Part } from "@/lib/mock-data";
+import { hydraulicAccessoryParts } from "@/lib/hydraulic-accessories";
 import { pistonShoeParts } from "@/lib/hydraulic-piston-shoes";
 import { retainerSetPlateParts } from "@/lib/hydraulic-retainer-set-plates";
 import { servoPistonParts } from "@/lib/hydraulic-servo-pistons";
@@ -295,6 +296,24 @@ export const hydraulicParts: Part[] = [
     ],
     notes:
       "Subcategory: Center Pin · Stand 24 · Manufacturer: Handok Hydraulic (South Korea) · Type: Spherical Cylinder Barrel Core Guide Pin · OEM xref: 4337035, HD-4337035, HPVO102-CP-C",
+  },
+  {
+    id: "hydraulic-cp-40747",
+    partNumber: "40747",
+    partNumbers: ["40747", "HD-40747", "KMF90-CP-104"],
+    name: "Center Pin (KMF90 L=104 & PC200-3/5)",
+    description:
+      "Handok Hydraulic (South Korea) · KMF90 center pin · L 104 mm · PC200-3/5",
+    category: "Hydraulic Parts",
+    subcategory: "Center Pin",
+    boxNumber: 59,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Komatsu PC200-3", "Komatsu PC200-5", "KMF90"],
+    notes:
+      "Subcategory: Center Pin · Stand 59 · Manufacturer: Handok Hydraulic (South Korea) · Type: Center Pin · Length: 104mm · OEM xref: 40747, HD-40747, KMF90-CP-104",
   },
   // —— Ball Guide ——
   {
@@ -1025,4 +1044,5 @@ export const hydraulicParts: Part[] = [
   ...retainerSetPlateParts,
   ...servoPistonParts,
   ...pistonShoeParts,
+  ...hydraulicAccessoryParts,
 ];

@@ -7,6 +7,7 @@ export const HYDRAULIC_SUBCATEGORIES = [
   "Valve Plate",
   "retainer / set plate",
   "servo piston",
+  "Gauges & Accessories",
 ] as const;
 
 export type HydraulicSubcategory = (typeof HYDRAULIC_SUBCATEGORIES)[number];

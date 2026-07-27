@@ -1041,4 +1041,21 @@ export const couplingParts: Part[] = [
     notes:
       "OD 352.0 mm · Internal spline teeth 48 · Mounting holes 8 · Flange series BoWex 100 FLE-PA · John Deere xref: AT333983 · Hitachi xref: 4649275 · Dynapac xref: E0064 · Engines: John Deere PowerTech Plus 6.8L; Isuzu 4HK1X, 6HK1X; Deutz TCD 2012 · Material: glass-fiber reinforced polyamide (PA-GF25) with heavy steel bolt sleeve inserts · Fitment: John Deere flywheel-to-main pump (210G–300G); Hitachi ZAXIS main hydraulic splined link (ZX200-5G–ZX250-5G); Dynapac heavy soil compactor hydrostatic interface (CA5000–CA7000)",
   },
+  {
+    id: "coupling-42253",
+    partNumber: "42253",
+    partNumbers: ["42253", "HD-42253", "H3V180DTH-13T"],
+    name: "Coupling of Drive Shaft (H3V180DTH 13T)",
+    description:
+      "Handok Hydraulic (South Korea) · H3V180DTH drive shaft coupling · 13T",
+    category: "Couplings",
+    boxNumber: 59,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: ["Hitachi H3V180DTH"],
+    notes:
+      "Stand 59 · Manufacturer: Handok Hydraulic (South Korea) · Teeth: 13T · Type: Drive Shaft Coupling · OEM xref: 42253, HD-42253, H3V180DTH-13T",
+  },
 ];
