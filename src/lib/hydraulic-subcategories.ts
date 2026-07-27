@@ -7,7 +7,7 @@ export const HYDRAULIC_SUBCATEGORIES = [
   "Valve Plate",
   "retainer / set plate",
   "servo piston",
-  "Cylinder Block",
+  "cylinder block",
   "Gauges & Accessories",
 ] as const;
 

@@ -1,10 +1,10 @@
-/** Cylinder Block subcategory seed — Hydraulic Parts (Stands 48–57). */
+/** cylinder block subcategory seed — Hydraulic Parts (Stands 48–57). */
 import type { Part } from "@/lib/mock-data";
 
 const handok = "Handok Hydraulic (South Korea)";
 const aftermarket = "Aftermarket Premium Grade";
 const engrenax = "Engrenax (Canada)";
-const sub = "Cylinder Block";
+const sub = "cylinder block";
 
 type Stand = 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
 
