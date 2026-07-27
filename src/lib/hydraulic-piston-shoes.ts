@@ -1,4 +1,4 @@
-/** piston shoe subcategory seed — Hydraulic Parts (Stand 59 / Stand 60). */
+/** piston shoe subcategory seed — Hydraulic Parts (Stand 59 / 60 / 61). */
 import type { Part } from "@/lib/mock-data";
 
 type Fit = { brand: string; models: string[] };
@@ -19,15 +19,17 @@ function pistonShoe(opts: {
   partNumbers: string[];
   name: string;
   quantity: number;
-  stand: 59 | 60;
+  stand: 59 | 60 | 61;
   weightKg?: number;
   ringConfig?: string;
   boxSetQty?: number;
+  lengthMm?: number;
   fitment: Fit[];
 }): Part {
   const detailBits = [
     opts.ringConfig,
     opts.weightKg != null ? `~${opts.weightKg} kg` : null,
+    opts.lengthMm != null ? `L ${opts.lengthMm} mm` : null,
     opts.boxSetQty != null ? `box set ×${opts.boxSetQty}` : null,
   ].filter(Boolean);
   const noteBits = [
@@ -35,6 +37,7 @@ function pistonShoe(opts: {
     `Stand ${opts.stand}`,
     `Manufacturer: ${handok}`,
     opts.weightKg != null ? `Weight: ~${opts.weightKg} kg` : null,
+    opts.lengthMm != null ? `Length: ${opts.lengthMm} mm` : null,
     opts.ringConfig ? `Rings: ${opts.ringConfig}` : null,
     opts.boxSetQty != null ? `Box set qty: ${opts.boxSetQty}` : null,
     `OEM xref: ${opts.partNumbers.join(", ")}`,
@@ -58,7 +61,7 @@ function pistonShoe(opts: {
   };
 }
 
-/** Stand 59 + Stand 60 Handok piston shoes */
+/** Stand 59 + Stand 60 + Stand 61 Handok piston shoes */
 export const pistonShoeParts: Part[] = [
   // —— Stand 59 ——
   pistonShoe({
@@ -167,5 +170,73 @@ export const pistonShoeParts: Part[] = [
     weightKg: 0.24,
     boxSetQty: 9,
     fitment: [{ brand: "Kawasaki Swing Motors", models: ["M2X120", "M2X120B"] }],
+  }),
+
+  // —— Stand 61 ——
+  pistonShoe({
+    id: "hydraulic-piston-shoe-57466",
+    partNumber: "57466",
+    partNumbers: ["57466", "HD-57466", "HPV132-PS-BR"],
+    name: "Handok HPV132 Piston Shoe (PC300-6 BR - ⌀ 25)",
+    quantity: 4,
+    stand: 61,
+    weightKg: 0.31,
+    boxSetQty: 9,
+    fitment: [{ brand: "Komatsu", models: ["PC300-6", "PC300LC-6"] }],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-59962",
+    partNumber: "59962",
+    partNumbers: ["59962", "HD-59962", "HPV140-PS-BR"],
+    name: "Handok HPV140 Piston Shoe (PC300-7/8 BR - ⌀ 25.0)",
+    quantity: 9,
+    stand: 61,
+    weightKg: 0.25,
+    boxSetQty: 9,
+    lengthMm: 88.3,
+    fitment: [
+      {
+        brand: "Komatsu",
+        models: ["PC300-7", "PC300LC-7", "PC300-8", "PC300LC-8"],
+      },
+    ],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-16251",
+    partNumber: "16251",
+    partNumbers: ["16251", "HD-16251", "A8V86-PS-1R"],
+    name: "Handok A8V86 Piston with One Ring (⌀ 22.8)",
+    quantity: 1,
+    stand: 61,
+    weightKg: 0.2,
+    ringConfig: "One Ring",
+    boxSetQty: 7,
+    fitment: [{ brand: "Rexroth", models: ["A8V86", "A8V86ESBR"] }],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-61487",
+    partNumber: "61487",
+    partNumbers: ["61487", "HD-61487", "HMGF36-PS-ASSY"],
+    name: "Handok HMGF36 / HMV116 Piston Assembly (⌀ 26)",
+    quantity: 3,
+    stand: 61,
+    weightKg: 0.34,
+    boxSetQty: 7,
+    fitment: [{ brand: "Kawasaki", models: ["HMGF36", "HMV116"] }],
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-8059452",
+    partNumber: "8059452",
+    partNumbers: ["8059452", "HD-8059452", "HPVO102-PS-ASSY"],
+    name: "Handok HPVO102 Piston Assembly",
+    quantity: 3,
+    stand: 61,
+    boxSetQty: 7,
+    fitment: [
+      {
+        brand: "Hitachi",
+        models: ["EX200-2", "EX200-3", "EX220-2", "EX220-3"],
+      },
+    ],
   }),
 ];
