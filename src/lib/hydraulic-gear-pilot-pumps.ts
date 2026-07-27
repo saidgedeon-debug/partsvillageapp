@@ -25,6 +25,8 @@ function pump(opts: {
   bodyType?: string;
   displacement?: string;
   ageGroup?: string;
+  weightKg?: number;
+  productionDate?: string;
 }): Part {
   const type = opts.componentType ?? "Gear Pump";
   const detailBits = [
@@ -39,6 +41,8 @@ function pump(opts: {
     opts.bodyType ?? null,
     opts.design ?? null,
     opts.ageGroup ?? null,
+    opts.weightKg != null ? `~${opts.weightKg} kg` : null,
+    opts.productionDate ?? null,
   ].filter(Boolean);
   const noteBits = [
     `Subcategory: ${sub}`,
@@ -55,6 +59,8 @@ function pump(opts: {
     opts.bodyType ? `Body: ${opts.bodyType}` : null,
     opts.design ? `Design: ${opts.design}` : null,
     opts.ageGroup ? `Age: ${opts.ageGroup}` : null,
+    opts.weightKg != null ? `Weight: ${opts.weightKg} kg` : null,
+    opts.productionDate ? `Production date: ${opts.productionDate}` : null,
     `OEM xref: ${opts.partNumbers.join(", ")}`,
   ].filter(Boolean);
 
@@ -171,12 +177,13 @@ export const gearPilotPumpParts: Part[] = [
     id: "hydraulic-gp-61383",
     partNumber: "61383",
     partNumbers: ["61383", "HD-61383"],
-    name: "Gear Pump R-2B-KEY (HPV75 PC60-6 Old)",
+    name: "Gear Pump Ass'y (HPV75 PC60-6 OLD)",
     quantity: 1,
     stand: 38,
-    shaftType: "Keyed",
-    rotation: "Right (R)",
+    componentType: "Gear Pump Assembly",
     ageGroup: "OLD",
+    weightKg: 5.02,
+    productionDate: "2012-10-18",
     compatibility: ["Komatsu PC60-6", "HPV75"],
   }),
 ];
