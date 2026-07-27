@@ -1,10 +1,10 @@
-/** gear / pilot pump subcategory seed — Hydraulic Parts (Stands 38, 39, 41). */
+/** gear / pilot pump subcategory seed — Hydraulic Parts (Stands 29, 38, 39, 41). */
 import type { Part } from "@/lib/mock-data";
 
 const handok = "Handok Hydraulic (South Korea)";
 const sub = "gear / pilot pump";
 
-type Stand = 38 | 39 | 41;
+type Stand = 29 | 38 | 39 | 41;
 
 function pump(opts: {
   id: string;
@@ -27,10 +27,12 @@ function pump(opts: {
   ageGroup?: string;
   weightKg?: number;
   productionDate?: string;
+  series?: string;
 }): Part {
   const type = opts.componentType ?? "Gear Pump";
   const detailBits = [
     type,
+    opts.series ?? null,
     opts.displacement ?? null,
     opts.mounting ?? null,
     opts.spline ?? null,
@@ -49,6 +51,7 @@ function pump(opts: {
     `Stand ${opts.stand}`,
     `Manufacturer: ${handok}`,
     `Type: ${type}`,
+    opts.series ? `Series: ${opts.series}` : null,
     opts.displacement ? `Displacement: ${opts.displacement}` : null,
     opts.mounting ? `Mounting: ${opts.mounting}` : null,
     opts.spline ? `Spline: ${opts.spline}` : null,
@@ -82,7 +85,7 @@ function pump(opts: {
   };
 }
 
-/** Stands 38, 39, 41 Handok gear / pilot pumps */
+/** Stands 29, 38, 39, 41 Handok gear / pilot pumps */
 export const gearPilotPumpParts: Part[] = [
   // —— Stand 41 ——
   pump({
@@ -178,12 +181,35 @@ export const gearPilotPumpParts: Part[] = [
     partNumber: "61383",
     partNumbers: ["61383", "HD-61383"],
     name: "Gear Pump Ass'y (HPV75 PC60-6 OLD)",
-    quantity: 1,
+    quantity: 2,
     stand: 38,
     componentType: "Gear Pump Assembly",
     ageGroup: "OLD",
     weightKg: 5.02,
     productionDate: "2012-10-18",
     compatibility: ["Komatsu PC60-6", "HPV75"],
+  }),
+  pump({
+    id: "hydraulic-gp-hpv90-series5-pp",
+    partNumber: "HPV90-SERIES5-PP",
+    partNumbers: ["HPV90-SERIES5-PP", "HD-HPV90-SERIES5-PP"],
+    name: "Pilot Gear Pump (HPV90 Series 5)",
+    quantity: 1,
+    stand: 38,
+    componentType: "Pilot Gear Pump",
+    series: "Series 5",
+    compatibility: ["Komatsu HPV90 Series 5"],
+  }),
+
+  // —— Stand 29 ——
+  pump({
+    id: "hydraulic-gp-a7vo250-pp",
+    partNumber: "A7VO250-PP",
+    partNumbers: ["A7VO250-PP", "HD-A7VO250-PP"],
+    name: "Pilot Gear Pump (A7VO250)",
+    quantity: 2,
+    stand: 29,
+    componentType: "Pilot Gear Pump",
+    compatibility: ["Rexroth A7VO250"],
   }),
 ];
