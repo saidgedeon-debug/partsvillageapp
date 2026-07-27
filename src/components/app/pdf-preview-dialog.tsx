@@ -1,5 +1,5 @@
 ﻿import { useEffect } from "react";
-import { Download } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,9 +16,17 @@ type Props = {
   title: string;
   blobUrl: string | null;
   onDownload: () => void;
+  onShare?: () => void;
 };
 
-export function PdfPreviewDialog({ open, onOpenChange, title, blobUrl, onDownload }: Props) {
+export function PdfPreviewDialog({
+  open,
+  onOpenChange,
+  title,
+  blobUrl,
+  onDownload,
+  onShare,
+}: Props) {
   useEffect(() => {
     return () => {
       if (blobUrl) URL.revokeObjectURL(blobUrl);
@@ -32,13 +40,27 @@ export function PdfPreviewDialog({ open, onOpenChange, title, blobUrl, onDownloa
           <div className="min-w-0">
             <DialogTitle className="truncate font-mono text-sm">{title}</DialogTitle>
             <DialogDescription className="text-xs">
-              Preview only — use Download if you need the file.
+              Preview only — share or download the PDF file (no website link).
             </DialogDescription>
           </div>
-          <Button type="button" size="sm" className="shrink-0 gap-1.5" onClick={onDownload}>
-            <Download className="h-3.5 w-3.5" />
-            Download PDF
-          </Button>
+          <div className="flex shrink-0 items-center gap-1.5">
+            {onShare ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="secondary"
+                className="gap-1.5"
+                onClick={onShare}
+              >
+                <Share2 className="h-3.5 w-3.5" />
+                Share PDF
+              </Button>
+            ) : null}
+            <Button type="button" size="sm" className="gap-1.5" onClick={onDownload}>
+              <Download className="h-3.5 w-3.5" />
+              Download PDF
+            </Button>
+          </div>
         </DialogHeader>
         <div className="min-h-0 flex-1 bg-muted/40">
           {blobUrl ? (

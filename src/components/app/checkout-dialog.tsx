@@ -85,7 +85,7 @@ export function CheckoutDialog() {
 
   const ready = lines.length > 0 && partyName.trim().length > 0;
 
-  const runExport = (andClose: boolean) => {
+  const runExport = async (andClose: boolean) => {
     if (!ready) return;
     const createdAt = new Date();
     const selectedParty =
@@ -97,7 +97,7 @@ export function CheckoutDialog() {
       : undefined;
     const computedTotal = documentGrandTotal(subtotal, appliedDiscount);
 
-    const id = exportAndDeliver(
+    const { id, sharedFile, cancelled } = await exportAndDeliver(
       {
         documentKind,
         partyKind,
@@ -112,6 +112,11 @@ export function CheckoutDialog() {
       format,
       delivery,
     );
+
+    if (cancelled) {
+      toast.message("Share cancelled");
+      return;
+    }
 
     let stockDeducted = false;
     if (isInvoice && deductStock) {
@@ -169,13 +174,20 @@ export function CheckoutDialog() {
     }
 
     const fmt = format === "pdf" ? "PDF" : "Excel";
-    const deliveryMsg =
-      delivery === "whatsapp"
-        ? " — WhatsApp opened"
+    const deliveryMsg = sharedFile
+      ? " — PDF file shared"
+      : delivery === "whatsapp"
+        ? format === "pdf"
+          ? " — PDF downloaded, WhatsApp opened"
+          : " — WhatsApp opened"
         : delivery === "wechat"
-          ? " — message copied for WeChat"
+          ? format === "pdf"
+            ? " — PDF downloaded, message copied for WeChat"
+            : " — message copied for WeChat"
           : delivery === "email"
-            ? " — email draft opened"
+            ? format === "pdf"
+              ? " — PDF downloaded, email draft opened"
+              : " — email draft opened"
             : " — saved offline";
     const stockMsg = stockDeducted ? " · stock updated" : "";
     toast.success(`${fmt} saved (${id})${deliveryMsg}${stockMsg}`);
@@ -386,7 +398,7 @@ export function CheckoutDialog() {
               type="button"
               className="flex-1"
               disabled={!ready}
-              onClick={() => runExport(true)}
+              onClick={() => void runExport(true)}
             >
               Create & close
             </Button>

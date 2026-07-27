@@ -170,8 +170,21 @@ export function buildShareText(doc: ExportDoc): string {
     "",
     footer,
     "",
-    "Your document file has been prepared for you.",
+    "PDF document attached.",
   ].join("\n");
+}
+
+function forceDownloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.rel = "noopener";
+  a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 2_000);
 }
 
 export function downloadExcel(doc: ExportDoc) {
@@ -503,22 +516,68 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   return { pdf, id };
 }
 
-/** Build PDF and return a blob URL for in-app preview (does not download). */
-export function viewPdf(doc: ExportDoc): { id: string; blobUrl: string } {
+/** Build a PDF File for download / native share (never a website URL). */
+export function buildPdfFile(doc: ExportDoc): { id: string; file: File } {
   const { pdf, id } = buildPdf(doc);
   const blob = pdf.output("blob");
-  const blobUrl = URL.createObjectURL(blob);
+  const file = new File([blob], `${id}.pdf`, { type: "application/pdf" });
+  return { id, file };
+}
+
+export function canSharePdfFile(file: File): boolean {
+  return (
+    typeof navigator !== "undefined" &&
+    typeof navigator.share === "function" &&
+    typeof navigator.canShare === "function" &&
+    navigator.canShare({ files: [file] })
+  );
+}
+
+/**
+ * Share the PDF file itself via the OS share sheet.
+ * Deliberately omits `url` so recipients never get a website link.
+ */
+export async function sharePdfFile(
+  doc: ExportDoc,
+): Promise<{ id: string; shared: boolean; cancelled?: boolean }> {
+  const { id, file } = buildPdfFile(doc);
+  const title = `Parts Village — ${docLabels[doc.documentKind]} ${id}`;
+  const text = buildShareText(doc);
+
+  if (canSharePdfFile(file)) {
+    try {
+      await navigator.share({
+        files: [file],
+        title,
+        text,
+      });
+      return { id, shared: true };
+    } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") {
+        return { id, shared: false, cancelled: true };
+      }
+    }
+  }
+
+  forceDownloadBlob(file, `${id}.pdf`);
+  return { id, shared: false };
+}
+
+/** Build PDF and return a blob URL for in-app preview (does not download). */
+export function viewPdf(doc: ExportDoc): { id: string; blobUrl: string } {
+  const { id, file } = buildPdfFile(doc);
+  const blobUrl = URL.createObjectURL(file);
   return { id, blobUrl };
 }
 
 /** Explicit download only — call when the user asks to download. */
 export function downloadPdf(doc: ExportDoc): string {
-  const { pdf, id } = buildPdf(doc);
-  pdf.save(`${id}.pdf`);
+  const { id, file } = buildPdfFile(doc);
+  forceDownloadBlob(file, `${id}.pdf`);
   return id;
 }
 
-function toExportDoc(doc: {
+type SavedDocInput = {
   id: string;
   kind: DocumentKind;
   partyKind: PartyKind;
@@ -535,7 +594,9 @@ function toExportDoc(doc: {
   invoiceTotal?: number;
   amountPaidAfter?: number;
   internalNote?: string;
-}): ExportDoc {
+};
+
+function toExportDoc(doc: SavedDocInput): ExportDoc {
   return {
     id: doc.id,
     documentKind: doc.kind,
@@ -557,47 +618,20 @@ function toExportDoc(doc: {
 }
 
 /** Preview a saved document (no download). */
-export function openSavedDocument(doc: {
-  id: string;
-  kind: DocumentKind;
-  partyKind: PartyKind;
-  partyName: string;
-  lines: CartLine[];
-  createdAt: string;
-  includeCost?: boolean;
-  discountType?: DocumentDiscountType;
-  discountValue?: number;
-  invoiceId?: string;
-  paymentMethod?: PaymentMethod;
-  paymentDate?: string;
-  paymentMobile?: string;
-  invoiceTotal?: number;
-  amountPaidAfter?: number;
-  internalNote?: string;
-}): { id: string; blobUrl: string } {
+export function openSavedDocument(doc: SavedDocInput): { id: string; blobUrl: string } {
   return viewPdf(toExportDoc(doc));
 }
 
 /** Download a saved document PDF. */
-export function downloadSavedDocument(doc: {
-  id: string;
-  kind: DocumentKind;
-  partyKind: PartyKind;
-  partyName: string;
-  lines: CartLine[];
-  createdAt: string;
-  includeCost?: boolean;
-  discountType?: DocumentDiscountType;
-  discountValue?: number;
-  invoiceId?: string;
-  paymentMethod?: PaymentMethod;
-  paymentDate?: string;
-  paymentMobile?: string;
-  invoiceTotal?: number;
-  amountPaidAfter?: number;
-  internalNote?: string;
-}): string {
+export function downloadSavedDocument(doc: SavedDocInput): string {
   return downloadPdf(toExportDoc(doc));
+}
+
+/** Share a saved document as a PDF file (no website link). */
+export async function shareSavedDocument(
+  doc: SavedDocInput,
+): Promise<{ id: string; shared: boolean; cancelled?: boolean }> {
+  return sharePdfFile(toExportDoc(doc));
 }
 
 export function openWhatsApp(doc: ExportDoc) {
@@ -624,14 +658,41 @@ export function openEmailShare(doc: ExportDoc) {
   );
 }
 
-export function exportAndDeliver(
+export type ExportDeliveryResult = {
+  id: string;
+  /** True when the OS share sheet sent the PDF file (no website URL). */
+  sharedFile: boolean;
+  cancelled?: boolean;
+};
+
+/**
+ * Export document and deliver.
+ * For PDF + WhatsApp/WeChat/Email, prefers sharing the PDF file itself
+ * (never a website link). Falls back to download + text channel.
+ */
+export async function exportAndDeliver(
   doc: ExportDoc,
   format: ExportFormat,
   delivery: DeliveryMethod,
-): string {
+): Promise<ExportDeliveryResult> {
+  if (format === "pdf" && delivery !== "offline") {
+    const result = await sharePdfFile(doc);
+    if (result.cancelled) {
+      return { id: result.id, sharedFile: false, cancelled: true };
+    }
+    if (result.shared) {
+      return { id: result.id, sharedFile: true };
+    }
+    // Desktop / no file-share support: PDF downloaded; open text channel only (no URL).
+    if (delivery === "whatsapp") openWhatsApp(doc);
+    if (delivery === "wechat") openWeChatShare(doc);
+    if (delivery === "email") openEmailShare(doc);
+    return { id: result.id, sharedFile: false };
+  }
+
   const id = format === "pdf" ? downloadPdf(doc) : downloadExcel(doc);
   if (delivery === "whatsapp") openWhatsApp(doc);
   if (delivery === "wechat") openWeChatShare(doc);
   if (delivery === "email") openEmailShare(doc);
-  return id;
+  return { id, sharedFile: false };
 }

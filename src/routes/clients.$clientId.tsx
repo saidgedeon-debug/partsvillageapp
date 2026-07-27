@@ -53,7 +53,7 @@ import {
   openOverdueWhatsApp,
   openStatementWhatsApp,
 } from "@/lib/ar-statement";
-import { openSavedDocument, downloadSavedDocument } from "@/lib/document-export";
+import { openSavedDocument, downloadSavedDocument, shareSavedDocument } from "@/lib/document-export";
 import { statusChipClass } from "@/lib/status-styles";
 
 export const Route = createFileRoute("/clients/$clientId")({
@@ -609,6 +609,21 @@ function ClientDetail() {
           if (!preview) return;
           downloadSavedDocument(preview.doc);
           toast.success(`Downloaded ${preview.doc.id}.pdf`);
+        }}
+        onShare={() => {
+          if (!preview) return;
+          void (async () => {
+            const result = await shareSavedDocument(preview.doc);
+            if (result.cancelled) {
+              toast.message("Share cancelled");
+              return;
+            }
+            if (result.shared) {
+              toast.success(`Shared ${result.id}.pdf`);
+              return;
+            }
+            toast.success(`Downloaded ${result.id}.pdf — attach the file when sharing`);
+          })();
         }}
       />
 

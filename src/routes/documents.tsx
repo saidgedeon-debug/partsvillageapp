@@ -9,6 +9,7 @@ import {
   PackageSearch,
   Pencil,
   Receipt,
+  Share2,
   StickyNote,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -46,7 +47,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { downloadSavedDocument, openSavedDocument } from "@/lib/document-export";
+import { downloadSavedDocument, openSavedDocument, shareSavedDocument } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 const DOC_TABS = ["quotations", "invoices", "receipts", "inquiries"] as const;
@@ -195,6 +196,19 @@ function DocumentsPage() {
     toast.success(`Downloaded ${doc.id}.pdf`);
   };
 
+  const shareDoc = async (doc: SavedDocument) => {
+    const result = await shareSavedDocument(withReceiptBalance(doc));
+    if (result.cancelled) {
+      toast.message("Share cancelled");
+      return;
+    }
+    if (result.shared) {
+      toast.success(`Shared ${result.id}.pdf`);
+      return;
+    }
+    toast.success(`Downloaded ${result.id}.pdf — attach the file when sharing`);
+  };
+
   return (
     <>
       <PageHeader
@@ -231,6 +245,9 @@ function DocumentsPage() {
           blobUrl={preview?.blobUrl ?? null}
           onDownload={() => {
             if (preview) downloadDoc(preview.doc);
+          }}
+          onShare={() => {
+            if (preview) void shareDoc(preview.doc);
           }}
         />
         <Tabs value={tab} onValueChange={setTab}>
@@ -277,7 +294,12 @@ function DocumentsPage() {
                     options={["Draft", "Sent", "Accepted", "Rejected"]}
                     onChange={(s) => updateDocumentStatus(qu.id, s as QuoteStatus)}
                   />,
-                  <OpenButton key="o" onOpen={() => openDoc(qu)} onDownload={() => downloadDoc(qu)} />,
+                  <OpenButton
+                    key="o"
+                    onOpen={() => openDoc(qu)}
+                    onDownload={() => downloadDoc(qu)}
+                    onShare={() => void shareDoc(qu)}
+                  />,
                 ],
               }))}
               emptyTitle={q ? `No quotations match “${query}”` : "No quotations yet"}
@@ -368,6 +390,7 @@ function DocumentsPage() {
                     <OpenButton
                       onOpen={() => openDoc(iv)}
                       onDownload={() => downloadDoc(iv)}
+                      onShare={() => void shareDoc(iv)}
                       extraItems={[
                         {
                           label: "Edit",
@@ -421,7 +444,12 @@ function DocumentsPage() {
                   <span key="t" className="font-semibold">
                     {currency(rc.total)}
                   </span>,
-                  <OpenButton key="o" onOpen={() => openDoc(rc)} onDownload={() => downloadDoc(rc)} />,
+                  <OpenButton
+                    key="o"
+                    onOpen={() => openDoc(rc)}
+                    onDownload={() => downloadDoc(rc)}
+                    onShare={() => void shareDoc(rc)}
+                  />,
                 ],
               }))}
               emptyTitle={
@@ -455,7 +483,12 @@ function DocumentsPage() {
                     options={["Open", "Answered", "Closed"]}
                     onChange={(st) => updateDocumentStatus(s.id, st as InquiryStatus)}
                   />,
-                  <OpenButton key="o" onOpen={() => openDoc(s)} onDownload={() => downloadDoc(s)} />,
+                  <OpenButton
+                    key="o"
+                    onOpen={() => openDoc(s)}
+                    onDownload={() => downloadDoc(s)}
+                    onShare={() => void shareDoc(s)}
+                  />,
                 ],
               }))}
               emptyTitle={q ? `No inquiries match “${query}”` : "No inquiries yet"}
@@ -489,10 +522,12 @@ function DocIdLink({ id, onOpen }: { id: string; onOpen: () => void }) {
 function OpenButton({
   onOpen,
   onDownload,
+  onShare,
   extraItems,
 }: {
   onOpen: () => void;
   onDownload: () => void;
+  onShare?: () => void;
   extraItems?: { label: string; icon?: typeof Pencil; onSelect: () => void }[];
 }) {
   return (
@@ -526,6 +561,12 @@ function OpenButton({
               {item.label}
             </DropdownMenuItem>
           ))}
+          {onShare ? (
+            <DropdownMenuItem onClick={onShare}>
+              <Share2 className="h-3.5 w-3.5" />
+              Share PDF
+            </DropdownMenuItem>
+          ) : null}
           <DropdownMenuItem onClick={onDownload}>
             <Download className="h-3.5 w-3.5" />
             Download
