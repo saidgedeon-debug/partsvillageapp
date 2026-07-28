@@ -67,6 +67,19 @@ export function hydraulicMisc(opts: {
 
 /** Hydraulic misc stock — Stands as counted. */
 export const hydraulicMiscParts: Part[] = [
+  // --- Stand 37 ---
+  hydraulicMisc({
+    id: "hydraulic-misc-57276-s37",
+    partNumber: "57276",
+    partNumbers: ["57276", "HPV95", "HPV95 Series 7"],
+    name: "CRADLE",
+    description: "CRADLE",
+    model: "HPV95 Series 7",
+    quantity: 2,
+    stand: 37,
+    compatibility: ["HPV95", "HPV95 Series 7"],
+  }),
+
   // --- Stand 7 (top row L→R) ---
   hydraulicMisc({
     id: "hydraulic-misc-59312-s7",
