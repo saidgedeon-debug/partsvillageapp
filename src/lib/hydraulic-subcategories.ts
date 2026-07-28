@@ -12,6 +12,7 @@ export const HYDRAULIC_SUBCATEGORIES = [
   "gear / pilot pump",
   "drive shafts",
   "regulators",
+  "misc",
   "Gauges & Accessories",
 ] as const;
 

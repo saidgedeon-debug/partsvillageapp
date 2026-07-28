@@ -95,6 +95,19 @@ export const driveShaftParts: Part[] = [
     compatibility: ["Rexroth A8VO107", "Caterpillar 225", "CAT 225"],
   }),
 
+  // --- Stand 32 ---
+  driveShaft({
+    id: "hydraulic-ds-099-5864-s32",
+    partNumber: "099-5864",
+    partNumbers: ["099-5864", "0995864", "A8VO107"],
+    name: "DRIVE SHAFT",
+    description: "DRIVE SHAFT",
+    model: "A8VO107",
+    quantity: 1,
+    stand: 32,
+    compatibility: ["Rexroth A8VO107"],
+  }),
+
   // --- Stand 36 ---
   driveShaft({
     id: "hydraulic-ds-59380-s36",
