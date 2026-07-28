@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import { CircleDot, Disc, Gauge, LayoutGrid, Link2, Package } from "lucide-react";
+import { CircleDot, Cog, Disc, Gauge, LayoutGrid, Link2, Package } from "lucide-react";
 
+import { BEARING_SUBCATEGORIES } from "@/lib/bearings-subcategories";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulic-subcategories";
 import type { Part } from "@/lib/mock-data";
 
@@ -66,6 +67,7 @@ export const STANDARD_CATEGORY_LABELS = [
   "Couplings",
   "Gauges & Accessories",
   "Hydraulic Parts",
+  "Bearings",
   "MISC",
 ] as const;
 
@@ -124,6 +126,7 @@ function iconFor(category: string): LucideIcon {
   if (c.includes("coupling") || c.includes("coupler")) return Link2;
   if (c.includes("gauge")) return Gauge;
   if (c.includes("hydraulic")) return Disc;
+  if (c.includes("bearing")) return Cog;
   return Package;
 }
 
@@ -165,6 +168,13 @@ const basePinned: InventoryCategoryDef[] = [
     icon: Disc,
   },
   {
+    id: "bearings",
+    label: "Bearings",
+    description: BEARING_SUBCATEGORIES.join(" · "),
+    matchCategory: "Bearings",
+    icon: Cog,
+  },
+  {
     id: "misc",
     label: "MISC",
     description: "Mufflers, tanks & other accessories",
@@ -180,6 +190,7 @@ export const MAIN_INVENTORY_CATEGORY_IDS = [
   "couplings",
   "gauges",
   "hydraulics",
+  "bearings",
   "misc",
 ] as const;
 
