@@ -221,12 +221,14 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const customCategories = store.customCategories ?? [];
 
   const parts = useMemo(() => {
-    const fromCatalog = catalogBase.map((p) => {
-      const o = overrides[p.id];
-      return o ? applyOverride(p, o) : p;
-    });
-    const catalogIds = new Set(catalogBase.map((p) => p.id));
-    const custom = customParts.filter((p) => !catalogIds.has(p.id));
+    const fromCatalog = catalogBase
+      .filter((p): p is Part => Boolean(p?.id))
+      .map((p) => {
+        const o = overrides[p.id];
+        return o ? applyOverride(p, o) : p;
+      });
+    const catalogIds = new Set(fromCatalog.map((p) => p.id));
+    const custom = customParts.filter((p) => p?.id && !catalogIds.has(p.id));
     return [...fromCatalog, ...custom];
   }, [catalogBase, overrides, customParts]);
 

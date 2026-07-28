@@ -22,7 +22,7 @@ export function loadCatalogParts(): Promise<Part[]> {
         ...gauges.gaugeParts,
         ...hydraulics.hydraulicParts,
         ...misc.miscParts,
-      ];
+      ].filter((p): p is Part => Boolean(p?.id));
       return cached;
     })
     .catch((err) => {

@@ -8161,7 +8161,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "139.40",
     crossSectionMm: "3.10",
     notes: "",
-  },,
+  },
   {
     id: "oring-0545",
     partNumber: "AS568-348",
@@ -8806,7 +8806,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "149.30",
     crossSectionMm: "5.70",
     notes: "",
-  },,
+  },
   {
     id: "oring-0588",
     partNumber: "Metric 50mm",
@@ -9796,7 +9796,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "124.60",
     crossSectionMm: "5.70",
     notes: "",
-  },,
+  },
   {
     id: "oring-0654",
     partNumber: "JIS G225",
@@ -10396,7 +10396,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "50.52",
     crossSectionMm: "1.78",
     notes: "",
-  },,
+  },
   {
     id: "oring-0694",
     partNumber: "AS568-345",
@@ -10726,7 +10726,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "59.60",
     crossSectionMm: "5.70",
     notes: "",
-  },,
+  },
   {
     id: "oring-0716",
     partNumber: "JIS P25",
@@ -11116,7 +11116,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "39.50",
     crossSectionMm: "4.00",
     notes: "",
-  },,
+  },
   {
     id: "oring-0742",
     partNumber: "Metric 11x1.6",
@@ -11641,7 +11641,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "Metric ID",
     crossSectionMm: "Metric CS",
     notes: "",
-  },,
+  },
   {
     id: "oring-0777",
     partNumber: "JIS P115",
@@ -12121,7 +12121,7 @@ export const oringParts: Part[] = [
     insideDiameterMm: "405.26",
     crossSectionMm: "3.53",
     notes: "",
-  },,
+  },
   {
     id: "oring-0809",
     partNumber: "Metric 169x4",
