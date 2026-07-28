@@ -12,40 +12,43 @@ export function regulator(opts: {
   description?: string;
   quantity: number;
   stand?: number;
-  /** Pump / unit this regulator fits, e.g. A8VO107 */
+  /** Pump / unit this regulator fits, e.g. HPV145GW */
+  model?: string;
   pumpModel?: string;
+  /** e.g. 6=PORT & N=TYPE */
+  config?: string;
   brand?: string;
   origin?: string;
   compatibility?: string[];
   notesExtra?: string;
 }): Part {
+  const pumpModel = (opts.model ?? opts.pumpModel)?.trim() || undefined;
   const partNumbers = opts.partNumbers?.length
     ? [...opts.partNumbers]
     : [opts.partNumber];
-  if (opts.pumpModel?.trim()) {
-    const m = opts.pumpModel.trim();
-    if (!partNumbers.some((p) => p.toLowerCase() === m.toLowerCase())) {
-      partNumbers.push(m);
+  if (pumpModel) {
+    if (!partNumbers.some((p) => p.toLowerCase() === pumpModel.toLowerCase())) {
+      partNumbers.push(pumpModel);
     }
   }
   const brand = opts.brand?.trim() || handok;
   const name =
     opts.name?.trim() ||
     opts.description?.trim() ||
-    (opts.pumpModel
-      ? `Regulator ${opts.pumpModel}`
-      : `Regulator ${opts.partNumber}`);
+    (pumpModel ? `Regulator ${pumpModel}` : `Regulator ${opts.partNumber}`);
   const detailBits = [
-    opts.pumpModel ? `Pump ${opts.pumpModel}` : null,
+    pumpModel ? `Pump ${pumpModel}` : null,
     opts.description ?? null,
+    opts.config?.trim() ? opts.config.trim() : null,
   ].filter(Boolean);
   const noteBits = [
     `Subcategory: ${sub}`,
     opts.stand != null ? `Stand ${opts.stand}` : null,
     `Manufacturer: ${brand}`,
     opts.origin?.trim() ? `Origin: ${opts.origin.trim()}` : null,
-    opts.pumpModel ? `Pump model: ${opts.pumpModel}` : null,
+    pumpModel ? `Pump model: ${pumpModel}` : null,
     opts.description ? `Desc: ${opts.description}` : null,
+    opts.config?.trim() ? `Config: ${opts.config.trim()}` : null,
     `OEM xref: ${partNumbers.join(", ")}`,
     opts.notesExtra ?? null,
   ].filter(Boolean);
@@ -68,5 +71,43 @@ export function regulator(opts: {
   };
 }
 
-/** Regulators stock — add rows here as inventory is counted. */
-export const regulatorParts: Part[] = [];
+/** Regulators stock — Stands as counted. */
+export const regulatorParts: Part[] = [
+  // --- Stand 33 ---
+  regulator({
+    id: "hydraulic-reg-47907-s33",
+    partNumber: "47907",
+    partNumbers: ["47907", "HPV145GW", "HPV145"],
+    name: "REGULATOR ASS'Y(-)",
+    description: "REGULATOR ASS'Y(-)",
+    model: "HPV145GW",
+    config: "6=PORT & N=TYPE",
+    quantity: 1,
+    stand: 33,
+    compatibility: ["HPV145GW", "HPV145"],
+  }),
+  regulator({
+    id: "hydraulic-reg-57309-s33",
+    partNumber: "57309",
+    partNumbers: ["57309", "HPV145GW", "HPV145"],
+    name: "REGULATOR ASS'Y(+)",
+    description: "REGULATOR ASS'Y(+)",
+    model: "HPV145GW",
+    config: "6=PORT & P=TYPE",
+    quantity: 1,
+    stand: 33,
+    compatibility: ["HPV145GW", "HPV145"],
+  }),
+  regulator({
+    id: "hydraulic-reg-60585-s33",
+    partNumber: "60585",
+    partNumbers: ["60585", "HPV116CW", "HPV116"],
+    name: "REGULATOR ASS'Y(-)",
+    description: "REGULATOR ASS'Y(-)",
+    model: "HPV116CW",
+    config: "6=PORT & N=TYPE",
+    quantity: 2,
+    stand: 33,
+    compatibility: ["HPV116CW", "HPV116"],
+  }),
+];
