@@ -5,6 +5,7 @@ import { cylinderBlockParts } from "@/lib/hydraulic-cylinder-blocks";
 import { driveShaftParts } from "@/lib/hydraulic-drive-shafts";
 import { gearPilotPumpParts } from "@/lib/hydraulic-gear-pilot-pumps";
 import { hydraulicMiscParts } from "@/lib/hydraulic-misc";
+import { manifoldParts } from "@/lib/hydraulic-manifolds";
 import { regulatorParts } from "@/lib/hydraulic-regulators";
 import { hydraulicValveParts } from "@/lib/hydraulic-valves";
 import { gearsAndShaftsParts } from "@/lib/hydraulic-gears-shafts";
@@ -1058,5 +1059,6 @@ export const hydraulicParts: Part[] = [
   ...driveShaftParts,
   ...regulatorParts,
   ...hydraulicValveParts,
+  ...manifoldParts,
   ...hydraulicMiscParts,
 ];
