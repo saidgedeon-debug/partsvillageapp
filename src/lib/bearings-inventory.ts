@@ -112,7 +112,7 @@ const rows: BearingRow[] = [
   { stand: 78, code: "NUP308ET", type: "Cylindrical Roller", sizeMm: "40x90x23", qty: 1 },
   { stand: 78, code: "22219CDE4", type: "Spherical Roller", sizeMm: "95x170x43", qty: 6 },
   { stand: 78, code: "23024CDE4", type: "Spherical Roller", sizeMm: "120x180x46", qty: 4 },
-  { stand: 78, code: "30213", type: "Tapered Roller", sizeMm: "65x120x24.75", qty: 1 },
+  { stand: 78, code: "30213", type: "Tapered Roller", sizeMm: "65x120x24.75", qty: 2 },
 ];
 
 export const bearingParts: Part[] = rows.map(bearing);
