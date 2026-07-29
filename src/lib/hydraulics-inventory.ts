@@ -814,6 +814,37 @@ export const hydraulicParts: Part[] = [
     notes:
       "Subcategory: Ball Guide · Shelf 28 · Manufacturer: Handok Hydraulic (South Korea) · Weight ~0.12 kg · OEM xref: 08001, HD-08001, AP2D12-BG, AP2D12-BALL-GUIDE · Uchida / Rexroth AP2D12 pumps",
   },
+  {
+    id: "hydraulic-bg-ap2d16-s11",
+    partNumber: "AP2D16-BG",
+    partNumbers: ["AP2D16-BG", "AP2D16", "AP2D16-BALL-GUIDE", "AP2D16-CENTER-PIN"],
+    name: "Ball Guide (Center Pin) — AP2D16",
+    description:
+      "Aftermarket Premium Grade · AP2D16 rotary group barrel center guide ball · Uchida / Rexroth",
+    category: "Hydraulic Parts",
+    subcategory: "Ball Guide",
+    boxNumber: 11,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: [
+      "Uchida AP2D16",
+      "Rexroth AP2D16",
+      "Takeuchi TB014",
+      "Takeuchi TB016",
+      "Takeuchi TB108",
+      "Yanmar Vio15",
+      "Yanmar Vio17",
+      "Kubota KX41-2",
+      "Kubota KX41-3",
+      "Kubota U15",
+      "Komatsu PC15R-8",
+      "Komatsu PC18MR",
+    ],
+    notes:
+      "Subcategory: Ball Guide · Stand 11 · Manufacturer: Aftermarket Premium Grade · Type: Rotary Group Barrel Center Guide Ball · Primary: centers cylinder block barrel with retainer plate for piston shoe sliding · OEM xref: AP2D16-BG, AP2D16",
+  },
   // —— shoe/thrust plate ——
   {
     id: "hydraulic-tp-9T-3408-s12",
