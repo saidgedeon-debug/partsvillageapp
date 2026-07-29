@@ -1,12 +1,12 @@
-/** cylinder block subcategory seed — Hydraulic Parts (Stands 44–57). */
+/** cylinder block / rotary group seed — Hydraulic Parts. */
 import type { Part } from "@/lib/mock-data";
 
 const handok = "Handok Hydraulic (South Korea)";
 const aftermarket = "Aftermarket Premium Grade";
 const engrenax = "Engrenax (Canada)";
-const sub = "cylinder block";
+const subDefault = "cylinder block";
 
-type Stand = 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
+type Stand = 10 | 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
 
 function block(opts: {
   id: string;
@@ -17,15 +17,18 @@ function block(opts: {
   stand: Stand;
   manufacturer?: string;
   componentType?: string;
+  subcategory?: string;
   compatibility: string[];
   length?: string;
   orientation?: string;
   sizeParameter?: string;
   variant?: string;
   configuration?: string;
+  notesExtra?: string;
 }): Part {
   const mfr = opts.manufacturer ?? handok;
   const type = opts.componentType ?? "Cylinder Block";
+  const sub = opts.subcategory ?? subDefault;
   const detailBits = [
     type,
     opts.length ? `L ${opts.length}` : null,
@@ -45,6 +48,7 @@ function block(opts: {
     opts.variant ? `Variant: ${opts.variant}` : null,
     opts.configuration ? `Configuration: ${opts.configuration}` : null,
     `OEM xref: ${opts.partNumbers.join(", ")}`,
+    opts.notesExtra ?? null,
   ].filter(Boolean);
 
   return {
@@ -65,8 +69,32 @@ function block(opts: {
   };
 }
 
-/** Stands 44–57 cylinder blocks / barrels / rotary groups */
+/** Cylinder blocks / barrels / rotary groups */
 export const cylinderBlockParts: Part[] = [
+  // —— Stand 10 ——
+  block({
+    id: "hydraulic-cb-pv24-assy-s10",
+    partNumber: "PV24",
+    partNumbers: ["PV24", "SPV6-024", "SPV6-024-ASSY", "Sundstrand PV24"],
+    name: "Complete Cylinder Block Assy (PV24 / SPV6-024)",
+    quantity: 2,
+    stand: 10,
+    manufacturer: aftermarket,
+    subcategory: "Rotary Groups & Blocks",
+    componentType: "Complete Cylinder Block Assembly",
+    configuration: "24 cc/rev · 9-piston closed-loop hydrostatic",
+    compatibility: [
+      "Sauer-Danfoss PV24",
+      "Sundstrand PV24",
+      "SPV6-024",
+      "Transit concrete mixer drum drives",
+      "Asphalt / soil vibratory compactor rollers",
+      "Agricultural combine harvester hydraulic ground drives",
+    ],
+    notesExtra:
+      "Assy contents: cylinder block barrel ×1, block springs ×6, ball guide ×1, retainer/set plate ×1 · System: closed loop hydrostatic piston pump/motor · Displacement 24 cc/rev · Piston capacity 9",
+  }),
+
   // —— Stand 46 ——
   block({
     id: "hydraulic-cb-43847-s46",
