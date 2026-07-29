@@ -8,6 +8,7 @@ export const HYDRAULIC_SUBCATEGORIES = [
   "retainer / set plate",
   "servo piston",
   "cylinder block",
+  "Rotary Groups & Blocks",
   "gears and shafts",
   "gear / pilot pump",
   "drive shafts",
