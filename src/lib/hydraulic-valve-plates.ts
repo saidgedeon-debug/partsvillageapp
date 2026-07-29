@@ -73,6 +73,47 @@ export const valvePlateParts: Part[] = [
       { brand: "Sundstrand", models: ["PV24", "SPV6-024"] },
     ],
   }),
+  vp({
+    id: "hydraulic-vp-960621-3-s10",
+    partNumber: "960621-3",
+    partNumbers: [
+      "960621-3",
+      "9606213",
+      "18V107SR1R",
+      "A8V107SR1R",
+      "A8V107",
+    ],
+    name: "VALVE PLATE RIGHT — 18V107SR1R / A8V107",
+    quantity: 2,
+    manufacturer: handok,
+    boxNumber: 10,
+    location: "Stand 10",
+    componentType: "Valve Plate · Right (R)",
+    fitment: [
+      { brand: "Rexroth", models: ["A8V107SR1R", "A8V107", "18V107SR1R"] },
+      { brand: "Uchida", models: ["A8V107SR1R", "A8V107"] },
+    ],
+  }),
+  vp({
+    id: "hydraulic-vp-609-33158001-s10",
+    partNumber: "609-33158001",
+    partNumbers: [
+      "609-33158001",
+      "60933158001",
+      "A8V107SR1R",
+      "A8V107",
+    ],
+    name: "VALVE PLATE LEFT — A8V107SR1R",
+    quantity: 1,
+    manufacturer: handok,
+    boxNumber: 10,
+    location: "Stand 10",
+    componentType: "Valve Plate · Left (L)",
+    fitment: [
+      { brand: "Rexroth", models: ["A8V107SR1R", "A8V107"] },
+      { brand: "Uchida", models: ["A8V107SR1R", "A8V107"] },
+    ],
+  }),
 
   // —— Stand 30 (Handok) ——
   vp({
