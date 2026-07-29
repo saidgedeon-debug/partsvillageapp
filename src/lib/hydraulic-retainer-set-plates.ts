@@ -18,8 +18,8 @@ function sp(opts: {
   name: string;
   quantity: number;
   manufacturer: string;
-  boxNumber: 12 | 26 | 27 | 58;
-  location: "Stand 12" | "Stand 26" | "Stand 27" | "Stand 58";
+  boxNumber: 11 | 12 | 26 | 27 | 58;
+  location: "Stand 11" | "Stand 12" | "Stand 26" | "Stand 27" | "Stand 58";
   fitment: Fit[];
   reorderAt?: number;
   componentType?: string;
@@ -57,6 +57,27 @@ const aftermarket = "Aftermarket Premium Grade";
 
 /** Retainer / set plates — Stands as counted. */
 export const retainerSetPlateParts: Part[] = [
+  // —— Stand 11 ——
+  sp({
+    id: "hydraulic-sp-5I-8633-s11",
+    partNumber: "5I-8633",
+    partNumbers: ["5I-8633", "5I8633", "M2X120-SP", "M2X120"],
+    name: "Retainer Plate / Set Plate — M2X120",
+    quantity: 8,
+    manufacturer: "Caterpillar OEM / Premium Replacement",
+    boxNumber: 11,
+    location: "Stand 11",
+    componentType: "Retainer Plate / Set Plate",
+    fitment: [
+      {
+        brand: "Caterpillar",
+        models: ["315B L", "317B L", "318B", "320B", "320B L", "320C", "320D"],
+      },
+      { brand: "Kawasaki", models: ["M2X120"] },
+      { brand: "Uchida", models: ["M2X120"] },
+    ],
+  }),
+
   // —— Stand 12 ——
   sp({
     id: "hydraulic-sp-ap2d36-s12",
