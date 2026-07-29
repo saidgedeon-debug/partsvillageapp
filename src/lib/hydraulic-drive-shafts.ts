@@ -665,6 +665,33 @@ export const driveShaftParts: Part[] = [
     notesExtra: "New spline · Label length 291.5L · Weight 1.76 kg",
   }),
 
+  // --- Stand 12 ---
+  driveShaft({
+    id: "hydraulic-ds-5I-4469-s12",
+    partNumber: "5I-4469",
+    partNumbers: ["5I-4469", "5I4469", "A8VO160"],
+    name: "Upper Drive Pinion / Shaft Component",
+    description: "Upper Drive Pinion / Shaft Component",
+    model: "A8VO160 (Rexroth / Uchida Main Dual Pump)",
+    quantity: 1,
+    stand: 12,
+    brand: "Engrenages Canada (Caterpillar Replacement)",
+    compatibility: [
+      "Rexroth A8VO160",
+      "Uchida A8VO160",
+      "Caterpillar 330B",
+      "Caterpillar 330B L",
+      "Caterpillar 330B LN",
+      "Caterpillar 330C",
+      "Caterpillar 330D",
+      "CAT 330B",
+      "CAT 330C",
+      "CAT 330D",
+    ],
+    notesExtra:
+      "Primary: feeds rotative input flywheel energy into main upper gear assembly of tandem pump box",
+  }),
+
   // --- Stand 85 ---
   driveShaft({
     id: "hydraulic-ds-708-27-12720-s85",

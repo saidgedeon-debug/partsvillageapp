@@ -816,6 +816,34 @@ export const hydraulicParts: Part[] = [
   },
   // —— shoe/thrust plate ——
   {
+    id: "hydraulic-tp-9T-3408-s12",
+    partNumber: "9T-3408",
+    partNumbers: ["9T-3408", "9T3408", "M2X120"],
+    name: "Thrust Plate / Shoe Retainer Face — M2X120",
+    description:
+      "Engrenages Canada (Caterpillar Replacement) · M2X120 thrust plate / shoe retainer face · Anti-friction wear coated",
+    category: "Hydraulic Parts",
+    subcategory: "shoe/thrust plate",
+    boxNumber: 12,
+    quantity: 4,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: [
+      "Caterpillar 315B L",
+      "Caterpillar 317B L",
+      "Caterpillar 318B",
+      "Caterpillar 320B",
+      "Caterpillar 320B L",
+      "Caterpillar 320C",
+      "Caterpillar 320D",
+      "Kawasaki M2X120",
+      "Uchida M2X120",
+    ],
+    notes:
+      "Subcategory: shoe/thrust plate · Stand 12 · Manufacturer: Engrenages Canada (Caterpillar Replacement) · Anti-friction wear coated · Primary: low-friction wear face against sliding piston shoe feet · OEM xref: 9T-3408, 9T3408, M2X120",
+  },
+  {
     id: "hydraulic-tp-m2x120-eg",
     partNumber: "M2X120-TP-EG",
     partNumbers: ["M2X120-TP-EG", "M2X120-TP", "EG-M2X120-TP"],
