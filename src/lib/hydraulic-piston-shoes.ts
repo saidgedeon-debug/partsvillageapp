@@ -21,7 +21,7 @@ function pistonShoe(opts: {
   partNumbers: string[];
   name: string;
   quantity: number;
-  stand: 56 | 59 | 60 | 61 | 62;
+  stand: 12 | 56 | 59 | 60 | 61 | 62;
   manufacturer?: string;
   weightKg?: number;
   ringConfig?: string;
@@ -71,6 +71,62 @@ function pistonShoe(opts: {
 
 /** Piston shoes — Stands as counted. */
 export const pistonShoeParts: Part[] = [
+  // —— Stand 12 ——
+  pistonShoe({
+    id: "hydraulic-piston-shoe-ap2d36-s12",
+    partNumber: "AP2D36-PS",
+    partNumbers: ["AP2D36-PS", "AP2D36", "AP2D36-PISTON-SET"],
+    name: "Piston Shoe Set — AP2D36 (9 pcs per set)",
+    quantity: 1,
+    stand: 12,
+    manufacturer: aftermarket,
+    boxSetQty: 9,
+    pumpType: "AP2D36 (Uchida / Rexroth)",
+    fitment: [
+      { brand: "Uchida", models: ["AP2D36"] },
+      { brand: "Rexroth", models: ["AP2D36"] },
+      { brand: "Takeuchi", models: ["TB135", "TB138FR", "TB145"] },
+      { brand: "Yanmar", models: ["Vio35", "Vio35-3", "Vio35-5"] },
+      { brand: "Kubota", models: ["KX91-3", "KX101-3"] },
+    ],
+    notesExtra:
+      "Complete rotary piston shoe kit · Induction-hardened steel with high-wear bimetallic brass shoe feet",
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-yc35-6-s12",
+    partNumber: "YC35-6-PS",
+    partNumbers: ["YC35-6-PS", "YC35-6", "YC35-7", "YC35-8"],
+    name: "Travel Motor Piston Shoe — YC35-6",
+    quantity: 1,
+    stand: 12,
+    manufacturer: aftermarket,
+    pumpType: "YC35-6 (Yuchai Mini Excavator Series)",
+    fitment: [
+      { brand: "Yuchai", models: ["YC35-6", "YC35-7", "YC35-8"] },
+    ],
+    notesExtra:
+      "Single piston shoe element for final drive / travel motor",
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-ap2d16-s12",
+    partNumber: "AP2D16-PS",
+    partNumbers: ["AP2D16-PS", "AP2D16", "AP2D16-PISTON-SET"],
+    name: "Piston Shoe Set — AP2D16 (9 pcs per set)",
+    quantity: 1,
+    stand: 12,
+    manufacturer: aftermarket,
+    boxSetQty: 9,
+    pumpType: "AP2D16 (Uchida / Rexroth)",
+    fitment: [
+      { brand: "Uchida", models: ["AP2D16"] },
+      { brand: "Rexroth", models: ["AP2D16"] },
+      { brand: "Takeuchi", models: ["TB014", "TB016", "TB108"] },
+      { brand: "Yanmar", models: ["Vio15", "Vio17"] },
+      { brand: "Kubota", models: ["KX41-2", "KX41-3", "U15"] },
+    ],
+    notesExtra: "Complete rotary piston shoe kit for mini-excavator main pumps",
+  }),
+
   // —— Stand 56 ——
   pistonShoe({
     id: "hydraulic-piston-shoe-5I-8632-s56",

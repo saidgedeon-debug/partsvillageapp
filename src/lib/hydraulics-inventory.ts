@@ -1,6 +1,7 @@
 /** Hydraulic Parts catalog seed — Parts Village. */
 import type { Part } from "@/lib/mock-data";
 import { hydraulicAccessoryParts } from "@/lib/hydraulic-accessories";
+import { hydraulicAssemblyParts } from "@/lib/hydraulic-assemblies";
 import { cylinderBlockParts } from "@/lib/hydraulic-cylinder-blocks";
 import { driveShaftParts } from "@/lib/hydraulic-drive-shafts";
 import { gearPilotPumpParts } from "@/lib/hydraulic-gear-pilot-pumps";
@@ -845,6 +846,34 @@ export const hydraulicParts: Part[] = [
     notes:
       "Subcategory: Ball Guide · Stand 11 · Manufacturer: Aftermarket Premium Grade · Type: Rotary Group Barrel Center Guide Ball · Primary: centers cylinder block barrel with retainer plate for piston shoe sliding · OEM xref: AP2D16-BG, AP2D16",
   },
+  {
+    id: "hydraulic-bg-ap2d25-s12",
+    partNumber: "AP2D25-BG",
+    partNumbers: ["AP2D25-BG", "AP2D25", "AP2D25-BALL-GUIDE", "AP2D25-CENTER-PIN"],
+    name: "Ball Guide (Center Pin) — AP2D25",
+    description:
+      "Aftermarket Premium Grade · AP2D25 rotary group barrel center guide ball · Uchida / Rexroth",
+    category: "Hydraulic Parts",
+    subcategory: "Ball Guide",
+    boxNumber: 12,
+    quantity: 1,
+    reorderAt: 1,
+    cost: 0,
+    price: 0,
+    compatibility: [
+      "Uchida AP2D25",
+      "Rexroth AP2D25",
+      "Takeuchi TB025",
+      "Takeuchi TB125",
+      "Yanmar Vio25",
+      "Yanmar Vio25-2",
+      "Yanmar Vio27",
+      "Kubota KX61-2",
+      "Kubota KX71-3",
+    ],
+    notes:
+      "Subcategory: Ball Guide · Stand 12 · Manufacturer: Aftermarket Premium Grade · Type: Rotary Group Barrel Center Guide Ball · Primary: radial orientation for cylinder barrel and retainer plate alignment · OEM xref: AP2D25-BG, AP2D25",
+  },
   // —— shoe/thrust plate ——
   {
     id: "hydraulic-tp-9T-3408-s12",
@@ -1120,4 +1149,5 @@ export const hydraulicParts: Part[] = [
   ...hydraulicValveParts,
   ...manifoldParts,
   ...hydraulicMiscParts,
+  ...hydraulicAssemblyParts,
 ];

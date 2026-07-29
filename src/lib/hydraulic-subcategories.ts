@@ -16,6 +16,7 @@ export const HYDRAULIC_SUBCATEGORIES = [
   "regulators",
   "valves",
   "misc",
+  "Complete Assemblies & Motors",
   "Gauges & Accessories",
 ] as const;
 

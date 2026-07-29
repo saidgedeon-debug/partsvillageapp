@@ -6,7 +6,7 @@ const aftermarket = "Aftermarket Premium Grade";
 const engrenax = "Engrenax (Canada)";
 const subDefault = "cylinder block";
 
-type Stand = 10 | 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
+type Stand = 10 | 12 | 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
 
 function block(opts: {
   id: string;
@@ -93,6 +93,28 @@ export const cylinderBlockParts: Part[] = [
     ],
     notesExtra:
       "Assy contents: cylinder block barrel ×1, block springs ×6, ball guide ×1, retainer/set plate ×1 · System: closed loop hydrostatic piston pump/motor · Displacement 24 cc/rev · Piston capacity 9",
+  }),
+
+  // —— Stand 12 ——
+  block({
+    id: "hydraulic-cb-ap2d21-s12",
+    partNumber: "AP2D21",
+    partNumbers: ["AP2D21", "AP2D21-CB", "AP2D21-BARREL"],
+    name: "Cylinder Block (Rotor Barrel) — AP2D21",
+    quantity: 1,
+    stand: 12,
+    manufacturer: aftermarket,
+    componentType: "9-Bore Rotary Group Cylinder Barrel Core",
+    compatibility: [
+      "Uchida AP2D21",
+      "Rexroth AP2D21",
+      "Komatsu PC20MR",
+      "Komatsu PC27MR",
+      "Hitachi ZX20",
+      "Hitachi ZX22U",
+    ],
+    notesExtra:
+      "Houses reciprocating piston assemblies; rotates against valve plate to alternate fluid ports",
   }),
 
   // —— Stand 46 ——
