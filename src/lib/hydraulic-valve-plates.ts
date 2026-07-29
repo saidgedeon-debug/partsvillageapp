@@ -18,9 +18,9 @@ function vp(opts: {
   name: string;
   quantity: number;
   manufacturer: string;
-  /** Physical location number (Stand 23 / Floor 23 / Stand 30 / Stand 59). */
-  boxNumber: 23 | 30 | 59;
-  location: "Stand 23" | "Floor 23" | "Stand 30" | "Stand 59";
+  /** Physical location number (Stand 10 / 23 / Floor 23 / Stand 30 / Stand 59). */
+  boxNumber: 10 | 23 | 30 | 59;
+  location: "Stand 10" | "Stand 23" | "Floor 23" | "Stand 30" | "Stand 59";
   fitment: Fit[];
   reorderAt?: number;
   componentType?: string;
@@ -55,8 +55,25 @@ const handok = "Handok Hydraulic (South Korea)";
 const engrenax = "Engrenax (Canada)";
 const aftermarket = "Aftermarket Premium Grade";
 
-/** Stand 23 / Floor 23 + Stand 30 Valve Plates */
+/** Stand 10 / 23 / Floor 23 + Stand 30 / 59 Valve Plates */
 export const valvePlateParts: Part[] = [
+  // —— Stand 10 ——
+  vp({
+    id: "hydraulic-vp-pv24-l-s10",
+    partNumber: "PV24-VP-L",
+    partNumbers: ["PV24-VP-L", "PV24", "SPV6-024", "Sundstrand PV24"],
+    name: "Valve Plate (Left) — PV24 / SPV6-024",
+    quantity: 2,
+    manufacturer: aftermarket,
+    boxNumber: 10,
+    location: "Stand 10",
+    componentType: "Valve Plate · Left (L)",
+    fitment: [
+      { brand: "Sauer-Danfoss", models: ["PV24", "SPV6-024"] },
+      { brand: "Sundstrand", models: ["PV24", "SPV6-024"] },
+    ],
+  }),
+
   // —— Stand 30 (Handok) ——
   vp({
     id: "hydraulic-vp-kmf41-hd",
