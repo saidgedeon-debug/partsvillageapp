@@ -6,7 +6,7 @@ const aftermarket = "Aftermarket Premium Grade";
 const engrenax = "Engrenax (Canada)";
 const subDefault = "cylinder block";
 
-type Stand = 10 | 12 | 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
+type Stand = 10 | 11 | 12 | 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
 
 function block(opts: {
   id: string;
@@ -93,6 +93,36 @@ export const cylinderBlockParts: Part[] = [
     ],
     notesExtra:
       "Assy contents: cylinder block barrel ×1, block springs ×6, ball guide ×1, retainer/set plate ×1 · System: closed loop hydrostatic piston pump/motor · Displacement 24 cc/rev · Piston capacity 9",
+  }),
+
+  // —— Stand 11 ——
+  block({
+    id: "hydraulic-cb-ap2d16-s11",
+    partNumber: "AP2D16",
+    partNumbers: ["AP2D16", "AP2D16-CB", "AP2D16-BARREL"],
+    name: "Cylinder Block (Rotor Barrel) — AP2D16",
+    quantity: 1,
+    stand: 11,
+    manufacturer: aftermarket,
+    subcategory: "Rotary Groups & Blocks",
+    componentType: "Cylinder Block Core for Main Axial Piston Pump",
+    configuration: "Standard piston bore configuration",
+    compatibility: [
+      "Uchida AP2D16",
+      "Rexroth AP2D16",
+      "Takeuchi TB014",
+      "Takeuchi TB016",
+      "Takeuchi TB108",
+      "Yanmar Vio15",
+      "Yanmar Vio17",
+      "Kubota KX41-2",
+      "Kubota KX41-3",
+      "Kubota U15",
+      "Komatsu PC15R-8",
+      "Komatsu PC18MR",
+    ],
+    notesExtra:
+      "Houses reciprocating piston shoes; rotates against valve plate faces for port timing",
   }),
 
   // —— Stand 12 ——

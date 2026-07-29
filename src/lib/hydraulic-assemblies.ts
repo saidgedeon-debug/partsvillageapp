@@ -57,6 +57,27 @@ export function hydraulicAssembly(opts: {
 
 /** Complete assemblies / motors — Stands as counted. */
 export const hydraulicAssemblyParts: Part[] = [
+  // --- Stand 11 ---
+  hydraulicAssembly({
+    id: "hydraulic-assy-yc35-6-travel-s11",
+    partNumber: "YC35-6-TRAVEL",
+    partNumbers: [
+      "YC35-6-TRAVEL",
+      "YC35-6",
+      "YC35-7",
+      "YC35-8",
+      "YC35-6-FINAL-DRIVE",
+    ],
+    name: "Travel Motor Assembly (Final Drive) — YC35-6",
+    description: "Complete Track Drive Hydraulic Travel Motor",
+    model: "YC35-6 (Yuchai Mini Excavator Series)",
+    quantity: 1,
+    stand: 11,
+    compatibility: ["Yuchai YC35-6", "Yuchai YC35-7", "Yuchai YC35-8"],
+    notesExtra:
+      "Converts main-pump hydraulic pressure/flow into crawler track drive torque",
+  }),
+
   // --- Stand 12 ---
   hydraulicAssembly({
     id: "hydraulic-assy-yc35-6-swing-s12",
