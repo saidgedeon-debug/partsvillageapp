@@ -109,7 +109,7 @@ export const gearsAndShaftsParts: Part[] = [
     partNumber: "099-5818",
     partNumbers: ["099-5818", "0995818", "A8VO107"],
     name: "Main Piston Pump Center Shaft Pinion / Distribution Gear — A8VO107",
-    quantity: 1,
+    quantity: 2,
     stand: 12,
     manufacturer: engrenages,
     componentType: "Center Shaft Pinion / Distribution Gear",
