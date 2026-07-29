@@ -158,7 +158,7 @@ export const driveShaftParts: Part[] = [
     name: "Right/Rear Drive Shaft (Shaft R)",
     description: "Right/Rear Drive Shaft (Shaft R)",
     model: "A8VO107 (Rexroth / Uchida)",
-    quantity: 1,
+    quantity: 2,
     stand: 32,
     brand: "Engrenages Canada (Caterpillar Replacement)",
     compatibility: [
