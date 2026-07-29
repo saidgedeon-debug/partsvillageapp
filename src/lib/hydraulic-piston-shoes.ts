@@ -1,4 +1,4 @@
-/** piston shoe subcategory seed — Hydraulic Parts (Stand 59–62). */
+/** piston shoe subcategory seed — Hydraulic Parts. */
 import type { Part } from "@/lib/mock-data";
 
 type Fit = { brand: string; models: string[] };
@@ -13,6 +13,7 @@ function flatCompat(groups: Fit[]): string[] {
 
 const handok = "Handok Hydraulic (South Korea)";
 const aftermarket = "Aftermarket Premium Grade";
+const engrenages = "Engrenages Canada (Caterpillar Replacement)";
 
 function pistonShoe(opts: {
   id: string;
@@ -20,7 +21,7 @@ function pistonShoe(opts: {
   partNumbers: string[];
   name: string;
   quantity: number;
-  stand: 59 | 60 | 61 | 62;
+  stand: 56 | 59 | 60 | 61 | 62;
   manufacturer?: string;
   weightKg?: number;
   ringConfig?: string;
@@ -28,6 +29,7 @@ function pistonShoe(opts: {
   lengthMm?: number;
   pumpType?: string;
   fitment: Fit[];
+  notesExtra?: string;
 }): Part {
   const mfr = opts.manufacturer ?? handok;
   const detailBits = [
@@ -46,6 +48,7 @@ function pistonShoe(opts: {
     opts.ringConfig ? `Rings: ${opts.ringConfig}` : null,
     opts.boxSetQty != null ? `Box set qty: ${opts.boxSetQty}` : null,
     `OEM xref: ${opts.partNumbers.join(", ")}`,
+    opts.notesExtra ?? null,
   ].filter(Boolean);
 
   return {
@@ -66,8 +69,64 @@ function pistonShoe(opts: {
   };
 }
 
-/** Stand 59–62 Handok piston shoes */
+/** Piston shoes — Stands as counted. */
 export const pistonShoeParts: Part[] = [
+  // —— Stand 56 ——
+  pistonShoe({
+    id: "hydraulic-piston-shoe-5I-8632-s56",
+    partNumber: "5I-8632",
+    partNumbers: ["5I-8632", "5I8632", "M2X120"],
+    name: "Piston Shoe Set (9 pcs per set) — M2X120",
+    quantity: 4,
+    stand: 56,
+    manufacturer: engrenages,
+    boxSetQty: 9,
+    pumpType: "M2X120 (Kawasaki / Uchida Swing Motor)",
+    fitment: [
+      {
+        brand: "Caterpillar",
+        models: ["315B L", "317B L", "318B", "320B", "320B L", "320C", "320D"],
+      },
+      {
+        brand: "Kawasaki",
+        models: ["M2X120"],
+      },
+      {
+        brand: "Uchida",
+        models: ["M2X120"],
+      },
+    ],
+    notesExtra:
+      "4 sets · 36 pistons total · Swing/rotary motor core · Bimetallic high-wear copper-coated shoe face · Standard frame match diameter",
+  }),
+  pistonShoe({
+    id: "hydraulic-piston-shoe-177-2503-s56",
+    partNumber: "177-2503",
+    partNumbers: ["177-2503", "1772503", "A8VO200"],
+    name: "Piston Shoe Set (9 pcs per set) — A8VO200",
+    quantity: 2,
+    stand: 56,
+    manufacturer: engrenages,
+    boxSetQty: 9,
+    pumpType: "A8VO200 (Rexroth / Uchida Main Dual Pump)",
+    fitment: [
+      {
+        brand: "Caterpillar",
+        models: ["345B", "345B L", "345C", "345D", "350", "350L"],
+      },
+      {
+        brand: "Rexroth",
+        models: ["A8VO200"],
+      },
+      {
+        brand: "Uchida",
+        models: ["A8VO200"],
+      },
+    ],
+    notesExtra:
+      "2 sets · 18 pistons total · Primary dual variable displacement pump · Induction-hardened high-tensile carbon steel",
+  }),
+
   // —— Stand 59 ——
   pistonShoe({
     id: "hydraulic-piston-shoe-02524",
