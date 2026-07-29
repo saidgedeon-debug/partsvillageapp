@@ -67,6 +67,40 @@ export function hydraulicMisc(opts: {
 
 /** Hydraulic misc stock — Stands as counted. */
 export const hydraulicMiscParts: Part[] = [
+  // --- Stand 12 ---
+  hydraulicMisc({
+    id: "hydraulic-misc-pvd-2b-sp-s12",
+    partNumber: "PVD-2B-36/38/40-SP",
+    partNumbers: [
+      "PVD-2B-36/38/40-SP",
+      "PVD-2B-36-SP",
+      "PVD-2B-38-SP",
+      "PVD-2B-40-SP",
+      "PVD-2B-36",
+      "PVD-2B-38",
+      "PVD-2B-40",
+    ],
+    name: "Swash Plate (Cradle Cam Profile) — PVD-2B-36/38/40",
+    description: "Swash Plate (Cradle Cam Profile)",
+    model: "Nachikoshi PVD-2B-36 / PVD-2B-38 / PVD-2B-40",
+    quantity: 1,
+    stand: 12,
+    brand: "Aftermarket Standard Fit",
+    compatibility: [
+      "Nachi PVD-2B-36",
+      "Nachi PVD-2B-38",
+      "Nachi PVD-2B-40",
+      "Kubota KX121-3",
+      "Kubota KX161-3",
+      "Takeuchi TB145",
+      "Yanmar Vio35",
+      "Yanmar Vio40",
+      "Yanmar Vio50",
+    ],
+    notesExtra:
+      "Alters internal tilt envelope of reciprocating piston shoes for variable oil output",
+  }),
+
   // --- Stand 37 ---
   hydraulicMisc({
     id: "hydraulic-misc-57276-s37",
