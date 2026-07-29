@@ -18,8 +18,8 @@ function sp(opts: {
   name: string;
   quantity: number;
   manufacturer: string;
-  boxNumber: 26 | 27 | 58;
-  location: "Stand 26" | "Stand 27" | "Stand 58";
+  boxNumber: 12 | 26 | 27 | 58;
+  location: "Stand 12" | "Stand 26" | "Stand 27" | "Stand 58";
   fitment: Fit[];
   reorderAt?: number;
   componentType?: string;
@@ -53,9 +53,50 @@ function sp(opts: {
 
 const handok = "Handok Hydraulic (South Korea)";
 const engrenax = "Engrenax (Canada)";
+const aftermarket = "Aftermarket Premium Grade";
 
-/** Stand 27 + Stand 26 retainer / set plates */
+/** Retainer / set plates — Stands as counted. */
 export const retainerSetPlateParts: Part[] = [
+  // —— Stand 12 ——
+  sp({
+    id: "hydraulic-sp-ap2d36-s12",
+    partNumber: "AP2D36-SP",
+    partNumbers: ["AP2D36-SP", "AP2D36", "AP2D36-SET-PLATE"],
+    name: "Retainer Plate (Set Plate) — AP2D36",
+    quantity: 1,
+    manufacturer: aftermarket,
+    boxNumber: 12,
+    location: "Stand 12",
+    componentType: "Piston Shoe Retainer Guide Face",
+    fitment: [
+      { brand: "Uchida", models: ["AP2D36"] },
+      { brand: "Rexroth", models: ["AP2D36"] },
+      { brand: "Takeuchi", models: ["TB135", "TB138FR", "TB145"] },
+      { brand: "Yanmar", models: ["Vio35", "Vio35-3", "Vio35-5"] },
+      { brand: "Kubota", models: ["KX91-3", "KX101-3"] },
+      { brand: "Komatsu", models: ["PC30MR", "PC35MR"] },
+    ],
+  }),
+  sp({
+    id: "hydraulic-sp-ap2d25-s12",
+    partNumber: "AP2D25-SP",
+    partNumbers: ["AP2D25-SP", "AP2D25", "AP2D25-SET-PLATE"],
+    name: "Retainer Plate (Set Plate) — AP2D25",
+    quantity: 1,
+    manufacturer: aftermarket,
+    boxNumber: 12,
+    location: "Stand 12",
+    componentType: "Piston Shoe Retainer Guide Face",
+    fitment: [
+      { brand: "Uchida", models: ["AP2D25"] },
+      { brand: "Rexroth", models: ["AP2D25"] },
+      { brand: "Takeuchi", models: ["TB025", "TB125"] },
+      { brand: "Yanmar", models: ["Vio25", "Vio25-2", "Vio27"] },
+      { brand: "Kubota", models: ["KX61-2", "KX71-3"] },
+      { brand: "Komatsu", models: ["PC25R-8", "PC27MR"] },
+    ],
+  }),
+
   // —— Stand 27 ——
   sp({
     id: "hydraulic-sp-a7vo250-flat-hd",
