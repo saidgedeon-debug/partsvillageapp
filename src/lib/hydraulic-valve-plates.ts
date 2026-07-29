@@ -59,6 +59,25 @@ const aftermarket = "Aftermarket Premium Grade";
 export const valvePlateParts: Part[] = [
   // —— Stand 10 ——
   vp({
+    id: "hydraulic-vp-5I-8628-s10",
+    partNumber: "5I-8628",
+    partNumbers: ["5I-8628", "5I8628", "M2X120"],
+    name: "VALVE PLATE — M2X120",
+    quantity: 12,
+    manufacturer: engrenax,
+    boxNumber: 10,
+    location: "Stand 10",
+    componentType: "Valve Plate",
+    fitment: [
+      {
+        brand: "Caterpillar",
+        models: ["315B L", "317B L", "318B", "320B", "320B L", "320C", "320D"],
+      },
+      { brand: "Kawasaki", models: ["M2X120"] },
+      { brand: "Uchida", models: ["M2X120"] },
+    ],
+  }),
+  vp({
     id: "hydraulic-vp-pv24-l-s10",
     partNumber: "PV24-VP-L",
     partNumbers: ["PV24-VP-L", "PV24", "SPV6-024", "Sundstrand PV24"],
