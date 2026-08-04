@@ -50,10 +50,25 @@ export type SavedDocument = {
   paymentDate?: string;
   /** Mobile number for OMT / Whish payments. */
   paymentMobile?: string;
+  /**
+   * Receipt: whether this payment increased invoice `amountPaid`.
+   * False for record-only receipts on already-paid invoices.
+   * Undefined on legacy receipts — inferred from the staff note.
+   */
+  affectsBalance?: boolean;
 };
 
 export type RecordPaymentInput = {
   invoiceId: string;
+  amount: number;
+  method: PaymentMethod;
+  paymentDate: string;
+  mobile?: string;
+  note?: string;
+};
+
+export type UpdatePaymentInput = {
+  receiptId: string;
   amount: number;
   method: PaymentMethod;
   paymentDate: string;
@@ -69,6 +84,13 @@ export type RecordReturnInput = {
   date?: string;
   note?: string;
 };
+
+/** Whether a receipt changed (or should change) the linked invoice balance. */
+export function receiptAffectsBalance(receipt: SavedDocument): boolean {
+  if (receipt.kind !== "receipt") return false;
+  if (typeof receipt.affectsBalance === "boolean") return receipt.affectsBalance;
+  return receipt.internalNote !== "Receipt created for already-paid invoice";
+}
 
 export function invoiceAmountPaid(inv: SavedDocument): number {
   if (inv.kind !== "invoice") return 0;
@@ -153,6 +175,7 @@ type DocumentsContextValue = {
   updateDocumentStatus: (id: string, status: SavedDocument["status"]) => void;
   removeDocument: (id: string) => void;
   recordInvoicePayment: (input: RecordPaymentInput) => SavedDocument;
+  updateInvoicePayment: (input: UpdatePaymentInput) => SavedDocument;
   recordInvoiceReturn: (input: RecordReturnInput) => SavedDocument;
   /** Create an invoice and optionally a linked receipt in one write (avoids stale state). */
   addInvoiceWithOptionalReceipt: (
@@ -352,6 +375,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           paymentMethod: input.method,
           paymentDate: input.paymentDate,
           paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
+          affectsBalance: !alreadyPaid,
           internalNote:
             input.note?.trim() ||
             (alreadyPaid ? "Receipt created for already-paid invoice" : undefined),
@@ -386,6 +410,121 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       if (failure) throw failure;
       if (!created) throw new Error("Failed to record payment");
       return created;
+    },
+    [setDocuments],
+  );
+
+  const updateInvoicePayment = useCallback(
+    (input: UpdatePaymentInput): SavedDocument => {
+      const amount = Math.round(input.amount * 100) / 100;
+      if (!(amount > 0)) throw new Error("Payment amount must be greater than zero");
+      if (input.method !== "Cash" && !input.mobile?.trim()) {
+        throw new Error("Mobile number is required for OMT and Whish");
+      }
+      if (!input.paymentDate.trim()) throw new Error("Payment date is required");
+
+      const mobileBit =
+        input.method !== "Cash" && input.mobile?.trim() ? ` · ${input.mobile.trim()}` : "";
+
+      let updated: SavedDocument | null = null;
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const receipt = cur.find((d) => d.id === input.receiptId && d.kind === "receipt");
+        if (!receipt) {
+          failure = new Error("Receipt not found");
+          return cur;
+        }
+        if (!receipt.invoiceId) {
+          failure = new Error("Receipt is not linked to an invoice");
+          return cur;
+        }
+
+        const invoice = cur.find((d) => d.id === receipt.invoiceId && d.kind === "invoice");
+        if (!invoice) {
+          failure = new Error("Linked invoice not found");
+          return cur;
+        }
+
+        const credits = invoiceCredits(
+          invoice,
+          cur.filter((d) => d.kind === "credit_note"),
+        );
+        const affects = receiptAffectsBalance(receipt);
+        const oldAmount = Math.round((Number.isFinite(receipt.total) ? receipt.total : 0) * 100) / 100;
+        const paidBefore = invoiceAmountPaid(invoice);
+
+        if (affects) {
+          const remainingWithoutThis = Math.max(
+            0,
+            Math.round((invoice.total - (paidBefore - oldAmount) - credits) * 100) / 100,
+          );
+          if (amount - remainingWithoutThis > 0.005) {
+            failure = new Error(
+              `Amount exceeds available balance (${remainingWithoutThis})`,
+            );
+            return cur;
+          }
+        } else {
+          const maxAmount = Math.max(paidBefore, invoice.total);
+          if (amount - maxAmount > 0.005) {
+            failure = new Error(`Amount exceeds invoice total (${maxAmount})`);
+            return cur;
+          }
+        }
+
+        const nextReceipt: SavedDocument = {
+          ...receipt,
+          date: input.paymentDate,
+          total: amount,
+          paymentMethod: input.method,
+          paymentDate: input.paymentDate,
+          paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
+          affectsBalance: affects,
+          internalNote: input.note?.trim() || undefined,
+          lines: [
+            {
+              partId: `pay-${invoice.id}`,
+              partNumber: invoice.id,
+              name: affects
+                ? `Payment toward ${invoice.id} · ${input.method}${mobileBit}`
+                : `Payment record for ${invoice.id} · ${input.method}${mobileBit}`,
+              category: "Payment",
+              unitPrice: amount,
+              unitCost: 0,
+              qty: 1,
+            },
+          ],
+        };
+
+        updated = nextReceipt;
+
+        if (!affects) {
+          return cur.map((d) => (d.id === receipt.id ? nextReceipt : d));
+        }
+
+        const paidAfter = Math.max(
+          0,
+          Math.round((paidBefore - oldAmount + amount) * 100) / 100,
+        );
+        const status = resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
+        const updatedInvoice: SavedDocument = {
+          ...invoice,
+          amountPaid: paidAfter,
+          status,
+        };
+        void syncDocumentToSupabase(updatedInvoice);
+        return cur.map((d) => {
+          if (d.id === receipt.id) return nextReceipt;
+          if (d.id === invoice.id) return updatedInvoice;
+          return d;
+        });
+      });
+
+      if (failure) throw failure;
+      if (!updated) throw new Error("Failed to update payment");
+      return updated;
     },
     [setDocuments],
   );
@@ -521,6 +660,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           paymentMethod: payment.method,
           paymentDate: payment.paymentDate,
           paymentMobile: payment.method === "Cash" ? undefined : payment.mobile?.trim(),
+          affectsBalance: true,
           internalNote: payment.note?.trim() || undefined,
           lines: [
             {
@@ -581,6 +721,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      updateInvoicePayment,
       recordInvoiceReturn,
       addInvoiceWithOptionalReceipt,
     }),
@@ -596,6 +737,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      updateInvoicePayment,
       recordInvoiceReturn,
       addInvoiceWithOptionalReceipt,
     ],

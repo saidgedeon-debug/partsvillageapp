@@ -92,6 +92,7 @@ function DocumentsPage() {
   const [editingInvoice, setEditingInvoice] = useState<SavedDocument | null>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
+  const [editingReceipt, setEditingReceipt] = useState<SavedDocument | null>(null);
   const [returnOpen, setReturnOpen] = useState(false);
   const [returnInvoice, setReturnInvoice] = useState<SavedDocument | null>(null);
   const [preview, setPreview] = useState<{ id: string; blobUrl: string; doc: SavedDocument } | null>(
@@ -190,7 +191,14 @@ function DocumentsPage() {
   };
 
   const openReceivePayment = (doc?: SavedDocument | null) => {
+    setEditingReceipt(null);
     setPaymentInvoice(doc ?? null);
+    setPaymentOpen(true);
+  };
+
+  const openEditReceipt = (doc: SavedDocument) => {
+    setPaymentInvoice(null);
+    setEditingReceipt(doc);
     setPaymentOpen(true);
   };
 
@@ -252,9 +260,13 @@ function DocumentsPage() {
         <RecordPaymentDialog
           open={paymentOpen}
           invoice={paymentInvoice}
+          receipt={editingReceipt}
           onOpenChange={(open) => {
             setPaymentOpen(open);
-            if (!open) setPaymentInvoice(null);
+            if (!open) {
+              setPaymentInvoice(null);
+              setEditingReceipt(null);
+            }
           }}
           onRecorded={(receipt) => {
             openDoc(receipt);
@@ -509,12 +521,33 @@ function DocumentsPage() {
                   <span key="t" className="font-semibold">
                     {currency(rc.total)}
                   </span>,
-                  <OpenButton
-                    key="o"
-                    onOpen={() => openDoc(rc)}
-                    onDownload={() => downloadDoc(rc)}
-                    onShare={() => void shareDoc(rc)}
-                  />,
+                  <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-8 gap-1.5"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openEditReceipt(rc);
+                      }}
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      Edit
+                    </Button>
+                    <OpenButton
+                      onOpen={() => openDoc(rc)}
+                      onDownload={() => downloadDoc(rc)}
+                      onShare={() => void shareDoc(rc)}
+                      extraItems={[
+                        {
+                          label: "Edit payment",
+                          icon: Pencil,
+                          onSelect: () => openEditReceipt(rc),
+                        },
+                      ]}
+                    />
+                  </div>,
                 ],
               }))}
               emptyTitle={
