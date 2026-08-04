@@ -40,6 +40,10 @@ type Props = {
   invoice?: SavedDocument | null;
   /** Existing receipt to edit (opens in edit mode). */
   receipt?: SavedDocument | null;
+  /** When set, only show invoices for this client. */
+  clientId?: string | null;
+  /** Optional client name match for invoices missing partyId. */
+  clientName?: string | null;
   onRecorded?: (receipt: SavedDocument) => void;
 };
 
@@ -48,6 +52,8 @@ export function RecordPaymentDialog({
   onOpenChange,
   invoice,
   receipt,
+  clientId,
+  clientName,
   onRecorded,
 }: Props) {
   const {
@@ -60,12 +66,22 @@ export function RecordPaymentDialog({
   const [submitting, setSubmitting] = useState(false);
   const editing = Boolean(receipt?.id && receipt.kind === "receipt");
 
+  const clientInvoices = useMemo(() => {
+    if (!clientId && !clientName) return invoices;
+    const nameKey = clientName?.trim().toLowerCase() ?? "";
+    return invoices.filter(
+      (iv) =>
+        (clientId && iv.partyId === clientId) ||
+        (nameKey.length > 0 && iv.partyName.trim().toLowerCase() === nameKey),
+    );
+  }, [invoices, clientId, clientName]);
+
   const unpaidInvoices = useMemo(
     () =>
-      invoices
+      clientInvoices
         .filter((iv) => invoiceRemaining(iv, creditNotes) > 0.005)
         .sort((a, b) => b.date.localeCompare(a.date)),
-    [invoices, creditNotes],
+    [clientInvoices, creditNotes],
   );
 
   /** Paid invoices that still need a receipt document for the record. */
@@ -73,13 +89,13 @@ export function RecordPaymentDialog({
     const receiptInvoiceIds = new Set(
       receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id)),
     );
-    return invoices
+    return clientInvoices
       .filter(
         (iv) =>
           invoiceRemaining(iv, creditNotes) <= 0.005 && !receiptInvoiceIds.has(iv.id),
       )
       .sort((a, b) => b.date.localeCompare(a.date));
-  }, [invoices, receipts, creditNotes]);
+  }, [clientInvoices, receipts, creditNotes]);
 
   const selectableInvoices = useMemo(
     () => [...unpaidInvoices, ...paidWithoutReceipt],
@@ -93,7 +109,7 @@ export function RecordPaymentDialog({
   const [mobile, setMobile] = useState("");
   const [note, setNote] = useState("");
 
-  const selected = invoices.find((iv) => iv.id === invoiceId) ?? null;
+  const selected = clientInvoices.find((iv) => iv.id === invoiceId) ?? null;
 
   const remaining = useMemo(() => {
     if (!selected) return 0;
@@ -135,14 +151,14 @@ export function RecordPaymentDialog({
     const fallback = selectableInvoices[0]?.id ?? "";
     const nextId = pre || fallback;
     setInvoiceId(nextId);
-    const inv = invoices.find((i) => i.id === nextId);
+    const inv = clientInvoices.find((i) => i.id === nextId);
     setMethod("Cash");
     setPaymentDate(inv?.date || localTodayIso());
     setMobile("");
     setNote("");
     setAmount(defaultAmountFor(inv));
     setSubmitting(false);
-  }, [open, invoice, receipt, editing, selectableInvoices, invoices]);
+  }, [open, invoice, receipt, editing, selectableInvoices, clientInvoices]);
 
   useEffect(() => {
     if (!open || editing || !selected) return;
@@ -268,7 +284,9 @@ export function RecordPaymentDialog({
                   </p>
                 ) : (
                   <p className="text-xs text-muted-foreground">
-                    No invoices available — open balances or paid invoices without a receipt.
+                    {clientId
+                      ? "No open invoices for this client."
+                      : "No invoices available — open balances or paid invoices without a receipt."}
                   </p>
                 )}
               </>

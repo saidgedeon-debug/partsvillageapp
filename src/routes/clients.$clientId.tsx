@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   ArrowLeft,
+  Banknote,
   Eye,
   FileText,
   Mail,
@@ -17,6 +18,7 @@ import {
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
+import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
 import { useParties } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
 import {
@@ -81,6 +83,8 @@ function ClientDetail() {
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
+  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [serial, setSerial] = useState("");
@@ -249,6 +253,19 @@ function ClientDetail() {
               <Button
                 type="button"
                 size="sm"
+                variant="secondary"
+                disabled={!statement.invoices.length}
+                onClick={() => {
+                  setPaymentInvoice(statement.invoices[0] ?? null);
+                  setPaymentOpen(true);
+                }}
+              >
+                <Banknote className="mr-1 h-3.5 w-3.5" />
+                Record payment
+              </Button>
+              <Button
+                type="button"
+                size="sm"
                 variant="outline"
                 disabled={!statement.invoices.length}
                 onClick={() => downloadStatementPdf(client, statement)}
@@ -306,6 +323,7 @@ function ClientDetail() {
                     <TableHead>Date</TableHead>
                     <TableHead className="text-right">Age</TableHead>
                     <TableHead className="text-right">Due</TableHead>
+                    <TableHead className="w-[1%] text-right" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -343,6 +361,22 @@ function ClientDetail() {
                       </TableCell>
                       <TableCell className="text-right font-semibold">
                         {currency(row.remaining)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          className="h-8 gap-1.5"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPaymentInvoice(row.invoice);
+                            setPaymentOpen(true);
+                          }}
+                        >
+                          <Banknote className="h-3.5 w-3.5" />
+                          Pay
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -579,6 +613,21 @@ function ClientDetail() {
           })}
         </div>
       </main>
+
+      <RecordPaymentDialog
+        open={paymentOpen}
+        invoice={paymentInvoice}
+        clientId={client.id}
+        clientName={client.name}
+        onOpenChange={(open) => {
+          setPaymentOpen(open);
+          if (!open) setPaymentInvoice(null);
+        }}
+        onRecorded={(receipt) => {
+          openDoc(receipt);
+          toast.success(`Payment recorded · ${receipt.id}`);
+        }}
+      />
 
       <PartyFormDialog
         open={editOpen}
