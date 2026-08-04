@@ -70,13 +70,14 @@ function kindLabel(kind: SavedDocument["kind"]) {
   if (kind === "quotation") return "Quotation";
   if (kind === "invoice") return "Invoice";
   if (kind === "receipt") return "Receipt";
+  if (kind === "credit_note") return "Credit note";
   return kind;
 }
 
 function ClientDetail() {
   const { clientId } = Route.useParams();
   const { clients } = useParties();
-  const { quotations, invoices, receipts } = useDocuments();
+  const { quotations, invoices, receipts, creditNotes } = useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
@@ -99,13 +100,13 @@ function ClientDetail() {
     const match = (doc: SavedDocument) =>
       doc.partyKind === "client" &&
       (doc.partyId === client.id || doc.partyName.trim().toLowerCase() === nameKey);
-    return [...quotations, ...invoices, ...receipts]
+    return [...quotations, ...invoices, ...receipts, ...creditNotes]
       .filter(match)
       .sort((a, b) => {
         if (a.date !== b.date) return a.date < b.date ? 1 : -1;
         return b.createdAt.localeCompare(a.createdAt);
       });
-  }, [client, quotations, invoices, receipts]);
+  }, [client, quotations, invoices, receipts, creditNotes]);
 
   const openDoc = (doc: SavedDocument) => {
     const enriched =
@@ -137,7 +138,7 @@ function ClientDetail() {
 
   const fleet = machinesByClient(client.id);
   const allOrders = ordersByClient(client.id);
-  const statement = buildArStatement(client.id, invoices);
+  const statement = buildArStatement(client.id, invoices, creditNotes);
   const docSpend = clientDocs
     .filter((d) => d.kind === "invoice" || d.kind === "receipt")
     .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
@@ -358,13 +359,13 @@ function ClientDetail() {
               Documents
             </CardTitle>
             <p className="text-xs text-muted-foreground">
-              Quotations, invoices, and receipts — click a row to open
+              Quotations, invoices, receipts, and credit notes — click a row to open
             </p>
           </CardHeader>
           <CardContent className="p-0">
             {clientDocs.length === 0 ? (
               <p className="p-4 text-sm text-muted-foreground">
-                No quotations, invoices, or receipts for this client yet.
+                No quotations, invoices, receipts, or credit notes for this client yet.
               </p>
             ) : (
               <Table>

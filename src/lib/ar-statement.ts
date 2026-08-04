@@ -43,15 +43,19 @@ export function bucketForAge(ageDays: number): ArBucket {
 export function buildArStatement(
   clientId: string,
   invoices: SavedDocument[],
+  creditNotes: SavedDocument[] = [],
   now = new Date(),
 ): ArStatement {
   const rows: ArInvoiceRow[] = invoices
-    .filter((invoice) => invoice.partyId === clientId && invoiceRemaining(invoice) > 0.005)
+    .filter(
+      (invoice) =>
+        invoice.partyId === clientId && invoiceRemaining(invoice, creditNotes) > 0.005,
+    )
     .map((invoice) => {
       const ageDays = invoiceAgeDays(invoice.date, now);
       return {
         invoice,
-        remaining: invoiceRemaining(invoice),
+        remaining: invoiceRemaining(invoice, creditNotes),
         ageDays,
         bucket: bucketForAge(ageDays),
       };
@@ -85,10 +89,14 @@ export type ClientArSummary = {
 export function buildClientsArQueue(
   clients: PartyRecord[],
   invoices: SavedDocument[],
+  creditNotes: SavedDocument[] = [],
   now = new Date(),
 ): ClientArSummary[] {
   return clients
-    .map((client) => ({ client, statement: buildArStatement(client.id, invoices, now) }))
+    .map((client) => ({
+      client,
+      statement: buildArStatement(client.id, invoices, creditNotes, now),
+    }))
     .filter((row) => row.statement.total > 0.005)
     .sort(
       (a, b) =>

@@ -13,6 +13,7 @@ const docLabels: Record<DocumentKind, string> = {
   invoice: "Invoice",
   inquiry: "Supplier Inquiry",
   receipt: "Receipt",
+  credit_note: "Credit Note",
 };
 
 export type ExportFormat = "pdf" | "excel";
@@ -65,7 +66,15 @@ function docId(kind: DocumentKind, date: Date) {
   const m = String(date.getMonth() + 1).padStart(2, "0");
   const d = String(date.getDate()).padStart(2, "0");
   const prefix =
-    kind === "quotation" ? "Q" : kind === "invoice" ? "INV" : kind === "receipt" ? "RCP" : "SI";
+    kind === "quotation"
+      ? "Q"
+      : kind === "invoice"
+        ? "INV"
+        : kind === "receipt"
+          ? "RCP"
+          : kind === "credit_note"
+            ? "CN"
+            : "SI";
   const hh = String(date.getHours()).padStart(2, "0");
   const mm = String(date.getMinutes()).padStart(2, "0");
   const ss = String(date.getSeconds()).padStart(2, "0");
@@ -480,7 +489,15 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     pdf.setTextColor(...ORANGE);
     pdf.setFont("helvetica", "bold");
     pdf.setFontSize(8);
-    pdf.text(doc.documentKind === "receipt" ? "AMOUNT PAID" : "AMOUNT DUE", boxX + 8, textY);
+    pdf.text(
+      doc.documentKind === "receipt"
+        ? "AMOUNT PAID"
+        : doc.documentKind === "credit_note"
+          ? "CREDIT TOTAL"
+          : "AMOUNT DUE",
+      boxX + 8,
+      textY,
+    );
     pdf.setTextColor(...WHITE);
     pdf.setFontSize(16);
     pdf.text(total > 0 ? currency(total) : "TBD", boxX + 8, textY + 9);

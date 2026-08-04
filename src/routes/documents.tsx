@@ -11,10 +11,12 @@ import {
   Receipt,
   Share2,
   StickyNote,
+  Undo2,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
+import { CreateReturnDialog } from "@/components/app/create-return-dialog";
 import { EmptyState } from "@/components/app/empty-state";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
 import { PageHeader } from "@/components/app/page-header";
@@ -23,6 +25,7 @@ import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
 import {
   invoiceAmountPaid,
+  invoiceHasReturnableLines,
   invoiceRemaining,
   useDocuments,
   type InquiryStatus,
@@ -50,7 +53,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { downloadSavedDocument, openSavedDocument, shareSavedDocument } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
-const DOC_TABS = ["quotations", "invoices", "receipts", "inquiries"] as const;
+const DOC_TABS = ["quotations", "invoices", "receipts", "credit_notes", "inquiries"] as const;
 type DocTab = (typeof DOC_TABS)[number];
 
 function parseDocTab(value: unknown): DocTab {
@@ -69,7 +72,8 @@ export const Route = createFileRoute("/documents")({
       { title: "Documents — Parts Village" },
       {
         name: "description",
-        content: "Generate and manage quotations, invoices, receipts, and supplier inquiries.",
+        content:
+          "Generate and manage quotations, invoices, receipts, credit notes, and supplier inquiries.",
       },
     ],
   }),
@@ -81,12 +85,15 @@ function DocumentsPage() {
   const { tab } = Route.useSearch();
   const { query } = useSearch();
   const q = query.trim().toLowerCase();
-  const { quotations, invoices, receipts, inquiries, updateDocumentStatus } = useDocuments();
+  const { quotations, invoices, receipts, creditNotes, inquiries, updateDocumentStatus } =
+    useDocuments();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState<SavedDocument | null>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
+  const [returnOpen, setReturnOpen] = useState(false);
+  const [returnInvoice, setReturnInvoice] = useState<SavedDocument | null>(null);
   const [preview, setPreview] = useState<{ id: string; blobUrl: string; doc: SavedDocument } | null>(
     null,
   );
@@ -133,6 +140,19 @@ function DocumentsPage() {
       new Set(receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id))),
     [receipts],
   );
+  const filteredCreditNotes = useMemo(
+    () =>
+      creditNotes.filter(
+        (x) =>
+          !q ||
+          x.id.toLowerCase().includes(q) ||
+          x.partyName.toLowerCase().includes(q) ||
+          (x.invoiceId ?? "").toLowerCase().includes(q) ||
+          (x.internalNote ?? "").toLowerCase().includes(q) ||
+          x.lines.some((l) => l.partNumber.toLowerCase().includes(q)),
+      ),
+    [q, creditNotes],
+  );
   const filteredInquiries = useMemo(
     () =>
       inquiries.filter(
@@ -174,6 +194,11 @@ function DocumentsPage() {
     setPaymentOpen(true);
   };
 
+  const openReturn = (doc?: SavedDocument | null) => {
+    setReturnInvoice(doc ?? null);
+    setReturnOpen(true);
+  };
+
   const withReceiptBalance = (doc: SavedDocument) => {
     if (doc.kind !== "receipt" || !doc.invoiceId) return doc;
     const inv = invoices.find((i) => i.id === doc.invoiceId);
@@ -213,7 +238,7 @@ function DocumentsPage() {
     <>
       <PageHeader
         title="Documents"
-        subtitle="Quotations, invoices, receipts, and supplier inquiries"
+        subtitle="Quotations, invoices, receipts, credit notes, and supplier inquiries"
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <CreateInvoiceDialog
@@ -234,6 +259,18 @@ function DocumentsPage() {
           onRecorded={(receipt) => {
             openDoc(receipt);
             void navigate({ search: { tab: "receipts" }, replace: true });
+          }}
+        />
+        <CreateReturnDialog
+          open={returnOpen}
+          invoice={returnInvoice}
+          onOpenChange={(open) => {
+            setReturnOpen(open);
+            if (!open) setReturnInvoice(null);
+          }}
+          onRecorded={(creditNote) => {
+            openDoc(creditNote);
+            void navigate({ search: { tab: "credit_notes" }, replace: true });
           }}
         />
         <PdfPreviewDialog
@@ -263,6 +300,10 @@ function DocumentsPage() {
             <TabsTrigger value="receipts">
               <Receipt className="mr-2 h-4 w-4" />
               Receipts ({receipts.length})
+            </TabsTrigger>
+            <TabsTrigger value="credit_notes">
+              <Undo2 className="mr-2 h-4 w-4" />
+              Credit notes ({creditNotes.length})
             </TabsTrigger>
             <TabsTrigger value="inquiries">
               <PackageSearch className="mr-2 h-4 w-4" />
@@ -358,7 +399,7 @@ function DocumentsPage() {
                     onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
                   />,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
-                    {invoiceRemaining(iv) > 0.005 ? (
+                    {invoiceRemaining(iv, creditNotes) > 0.005 ? (
                       <Button
                         type="button"
                         size="sm"
@@ -387,6 +428,21 @@ function DocumentsPage() {
                         Receipt
                       </Button>
                     ) : null}
+                    {invoiceHasReturnableLines(iv, creditNotes) ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1.5"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openReturn(iv);
+                        }}
+                      >
+                        <Undo2 className="h-3.5 w-3.5" />
+                        Return
+                      </Button>
+                    ) : null}
                     <OpenButton
                       onOpen={() => openDoc(iv)}
                       onDownload={() => downloadDoc(iv)}
@@ -397,7 +453,16 @@ function DocumentsPage() {
                           icon: Pencil,
                           onSelect: () => openEditInvoice(iv),
                         },
-                        ...(invoiceRemaining(iv) <= 0.005
+                        ...(invoiceHasReturnableLines(iv, creditNotes)
+                          ? [
+                              {
+                                label: "Return parts",
+                                icon: Undo2,
+                                onSelect: () => openReturn(iv),
+                              },
+                            ]
+                          : []),
+                        ...(invoiceRemaining(iv, creditNotes) <= 0.005
                           ? [
                               {
                                 label: "Create receipt",
@@ -459,6 +524,48 @@ function DocumentsPage() {
                 q ? "Try a different search." : "Record a payment on an invoice."
               }
               emptyIcon={Banknote}
+            />
+          </TabsContent>
+
+          <TabsContent value="credit_notes" className="mt-4">
+            <DocCard
+              title="Credit notes"
+              onNew={() => openReturn(null)}
+              newLabel="Return from invoice"
+              headers={["#", "Client", "Date", "Invoice", "Parts", "Credit", ""]}
+              rows={filteredCreditNotes.map((cn) => ({
+                key: cn.id,
+                onOpen: () => openDoc(cn),
+                cells: [
+                  <DocIdLink key="i" id={cn.id} onOpen={() => openDoc(cn)} />,
+                  cn.partyName,
+                  cn.date,
+                  <span key="inv" className="font-mono text-xs">
+                    {cn.invoiceId ?? "—"}
+                  </span>,
+                  <span key="p" className="font-mono text-xs text-muted-foreground">
+                    {cn.lines.map((l) => `${l.partNumber}×${l.qty}`).join(", ")}
+                  </span>,
+                  <span key="t" className="font-semibold">
+                    {currency(cn.total)}
+                  </span>,
+                  <OpenButton
+                    key="o"
+                    onOpen={() => openDoc(cn)}
+                    onDownload={() => downloadDoc(cn)}
+                    onShare={() => void shareDoc(cn)}
+                  />,
+                ],
+              }))}
+              emptyTitle={
+                q ? `No credit notes match “${query}”` : "No credit notes yet"
+              }
+              emptyDescription={
+                q
+                  ? "Try a different search."
+                  : "Return parts from an invoice to create a credit note."
+              }
+              emptyIcon={Undo2}
             />
           </TabsContent>
 

@@ -15,6 +15,7 @@ export type QuoteStatus = "Draft" | "Sent" | "Accepted" | "Rejected";
 export type InvoiceStatus = "Paid" | "Partial" | "Unpaid" | "Overdue";
 export type InquiryStatus = "Open" | "Answered" | "Closed";
 export type ReceiptStatus = "Paid";
+export type CreditNoteStatus = "Paid";
 
 export type { PaymentMethod };
 
@@ -27,10 +28,12 @@ export type SavedDocument = {
   date: string;
   createdAt: string;
   total: number;
-  status: QuoteStatus | InvoiceStatus | InquiryStatus | ReceiptStatus;
+  status: QuoteStatus | InvoiceStatus | InquiryStatus | ReceiptStatus | CreditNoteStatus;
   includeCost?: boolean;
   lines: CartLine[];
   stockDeducted?: boolean;
+  /** Credit note: inventory was restocked for returned lines. */
+  stockRestocked?: boolean;
   /** Document-level discount type (percent of subtotal, or fixed USD). */
   discountType?: "percent" | "amount";
   /** Document-level discount value (percent 0–100, or USD amount). */
@@ -39,7 +42,7 @@ export type SavedDocument = {
   internalNote?: string;
   /** Cumulative amount collected on an invoice. */
   amountPaid?: number;
-  /** Receipt → linked invoice id. */
+  /** Receipt / credit note → linked invoice id. */
   invoiceId?: string;
   /** Receipt payment channel. */
   paymentMethod?: PaymentMethod;
@@ -58,6 +61,15 @@ export type RecordPaymentInput = {
   note?: string;
 };
 
+export type RecordReturnInput = {
+  invoiceId: string;
+  lines: CartLine[];
+  /** When true, caller already restocked (or should restock) — stored on the credit note. */
+  restock: boolean;
+  date?: string;
+  note?: string;
+};
+
 export function invoiceAmountPaid(inv: SavedDocument): number {
   if (inv.kind !== "invoice") return 0;
   if (typeof inv.amountPaid === "number" && Number.isFinite(inv.amountPaid)) {
@@ -67,20 +79,64 @@ export function invoiceAmountPaid(inv: SavedDocument): number {
   return inv.status === "Paid" ? total : 0;
 }
 
-export function invoiceRemaining(inv: SavedDocument): number {
+/** Sum of credit notes linked to an invoice. */
+export function invoiceCredits(
+  inv: SavedDocument,
+  creditNotes: SavedDocument[] = [],
+): number {
+  if (inv.kind !== "invoice") return 0;
+  const sum = creditNotes
+    .filter((d) => d.kind === "credit_note" && d.invoiceId === inv.id)
+    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
+  return Math.max(0, Math.round(sum * 100) / 100);
+}
+
+export function invoiceRemaining(
+  inv: SavedDocument,
+  creditNotes: SavedDocument[] = [],
+): number {
   const total = Number.isFinite(inv.total) ? inv.total : 0;
-  return Math.max(0, Math.round((total - invoiceAmountPaid(inv)) * 100) / 100);
+  const paid = invoiceAmountPaid(inv);
+  const credits = invoiceCredits(inv, creditNotes);
+  return Math.max(0, Math.round((total - paid - credits) * 100) / 100);
+}
+
+/** Qty still returnable for a part on an invoice. */
+export function returnableQty(
+  invoice: SavedDocument,
+  partId: string,
+  creditNotes: SavedDocument[] = [],
+): number {
+  if (invoice.kind !== "invoice") return 0;
+  const sold = invoice.lines
+    .filter((l) => l.partId === partId)
+    .reduce((s, l) => s + (Number.isFinite(l.qty) ? l.qty : 0), 0);
+  const returned = creditNotes
+    .filter((d) => d.kind === "credit_note" && d.invoiceId === invoice.id)
+    .flatMap((d) => d.lines)
+    .filter((l) => l.partId === partId)
+    .reduce((s, l) => s + (Number.isFinite(l.qty) ? l.qty : 0), 0);
+  return Math.max(0, Math.floor(sold - returned));
+}
+
+export function invoiceHasReturnableLines(
+  invoice: SavedDocument,
+  creditNotes: SavedDocument[] = [],
+): boolean {
+  if (invoice.kind !== "invoice") return false;
+  return invoice.lines.some((l) => returnableQty(invoice, l.partId, creditNotes) > 0);
 }
 
 export function resolveInvoiceStatus(
   inv: SavedDocument,
   paid: number,
   preferred?: InvoiceStatus,
+  credits = 0,
 ): InvoiceStatus {
   const total = Number.isFinite(inv.total) ? inv.total : 0;
-  const remaining = Math.max(0, total - paid);
+  const remaining = Math.max(0, total - paid - credits);
   if (remaining <= 0.005) return "Paid";
-  if (paid > 0.005) return "Partial";
+  if (paid > 0.005 || credits > 0.005) return "Partial";
   if (preferred === "Overdue") return "Overdue";
   return "Unpaid";
 }
@@ -90,12 +146,14 @@ type DocumentsContextValue = {
   quotations: SavedDocument[];
   invoices: SavedDocument[];
   receipts: SavedDocument[];
+  creditNotes: SavedDocument[];
   inquiries: SavedDocument[];
   addDocument: (doc: SavedDocument) => void;
   updateDocument: (doc: SavedDocument) => void;
   updateDocumentStatus: (id: string, status: SavedDocument["status"]) => void;
   removeDocument: (id: string) => void;
   recordInvoicePayment: (input: RecordPaymentInput) => SavedDocument;
+  recordInvoiceReturn: (input: RecordReturnInput) => SavedDocument;
   /** Create an invoice and optionally a linked receipt in one write (avoids stale state). */
   addInvoiceWithOptionalReceipt: (
     invoice: SavedDocument,
@@ -195,10 +253,14 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
                 return { ...d, status: "Partial" as InvoiceStatus, amountPaid };
               }
             }
-            const resolved = resolveInvoiceStatus(d, amountPaid, invStatus);
+            const credits = invoiceCredits(
+              d,
+              list.filter((x) => x.kind === "credit_note"),
+            );
+            const resolved = resolveInvoiceStatus(d, amountPaid, invStatus, credits);
             return {
               ...d,
-              status: invStatus === "Overdue" && amountPaid < d.total ? "Overdue" : resolved,
+              status: invStatus === "Overdue" && amountPaid + credits < d.total ? "Overdue" : resolved,
               amountPaid,
             };
           }
@@ -245,9 +307,13 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         }
 
         const paidBefore = invoiceAmountPaid(invoice);
+        const credits = invoiceCredits(
+          invoice,
+          cur.filter((d) => d.kind === "credit_note"),
+        );
         const remaining = Math.max(
           0,
-          Math.round((invoice.total - paidBefore) * 100) / 100,
+          Math.round((invoice.total - paidBefore - credits) * 100) / 100,
         );
         const alreadyPaid = remaining <= 0.005;
         // For already-paid invoices, allow a receipt for the record (up to total paid).
@@ -269,8 +335,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         const status = alreadyPaid
           ? ((invoice.status as InvoiceStatus) === "Paid"
               ? "Paid"
-              : resolveInvoiceStatus(invoice, paidAfter))
-          : resolveInvoiceStatus(invoice, paidAfter);
+              : resolveInvoiceStatus(invoice, paidAfter, undefined, credits))
+          : resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
 
         const receipt: SavedDocument = {
           id: receiptId,
@@ -319,6 +385,90 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
       if (failure) throw failure;
       if (!created) throw new Error("Failed to record payment");
+      return created;
+    },
+    [setDocuments],
+  );
+
+  const recordInvoiceReturn = useCallback(
+    (input: RecordReturnInput): SavedDocument => {
+      const returnLines = input.lines
+        .map((l) => ({
+          ...l,
+          qty: Math.floor(Number(l.qty)),
+        }))
+        .filter((l) => Number.isFinite(l.qty) && l.qty > 0);
+
+      if (returnLines.length === 0) {
+        throw new Error("Select at least one line quantity to return");
+      }
+
+      const now = new Date();
+      const creditId = generateDocId("credit_note", now);
+      const date =
+        input.date?.trim() ||
+        `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
+      let created: SavedDocument | null = null;
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const invoice = cur.find((d) => d.id === input.invoiceId && d.kind === "invoice");
+        if (!invoice) {
+          failure = new Error("Invoice not found");
+          return cur;
+        }
+
+        const existingCredits = cur.filter((d) => d.kind === "credit_note");
+        for (const line of returnLines) {
+          const max = returnableQty(invoice, line.partId, existingCredits);
+          if (line.qty > max) {
+            failure = new Error(
+              `Cannot return ${line.qty} of ${line.partNumber} (only ${max} returnable)`,
+            );
+            return cur;
+          }
+        }
+
+        const creditTotal = Math.round(
+          returnLines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0) * 100,
+        ) / 100;
+
+        const creditNote: SavedDocument = {
+          id: creditId,
+          kind: "credit_note",
+          partyKind: "client",
+          partyId: invoice.partyId,
+          partyName: invoice.partyName,
+          date,
+          createdAt: now.toISOString(),
+          total: creditTotal,
+          status: "Paid",
+          invoiceId: invoice.id,
+          stockRestocked: input.restock,
+          internalNote: input.note?.trim() || undefined,
+          lines: returnLines,
+        };
+
+        const creditsAfter = invoiceCredits(invoice, [...existingCredits, creditNote]);
+        const paid = invoiceAmountPaid(invoice);
+        const nextStatus = resolveInvoiceStatus(invoice, paid, undefined, creditsAfter);
+        const updatedInvoice: SavedDocument = {
+          ...invoice,
+          status: nextStatus,
+        };
+
+        created = creditNote;
+        void syncDocumentToSupabase(updatedInvoice);
+        return [
+          creditNote,
+          ...cur.map((d) => (d.id === invoice.id ? updatedInvoice : d)),
+        ];
+      });
+
+      if (failure) throw failure;
+      if (!created) throw new Error("Failed to record return");
       return created;
     },
     [setDocuments],
@@ -415,6 +565,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
   const quotations = useMemo(() => docs.filter((d) => d.kind === "quotation"), [docs]);
   const invoices = useMemo(() => docs.filter((d) => d.kind === "invoice"), [docs]);
   const receipts = useMemo(() => docs.filter((d) => d.kind === "receipt"), [docs]);
+  const creditNotes = useMemo(() => docs.filter((d) => d.kind === "credit_note"), [docs]);
   const inquiries = useMemo(() => docs.filter((d) => d.kind === "inquiry"), [docs]);
 
   const value = useMemo(
@@ -423,12 +574,14 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       quotations,
       invoices,
       receipts,
+      creditNotes,
       inquiries,
       addDocument,
       updateDocument,
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      recordInvoiceReturn,
       addInvoiceWithOptionalReceipt,
     }),
     [
@@ -436,12 +589,14 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       quotations,
       invoices,
       receipts,
+      creditNotes,
       inquiries,
       addDocument,
       updateDocument,
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      recordInvoiceReturn,
       addInvoiceWithOptionalReceipt,
     ],
   );

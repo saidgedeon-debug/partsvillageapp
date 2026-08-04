@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useCloudState } from "@/lib/cloud-store";
 import type { Part } from "@/lib/mock-data";
 
-export type DocumentKind = "quotation" | "invoice" | "inquiry" | "receipt";
+export type DocumentKind = "quotation" | "invoice" | "inquiry" | "receipt" | "credit_note";
 export type PartyKind = "client" | "supplier";
 
 export type CartLine = {

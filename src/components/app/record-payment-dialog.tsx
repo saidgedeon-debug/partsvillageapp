@@ -41,15 +41,15 @@ type Props = {
 };
 
 export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }: Props) {
-  const { invoices, receipts, recordInvoicePayment } = useDocuments();
+  const { invoices, receipts, creditNotes, recordInvoicePayment } = useDocuments();
   const [submitting, setSubmitting] = useState(false);
 
   const unpaidInvoices = useMemo(
     () =>
       invoices
-        .filter((iv) => invoiceRemaining(iv) > 0.005)
+        .filter((iv) => invoiceRemaining(iv, creditNotes) > 0.005)
         .sort((a, b) => b.date.localeCompare(a.date)),
-    [invoices],
+    [invoices, creditNotes],
   );
 
   /** Paid invoices that still need a receipt document for the record. */
@@ -58,9 +58,12 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
       receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id)),
     );
     return invoices
-      .filter((iv) => invoiceRemaining(iv) <= 0.005 && !receiptInvoiceIds.has(iv.id))
+      .filter(
+        (iv) =>
+          invoiceRemaining(iv, creditNotes) <= 0.005 && !receiptInvoiceIds.has(iv.id),
+      )
       .sort((a, b) => b.date.localeCompare(a.date));
-  }, [invoices, receipts]);
+  }, [invoices, receipts, creditNotes]);
 
   const selectableInvoices = useMemo(
     () => [...unpaidInvoices, ...paidWithoutReceipt],
@@ -76,14 +79,14 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
 
   const selected = invoices.find((iv) => iv.id === invoiceId) ?? null;
 
-  const remaining = selected ? invoiceRemaining(selected) : 0;
+  const remaining = selected ? invoiceRemaining(selected, creditNotes) : 0;
   const paid = selected ? invoiceAmountPaid(selected) : 0;
   const alreadyPaid = Boolean(selected && remaining <= 0.005);
   const needsMobile = method === "OMT" || method === "Whish";
 
   const defaultAmountFor = (inv: SavedDocument | undefined) => {
     if (!inv) return "";
-    const rem = invoiceRemaining(inv);
+    const rem = invoiceRemaining(inv, creditNotes);
     if (rem > 0.005) return String(roundMoney(rem));
     return String(roundMoney(invoiceAmountPaid(inv) || inv.total));
   };
@@ -174,7 +177,7 @@ export function RecordPaymentDialog({ open, onOpenChange, invoice, onRecorded }:
                 {unpaidInvoices.length > 0 ? (
                   unpaidInvoices.map((iv) => (
                     <SelectItem key={iv.id} value={iv.id}>
-                      {iv.id} · {iv.partyName} · {currency(invoiceRemaining(iv))} left
+                      {iv.id} · {iv.partyName} · {currency(invoiceRemaining(iv, creditNotes))} left
                     </SelectItem>
                   ))
                 ) : null}

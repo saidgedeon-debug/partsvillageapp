@@ -28,7 +28,7 @@ export const Route = createFileRoute("/clients/")({
 function ClientsPage() {
   const { query } = useSearch();
   const { clients } = useParties();
-  const { invoices } = useDocuments();
+  const { invoices, creditNotes } = useDocuments();
   const { machinesByClient, ordersByClient } = useFleet();
   const navigate = useNavigate();
   const [addOpen, setAddOpen] = useState(false);
@@ -54,8 +54,8 @@ function ClientsPage() {
   }, [q, clients, machinesByClient]);
 
   const arQueue = useMemo(
-    () => buildClientsArQueue(clients, invoices).slice(0, 8),
-    [clients, invoices],
+    () => buildClientsArQueue(clients, invoices, creditNotes).slice(0, 8),
+    [clients, invoices, creditNotes],
   );
 
   return (
