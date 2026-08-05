@@ -32,6 +32,7 @@ import {
 } from "@/lib/document-money";
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+import { clearDocumentCreatedParts, isDocumentCreatedPart } from "@/lib/document-created-parts";
 
 export function CheckoutDialog() {
   const { checkoutOpen, setCheckoutOpen, lines, documentKind, clearCart, setCartOpen } = useCart();
@@ -122,7 +123,11 @@ export function CheckoutDialog() {
     if (isInvoice && deductStock) {
       let deducted = 0;
       for (const line of lines) {
-        if (!getPart(line.partId)) continue;
+        const part = getPart(line.partId);
+        if (!part) continue;
+        if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
+          adjustPartQuantity(line.partId, line.qty - part.quantity);
+        }
         adjustPartQuantity(line.partId, -line.qty);
         deducted += 1;
       }
@@ -194,6 +199,7 @@ export function CheckoutDialog() {
 
     if (andClose) {
       clearCart();
+      clearDocumentCreatedParts();
       setCheckoutOpen(false);
       setCartOpen(false);
     }

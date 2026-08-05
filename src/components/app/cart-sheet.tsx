@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react";
+import { Minus, PackagePlus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 
 import { useCart, type DocumentKind } from "@/components/app/cart-context";
+import { QuickCreateDocumentPartDialog } from "@/components/app/quick-create-document-part-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { currency } from "@/lib/mock-data";
+import { currency, type Part } from "@/lib/mock-data";
 import { lineTotal, lineUnitAmount } from "@/lib/document-export";
 import { documentGrandTotal, roundMoney } from "@/lib/document-money";
 
@@ -138,6 +139,7 @@ export function CartSheet() {
     lines,
     documentKind,
     setDocumentKind,
+    addPart,
     updateQty,
     updateLinePrice,
     updateLineCost,
@@ -147,12 +149,23 @@ export function CartSheet() {
     itemCount,
   } = useCart();
 
+  const [createPartOpen, setCreatePartOpen] = useState(false);
+
   const isInquiry = documentKind === "inquiry";
+  const canQuickCreate = documentKind !== "inquiry";
   const total = documentKind
     ? documentGrandTotal(roundMoney(lines.reduce((s, l) => s + lineTotal(l, documentKind), 0)))
     : 0;
 
   const kinds: DocumentKind[] = ["quotation", "invoice", "inquiry"];
+
+  const onQuickCreated = (part: Part, qty: number, mode: "quotation" | "invoice") => {
+    if (!documentKind || documentKind === "inquiry") {
+      setDocumentKind(mode);
+    }
+    addPart(part, qty);
+    setCartOpen(true);
+  };
 
   return (
     <Sheet open={cartOpen} onOpenChange={setCartOpen}>
@@ -169,25 +182,56 @@ export function CartSheet() {
           </SheetDescription>
         </SheetHeader>
 
-        {documentKind && (
-          <div className="space-y-1.5 border-b border-border pb-3">
-            <p className="text-xs font-medium text-muted-foreground">Document type</p>
-            <div className="flex flex-wrap gap-1">
-              {kinds.map((k) => (
-                <Button
-                  key={k}
-                  type="button"
-                  size="sm"
-                  variant={documentKind === k ? "default" : "outline"}
-                  className="h-8"
-                  onClick={() => setDocumentKind(k)}
-                >
-                  {kindLabel[k]}
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
+        {canQuickCreate ? (
+          <QuickCreateDocumentPartDialog
+            open={createPartOpen}
+            onOpenChange={setCreatePartOpen}
+            mode={
+              documentKind === "invoice" || documentKind === "quotation"
+                ? documentKind
+                : undefined
+            }
+            onCreated={onQuickCreated}
+          />
+        ) : null}
+
+        <div className="space-y-1.5 border-b border-border pb-3">
+          {documentKind ? (
+            <>
+              <p className="text-xs font-medium text-muted-foreground">Document type</p>
+              <div className="flex flex-wrap gap-1">
+                {kinds.map((k) => (
+                  <Button
+                    key={k}
+                    type="button"
+                    size="sm"
+                    variant={documentKind === k ? "default" : "outline"}
+                    className="h-8"
+                    onClick={() => setDocumentKind(k)}
+                  >
+                    {kindLabel[k]}
+                  </Button>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="text-xs text-muted-foreground">
+              Add parts from inventory, or create a new product for a quotation or invoice.
+            </p>
+          )}
+          {canQuickCreate ? (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="mt-2 h-8 w-full gap-1.5"
+              onClick={() => setCreatePartOpen(true)}
+            >
+              <PackagePlus className="h-3.5 w-3.5" />
+              New product
+            </Button>
+          ) : null}
+        </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto py-4">
           {lines.length === 0 && (

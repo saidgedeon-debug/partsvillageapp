@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { Plus, Search, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { PackagePlus, Plus, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import type { CartLine } from "@/components/app/cart-context";
@@ -15,6 +15,7 @@ import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
 import { PartySearchPicker } from "@/components/app/party-search-picker";
+import { QuickCreateDocumentPartDialog } from "@/components/app/quick-create-document-part-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,6 +36,7 @@ import {
   type DocumentDiscountType,
 } from "@/lib/document-money";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
+import { isDocumentCreatedPart } from "@/lib/document-created-parts";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -90,9 +92,13 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
   const [internalNote, setInternalNote] = useState("");
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
+  const [createPartOpen, setCreatePartOpen] = useState(false);
+  /** Parts created mid-invoice this session — stock was topped up for sold qty. */
+  const createdPartIdsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     if (!open) return;
+    createdPartIdsRef.current = new Set();
     if (editing) {
       setPartyName(editing.partyName);
       setPartyId(editing.partyId);
@@ -106,6 +112,7 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
       );
       setDeductStock(false);
       setPartQuery("");
+      setCreatePartOpen(false);
       return;
     }
     setPartyName("");
@@ -116,6 +123,7 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     setInternalNote("");
     setDiscountType("percent");
     setDiscountValue(0);
+    setCreatePartOpen(false);
   }, [open, editing]);
 
   const partMatches = useMemo(() => {
@@ -146,16 +154,23 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
   );
   const total = useMemo(() => documentGrandTotal(subtotal, discount), [subtotal, discount]);
 
-  const addPartLine = (part: Part) => {
+  const addPartLine = (part: Part, qty = 1) => {
     setLines((prev) => {
       const existing = prev.find((l) => l.partId === part.id);
       if (existing) {
-        return prev.map((l) => (l.partId === part.id ? { ...l, qty: l.qty + 1 } : l));
+        return prev.map((l) =>
+          l.partId === part.id ? { ...l, qty: l.qty + qty } : l,
+        );
       }
-      return [...prev, partToLine(part, 1)];
+      return [...prev, partToLine(part, qty)];
     });
     setPartQuery("");
     toast.success(`Added ${part.partNumber}`);
+  };
+
+  const onQuickCreated = (part: Part, qty: number, _mode: "quotation" | "invoice") => {
+    createdPartIdsRef.current.add(part.id);
+    addPartLine(part, qty);
   };
 
   const updateLine = (
@@ -237,7 +252,12 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     if (deductStock) {
       let deducted = 0;
       for (const line of lines) {
-        if (!getPart(line.partId)) continue;
+        const part = getPart(line.partId);
+        if (!part) continue;
+        // Mid-invoice creates were stocked at create-time qty; sync if line qty changed.
+        if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
+          adjustPartQuantity(line.partId, line.qty - part.quantity);
+        }
         adjustPartQuantity(line.partId, -line.qty);
         deducted += 1;
       }
@@ -301,6 +321,14 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
           </DialogDescription>
         </DialogHeader>
 
+        <QuickCreateDocumentPartDialog
+          open={createPartOpen}
+          onOpenChange={setCreatePartOpen}
+          mode="invoice"
+          prefillPartNumber={partQuery}
+          onCreated={onQuickCreated}
+        />
+
         <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-6 py-4">
           <section className="space-y-2">
             <Label>Client</Label>
@@ -315,7 +343,19 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
           </section>
 
           <section className="space-y-2">
-            <Label>Add parts</Label>
+            <div className="flex items-center justify-between gap-2">
+              <Label>Add parts</Label>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="h-8 gap-1.5"
+                onClick={() => setCreatePartOpen(true)}
+              >
+                <PackagePlus className="h-3.5 w-3.5" />
+                New product
+              </Button>
+            </div>
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
@@ -329,9 +369,21 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
             {partQuery.trim() && (
               <div className="max-h-44 overflow-y-auto rounded-md border border-border">
                 {partMatches.length === 0 ? (
-                  <p className="px-3 py-4 text-center text-xs text-muted-foreground">
-                    No parts match “{partQuery.trim()}”.
-                  </p>
+                  <div className="space-y-2 px-3 py-4 text-center">
+                    <p className="text-xs text-muted-foreground">
+                      No parts match “{partQuery.trim()}”.
+                    </p>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      className="gap-1.5"
+                      onClick={() => setCreatePartOpen(true)}
+                    >
+                      <PackagePlus className="h-3.5 w-3.5" />
+                      Create “{partQuery.trim()}”
+                    </Button>
+                  </div>
                 ) : (
                   partMatches.map((p) => (
                     <button
