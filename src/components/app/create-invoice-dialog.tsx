@@ -9,6 +9,7 @@ import {
   resolveInvoiceStatus,
   useDocuments,
   type InvoiceStatus,
+  type QuoteStatus,
   type SavedDocument,
 } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
@@ -39,11 +40,15 @@ import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { isDocumentCreatedPart } from "@/lib/document-created-parts";
 import { cn } from "@/lib/utils";
 
+export type SalesDocumentKind = "invoice" | "quotation";
+
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** When set, dialog edits this invoice instead of creating a new one. */
+  /** When set, dialog edits this invoice/quotation instead of creating a new one. */
   document?: SavedDocument | null;
+  /** Used when creating. When editing, taken from the document kind. */
+  kind?: SalesDocumentKind;
 };
 
 function formatSize(id?: string, cs?: string): string {
@@ -77,12 +82,23 @@ function partToLine(part: Part, qty = 1): CartLine {
   };
 }
 
-export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: Props) {
+export function CreateInvoiceDialog({
+  open,
+  onOpenChange,
+  document: editing,
+  kind: kindProp = "invoice",
+}: Props) {
   const { parts, adjustPartQuantity, getPart } = useInventory();
   const { addDocument, updateDocument } = useDocuments();
   const { addOrder } = useFleet();
   const { clients } = useParties();
   const isEdit = Boolean(editing?.id);
+  const docKind: SalesDocumentKind =
+    editing?.kind === "quotation" || editing?.kind === "invoice"
+      ? editing.kind
+      : kindProp;
+  const isInvoice = docKind === "invoice";
+  const kindLabel = isInvoice ? "invoice" : "quotation";
 
   const [partyName, setPartyName] = useState("");
   const [partyId, setPartyId] = useState<string | undefined>();
@@ -93,7 +109,7 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
   const [createPartOpen, setCreatePartOpen] = useState(false);
-  /** Parts created mid-invoice this session — stock was topped up for sold qty. */
+  /** Parts created mid-document this session — stock was topped up for sold qty (invoices). */
   const createdPartIdsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
@@ -145,8 +161,8 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
   }, [partQuery, parts]);
 
   const subtotal = useMemo(
-    () => roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0)),
-    [lines],
+    () => roundMoney(lines.reduce((s, l) => s + lineTotal(l, docKind), 0)),
+    [lines, docKind],
   );
   const discount = useMemo(
     () => normalizeDocumentDiscount(discountType, discountValue),
@@ -168,8 +184,12 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     toast.success(`Added ${part.partNumber}`);
   };
 
-  const onQuickCreated = (part: Part, qty: number, _mode: "quotation" | "invoice") => {
+  const onQuickCreated = (part: Part, qty: number) => {
     createdPartIdsRef.current.add(part.id);
+    // Edit save does not deduct stock — apply the sale now for newly created invoice parts.
+    if (isInvoice && isEdit) {
+      adjustPartQuantity(part.id, -qty);
+    }
     addPartLine(part, qty);
   };
 
@@ -209,52 +229,64 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
 
   const ready = partyName.trim().length > 0 && lines.length > 0;
 
-  const saveInvoice = () => {
+  const saveDocument = () => {
     if (!ready) {
       toast.error("Choose a client and add at least one part");
       return;
     }
 
     const note = internalNote.trim() || undefined;
-    const lineSubtotal = roundMoney(lines.reduce((s, l) => s + lineTotal(l, "invoice"), 0));
+    const lineSubtotal = roundMoney(lines.reduce((s, l) => s + lineTotal(l, docKind), 0));
     const appliedDiscount = normalizeDocumentDiscount(discountType, discountValue);
-    const invoiceTotal = documentGrandTotal(lineSubtotal, appliedDiscount);
+    const docTotal = documentGrandTotal(lineSubtotal, appliedDiscount);
 
     if (isEdit && editing) {
-      const paid = Math.min(invoiceAmountPaid(editing), invoiceTotal);
-      const status = resolveInvoiceStatus(
-        { ...editing, total: invoiceTotal },
-        paid,
-        editing.status as InvoiceStatus | undefined,
-      );
-      const saved: SavedDocument = {
-        ...editing,
-        partyId,
-        partyName: partyName.trim(),
-        total: invoiceTotal,
-        amountPaid: paid,
-        status,
-        lines: [...lines],
-        internalNote: note,
-        discountType: appliedDiscount?.type,
-        discountValue: appliedDiscount?.value,
-      };
-      updateDocument(saved);
-      toast.success(`Invoice ${saved.id} updated`);
+      if (isInvoice) {
+        const paid = Math.min(invoiceAmountPaid(editing), docTotal);
+        const status = resolveInvoiceStatus(
+          { ...editing, total: docTotal },
+          paid,
+          editing.status as InvoiceStatus | undefined,
+        );
+        updateDocument({
+          ...editing,
+          partyId,
+          partyName: partyName.trim(),
+          total: docTotal,
+          amountPaid: paid,
+          status,
+          lines: [...lines],
+          internalNote: note,
+          discountType: appliedDiscount?.type,
+          discountValue: appliedDiscount?.value,
+        });
+      } else {
+        updateDocument({
+          ...editing,
+          partyId,
+          partyName: partyName.trim(),
+          total: docTotal,
+          status: (editing.status as QuoteStatus) || "Sent",
+          lines: [...lines],
+          internalNote: note,
+          discountType: appliedDiscount?.type,
+          discountValue: appliedDiscount?.value,
+        });
+      }
+      toast.success(`${isInvoice ? "Invoice" : "Quotation"} ${editing.id} updated`);
       onOpenChange(false);
       return;
     }
 
     const createdAt = new Date();
-    const exportedId = generateDocId("invoice", createdAt);
+    const exportedId = generateDocId(docKind, createdAt);
 
     let stockDeducted = false;
-    if (deductStock) {
+    if (isInvoice && deductStock) {
       let deducted = 0;
       for (const line of lines) {
         const part = getPart(line.partId);
         if (!part) continue;
-        // Mid-invoice creates were stocked at create-time qty; sync if line qty changed.
         if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
           adjustPartQuantity(line.partId, line.qty - part.quantity);
         }
@@ -266,45 +298,48 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
 
     const saved: SavedDocument = {
       id: exportedId,
-      kind: "invoice",
+      kind: docKind,
       partyKind: "client",
       partyId,
       partyName: partyName.trim(),
       date: createdAt.toISOString().slice(0, 10),
       createdAt: createdAt.toISOString(),
-      total: invoiceTotal,
-      status: "Unpaid",
+      total: docTotal,
+      status: isInvoice ? "Unpaid" : "Sent",
       lines: [...lines],
-      stockDeducted,
+      stockDeducted: isInvoice ? stockDeducted : undefined,
       internalNote: note,
       discountType: appliedDiscount?.type,
       discountValue: appliedDiscount?.value,
     };
     addDocument(saved);
 
-    const client =
-      (partyId && clients.find((c) => c.id === partyId)) ||
-      clients.find((c) => c.name.toLowerCase() === partyName.trim().toLowerCase());
-    if (client) {
-      addOrder({
-        id: `ord-${exportedId}`,
-        clientId: client.id,
-        machineId: "",
-        date: saved.date,
-        status: "Pending",
-        documentId: exportedId,
-        lines: lines.map((l) => ({
-          partId: l.partId,
-          partNumber: l.partNumber,
-          name: l.name,
-          qty: l.qty,
-          unitPrice: l.unitPrice,
-        })),
-      });
+    if (isInvoice) {
+      const client =
+        (partyId && clients.find((c) => c.id === partyId)) ||
+        clients.find((c) => c.name.toLowerCase() === partyName.trim().toLowerCase());
+      if (client) {
+        addOrder({
+          id: `ord-${exportedId}`,
+          clientId: client.id,
+          machineId: "",
+          date: saved.date,
+          status: "Pending",
+          documentId: exportedId,
+          lines: lines.map((l) => ({
+            partId: l.partId,
+            partNumber: l.partNumber,
+            name: l.name,
+            qty: l.qty,
+            unitPrice: l.unitPrice,
+          })),
+        });
+      }
     }
 
     toast.success(
-      `Invoice ${exportedId} saved` + (stockDeducted ? " · stock updated" : ""),
+      `${isInvoice ? "Invoice" : "Quotation"} ${exportedId} saved` +
+        (stockDeducted ? " · stock updated" : ""),
     );
     onOpenChange(false);
   };
@@ -313,18 +348,23 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex max-h-[92vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-4xl">
         <DialogHeader className="space-y-1 border-b border-border px-6 py-4">
-          <DialogTitle>{isEdit ? `Edit invoice ${editing?.id}` : "New invoice"}</DialogTitle>
+          <DialogTitle>
+            {isEdit
+              ? `Edit ${kindLabel} ${editing?.id}`
+              : `New ${kindLabel}`}
+          </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? "Update client, lines, prices, or your private note — then save."
-              : "Choose a client, add parts, edit description and size, then create the invoice."}
+              ? "Update client, lines, prices, or your private note — then save. You can also create new products."
+              : `Choose a client, add parts (or create new ones), then create the ${kindLabel}.`}
           </DialogDescription>
         </DialogHeader>
 
         <QuickCreateDocumentPartDialog
           open={createPartOpen}
           onOpenChange={setCreatePartOpen}
-          mode="invoice"
+          mode={docKind}
+          editing={isEdit}
           prefillPartNumber={partQuery}
           onCreated={onQuickCreated}
         />
@@ -518,7 +558,7 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
             />
           </section>
 
-          {!isEdit && (
+          {!isEdit && isInvoice ? (
             <section className="space-y-2">
               <Label>Stock</Label>
               <div className="flex gap-2">
@@ -540,7 +580,7 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
                 </Button>
               </div>
             </section>
-          )}
+          ) : null}
         </div>
 
         <div className="flex items-center justify-between gap-3 border-t border-border px-6 py-4">
@@ -557,9 +597,9 @@ export function CreateInvoiceDialog({ open, onOpenChange, document: editing }: P
               type="button"
               disabled={!ready}
               className="bg-accent text-accent-foreground hover:bg-accent/90"
-              onClick={saveInvoice}
+              onClick={saveDocument}
             >
-              {isEdit ? "Save changes" : "Create invoice"}
+              {isEdit ? "Save changes" : `Create ${kindLabel}`}
             </Button>
           </div>
         </div>

@@ -89,7 +89,8 @@ function DocumentsPage() {
     useDocuments();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
-  const [editingInvoice, setEditingInvoice] = useState<SavedDocument | null>(null);
+  const [editingDocument, setEditingDocument] = useState<SavedDocument | null>(null);
+  const [docKind, setDocKind] = useState<"invoice" | "quotation">("invoice");
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
   const [editingReceipt, setEditingReceipt] = useState<SavedDocument | null>(null);
@@ -181,12 +182,21 @@ function DocumentsPage() {
   };
 
   const openNewInvoice = () => {
-    setEditingInvoice(null);
+    setEditingDocument(null);
+    setDocKind("invoice");
     setInvoiceOpen(true);
   };
 
-  const openEditInvoice = (doc: SavedDocument) => {
-    setEditingInvoice(doc);
+  const openNewQuotation = () => {
+    setEditingDocument(null);
+    setDocKind("quotation");
+    setInvoiceOpen(true);
+  };
+
+  const openEditDocument = (doc: SavedDocument) => {
+    if (doc.kind !== "invoice" && doc.kind !== "quotation") return;
+    setDocKind(doc.kind);
+    setEditingDocument(doc);
     setInvoiceOpen(true);
   };
 
@@ -251,10 +261,11 @@ function DocumentsPage() {
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <CreateInvoiceDialog
           open={invoiceOpen}
-          document={editingInvoice}
+          document={editingDocument}
+          kind={docKind}
           onOpenChange={(open) => {
             setInvoiceOpen(open);
-            if (!open) setEditingInvoice(null);
+            if (!open) setEditingDocument(null);
           }}
         />
         <RecordPaymentDialog
@@ -326,7 +337,7 @@ function DocumentsPage() {
           <TabsContent value="quotations" className="mt-4">
             <DocCard
               title="Quotations"
-              onNew={() => startNew("quotation")}
+              onNew={openNewQuotation}
               headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
               rows={filteredQuotes.map((qu) => ({
                 key: qu.id,
@@ -352,12 +363,19 @@ function DocumentsPage() {
                     onOpen={() => openDoc(qu)}
                     onDownload={() => downloadDoc(qu)}
                     onShare={() => void shareDoc(qu)}
+                    extraItems={[
+                      {
+                        label: "Edit",
+                        icon: Pencil,
+                        onSelect: () => openEditDocument(qu),
+                      },
+                    ]}
                   />,
                 ],
               }))}
               emptyTitle={q ? `No quotations match “${query}”` : "No quotations yet"}
               emptyDescription={
-                q ? "Try a different search." : "Finish a cart checkout to create one."
+                q ? "Try a different search." : "Click + New to create one, or use the cart."
               }
               emptyIcon={FileText}
             />
@@ -463,7 +481,7 @@ function DocumentsPage() {
                         {
                           label: "Edit",
                           icon: Pencil,
-                          onSelect: () => openEditInvoice(iv),
+                          onSelect: () => openEditDocument(iv),
                         },
                         ...(invoiceHasReturnableLines(iv, creditNotes)
                           ? [

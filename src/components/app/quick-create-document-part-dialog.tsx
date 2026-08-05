@@ -26,6 +26,8 @@ type Props = {
   mode?: DocumentPartCreateMode;
   /** Prefill part number from search box. */
   prefillPartNumber?: string;
+  /** When editing an existing document (invoice stock is applied immediately). */
+  editing?: boolean;
   onCreated: (part: Part, qty: number, mode: DocumentPartCreateMode) => void;
 };
 
@@ -34,6 +36,7 @@ export function QuickCreateDocumentPartDialog({
   onOpenChange,
   mode: modeProp,
   prefillPartNumber = "",
+  editing = false,
   onCreated,
 }: Props) {
   const { addPart, categoryLabels } = useInventory();
@@ -107,7 +110,9 @@ export function QuickCreateDocumentPartDialog({
       onCreated(part, lineQty, mode);
       toast.success(
         isInvoice
-          ? `Created ${part.partNumber} · stock +${lineQty} (will deduct on save)`
+          ? editing
+            ? `Created ${part.partNumber} · added & stock deducted`
+            : `Created ${part.partNumber} · stock +${lineQty} (will deduct on save)`
           : `Created ${part.partNumber} · added to quotation (stock unchanged)`,
       );
       onOpenChange(false);
@@ -127,7 +132,9 @@ export function QuickCreateDocumentPartDialog({
           </DialogTitle>
           <DialogDescription>
             {isInvoice
-              ? "Creates the part in inventory, adds stock for the sold qty, then deducts it when you save the invoice."
+              ? editing
+                ? "Creates the part in inventory and deducts the sold qty now (edit save does not change stock)."
+                : "Creates the part in inventory, adds stock for the sold qty, then deducts it when you save the invoice."
               : "Creates the part in the catalog at qty 0 and adds it to the quotation — stock is not changed."}
           </DialogDescription>
         </DialogHeader>
