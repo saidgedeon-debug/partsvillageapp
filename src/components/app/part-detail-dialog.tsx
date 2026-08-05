@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
+import { FILTER_SUBCATEGORIES } from "@/lib/filters-inventory";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { partPriceHistory } from "@/lib/part-price-history";
 
@@ -367,6 +368,23 @@ export function PartDetailDialog({
                 />
                 <datalist id="hydraulic-subcategory-options">
                   {HYDRAULIC_SUBCATEGORIES.map((s) => (
+                    <option key={s} value={s} />
+                  ))}
+                </datalist>
+              </div>
+            )}
+            {form.category === "Filters" && (
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="part-filter-subcategory">Subcategory</Label>
+                <Input
+                  id="part-filter-subcategory"
+                  list="filter-subcategory-options"
+                  value={form.subcategory}
+                  onChange={set("subcategory")}
+                  placeholder="Engine Lube, Fuel System, …"
+                />
+                <datalist id="filter-subcategory-options">
+                  {FILTER_SUBCATEGORIES.map((s) => (
                     <option key={s} value={s} />
                   ))}
                 </datalist>
