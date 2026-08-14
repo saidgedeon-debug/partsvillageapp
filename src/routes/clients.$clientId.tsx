@@ -155,9 +155,18 @@ function ClientDetail() {
   const canReturn = invoices.some(
     (iv) => iv.partyId === client.id && invoiceHasReturnableLines(iv, creditNotes),
   );
-  const docSpend = clientDocs
-    .filter((d) => d.kind === "invoice" || d.kind === "receipt")
+  // Lifetime spend = invoice sales + standalone receipts (no linked invoice).
+  // Invoice-linked receipts are payments on those invoices — counting both doubles spend.
+  const invoiceSpend = clientDocs
+    .filter((d) => d.kind === "invoice")
     .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
+  const standaloneReceiptSpend = clientDocs
+    .filter((d) => d.kind === "receipt" && !d.invoiceId)
+    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
+  const creditsSpend = clientDocs
+    .filter((d) => d.kind === "credit_note")
+    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
+  const docSpend = Math.max(0, invoiceSpend + standaloneReceiptSpend - creditsSpend);
   const fleetSpend = allOrders.reduce(
     (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
     0,
