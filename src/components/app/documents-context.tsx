@@ -185,6 +185,8 @@ type DocumentsContextValue = {
   removeDocument: (id: string) => void;
   recordInvoicePayment: (input: RecordPaymentInput) => SavedDocument;
   updateInvoicePayment: (input: UpdatePaymentInput) => SavedDocument;
+  /** Delete a receipt and reverse its effect on the linked invoice balance when needed. */
+  deleteInvoicePayment: (receiptId: string) => void;
   recordInvoiceReturn: (input: RecordReturnInput) => SavedDocument;
   /** Apply a goodwill / account discount across open invoices (oldest first). */
   recordClientDiscount: (input: RecordClientDiscountInput) => SavedDocument[];
@@ -540,6 +542,49 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     [setDocuments],
   );
 
+  const deleteInvoicePayment = useCallback(
+    (receiptId: string) => {
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const receipt = cur.find((d) => d.id === receiptId && d.kind === "receipt");
+        if (!receipt) {
+          failure = new Error("Receipt not found");
+          return cur;
+        }
+
+        const next = cur.filter((d) => d.id !== receiptId);
+
+        if (!receipt.invoiceId || !receiptAffectsBalance(receipt)) {
+          return next;
+        }
+
+        const invoice = cur.find((d) => d.id === receipt.invoiceId && d.kind === "invoice");
+        if (!invoice) return next;
+
+        const credits = invoiceCredits(
+          invoice,
+          cur.filter((d) => d.kind === "credit_note"),
+        );
+        const oldAmount = Math.round((Number.isFinite(receipt.total) ? receipt.total : 0) * 100) / 100;
+        const paidBefore = invoiceAmountPaid(invoice);
+        const paidAfter = Math.max(0, Math.round((paidBefore - oldAmount) * 100) / 100);
+        const status = resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
+        const updatedInvoice: SavedDocument = {
+          ...invoice,
+          amountPaid: paidAfter,
+          status,
+        };
+        void syncDocumentToSupabase(updatedInvoice);
+        return next.map((d) => (d.id === invoice.id ? updatedInvoice : d));
+      });
+
+      if (failure) throw failure;
+    },
+    [setDocuments],
+  );
+
   const recordInvoiceReturn = useCallback(
     (input: RecordReturnInput): SavedDocument => {
       const returnLines = input.lines
@@ -855,6 +900,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       removeDocument,
       recordInvoicePayment,
       updateInvoicePayment,
+      deleteInvoicePayment,
       recordInvoiceReturn,
       recordClientDiscount,
       addInvoiceWithOptionalReceipt,
@@ -872,6 +918,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       removeDocument,
       recordInvoicePayment,
       updateInvoicePayment,
+      deleteInvoicePayment,
       recordInvoiceReturn,
       recordClientDiscount,
       addInvoiceWithOptionalReceipt,

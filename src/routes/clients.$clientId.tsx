@@ -16,6 +16,7 @@ import {
   MessageCircle,
   Percent,
   Undo2,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -84,12 +85,13 @@ function kindLabel(kind: SavedDocument["kind"]) {
 function ClientDetail() {
   const { clientId } = Route.useParams();
   const { clients } = useParties();
-  const { quotations, invoices, receipts, creditNotes } = useDocuments();
+  const { quotations, invoices, receipts, creditNotes, deleteInvoicePayment } = useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
+  const [editingReceipt, setEditingReceipt] = useState<SavedDocument | null>(null);
   const [discountOpen, setDiscountOpen] = useState(false);
   const [returnOpen, setReturnOpen] = useState(false);
   const [make, setMake] = useState("");
@@ -496,7 +498,7 @@ function ClientDetail() {
                     <TableHead>Date</TableHead>
                     <TableHead className="text-right">Total</TableHead>
                     <TableHead className="text-right">Status</TableHead>
-                    <TableHead className="w-12" />
+                    <TableHead className="w-[1%] text-right" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -519,7 +521,7 @@ function ClientDetail() {
                           {doc.id}
                         </button>
                       </TableCell>
-                      <TableCell>{doc.date}</TableCell>
+                      <TableCell>{doc.paymentDate || doc.date}</TableCell>
                       <TableCell className="text-right font-semibold">
                         {currency(doc.total)}
                       </TableCell>
@@ -527,19 +529,64 @@ function ClientDetail() {
                         <Badge variant="secondary">{doc.status}</Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button
-                          type="button"
-                          size="icon"
-                          variant="ghost"
-                          className="h-8 w-8"
-                          aria-label={`Open ${doc.id}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            openDoc(doc);
-                          }}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
+                        <div className="flex flex-wrap items-center justify-end gap-1">
+                          {doc.kind === "receipt" ? (
+                            <>
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                className="h-8 gap-1 px-2"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditingReceipt(doc);
+                                  setPaymentInvoice(null);
+                                  setPaymentOpen(true);
+                                }}
+                              >
+                                <Pencil className="h-3.5 w-3.5" />
+                                Edit
+                              </Button>
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                className="h-8 gap-1 px-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const ok = window.confirm(
+                                    `Delete receipt ${doc.id} (${currency(doc.total)})?\n\nThis removes the payment and puts the amount back on the invoice balance.`,
+                                  );
+                                  if (!ok) return;
+                                  try {
+                                    deleteInvoicePayment(doc.id);
+                                    toast.success(`Deleted ${doc.id}`);
+                                  } catch (err) {
+                                    toast.error(
+                                      err instanceof Error ? err.message : "Failed to delete receipt",
+                                    );
+                                  }
+                                }}
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                                Delete
+                              </Button>
+                            </>
+                          ) : null}
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="ghost"
+                            className="h-8 w-8"
+                            aria-label={`Open ${doc.id}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openDoc(doc);
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -703,15 +750,21 @@ function ClientDetail() {
       <RecordPaymentDialog
         open={paymentOpen}
         invoice={paymentInvoice}
+        receipt={editingReceipt}
         clientId={client.id}
         clientName={client.name}
         onOpenChange={(open) => {
           setPaymentOpen(open);
-          if (!open) setPaymentInvoice(null);
+          if (!open) {
+            setPaymentInvoice(null);
+            setEditingReceipt(null);
+          }
         }}
         onRecorded={(receipt) => {
           openDoc(receipt);
-          toast.success(`Payment recorded · ${receipt.id}`);
+          toast.success(
+            editingReceipt ? `Payment updated · ${receipt.id}` : `Payment recorded · ${receipt.id}`,
+          );
         }}
       />
 

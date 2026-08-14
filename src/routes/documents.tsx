@@ -11,6 +11,7 @@ import {
   Receipt,
   Share2,
   StickyNote,
+  Trash2,
   Undo2,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -85,7 +86,7 @@ function DocumentsPage() {
   const { tab } = Route.useSearch();
   const { query } = useSearch();
   const q = query.trim().toLowerCase();
-  const { quotations, invoices, receipts, creditNotes, inquiries, updateDocumentStatus } =
+  const { quotations, invoices, receipts, creditNotes, inquiries, updateDocumentStatus, deleteInvoicePayment } =
     useDocuments();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
@@ -553,6 +554,30 @@ function DocumentsPage() {
                       <Pencil className="h-3.5 w-3.5" />
                       Edit
                     </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-8 gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const ok = window.confirm(
+                          `Delete receipt ${rc.id} (${currency(rc.total)})?\n\nThis removes the payment and puts the amount back on the invoice balance.`,
+                        );
+                        if (!ok) return;
+                        try {
+                          deleteInvoicePayment(rc.id);
+                          toast.success(`Deleted ${rc.id}`);
+                        } catch (err) {
+                          toast.error(
+                            err instanceof Error ? err.message : "Failed to delete receipt",
+                          );
+                        }
+                      }}
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      Delete
+                    </Button>
                     <OpenButton
                       onOpen={() => openDoc(rc)}
                       onDownload={() => downloadDoc(rc)}
@@ -562,6 +587,24 @@ function DocumentsPage() {
                           label: "Edit payment",
                           icon: Pencil,
                           onSelect: () => openEditReceipt(rc),
+                        },
+                        {
+                          label: "Delete payment",
+                          icon: Trash2,
+                          onSelect: () => {
+                            const ok = window.confirm(
+                              `Delete receipt ${rc.id} (${currency(rc.total)})?\n\nThis removes the payment and puts the amount back on the invoice balance.`,
+                            );
+                            if (!ok) return;
+                            try {
+                              deleteInvoicePayment(rc.id);
+                              toast.success(`Deleted ${rc.id}`);
+                            } catch (err) {
+                              toast.error(
+                                err instanceof Error ? err.message : "Failed to delete receipt",
+                              );
+                            }
+                          },
                         },
                       ]}
                     />
