@@ -1,6 +1,7 @@
 import * as XLSX from "xlsx";
 
 import {
+  locationOf,
   oemNumbersOf,
   partDescriptionOf,
   type Part,
@@ -24,13 +25,13 @@ export function downloadInventoryExcel(parts: Part[], filename?: string) {
     Description: partDescriptionOf(p),
     "OEM / Serial": oemNumbersOf(p).join(" / "),
     Machine: p.compatibility.join(", "),
-    Page: p.catalogPage ?? "",
+    Page: locationOf(p),
     Category: p.category,
     Qty: p.quantity,
     "Reorder at": p.reorderAt,
     Cost: p.cost > 0 ? p.cost : "",
     Price: p.price > 0 ? p.price : "",
-    Box: p.boxNumber ?? "",
+    Box: p.category === "Filters" ? locationOf(p) : (p.boxNumber ?? ""),
     "ID (mm)": p.insideDiameterMm ?? "",
     "CS (mm)": p.crossSectionMm ?? "",
     Notes: p.notes ?? "",

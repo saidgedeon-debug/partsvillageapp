@@ -30,7 +30,7 @@ import {
   type CategoryBrowsePick,
   type CategoryGroupId,
 } from "@/lib/inventory-categories";
-import { currency, oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
+import { currency, locationOf, oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 type BrowseMode = "all" | "machine" | "category" | "favorites";
@@ -311,7 +311,8 @@ export function CatalogGrid({ parts, searchQuery = "", onView, onAddToCart }: Pr
           oems.includes(q) ||
           p.category.toLowerCase().includes(q) ||
           p.compatibility.some((c) => c.toLowerCase().includes(q)) ||
-          (p.catalogPage ?? "").toLowerCase().includes(q)
+          (p.catalogPage ?? "").toLowerCase().includes(q) ||
+          locationOf(p).toLowerCase().includes(q)
         );
       });
     }

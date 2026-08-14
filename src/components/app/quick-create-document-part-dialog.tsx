@@ -85,9 +85,9 @@ export function QuickCreateDocumentPartDialog({
       return;
     }
     const boxRaw = boxNumber.trim();
-    const box = boxRaw === "" ? undefined : Number(boxRaw);
+    const box = boxRaw === "" ? undefined : Number(boxRaw.replace(/^f-?/i, ""));
     if (boxRaw !== "" && !Number.isFinite(box)) {
-      toast.error("Box / stand must be a number");
+      toast.error("Stand / box must be a number (e.g. 26 or F-26)");
       return;
     }
 
@@ -242,11 +242,9 @@ export function QuickCreateDocumentPartDialog({
               <Label htmlFor="qcp-box">Stand / box (optional)</Label>
               <Input
                 id="qcp-box"
-                type="number"
-                min={0}
-                step={1}
                 value={boxNumber}
                 onChange={(e) => setBoxNumber(e.target.value)}
+                placeholder="F-26"
               />
             </div>
           </div>

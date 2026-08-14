@@ -1,5 +1,5 @@
 /** Filters catalog seed — Parts Village (Sakura / Donaldson + depot stand sheets). */
-import type { Part } from "@/lib/mock-data";
+import { filterStandCode, type Part } from "@/lib/mock-data";
 import { FILTER_STAND_LISTINGS } from "@/lib/filters-stand-sheet";
 
 export const FILTER_SUBCATEGORIES = [
@@ -108,14 +108,13 @@ function filterPart(opts: {
     typeof opts.sheetRow === "number" && Number.isFinite(opts.sheetRow)
       ? opts.sheetRow
       : stands[0];
+  const standCodes = stands.map(filterStandCode);
   const sheet =
-    stands.length > 0
-      ? `Stand${stands.length > 1 ? "s" : ""} ${stands.join(", ")}`
+    standCodes.length > 0
+      ? `Stand${standCodes.length > 1 ? "s" : ""} ${standCodes.join(", ")}`
       : opts.sheetRow == null
         ? null
-        : typeof opts.sheetRow === "number"
-          ? `Sheet row ${opts.sheetRow}`
-          : `Sheet row ${opts.sheetRow}`;
+        : `Stand ${filterStandCode(opts.sheetRow)}`;
 
   const sizeBits = [
     opts.heightMm != null ? `H ${opts.heightMm} mm` : null,
@@ -147,6 +146,7 @@ function filterPart(opts: {
     description: [opts.brand, opts.subCategory, ...sizeBits].join(" · "),
     category: "Filters",
     subcategory: opts.subCategory,
+    catalogPage: primaryStand != null ? filterStandCode(primaryStand) : undefined,
     boxNumber: primaryStand,
     insideDiameterMm:
       opts.outerDiameterMm != null ? String(opts.outerDiameterMm) : undefined,
@@ -1109,7 +1109,16 @@ const enrichedDetailed: Part[] = detailedFilterParts.map((p) => {
     quantity: 0,
     reorderAt: 0,
     boxNumber: stands[0] ?? p.boxNumber,
-    notes: [p.notes, `Stands ${stands.join(", ")}`].filter(Boolean).join(" · "),
+    catalogPage: stands[0] != null ? filterStandCode(stands[0]) : p.catalogPage,
+    notes: [
+      p.notes
+        ?.replace(/\s*·\s*Sheet row [^·]+/gi, "")
+        ?.replace(/\s*·\s*Stands? [^·]+/gi, "")
+        .trim(),
+      `Stand${stands.length > 1 ? "s" : ""} ${stands.map(filterStandCode).join(", ")}`,
+    ]
+      .filter(Boolean)
+      .join(" · "),
   };
 });
 

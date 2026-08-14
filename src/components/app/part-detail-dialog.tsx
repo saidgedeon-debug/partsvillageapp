@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { currency, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
+import { currency, filterStandCode, locationOf, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { FILTER_SUBCATEGORIES } from "@/lib/filters-inventory";
 import { compressImageToDataUrl } from "@/lib/image-compress";
@@ -84,7 +84,12 @@ function partToForm(part: Part): FormState {
     reorderAt: String(part.reorderAt),
     cost: String(part.cost),
     price: String(part.price),
-    boxNumber: part.boxNumber != null ? String(part.boxNumber) : "",
+    boxNumber:
+      part.category === "Filters" && part.boxNumber != null
+        ? filterStandCode(part.boxNumber)
+        : part.boxNumber != null
+          ? String(part.boxNumber)
+          : "",
     insideDiameterMm: part.insideDiameterMm ?? "",
     crossSectionMm: part.crossSectionMm ?? "",
     compatibility: part.compatibility.join(", "),
@@ -162,9 +167,10 @@ export function PartDetailDialog({
       return;
     }
     const boxRaw = form.boxNumber.trim();
-    const boxNumber = boxRaw === "" ? undefined : Number(boxRaw);
+    const boxNumber =
+      boxRaw === "" ? undefined : Number(boxRaw.replace(/^f-?/i, ""));
     if (boxRaw !== "" && !Number.isFinite(boxNumber)) {
-      toast.error("Box must be a number");
+      toast.error("Stand / box must be a number (e.g. 26 or F-26)");
       return;
     }
 
@@ -274,6 +280,9 @@ export function PartDetailDialog({
             {part.category === "Hydraulic Parts" && (
               <Field label="Subcategory" value={part.subcategory ?? ""} />
             )}
+            {part.category === "Filters" && (
+              <Field label="Subcategory" value={part.subcategory ?? ""} />
+            )}
             <div className="sm:col-span-2">
               <Field label="Part Description" value={part.description?.trim() || part.name} />
             </div>
@@ -292,7 +301,11 @@ export function PartDetailDialog({
                   label="Machine Compatibility"
                   value={part.compatibility.length ? part.compatibility.join(", ") : ""}
                 />
-                <Field label="Catalog page" value={part.catalogPage ?? ""} />
+                {part.category === "Filters" ? (
+                  <Field label="Stand" value={locationOf(part)} />
+                ) : (
+                  <Field label="Catalog page" value={part.catalogPage ?? ""} />
+                )}
               </>
             )}
             <Field label="Cost" value={part.cost > 0 ? currency(part.cost) : ""} />
@@ -374,21 +387,33 @@ export function PartDetailDialog({
               </div>
             )}
             {form.category === "Filters" && (
-              <div className="space-y-1.5 sm:col-span-2">
-                <Label htmlFor="part-filter-subcategory">Subcategory</Label>
-                <Input
-                  id="part-filter-subcategory"
-                  list="filter-subcategory-options"
-                  value={form.subcategory}
-                  onChange={set("subcategory")}
-                  placeholder="Engine Lube, Fuel System, …"
-                />
-                <datalist id="filter-subcategory-options">
-                  {FILTER_SUBCATEGORIES.map((s) => (
-                    <option key={s} value={s} />
-                  ))}
-                </datalist>
-              </div>
+              <>
+                <div className="space-y-1.5 sm:col-span-2">
+                  <Label htmlFor="part-filter-subcategory">Subcategory</Label>
+                  <Input
+                    id="part-filter-subcategory"
+                    list="filter-subcategory-options"
+                    value={form.subcategory}
+                    onChange={set("subcategory")}
+                    placeholder="Engine Lube, Fuel System, …"
+                  />
+                  <datalist id="filter-subcategory-options">
+                    {FILTER_SUBCATEGORIES.map((s) => (
+                      <option key={s} value={s} />
+                    ))}
+                  </datalist>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="part-filter-stand">Stand</Label>
+                  <Input
+                    id="part-filter-stand"
+                    className="font-mono"
+                    value={form.boxNumber}
+                    onChange={set("boxNumber")}
+                    placeholder="F-26"
+                  />
+                </div>
+              </>
             )}
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="part-name">Description / name</Label>

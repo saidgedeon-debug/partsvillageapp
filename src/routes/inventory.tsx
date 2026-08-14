@@ -58,7 +58,7 @@ import {
 } from "@/lib/inventory-categories";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
-import { partNumbersOf, type Part } from "@/lib/mock-data";
+import { locationOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -219,6 +219,7 @@ function InventoryPage() {
   const isGroupMode = activeGroup != null;
   const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
   const isHydraulics = !isCatalogMode && activeCategory?.matchCategory === "Hydraulic Parts";
+  const isFilters = !isCatalogMode && activeCategory?.matchCategory === "Filters";
 
   const orderedCategories = useMemo(() => {
     const allowed = new Set<string>(MAIN_INVENTORY_CATEGORY_IDS);
@@ -364,6 +365,7 @@ function InventoryPage() {
           p.category.toLowerCase().includes(q) ||
           (p.subcategory ?? "").toLowerCase().includes(q) ||
           String(p.boxNumber ?? "").includes(q) ||
+          locationOf(p).toLowerCase().includes(q) ||
           (p.insideDiameterMm ?? "").toLowerCase().includes(q) ||
           (p.crossSectionMm ?? "").toLowerCase().includes(q) ||
           (p.notes ?? "").toLowerCase().includes(q) ||
@@ -858,6 +860,7 @@ function InventoryPage() {
               <VirtualInventoryTable
                 rows={rows}
                 isORings={isORings}
+                locationColumnLabel={isFilters ? "Stand" : "Page"}
                 partNumbersCell={(p) => <PartNumbersCell part={p} catalogMode={!isORings} />}
                 onView={(p) => openPart(p, "view")}
                 onEdit={(p) => openPart(p, "edit")}

@@ -5,12 +5,14 @@ import { AlertTriangle, Eye, Pencil, ShoppingCart } from "lucide-react";
 import { InlineNumberCell } from "@/components/app/inline-number-cell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
+import { locationOf, oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 type Props = {
   rows: Part[];
   isORings: boolean;
+  /** Non-O-ring location column header (Page vs Stand). */
+  locationColumnLabel?: string;
   emptyMessage: string;
   partNumbersCell: (part: Part) => ReactNode;
   showCosts?: boolean;
@@ -28,6 +30,7 @@ const ROW_H = 68;
 export function VirtualInventoryTable({
   rows,
   isORings,
+  locationColumnLabel = "Page",
   emptyMessage,
   partNumbersCell,
   showCosts = true,
@@ -85,7 +88,7 @@ export function VirtualInventoryTable({
             <span>Description</span>
             <span>OEM</span>
             <span>Machine</span>
-            <span>Page</span>
+            <span>{locationColumnLabel}</span>
             <span>Category</span>
             <span className="text-right">Qty</span>
             {showCosts ? <span className="text-right">Cost</span> : null}
@@ -112,7 +115,7 @@ export function VirtualInventoryTable({
                   : "";
             const oems = oemNumbersOf(p);
             const page =
-              p.catalogPage ||
+              locationOf(p) ||
               p.notes?.match(/Catalog p\.?\s*([\d,\s]+)/i)?.[1]?.trim() ||
               "";
 

@@ -19,7 +19,7 @@ export type Part = {
   compatibility: string[];
   /** Catalog page number (e.g. "9"). */
   catalogPage?: string;
-  /** Storage box number (O-rings inventory). */
+  /** Storage box / stand number (O-rings boxes, filter stands, hydraulic stands). */
   boxNumber?: number;
   /** Inside diameter in mm (or "Metric ID" when unknown). */
   insideDiameterMm?: string;
@@ -64,6 +64,26 @@ export function partNumbersOf(part: Part): string[] {
 export function oemNumbersOf(part: Part): string[] {
   const primary = (part.partNumber ?? "").trim().toLowerCase();
   return partNumbersOf(part).filter((n) => n.trim().toLowerCase() !== primary);
+}
+
+/** Filter depot stand code: 26 → F-26. */
+export function filterStandCode(stand: number | string): string {
+  const raw = String(stand).trim();
+  const m = raw.match(/^f-?(\d+)$/i) ?? raw.match(/^(\d+)$/);
+  if (m?.[1]) return `F-${m[1]}`;
+  return raw.toUpperCase().startsWith("F-") ? raw : `F-${raw}`;
+}
+
+/** Visible location: filter stand F-26, catalog page, or box number. */
+export function locationOf(
+  part: Pick<Part, "category" | "boxNumber" | "catalogPage">,
+): string {
+  if (part.category === "Filters") {
+    if (part.boxNumber != null) return filterStandCode(part.boxNumber);
+    if (part.catalogPage?.trim()) return part.catalogPage.trim();
+    return "";
+  }
+  return part.catalogPage?.trim() || (part.boxNumber != null ? String(part.boxNumber) : "");
 }
 
 /** Part Description / Specifics for table display. */
