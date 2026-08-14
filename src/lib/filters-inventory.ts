@@ -137,7 +137,7 @@ function filterPart(opts: {
     sheet,
   ].filter(Boolean);
 
-  const qty = opts.quantity ?? 1;
+  const qty = opts.quantity ?? 0;
 
   return {
     id: slugId(opts.partNumber),
@@ -151,7 +151,7 @@ function filterPart(opts: {
     insideDiameterMm:
       opts.outerDiameterMm != null ? String(opts.outerDiameterMm) : undefined,
     quantity: qty,
-    reorderAt: Math.max(1, Math.min(2, Math.floor(qty / 2) || 1)),
+    reorderAt: qty > 0 ? Math.max(1, Math.min(2, Math.floor(qty / 2) || 1)) : 0,
     cost: 0,
     price: 0,
     compatibility: [opts.brand, "Filters", opts.subCategory],
@@ -1074,17 +1074,16 @@ const detailedFilterParts: Part[] = [
 ];
 
 function aggregateStandListings() {
-  const byPn = new Map<string, { partNumber: string; stands: number[]; qty: number }>();
+  const byPn = new Map<string, { partNumber: string; stands: number[] }>();
   for (const [stand, raw] of FILTER_STAND_LISTINGS) {
     const partNumber = raw.trim();
     if (!partNumber) continue;
     const key = normalizePn(partNumber);
     const prev = byPn.get(key);
     if (prev) {
-      prev.qty += 1;
       if (!prev.stands.includes(stand)) prev.stands.push(stand);
     } else {
-      byPn.set(key, { partNumber, stands: [stand], qty: 1 });
+      byPn.set(key, { partNumber, stands: [stand] });
     }
   }
   return [...byPn.values()];
@@ -1098,22 +1097,19 @@ const detailedByKey = new Map(
   detailedFilterParts.map((p) => [normalizePn(p.partNumber), p] as const),
 );
 
-/** Enrich detailed seeds with stand counts/locations from depot sheets. */
+/** Enrich detailed seeds with stand locations from depot sheets (qty stays 0 until counted). */
 const enrichedDetailed: Part[] = detailedFilterParts.map((p) => {
   const agg = standAggByKey.get(normalizePn(p.partNumber));
   if (!agg) return p;
   const stands = [...new Set([...(p.boxNumber != null ? [p.boxNumber] : []), ...agg.stands])].sort(
     (a, b) => a - b,
   );
-  const qty = Math.max(p.quantity, agg.qty);
   return {
     ...p,
-    quantity: qty,
-    reorderAt: Math.max(1, Math.min(2, Math.floor(qty / 2) || 1)),
+    quantity: 0,
+    reorderAt: 0,
     boxNumber: stands[0] ?? p.boxNumber,
-    notes: [p.notes, `Stands ${stands.join(", ")}`, `Sheet listings ${agg.qty}`]
-      .filter(Boolean)
-      .join(" · "),
+    notes: [p.notes, `Stands ${stands.join(", ")}`].filter(Boolean).join(" · "),
   };
 });
 
@@ -1126,7 +1122,7 @@ const standOnlyParts: Part[] = standAggregates
       subCategory: inferSubcategory(a.partNumber),
       stands: a.stands,
       sheetRow: a.stands[0],
-      quantity: a.qty,
+      quantity: 0,
     }),
   )
   .sort((a, b) => a.partNumber.localeCompare(b.partNumber, undefined, { sensitivity: "base" }));
