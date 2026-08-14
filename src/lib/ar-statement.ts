@@ -3,6 +3,7 @@ import autoTable from "jspdf-autotable";
 
 import {
   invoiceAmountPaid,
+  invoiceCredits,
   invoiceRemaining,
   type SavedDocument,
 } from "@/components/app/documents-context";
@@ -14,6 +15,8 @@ export type ArBucket = "current" | "days31To60" | "days61Plus";
 export type ArInvoiceRow = {
   invoice: SavedDocument;
   remaining: number;
+  paid: number;
+  credits: number;
   ageDays: number;
   bucket: ArBucket;
 };
@@ -21,6 +24,9 @@ export type ArInvoiceRow = {
 export type ArStatement = {
   invoices: SavedDocument[];
   rows: ArInvoiceRow[];
+  /** Credit notes for this client (returns + discounts). */
+  creditNotes: SavedDocument[];
+  creditsTotal: number;
   current: number;
   days31To60: number;
   days61Plus: number;
@@ -46,6 +52,10 @@ export function buildArStatement(
   creditNotes: SavedDocument[] = [],
   now = new Date(),
 ): ArStatement {
+  const clientCredits = creditNotes
+    .filter((cn) => cn.kind === "credit_note" && cn.partyId === clientId)
+    .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
+
   const rows: ArInvoiceRow[] = invoices
     .filter(
       (invoice) =>
@@ -56,6 +66,8 @@ export function buildArStatement(
       return {
         invoice,
         remaining: invoiceRemaining(invoice, creditNotes),
+        paid: invoiceAmountPaid(invoice),
+        credits: invoiceCredits(invoice, creditNotes),
         ageDays,
         bucket: bucketForAge(ageDays),
       };
@@ -70,9 +82,17 @@ export function buildArStatement(
     else if (row.bucket === "days31To60") days31To60 += row.remaining;
     else days61Plus += row.remaining;
   }
+
+  const creditsTotal = clientCredits.reduce(
+    (s, cn) => s + (Number.isFinite(cn.total) ? cn.total : 0),
+    0,
+  );
+
   return {
     invoices: rows.map((row) => row.invoice),
     rows,
+    creditNotes: clientCredits,
+    creditsTotal,
     current,
     days31To60,
     days61Plus,
@@ -106,10 +126,26 @@ export function buildClientsArQueue(
     );
 }
 
+function creditLabel(cn: SavedDocument): string {
+  const isDiscount =
+    cn.discountType === "amount" ||
+    cn.lines.some((l) => l.partNumber === "DISCOUNT" || l.category === "Discount");
+  if (isDiscount) return "Discount";
+  return "Return";
+}
+
 export function statementText(client: PartyRecord, statement: ArStatement): string {
   const rows = statement.rows.map(
     (row) =>
-      `${row.invoice.id} · ${row.invoice.date} · ${row.ageDays}d · Due ${currency(row.remaining)}`,
+      `${row.invoice.id} · ${row.invoice.date} · ${row.ageDays}d · Due ${currency(row.remaining)}${
+        row.credits > 0.005 ? ` (credits −${currency(row.credits)})` : ""
+      }`,
+  );
+  const credits = statement.creditNotes.slice(0, 12).map(
+    (cn) =>
+      `${cn.id} · ${cn.date} · ${creditLabel(cn)} · −${currency(cn.total)}${
+        cn.invoiceId ? ` → ${cn.invoiceId}` : ""
+      }`,
   );
   return [
     `Hello ${client.contactName || client.name},`,
@@ -117,6 +153,9 @@ export function statementText(client: PartyRecord, statement: ArStatement): stri
     "Parts Village account statement",
     ...rows,
     "",
+    ...(credits.length
+      ? ["Credits / returns / discounts:", ...credits, ""]
+      : []),
     `0–30 days: ${currency(statement.current)}`,
     `31–60 days: ${currency(statement.days31To60)}`,
     `61+ days: ${currency(statement.days61Plus)}`,
@@ -170,20 +209,37 @@ export function downloadStatementPdf(client: PartyRecord, statement: ArStatement
   pdf.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 44);
   autoTable(pdf, {
     startY: 51,
-    head: [["Invoice", "Date", "Age", "Total", "Paid", "Due"]],
+    head: [["Invoice", "Date", "Age", "Total", "Paid", "Credits", "Due"]],
     body: statement.rows.map((row) => [
       row.invoice.id,
       row.invoice.date,
       `${row.ageDays}d`,
       currency(row.invoice.total),
-      currency(invoiceAmountPaid(row.invoice)),
+      currency(row.paid),
+      currency(row.credits),
       currency(row.remaining),
     ]),
   });
-  const finalY =
+  let finalY =
     (pdf as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? 60;
+
+  if (statement.creditNotes.length > 0) {
+    autoTable(pdf, {
+      startY: finalY + 8,
+      head: [["Credit", "Date", "Type", "Invoice", "Amount"]],
+      body: statement.creditNotes.map((cn) => [
+        cn.id,
+        cn.date,
+        creditLabel(cn),
+        cn.invoiceId ?? "—",
+        `−${currency(cn.total)}`,
+      ]),
+    });
+    finalY =
+      (pdf as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? finalY;
+  }
+
   pdf.setFont("helvetica", "bold");
   pdf.text(`Total due: ${currency(statement.total)}`, 14, finalY + 12);
   pdf.save(`statement-${client.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.pdf`);
 }
-

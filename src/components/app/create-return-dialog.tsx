@@ -38,6 +38,8 @@ type Props = {
   onOpenChange: (open: boolean) => void;
   /** Pre-selected invoice when opened from an invoice row. */
   invoice?: SavedDocument | null;
+  /** Limit invoice picker to this client. */
+  clientId?: string;
   onRecorded?: (creditNote: SavedDocument) => void;
 };
 
@@ -84,7 +86,13 @@ function buildRows(invoice: SavedDocument, creditNotes: SavedDocument[]): Return
   return [...byPart.values()].filter((r) => r.soldQty > 0);
 }
 
-export function CreateReturnDialog({ open, onOpenChange, invoice, onRecorded }: Props) {
+export function CreateReturnDialog({
+  open,
+  onOpenChange,
+  invoice,
+  clientId,
+  onRecorded,
+}: Props) {
   const { invoices, creditNotes, recordInvoiceReturn } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
   const [submitting, setSubmitting] = useState(false);
@@ -97,9 +105,9 @@ export function CreateReturnDialog({ open, onOpenChange, invoice, onRecorded }: 
   const returnableInvoices = useMemo(
     () =>
       invoices
-        .filter((iv) => invoiceHasReturnableLines(iv, creditNotes))
+        .filter((iv) => (!clientId || iv.partyId === clientId) && invoiceHasReturnableLines(iv, creditNotes))
         .sort((a, b) => b.date.localeCompare(a.date)),
-    [invoices, creditNotes],
+    [invoices, creditNotes, clientId],
   );
 
   const selected = invoices.find((iv) => iv.id === invoiceId) ?? null;

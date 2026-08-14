@@ -85,6 +85,15 @@ export type RecordReturnInput = {
   note?: string;
 };
 
+export type RecordClientDiscountInput = {
+  clientId: string;
+  clientName: string;
+  /** USD amount to deduct from open AR (oldest invoices first). */
+  amount: number;
+  date?: string;
+  note?: string;
+};
+
 /** Whether a receipt changed (or should change) the linked invoice balance. */
 export function receiptAffectsBalance(receipt: SavedDocument): boolean {
   if (receipt.kind !== "receipt") return false;
@@ -177,6 +186,8 @@ type DocumentsContextValue = {
   recordInvoicePayment: (input: RecordPaymentInput) => SavedDocument;
   updateInvoicePayment: (input: UpdatePaymentInput) => SavedDocument;
   recordInvoiceReturn: (input: RecordReturnInput) => SavedDocument;
+  /** Apply a goodwill / account discount across open invoices (oldest first). */
+  recordClientDiscount: (input: RecordClientDiscountInput) => SavedDocument[];
   /** Create an invoice and optionally a linked receipt in one write (avoids stale state). */
   addInvoiceWithOptionalReceipt: (
     invoice: SavedDocument,
@@ -613,6 +624,128 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     [setDocuments],
   );
 
+  const recordClientDiscount = useCallback(
+    (input: RecordClientDiscountInput): SavedDocument[] => {
+      const amount = Math.round(Number(input.amount) * 100) / 100;
+      if (!(amount > 0)) throw new Error("Discount amount must be greater than zero");
+
+      const now = new Date();
+      const date =
+        input.date?.trim() ||
+        `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      const note = input.note?.trim() || "Account discount";
+
+      let created: SavedDocument[] = [];
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const creditNotes = cur.filter((d) => d.kind === "credit_note");
+        const open = cur
+          .filter(
+            (d) =>
+              d.kind === "invoice" &&
+              d.partyId === input.clientId &&
+              invoiceRemaining(d, creditNotes) > 0.005,
+          )
+          .map((invoice) => ({
+            invoice,
+            remaining: invoiceRemaining(invoice, creditNotes),
+            ageDays: Math.max(
+              0,
+              Math.floor(
+                (now.getTime() - new Date(`${invoice.date}T00:00:00`).getTime()) / 86_400_000,
+              ),
+            ),
+          }))
+          .sort(
+            (a, b) =>
+              b.ageDays - a.ageDays || a.invoice.date.localeCompare(b.invoice.date),
+          );
+
+        const openTotal = open.reduce((s, row) => s + row.remaining, 0);
+        if (openTotal <= 0.005) {
+          failure = new Error("No open balance to discount");
+          return cur;
+        }
+        if (amount - openTotal > 0.005) {
+          failure = new Error(
+            `Discount exceeds open balance (${openTotal.toFixed(2)})`,
+          );
+          return cur;
+        }
+
+        let left = amount;
+        const newCredits: SavedDocument[] = [];
+        const invoiceUpdates = new Map<string, SavedDocument>();
+        const workingCredits = [...creditNotes];
+
+        for (const row of open) {
+          if (left <= 0.005) break;
+          const apply = Math.min(row.remaining, left);
+          if (apply <= 0.005) continue;
+          const rounded = Math.round(apply * 100) / 100;
+          left = Math.round((left - rounded) * 100) / 100;
+
+          const creditNote: SavedDocument = {
+            id: generateDocId("credit_note", new Date(now.getTime() + newCredits.length)),
+            kind: "credit_note",
+            partyKind: "client",
+            partyId: input.clientId,
+            partyName: input.clientName,
+            date,
+            createdAt: now.toISOString(),
+            total: rounded,
+            status: "Paid",
+            invoiceId: row.invoice.id,
+            discountType: "amount",
+            discountValue: rounded,
+            internalNote: note,
+            lines: [
+              {
+                partId: `discount-${row.invoice.id}`,
+                partNumber: "DISCOUNT",
+                name: note,
+                qty: 1,
+                unitPrice: rounded,
+                unitCost: 0,
+                category: "Discount",
+              },
+            ],
+          };
+          newCredits.push(creditNote);
+          workingCredits.push(creditNote);
+
+          const paid = invoiceAmountPaid(row.invoice);
+          const creditsAfter = invoiceCredits(row.invoice, workingCredits);
+          invoiceUpdates.set(row.invoice.id, {
+            ...row.invoice,
+            status: resolveInvoiceStatus(row.invoice, paid, undefined, creditsAfter),
+          });
+        }
+
+        if (newCredits.length === 0) {
+          failure = new Error("Could not apply discount");
+          return cur;
+        }
+
+        created = newCredits;
+        for (const inv of invoiceUpdates.values()) {
+          void syncDocumentToSupabase(inv);
+        }
+        return [
+          ...newCredits,
+          ...cur.map((d) => invoiceUpdates.get(d.id) ?? d),
+        ];
+      });
+
+      if (failure) throw failure;
+      if (created.length === 0) throw new Error("Failed to record discount");
+      return created;
+    },
+    [setDocuments],
+  );
+
   const addInvoiceWithOptionalReceipt = useCallback(
     (
       invoiceInput: SavedDocument,
@@ -723,6 +856,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       recordInvoicePayment,
       updateInvoicePayment,
       recordInvoiceReturn,
+      recordClientDiscount,
       addInvoiceWithOptionalReceipt,
     }),
     [
@@ -739,6 +873,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       recordInvoicePayment,
       updateInvoicePayment,
       recordInvoiceReturn,
+      recordClientDiscount,
       addInvoiceWithOptionalReceipt,
     ],
   );

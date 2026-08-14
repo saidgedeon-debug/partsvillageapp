@@ -14,15 +14,20 @@ import {
   Plus,
   Download,
   MessageCircle,
+  Percent,
+  Undo2,
 } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
+import { ClientDiscountDialog } from "@/components/app/client-discount-dialog";
+import { CreateReturnDialog } from "@/components/app/create-return-dialog";
 import { useParties } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
 import {
   invoiceAmountPaid,
+  invoiceHasReturnableLines,
   useDocuments,
   type SavedDocument,
 } from "@/components/app/documents-context";
@@ -85,6 +90,8 @@ function ClientDetail() {
   const [machineOpen, setMachineOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
+  const [discountOpen, setDiscountOpen] = useState(false);
+  const [returnOpen, setReturnOpen] = useState(false);
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [serial, setSerial] = useState("");
@@ -143,6 +150,9 @@ function ClientDetail() {
   const fleet = machinesByClient(client.id);
   const allOrders = ordersByClient(client.id);
   const statement = buildArStatement(client.id, invoices, creditNotes);
+  const canReturn = invoices.some(
+    (iv) => iv.partyId === client.id && invoiceHasReturnableLines(iv, creditNotes),
+  );
   const docSpend = clientDocs
     .filter((d) => d.kind === "invoice" || d.kind === "receipt")
     .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
@@ -267,7 +277,27 @@ function ClientDetail() {
                 type="button"
                 size="sm"
                 variant="outline"
-                disabled={!statement.invoices.length}
+                disabled={statement.total <= 0.005}
+                onClick={() => setDiscountOpen(true)}
+              >
+                <Percent className="mr-1 h-3.5 w-3.5" />
+                Discount
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                disabled={!canReturn}
+                onClick={() => setReturnOpen(true)}
+              >
+                <Undo2 className="mr-1 h-3.5 w-3.5" />
+                Return parts
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                disabled={!statement.invoices.length && statement.creditNotes.length === 0}
                 onClick={() => downloadStatementPdf(client, statement)}
               >
                 <Download className="mr-1 h-3.5 w-3.5" />
@@ -277,7 +307,7 @@ function ClientDetail() {
                 type="button"
                 size="sm"
                 variant="outline"
-                disabled={!statement.invoices.length}
+                disabled={!statement.invoices.length && statement.creditNotes.length === 0}
                 onClick={() => openStatementWhatsApp(client, statement)}
               >
                 <MessageCircle className="mr-1 h-3.5 w-3.5" />
@@ -295,7 +325,7 @@ function ClientDetail() {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-3 sm:grid-cols-4">
+            <div className="grid gap-3 sm:grid-cols-5">
               <div>
                 <p className="text-xs text-muted-foreground">0–30 days</p>
                 <p className="font-semibold">{currency(statement.current)}</p>
@@ -311,6 +341,12 @@ function ClientDetail() {
                 </p>
               </div>
               <div>
+                <p className="text-xs text-muted-foreground">Credits / returns</p>
+                <p className="font-semibold text-emerald-700 dark:text-emerald-400">
+                  −{currency(statement.creditsTotal)}
+                </p>
+              </div>
+              <div>
                 <p className="text-xs text-muted-foreground">Total due</p>
                 <p className="font-bold text-accent">{currency(statement.total)}</p>
               </div>
@@ -322,6 +358,7 @@ function ClientDetail() {
                     <TableHead>Invoice</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead className="text-right">Age</TableHead>
+                    <TableHead className="text-right">Credits</TableHead>
                     <TableHead className="text-right">Due</TableHead>
                     <TableHead className="w-[1%] text-right" />
                   </TableRow>
@@ -359,6 +396,9 @@ function ClientDetail() {
                           {row.ageDays}d
                         </span>
                       </TableCell>
+                      <TableCell className="text-right text-sm text-muted-foreground">
+                        {row.credits > 0.005 ? `−${currency(row.credits)}` : "—"}
+                      </TableCell>
                       <TableCell className="text-right font-semibold">
                         {currency(row.remaining)}
                       </TableCell>
@@ -382,6 +422,52 @@ function ClientDetail() {
                   ))}
                 </TableBody>
               </Table>
+            ) : null}
+            {statement.creditNotes.length > 0 ? (
+              <div className="space-y-2">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Credits applied (returns & discounts)
+                </p>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Credit</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Invoice</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {statement.creditNotes.map((cn) => {
+                      const isDiscount =
+                        cn.discountType === "amount" ||
+                        cn.lines.some(
+                          (l) => l.partNumber === "DISCOUNT" || l.category === "Discount",
+                        );
+                      return (
+                        <TableRow
+                          key={cn.id}
+                          className="cursor-pointer hover:bg-muted/40"
+                          onClick={() => openDoc(cn)}
+                        >
+                          <TableCell className="font-mono text-xs">{cn.id}</TableCell>
+                          <TableCell>{cn.date}</TableCell>
+                          <TableCell>
+                            <Badge variant="secondary">{isDiscount ? "Discount" : "Return"}</Badge>
+                          </TableCell>
+                          <TableCell className="font-mono text-xs">
+                            {cn.invoiceId ?? "—"}
+                          </TableCell>
+                          <TableCell className="text-right font-semibold text-emerald-700 dark:text-emerald-400">
+                            −{currency(cn.total)}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
             ) : null}
           </CardContent>
         </Card>
@@ -626,6 +712,25 @@ function ClientDetail() {
         onRecorded={(receipt) => {
           openDoc(receipt);
           toast.success(`Payment recorded · ${receipt.id}`);
+        }}
+      />
+
+      <ClientDiscountDialog
+        open={discountOpen}
+        onOpenChange={setDiscountOpen}
+        clientId={client.id}
+        clientName={client.name}
+        onRecorded={(credits) => {
+          if (credits[0]) openDoc(credits[0]);
+        }}
+      />
+
+      <CreateReturnDialog
+        open={returnOpen}
+        onOpenChange={setReturnOpen}
+        clientId={client.id}
+        onRecorded={(creditNote) => {
+          openDoc(creditNote);
         }}
       />
 
