@@ -18,8 +18,8 @@ function sp(opts: {
   name: string;
   quantity: number;
   manufacturer: string;
-  boxNumber: 11 | 12 | 26 | 27 | 58;
-  location: "Stand 11" | "Stand 12" | "Stand 26" | "Stand 27" | "Stand 58";
+  boxNumber: 102 | 101 | 26 | 27 | 58;
+  location: "Stand 102" | "Stand 101" | "Stand 26" | "Stand 27" | "Stand 58";
   fitment: Fit[];
   reorderAt?: number;
   componentType?: string;
@@ -57,7 +57,7 @@ const aftermarket = "Aftermarket Premium Grade";
 
 /** Retainer / set plates — Stands as counted. */
 export const retainerSetPlateParts: Part[] = [
-  // —— Stand 11 ——
+  // —— Stand 102 ——
   sp({
     id: "hydraulic-sp-5I-8633-s11",
     partNumber: "5I-8633",
@@ -65,8 +65,8 @@ export const retainerSetPlateParts: Part[] = [
     name: "Retainer Plate / Set Plate — M2X120",
     quantity: 8,
     manufacturer: "Caterpillar OEM / Premium Replacement",
-    boxNumber: 11,
-    location: "Stand 11",
+    boxNumber: 102,
+    location: "Stand 102",
     componentType: "Retainer Plate / Set Plate",
     fitment: [
       {
@@ -78,7 +78,7 @@ export const retainerSetPlateParts: Part[] = [
     ],
   }),
 
-  // —— Stand 12 ——
+  // —— Stand 101 ——
   sp({
     id: "hydraulic-sp-ap2d36-s12",
     partNumber: "AP2D36-SP",
@@ -86,8 +86,8 @@ export const retainerSetPlateParts: Part[] = [
     name: "Retainer Plate (Set Plate) — AP2D36",
     quantity: 1,
     manufacturer: aftermarket,
-    boxNumber: 12,
-    location: "Stand 12",
+    boxNumber: 101,
+    location: "Stand 101",
     componentType: "Piston Shoe Retainer Guide Face",
     fitment: [
       { brand: "Uchida", models: ["AP2D36"] },
@@ -105,8 +105,8 @@ export const retainerSetPlateParts: Part[] = [
     name: "Retainer Plate (Set Plate) — AP2D25",
     quantity: 1,
     manufacturer: aftermarket,
-    boxNumber: 12,
-    location: "Stand 12",
+    boxNumber: 101,
+    location: "Stand 101",
     componentType: "Piston Shoe Retainer Guide Face",
     fitment: [
       { brand: "Uchida", models: ["AP2D25"] },

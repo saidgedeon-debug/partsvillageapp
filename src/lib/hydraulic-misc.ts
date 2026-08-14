@@ -67,7 +67,7 @@ export function hydraulicMisc(opts: {
 
 /** Hydraulic misc stock — Stands as counted. */
 export const hydraulicMiscParts: Part[] = [
-  // --- Stand 12 ---
+  // --- Stand 101 ---
   hydraulicMisc({
     id: "hydraulic-misc-pvd-2b-sp-s12",
     partNumber: "PVD-2B-36/38/40-SP",
@@ -84,7 +84,7 @@ export const hydraulicMiscParts: Part[] = [
     description: "Swash Plate (Cradle Cam Profile)",
     model: "Nachikoshi PVD-2B-36 / PVD-2B-38 / PVD-2B-40",
     quantity: 1,
-    stand: 12,
+    stand: 101,
     brand: "Aftermarket Standard Fit",
     compatibility: [
       "Nachi PVD-2B-36",

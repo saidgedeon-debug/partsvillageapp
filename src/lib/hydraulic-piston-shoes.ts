@@ -21,7 +21,7 @@ function pistonShoe(opts: {
   partNumbers: string[];
   name: string;
   quantity: number;
-  stand: 12 | 56 | 59 | 60 | 61 | 62;
+  stand: 101 | 56 | 59 | 60 | 61 | 62;
   manufacturer?: string;
   weightKg?: number;
   ringConfig?: string;
@@ -71,14 +71,14 @@ function pistonShoe(opts: {
 
 /** Piston shoes — Stands as counted. */
 export const pistonShoeParts: Part[] = [
-  // —— Stand 12 ——
+  // —— Stand 101 ——
   pistonShoe({
     id: "hydraulic-piston-shoe-ap2d36-s12",
     partNumber: "AP2D36-PS",
     partNumbers: ["AP2D36-PS", "AP2D36", "AP2D36-PISTON-SET"],
     name: "Piston Shoe Set — AP2D36 (9 pcs per set)",
     quantity: 1,
-    stand: 12,
+    stand: 101,
     manufacturer: aftermarket,
     boxSetQty: 9,
     pumpType: "AP2D36 (Uchida / Rexroth)",
@@ -98,7 +98,7 @@ export const pistonShoeParts: Part[] = [
     partNumbers: ["YC35-6-PS", "YC35-6", "YC35-7", "YC35-8"],
     name: "Travel Motor Piston Shoe — YC35-6",
     quantity: 1,
-    stand: 12,
+    stand: 101,
     manufacturer: aftermarket,
     pumpType: "YC35-6 (Yuchai Mini Excavator Series)",
     fitment: [
@@ -113,7 +113,7 @@ export const pistonShoeParts: Part[] = [
     partNumbers: ["AP2D16-PS", "AP2D16", "AP2D16-PISTON-SET"],
     name: "Piston Shoe Set — AP2D16 (9 pcs per set)",
     quantity: 1,
-    stand: 12,
+    stand: 101,
     manufacturer: aftermarket,
     boxSetQty: 9,
     pumpType: "AP2D16 (Uchida / Rexroth)",

@@ -18,9 +18,9 @@ function vp(opts: {
   name: string;
   quantity: number;
   manufacturer: string;
-  /** Physical location number (Stand 10 / 23 / Floor 23 / Stand 30 / Stand 59). */
-  boxNumber: 10 | 23 | 30 | 59;
-  location: "Stand 10" | "Stand 23" | "Floor 23" | "Stand 30" | "Stand 59";
+  /** Physical location number (Stand 10 / 91 / Floor 23 / Stand 30 / Stand 59). */
+  boxNumber: 10 | 23 | 30 | 59 | 91;
+  location: "Stand 10" | "Stand 91" | "Floor 23" | "Stand 30" | "Stand 59";
   fitment: Fit[];
   reorderAt?: number;
   componentType?: string;
@@ -55,7 +55,7 @@ const handok = "Handok Hydraulic (South Korea)";
 const engrenax = "Engrenax (Canada)";
 const aftermarket = "Aftermarket Premium Grade";
 
-/** Stand 10 / 23 / Floor 23 + Stand 30 / 59 Valve Plates */
+/** Stand 10 / 91 / Floor 23 + Stand 30 / 59 Valve Plates */
 export const valvePlateParts: Part[] = [
   // —— Stand 10 ——
   vp({
@@ -287,7 +287,7 @@ export const valvePlateParts: Part[] = [
     fitment: [{ brand: "Komatsu", models: ["PC60-7", "PC60-7E", "PC60-7-B"] }],
   }),
 
-  // —— Stand / Floor 23 ——
+  // —— Stand 91 / Floor 23 ——
   vp({
     id: "hydraulic-vp-a8vo160-r-hd",
     partNumber: "A8VO160-VP-R-HD",
@@ -295,8 +295,8 @@ export const valvePlateParts: Part[] = [
     name: "Handok A8VO160 Valve Plate (Right)",
     quantity: 1,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO160", "A8VO160LA1HN1"] }],
   }),
   vp({
@@ -306,8 +306,8 @@ export const valvePlateParts: Part[] = [
     name: "Handok A8VO160 Valve Plate (Left)",
     quantity: 3,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO160", "A8VO160LA1HN1"] }],
   }),
   vp({
@@ -317,8 +317,8 @@ export const valvePlateParts: Part[] = [
     name: "Engrenax A8VO107 Valve Plate (Left)",
     quantity: 3,
     manufacturer: engrenax,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO107", "A8VO107LA1HN1"] }],
   }),
   vp({
@@ -328,8 +328,8 @@ export const valvePlateParts: Part[] = [
     name: "Engrenax A8VO160 Valve Plate (Right)",
     quantity: 2,
     manufacturer: engrenax,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO160", "A8VO160LA1HN1"] }],
   }),
   vp({
@@ -339,8 +339,8 @@ export const valvePlateParts: Part[] = [
     name: "Engrenax A8VO107 Valve Plate (Right)",
     quantity: 4,
     manufacturer: engrenax,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO107", "A8VO107LA1HN1"] }],
   }),
   vp({
@@ -350,8 +350,8 @@ export const valvePlateParts: Part[] = [
     name: "Engrenax A8VO200 Valve Plate (Right)",
     quantity: 1,
     manufacturer: engrenax,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO200"] }],
   }),
   vp({
@@ -361,8 +361,8 @@ export const valvePlateParts: Part[] = [
     name: "Engrenax M2X150/170 Valve Plate",
     quantity: 2,
     manufacturer: engrenax,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Kawasaki", models: ["M2X150", "M2X170"] }],
   }),
   vp({
@@ -372,8 +372,8 @@ export const valvePlateParts: Part[] = [
     name: "Handok A7VO250 L/EL Valve Plate (Left)",
     quantity: 3,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A7VO250", "A7VO250L", "A7VO250EL"] }],
   }),
   vp({
@@ -383,8 +383,8 @@ export const valvePlateParts: Part[] = [
     name: "Handok A8VO107 Valve Plate (Left)",
     quantity: 2,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO107"] }],
   }),
   vp({
@@ -394,8 +394,8 @@ export const valvePlateParts: Part[] = [
     name: "Handok A8VO107 Valve Plate (Right)",
     quantity: 2,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8VO107"] }],
   }),
   vp({
@@ -405,8 +405,8 @@ export const valvePlateParts: Part[] = [
     name: "Handok A8V86 ESBR Valve Plate (Left)",
     quantity: 2,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8V86", "A8V86ESBR"] }],
   }),
   vp({
@@ -416,8 +416,8 @@ export const valvePlateParts: Part[] = [
     name: "Handok A8V86 ESBR Valve Plate (Right)",
     quantity: 2,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A8V86", "A8V86ESBR"] }],
   }),
   vp({
@@ -487,7 +487,7 @@ export const valvePlateParts: Part[] = [
     fitment: [{ brand: "Rexroth", models: ["A8VO200"] }],
   }),
 
-  // —— Aftermarket Premium Grade (Stand 23) ——
+  // —— Aftermarket Premium Grade (Stand 91) ——
   vp({
     id: "hydraulic-vp-59828",
     partNumber: "59828",
@@ -495,8 +495,8 @@ export const valvePlateParts: Part[] = [
     name: "Valve Plate (HMGF35 / HMV116)",
     quantity: 1,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [
       { brand: "Hitachi", models: ["HMGF35", "HMV116"] },
     ],
@@ -508,8 +508,8 @@ export const valvePlateParts: Part[] = [
     name: "Valve Plate (M2X150)",
     quantity: 1,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Kawasaki", models: ["M2X150"] }],
   }),
   vp({
@@ -519,8 +519,8 @@ export const valvePlateParts: Part[] = [
     name: "Valve Plate L (A7VO250L/EL)",
     quantity: 1,
     manufacturer: handok,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     componentType: "Valve Plate · Left (L)",
     fitment: [
       { brand: "Rexroth", models: ["A7VO250L", "A7VO250EL"] },
@@ -533,8 +533,8 @@ export const valvePlateParts: Part[] = [
     name: "Aftermarket YC35-6 Valve Plate",
     quantity: 1,
     manufacturer: aftermarket,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Yuchai", models: ["YC35-6", "YC35", "YC35SR"] }],
   }),
   vp({
@@ -544,8 +544,8 @@ export const valvePlateParts: Part[] = [
     name: "Aftermarket AP2D36 Valve Plate (Right)",
     quantity: 1,
     manufacturer: aftermarket,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [
       { brand: "Uchida", models: ["AP2D36", "AP2D36LV"] },
       { brand: "Rexroth", models: ["AP2D36", "AP2D36LV"] },
@@ -560,8 +560,8 @@ export const valvePlateParts: Part[] = [
     name: "Aftermarket A10VO71 Valve Plate (Left)",
     quantity: 1,
     manufacturer: aftermarket,
-    boxNumber: 23,
-    location: "Stand 23",
+    boxNumber: 91,
+    location: "Stand 91",
     fitment: [{ brand: "Rexroth", models: ["A10VO71", "A10VO71DFR", "A10VO71DR"] }],
   }),
   // —— Stand 59 ——

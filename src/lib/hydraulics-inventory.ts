@@ -824,7 +824,7 @@ export const hydraulicParts: Part[] = [
       "Aftermarket Premium Grade · AP2D16 rotary group barrel center guide ball · Uchida / Rexroth",
     category: "Hydraulic Parts",
     subcategory: "Ball Guide",
-    boxNumber: 11,
+    boxNumber: 102,
     quantity: 1,
     reorderAt: 1,
     cost: 0,
@@ -844,7 +844,7 @@ export const hydraulicParts: Part[] = [
       "Komatsu PC18MR",
     ],
     notes:
-      "Subcategory: Ball Guide · Stand 11 · Manufacturer: Aftermarket Premium Grade · Type: Rotary Group Barrel Center Guide Ball · Primary: centers cylinder block barrel with retainer plate for piston shoe sliding · OEM xref: AP2D16-BG, AP2D16",
+      "Subcategory: Ball Guide · Stand 102 · Manufacturer: Aftermarket Premium Grade · Type: Rotary Group Barrel Center Guide Ball · Primary: centers cylinder block barrel with retainer plate for piston shoe sliding · OEM xref: AP2D16-BG, AP2D16",
   },
   {
     id: "hydraulic-bg-ap2d25-s12",
@@ -855,7 +855,7 @@ export const hydraulicParts: Part[] = [
       "Aftermarket Premium Grade · AP2D25 rotary group barrel center guide ball · Uchida / Rexroth",
     category: "Hydraulic Parts",
     subcategory: "Ball Guide",
-    boxNumber: 12,
+    boxNumber: 101,
     quantity: 1,
     reorderAt: 1,
     cost: 0,
@@ -872,7 +872,7 @@ export const hydraulicParts: Part[] = [
       "Kubota KX71-3",
     ],
     notes:
-      "Subcategory: Ball Guide · Stand 12 · Manufacturer: Aftermarket Premium Grade · Type: Rotary Group Barrel Center Guide Ball · Primary: radial orientation for cylinder barrel and retainer plate alignment · OEM xref: AP2D25-BG, AP2D25",
+      "Subcategory: Ball Guide · Stand 101 · Manufacturer: Aftermarket Premium Grade · Type: Rotary Group Barrel Center Guide Ball · Primary: radial orientation for cylinder barrel and retainer plate alignment · OEM xref: AP2D25-BG, AP2D25",
   },
   // —— shoe/thrust plate ——
   {
@@ -884,7 +884,7 @@ export const hydraulicParts: Part[] = [
       "Engrenages Canada (Caterpillar Replacement) · M2X120 thrust plate / shoe retainer face · Anti-friction wear coated",
     category: "Hydraulic Parts",
     subcategory: "shoe/thrust plate",
-    boxNumber: 12,
+    boxNumber: 101,
     quantity: 4,
     reorderAt: 1,
     cost: 0,
@@ -901,7 +901,7 @@ export const hydraulicParts: Part[] = [
       "Uchida M2X120",
     ],
     notes:
-      "Subcategory: shoe/thrust plate · Stand 12 · Manufacturer: Engrenages Canada (Caterpillar Replacement) · Anti-friction wear coated · Primary: low-friction wear face against sliding piston shoe feet · OEM xref: 9T-3408, 9T3408, M2X120",
+      "Subcategory: shoe/thrust plate · Stand 101 · Manufacturer: Engrenages Canada (Caterpillar Replacement) · Anti-friction wear coated · Primary: low-friction wear face against sliding piston shoe feet · OEM xref: 9T-3408, 9T3408, M2X120",
   },
   {
     id: "hydraulic-tp-m2x120-eg",

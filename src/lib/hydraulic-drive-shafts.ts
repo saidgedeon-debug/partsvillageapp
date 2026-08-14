@@ -665,7 +665,7 @@ export const driveShaftParts: Part[] = [
     notesExtra: "New spline · Label length 291.5L · Weight 1.76 kg",
   }),
 
-  // --- Stand 12 ---
+  // --- Stand 101 ---
   driveShaft({
     id: "hydraulic-ds-5I-4469-s12",
     partNumber: "5I-4469",
@@ -674,7 +674,7 @@ export const driveShaftParts: Part[] = [
     description: "Upper Drive Pinion / Shaft Component",
     model: "A8VO160 (Rexroth / Uchida Main Dual Pump)",
     quantity: 1,
-    stand: 12,
+    stand: 101,
     brand: "Engrenages Canada (Caterpillar Replacement)",
     compatibility: [
       "Rexroth A8VO160",

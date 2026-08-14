@@ -6,7 +6,7 @@ const aftermarket = "Aftermarket Premium Grade";
 const engrenax = "Engrenax (Canada)";
 const subDefault = "cylinder block";
 
-type Stand = 10 | 11 | 12 | 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
+type Stand = 10 | 102 | 101 | 44 | 45 | 46 | 48 | 49 | 50 | 51 | 52 | 53 | 54 | 56 | 57;
 
 function block(opts: {
   id: string;
@@ -95,14 +95,14 @@ export const cylinderBlockParts: Part[] = [
       "Assy contents: cylinder block barrel ×1, block springs ×6, ball guide ×1, retainer/set plate ×1 · System: closed loop hydrostatic piston pump/motor · Displacement 24 cc/rev · Piston capacity 9",
   }),
 
-  // —— Stand 11 ——
+  // —— Stand 102 ——
   block({
     id: "hydraulic-cb-ap2d16-s11",
     partNumber: "AP2D16",
     partNumbers: ["AP2D16", "AP2D16-CB", "AP2D16-BARREL"],
     name: "Cylinder Block (Rotor Barrel) — AP2D16",
     quantity: 1,
-    stand: 11,
+    stand: 102,
     manufacturer: aftermarket,
     subcategory: "Rotary Groups & Blocks",
     componentType: "Cylinder Block Core for Main Axial Piston Pump",
@@ -125,14 +125,14 @@ export const cylinderBlockParts: Part[] = [
       "Houses reciprocating piston shoes; rotates against valve plate faces for port timing",
   }),
 
-  // —— Stand 12 ——
+  // —— Stand 101 ——
   block({
     id: "hydraulic-cb-ap2d21-s12",
     partNumber: "AP2D21",
     partNumbers: ["AP2D21", "AP2D21-CB", "AP2D21-BARREL"],
     name: "Cylinder Block (Rotor Barrel) — AP2D21",
     quantity: 1,
-    stand: 12,
+    stand: 101,
     manufacturer: aftermarket,
     componentType: "9-Bore Rotary Group Cylinder Barrel Core",
     compatibility: [

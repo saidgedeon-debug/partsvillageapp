@@ -57,7 +57,7 @@ export function hydraulicAssembly(opts: {
 
 /** Complete assemblies / motors — Stands as counted. */
 export const hydraulicAssemblyParts: Part[] = [
-  // --- Stand 11 ---
+  // --- Stand 102 ---
   hydraulicAssembly({
     id: "hydraulic-assy-yc35-6-travel-s11",
     partNumber: "YC35-6-TRAVEL",
@@ -72,13 +72,13 @@ export const hydraulicAssemblyParts: Part[] = [
     description: "Complete Track Drive Hydraulic Travel Motor",
     model: "YC35-6 (Yuchai Mini Excavator Series)",
     quantity: 1,
-    stand: 11,
+    stand: 102,
     compatibility: ["Yuchai YC35-6", "Yuchai YC35-7", "Yuchai YC35-8"],
     notesExtra:
       "Converts main-pump hydraulic pressure/flow into crawler track drive torque",
   }),
 
-  // --- Stand 12 ---
+  // --- Stand 101 ---
   hydraulicAssembly({
     id: "hydraulic-assy-yc35-6-swing-s12",
     partNumber: "YC35-6-SWING",
@@ -87,7 +87,7 @@ export const hydraulicAssemblyParts: Part[] = [
     description: "Complete Hydraulic Rotary Slew Motor Unit",
     model: "YC35-6 (Yuchai Mini Excavator Series)",
     quantity: 1,
-    stand: 12,
+    stand: 101,
     compatibility: ["Yuchai YC35-6"],
     notesExtra:
       "Converts high-pressure hydraulic flow into rotative torque for upper-house slew",
