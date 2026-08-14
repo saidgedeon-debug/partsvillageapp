@@ -1,5 +1,6 @@
-/** Filters catalog seed — Parts Village (Sakura / Donaldson sheet). */
+/** Filters catalog seed — Parts Village (Sakura / Donaldson + depot stand sheets). */
 import type { Part } from "@/lib/mock-data";
+import { FILTER_STAND_LISTINGS } from "@/lib/filters-stand-sheet";
 
 export const FILTER_SUBCATEGORIES = [
   "Engine Lube",
@@ -7,6 +8,7 @@ export const FILTER_SUBCATEGORIES = [
   "Hydraulics",
   "Air Intake",
   "Cooling System",
+  "Other",
 ] as const;
 
 export type FilterSubcategory = (typeof FILTER_SUBCATEGORIES)[number];
@@ -15,6 +17,69 @@ type CrossRefs = Record<string, string>;
 
 function slugId(partNumber: string) {
   return `filter-${partNumber.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+}
+
+function normalizePn(s: string) {
+  return s.toUpperCase().replace(/\s+/g, "").replace(/–|—/g, "-");
+}
+
+function inferBrand(partNumber: string): string {
+  const p = normalizePn(partNumber);
+  if (/^P\d/.test(p) || p.startsWith("P55") || p.startsWith("P17") || p.startsWith("P77") || p.startsWith("P53") || p.startsWith("P16") || p.startsWith("P12") || p.startsWith("P18") || p.startsWith("P90")) {
+    return "Donaldson";
+  }
+  if (/^(LF|FF|FS|WF)/.test(p)) return "Fleetguard";
+  if (/^\d{5,}$/.test(p) || p.startsWith("265") || p.startsWith("117")) return "OEM";
+  return "Sakura";
+}
+
+function inferSubcategory(partNumber: string): FilterSubcategory {
+  const p = normalizePn(partNumber);
+  if (
+    p.startsWith("FC") ||
+    p.startsWith("SFC") ||
+    p.startsWith("FS") ||
+    p.startsWith("FF") ||
+    p.startsWith("TC") ||
+    p.startsWith("SF") ||
+    p.startsWith("PO") ||
+    p.startsWith("WL")
+  ) {
+    return "Fuel System";
+  }
+  if (p.startsWith("WC")) return "Cooling System";
+  if (
+    p.startsWith("HC") ||
+    p.startsWith("H-") ||
+    p.startsWith("EH") ||
+    p.startsWith("AH") ||
+    p.startsWith("CH") ||
+    /^H\d/.test(p)
+  ) {
+    return "Hydraulics";
+  }
+  if (p.startsWith("A-") || p.startsWith("CA") || p.startsWith("AM") || /^A\d/.test(p)) {
+    return "Air Intake";
+  }
+  if (
+    p.startsWith("LF") ||
+    p.startsWith("C-") ||
+    /^C\d/.test(p) ||
+    p.startsWith("EO") ||
+    p.startsWith("EF") ||
+    p.startsWith("FB") ||
+    p.startsWith("O-") ||
+    /^O\d/.test(p)
+  ) {
+    return "Engine Lube";
+  }
+  if (p.startsWith("P")) {
+    // Donaldson P-series: default lube unless fuel/air patterns known
+    if (/^P55(0|1|4|5)/.test(p) || p.includes("FUEL")) return "Fuel System";
+    if (/^P(17|18|53|77)/.test(p)) return "Air Intake";
+    return "Engine Lube";
+  }
+  return "Other";
 }
 
 function filterPart(opts: {
@@ -28,6 +93,8 @@ function filterPart(opts: {
   crossReferences?: CrossRefs;
   /** Handwritten sheet row (number or label like 14H). */
   sheetRow?: number | string;
+  /** Extra stands where this PN appears. */
+  stands?: number[];
   quantity?: number;
 }): Part {
   const xrefEntries = Object.entries(opts.crossReferences ?? {});
@@ -36,12 +103,19 @@ function filterPart(opts: {
     (n, i, arr) => arr.findIndex((x) => x.toLowerCase() === n.toLowerCase()) === i,
   );
 
+  const stands = [...new Set(opts.stands ?? [])].sort((a, b) => a - b);
+  const primaryStand =
+    typeof opts.sheetRow === "number" && Number.isFinite(opts.sheetRow)
+      ? opts.sheetRow
+      : stands[0];
   const sheet =
-    opts.sheetRow == null
-      ? null
-      : typeof opts.sheetRow === "number"
-        ? `Sheet row ${opts.sheetRow}`
-        : `Sheet row ${opts.sheetRow}`;
+    stands.length > 0
+      ? `Stand${stands.length > 1 ? "s" : ""} ${stands.join(", ")}`
+      : opts.sheetRow == null
+        ? null
+        : typeof opts.sheetRow === "number"
+          ? `Sheet row ${opts.sheetRow}`
+          : `Sheet row ${opts.sheetRow}`;
 
   const sizeBits = [
     opts.heightMm != null ? `H ${opts.heightMm} mm` : null,
@@ -64,10 +138,6 @@ function filterPart(opts: {
   ].filter(Boolean);
 
   const qty = opts.quantity ?? 1;
-  const boxNumber =
-    typeof opts.sheetRow === "number" && Number.isFinite(opts.sheetRow)
-      ? opts.sheetRow
-      : undefined;
 
   return {
     id: slugId(opts.partNumber),
@@ -77,7 +147,7 @@ function filterPart(opts: {
     description: [opts.brand, opts.subCategory, ...sizeBits].join(" · "),
     category: "Filters",
     subcategory: opts.subCategory,
-    boxNumber,
+    boxNumber: primaryStand,
     insideDiameterMm:
       opts.outerDiameterMm != null ? String(opts.outerDiameterMm) : undefined,
     quantity: qty,
@@ -89,8 +159,8 @@ function filterPart(opts: {
   };
 }
 
-/** Master filter stock from handwritten sheet / Sakura–Donaldson xrefs. */
-export const filterParts: Part[] = [
+/** Spec-rich seed from the first Sakura/Donaldson import. */
+const detailedFilterParts: Part[] = [
   // --- Engine Lube ---
   filterPart({
     partNumber: "C-5501",
@@ -1002,3 +1072,64 @@ export const filterParts: Part[] = [
     sheetRow: 128,
   }),
 ];
+
+function aggregateStandListings() {
+  const byPn = new Map<string, { partNumber: string; stands: number[]; qty: number }>();
+  for (const [stand, raw] of FILTER_STAND_LISTINGS) {
+    const partNumber = raw.trim();
+    if (!partNumber) continue;
+    const key = normalizePn(partNumber);
+    const prev = byPn.get(key);
+    if (prev) {
+      prev.qty += 1;
+      if (!prev.stands.includes(stand)) prev.stands.push(stand);
+    } else {
+      byPn.set(key, { partNumber, stands: [stand], qty: 1 });
+    }
+  }
+  return [...byPn.values()];
+}
+
+const standAggregates = aggregateStandListings();
+const standAggByKey = new Map(
+  standAggregates.map((a) => [normalizePn(a.partNumber), a] as const),
+);
+const detailedByKey = new Map(
+  detailedFilterParts.map((p) => [normalizePn(p.partNumber), p] as const),
+);
+
+/** Enrich detailed seeds with stand counts/locations from depot sheets. */
+const enrichedDetailed: Part[] = detailedFilterParts.map((p) => {
+  const agg = standAggByKey.get(normalizePn(p.partNumber));
+  if (!agg) return p;
+  const stands = [...new Set([...(p.boxNumber != null ? [p.boxNumber] : []), ...agg.stands])].sort(
+    (a, b) => a - b,
+  );
+  const qty = Math.max(p.quantity, agg.qty);
+  return {
+    ...p,
+    quantity: qty,
+    reorderAt: Math.max(1, Math.min(2, Math.floor(qty / 2) || 1)),
+    boxNumber: stands[0] ?? p.boxNumber,
+    notes: [p.notes, `Stands ${stands.join(", ")}`, `Sheet listings ${agg.qty}`]
+      .filter(Boolean)
+      .join(" · "),
+  };
+});
+
+const standOnlyParts: Part[] = standAggregates
+  .filter((a) => !detailedByKey.has(normalizePn(a.partNumber)))
+  .map((a) =>
+    filterPart({
+      partNumber: a.partNumber,
+      brand: inferBrand(a.partNumber),
+      subCategory: inferSubcategory(a.partNumber),
+      stands: a.stands,
+      sheetRow: a.stands[0],
+      quantity: a.qty,
+    }),
+  )
+  .sort((a, b) => a.partNumber.localeCompare(b.partNumber, undefined, { sensitivity: "base" }));
+
+/** Full Filters catalog: detailed specs + remaining stand-sheet SKUs. */
+export const filterParts: Part[] = [...enrichedDetailed, ...standOnlyParts];
