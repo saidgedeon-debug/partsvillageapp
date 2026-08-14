@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { DollarSign, FileText, AlertTriangle, TrendingUp, Package, Users } from "lucide-react";
+import { DollarSign, FileText, AlertTriangle, TrendingUp, Package, Wallet } from "lucide-react";
 import type { ComponentType } from "react";
 import { useMemo, useState } from "react";
 
@@ -20,11 +20,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { buildClientsArQueue } from "@/lib/ar-statement";
 import { currency } from "@/lib/mock-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { toUsd } from "@/lib/fx";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   component: Index,
 });
@@ -32,7 +34,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { parts } = useInventory();
   const { clients } = useParties();
-  const { invoices, quotations, receipts } = useDocuments();
+  const { invoices, quotations, receipts, creditNotes } = useDocuments();
   const { orders } = useFleet();
   const { shipments } = useShipments();
   const { rmbPerUsd } = usePrefs();
@@ -63,6 +65,15 @@ function Index() {
         .sort((a, b) => a.quantity - b.quantity)
         .slice(0, 8),
     [parts],
+  );
+
+  const arQueue = useMemo(
+    () => buildClientsArQueue(clients, invoices, creditNotes),
+    [clients, invoices, creditNotes],
+  );
+  const arTotal = useMemo(
+    () => arQueue.reduce((sum, row) => sum + row.statement.total, 0),
+    [arQueue],
   );
 
   const recent = useMemo(() => {
@@ -187,7 +198,19 @@ function Index() {
               icon={AlertTriangle}
               warn
             />
-            <MetricCard label="Clients" value={`${clients.length} saved`} icon={Users} />
+            <MetricCard
+              label="Who owes me"
+              value={arQueue.length === 0 ? "All clear" : currency(arTotal)}
+              hint={
+                arQueue.length === 0
+                  ? "No open balances"
+                  : `${arQueue.length} client${arQueue.length === 1 ? "" : "s"}`
+              }
+              icon={Wallet}
+              warn={arQueue.length > 0}
+              to="/clients"
+              search={{ owed: true }}
+            />
           </div>
         </section>
 
@@ -392,18 +415,29 @@ function Index() {
 function MetricCard({
   label,
   value,
+  hint,
   icon: Icon,
   accent,
   warn,
+  to,
+  search,
 }: {
   label: string;
   value: string;
+  hint?: string;
   icon: ComponentType<{ className?: string }>;
   accent?: boolean;
   warn?: boolean;
+  to?: string;
+  search?: Record<string, unknown>;
 }) {
-  return (
-    <Card className={accent ? "border-accent/40 bg-gradient-to-br from-card to-accent/5" : ""}>
+  const inner = (
+    <Card
+      className={cn(
+        accent ? "border-accent/40 bg-gradient-to-br from-card to-accent/5" : "",
+        to ? "transition hover:border-primary/40 hover:shadow-md" : "",
+      )}
+    >
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
           {label}
@@ -414,7 +448,15 @@ function MetricCard({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold text-foreground">{value}</div>
+        {hint ? <p className="mt-1 text-xs text-muted-foreground">{hint}</p> : null}
       </CardContent>
     </Card>
+  );
+
+  if (!to) return inner;
+  return (
+    <Link to={to} search={search} className="block">
+      {inner}
+    </Link>
   );
 }
