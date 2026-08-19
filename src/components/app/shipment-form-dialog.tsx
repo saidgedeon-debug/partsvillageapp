@@ -581,11 +581,7 @@ export function ShipmentFormDialog({
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button
-            type="button"
-            className="bg-accent text-accent-foreground hover:bg-accent/90"
-            onClick={save}
-          >
+          <Button type="button" onClick={save}>
             {isEdit ? "Save" : "Add shipment"}
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   ArrowLeft,
@@ -27,8 +27,9 @@ import { CreateReturnDialog } from "@/components/app/create-return-dialog";
 import { useParties } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
 import {
-  invoiceAmountPaid,
+  deleteReceiptConfirmMessage,
   invoiceHasReturnableLines,
+  receiptWithBalanceSnapshot,
   useDocuments,
   type SavedDocument,
 } from "@/components/app/documents-context";
@@ -84,7 +85,8 @@ function kindLabel(kind: SavedDocument["kind"]) {
 
 function ClientDetail() {
   const { clientId } = Route.useParams();
-  const { clients } = useParties();
+  const navigate = useNavigate();
+  const { clients, removeClient } = useParties();
   const { quotations, invoices, receipts, creditNotes, deleteInvoicePayment } = useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const [editOpen, setEditOpen] = useState(false);
@@ -122,18 +124,7 @@ function ClientDetail() {
   }, [client, quotations, invoices, receipts, creditNotes]);
 
   const openDoc = (doc: SavedDocument) => {
-    const enriched =
-      doc.kind === "receipt" && doc.invoiceId
-        ? (() => {
-            const inv = invoices.find((i) => i.id === doc.invoiceId);
-            if (!inv) return doc;
-            return {
-              ...doc,
-              invoiceTotal: inv.total,
-              amountPaidAfter: invoiceAmountPaid(inv),
-            } as SavedDocument & { invoiceTotal: number; amountPaidAfter: number };
-          })()
-        : doc;
+    const enriched = receiptWithBalanceSnapshot(doc, invoices);
     const { id, blobUrl } = openSavedDocument(enriched);
     setPreview({ id, blobUrl, doc });
   };
@@ -166,12 +157,7 @@ function ClientDetail() {
   const creditsSpend = clientDocs
     .filter((d) => d.kind === "credit_note")
     .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
-  const docSpend = Math.max(0, invoiceSpend + standaloneReceiptSpend - creditsSpend);
-  const fleetSpend = allOrders.reduce(
-    (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
-    0,
-  );
-  const spend = Math.max(docSpend, fleetSpend);
+  const spend = Math.max(0, invoiceSpend + standaloneReceiptSpend - creditsSpend);
 
   const saveMachine = () => {
     if (!make.trim() || !model.trim()) {
@@ -208,6 +194,29 @@ function ClientDetail() {
           <Button type="button" size="sm" className="gap-1.5" onClick={() => setEditOpen(true)}>
             <Pencil className="h-3.5 w-3.5" />
             Edit details
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="gap-1.5 text-destructive"
+            onClick={() => {
+              const hasHistory = clientDocs.some(
+                (d) => d.kind === "invoice" || d.kind === "receipt" || d.kind === "credit_note",
+              );
+              const ok = window.confirm(
+                hasHistory
+                  ? `Delete client “${client.name}”? Their invoices and receipts stay in Documents.`
+                  : `Delete client “${client.name}”?`,
+              );
+              if (!ok) return;
+              removeClient(client.id);
+              toast.success("Client deleted");
+              void navigate({ to: "/clients" });
+            }}
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+            Delete
           </Button>
           <Button
             type="button"
@@ -563,9 +572,7 @@ function ClientDetail() {
                                 className="h-8 gap-1 px-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  const ok = window.confirm(
-                                    `Delete receipt ${doc.id} (${currency(doc.total)})?\n\nThis removes the payment and puts the amount back on the invoice balance.`,
-                                  );
+                                  const ok = window.confirm(deleteReceiptConfirmMessage(doc));
                                   if (!ok) return;
                                   try {
                                     deleteInvoicePayment(doc.id);
@@ -824,13 +831,15 @@ function ClientDetail() {
         blobUrl={preview?.blobUrl ?? null}
         onDownload={() => {
           if (!preview) return;
-          downloadSavedDocument(preview.doc);
+          downloadSavedDocument(receiptWithBalanceSnapshot(preview.doc, invoices));
           toast.success(`Downloaded ${preview.doc.id}.pdf`);
         }}
         onShare={() => {
           if (!preview) return;
           void (async () => {
-            const result = await shareSavedDocument(preview.doc);
+            const result = await shareSavedDocument(
+              receiptWithBalanceSnapshot(preview.doc, invoices),
+            );
             if (result.cancelled) {
               toast.message("Share cancelled");
               return;

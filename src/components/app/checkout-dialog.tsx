@@ -12,6 +12,13 @@ import { PartySearchPicker } from "@/components/app/party-search-picker";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -33,6 +40,11 @@ import {
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { clearDocumentCreatedParts, isDocumentCreatedPart } from "@/lib/document-created-parts";
+import {
+  confirmOversell,
+  lineQtyByPart,
+  stockShortagesForQty,
+} from "@/lib/stock-sale";
 
 export function CheckoutDialog() {
   const { checkoutOpen, setCheckoutOpen, lines, documentKind, clearCart, setCartOpen } = useCart();
@@ -97,6 +109,15 @@ export function CheckoutDialog() {
       ? normalizeDocumentDiscount(discountType, discountValue)
       : undefined;
     const computedTotal = documentGrandTotal(subtotal, appliedDiscount);
+
+    if (isInvoice && deductStock) {
+      const skipCreated = new Set(
+        lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
+      );
+      if (!confirmOversell(stockShortagesForQty(lineQtyByPart(lines), getPart, skipCreated))) {
+        return;
+      }
+    }
 
     const { id, sharedFile, cancelled } = await exportAndDeliver(
       {
@@ -257,19 +278,22 @@ export function CheckoutDialog() {
             {isInvoice && partyId ? (
               <div className="space-y-1.5">
                 <Label htmlFor="checkout-machine">Machine (optional)</Label>
-                <select
-                  id="checkout-machine"
-                  className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-                  value={machineId}
-                  onChange={(event) => setMachineId(event.target.value)}
+                <Select
+                  value={machineId || "__none__"}
+                  onValueChange={(value) => setMachineId(value === "__none__" ? "" : value)}
                 >
-                  <option value="">No machine</option>
-                  {machinesByClient(partyId).map((machine) => (
-                    <option key={machine.id} value={machine.id}>
-                      {machine.make} {machine.model} · {machine.serialNumber}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger id="checkout-machine">
+                    <SelectValue placeholder="No machine" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__none__">No machine</SelectItem>
+                    {machinesByClient(partyId).map((machine) => (
+                      <SelectItem key={machine.id} value={machine.id}>
+                        {machine.make} {machine.model} · {machine.serialNumber}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             ) : null}
           </section>

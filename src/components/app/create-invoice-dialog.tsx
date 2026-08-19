@@ -5,7 +5,9 @@ import { toast } from "sonner";
 import type { CartLine } from "@/components/app/cart-context";
 import { DocumentDiscountControls } from "@/components/app/document-discount-controls";
 import {
+  affectingReceiptsPaid,
   invoiceAmountPaid,
+  invoiceCredits,
   resolveInvoiceStatus,
   useDocuments,
   type InvoiceStatus,
@@ -38,6 +40,12 @@ import {
 } from "@/lib/document-money";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { isDocumentCreatedPart } from "@/lib/document-created-parts";
+import {
+  confirmOversell,
+  invoiceEditStockDeltas,
+  lineQtyByPart,
+  stockShortagesForQty,
+} from "@/lib/stock-sale";
 import { cn } from "@/lib/utils";
 
 export type SalesDocumentKind = "invoice" | "quotation";
@@ -89,7 +97,7 @@ export function CreateInvoiceDialog({
   kind: kindProp = "invoice",
 }: Props) {
   const { parts, adjustPartQuantity, getPart } = useInventory();
-  const { addDocument, updateDocument } = useDocuments();
+  const { addDocument, updateDocument, creditNotes, documents } = useDocuments();
   const { addOrder } = useFleet();
   const { clients } = useParties();
   const isEdit = Boolean(editing?.id);
@@ -109,12 +117,12 @@ export function CreateInvoiceDialog({
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
   const [createPartOpen, setCreatePartOpen] = useState(false);
-  /** Parts created mid-document this session — stock was topped up for sold qty (invoices). */
-  const createdPartIdsRef = useRef<Set<string>>(new Set());
+  /** Qty already deducted this session for parts created mid-document. */
+  const createdPartDeductedRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
     if (!open) return;
-    createdPartIdsRef.current = new Set();
+    createdPartDeductedRef.current = new Map();
     if (editing) {
       setPartyName(editing.partyName);
       setPartyId(editing.partyId);
@@ -185,7 +193,10 @@ export function CreateInvoiceDialog({
   };
 
   const onQuickCreated = (part: Part, qty: number) => {
-    createdPartIdsRef.current.add(part.id);
+    createdPartDeductedRef.current.set(
+      part.id,
+      (createdPartDeductedRef.current.get(part.id) ?? 0) + qty,
+    );
     // Edit save does not deduct stock — apply the sale now for newly created invoice parts.
     if (isInvoice && isEdit) {
       adjustPartQuantity(part.id, -qty);
@@ -242,12 +253,46 @@ export function CreateInvoiceDialog({
 
     if (isEdit && editing) {
       if (isInvoice) {
-        const paid = Math.min(invoiceAmountPaid(editing), docTotal);
+        const paidFromReceipts = affectingReceiptsPaid(editing.id, documents);
+        if (docTotal + 0.005 < paidFromReceipts) {
+          toast.error(
+            `Cannot reduce this invoice below payments already received (${currency(paidFromReceipts)}). Record a credit or return instead.`,
+          );
+          return;
+        }
+        const credits = invoiceCredits(editing, creditNotes);
+        const paid =
+          paidFromReceipts > 0
+            ? paidFromReceipts
+            : Math.min(invoiceAmountPaid(editing), docTotal);
         const status = resolveInvoiceStatus(
           { ...editing, total: docTotal },
           paid,
           editing.status as InvoiceStatus | undefined,
+          credits,
         );
+
+        const deltas = invoiceEditStockDeltas(
+          editing.lines,
+          lines,
+          Boolean(editing.stockDeducted),
+          createdPartDeductedRef.current,
+        );
+        const deductByPart = new Map<string, number>();
+        for (const [partId, stockChange] of deltas) {
+          if (stockChange < 0) deductByPart.set(partId, -stockChange);
+        }
+        const shortages = stockShortagesForQty(
+          deductByPart,
+          getPart,
+          new Set(createdPartDeductedRef.current.keys()),
+        );
+        if (!confirmOversell(shortages)) return;
+
+        for (const [partId, stockChange] of deltas) {
+          if (stockChange !== 0) adjustPartQuantity(partId, stockChange);
+        }
+
         updateDocument({
           ...editing,
           partyId,
@@ -283,6 +328,12 @@ export function CreateInvoiceDialog({
 
     let stockDeducted = false;
     if (isInvoice && deductStock) {
+      const skipCreated = new Set(
+        lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
+      );
+      if (!confirmOversell(stockShortagesForQty(lineQtyByPart(lines), getPart, skipCreated))) {
+        return;
+      }
       let deducted = 0;
       for (const line of lines) {
         const part = getPart(line.partId);
@@ -596,7 +647,6 @@ export function CreateInvoiceDialog({
             <Button
               type="button"
               disabled={!ready}
-              className="bg-accent text-accent-foreground hover:bg-accent/90"
               onClick={saveDocument}
             >
               {isEdit ? "Save changes" : `Create ${kindLabel}`}

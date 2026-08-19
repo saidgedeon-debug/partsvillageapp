@@ -339,6 +339,7 @@ export function PreOrderFormDialog({ open, onOpenChange, order }: Props) {
                           type="button"
                           size="icon"
                           variant="ghost"
+                          aria-label={`Remove ${line.partNumber || line.name || "line"}`}
                           onClick={() =>
                             setLines((prev) => prev.filter((row) => row.key !== line.key))
                           }

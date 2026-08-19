@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import type { CartLine } from "@/components/app/cart-context";
 import {
   invoiceHasReturnableLines,
-  returnableQty,
   useDocuments,
   type SavedDocument,
 } from "@/components/app/documents-context";
@@ -59,31 +58,58 @@ type ReturnRow = {
   qtyToReturn: string;
 };
 
+function lineKey(partId: string, unitPrice: number): string {
+  return `${partId}::${Math.round(unitPrice * 100)}`;
+}
+
 function buildRows(invoice: SavedDocument, creditNotes: SavedDocument[]): ReturnRow[] {
-  const byPart = new Map<string, ReturnRow>();
+  const byLine = new Map<string, ReturnRow>();
   for (const line of invoice.lines) {
-    if (!line.partId || line.category === "Payment") continue;
-    const existing = byPart.get(line.partId);
+    if (!line.partId || line.category === "Payment" || line.category === "Discount") continue;
+    const price = Number.isFinite(line.unitPrice) ? line.unitPrice : 0;
+    const key = lineKey(line.partId, price);
+    const existing = byLine.get(key);
     const sold = (existing?.soldQty ?? 0) + (Number.isFinite(line.qty) ? line.qty : 0);
-    const max = returnableQty(invoice, line.partId, creditNotes);
-    const already = Math.max(0, sold - max);
-    byPart.set(line.partId, {
+    byLine.set(key, {
       partId: line.partId,
       partNumber: line.partNumber,
       name: line.name,
-      unitPrice: line.unitPrice,
+      unitPrice: price,
       unitCost: line.unitCost,
       category: line.category,
       boxNumber: line.boxNumber,
       insideDiameterMm: line.insideDiameterMm,
       crossSectionMm: line.crossSectionMm,
       soldQty: sold,
-      alreadyReturned: already,
-      maxReturnable: max,
-      qtyToReturn: max > 0 ? String(max) : "0",
+      alreadyReturned: 0,
+      maxReturnable: 0,
+      qtyToReturn: "0",
     });
   }
-  return [...byPart.values()].filter((r) => r.soldQty > 0);
+
+  const returnedByKey = new Map<string, number>();
+  for (const note of creditNotes) {
+    if (note.kind !== "credit_note" || note.invoiceId !== invoice.id) continue;
+    for (const line of note.lines) {
+      if (!line.partId || line.category === "Payment" || line.category === "Discount") continue;
+      const price = Number.isFinite(line.unitPrice) ? line.unitPrice : 0;
+      const key = lineKey(line.partId, price);
+      returnedByKey.set(key, (returnedByKey.get(key) ?? 0) + (Number.isFinite(line.qty) ? line.qty : 0));
+    }
+  }
+
+  return [...byLine.values()]
+    .map((row) => {
+      const already = returnedByKey.get(lineKey(row.partId, row.unitPrice)) ?? 0;
+      const max = Math.max(0, Math.floor(row.soldQty - already));
+      return {
+        ...row,
+        alreadyReturned: already,
+        maxReturnable: max,
+        qtyToReturn: max > 0 ? String(max) : "0",
+      };
+    })
+    .filter((r) => r.soldQty > 0);
 }
 
 export function CreateReturnDialog({
@@ -145,9 +171,11 @@ export function CreateReturnDialog({
     );
   }, [rows]);
 
-  const setQty = (partId: string, value: string) => {
+  const setQty = (partId: string, unitPrice: number, value: string) => {
     setRows((prev) =>
-      prev.map((r) => (r.partId === partId ? { ...r, qtyToReturn: value } : r)),
+      prev.map((r) =>
+        r.partId === partId && r.unitPrice === unitPrice ? { ...r, qtyToReturn: value } : r,
+      ),
     );
   };
 
@@ -197,10 +225,6 @@ export function CreateReturnDialog({
 
       setSubmitting(true);
 
-      for (const { partId, qty } of restockPairs) {
-        adjustPartQuantity(partId, qty);
-      }
-
       const creditNote = recordInvoiceReturn({
         invoiceId: selected.id,
         lines,
@@ -208,6 +232,10 @@ export function CreateReturnDialog({
         date: returnDate,
         note: note.trim() || undefined,
       });
+
+      for (const { partId, qty } of restockPairs) {
+        adjustPartQuantity(partId, qty);
+      }
 
       const units = lines.reduce((s, l) => s + l.qty, 0);
       toast.success(
@@ -277,7 +305,7 @@ export function CreateReturnDialog({
                 </thead>
                 <tbody>
                   {rows.map((row) => (
-                    <tr key={row.partId} className="border-t border-border">
+                    <tr key={`${row.partId}::${row.unitPrice}`} className="border-t border-border">
                       <td className="px-3 py-2">
                         <div className="font-medium">{row.partNumber}</div>
                         <div className="text-xs text-muted-foreground line-clamp-1">
@@ -298,7 +326,7 @@ export function CreateReturnDialog({
                           className="h-8 w-20"
                           disabled={row.maxReturnable <= 0}
                           value={row.qtyToReturn}
-                          onChange={(e) => setQty(row.partId, e.target.value)}
+                          onChange={(e) => setQty(row.partId, row.unitPrice, e.target.value)}
                         />
                         <div
                           className={cn(

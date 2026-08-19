@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FileText, Package, Search, Ship, Users } from "lucide-react";
 
+import { EmptyState } from "@/components/app/empty-state";
 import { useDocuments } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { PageHeader } from "@/components/app/page-header";
@@ -69,6 +70,16 @@ function GlobalSearchPage() {
         subtitle={q ? `Results for “${routeQuery || query}”` : "Search all shop records"}
       />
       <main className="grid flex-1 gap-4 p-4 md:grid-cols-2 md:p-6">
+        {!q ? (
+          <div className="col-span-full">
+            <EmptyState
+              icon={Search}
+              title="Type to search"
+              description="Use the search bar above to find parts, clients, suppliers, documents, and shipments."
+            />
+          </div>
+        ) : (
+          <>
         <ResultCard icon={Package} title={`Parts (${partResults.length})`}>
           {partResults.map((part) => (
             <Link
@@ -136,17 +147,17 @@ function GlobalSearchPage() {
             </Link>
           ))}
         </ResultCard>
-        {q &&
-        partResults.length +
+        {partResults.length +
           partyResults.length +
           documentResults.length +
           shipmentResults.length ===
-          0 ? (
-          <div className="col-span-full py-16 text-center text-muted-foreground">
-            <Search className="mx-auto mb-2 h-6 w-6" />
-            No results found.
+        0 ? (
+          <div className="col-span-full">
+            <EmptyState icon={Search} title="No results found" description={`Nothing matched “${routeQuery || query}”.`} />
           </div>
         ) : null}
+          </>
+        )}
       </main>
     </>
   );

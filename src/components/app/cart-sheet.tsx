@@ -47,6 +47,7 @@ function QtyField({
         size="icon"
         variant="outline"
         className="h-8 w-8"
+        aria-label="Decrease quantity"
         onClick={() => onChange(Math.max(1, qty - 1))}
       >
         <Minus className="h-3.5 w-3.5" />
@@ -78,6 +79,7 @@ function QtyField({
         size="icon"
         variant="outline"
         className="h-8 w-8"
+        aria-label="Increase quantity"
         onClick={() => onChange(qty + 1)}
       >
         <Plus className="h-3.5 w-3.5" />
@@ -257,6 +259,7 @@ export function CartSheet() {
                     size="icon"
                     variant="ghost"
                     className="h-8 w-8 shrink-0"
+                    aria-label={`Remove ${line.partNumber}`}
                     onClick={() => removeLine(line.partId)}
                   >
                     <Trash2 className="h-4 w-4" />

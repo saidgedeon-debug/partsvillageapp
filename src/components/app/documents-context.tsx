@@ -9,6 +9,7 @@ import {
 import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-context";
 import { generateDocId, type PaymentMethod } from "@/lib/document-export";
 import { useCloudState } from "@/lib/cloud-store";
+import { currency } from "@/lib/mock-data";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export type QuoteStatus = "Draft" | "Sent" | "Accepted" | "Rejected";
@@ -56,6 +57,10 @@ export type SavedDocument = {
    * Undefined on legacy receipts — inferred from the staff note.
    */
   affectsBalance?: boolean;
+  /** Receipt snapshot of linked invoice total at issue time. */
+  invoiceTotal?: number;
+  /** Receipt snapshot of invoice amountPaid immediately after this payment. */
+  amountPaidAfter?: number;
 };
 
 export type RecordPaymentInput = {
@@ -108,6 +113,49 @@ export function invoiceAmountPaid(inv: SavedDocument): number {
   }
   const total = Number.isFinite(inv.total) ? inv.total : 0;
   return inv.status === "Paid" ? total : 0;
+}
+
+/** Sum of receipts that actually moved this invoice's balance. */
+export function affectingReceiptsPaid(
+  invoiceId: string,
+  documents: SavedDocument[] = [],
+): number {
+  const sum = documents
+    .filter(
+      (d) =>
+        d.kind === "receipt" && d.invoiceId === invoiceId && receiptAffectsBalance(d),
+    )
+    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
+  return Math.max(0, Math.round(sum * 100) / 100);
+}
+
+export function deleteReceiptConfirmMessage(receipt: SavedDocument): string {
+  const head = `Delete receipt ${receipt.id} (${currency(receipt.total)})?`;
+  if (!receipt.invoiceId || !receiptAffectsBalance(receipt)) {
+    return `${head}\n\nThis only removes the paperwork. The invoice balance will not change.`;
+  }
+  return `${head}\n\nThis removes the payment and puts the amount back on the invoice balance.`;
+}
+
+/** Prefer the receipt's snapshot; fall back to today's invoice figures for old receipts. */
+export function receiptWithBalanceSnapshot(
+  receipt: SavedDocument,
+  invoices: SavedDocument[],
+): SavedDocument {
+  if (receipt.kind !== "receipt" || !receipt.invoiceId) return receipt;
+  if (
+    typeof receipt.invoiceTotal === "number" &&
+    typeof receipt.amountPaidAfter === "number"
+  ) {
+    return receipt;
+  }
+  const inv = invoices.find((i) => i.id === receipt.invoiceId);
+  if (!inv) return receipt;
+  return {
+    ...receipt,
+    invoiceTotal: inv.total,
+    amountPaidAfter: invoiceAmountPaid(inv),
+  };
 }
 
 /** Sum of credit notes linked to an invoice. */
@@ -281,14 +329,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           if (d.id !== id) return d;
           if (d.kind === "invoice") {
             const invStatus = status as InvoiceStatus;
-            let amountPaid = invoiceAmountPaid(d);
-            if (invStatus === "Paid") amountPaid = d.total;
-            if (invStatus === "Unpaid" || invStatus === "Overdue") {
-              // keep payment history; status can be forced overdue while partial
-              if (invStatus === "Unpaid" && amountPaid > 0 && amountPaid < d.total) {
-                return { ...d, status: "Partial" as InvoiceStatus, amountPaid };
-              }
-            }
+            const amountPaid = invoiceAmountPaid(d);
             const credits = invoiceCredits(
               d,
               list.filter((x) => x.kind === "credit_note"),
@@ -296,7 +337,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             const resolved = resolveInvoiceStatus(d, amountPaid, invStatus, credits);
             return {
               ...d,
-              status: invStatus === "Overdue" && amountPaid + credits < d.total ? "Overdue" : resolved,
+              status:
+                invStatus === "Overdue" && amountPaid + credits < d.total
+                  ? "Overdue"
+                  : resolved,
               amountPaid,
             };
           }
@@ -389,6 +433,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           paymentDate: input.paymentDate,
           paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
           affectsBalance: !alreadyPaid,
+          invoiceTotal: invoice.total,
+          amountPaidAfter: paidAfter,
           internalNote:
             input.note?.trim() ||
             (alreadyPaid ? "Receipt created for already-paid invoice" : undefined),
@@ -495,6 +541,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           paymentDate: input.paymentDate,
           paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
           affectsBalance: affects,
+          invoiceTotal: invoice.total,
+          amountPaidAfter: affects
+            ? Math.max(0, Math.round((paidBefore - oldAmount + amount) * 100) / 100)
+            : paidBefore,
           internalNote: input.note?.trim() || undefined,
           lines: [
             {
@@ -567,9 +617,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           invoice,
           cur.filter((d) => d.kind === "credit_note"),
         );
-        const oldAmount = Math.round((Number.isFinite(receipt.total) ? receipt.total : 0) * 100) / 100;
-        const paidBefore = invoiceAmountPaid(invoice);
-        const paidAfter = Math.max(0, Math.round((paidBefore - oldAmount) * 100) / 100);
+        const paidAfter = affectingReceiptsPaid(invoice.id, next);
         const status = resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
         const updatedInvoice: SavedDocument = {
           ...invoice,
@@ -839,6 +887,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           paymentDate: payment.paymentDate,
           paymentMobile: payment.method === "Cash" ? undefined : payment.mobile?.trim(),
           affectsBalance: true,
+          invoiceTotal: invoiceInput.total,
+          amountPaidAfter: paidAfter,
           internalNote: payment.note?.trim() || undefined,
           lines: [
             {

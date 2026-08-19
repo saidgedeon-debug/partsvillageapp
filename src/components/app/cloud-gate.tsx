@@ -1,6 +1,7 @@
 import { CloudOff, Loader2 } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
+import { useCloudHealth } from "@/lib/cloud-store";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
 /**
@@ -33,11 +34,22 @@ export function CloudGate({ children }: { children: ReactNode }) {
 }
 
 function CloudGateBanner({ children }: { children: ReactNode }) {
+  const health = useCloudHealth();
+  const [show, setShow] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+
+  useEffect(() => {
+    if (health !== "loading" && health !== "syncing") {
+      setShow(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setShow(true), 500);
+    return () => window.clearTimeout(timer);
+  }, [health]);
 
   return (
     <>
-      {!dismissed && <SyncBanner onDismiss={() => setDismissed(true)} />}
+      {show && !dismissed && <SyncBanner onDismiss={() => setDismissed(true)} />}
       {children}
     </>
   );

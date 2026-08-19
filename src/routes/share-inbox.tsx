@@ -218,7 +218,7 @@ function ShareInboxPage() {
             <div className="flex flex-wrap gap-2">
               <Button
                 type="button"
-                className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90"
+                className="gap-1.5"
                 disabled={busy}
                 onClick={() => fileRef.current?.click()}
               >
@@ -278,6 +278,7 @@ function ShareInboxPage() {
                     type="button"
                     size="sm"
                     variant="ghost"
+                    aria-label={`Remove ${item.name}`}
                     onClick={() => removeItem(item.id)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -362,7 +363,13 @@ function InboxCard({
               </a>
             )}
           </div>
-          <Button type="button" size="icon" variant="ghost" onClick={onRemove}>
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            aria-label="Remove item"
+            onClick={onRemove}
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>

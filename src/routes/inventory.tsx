@@ -832,7 +832,7 @@ function InventoryPage() {
           </CardHeader>
           <CardContent className="p-0">
             {cloudError ? (
-              <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-900">
+              <div className="border-b border-accent/30 bg-accent/10 px-4 py-2 text-sm text-foreground">
                 Cloud sync issue: {cloudError}
               </div>
             ) : null}

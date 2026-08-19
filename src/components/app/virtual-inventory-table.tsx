@@ -3,6 +3,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import { AlertTriangle, Eye, Pencil, ShoppingCart } from "lucide-react";
 
 import { InlineNumberCell } from "@/components/app/inline-number-cell";
+import { EmptyState } from "@/components/app/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { locationOf, oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
@@ -56,13 +57,12 @@ export function VirtualInventoryTable({
       : "grid grid-cols-[52px_minmax(90px,0.9fr)_minmax(120px,1.4fr)_minmax(100px,1fr)_minmax(110px,1.1fr)_56px_minmax(90px,1fr)_64px_72px_minmax(150px,1.1fr)] gap-2";
 
   if (rows.length === 0) {
-    return (
-      <div className="py-12 text-center text-sm text-muted-foreground">{emptyMessage}</div>
-    );
+    return <EmptyState title={emptyMessage} />;
   }
 
   return (
-    <div className="w-full">
+    <div ref={parentRef} className="max-h-[min(70vh,720px)] overflow-auto">
+      <div className="min-w-max">
       <div
         className={cn(
           gridClass,
@@ -98,7 +98,6 @@ export function VirtualInventoryTable({
         )}
       </div>
 
-      <div ref={parentRef} className="max-h-[min(70vh,720px)] overflow-auto">
         <div
           className="relative w-full"
           style={{ height: `${virtualizer.getTotalSize()}px` }}
@@ -146,6 +145,7 @@ export function VirtualInventoryTable({
                       {low && <AlertTriangle className="h-3.5 w-3.5 text-accent" />}
                       <InlineNumberCell
                         value={p.quantity}
+                        ariaLabel={`Edit quantity for ${p.partNumber}`}
                         className={cn(low && "font-semibold text-accent")}
                         onCommit={(n) => onPatch(p, { quantity: n })}
                       />
@@ -154,6 +154,7 @@ export function VirtualInventoryTable({
                       <InlineNumberCell
                         value={p.cost}
                         decimal
+                        ariaLabel={`Edit cost for ${p.partNumber}`}
                         className="text-muted-foreground"
                         onCommit={(n) => onPatch(p, { cost: n })}
                       />
@@ -161,6 +162,7 @@ export function VirtualInventoryTable({
                     <InlineNumberCell
                       value={p.price}
                       decimal
+                      ariaLabel={`Edit price for ${p.partNumber}`}
                       className="font-semibold"
                       onCommit={(n) => onPatch(p, { price: n })}
                     />
@@ -210,6 +212,7 @@ export function VirtualInventoryTable({
                       {low && <AlertTriangle className="h-3.5 w-3.5 text-accent" />}
                       <InlineNumberCell
                         value={p.quantity}
+                        ariaLabel={`Edit quantity for ${p.partNumber}`}
                         className={cn(low && "font-semibold text-accent")}
                         onCommit={(n) => onPatch(p, { quantity: n })}
                       />
@@ -218,6 +221,7 @@ export function VirtualInventoryTable({
                       <InlineNumberCell
                         value={p.cost}
                         decimal
+                        ariaLabel={`Edit cost for ${p.partNumber}`}
                         className="text-muted-foreground"
                         onCommit={(n) => onPatch(p, { cost: n })}
                       />
@@ -225,6 +229,7 @@ export function VirtualInventoryTable({
                     <InlineNumberCell
                       value={p.price}
                       decimal
+                      ariaLabel={`Edit price for ${p.partNumber}`}
                       className="font-semibold"
                       onCommit={(n) => onPatch(p, { price: n })}
                     />

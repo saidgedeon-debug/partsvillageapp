@@ -4,7 +4,7 @@ import type { ComponentType } from "react";
 import { useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/app/page-header";
-import { useDocuments, invoiceAmountPaid } from "@/components/app/documents-context";
+import { useDocuments, invoiceAmountPaid, receiptAffectsBalance } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
@@ -44,14 +44,18 @@ function Index() {
   );
   const [pnlTo, setPnlTo] = useState(now.toLocaleDateString("en-CA"));
 
-  const paidSales = useMemo(
-    () =>
-      invoices.reduce((s, i) => s + invoiceAmountPaid(i), 0) +
-      orders
-        .filter((o) => o.status === "Paid")
-        .reduce((s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0), 0),
-    [invoices, orders],
-  );
+  const paidSales = useMemo(() => {
+    const invoiceIds = new Set(invoices.map((i) => i.id));
+    const invoicePaid = invoices.reduce((s, i) => s + invoiceAmountPaid(i), 0);
+    const unmatchedPaidOrders = orders
+      .filter((o) => {
+        if (o.status !== "Paid") return false;
+        const linkedInvoiceId = o.documentId || (o.id.startsWith("ord-") ? o.id.slice(4) : "");
+        return !linkedInvoiceId || !invoiceIds.has(linkedInvoiceId);
+      })
+      .reduce((s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0), 0);
+    return invoicePaid + unmatchedPaidOrders;
+  }, [invoices, orders]);
 
   const activeQuotes = useMemo(
     () => quotations.filter((q) => q.status === "Sent" || q.status === "Draft").length,
@@ -117,20 +121,26 @@ function Index() {
 
   const pnl = useMemo(() => {
     const inRange = (date: string) => date >= pnlFrom && date <= pnlTo;
-    const rangeReceipts = receipts.filter((receipt) => inRange(receipt.date));
-    const receiptInvoiceIds = new Set(receipts.map((receipt) => receipt.invoiceId).filter(Boolean));
+    const cashReceipts = receipts.filter(
+      (receipt) => inRange(receipt.date) && (!receipt.invoiceId || receiptAffectsBalance(receipt)),
+    );
     const collectedByInvoice = new Map<string, number>();
-    for (const receipt of rangeReceipts) {
+    for (const receipt of cashReceipts) {
       if (!receipt.invoiceId) continue;
       collectedByInvoice.set(
         receipt.invoiceId,
         (collectedByInvoice.get(receipt.invoiceId) ?? 0) + receipt.total,
       );
     }
-    const receiptSales = rangeReceipts.reduce((s, receipt) => s + receipt.total, 0);
+    const receiptSales = cashReceipts.reduce((s, receipt) => s + receipt.total, 0);
+    const invoicesWithAffectingReceipt = new Set(
+      receipts
+        .filter((receipt) => receipt.invoiceId && receiptAffectsBalance(receipt))
+        .map((receipt) => receipt.invoiceId as string),
+    );
     const legacyPaidInvoices = invoices
       .filter((invoice) => inRange(invoice.date))
-      .filter((invoice) => !receiptInvoiceIds.has(invoice.id))
+      .filter((invoice) => !invoicesWithAffectingReceipt.has(invoice.id))
       .filter((invoice) => invoiceAmountPaid(invoice) > 0);
     const legacyPaidSales = legacyPaidInvoices.reduce(
       (sum, invoice) => sum + invoiceAmountPaid(invoice),
@@ -143,21 +153,38 @@ function Index() {
         legacyPaidInvoices.some((legacy) => legacy.id === invoice.id),
     );
     const costById = new Map(parts.map((part) => [part.id, part.cost]));
+    const restockedByInvoicePart = new Map<string, number>();
+    for (const note of creditNotes) {
+      if (note.kind !== "credit_note" || !note.invoiceId || !note.stockRestocked) continue;
+      for (const line of note.lines) {
+        if (!line.partId || line.category === "Payment" || line.category === "Discount") continue;
+        const key = `${note.invoiceId}:${line.partId}`;
+        restockedByInvoicePart.set(
+          key,
+          (restockedByInvoicePart.get(key) ?? 0) + (Number.isFinite(line.qty) ? line.qty : 0),
+        );
+      }
+    }
     const cogs = soldInvoices.reduce((sum, invoice) => {
-      const collected =
-        collectedByInvoice.get(invoice.id) ??
-        (legacyPaidInvoices.some((legacy) => legacy.id === invoice.id)
-          ? invoiceAmountPaid(invoice)
-          : 0);
-      const paidRatio = invoice.total > 0 ? Math.min(1, collected / invoice.total) : 0;
-      return (
-        sum +
-        invoice.lines.reduce(
-          (lineSum, line) => lineSum + line.qty * (line.unitCost || costById.get(line.partId) || 0),
-          0,
-        ) *
-          paidRatio
-      );
+      const soldByPart = new Map<string, { qty: number; cost: number }>();
+      for (const line of invoice.lines) {
+        if (!line.partId || line.category === "Payment" || line.category === "Discount") continue;
+        const qty = Number.isFinite(line.qty) ? line.qty : 0;
+        const unitCost = line.unitCost || costById.get(line.partId) || 0;
+        const prev = soldByPart.get(line.partId) ?? { qty: 0, cost: 0 };
+        soldByPart.set(line.partId, {
+          qty: prev.qty + qty,
+          cost: prev.cost + qty * unitCost,
+        });
+      }
+      let invoiceCogs = 0;
+      for (const [partId, sold] of soldByPart) {
+        const restocked = restockedByInvoicePart.get(`${invoice.id}:${partId}`) ?? 0;
+        const netQty = Math.max(0, sold.qty - restocked);
+        const unitCost = sold.qty > 0 ? sold.cost / sold.qty : 0;
+        invoiceCogs += netQty * unitCost;
+      }
+      return sum + invoiceCogs;
     }, 0);
     const freight = shipments
       .filter((shipment) => inRange(shipment.orderedAt))
@@ -172,7 +199,7 @@ function Index() {
         0,
       );
     return { sales, cogs, freight, net: sales - cogs - freight };
-  }, [receipts, invoices, parts, shipments, rmbPerUsd, pnlFrom, pnlTo]);
+  }, [receipts, invoices, creditNotes, parts, shipments, rmbPerUsd, pnlFrom, pnlTo]);
 
   return (
     <>

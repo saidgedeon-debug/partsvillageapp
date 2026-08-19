@@ -10,6 +10,7 @@ type Props = {
   /** Allow decimals (cost/price). */
   decimal?: boolean;
   align?: "left" | "right";
+  ariaLabel?: string;
 };
 
 /** Click-to-edit number for inventory qty / cost / price. */
@@ -19,6 +20,7 @@ export function InlineNumberCell({
   className,
   decimal,
   align = "right",
+  ariaLabel,
 }: Props) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(String(value));
@@ -43,6 +45,7 @@ export function InlineNumberCell({
       <button
         type="button"
         title="Click to edit"
+        aria-label={ariaLabel ?? "Click to edit number"}
         className={cn(
           "w-full rounded px-1 py-0.5 font-mono text-xs hover:bg-muted/80",
           align === "right" ? "text-right" : "text-left",
@@ -69,6 +72,7 @@ export function InlineNumberCell({
       min={0}
       step={decimal ? "0.01" : "1"}
       inputMode={decimal ? "decimal" : "numeric"}
+      aria-label={ariaLabel ?? "Edit number"}
       className={cn(
         "h-8 px-1 font-mono text-xs [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
         align === "right" && "text-right",

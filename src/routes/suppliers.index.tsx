@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Building2, ChevronRight, Plus } from "lucide-react";
 
+import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { useSearch } from "@/components/app/search-context";
 import { useParties } from "@/components/app/parties-context";
@@ -79,19 +80,23 @@ function SuppliersPage() {
         ))}
 
         {rows.length === 0 && (
-          <div className="py-16 text-center text-sm text-muted-foreground">
-            {suppliers.length === 0 ? (
-              <div className="space-y-3">
-                <p>No suppliers yet.</p>
+          <EmptyState
+            icon={Building2}
+            title={suppliers.length === 0 ? "No suppliers yet" : `No suppliers match “${query}”`}
+            description={
+              suppliers.length === 0
+                ? "Add a supplier to start inquiries and purchasing."
+                : "Try a different search."
+            }
+            action={
+              suppliers.length === 0 ? (
                 <Button type="button" onClick={() => setAddOpen(true)} className="gap-1.5">
                   <Plus className="h-4 w-4" />
                   Add first supplier
                 </Button>
-              </div>
-            ) : (
-              `No suppliers match “${query}”.`
-            )}
-          </div>
+              ) : undefined
+            }
+          />
         )}
       </main>
 

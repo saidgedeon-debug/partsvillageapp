@@ -272,7 +272,7 @@ function ChinaShipmentsPage() {
           </div>
           <Button
             type="button"
-            className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90"
+            className="gap-1.5"
             onClick={() => {
               setEditing(null);
               setFormOpen(true);
@@ -806,11 +806,7 @@ function ShipmentDetailDialog({
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
                 Close
               </Button>
-              <Button
-                type="button"
-                className="bg-accent text-accent-foreground hover:bg-accent/90"
-                onClick={onEdit}
-              >
+              <Button type="button" onClick={onEdit}>
                 Edit details
               </Button>
             </div>

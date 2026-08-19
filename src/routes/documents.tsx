@@ -25,9 +25,11 @@ import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
 import {
+  deleteReceiptConfirmMessage,
   invoiceAmountPaid,
   invoiceHasReturnableLines,
   invoiceRemaining,
+  receiptWithBalanceSnapshot,
   useDocuments,
   type InquiryStatus,
   type InvoiceStatus,
@@ -218,16 +220,7 @@ function DocumentsPage() {
     setReturnOpen(true);
   };
 
-  const withReceiptBalance = (doc: SavedDocument) => {
-    if (doc.kind !== "receipt" || !doc.invoiceId) return doc;
-    const inv = invoices.find((i) => i.id === doc.invoiceId);
-    if (!inv) return doc;
-    return {
-      ...doc,
-      invoiceTotal: inv.total,
-      amountPaidAfter: invoiceAmountPaid(inv),
-    } as SavedDocument & { invoiceTotal: number; amountPaidAfter: number };
-  };
+  const withReceiptBalance = (doc: SavedDocument) => receiptWithBalanceSnapshot(doc, invoices);
 
   const openDoc = (doc: SavedDocument) => {
     const enriched = withReceiptBalance(doc);
@@ -427,7 +420,17 @@ function DocumentsPage() {
                     key="s"
                     doc={iv}
                     options={["Paid", "Partial", "Unpaid", "Overdue"]}
-                    onChange={(s) => updateDocumentStatus(iv.id, s as InvoiceStatus)}
+                    onChange={(s) => {
+                      if (s === "Paid" || s === "Partial") {
+                        const remaining = invoiceRemaining(iv, creditNotes);
+                        if (remaining > 0.005) {
+                          toast.message(
+                            "Record a receipt with Pay to mark this paid. Status follows real payments.",
+                          );
+                        }
+                      }
+                      updateDocumentStatus(iv.id, s as InvoiceStatus);
+                    }}
                   />,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
                     {invoiceRemaining(iv, creditNotes) > 0.005 ? (
@@ -561,9 +564,7 @@ function DocumentsPage() {
                       className="h-8 gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
                       onClick={(e) => {
                         e.stopPropagation();
-                        const ok = window.confirm(
-                          `Delete receipt ${rc.id} (${currency(rc.total)})?\n\nThis removes the payment and puts the amount back on the invoice balance.`,
-                        );
+                        const ok = window.confirm(deleteReceiptConfirmMessage(rc));
                         if (!ok) return;
                         try {
                           deleteInvoicePayment(rc.id);
@@ -592,9 +593,7 @@ function DocumentsPage() {
                           label: "Delete payment",
                           icon: Trash2,
                           onSelect: () => {
-                            const ok = window.confirm(
-                              `Delete receipt ${rc.id} (${currency(rc.total)})?\n\nThis removes the payment and puts the amount back on the invoice balance.`,
-                            );
+                            const ok = window.confirm(deleteReceiptConfirmMessage(rc));
                             if (!ok) return;
                             try {
                               deleteInvoicePayment(rc.id);
@@ -667,6 +666,7 @@ function DocumentsPage() {
             <DocCard
               title="Supplier Inquiries"
               onNew={() => startNew("inquiry")}
+              newLabel="New inquiry"
               headers={["#", "Supplier", "Date", "Part Numbers", "Status", ""]}
               rows={filteredInquiries.map((s) => ({
                 key: s.id,
@@ -835,7 +835,6 @@ function DocCard({
           <Button
             size="sm"
             onClick={onNew}
-            className="bg-accent text-accent-foreground hover:bg-accent/90"
           >
             {newLabel ?? `+ New ${title.replace(/s$/, "")}`}
           </Button>

@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { AlertTriangle, ArrowLeft, Ship, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
+import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
@@ -135,9 +136,7 @@ function LowStockPage() {
           </CardHeader>
           <CardContent className="space-y-2 p-0">
             {low.length === 0 && (
-              <p className="p-6 text-center text-sm text-muted-foreground">
-                No low-stock parts right now.
-              </p>
+              <EmptyState title="No low-stock parts right now" icon={AlertTriangle} />
             )}
             {low.map((p) => (
               <div
@@ -160,6 +159,7 @@ function LowStockPage() {
                   <p className="mb-0.5 text-[10px] text-muted-foreground">Qty</p>
                   <InlineNumberCell
                     value={p.quantity}
+                    ariaLabel={`Edit quantity for ${p.partNumber}`}
                     onCommit={(n) => {
                       updatePart(p.id, { quantity: n });
                       toast.success(`${p.partNumber} qty → ${n}`);
