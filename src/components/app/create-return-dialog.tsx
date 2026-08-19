@@ -9,6 +9,7 @@ import {
   type SavedDocument,
 } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
+import { useParties } from "@/components/app/parties-context";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,9 +28,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { documentBelongsToClient } from "@/lib/ar-statement";
 import { currency } from "@/lib/mock-data";
 import { localTodayIso } from "@/lib/date-local";
-import { roundMoney } from "@/lib/document-money";
+import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -121,6 +123,7 @@ export function CreateReturnDialog({
 }: Props) {
   const { invoices, creditNotes, recordInvoiceReturn } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
+  const { getClient } = useParties();
   const [submitting, setSubmitting] = useState(false);
   const [invoiceId, setInvoiceId] = useState("");
   const [rows, setRows] = useState<ReturnRow[]>([]);
@@ -128,13 +131,16 @@ export function CreateReturnDialog({
   const [returnDate, setReturnDate] = useState(localTodayIso());
   const [note, setNote] = useState("");
 
-  const returnableInvoices = useMemo(
-    () =>
-      invoices
-        .filter((iv) => (!clientId || iv.partyId === clientId) && invoiceHasReturnableLines(iv, creditNotes))
-        .sort((a, b) => b.date.localeCompare(a.date)),
-    [invoices, creditNotes, clientId],
-  );
+  const returnableInvoices = useMemo(() => {
+    const client = clientId ? getClient(clientId) : undefined;
+    return invoices
+      .filter((iv) => {
+        if (client && !documentBelongsToClient(iv, client)) return false;
+        if (!client && clientId && iv.partyId !== clientId) return false;
+        return invoiceHasReturnableLines(iv, creditNotes);
+      })
+      .sort((a, b) => b.date.localeCompare(a.date));
+  }, [invoices, creditNotes, clientId, getClient]);
 
   const selected = invoices.find((iv) => iv.id === invoiceId) ?? null;
 
@@ -162,14 +168,15 @@ export function CreateReturnDialog({
   }, [invoiceId]); // eslint-disable-line react-hooks/exhaustive-deps -- reset rows when invoice changes
 
   const creditPreview = useMemo(() => {
+    const ratio = selected ? invoiceDiscountRatio(selected) : 1;
     return roundMoney(
       rows.reduce((s, r) => {
         const qty = Math.floor(Number(r.qtyToReturn));
         if (!Number.isFinite(qty) || qty <= 0) return s;
-        return s + qty * (r.unitPrice || 0);
+        return s + qty * (r.unitPrice || 0) * ratio;
       }, 0),
     );
-  }, [rows]);
+  }, [rows, selected]);
 
   const setQty = (partId: string, unitPrice: number, value: string) => {
     setRows((prev) =>
@@ -229,6 +236,7 @@ export function CreateReturnDialog({
         invoiceId: selected.id,
         lines,
         restock,
+        restockedPartIds: restock ? restockPairs.map((p) => p.partId) : [],
         date: returnDate,
         note: note.trim() || undefined,
       });

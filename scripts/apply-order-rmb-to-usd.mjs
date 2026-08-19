@@ -2,8 +2,26 @@
  * Receive Jul 22 order into cloud inventory.
  * Part code and size are stored separately (code ≠ dimensions).
  * Prices on the sheet are RMB; convert with RATE → USD.
+ *
+ * Requires --yes and VITE_SUPABASE_URL (no production URL default).
  */
 import { createClient } from "@supabase/supabase-js";
+
+if (!process.argv.includes("--yes")) {
+  console.error("Refusing to write inventory. Re-run with --yes after reviewing the script.");
+  process.exit(1);
+}
+
+const url = process.env.VITE_SUPABASE_URL;
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+if (!url) {
+  console.error("Set VITE_SUPABASE_URL (no hardcoded production fallback).");
+  process.exit(1);
+}
+if (!key) {
+  console.error("No Supabase key (SUPABASE_SERVICE_ROLE_KEY or VITE_SUPABASE_ANON_KEY).");
+  process.exit(1);
+}
 
 const RATE = 0.1477;
 const rmbToUsd = (rmb) => Math.round(rmb * RATE * 100) / 100;
@@ -105,13 +123,6 @@ const customParts = [
     notes: "OD 100 · size 90×100×5 · on order sheet (qty/price TBD)",
   },
 ];
-
-const url = process.env.VITE_SUPABASE_URL || "https://swzxiarvjqckzejznjwx.supabase.co";
-const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
-if (!key) {
-  console.error("No Supabase key");
-  process.exit(1);
-}
 
 const sb = createClient(url, key);
 const { data, error } = await sb.from("shop_state").select("value").eq("key", "inventory").maybeSingle();

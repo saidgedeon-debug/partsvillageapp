@@ -58,6 +58,7 @@ import {
 import { clientById, currency } from "@/lib/mock-data";
 import {
   buildArStatement,
+  documentBelongsToClient,
   downloadStatementPdf,
   openOverdueWhatsApp,
   openStatementWhatsApp,
@@ -133,7 +134,7 @@ function ClientDetail() {
     return (
       <div className="p-10 text-center">
         <p className="text-muted-foreground">Client not found.</p>
-        <Link to="/clients" className="text-accent hover:underline">
+        <Link to="/clients" className="text-primary hover:underline">
           Back to clients
         </Link>
       </div>
@@ -142,9 +143,9 @@ function ClientDetail() {
 
   const fleet = machinesByClient(client.id);
   const allOrders = ordersByClient(client.id);
-  const statement = buildArStatement(client.id, invoices, creditNotes);
+  const statement = buildArStatement(client, invoices, creditNotes);
   const canReturn = invoices.some(
-    (iv) => iv.partyId === client.id && invoiceHasReturnableLines(iv, creditNotes),
+    (iv) => documentBelongsToClient(iv, client) && invoiceHasReturnableLines(iv, creditNotes),
   );
   // Lifetime spend = invoice sales + standalone receipts (no linked invoice).
   // Invoice-linked receipts are payments on those invoices — counting both doubles spend.

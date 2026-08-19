@@ -28,7 +28,6 @@ import { usePrefs } from "@/components/app/prefs-context";
 import { PartDetailDialog } from "@/components/app/part-detail-dialog";
 import { PartScanDialog } from "@/components/app/part-scan-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
-import { CatalogGrid } from "@/components/app/catalog-grid";
 import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
 import { ExcelImportDialog } from "@/components/app/excel-import-dialog";
 import { KitsDialog } from "@/components/app/kits-dialog";
@@ -48,7 +47,6 @@ import { Label } from "@/components/ui/label";
 import {
   buildGroupCounts,
   buildGroupSubcategories,
-  catalogInventoryCategoryId,
   categoriesMatch,
   categoryBelongsToGroup,
   defaultInventoryCategoryId,
@@ -214,12 +212,11 @@ function InventoryPage() {
   const listRef = useRef<HTMLDivElement>(null);
 
   const activeCategory = categories.find((c) => c.id === categoryId) ?? categories[0];
-  const isCatalogMode = categoryId === catalogInventoryCategoryId;
   const activeGroup = activeCategory?.group ?? null;
   const isGroupMode = activeGroup != null;
-  const isORings = !isCatalogMode && activeCategory?.matchCategory === "O-Rings";
-  const isHydraulics = !isCatalogMode && activeCategory?.matchCategory === "Hydraulic Parts";
-  const isFilters = !isCatalogMode && activeCategory?.matchCategory === "Filters";
+  const isORings = activeCategory?.matchCategory === "O-Rings";
+  const isHydraulics = activeCategory?.matchCategory === "Hydraulic Parts";
+  const isFilters = activeCategory?.matchCategory === "Filters";
 
   const orderedCategories = useMemo(() => {
     const allowed = new Set<string>(MAIN_INVENTORY_CATEGORY_IDS);
@@ -253,26 +250,22 @@ function InventoryPage() {
 
   const categoryCounts = useMemo(() => {
     const byCategory = new Map<string, number>();
-    let catalog = 0;
     for (const p of parts) {
       const label = displayCategory(p.category);
       byCategory.set(label, (byCategory.get(label) ?? 0) + 1);
-      if (p.category !== "O-Rings") catalog += 1;
     }
     return {
       byCategory,
       all: parts.length,
-      catalog,
       groups: buildGroupCounts(parts),
     };
   }, [parts]);
 
   const countForCategory = (
-    catId: string,
+    _catId: string,
     matchCategory: string | null,
     group?: CategoryGroupId,
   ) => {
-    if (catId === catalogInventoryCategoryId) return categoryCounts.catalog;
     if (group) return categoryCounts.groups[group];
     if (!matchCategory) return categoryCounts.all;
     return categoryCounts.byCategory.get(matchCategory) ?? 0;
@@ -321,8 +314,6 @@ function InventoryPage() {
   }, [parts]);
 
   const rows = useMemo(() => {
-    if (isCatalogMode) return [];
-
     let list = parts;
 
     if (activeGroup) {
@@ -382,7 +373,6 @@ function InventoryPage() {
     activeCategory,
     isORings,
     isHydraulics,
-    isCatalogMode,
     activeGroup,
     groupSub,
     groupFilter,
@@ -430,9 +420,7 @@ function InventoryPage() {
         subtitle={
           !catalogReady
             ? "Loading catalog…"
-            : isCatalogMode
-              ? `Catalog grid · ${catalogCount.toLocaleString()} parts · A01 → up`
-              : `Add, edit, or cart · ${rows.length} of ${catalogCount} parts`
+            : `Add, edit, or cart · ${rows.length} of ${catalogCount} parts`
         }
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
@@ -547,6 +535,7 @@ function InventoryPage() {
                     variant="ghost"
                     className="absolute right-2 top-2 h-7 w-7"
                     title={favGroup ? "Unpin group" : "Pin group"}
+                    aria-label={favGroup ? "Unpin group" : "Pin group"}
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleFavoriteCategoryGroup(cat.group!);
@@ -591,22 +580,13 @@ function InventoryPage() {
                     ? groupSub
                     : (activeCategory?.label ?? "Parts Catalog")}
               </CardTitle>
-              {!isCatalogMode && (
-                <div className="text-xs text-muted-foreground">
-                  Showing pieces:{" "}
-                  <span className="font-semibold text-foreground">
-                    {totalPieces.toLocaleString()}
-                  </span>
-                </div>
-              )}
+              <div className="text-xs text-muted-foreground">
+                Showing pieces:{" "}
+                <span className="font-semibold text-foreground">
+                  {totalPieces.toLocaleString()}
+                </span>
+              </div>
             </div>
-
-            {isCatalogMode && (
-              <p className="text-xs text-muted-foreground">
-                Browse Kafu catalog parts as a grid. Filter by machine, category, or show all —
-                sorted gradually from A01 upward.
-              </p>
-            )}
 
             {isGroupMode && activeGroup && (
               <div className="space-y-2">
@@ -849,13 +829,6 @@ function InventoryPage() {
                   <p>Loading catalog parts…</p>
                 )}
               </div>
-            ) : isCatalogMode ? (
-              <CatalogGrid
-                parts={parts}
-                searchQuery={query}
-                onView={(p) => openPart(p, "view")}
-                onAddToCart={askDocumentForPart}
-              />
             ) : (
               <VirtualInventoryTable
                 rows={rows}

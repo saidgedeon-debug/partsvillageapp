@@ -518,7 +518,7 @@ export function PartDetailDialog({
                 id="part-photo"
                 value={form.imageUrl}
                 onChange={set("imageUrl")}
-                placeholder="/kafu-parts/A01-1.jpg or https://…"
+                placeholder="https://… or /parts/photo.jpg"
               />
               <Input
                 type="file"

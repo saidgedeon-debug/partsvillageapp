@@ -26,8 +26,6 @@ export type InventoryCategoryDef = {
   group?: CategoryGroupId;
 };
 
-/** Special tile ids. */
-export const catalogInventoryCategoryId = "catalog";
 /** @deprecated Group tiles removed — kept for older call sites. */
 export const sensorsInventoryCategoryId = "sensors";
 

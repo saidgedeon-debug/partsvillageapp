@@ -155,9 +155,16 @@ function Index() {
     const costById = new Map(parts.map((part) => [part.id, part.cost]));
     const restockedByInvoicePart = new Map<string, number>();
     for (const note of creditNotes) {
-      if (note.kind !== "credit_note" || !note.invoiceId || !note.stockRestocked) continue;
+      if (note.kind !== "credit_note" || !note.invoiceId) continue;
+      const restockedIds = note.restockedPartIds
+        ? new Set(note.restockedPartIds)
+        : note.stockRestocked
+          ? null
+          : new Set<string>();
+      if (restockedIds && restockedIds.size === 0) continue;
       for (const line of note.lines) {
         if (!line.partId || line.category === "Payment" || line.category === "Discount") continue;
+        if (restockedIds && !restockedIds.has(line.partId)) continue;
         const key = `${note.invoiceId}:${line.partId}`;
         restockedByInvoicePart.set(
           key,
@@ -184,7 +191,14 @@ function Index() {
         const unitCost = sold.qty > 0 ? sold.cost / sold.qty : 0;
         invoiceCogs += netQty * unitCost;
       }
-      return sum + invoiceCogs;
+      const collectedInRange =
+        collectedByInvoice.get(invoice.id) ??
+        (legacyPaidInvoices.some((legacy) => legacy.id === invoice.id)
+          ? invoiceAmountPaid(invoice)
+          : 0);
+      const paidRatio =
+        invoice.total > 0 ? Math.min(1, Math.max(0, collectedInRange / invoice.total)) : 0;
+      return sum + invoiceCogs * paidRatio;
     }, 0);
     const freight = shipments
       .filter((shipment) => inRange(shipment.orderedAt))

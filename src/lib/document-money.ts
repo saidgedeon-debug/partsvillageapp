@@ -69,3 +69,24 @@ export function documentGrandTotal(
   const net = documentNetSubtotal(subtotal, discount);
   return roundMoney(net + documentTaxAmount(net, taxRatePercent));
 }
+
+const SKIP_LINE_CATEGORIES = new Set(["Payment", "Discount"]);
+
+/** Net / list subtotal after the invoice-level discount (1 = no discount). */
+export function invoiceDiscountRatio(invoice: {
+  lines: { qty: number; unitPrice: number; category?: string }[];
+  discountType?: DocumentDiscountType;
+  discountValue?: number;
+}): number {
+  const subtotal = roundMoney(
+    invoice.lines
+      .filter((l) => !SKIP_LINE_CATEGORIES.has(l.category ?? ""))
+      .reduce((s, l) => s + (Number.isFinite(l.qty) ? l.qty : 0) * (l.unitPrice || 0), 0),
+  );
+  if (!(subtotal > 0)) return 1;
+  const discount = normalizeDocumentDiscount(
+    invoice.discountType === "amount" ? "amount" : "percent",
+    typeof invoice.discountValue === "number" ? invoice.discountValue : 0,
+  );
+  return documentNetSubtotal(subtotal, discount) / subtotal;
+}

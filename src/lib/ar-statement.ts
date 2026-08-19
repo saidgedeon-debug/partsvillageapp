@@ -46,20 +46,37 @@ export function bucketForAge(ageDays: number): ArBucket {
   return "days61Plus";
 }
 
+export function documentBelongsToClient(
+  doc: { partyKind?: string; partyId?: string; partyName: string },
+  client: { id: string; name: string },
+): boolean {
+  if (doc.partyKind && doc.partyKind !== "client") return false;
+  if (doc.partyId === client.id) return true;
+  const name = client.name.trim().toLowerCase();
+  return Boolean(name) && doc.partyName.trim().toLowerCase() === name;
+}
+
 export function buildArStatement(
-  clientId: string,
+  client: { id: string; name: string } | string,
   invoices: SavedDocument[],
   creditNotes: SavedDocument[] = [],
   now = new Date(),
 ): ArStatement {
+  const party =
+    typeof client === "string" ? { id: client, name: "" } : client;
+  const belongs = (doc: SavedDocument) =>
+    party.name
+      ? documentBelongsToClient(doc, party)
+      : doc.partyId === party.id;
+
   const clientCredits = creditNotes
-    .filter((cn) => cn.kind === "credit_note" && cn.partyId === clientId)
+    .filter((cn) => cn.kind === "credit_note" && belongs(cn))
     .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
 
   const rows: ArInvoiceRow[] = invoices
     .filter(
       (invoice) =>
-        invoice.partyId === clientId && invoiceRemaining(invoice, creditNotes) > 0.005,
+        belongs(invoice) && invoiceRemaining(invoice, creditNotes) > 0.005,
     )
     .map((invoice) => {
       const ageDays = invoiceAgeDays(invoice.date, now);
@@ -115,7 +132,7 @@ export function buildClientsArQueue(
   return clients
     .map((client) => ({
       client,
-      statement: buildArStatement(client.id, invoices, creditNotes, now),
+      statement: buildArStatement(client, invoices, creditNotes, now),
     }))
     .filter((row) => row.statement.total > 0.005)
     .sort(

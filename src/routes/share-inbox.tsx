@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { FileImage, Inbox, Plus, Ship, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 
+import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import {
   SHARE_KIND_LABELS,
@@ -238,10 +239,11 @@ function ShareInboxPage() {
         </Card>
 
         {pending.length === 0 && (
-          <div className="flex flex-col items-center gap-3 py-16 text-center text-sm text-muted-foreground">
-            <Inbox className="h-10 w-10 opacity-40" />
-            <p>Inbox is empty — share or upload a quotation / invoice / order paper.</p>
-          </div>
+          <EmptyState
+            icon={Inbox}
+            title="Inbox is empty"
+            description="Share or upload a quotation, invoice, or order paper."
+          />
         )}
 
         {pending.map((item) => (

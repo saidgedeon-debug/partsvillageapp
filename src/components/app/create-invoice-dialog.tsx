@@ -8,6 +8,7 @@ import {
   affectingReceiptsPaid,
   invoiceAmountPaid,
   invoiceCredits,
+  returnableQty,
   resolveInvoiceStatus,
   useDocuments,
   type InvoiceStatus,
@@ -39,7 +40,7 @@ import {
   type DocumentDiscountType,
 } from "@/lib/document-money";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
-import { isDocumentCreatedPart } from "@/lib/document-created-parts";
+import { isDocumentCreatedPart, clearDocumentCreatedParts } from "@/lib/document-created-parts";
 import {
   confirmOversell,
   invoiceEditStockDeltas,
@@ -121,7 +122,10 @@ export function CreateInvoiceDialog({
   const createdPartDeductedRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      clearDocumentCreatedParts();
+      return;
+    }
     createdPartDeductedRef.current = new Map();
     if (editing) {
       setPartyName(editing.partyName);
@@ -261,6 +265,30 @@ export function CreateInvoiceDialog({
           return;
         }
         const credits = invoiceCredits(editing, creditNotes);
+        if (docTotal + 0.005 < paidFromReceipts + credits) {
+          toast.error(
+            `Cannot reduce this invoice below payments and credits already recorded (${currency(paidFromReceipts + credits)}).`,
+          );
+          return;
+        }
+        const oldQty = lineQtyByPart(editing.lines);
+        const newQty = lineQtyByPart(lines);
+        for (const partId of new Set([...oldQty.keys(), ...newQty.keys()])) {
+          const nextQty = newQty.get(partId) ?? 0;
+          const soldBefore = oldQty.get(partId) ?? 0;
+          const stillReturnable = returnableQty(editing, partId, creditNotes);
+          const alreadyReturned = Math.max(0, soldBefore - stillReturnable);
+          if (nextQty + 0.005 < alreadyReturned) {
+            const label =
+              lines.find((l) => l.partId === partId)?.partNumber ??
+              editing.lines.find((l) => l.partId === partId)?.partNumber ??
+              partId;
+            toast.error(
+              `Cannot reduce ${label} below ${alreadyReturned} already returned. Adjust the return first.`,
+            );
+            return;
+          }
+        }
         const paid =
           paidFromReceipts > 0
             ? paidFromReceipts
@@ -567,7 +595,7 @@ export function CreateInvoiceDialog({
                       className="h-8 font-mono text-xs"
                     />
                     <p className="text-right text-xs font-medium">
-                      {currency(lineTotal(l, "invoice"))}
+                      {currency(lineTotal(l, docKind))}
                     </p>
                     <Button
                       type="button"

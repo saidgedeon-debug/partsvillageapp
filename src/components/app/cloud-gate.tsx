@@ -41,6 +41,7 @@ function CloudGateBanner({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (health !== "loading" && health !== "syncing") {
       setShow(false);
+      setDismissed(false);
       return;
     }
     const timer = window.setTimeout(() => setShow(true), 500);

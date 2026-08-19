@@ -8,9 +8,9 @@ import {
 
 import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-context";
 import { generateDocId, type PaymentMethod } from "@/lib/document-export";
+import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
 import { useCloudState } from "@/lib/cloud-store";
 import { currency } from "@/lib/mock-data";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export type QuoteStatus = "Draft" | "Sent" | "Accepted" | "Rejected";
 export type InvoiceStatus = "Paid" | "Partial" | "Unpaid" | "Overdue";
@@ -35,6 +35,8 @@ export type SavedDocument = {
   stockDeducted?: boolean;
   /** Credit note: inventory was restocked for returned lines. */
   stockRestocked?: boolean;
+  /** Credit note: part ids that actually went back to stock (missing catalog parts omitted). */
+  restockedPartIds?: string[];
   /** Document-level discount type (percent of subtotal, or fixed USD). */
   discountType?: "percent" | "amount";
   /** Document-level discount value (percent 0–100, or USD amount). */
@@ -86,6 +88,8 @@ export type RecordReturnInput = {
   lines: CartLine[];
   /** When true, caller already restocked (or should restock) — stored on the credit note. */
   restock: boolean;
+  /** Part ids that were actually restocked (subset of lines). */
+  restockedPartIds?: string[];
   date?: string;
   note?: string;
 };
@@ -249,44 +253,8 @@ const STORAGE_KEY = "parts-village-documents-v1";
 
 const DocumentsContext = createContext<DocumentsContextValue | null>(null);
 
-async function syncDocumentToSupabase(doc: SavedDocument) {
-  if (!supabase || !isSupabaseConfigured) return;
-  try {
-    if (doc.kind === "quotation") {
-      const { error } = await supabase.from("quotations").upsert({
-        id: doc.id,
-        client_id: doc.partyId || doc.partyName,
-        date: doc.date,
-        total: doc.total,
-        status: (doc.status as QuoteStatus) || "Sent",
-      } as never);
-      if (error) console.error("quotation sync failed", error.message);
-    } else if (doc.kind === "invoice") {
-      const raw = (doc.status as InvoiceStatus) || "Unpaid";
-      // Relational invoices table has no Partial; shop_state JSON keeps Partial + amountPaid.
-      const status = raw === "Partial" ? "Unpaid" : raw;
-      const { error } = await supabase.from("invoices").upsert({
-        id: doc.id,
-        client_id: doc.partyId || doc.partyName,
-        date: doc.date,
-        total: doc.total,
-        status,
-      } as never);
-      if (error) console.error("invoice sync failed", error.message);
-    } else if (doc.kind === "inquiry") {
-      const { error } = await supabase.from("supplier_inquiries").upsert({
-        id: doc.id,
-        supplier: doc.partyName,
-        date: doc.date,
-        part_numbers: doc.lines.map((l) => l.partNumber),
-        status: (doc.status as InquiryStatus) || "Open",
-      } as never);
-      if (error) console.error("inquiry sync failed", error.message);
-    }
-    // receipts stay in cloud documents JSON only
-  } catch (e) {
-    console.error("document sync failed", e);
-  }
+async function syncDocumentToSupabase(_doc: SavedDocument) {
+  // shop_state JSON is the source of truth. Relational tables are unused by the app.
 }
 
 function isDocumentsEmpty(v: SavedDocument[]): boolean {
@@ -674,9 +642,18 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           }
         }
 
-        const creditTotal = Math.round(
-          returnLines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0) * 100,
-        ) / 100;
+        const ratio = invoiceDiscountRatio(invoice);
+        const listTotal = roundMoney(
+          returnLines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0),
+        );
+        const creditTotal = roundMoney(listTotal * ratio);
+        const restockedPartIds = [
+          ...new Set(
+            (input.restockedPartIds ?? (input.restock ? returnLines.map((l) => l.partId) : [])).filter(
+              Boolean,
+            ),
+          ),
+        ];
 
         const creditNote: SavedDocument = {
           id: creditId,
@@ -689,7 +666,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           total: creditTotal,
           status: "Paid",
           invoiceId: invoice.id,
-          stockRestocked: input.restock,
+          stockRestocked: restockedPartIds.length > 0,
+          restockedPartIds,
           internalNote: input.note?.trim() || undefined,
           lines: returnLines,
         };

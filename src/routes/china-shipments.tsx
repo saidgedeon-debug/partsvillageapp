@@ -572,7 +572,7 @@ function ShipmentDetailDialog({
                   <Button
                     type="button"
                     size="sm"
-                    className="h-7 gap-1 text-xs bg-accent text-accent-foreground hover:bg-accent/90"
+                    className="h-7 gap-1 text-xs"
                     onClick={() => window.open(TITUS_PORTAL, "_blank", "noopener,noreferrer")}
                   >
                     <ExternalLink className="h-3 w-3" />

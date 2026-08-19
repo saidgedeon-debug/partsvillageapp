@@ -30,7 +30,7 @@ function SupplierDetail() {
     return (
       <div className="p-10 text-center">
         <p className="text-muted-foreground">Supplier not found.</p>
-        <Link to="/suppliers" className="text-accent hover:underline">
+        <Link to="/suppliers" className="text-primary hover:underline">
           Back to suppliers
         </Link>
       </div>

@@ -2,7 +2,6 @@ import { createContext, useCallback, useContext, useMemo, type ReactNode } from 
 
 import { useCloudState } from "@/lib/cloud-store";
 import { newLocalId } from "@/lib/storage";
-import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 export type FleetMachine = {
   id: string;
@@ -62,44 +61,12 @@ function isFleetEmpty(v: StoredFleet): boolean {
   return (v.machines?.length ?? 0) === 0 && (v.orders?.length ?? 0) === 0;
 }
 
-async function syncMachine(m: FleetMachine) {
-  if (!supabase || !isSupabaseConfigured) return;
-  try {
-    const { error } = await supabase.from("machines").upsert({
-      id: m.id,
-      client_id: m.clientId,
-      make: m.make,
-      model: m.model,
-      serial_number: m.serialNumber,
-      year: m.year,
-      hours: m.hours,
-    } as never);
-    if (error) console.error("machines sync failed", error.message);
-  } catch (e) {
-    console.error("machines sync failed", e);
-  }
+async function syncMachine(_m: FleetMachine) {
+  // shop_state JSON is authoritative; relational machines table is unused by the app.
 }
 
-/**
- * Sync order header only when a real machine id is present.
- * Skip order_lines — catalog part ids are not in public.parts and order_lines.id is uuid.
- * Fleet data remains authoritative in shop_state JSON.
- */
-async function syncOrder(o: FleetOrder) {
-  if (!supabase || !isSupabaseConfigured) return;
-  if (!o.machineId?.trim()) return;
-  try {
-    const { error } = await supabase.from("orders").upsert({
-      id: o.id,
-      client_id: o.clientId,
-      machine_id: o.machineId,
-      date: o.date,
-      status: o.status,
-    } as never);
-    if (error) console.error("orders sync failed", error.message);
-  } catch (e) {
-    console.error("orders sync failed", e);
-  }
+async function syncOrder(_o: FleetOrder) {
+  // shop_state JSON is authoritative; relational orders table is unused by the app.
 }
 
 export function FleetProvider({ children }: { children: ReactNode }) {

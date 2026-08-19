@@ -170,7 +170,7 @@ export function TitusImportDialog({ open, onOpenChange }: Props) {
           <div className="flex flex-wrap gap-2">
             <Button
               type="button"
-              className="gap-1.5 bg-accent text-accent-foreground hover:bg-accent/90"
+              className="gap-1.5"
               disabled={syncing || !username.trim() || !password}
               onClick={() => void runAutoSync()}
             >

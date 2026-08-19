@@ -79,7 +79,9 @@ export function CheckoutDialog() {
       setMachineId("");
       setDiscountType("percent");
       setDiscountValue(0);
+      return;
     }
+    clearDocumentCreatedParts();
   }, [checkoutOpen, documentKind]);
 
   const subtotal = useMemo(() => {
