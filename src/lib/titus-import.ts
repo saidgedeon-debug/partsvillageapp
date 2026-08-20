@@ -180,7 +180,7 @@ export function titusParseToInput(p: ParsedTitusShipment): ShipmentInput {
 
   return {
     title: (p.title ?? `Titus ${p.trackingNumber}`).trim(),
-    supplier: "Titus Logistics",
+    supplier: "Freight (Titus)",
     orderedAt: p.orderedAt ?? new Date().toISOString().slice(0, 10),
     expectedAt: p.eta,
     trackingNumber: p.trackingNumber,
@@ -207,13 +207,18 @@ export function mergeTitusIntoExisting(
   existing: ChinaShipment,
   p: ParsedTitusShipment,
 ): Partial<ShipmentInput> {
+  const existingSupplier = (existing.supplier ?? "").trim();
+  const onlyTitusSupplier =
+    !existingSupplier ||
+    /^titus(\s+logistics)?$/i.test(existingSupplier) ||
+    /^freight\s*\(\s*titus\s*\)$/i.test(existingSupplier);
+
   const patch: Partial<ShipmentInput> = {
     trackingNumber: p.trackingNumber,
     category: "titus",
     cartons: p.cartons ?? existing.cartons,
     volumeCbm: p.volumeCbm ?? existing.volumeCbm,
     weightKg: p.weightKg ?? existing.weightKg,
-    supplier: existing.supplier || "Titus Logistics",
     titusLocation: p.titusLocation ?? existing.titusLocation,
     titusStatus: p.titusStatus ?? existing.titusStatus,
     containerNo: p.containerNo ?? existing.containerNo,
@@ -221,6 +226,11 @@ export function mergeTitusIntoExisting(
     eta: p.eta ?? existing.eta,
     freightMode: p.freightMode ?? existing.freightMode,
   };
+
+  // Do not overwrite a real supplier with a Titus freight label.
+  if (onlyTitusSupplier) {
+    patch.supplier = existingSupplier || "Freight (Titus)";
+  }
 
   if (p.eta) patch.expectedAt = p.eta;
 

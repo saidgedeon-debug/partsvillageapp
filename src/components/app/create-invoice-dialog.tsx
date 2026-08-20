@@ -42,6 +42,7 @@ import {
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { isDocumentCreatedPart, clearDocumentCreatedParts } from "@/lib/document-created-parts";
 import {
+  computeOversoldByPart,
   confirmOversell,
   invoiceEditStockDeltas,
   lineQtyByPart,
@@ -118,6 +119,7 @@ export function CreateInvoiceDialog({
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
   const [createPartOpen, setCreatePartOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   /** Qty already deducted this session for parts created mid-document. */
   const createdPartDeductedRef = useRef<Map<string, number>>(new Map());
 
@@ -127,6 +129,7 @@ export function CreateInvoiceDialog({
       return;
     }
     createdPartDeductedRef.current = new Map();
+    setSubmitting(false);
     if (editing) {
       setPartyName(editing.partyName);
       setPartyId(editing.partyId);
@@ -245,8 +248,8 @@ export function CreateInvoiceDialog({
   const ready = partyName.trim().length > 0 && lines.length > 0;
 
   const saveDocument = () => {
-    if (!ready) {
-      toast.error("Choose a client and add at least one part");
+    if (!ready || submitting) {
+      if (!ready) toast.error("Choose a client and add at least one part");
       return;
     }
 
@@ -258,16 +261,17 @@ export function CreateInvoiceDialog({
     if (isEdit && editing) {
       if (isInvoice) {
         const paidFromReceipts = affectingReceiptsPaid(editing.id, documents);
-        if (docTotal + 0.005 < paidFromReceipts) {
+        const paidFloor = Math.max(paidFromReceipts, invoiceAmountPaid(editing));
+        if (docTotal + 0.005 < paidFloor) {
           toast.error(
-            `Cannot reduce this invoice below payments already received (${currency(paidFromReceipts)}). Record a credit or return instead.`,
+            `Cannot reduce this invoice below payments already received (${currency(paidFloor)}). Record a credit or return instead.`,
           );
           return;
         }
         const credits = invoiceCredits(editing, creditNotes);
-        if (docTotal + 0.005 < paidFromReceipts + credits) {
+        if (docTotal + 0.005 < paidFloor + credits) {
           toast.error(
-            `Cannot reduce this invoice below payments and credits already recorded (${currency(paidFromReceipts + credits)}).`,
+            `Cannot reduce this invoice below payments and credits already recorded (${currency(paidFloor + credits)}).`,
           );
           return;
         }
@@ -289,10 +293,7 @@ export function CreateInvoiceDialog({
             return;
           }
         }
-        const paid =
-          paidFromReceipts > 0
-            ? paidFromReceipts
-            : Math.min(invoiceAmountPaid(editing), docTotal);
+        const paid = paidFloor;
         const status = resolveInvoiceStatus(
           { ...editing, total: docTotal },
           paid,
@@ -317,6 +318,7 @@ export function CreateInvoiceDialog({
         );
         if (!confirmOversell(shortages)) return;
 
+        setSubmitting(true);
         for (const [partId, stockChange] of deltas) {
           if (stockChange !== 0) adjustPartQuantity(partId, stockChange);
         }
@@ -334,6 +336,7 @@ export function CreateInvoiceDialog({
           discountValue: appliedDiscount?.value,
         });
       } else {
+        setSubmitting(true);
         updateDocument({
           ...editing,
           partyId,
@@ -355,13 +358,17 @@ export function CreateInvoiceDialog({
     const exportedId = generateDocId(docKind, createdAt);
 
     let stockDeducted = false;
+    let oversoldByPart: Record<string, number> | undefined;
     if (isInvoice && deductStock) {
       const skipCreated = new Set(
         lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
       );
-      if (!confirmOversell(stockShortagesForQty(lineQtyByPart(lines), getPart, skipCreated))) {
+      const needed = lineQtyByPart(lines);
+      if (!confirmOversell(stockShortagesForQty(needed, getPart, skipCreated))) {
         return;
       }
+      oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);
+      setSubmitting(true);
       let deducted = 0;
       for (const line of lines) {
         const part = getPart(line.partId);
@@ -373,6 +380,8 @@ export function CreateInvoiceDialog({
         deducted += 1;
       }
       stockDeducted = deducted > 0;
+    } else {
+      setSubmitting(true);
     }
 
     const saved: SavedDocument = {
@@ -387,6 +396,8 @@ export function CreateInvoiceDialog({
       status: isInvoice ? "Unpaid" : "Sent",
       lines: [...lines],
       stockDeducted: isInvoice ? stockDeducted : undefined,
+      oversoldByPart:
+        oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
       internalNote: note,
       discountType: appliedDiscount?.type,
       discountValue: appliedDiscount?.value,
@@ -669,15 +680,16 @@ export function CreateInvoiceDialog({
               : "Select client and parts to continue"}
           </p>
           <div className="flex gap-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
             <Button
               type="button"
-              disabled={!ready}
-              onClick={saveDocument}
+              variant="outline"
+              disabled={submitting}
+              onClick={() => onOpenChange(false)}
             >
-              {isEdit ? "Save changes" : `Create ${kindLabel}`}
+              Cancel
+            </Button>
+            <Button type="button" disabled={!ready || submitting} onClick={saveDocument}>
+              {submitting ? "Saving…" : isEdit ? "Save changes" : `Create ${kindLabel}`}
             </Button>
           </div>
         </div>

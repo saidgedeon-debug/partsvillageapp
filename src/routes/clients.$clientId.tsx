@@ -371,6 +371,14 @@ function ClientDetail() {
                 <p className="text-xs text-muted-foreground">Total due</p>
                 <p className="font-bold text-accent">{currency(statement.total)}</p>
               </div>
+              {statement.refundOwed > 0.005 ? (
+                <div>
+                  <p className="text-xs text-muted-foreground">Refund owed to client</p>
+                  <p className="font-bold text-amber-700 dark:text-amber-400">
+                    {currency(statement.refundOwed)}
+                  </p>
+                </div>
+              ) : null}
             </div>
             {statement.rows.length > 0 ? (
               <Table>

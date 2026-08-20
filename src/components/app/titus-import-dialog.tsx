@@ -140,7 +140,8 @@ export function TitusImportDialog({ open, onOpenChange }: Props) {
         <DialogHeader>
           <DialogTitle>Sync Titus</DialogTitle>
           <DialogDescription>
-            User & password stay saved in this browser only (not in git). Sync pulls new / changed
+            User & password stay in this browser tab only (sessionStorage — cleared when the tab
+            closes, not in git). Sync pulls new / changed
             shipments into Shipments.
           </DialogDescription>
         </DialogHeader>

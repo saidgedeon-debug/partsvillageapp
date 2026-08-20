@@ -41,6 +41,7 @@ import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { clearDocumentCreatedParts, isDocumentCreatedPart } from "@/lib/document-created-parts";
 import {
+  computeOversoldByPart,
   confirmOversell,
   lineQtyByPart,
   stockShortagesForQty,
@@ -62,6 +63,7 @@ export function CheckoutDialog() {
   const [machineId, setMachineId] = useState("");
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
   const isInquiry = documentKind === "inquiry";
   const isInvoice = documentKind === "invoice";
@@ -79,6 +81,7 @@ export function CheckoutDialog() {
       setMachineId("");
       setDiscountType("percent");
       setDiscountValue(0);
+      setSubmitting(false);
       return;
     }
     clearDocumentCreatedParts();
@@ -101,130 +104,140 @@ export function CheckoutDialog() {
   const ready = lines.length > 0 && partyName.trim().length > 0;
 
   const runExport = async (andClose: boolean) => {
-    if (!ready) return;
-    const createdAt = new Date();
-    const selectedParty =
-      partyKind === "client"
-        ? clients.find((party) => party.id === partyId)
-        : suppliers.find((party) => party.id === partyId);
-    const appliedDiscount = canDiscount
-      ? normalizeDocumentDiscount(discountType, discountValue)
-      : undefined;
-    const computedTotal = documentGrandTotal(subtotal, appliedDiscount);
+    if (!ready || submitting) return;
+    setSubmitting(true);
+    try {
+      const createdAt = new Date();
+      const selectedParty =
+        partyKind === "client"
+          ? clients.find((party) => party.id === partyId)
+          : suppliers.find((party) => party.id === partyId);
+      const appliedDiscount = canDiscount
+        ? normalizeDocumentDiscount(discountType, discountValue)
+        : undefined;
+      const computedTotal = documentGrandTotal(subtotal, appliedDiscount);
 
-    if (isInvoice && deductStock) {
       const skipCreated = new Set(
         lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
       );
-      if (!confirmOversell(stockShortagesForQty(lineQtyByPart(lines), getPart, skipCreated))) {
+      const needed = lineQtyByPart(lines);
+      let oversoldByPart: Record<string, number> | undefined;
+      if (isInvoice && deductStock) {
+        if (!confirmOversell(stockShortagesForQty(needed, getPart, skipCreated))) {
+          return;
+        }
+        oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);
+      }
+
+      const { id, sharedFile, cancelled } = await exportAndDeliver(
+        {
+          documentKind,
+          partyKind,
+          partyName: partyName.trim(),
+          partyPhone: selectedParty?.phone,
+          lines,
+          createdAt,
+          includeCost: isInquiry ? includeCost : true,
+          discountType: appliedDiscount?.type,
+          discountValue: appliedDiscount?.value,
+        },
+        format,
+        delivery,
+      );
+
+      if (cancelled) {
+        toast.message("Share cancelled");
         return;
       }
-    }
 
-    const { id, sharedFile, cancelled } = await exportAndDeliver(
-      {
-        documentKind,
+      let stockDeducted = false;
+      if (isInvoice && deductStock) {
+        let deducted = 0;
+        for (const line of lines) {
+          const part = getPart(line.partId);
+          if (!part) continue;
+          if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
+            adjustPartQuantity(line.partId, line.qty - part.quantity);
+          }
+          adjustPartQuantity(line.partId, -line.qty);
+          deducted += 1;
+        }
+        stockDeducted = deducted > 0;
+      }
+
+      const status: SavedDocument["status"] =
+        documentKind === "quotation" ? "Sent" : documentKind === "invoice" ? "Unpaid" : "Open";
+
+      const saved: SavedDocument = {
+        id,
+        kind: documentKind,
         partyKind,
+        partyId,
         partyName: partyName.trim(),
-        partyPhone: selectedParty?.phone,
-        lines,
-        createdAt,
-        includeCost: isInquiry ? includeCost : true,
+        date: createdAt.toISOString().slice(0, 10),
+        createdAt: createdAt.toISOString(),
+        total: computedTotal,
+        status,
+        includeCost: isInquiry ? includeCost : undefined,
+        lines: [...lines],
+        stockDeducted,
+        oversoldByPart:
+          oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
         discountType: appliedDiscount?.type,
         discountValue: appliedDiscount?.value,
-      },
-      format,
-      delivery,
-    );
+      };
+      addDocument(saved);
 
-    if (cancelled) {
-      toast.message("Share cancelled");
-      return;
-    }
-
-    let stockDeducted = false;
-    if (isInvoice && deductStock) {
-      let deducted = 0;
-      for (const line of lines) {
-        const part = getPart(line.partId);
-        if (!part) continue;
-        if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
-          adjustPartQuantity(line.partId, line.qty - part.quantity);
+      if (isInvoice && partyKind === "client") {
+        const client =
+          (partyId && clients.find((c) => c.id === partyId)) ||
+          clients.find((c) => c.name.toLowerCase() === partyName.trim().toLowerCase());
+        if (client) {
+          addOrder({
+            id: `ord-${id}`,
+            clientId: client.id,
+            machineId,
+            date: saved.date,
+            status: "Pending",
+            documentId: id,
+            lines: lines.map((l) => ({
+              partId: l.partId,
+              partNumber: l.partNumber,
+              name: l.name,
+              qty: l.qty,
+              unitPrice: l.unitPrice,
+            })),
+          });
         }
-        adjustPartQuantity(line.partId, -line.qty);
-        deducted += 1;
       }
-      stockDeducted = deducted > 0;
-    }
 
-    const status: SavedDocument["status"] =
-      documentKind === "quotation" ? "Sent" : documentKind === "invoice" ? "Unpaid" : "Open";
-
-    const saved: SavedDocument = {
-      id,
-      kind: documentKind,
-      partyKind,
-      partyId,
-      partyName: partyName.trim(),
-      date: createdAt.toISOString().slice(0, 10),
-      createdAt: createdAt.toISOString(),
-      total: computedTotal,
-      status,
-      includeCost: isInquiry ? includeCost : undefined,
-      lines: [...lines],
-      stockDeducted,
-      discountType: appliedDiscount?.type,
-      discountValue: appliedDiscount?.value,
-    };
-    addDocument(saved);
-
-    if (isInvoice && partyKind === "client") {
-      const client =
-        (partyId && clients.find((c) => c.id === partyId)) ||
-        clients.find((c) => c.name.toLowerCase() === partyName.trim().toLowerCase());
-      if (client) {
-        addOrder({
-          id: `ord-${id}`,
-          clientId: client.id,
-          machineId,
-          date: saved.date,
-          status: "Pending",
-          documentId: id,
-          lines: lines.map((l) => ({
-            partId: l.partId,
-            partNumber: l.partNumber,
-            name: l.name,
-            qty: l.qty,
-            unitPrice: l.unitPrice,
-          })),
-        });
-      }
-    }
-
-    const fmt = format === "pdf" ? "PDF" : "Excel";
-    const deliveryMsg = sharedFile
-      ? " — PDF file shared"
-      : delivery === "whatsapp"
-        ? format === "pdf"
-          ? " — PDF downloaded, WhatsApp opened"
-          : " — WhatsApp opened"
-        : delivery === "wechat"
+      const fmt = format === "pdf" ? "PDF" : "Excel";
+      const deliveryMsg = sharedFile
+        ? " — PDF file shared"
+        : delivery === "whatsapp"
           ? format === "pdf"
-            ? " — PDF downloaded, message copied for WeChat"
-            : " — message copied for WeChat"
-          : delivery === "email"
+            ? " — PDF downloaded, WhatsApp opened"
+            : " — WhatsApp opened"
+          : delivery === "wechat"
             ? format === "pdf"
-              ? " — PDF downloaded, email draft opened"
-              : " — email draft opened"
-            : " — saved offline";
-    const stockMsg = stockDeducted ? " · stock updated" : "";
-    toast.success(`${fmt} saved (${id})${deliveryMsg}${stockMsg}`);
+              ? " — PDF downloaded, message copied for WeChat"
+              : " — message copied for WeChat"
+            : delivery === "email"
+              ? format === "pdf"
+                ? " — PDF downloaded, email draft opened"
+                : " — email draft opened"
+              : " — saved offline";
+      const stockMsg = stockDeducted ? " · stock updated" : "";
+      toast.success(`${fmt} saved (${id})${deliveryMsg}${stockMsg}`);
 
-    if (andClose) {
-      clearCart();
-      clearDocumentCreatedParts();
-      setCheckoutOpen(false);
-      setCartOpen(false);
+      if (andClose) {
+        clearCart();
+        clearDocumentCreatedParts();
+        setCheckoutOpen(false);
+        setCartOpen(false);
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -419,6 +432,7 @@ export function CheckoutDialog() {
               type="button"
               variant="outline"
               className="flex-1"
+              disabled={submitting}
               onClick={() => {
                 setCheckoutOpen(false);
                 setCartOpen(true);
@@ -429,10 +443,10 @@ export function CheckoutDialog() {
             <Button
               type="button"
               className="flex-1"
-              disabled={!ready}
+              disabled={!ready || submitting}
               onClick={() => void runExport(true)}
             >
-              Create & close
+              {submitting ? "Saving…" : "Create & close"}
             </Button>
           </div>
         </div>

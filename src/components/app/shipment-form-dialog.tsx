@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { PartySearchPicker } from "@/components/app/party-search-picker";
 import {
   useShipments,
   getShipmentCategory,
@@ -80,6 +81,7 @@ export function ShipmentFormDialog({
 
   const [title, setTitle] = useState("");
   const [supplier, setSupplier] = useState("");
+  const [supplierId, setSupplierId] = useState<string | undefined>();
   const [orderedAt, setOrderedAt] = useState(localTodayIso());
   const [expectedAt, setExpectedAt] = useState("");
   const [arrivedAt, setArrivedAt] = useState("");
@@ -107,6 +109,7 @@ export function ShipmentFormDialog({
     if (shipment) {
       setTitle(shipment.title);
       setSupplier(shipment.supplier);
+      setSupplierId(shipment.supplierId);
       setOrderedAt(shipment.orderedAt);
       setExpectedAt(shipment.expectedAt ?? "");
       setArrivedAt(shipment.arrivedAt ?? "");
@@ -152,6 +155,7 @@ export function ShipmentFormDialog({
     }
     setTitle(initialValues?.title ?? "");
     setSupplier(initialValues?.supplier ?? "");
+    setSupplierId(initialValues?.supplierId);
     setOrderedAt(initialValues?.orderedAt ?? localTodayIso());
     setExpectedAt("");
     setArrivedAt("");
@@ -245,6 +249,7 @@ export function ShipmentFormDialog({
     const input: ShipmentInput = {
       title: title.trim(),
       supplier,
+      supplierId,
       orderedAt,
       expectedAt: (titusFields.eta as string | undefined) || expectedAt || undefined,
       arrivedAt: arrivedAt || undefined,
@@ -307,12 +312,24 @@ export function ShipmentFormDialog({
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="ship-supplier">Supplier / factory</Label>
+            <Label>Supplier / factory</Label>
+            <PartySearchPicker
+              kind="supplier"
+              selectedName={supplier}
+              onSelect={(p) => {
+                setSupplier(p.name);
+                setSupplierId(p.id);
+              }}
+            />
             <Input
               id="ship-supplier"
               value={supplier}
-              onChange={(e) => setSupplier(e.target.value)}
-              placeholder="Optional"
+              onChange={(e) => {
+                setSupplier(e.target.value);
+                setSupplierId(undefined);
+              }}
+              placeholder="Or type a name"
+              className="mt-1"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">

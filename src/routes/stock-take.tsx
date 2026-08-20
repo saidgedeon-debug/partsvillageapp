@@ -34,7 +34,7 @@ type LogEntry = {
 };
 
 function StockTakePage() {
-  const { parts, updatePart, catalogReady } = useInventory();
+  const { parts, updatePart, adjustPartQuantity, catalogReady } = useInventory();
   const [mode, setMode] = useState<Mode>("set");
   const [code, setCode] = useState("");
   const [qty, setQty] = useState("");
@@ -79,15 +79,27 @@ function StockTakePage() {
       return;
     }
     const before = matched.quantity;
-    const after = mode === "set" ? Math.floor(n) : before + Math.floor(n);
-    updatePart(matched.id, { quantity: Math.max(0, after) });
+    const floorN = Math.floor(n);
+    let after: number;
+    if (mode === "receive") {
+      const next = adjustPartQuantity(matched.id, floorN);
+      after = next ?? before + floorN;
+    } else {
+      after = Math.max(0, floorN);
+      if (after !== matched.quantity) {
+        toast.message(
+          `Hard override: ${matched.partNumber} on hand is ${matched.quantity} — setting absolute qty to ${after}`,
+        );
+      }
+      updatePart(matched.id, { quantity: after });
+    }
     setLog((prev) =>
       [
         {
           id: `${matched.id}-${Date.now()}`,
           partNumber: matched.partNumber,
           before,
-          after: Math.max(0, after),
+          after,
           mode,
         },
         ...prev,
@@ -95,8 +107,8 @@ function StockTakePage() {
     );
     toast.success(
       mode === "set"
-        ? `${matched.partNumber}: qty set to ${Math.max(0, after)}`
-        : `${matched.partNumber}: +${Math.floor(n)} → ${Math.max(0, after)}`,
+        ? `${matched.partNumber}: qty set to ${after}`
+        : `${matched.partNumber}: +${floorN} → ${after}`,
     );
     setQty("");
   };

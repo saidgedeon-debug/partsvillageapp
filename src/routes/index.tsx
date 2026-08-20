@@ -4,7 +4,7 @@ import type { ComponentType } from "react";
 import { useMemo, useState } from "react";
 
 import { PageHeader } from "@/components/app/page-header";
-import { useDocuments, invoiceAmountPaid, receiptAffectsBalance } from "@/components/app/documents-context";
+import { useDocuments, invoiceAmountPaid, invoiceCredits, receiptAffectsBalance } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
@@ -196,8 +196,10 @@ function Index() {
         (legacyPaidInvoices.some((legacy) => legacy.id === invoice.id)
           ? invoiceAmountPaid(invoice)
           : 0);
+      const credits = invoiceCredits(invoice, creditNotes);
+      const netTotal = Math.max(0, invoice.total - credits);
       const paidRatio =
-        invoice.total > 0 ? Math.min(1, Math.max(0, collectedInRange / invoice.total)) : 0;
+        netTotal > 0 ? Math.min(1, Math.max(0, collectedInRange / netTotal)) : 0;
       return sum + invoiceCogs * paidRatio;
     }, 0);
     const freight = shipments
@@ -231,7 +233,7 @@ function Index() {
             Overview
           </p>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MetricCard label="Paid Sales" value={currency(paidSales)} icon={DollarSign} accent />
+            <MetricCard label="Lifetime collected" value={currency(paidSales)} icon={DollarSign} accent />
             <MetricCard label="Active Quotes" value={String(activeQuotes)} icon={FileText} />
             <MetricCard
               label="Low Stock Alerts"

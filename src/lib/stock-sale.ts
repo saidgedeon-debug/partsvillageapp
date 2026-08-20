@@ -51,6 +51,37 @@ export function confirmOversell(shortages: StockShortage[]): boolean {
   );
 }
 
+/** Units sold above on-hand (clamped sales create phantom restock risk later). */
+export function computeOversoldByPart(
+  neededByPart: Map<string, number>,
+  getPart: (id: string) => Part | undefined,
+  skipPartIds?: Set<string>,
+): Record<string, number> {
+  const oversold: Record<string, number> = {};
+  for (const [partId, need] of neededByPart) {
+    if (need <= 0) continue;
+    if (skipPartIds?.has(partId)) continue;
+    const part = getPart(partId);
+    if (!part) continue;
+    const have = Math.max(0, part.quantity);
+    if (need > have) oversold[partId] = need - have;
+  }
+  return oversold;
+}
+
+/**
+ * How many units can physically return to the shelf for this part on an invoice
+ * that may have been oversold (clamped at 0).
+ */
+export function physicalRestockCap(
+  soldQty: number,
+  oversoldQty: number,
+  alreadyRestocked: number,
+): number {
+  const physicalSold = Math.max(0, soldQty - Math.max(0, oversoldQty));
+  return Math.max(0, physicalSold - Math.max(0, alreadyRestocked));
+}
+
 /** Stock delta to apply on invoice edit: negative deducts, positive restocks. */
 export function invoiceEditStockDeltas(
   oldLines: CartLine[],

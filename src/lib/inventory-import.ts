@@ -21,7 +21,14 @@ export type InventoryImportMapping = {
 };
 
 export type InventoryImportPreviewRow =
-  | { action: "update"; code: string; name: string; update: InventoryExcelUpdate }
+  | {
+      action: "update";
+      code: string;
+      name: string;
+      update: InventoryExcelUpdate;
+      before?: { quantity?: number; cost?: number; price?: number };
+      after?: { quantity?: number; cost?: number; price?: number };
+    }
   | {
       action: "create";
       code: string;
@@ -86,11 +93,23 @@ export function buildInventoryImportPreview(
     const reorderAt = toNum(row[mapping.reorderAt]);
     const existing = index.get(code.toLowerCase());
     if (existing) {
+      const before = {
+        quantity: existing.quantity,
+        cost: existing.cost,
+        price: existing.price,
+      };
+      const after = {
+        quantity: quantity ?? existing.quantity,
+        cost: cost ?? existing.cost,
+        price: price ?? existing.price,
+      };
       return {
         action: "update",
         code,
         name: existing.name,
         update: { id: existing.id, quantity, cost, price, reorderAt },
+        before,
+        after,
       };
     }
     return {

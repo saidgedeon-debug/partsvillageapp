@@ -197,7 +197,12 @@ export function PartDetailDialog({
     };
 
     if (creating) {
-      addPart(payload);
+      try {
+        addPart(payload);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Could not add part");
+        return;
+      }
       toast.success(`Added ${numbers[0]}`);
       onOpenChange(false);
       return;

@@ -8,6 +8,8 @@ type PrefsState = {
   favoritePartIds: string[];
   /** RMB value of one USD, used for operational estimates. */
   rmbPerUsd: number;
+  /** ISO timestamp when rmbPerUsd was last changed. */
+  rmbPerUsdUpdatedAt?: string;
   /** Saved machine names for quick catalog filter presets. */
   machinePresets: string[];
   /** Pinned category group tiles (Sensors, Switches, …). */
@@ -19,6 +21,7 @@ type PrefsState = {
 type PrefsContextValue = {
   favoritePartIds: string[];
   rmbPerUsd: number;
+  rmbPerUsdUpdatedAt?: string;
   setRmbPerUsd: (rate: number) => void;
   machinePresets: string[];
   favoriteCategoryGroups: CategoryGroupId[];
@@ -73,6 +76,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       favoritePartIds: Array.isArray(rawStore.favoritePartIds) ? rawStore.favoritePartIds : [],
       rmbPerUsd:
         Number.isFinite(rawStore.rmbPerUsd) && rawStore.rmbPerUsd > 0 ? rawStore.rmbPerUsd : 7.15,
+      rmbPerUsdUpdatedAt:
+        typeof rawStore.rmbPerUsdUpdatedAt === "string" ? rawStore.rmbPerUsdUpdatedAt : undefined,
       machinePresets: Array.isArray(rawStore.machinePresets) ? rawStore.machinePresets : [],
       favoriteCategoryGroups: Array.isArray(rawStore.favoriteCategoryGroups)
         ? rawStore.favoriteCategoryGroups.filter(isGroupId)
@@ -92,7 +97,11 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
   const setRmbPerUsd = useCallback(
     (rate: number) => {
       if (!Number.isFinite(rate) || rate <= 0) return;
-      setStore((prev) => ({ ...prev, rmbPerUsd: rate }));
+      setStore((prev) => ({
+        ...prev,
+        rmbPerUsd: rate,
+        rmbPerUsdUpdatedAt: new Date().toISOString(),
+      }));
     },
     [setStore],
   );
@@ -158,6 +167,7 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     () => ({
       favoritePartIds: store.favoritePartIds,
       rmbPerUsd: store.rmbPerUsd,
+      rmbPerUsdUpdatedAt: store.rmbPerUsdUpdatedAt,
       setRmbPerUsd,
       machinePresets: store.machinePresets,
       favoriteCategoryGroups: store.favoriteCategoryGroups,
@@ -173,6 +183,7 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     [
       store.favoritePartIds,
       store.rmbPerUsd,
+      store.rmbPerUsdUpdatedAt,
       setRmbPerUsd,
       store.machinePresets,
       store.favoriteCategoryGroups,

@@ -67,6 +67,31 @@ export function ExcelImportDialog({ open, onOpenChange }: Props) {
   const skips = preview.filter((row) => row.action === "skip");
 
   const applyImport = () => {
+    const bigDrops = updates.filter((row) => {
+      if (row.action !== "update" || !row.before || !row.after) return false;
+      const qtyDrop =
+        row.before.quantity != null &&
+        row.before.quantity > 0 &&
+        row.update.quantity != null &&
+        row.update.quantity < row.before.quantity * 0.5;
+      const costDrop =
+        row.before.cost != null &&
+        row.before.cost > 0 &&
+        row.update.cost != null &&
+        row.update.cost < row.before.cost * 0.5;
+      return Boolean(qtyDrop || costDrop);
+    });
+    if (bigDrops.length > 0) {
+      const sample = bigDrops
+        .slice(0, 5)
+        .map((row) => row.code)
+        .join(", ");
+      const ok = window.confirm(
+        `${bigDrops.length} update(s) drop quantity or cost by more than 50% (${sample}${bigDrops.length > 5 ? "…" : ""}).\n\nApply anyway?`,
+      );
+      if (!ok) return;
+    }
+
     const updated = bulkUpdateParts(updates.map((row) => row.update));
     let created = 0;
     for (const row of creates) {
@@ -158,6 +183,9 @@ export function ExcelImportDialog({ open, onOpenChange }: Props) {
                     <p key={`${row.code}-${index}`}>
                       {row.action.toUpperCase()} · {row.code || "—"} ·{" "}
                       {row.name || ("reason" in row ? row.reason : "")}
+                      {row.action === "update" && row.before && row.after
+                        ? ` · qty ${row.before.quantity}→${row.after.quantity} · cost ${row.before.cost}→${row.after.cost} · price ${row.before.price}→${row.after.price}`
+                        : ""}
                     </p>
                   ))}
                 </div>

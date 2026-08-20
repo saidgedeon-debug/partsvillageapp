@@ -3,6 +3,7 @@ import { PackagePlus, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { useInventory } from "@/components/app/inventory-context";
+import { usePreOrders } from "@/components/app/preorders-context";
 import {
   useShipments,
   type ChinaShipment,
@@ -21,6 +22,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { localTodayIso } from "@/lib/date-local";
 import { partNumbersOf, type Part } from "@/lib/mock-data";
+import { blendedUnitCost } from "@/lib/part-identity";
+import { allocateFreight } from "@/lib/preorders";
 
 function newLineId() {
   return `sl-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
@@ -34,6 +37,7 @@ type ReceiveRow = {
   qtyOrdered: number;
   qtyAlreadyReceived: number;
   qtyToReceive: string;
+  unitCost?: number;
 };
 
 function rowsFromShipment(shipment: ChinaShipment): ReceiveRow[] {
@@ -45,6 +49,7 @@ function rowsFromShipment(shipment: ChinaShipment): ReceiveRow[] {
     qtyOrdered: line.qtyOrdered,
     qtyAlreadyReceived: line.qtyReceived,
     qtyToReceive: String(Math.max(0, line.qtyOrdered - line.qtyReceived) || ""),
+    unitCost: line.unitCost,
   }));
 }
 
@@ -57,8 +62,9 @@ export function ShipmentReceiveDialog({
   onOpenChange: (open: boolean) => void;
   shipment: ChinaShipment | null;
 }) {
-  const { parts, adjustPartQuantity, getPart } = useInventory();
+  const { parts, adjustPartQuantity, getPart, updatePart } = useInventory();
   const { updateShipment } = useShipments();
+  const { orders: preOrders } = usePreOrders();
   const [rows, setRows] = useState<ReceiveRow[]>([]);
   const [search, setSearch] = useState("");
 
@@ -67,6 +73,19 @@ export function ShipmentReceiveDialog({
     setRows(rowsFromShipment(shipment));
     setSearch("");
   }, [open, shipment]);
+
+  const landedByPartId = useMemo(() => {
+    const map = new Map<string, number>();
+    if (!shipment?.preOrderId) return map;
+    const pre = preOrders.find((o) => o.id === shipment.preOrderId);
+    if (!pre) return map;
+    const landings = allocateFreight(pre.lines, pre.shipmentCost ?? 0);
+    for (const landing of landings) {
+      const id = landing.line.partId;
+      if (id) map.set(id, landing.landedUnitCost);
+    }
+    return map;
+  }, [shipment, preOrders]);
 
   const matches = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -93,6 +112,7 @@ export function ShipmentReceiveDialog({
         qtyOrdered: 1,
         qtyAlreadyReceived: 0,
         qtyToReceive: "1",
+        unitCost: part.cost,
       },
     ]);
     setSearch("");
@@ -110,7 +130,7 @@ export function ShipmentReceiveDialog({
 
   const confirm = () => {
     if (!shipment) return;
-    const updates: { row: ReceiveRow; partId: string; qty: number }[] = [];
+    const updates: { row: ReceiveRow; partId: string; qty: number; unitCost?: number }[] = [];
     for (const row of rows) {
       const qty = Math.floor(Number(row.qtyToReceive));
       if (!Number.isFinite(qty) || qty <= 0) continue;
@@ -119,14 +139,22 @@ export function ShipmentReceiveDialog({
         toast.error(`No inventory match for ${row.partNumber}`);
         return;
       }
-      updates.push({ row, partId, qty });
+      const incoming =
+        landedByPartId.get(partId) ??
+        (row.unitCost != null && Number.isFinite(row.unitCost) ? row.unitCost : undefined);
+      updates.push({ row, partId, qty, unitCost: incoming });
     }
     if (updates.length === 0) {
       toast.error("Enter at least one quantity to receive");
       return;
     }
 
-    for (const { partId, qty } of updates) {
+    for (const { partId, qty, unitCost } of updates) {
+      const part = getPart(partId);
+      if (part && unitCost != null && Number.isFinite(unitCost) && unitCost >= 0) {
+        const nextCost = blendedUnitCost(part.quantity, part.cost, qty, unitCost);
+        updatePart(partId, { cost: nextCost });
+      }
       adjustPartQuantity(partId, qty);
     }
 
@@ -141,6 +169,7 @@ export function ShipmentReceiveDialog({
         name: row.name,
         qtyOrdered: Math.max(row.qtyOrdered, row.qtyAlreadyReceived + bump),
         qtyReceived: row.qtyAlreadyReceived + bump,
+        unitCost: row.unitCost,
       };
     });
 

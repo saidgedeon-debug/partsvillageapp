@@ -135,7 +135,7 @@ function ChinaShipmentsPage() {
   const { open: openId } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { shipments, removeShipment } = useShipments();
-  const { rmbPerUsd, setRmbPerUsd } = usePrefs();
+  const { rmbPerUsd, setRmbPerUsd, rmbPerUsdUpdatedAt } = usePrefs();
   const { unlinkShipment } = useShareInbox();
   const [formOpen, setFormOpen] = useState(false);
   const [titusOpen, setTitusOpen] = useState(false);
@@ -255,19 +255,26 @@ function ChinaShipmentsPage() {
               <ExternalLink className="h-3.5 w-3.5" />
               Titus site
             </Button>
-            <div className="flex items-center gap-2">
-              <Label htmlFor="rmb-rate" className="text-xs">
-                RMB / USD
-              </Label>
-              <Input
-                id="rmb-rate"
-                type="number"
-                min="0.01"
-                step="0.01"
-                className="h-8 w-24"
-                value={rmbPerUsd}
-                onChange={(event) => setRmbPerUsd(Number(event.target.value))}
-              />
+            <div className="flex flex-col gap-0.5">
+              <div className="flex items-center gap-2">
+                <Label htmlFor="rmb-rate" className="text-xs">
+                  RMB / USD
+                </Label>
+                <Input
+                  id="rmb-rate"
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  className="h-8 w-24"
+                  value={rmbPerUsd}
+                  onChange={(event) => setRmbPerUsd(Number(event.target.value))}
+                />
+              </div>
+              {rmbPerUsdUpdatedAt ? (
+                <p className="text-[10px] text-muted-foreground">
+                  Rate updated {new Date(rmbPerUsdUpdatedAt).toLocaleString()}
+                </p>
+              ) : null}
             </div>
           </div>
           <Button

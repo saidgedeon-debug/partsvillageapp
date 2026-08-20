@@ -12,6 +12,7 @@ import {
 import { loadCatalogParts, resetCatalogPartsCache } from "@/lib/catalog-loader";
 import { useCloudState } from "@/lib/cloud-store";
 import type { Part } from "@/lib/mock-data";
+import { findDuplicatePart } from "@/lib/part-identity";
 import {
   buildInventoryCategories,
   STANDARD_CATEGORY_LABELS,
@@ -256,11 +257,27 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const addPart = useCallback(
     (input: PartInput) => {
       const part = normalizePart(input);
-      setStore((prev) => ({
-        overrides: prev.overrides ?? {},
-        customCategories: prev.customCategories ?? [],
-        customParts: [...(prev.customParts ?? []), part],
-      }));
+      let conflict: Part | undefined;
+      setStore((prev) => {
+        const existing = [
+          ...catalogRef.current.map((p) => applyOverride(p, (prev.overrides ?? {})[p.id])),
+          ...(prev.customParts ?? []),
+        ];
+        conflict = findDuplicatePart(existing, part);
+        if (conflict) return prev;
+        return {
+          overrides: prev.overrides ?? {},
+          customCategories: prev.customCategories ?? [],
+          customParts: [...(prev.customParts ?? []), part],
+        };
+      });
+      if (conflict) {
+        throw new Error(
+          `Part number already exists: ${conflict.partNumber}${
+            conflict.name ? ` (${conflict.name})` : ""
+          }`,
+        );
+      }
       return part;
     },
     [setStore],

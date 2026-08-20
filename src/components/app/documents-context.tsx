@@ -10,6 +10,7 @@ import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-co
 import { generateDocId, type PaymentMethod } from "@/lib/document-export";
 import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
 import { useCloudState } from "@/lib/cloud-store";
+import { emitInvoiceBalanceChange } from "@/lib/invoice-order-sync";
 import { currency } from "@/lib/mock-data";
 
 export type QuoteStatus = "Draft" | "Sent" | "Accepted" | "Rejected";
@@ -43,6 +44,8 @@ export type SavedDocument = {
   discountValue?: number;
   /** Private staff note — never printed on the PDF. */
   internalNote?: string;
+  /** Invoice: units sold above on-hand at deduction time (partId → qty). */
+  oversoldByPart?: Record<string, number>;
   /** Cumulative amount collected on an invoice. */
   amountPaid?: number;
   /** Receipt / credit note → linked invoice id. */
@@ -92,6 +95,8 @@ export type RecordReturnInput = {
   restockedPartIds?: string[];
   date?: string;
   note?: string;
+  /** Allow credit that pushes paid+credits above invoice total (shop owes client). */
+  allowRefundOverage?: boolean;
 };
 
 export type RecordClientDiscountInput = {
@@ -182,6 +187,18 @@ export function invoiceRemaining(
   const paid = invoiceAmountPaid(inv);
   const credits = invoiceCredits(inv, creditNotes);
   return Math.max(0, Math.round((total - paid - credits) * 100) / 100);
+}
+
+/** Cash / credit balance the shop owes the client on this invoice (paid+credits above total). */
+export function invoiceRefundOwed(
+  inv: SavedDocument,
+  creditNotes: SavedDocument[] = [],
+): number {
+  if (inv.kind !== "invoice") return 0;
+  const total = Number.isFinite(inv.total) ? inv.total : 0;
+  const paid = invoiceAmountPaid(inv);
+  const credits = invoiceCredits(inv, creditNotes);
+  return Math.max(0, Math.round((paid + credits - total) * 100) / 100);
 }
 
 /** Qty still returnable for a part on an invoice. */
@@ -430,7 +447,13 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             };
 
         created = receipt;
-        if (!alreadyPaid) void syncDocumentToSupabase(updatedInvoice);
+        if (!alreadyPaid) {
+          void syncDocumentToSupabase(updatedInvoice);
+          emitInvoiceBalanceChange(
+            invoice.id,
+            Math.max(0, Math.round((invoice.total - paidAfter - credits) * 100) / 100),
+          );
+        }
         return [receipt, ...cur.map((d) => (d.id === invoice.id ? updatedInvoice : d))];
       });
 
@@ -546,6 +569,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           status,
         };
         void syncDocumentToSupabase(updatedInvoice);
+        emitInvoiceBalanceChange(
+          invoice.id,
+          Math.max(0, Math.round((invoice.total - paidAfter - credits) * 100) / 100),
+        );
         return cur.map((d) => {
           if (d.id === receipt.id) return nextReceipt;
           if (d.id === invoice.id) return updatedInvoice;
@@ -593,6 +620,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           status,
         };
         void syncDocumentToSupabase(updatedInvoice);
+        emitInvoiceBalanceChange(
+          invoice.id,
+          Math.max(0, Math.round((invoice.total - paidAfter - credits) * 100) / 100),
+        );
         return next.map((d) => (d.id === invoice.id ? updatedInvoice : d));
       });
 
@@ -647,6 +678,18 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           returnLines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0),
         );
         const creditTotal = roundMoney(listTotal * ratio);
+        const paid = invoiceAmountPaid(invoice);
+        const creditsBefore = invoiceCredits(invoice, existingCredits);
+        const remainingBefore = Math.max(
+          0,
+          Math.round((invoice.total - paid - creditsBefore) * 100) / 100,
+        );
+        if (creditTotal - remainingBefore > 0.005 && !input.allowRefundOverage) {
+          failure = new Error(
+            `This return credits ${currency(creditTotal)} but only ${currency(remainingBefore)} remains on the invoice. Confirm issuing a refund / credit balance to continue.`,
+          );
+          return cur;
+        }
         const restockedPartIds = [
           ...new Set(
             (input.restockedPartIds ?? (input.restock ? returnLines.map((l) => l.partId) : [])).filter(
@@ -673,7 +716,6 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         };
 
         const creditsAfter = invoiceCredits(invoice, [...existingCredits, creditNote]);
-        const paid = invoiceAmountPaid(invoice);
         const nextStatus = resolveInvoiceStatus(invoice, paid, undefined, creditsAfter);
         const updatedInvoice: SavedDocument = {
           ...invoice,
@@ -682,6 +724,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
         created = creditNote;
         void syncDocumentToSupabase(updatedInvoice);
+        emitInvoiceBalanceChange(
+          invoice.id,
+          Math.max(0, Math.round((invoice.total - paid - creditsAfter) * 100) / 100),
+        );
         return [
           creditNote,
           ...cur.map((d) => (d.id === invoice.id ? updatedInvoice : d)),

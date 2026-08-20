@@ -1,6 +1,7 @@
-import { createContext, useCallback, useContext, useMemo, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
 
 import { useCloudState } from "@/lib/cloud-store";
+import { onInvoiceBalanceChange } from "@/lib/invoice-order-sync";
 import { newLocalId } from "@/lib/storage";
 
 export type FleetMachine = {
@@ -182,6 +183,27 @@ export function FleetProvider({ children }: { children: ReactNode }) {
     },
     [setStore],
   );
+
+  useEffect(() => {
+    return onInvoiceBalanceChange((documentId, remaining) => {
+      const nextStatus: FleetOrder["status"] = remaining <= 0.005 ? "Paid" : "Pending";
+      setStore((prev) => {
+        const orders = prev.orders ?? [];
+        let changed = false;
+        const nextOrders = orders.map((order) => {
+          const linked =
+            order.documentId === documentId || order.id === `ord-${documentId}`;
+          if (!linked || order.status === nextStatus) return order;
+          changed = true;
+          const next = { ...order, status: nextStatus };
+          void syncOrder(next);
+          return next;
+        });
+        if (!changed) return prev;
+        return { machines: prev.machines ?? [], orders: nextOrders };
+      });
+    });
+  }, [setStore]);
 
   const value = useMemo(
     () => ({

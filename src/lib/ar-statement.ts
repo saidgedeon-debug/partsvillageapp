@@ -4,6 +4,7 @@ import autoTable from "jspdf-autotable";
 import {
   invoiceAmountPaid,
   invoiceCredits,
+  invoiceRefundOwed,
   invoiceRemaining,
   type SavedDocument,
 } from "@/components/app/documents-context";
@@ -27,6 +28,8 @@ export type ArStatement = {
   /** Credit notes for this client (returns + discounts). */
   creditNotes: SavedDocument[];
   creditsTotal: number;
+  /** Sum of paid+credits above invoice totals (refund / credit balance owed to client). */
+  refundOwed: number;
   current: number;
   days31To60: number;
   days61Plus: number;
@@ -51,7 +54,7 @@ export function documentBelongsToClient(
   client: { id: string; name: string },
 ): boolean {
   if (doc.partyKind && doc.partyKind !== "client") return false;
-  if (doc.partyId === client.id) return true;
+  if (doc.partyId) return doc.partyId === client.id;
   const name = client.name.trim().toLowerCase();
   return Boolean(name) && doc.partyName.trim().toLowerCase() === name;
 }
@@ -105,11 +108,16 @@ export function buildArStatement(
     0,
   );
 
+  const refundOwed = invoices
+    .filter((invoice) => belongs(invoice))
+    .reduce((s, invoice) => s + invoiceRefundOwed(invoice, creditNotes), 0);
+
   return {
     invoices: rows.map((row) => row.invoice),
     rows,
     creditNotes: clientCredits,
     creditsTotal,
+    refundOwed,
     current,
     days31To60,
     days61Plus,

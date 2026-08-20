@@ -125,9 +125,14 @@ const customParts = [
 ];
 
 const sb = createClient(url, key);
-const { data, error } = await sb.from("shop_state").select("value").eq("key", "inventory").maybeSingle();
+const { data, error } = await sb
+  .from("shop_state")
+  .select("value, updated_at")
+  .eq("key", "inventory")
+  .maybeSingle();
 if (error) throw error;
 
+const initialUpdatedAt = data?.updated_at ?? null;
 const store = data?.value ?? { overrides: {}, customParts: [], customCategories: [] };
 const overrides = { ...(store.overrides ?? {}) };
 
@@ -180,6 +185,19 @@ const next = {
   customParts: [...byId.values()],
   customCategories: store.customCategories ?? [],
 };
+
+const { data: fresh, error: freshErr } = await sb
+  .from("shop_state")
+  .select("updated_at")
+  .eq("key", "inventory")
+  .maybeSingle();
+if (freshErr) throw freshErr;
+if ((fresh?.updated_at ?? null) !== initialUpdatedAt) {
+  console.error(
+    "Aborting: inventory shop_state.updated_at changed since read (optimistic concurrency).",
+  );
+  process.exit(1);
+}
 
 const { error: upErr } = await sb.from("shop_state").upsert({
   key: "inventory",

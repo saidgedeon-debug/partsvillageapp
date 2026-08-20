@@ -69,11 +69,16 @@ export function RecordPaymentDialog({
   const clientInvoices = useMemo(() => {
     if (!clientId && !clientName) return invoices;
     const nameKey = clientName?.trim().toLowerCase() ?? "";
-    return invoices.filter(
-      (iv) =>
-        (clientId && iv.partyId === clientId) ||
-        (nameKey.length > 0 && iv.partyName.trim().toLowerCase() === nameKey),
-    );
+    return invoices.filter((iv) => {
+      if (clientId && iv.partyId) return iv.partyId === clientId;
+      if (clientId && !iv.partyId && nameKey) {
+        return iv.partyName.trim().toLowerCase() === nameKey;
+      }
+      if (!clientId && nameKey) {
+        return iv.partyName.trim().toLowerCase() === nameKey;
+      }
+      return false;
+    });
   }, [invoices, clientId, clientName]);
 
   const unpaidInvoices = useMemo(

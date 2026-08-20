@@ -252,7 +252,14 @@ export const syncTitusOrders = createServerFn({ method: "POST" })
 export function loadTitusCreds(): TitusCreds | null {
   if (typeof window === "undefined") return null;
   try {
-    const raw = localStorage.getItem(CREDS_KEY);
+    let raw = sessionStorage.getItem(CREDS_KEY);
+    if (!raw) {
+      raw = localStorage.getItem(CREDS_KEY);
+      if (raw) {
+        sessionStorage.setItem(CREDS_KEY, raw);
+        localStorage.removeItem(CREDS_KEY);
+      }
+    }
     if (!raw) return null;
     const parsed = JSON.parse(raw) as TitusCreds;
     if (!parsed?.username || !parsed?.password) return null;
@@ -265,13 +272,18 @@ export function loadTitusCreds(): TitusCreds | null {
 export function saveTitusCreds(creds: TitusCreds) {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(
+    sessionStorage.setItem(
       CREDS_KEY,
       JSON.stringify({
         username: creds.username.trim(),
         password: creds.password,
       }),
     );
+    try {
+      localStorage.removeItem(CREDS_KEY);
+    } catch {
+      /* ignore legacy cleanup */
+    }
   } catch (e) {
     console.error("Failed to save Titus credentials", e);
   }
@@ -280,6 +292,7 @@ export function saveTitusCreds(creds: TitusCreds) {
 export function clearTitusCreds() {
   if (typeof window === "undefined") return;
   try {
+    sessionStorage.removeItem(CREDS_KEY);
     localStorage.removeItem(CREDS_KEY);
   } catch (e) {
     console.error("Failed to clear Titus credentials", e);

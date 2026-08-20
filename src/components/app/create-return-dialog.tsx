@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import type { CartLine } from "@/components/app/cart-context";
 import {
   invoiceHasReturnableLines,
+  invoiceRemaining,
   useDocuments,
   type SavedDocument,
 } from "@/components/app/documents-context";
@@ -32,6 +33,7 @@ import { documentBelongsToClient } from "@/lib/ar-statement";
 import { currency } from "@/lib/mock-data";
 import { localTodayIso } from "@/lib/date-local";
 import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
+import { lineQtyByPart, physicalRestockCap } from "@/lib/stock-sale";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -198,6 +200,24 @@ export function CreateReturnDialog({
       const restockPairs: { partId: string; qty: number }[] = [];
       const missing: string[] = [];
 
+      const soldByPart = lineQtyByPart(selected.lines);
+      const alreadyRestockedByPart = new Map<string, number>();
+      for (const note of creditNotes) {
+        if (note.kind !== "credit_note" || note.invoiceId !== selected.id) continue;
+        const restocked = new Set(note.restockedPartIds ?? []);
+        for (const line of note.lines) {
+          if (!line.partId) continue;
+          const wasRestocked =
+            restocked.size > 0 ? restocked.has(line.partId) : Boolean(note.stockRestocked);
+          if (!wasRestocked) continue;
+          alreadyRestockedByPart.set(
+            line.partId,
+            (alreadyRestockedByPart.get(line.partId) ?? 0) +
+              (Number.isFinite(line.qty) ? line.qty : 0),
+          );
+        }
+      }
+
       for (const row of rows) {
         const qty = Math.floor(Number(row.qtyToReturn));
         if (!Number.isFinite(qty) || qty <= 0) continue;
@@ -220,14 +240,35 @@ export function CreateReturnDialog({
           qty,
         });
         if (restock) {
-          if (getPart(row.partId)) restockPairs.push({ partId: row.partId, qty });
-          else missing.push(row.partNumber);
+          if (!getPart(row.partId)) {
+            missing.push(row.partNumber);
+            continue;
+          }
+          const soldQty = soldByPart.get(row.partId) ?? row.soldQty;
+          const oversoldQty = selected.oversoldByPart?.[row.partId] ?? 0;
+          const already = alreadyRestockedByPart.get(row.partId) ?? 0;
+          const cap = physicalRestockCap(soldQty, oversoldQty, already);
+          const physicalQty = Math.min(qty, cap);
+          if (physicalQty > 0) {
+            restockPairs.push({ partId: row.partId, qty: physicalQty });
+            alreadyRestockedByPart.set(row.partId, already + physicalQty);
+          }
         }
       }
 
       if (lines.length === 0) {
         toast.error("Enter at least one quantity to return");
         return;
+      }
+
+      let allowRefundOverage = false;
+      const remaining = invoiceRemaining(selected, creditNotes);
+      if (creditPreview > remaining + 0.005) {
+        const ok = window.confirm(
+          `This return credits ${currency(creditPreview)} but only ${currency(remaining)} remains on the invoice.\n\nContinue and record the overage as refund owed?`,
+        );
+        if (!ok) return;
+        allowRefundOverage = true;
       }
 
       setSubmitting(true);
@@ -239,6 +280,7 @@ export function CreateReturnDialog({
         restockedPartIds: restock ? restockPairs.map((p) => p.partId) : [],
         date: returnDate,
         note: note.trim() || undefined,
+        allowRefundOverage,
       });
 
       for (const { partId, qty } of restockPairs) {

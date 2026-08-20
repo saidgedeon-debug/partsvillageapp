@@ -7,6 +7,7 @@ import {
   type SetStateAction,
 } from "react";
 
+import { mergeShopStateValue } from "@/lib/shop-state-merge";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
 export type ShopStateKey =
@@ -208,6 +209,8 @@ export function useCloudState<T>(
   const dirtyRef = useRef(false);
   const savingRef = useRef(false);
   const baseUpdatedAtRef = useRef<string | null>(null);
+  /** Last remote value we acknowledged (for 3-way merge on conflict). */
+  const baseValueRef = useRef<T>(fallback);
   const valueRef = useRef(value);
   valueRef.current = value;
 
@@ -241,6 +244,7 @@ export function useCloudState<T>(
         skipSave.current = true;
         dirtyRef.current = false;
         baseUpdatedAtRef.current = loaded.updatedAt;
+        baseValueRef.current = loaded.value;
         setValueState(loaded.value);
         setReady(true);
         setError(null);
@@ -283,6 +287,7 @@ export function useCloudState<T>(
         .then((result) => {
           if (result.saved) {
             baseUpdatedAtRef.current = result.updatedAt;
+            baseValueRef.current = snapshot;
             // Only clear dirty if nothing newer was typed during the save.
             if (
               valueRef.current === snapshot ||
@@ -294,29 +299,49 @@ export function useCloudState<T>(
             setLastCloudError(null);
             setCloudHealth(key, "synced");
           } else {
-            // Remote moved ahead — keep local dirty; next save will overwrite after refresh of base.
-            // Adopt remote timestamp only if we intentionally force-save next time without expected.
+            // Remote moved ahead — rebase local edits onto latest remote, then retry.
             console.warn(
-              `shop_state:${key} remote revision changed; keeping local edits and retrying save`,
+              `shop_state:${key} remote revision changed; merging local edits onto remote`,
             );
-            baseUpdatedAtRef.current = result.updatedAt;
-            // Force another save of our local snapshot (user edits win for single-tenant shop).
-            void saveShopState(key, valueRef.current)
-              .then((forced) => {
+            void (async () => {
+              try {
+                const remote = await fetchShopStateRow<T>(key);
+                const remoteValue = remote.value ?? fallback;
+                const merged = mergeShopStateValue(
+                  baseValueRef.current,
+                  valueRef.current,
+                  remoteValue,
+                ) as T;
+                baseValueRef.current = remoteValue;
+                baseUpdatedAtRef.current = remote.updatedAt;
+                skipSave.current = true;
+                setValueState(merged);
+                dirtyRef.current = true;
+                const forced = await saveShopState(key, merged, remote.updatedAt);
                 if (forced.saved) {
                   baseUpdatedAtRef.current = forced.updatedAt;
-                  dirtyRef.current = false;
+                  baseValueRef.current = merged;
+                  if (
+                    valueRef.current === merged ||
+                    JSON.stringify(valueRef.current) === JSON.stringify(merged)
+                  ) {
+                    dirtyRef.current = false;
+                  }
                   setError(null);
                   setLastCloudError(null);
                   setCloudHealth(key, "synced");
+                } else {
+                  // Still racing — leave dirty; next edit/debounce will retry.
+                  baseUpdatedAtRef.current = forced.updatedAt;
+                  setCloudHealth(key, "syncing");
                 }
-              })
-              .catch((e) => {
+              } catch (e) {
                 const msg = e instanceof Error ? e.message : `Failed to save ${key}`;
                 setError(msg);
                 setLastCloudError(msg);
                 setCloudHealth(key, "error");
-              });
+              }
+            })();
           }
         })
         .catch((e) => {
@@ -351,17 +376,27 @@ export function useCloudState<T>(
           const next = row?.value;
           if (next === undefined) return;
 
-          // Never discard unsaved local edits.
-          if (dirtyRef.current || savingRef.current) return;
+          if (row?.updated_at) baseUpdatedAtRef.current = row.updated_at;
+
+          // While local edits are in flight, merge remote into local instead of dropping either side.
+          if (dirtyRef.current || savingRef.current) {
+            const merged = mergeShopStateValue(baseValueRef.current, valueRef.current, next) as T;
+            baseValueRef.current = next;
+            if (JSON.stringify(merged) === JSON.stringify(valueRef.current)) return;
+            // Keep dirty so the debounce save effect uploads the merge (do not skipSave).
+            dirtyRef.current = true;
+            setValueState(merged);
+            return;
+          }
 
           const cur = JSON.stringify(valueRef.current);
           const incoming = JSON.stringify(next);
           if (cur === incoming) {
-            if (row?.updated_at) baseUpdatedAtRef.current = row.updated_at;
+            baseValueRef.current = next;
             return;
           }
           skipSave.current = true;
-          if (row?.updated_at) baseUpdatedAtRef.current = row.updated_at;
+          baseValueRef.current = next;
           setValueState(next);
         },
       )

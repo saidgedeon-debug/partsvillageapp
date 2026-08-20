@@ -37,6 +37,12 @@ import {
   preOrderRemaining,
   type CustomerPreOrder,
 } from "@/lib/preorders";
+import {
+  computeOversoldByPart,
+  confirmOversell,
+  lineQtyByPart,
+  stockShortagesForQty,
+} from "@/lib/stock-sale";
 
 const METHODS: PaymentMethod[] = ["Cash", "OMT", "Whish"];
 
@@ -140,7 +146,14 @@ export function PreOrderConvertDialog({
       const invoiceId = generateDocId("invoice", createdAt);
 
       let stockDeducted = false;
+      let oversoldByPart: Record<string, number> | undefined;
       if (deductStock) {
+        const needed = lineQtyByPart(lines);
+        if (!confirmOversell(stockShortagesForQty(needed, getPart))) {
+          setSubmitting(false);
+          return;
+        }
+        oversoldByPart = computeOversoldByPart(needed, getPart);
         let deducted = 0;
         for (const line of lines) {
           if (!getPart(line.partId)) continue;
@@ -163,6 +176,8 @@ export function PreOrderConvertDialog({
         amountPaid: 0,
         lines: [...lines],
         stockDeducted,
+        oversoldByPart:
+          oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
         internalNote: `From pre-order ${order.id}${order.notes ? ` · ${order.notes}` : ""}`,
       };
 

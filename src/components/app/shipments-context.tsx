@@ -70,6 +70,8 @@ export type ChinaShipment = {
   id: string;
   title: string;
   supplier: string;
+  /** Linked supplier party when chosen from the directory. */
+  supplierId?: string;
   orderedAt: string;
   expectedAt?: string;
   arrivedAt?: string;
@@ -115,6 +117,7 @@ export type ChinaShipment = {
 export type ShipmentInput = {
   title: string;
   supplier?: string;
+  supplierId?: string;
   orderedAt: string;
   expectedAt?: string;
   arrivedAt?: string;
@@ -207,6 +210,7 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
         id: newId("ship"),
         title: input.title.trim(),
         supplier: (input.supplier ?? "").trim(),
+        supplierId: input.supplierId?.trim() || undefined,
         orderedAt: input.orderedAt,
         expectedAt: input.expectedAt || undefined,
         arrivedAt: input.arrivedAt || undefined,
@@ -267,6 +271,10 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
             ...patch,
             title: patch.title !== undefined ? patch.title.trim() : s.title,
             supplier: patch.supplier !== undefined ? patch.supplier.trim() : s.supplier,
+            supplierId:
+              patch.supplierId !== undefined
+                ? patch.supplierId.trim() || undefined
+                : s.supplierId,
             trackingNumber:
               patch.trackingNumber !== undefined
                 ? patch.trackingNumber.trim() || undefined
