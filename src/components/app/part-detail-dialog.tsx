@@ -222,6 +222,8 @@ export function PartDetailDialog({
   };
 
   const showORingFields = form.category === "O-Rings" || part?.category === "O-Rings";
+  const showSealFields = form.category === "Seals" || part?.category === "Seals";
+  const showDimFields = showORingFields || showSealFields;
   const dialogOpen = open && (creating || Boolean(part));
 
   return (
@@ -299,7 +301,23 @@ export function PartDetailDialog({
                 <Field label="CS (mm)" value={part.crossSectionMm ?? ""} />
               </>
             )}
-            {part.category !== "O-Rings" && (
+            {part.category === "Seals" && (
+              <>
+                <Field label="Subcategory" value={part.subcategory ?? ""} />
+                <Field label="Qty" value={part.quantity.toLocaleString()} />
+                <Field
+                  label="OD (mm)"
+                  value={
+                    part.partNumber.match(/^WR\s*([\d.]+)/i)?.[1] ??
+                    part.notes?.match(/OD\s+([\d.]+)/i)?.[1] ??
+                    ""
+                  }
+                />
+                <Field label="ID (mm)" value={part.insideDiameterMm ?? ""} />
+                <Field label="Height (mm)" value={part.crossSectionMm ?? ""} />
+              </>
+            )}
+            {part.category !== "O-Rings" && part.category !== "Seals" && (
               <>
                 <Field label="Qty" value={part.quantity.toLocaleString()} />
                 <Field
@@ -433,17 +451,19 @@ export function PartDetailDialog({
                 placeholder="e.g. Komatsu PC200-7, Hitachi EX200"
               />
             </div>
-            {showORingFields && (
+            {showDimFields && (
               <>
-                <div className="space-y-1.5">
-                  <Label htmlFor="part-box">Box</Label>
-                  <Input
-                    id="part-box"
-                    inputMode="numeric"
-                    value={form.boxNumber}
-                    onChange={set("boxNumber")}
-                  />
-                </div>
+                {showORingFields ? (
+                  <div className="space-y-1.5">
+                    <Label htmlFor="part-box">Box</Label>
+                    <Input
+                      id="part-box"
+                      inputMode="numeric"
+                      value={form.boxNumber}
+                      onChange={set("boxNumber")}
+                    />
+                  </div>
+                ) : null}
                 <div className="space-y-1.5">
                   <Label htmlFor="part-qty">Qty</Label>
                   <Input
@@ -454,7 +474,7 @@ export function PartDetailDialog({
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="part-id">ID (mm)</Label>
+                  <Label htmlFor="part-id">{showSealFields ? "ID (mm)" : "ID (mm)"}</Label>
                   <Input
                     id="part-id"
                     className="font-mono"
@@ -463,7 +483,7 @@ export function PartDetailDialog({
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="part-cs">CS (mm)</Label>
+                  <Label htmlFor="part-cs">{showSealFields ? "Height (mm)" : "CS (mm)"}</Label>
                   <Input
                     id="part-cs"
                     className="font-mono"
@@ -473,7 +493,7 @@ export function PartDetailDialog({
                 </div>
               </>
             )}
-            {!showORingFields && (
+            {!showDimFields && (
               <div className="space-y-1.5">
                 <Label htmlFor="part-qty">Qty</Label>
                 <Input

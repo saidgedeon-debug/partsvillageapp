@@ -3,13 +3,14 @@ import type { Part } from "@/lib/mock-data";
 let cached: Part[] | null = null;
 let loading: Promise<Part[]> | null = null;
 
-/** Lazy-load catalog seeds (O-rings + Couplings + Gauges + Hydraulics + Bearings + Filters + MISC). */
+/** Lazy-load catalog seeds (O-rings + Seals + Couplings + Gauges + Hydraulics + Bearings + Filters + MISC). */
 export function loadCatalogParts(): Promise<Part[]> {
   if (cached) return Promise.resolve(cached);
   if (loading) return loading;
 
   loading = Promise.all([
     import("@/lib/orings-inventory"),
+    import("@/lib/seals-inventory"),
     import("@/lib/couplings-inventory"),
     import("@/lib/gauges-inventory"),
     import("@/lib/hydraulics-inventory"),
@@ -17,9 +18,10 @@ export function loadCatalogParts(): Promise<Part[]> {
     import("@/lib/filters-inventory"),
     import("@/lib/misc-inventory"),
   ])
-    .then(([orings, couplings, gauges, hydraulics, bearings, filters, misc]) => {
+    .then(([orings, seals, couplings, gauges, hydraulics, bearings, filters, misc]) => {
       cached = [
         ...orings.oringParts,
+        ...seals.sealParts,
         ...couplings.couplingParts,
         ...gauges.gaugeParts,
         ...hydraulics.hydraulicParts,

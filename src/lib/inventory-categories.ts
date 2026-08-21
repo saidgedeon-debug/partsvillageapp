@@ -63,6 +63,7 @@ export const categoryGroupIds = GROUP_RULES.map((r) => r.id);
 /** Always offered in the part form category datalist. */
 export const STANDARD_CATEGORY_LABELS = [
   "O-Rings",
+  "Seals",
   "Couplings",
   "Gauges & Accessories",
   "Hydraulic Parts",
@@ -143,9 +144,16 @@ const basePinned: InventoryCategoryDef[] = [
   {
     id: "o-rings",
     label: "O-Rings",
-    description: "Seals by ID & CS",
+    description: "O-rings by ID & CS",
     matchCategory: "O-Rings",
     icon: CircleDot,
+  },
+  {
+    id: "seals",
+    label: "Seals",
+    description: "Wear rings (WR) by OD × ID × H",
+    matchCategory: "Seals",
+    icon: Disc,
   },
   {
     id: "couplings",
