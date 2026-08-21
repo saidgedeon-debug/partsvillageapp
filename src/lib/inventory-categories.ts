@@ -151,7 +151,7 @@ const basePinned: InventoryCategoryDef[] = [
   {
     id: "seals",
     label: "Seals",
-    description: "Wear rings (WR) by OD × ID × H",
+    description: "Wear Ring · SPGW · HP Seal · …",
     matchCategory: "Seals",
     icon: Disc,
   },
