@@ -1,5 +1,5 @@
-import { jsPDF } from "jspdf";
-import { installJsPdfShaper, rtlText } from "bidi-shaper/jspdf";
+import { rtlText } from "bidi-shaper/jspdf";
+import type { jsPDF } from "jspdf";
 
 import {
   PDF_ARABIC_FONT_BOLD_BASE64,
@@ -9,14 +9,12 @@ import {
 
 export const PDF_FONT = PDF_ARABIC_FONT_NAME;
 
-let shaperInstalled = false;
-
-/** Register Amiri + Arabic BiDi shaping on a jsPDF instance. */
+/**
+ * Register Amiri on a jsPDF instance.
+ * Do NOT also install a global jsPDF text shaper — autoTable calls doc.text(),
+ * and shaping twice (rtlText + plugin) garbles Arabic.
+ */
 export function preparePdfFonts(pdf: jsPDF) {
-  if (!shaperInstalled) {
-    installJsPdfShaper(jsPDF.API as unknown as Parameters<typeof installJsPdfShaper>[0]);
-    shaperInstalled = true;
-  }
   const regularFile = `${PDF_ARABIC_FONT_NAME}-Regular.ttf`;
   const boldFile = `${PDF_ARABIC_FONT_NAME}-Bold.ttf`;
   pdf.addFileToVFS(regularFile, PDF_ARABIC_FONT_REGULAR_BASE64);
@@ -26,7 +24,7 @@ export function preparePdfFonts(pdf: jsPDF) {
   pdf.setFont(PDF_ARABIC_FONT_NAME, "normal");
 }
 
-/** Shape + reorder for autoTable cells (plugin may not cover them). */
+/** Shape + reorder Arabic once for PDF drawing (Latin left unchanged). */
 export function pdfCellText(value: string): string {
   if (!value) return value;
   return rtlText(value);

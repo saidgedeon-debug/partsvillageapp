@@ -424,7 +424,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       alternateRowStyles: { fillColor: LIGHT },
       columnStyles: {
         0: { cellWidth: 28, fontStyle: "bold" },
-        1: { cellWidth: "auto" },
+        1: { cellWidth: "auto", halign: "right" },
         2: { cellWidth: 28, fontStyle: "bold", textColor: ORANGE },
         3: { cellWidth: 16, halign: "center" },
         4: { cellWidth: 26, halign: "right" },
