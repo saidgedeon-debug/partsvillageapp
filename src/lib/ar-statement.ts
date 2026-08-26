@@ -10,6 +10,7 @@ import {
 } from "@/components/app/documents-context";
 import type { PartyRecord } from "@/components/app/parties-context";
 import { currency } from "@/lib/mock-data";
+import { PDF_FONT, pdfCellText, preparePdfFonts } from "@/lib/pdf-fonts";
 
 export type ArBucket = "current" | "days31To60" | "days61Plus";
 
@@ -223,20 +224,21 @@ export function openOverdueWhatsApp(client: PartyRecord, statement: ArStatement)
 
 export function downloadStatementPdf(client: PartyRecord, statement: ArStatement) {
   const pdf = new jsPDF();
-  pdf.setFont("helvetica", "bold");
+  preparePdfFonts(pdf);
+  pdf.setFont(PDF_FONT, "bold");
   pdf.setFontSize(18);
   pdf.text("PARTS VILLAGE", 14, 18);
   pdf.setFontSize(13);
   pdf.text("Account statement", 14, 29);
-  pdf.setFont("helvetica", "normal");
+  pdf.setFont(PDF_FONT, "normal");
   pdf.setFontSize(10);
-  pdf.text(`Client: ${client.name}`, 14, 38);
+  pdf.text(pdfCellText(`Client: ${client.name}`), 14, 38);
   pdf.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 44);
   autoTable(pdf, {
     startY: 51,
     head: [["Invoice", "Date", "Age", "Total", "Paid", "Credits", "Due"]],
     body: statement.rows.map((row) => [
-      row.invoice.id,
+      pdfCellText(row.invoice.id),
       row.invoice.date,
       `${row.ageDays}d`,
       currency(row.invoice.total),
@@ -244,6 +246,8 @@ export function downloadStatementPdf(client: PartyRecord, statement: ArStatement
       currency(row.credits),
       currency(row.remaining),
     ]),
+    styles: { font: PDF_FONT, fontStyle: "normal" },
+    headStyles: { font: PDF_FONT, fontStyle: "bold" },
   });
   let finalY =
     (pdf as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? 60;
@@ -253,18 +257,20 @@ export function downloadStatementPdf(client: PartyRecord, statement: ArStatement
       startY: finalY + 8,
       head: [["Credit", "Date", "Type", "Invoice", "Amount"]],
       body: statement.creditNotes.map((cn) => [
-        cn.id,
+        pdfCellText(cn.id),
         cn.date,
         creditLabel(cn),
-        cn.invoiceId ?? "—",
+        pdfCellText(cn.invoiceId ?? "—"),
         `−${currency(cn.total)}`,
       ]),
+      styles: { font: PDF_FONT, fontStyle: "normal" },
+      headStyles: { font: PDF_FONT, fontStyle: "bold" },
     });
     finalY =
       (pdf as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? finalY;
   }
 
-  pdf.setFont("helvetica", "bold");
+  pdf.setFont(PDF_FONT, "bold");
   pdf.text(`Total due: ${currency(statement.total)}`, 14, finalY + 12);
   pdf.save(`statement-${client.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.pdf`);
 }

@@ -7,6 +7,7 @@ import { currency } from "@/lib/mock-data";
 import { documentGrandTotal, documentTaxAmount, documentDiscountAmount, normalizeDocumentDiscount, roundMoney } from "@/lib/document-money";
 import type { DocumentDiscountType } from "@/lib/document-money";
 import { PARTS_VILLAGE_LOGO_PNG_BASE64 } from "@/lib/parts-village-logo-base64";
+import { PDF_FONT, pdfCellText, preparePdfFonts } from "@/lib/pdf-fonts";
 
 const docLabels: Record<DocumentKind, string> = {
   quotation: "Quotation",
@@ -271,6 +272,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   const moneyLabel = doc.documentKind === "inquiry" ? "Cost" : "Price";
   const title = docLabels[doc.documentKind].toUpperCase();
   const pdf = new jsPDF({ unit: "mm", format: "a4" });
+  preparePdfFonts(pdf);
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
   const margin = 14;
@@ -300,13 +302,13 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   const badgeX = pageW - margin - badgeW;
   drawRoundedRect(pdf, badgeX, 12, badgeW, badgeH, 2.5, ORANGE);
   pdf.setTextColor(...WHITE);
-  pdf.setFont("helvetica", "bold");
+  pdf.setFont(PDF_FONT, "bold");
   pdf.setFontSize(12);
   pdf.text(title, badgeX + badgeW / 2, 19.5, { align: "center" });
 
   // Tagline under badge
   pdf.setTextColor(...SLATE);
-  pdf.setFont("helvetica", "normal");
+  pdf.setFont(PDF_FONT, "normal");
   pdf.setFontSize(8);
   pdf.text("HEAVY EQUIPMENT PARTS", badgeX + badgeW / 2, 30, { align: "center" });
 
@@ -326,15 +328,15 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   pdf.rect(margin, cardY, 1.6, cardH, "F");
 
   pdf.setTextColor(...ORANGE);
-  pdf.setFont("helvetica", "bold");
+  pdf.setFont(PDF_FONT, "bold");
   pdf.setFontSize(7.5);
   pdf.text(partyLabel.toUpperCase(), margin + 5, cardY + 7);
   pdf.setTextColor(...NAVY);
-  pdf.setFont("helvetica", "bold");
+  pdf.setFont(PDF_FONT, "bold");
   pdf.setFontSize(13);
-  pdf.text(doc.partyName || "—", margin + 5, cardY + 15);
+  pdf.text(pdfCellText(doc.partyName || "—"), margin + 5, cardY + 15);
   pdf.setTextColor(...SLATE);
-  pdf.setFont("helvetica", "normal");
+  pdf.setFont(PDF_FONT, "normal");
   pdf.setFontSize(8);
   pdf.text("Parts Village client document", margin + 5, cardY + 22);
 
@@ -344,15 +346,15 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   pdf.rect(rightX, cardY, 1.6, cardH, "F");
 
   pdf.setTextColor(...ORANGE);
-  pdf.setFont("helvetica", "bold");
+  pdf.setFont(PDF_FONT, "bold");
   pdf.setFontSize(7.5);
   pdf.text("DOCUMENT", rightX + 5, cardY + 7);
   pdf.setTextColor(...NAVY);
-  pdf.setFont("helvetica", "bold");
+  pdf.setFont(PDF_FONT, "bold");
   pdf.setFontSize(10);
   pdf.text(id, rightX + 5, cardY + 14);
   pdf.setTextColor(...SLATE);
-  pdf.setFont("helvetica", "normal");
+  pdf.setFont(PDF_FONT, "normal");
   pdf.setFontSize(8.5);
   pdf.text(`Date  ${date.toISOString().slice(0, 10)}`, rightX + 5, cardY + 21);
 
@@ -362,11 +364,11 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     const meta = receiptMetaLines(doc);
     let metaY = cardY + cardH + 6;
     pdf.setTextColor(...NAVY);
-    pdf.setFont("helvetica", "bold");
+    pdf.setFont(PDF_FONT, "bold");
     pdf.setFontSize(9);
     pdf.text("PAYMENT DETAILS", margin, metaY);
     metaY += 5;
-    pdf.setFont("helvetica", "normal");
+    pdf.setFont(PDF_FONT, "normal");
     pdf.setFontSize(9);
     pdf.setTextColor(...SLATE);
     for (const line of meta) {
@@ -393,15 +395,17 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       body: doc.lines.map((l) => {
         const unit = lineUnitAmount(l, doc.documentKind);
         return [
-          l.partNumber,
-          l.name || "—",
-          lineSizeLabel(l) || "—",
+          pdfCellText(l.partNumber),
+          pdfCellText(l.name || "—"),
+          pdfCellText(lineSizeLabel(l) || "—"),
           String(l.qty),
           unit > 0 ? currency(unit) : "—",
           unit > 0 ? currency(lineTotal(l, doc.documentKind)) : "—",
         ];
       }),
       styles: {
+        font: PDF_FONT,
+        fontStyle: "normal",
         fontSize: 8.5,
         cellPadding: { top: 3.2, bottom: 3.2, left: 2.5, right: 2.5 },
         textColor: NAVY,
@@ -410,6 +414,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
         valign: "middle",
       },
       headStyles: {
+        font: PDF_FONT,
         fillColor: NAVY,
         textColor: WHITE,
         fontStyle: "bold",
@@ -438,19 +443,27 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       margin: { left: margin, right: margin },
       head: [["Part #", "Description", "Size", "Qty"]],
       body: doc.lines.map((l) => [
-        l.partNumber,
-        l.name || "—",
-        lineSizeLabel(l) || "—",
+        pdfCellText(l.partNumber),
+        pdfCellText(l.name || "—"),
+        pdfCellText(lineSizeLabel(l) || "—"),
         String(l.qty),
       ]),
       styles: {
+        font: PDF_FONT,
+        fontStyle: "normal",
         fontSize: 8.5,
         cellPadding: 3,
         textColor: NAVY,
         lineColor: [220, 226, 234],
         lineWidth: 0.2,
       },
-      headStyles: { fillColor: NAVY, textColor: WHITE, fontStyle: "bold", fontSize: 8 },
+      headStyles: {
+        font: PDF_FONT,
+        fillColor: NAVY,
+        textColor: WHITE,
+        fontStyle: "bold",
+        fontSize: 8,
+      },
       alternateRowStyles: { fillColor: LIGHT },
       columnStyles: {
         2: { fontStyle: "bold", textColor: ORANGE },
@@ -475,7 +488,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     let textY = finalY + 7;
     if (hasDiscount) {
       pdf.setTextColor(...ORANGE);
-      pdf.setFont("helvetica", "normal");
+      pdf.setFont(PDF_FONT, "normal");
       pdf.setFontSize(7);
       pdf.text(`Subtotal  ${currency(subtotal)}`, boxX + 8, textY);
       textY += 5;
@@ -487,7 +500,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       textY += 6;
     }
     pdf.setTextColor(...ORANGE);
-    pdf.setFont("helvetica", "bold");
+    pdf.setFont(PDF_FONT, "bold");
     pdf.setFontSize(8);
     pdf.text(
       doc.documentKind === "receipt"
@@ -523,11 +536,11 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   pdf.setLineWidth(0.5);
   pdf.line(margin, footerY, pageW - margin, footerY);
   pdf.setTextColor(...SLATE);
-  pdf.setFont("helvetica", "normal");
+  pdf.setFont(PDF_FONT, "normal");
   pdf.setFontSize(7.5);
   pdf.text("PARTS VILLAGE  ·  Heavy Equipment Parts", margin, footerY + 6);
   pdf.setTextColor(...ORANGE);
-  pdf.setFont("helvetica", "bold");
+  pdf.setFont(PDF_FONT, "bold");
   pdf.text(id, pageW - margin, footerY + 6, { align: "right" });
 
   return { pdf, id };
