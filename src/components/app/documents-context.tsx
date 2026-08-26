@@ -264,6 +264,16 @@ type DocumentsContextValue = {
     invoice: SavedDocument,
     payment?: Omit<RecordPaymentInput, "invoiceId">,
   ) => { invoice: SavedDocument; receipt?: SavedDocument };
+  /** Turn a quotation into an unpaid invoice (replaces the quote id). */
+  convertQuotationToInvoice: (
+    quotationId: string,
+    extras?: {
+      stockDeducted?: boolean;
+      oversoldByPart?: Record<string, number>;
+    },
+  ) => SavedDocument;
+  /** Turn an unpaid invoice (no payments/credits) back into a quotation. */
+  convertInvoiceToQuotation: (invoiceId: string) => SavedDocument;
 };
 
 const STORAGE_KEY = "parts-village-documents-v1";
@@ -952,6 +962,114 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     [setDocuments],
   );
 
+  const convertQuotationToInvoice = useCallback(
+    (
+      quotationId: string,
+      extras?: {
+        stockDeducted?: boolean;
+        oversoldByPart?: Record<string, number>;
+      },
+    ): SavedDocument => {
+      const out: SavedDocument[] = [];
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const quote = cur.find((d) => d.id === quotationId && d.kind === "quotation");
+        if (!quote) {
+          failure = new Error("Quotation not found");
+          return cur;
+        }
+        const now = new Date();
+        const invoiceId = generateDocId("invoice", now);
+        const noteBits = [
+          quote.internalNote?.trim(),
+          `Converted from quotation ${quote.id}`,
+        ].filter(Boolean);
+        const invoice: SavedDocument = {
+          ...quote,
+          id: invoiceId,
+          kind: "invoice",
+          status: "Unpaid",
+          amountPaid: 0,
+          stockDeducted: extras?.stockDeducted ? true : undefined,
+          oversoldByPart:
+            extras?.oversoldByPart && Object.keys(extras.oversoldByPart).length > 0
+              ? extras.oversoldByPart
+              : undefined,
+          internalNote: noteBits.join(" · ") || undefined,
+        };
+        out.push(invoice);
+        return [invoice, ...cur.filter((d) => d.id !== quotationId)];
+      });
+
+      if (failure) throw failure;
+      const invoiceDoc = out[0];
+      if (!invoiceDoc) throw new Error("Failed to convert quotation");
+      void syncDocumentToSupabase(invoiceDoc);
+      emitInvoiceBalanceChange(invoiceDoc.id, invoiceDoc.total);
+      return invoiceDoc;
+    },
+    [setDocuments],
+  );
+
+  const convertInvoiceToQuotation = useCallback(
+    (invoiceId: string): SavedDocument => {
+      const out: SavedDocument[] = [];
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const invoice = cur.find((d) => d.id === invoiceId && d.kind === "invoice");
+        if (!invoice) {
+          failure = new Error("Invoice not found");
+          return cur;
+        }
+        const paid = invoiceAmountPaid(invoice);
+        if (paid > 0.005) {
+          failure = new Error("Cannot revert — invoice has payments. Delete receipts first.");
+          return cur;
+        }
+        const hasReceipt = cur.some((d) => d.kind === "receipt" && d.invoiceId === invoice.id);
+        if (hasReceipt) {
+          failure = new Error("Cannot revert — invoice has receipts. Delete them first.");
+          return cur;
+        }
+        const hasCredit = cur.some((d) => d.kind === "credit_note" && d.invoiceId === invoice.id);
+        if (hasCredit) {
+          failure = new Error("Cannot revert — invoice has credit notes / returns.");
+          return cur;
+        }
+
+        const now = new Date();
+        const quoteId = generateDocId("quotation", now);
+        const noteBits = [
+          invoice.internalNote?.trim(),
+          `Converted back from invoice ${invoice.id}`,
+        ].filter(Boolean);
+        const quote: SavedDocument = {
+          ...invoice,
+          id: quoteId,
+          kind: "quotation",
+          status: "Sent",
+          amountPaid: undefined,
+          stockDeducted: undefined,
+          oversoldByPart: undefined,
+          internalNote: noteBits.join(" · ") || undefined,
+        };
+        out.push(quote);
+        return [quote, ...cur.filter((d) => d.id !== invoiceId)];
+      });
+
+      if (failure) throw failure;
+      const quoteDoc = out[0];
+      if (!quoteDoc) throw new Error("Failed to convert invoice");
+      void syncDocumentToSupabase(quoteDoc);
+      return quoteDoc;
+    },
+    [setDocuments],
+  );
+
   const docs = Array.isArray(documents) ? documents : [];
 
   const quotations = useMemo(() => docs.filter((d) => d.kind === "quotation"), [docs]);
@@ -978,6 +1096,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       recordInvoiceReturn,
       recordClientDiscount,
       addInvoiceWithOptionalReceipt,
+      convertQuotationToInvoice,
+      convertInvoiceToQuotation,
     }),
     [
       docs,
@@ -996,6 +1116,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       recordInvoiceReturn,
       recordClientDiscount,
       addInvoiceWithOptionalReceipt,
+      convertQuotationToInvoice,
+      convertInvoiceToQuotation,
     ],
   );
 

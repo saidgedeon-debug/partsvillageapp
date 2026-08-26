@@ -48,6 +48,7 @@ type FleetContextValue = {
   removeMachine: (id: string) => void;
   addOrder: (input: Omit<FleetOrder, "id"> & { id?: string }) => FleetOrder;
   updateOrder: (id: string, patch: Partial<FleetOrder>) => void;
+  removeOrder: (id: string) => void;
 };
 
 const STORAGE_KEY = "parts-village-fleet-v1";
@@ -184,6 +185,16 @@ export function FleetProvider({ children }: { children: ReactNode }) {
     [setStore],
   );
 
+  const removeOrder = useCallback(
+    (id: string) => {
+      setStore((prev) => ({
+        machines: prev.machines ?? [],
+        orders: (prev.orders ?? []).filter((order) => order.id !== id),
+      }));
+    },
+    [setStore],
+  );
+
   useEffect(() => {
     return onInvoiceBalanceChange((documentId, remaining) => {
       const nextStatus: FleetOrder["status"] = remaining <= 0.005 ? "Paid" : "Pending";
@@ -217,6 +228,7 @@ export function FleetProvider({ children }: { children: ReactNode }) {
       removeMachine,
       addOrder,
       updateOrder,
+      removeOrder,
     }),
     [
       machines,
@@ -229,6 +241,7 @@ export function FleetProvider({ children }: { children: ReactNode }) {
       removeMachine,
       addOrder,
       updateOrder,
+      removeOrder,
     ],
   );
 

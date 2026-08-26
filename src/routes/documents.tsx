@@ -4,6 +4,8 @@ import {
   Banknote,
   Download,
   Eye,
+  FileInput,
+  FileOutput,
   FileText,
   FileUp,
   MoreHorizontal,
@@ -26,6 +28,9 @@ import { PageHeader } from "@/components/app/page-header";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { useSearch } from "@/components/app/search-context";
 import { useCart } from "@/components/app/cart-context";
+import { useFleet } from "@/components/app/fleet-context";
+import { useInventory } from "@/components/app/inventory-context";
+import { useParties } from "@/components/app/parties-context";
 import {
   deleteReceiptConfirmMessage,
   invoiceAmountPaid,
@@ -55,8 +60,16 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { isDocumentCreatedPart } from "@/lib/document-created-parts";
 import { downloadSavedDocument, openSavedDocument, shareSavedDocument } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
+import {
+  computeOversoldByPart,
+  confirmOversell,
+  lineQtyByPart,
+  physicalRestockCap,
+  stockShortagesForQty,
+} from "@/lib/stock-sale";
 import { cn } from "@/lib/utils";
 const DOC_TABS = ["quotations", "invoices", "receipts", "credit_notes", "inquiries"] as const;
 type DocTab = (typeof DOC_TABS)[number];
@@ -90,8 +103,20 @@ function DocumentsPage() {
   const { tab } = Route.useSearch();
   const { query } = useSearch();
   const q = query.trim().toLowerCase();
-  const { quotations, invoices, receipts, creditNotes, inquiries, updateDocumentStatus, deleteInvoicePayment } =
-    useDocuments();
+  const {
+    quotations,
+    invoices,
+    receipts,
+    creditNotes,
+    inquiries,
+    updateDocumentStatus,
+    deleteInvoicePayment,
+    convertQuotationToInvoice,
+    convertInvoiceToQuotation,
+  } = useDocuments();
+  const { adjustPartQuantity, getPart } = useInventory();
+  const { clients } = useParties();
+  const { addOrder, orders, removeOrder } = useFleet();
   const { setDocumentKind, setCartOpen, clearCart } = useCart();
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<SavedDocument | null>(null);
@@ -204,6 +229,99 @@ function DocumentsPage() {
     setDocKind(doc.kind);
     setEditingDocument(doc);
     setInvoiceOpen(true);
+  };
+
+  const convertQuoteToInvoice = (quote: SavedDocument) => {
+    if (quote.kind !== "quotation") return;
+    if (!window.confirm(`Convert ${quote.id} to an unpaid invoice for ${quote.partyName}?`)) {
+      return;
+    }
+    const deductStock = window.confirm("Deduct stock for these lines now?");
+
+    let stockDeducted = false;
+    let oversoldByPart: Record<string, number> | undefined;
+    if (deductStock) {
+      const skipCreated = new Set(
+        quote.lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
+      );
+      const needed = lineQtyByPart(quote.lines);
+      if (!confirmOversell(stockShortagesForQty(needed, getPart, skipCreated))) return;
+
+      oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);
+      for (const line of quote.lines) {
+        const part = getPart(line.partId);
+        if (!part) continue;
+        if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
+          adjustPartQuantity(line.partId, line.qty - part.quantity);
+        }
+        adjustPartQuantity(line.partId, -line.qty);
+        stockDeducted = true;
+      }
+    }
+
+    try {
+      const invoice = convertQuotationToInvoice(quote.id, {
+        stockDeducted,
+        oversoldByPart,
+      });
+      const client =
+        (invoice.partyId && clients.find((c) => c.id === invoice.partyId)) ||
+        clients.find((c) => c.name.toLowerCase() === invoice.partyName.trim().toLowerCase());
+      if (client) {
+        addOrder({
+          id: `ord-${invoice.id}`,
+          clientId: client.id,
+          machineId: "",
+          date: invoice.date,
+          status: "Pending",
+          documentId: invoice.id,
+          lines: invoice.lines.map((l) => ({
+            partId: l.partId,
+            partNumber: l.partNumber,
+            name: l.name,
+            qty: l.qty,
+            unitPrice: l.unitPrice,
+          })),
+        });
+      }
+      toast.success(
+        `${quote.id} → ${invoice.id}` + (stockDeducted ? " · stock deducted" : ""),
+      );
+      void navigate({ search: { tab: "invoices" }, replace: true });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Convert failed");
+    }
+  };
+
+  const revertInvoiceToQuote = (invoice: SavedDocument) => {
+    if (invoice.kind !== "invoice") return;
+    const ok = window.confirm(
+      `Revert ${invoice.id} back to a quotation?\n\nOnly unpaid invoices with no receipts or returns can be reverted.` +
+        (invoice.stockDeducted ? "\nStock that was deducted will be restored." : ""),
+    );
+    if (!ok) return;
+
+    try {
+      if (invoice.stockDeducted) {
+        const soldByPart = lineQtyByPart(invoice.lines);
+        for (const [partId, soldQty] of soldByPart) {
+          if (!getPart(partId)) continue;
+          const oversoldQty = invoice.oversoldByPart?.[partId] ?? 0;
+          const qty = physicalRestockCap(soldQty, oversoldQty, 0);
+          if (qty > 0) adjustPartQuantity(partId, qty);
+        }
+      }
+      const quote = convertInvoiceToQuotation(invoice.id);
+      for (const order of orders) {
+        if (order.documentId === invoice.id || order.id === `ord-${invoice.id}`) {
+          removeOrder(order.id);
+        }
+      }
+      toast.success(`${invoice.id} → ${quote.id}`);
+      void navigate({ search: { tab: "quotations" }, replace: true });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Revert failed");
+    }
   };
 
   const openReceivePayment = (doc?: SavedDocument | null) => {
@@ -373,7 +491,13 @@ function DocumentsPage() {
                     key="s"
                     doc={qu}
                     options={["Draft", "Sent", "Accepted", "Rejected"]}
-                    onChange={(s) => updateDocumentStatus(qu.id, s as QuoteStatus)}
+                    onChange={(s) => {
+                      if (s === "Accepted") {
+                        convertQuoteToInvoice(qu);
+                        return;
+                      }
+                      updateDocumentStatus(qu.id, s as QuoteStatus);
+                    }}
                   />,
                   <OpenButton
                     key="o"
@@ -385,6 +509,11 @@ function DocumentsPage() {
                         label: "Edit",
                         icon: Pencil,
                         onSelect: () => openEditDocument(qu),
+                      },
+                      {
+                        label: "Convert to invoice",
+                        icon: FileOutput,
+                        onSelect: () => convertQuoteToInvoice(qu),
                       },
                     ]}
                   />,
@@ -510,6 +639,17 @@ function DocumentsPage() {
                           icon: Pencil,
                           onSelect: () => openEditDocument(iv),
                         },
+                        ...(invoiceAmountPaid(iv) <= 0.005 &&
+                        !creditNotes.some((c) => c.invoiceId === iv.id) &&
+                        !receipts.some((r) => r.invoiceId === iv.id)
+                          ? [
+                              {
+                                label: "Revert to quotation",
+                                icon: FileInput,
+                                onSelect: () => revertInvoiceToQuote(iv),
+                              },
+                            ]
+                          : []),
                         ...(invoiceHasReturnableLines(iv, creditNotes)
                           ? [
                               {
