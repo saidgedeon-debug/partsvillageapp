@@ -434,10 +434,13 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
     },
   };
 
+  const footerY = pageH - 16;
+  const footerReserve = 22; // line + labels below
+
   if (withMoney) {
     autoTable(pdf, {
       startY: tableStart,
-      margin: { left: margin, right: margin },
+      margin: { left: margin, right: margin, bottom: footerReserve + 42 },
       head: [["Part #", "Description", "Size", "Qty", moneyLabel, "Total"]],
       body: doc.lines.map((l) => {
         const unit = lineUnitAmount(l, doc.documentKind);
@@ -488,7 +491,7 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
   } else {
     autoTable(pdf, {
       startY: tableStart,
-      margin: { left: margin, right: margin },
+      margin: { left: margin, right: margin, bottom: footerReserve + 20 },
       head: [["Part #", "Description", "Size", "Qty"]],
       body: doc.lines.map((l) => [
         l.partNumber,
@@ -521,37 +524,45 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
     });
   }
 
-  const finalY =
+  let finalY =
     ((pdf as unknown as { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ??
       tableStart) + 8;
 
-  // Total hero box
+  // Total hero box — push to a new page if it would collide with the footer
   if (withMoney) {
-    const boxW = 72;
+    const boxW = 78;
     const hasDiscount = discountAmt > 0;
     const boxH =
-      doc.documentKind === "receipt" ? 28 : hasDiscount ? 36 : 22;
+      doc.documentKind === "receipt" ? 32 : hasDiscount ? 42 : 28;
     const boxX = pageW - margin - boxW;
+    if (finalY + boxH + 6 > footerY) {
+      pdf.addPage();
+      pdf.setFillColor(...ORANGE);
+      pdf.rect(0, 0, pageW, 3.2, "F");
+      pdf.setFillColor(...NAVY);
+      pdf.rect(0, 3.2, pageW, 1.1, "F");
+      finalY = 18;
+    }
     drawRoundedRect(pdf, boxX, finalY, boxW, boxH, 2.5, NAVY);
     pdf.setFillColor(...ORANGE);
     pdf.rect(boxX, finalY, 2.2, boxH, "F");
-    let textY = finalY + 7;
+    let textY = finalY + 8;
     if (hasDiscount) {
       pdf.setTextColor(...ORANGE);
       pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(7);
+      pdf.setFontSize(8.5);
       pdf.text(`Subtotal  ${currency(subtotal)}`, boxX + 8, textY);
-      textY += 5;
+      textY += 5.5;
       pdf.text(
         `Discount${discount?.type === "percent" ? ` ${discount.value}%` : ""}  −${currency(discountAmt)}`,
         boxX + 8,
         textY,
       );
-      textY += 6;
+      textY += 7;
     }
     pdf.setTextColor(...ORANGE);
     pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(8);
+    pdf.setFontSize(9);
     pdf.text(
       doc.documentKind === "receipt"
         ? "AMOUNT PAID"
@@ -562,36 +573,40 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
       textY,
     );
     pdf.setTextColor(...WHITE);
-    pdf.setFontSize(16);
-    pdf.text(total > 0 ? currency(total) : "TBD", boxX + 8, textY + 9);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(18);
+    pdf.text(total > 0 ? currency(total) : "TBD", boxX + 8, textY + 10);
     if (
       doc.documentKind === "receipt" &&
       typeof doc.invoiceTotal === "number" &&
       typeof doc.amountPaidAfter === "number"
     ) {
       const rem = Math.max(0, Math.round((doc.invoiceTotal - doc.amountPaidAfter) * 100) / 100);
-      pdf.setFontSize(7.5);
+      pdf.setFontSize(8);
       pdf.setTextColor(...ORANGE);
       pdf.text(
         rem <= 0.005 ? "Invoice paid in full" : `Remaining  ${currency(rem)}`,
         boxX + 8,
-        textY + 16,
+        textY + 17,
       );
     }
   }
 
-  // Footer
-  const footerY = pageH - 16;
-  pdf.setDrawColor(...ORANGE);
-  pdf.setLineWidth(0.5);
-  pdf.line(margin, footerY, pageW - margin, footerY);
-  pdf.setTextColor(...SLATE);
-  pdf.setFont("helvetica", "normal");
-  pdf.setFontSize(7.5);
-  pdf.text("PARTS VILLAGE  ·  Heavy Equipment Parts", margin, footerY + 6);
-  pdf.setTextColor(...ORANGE);
-  pdf.setFont("helvetica", "bold");
-  pdf.text(id, pageW - margin, footerY + 6, { align: "right" });
+  // Footer on every page
+  const pageCount = pdf.getNumberOfPages();
+  for (let p = 1; p <= pageCount; p++) {
+    pdf.setPage(p);
+    pdf.setDrawColor(...ORANGE);
+    pdf.setLineWidth(0.5);
+    pdf.line(margin, footerY, pageW - margin, footerY);
+    pdf.setTextColor(...SLATE);
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(7.5);
+    pdf.text("PARTS VILLAGE  ·  Heavy Equipment Parts", margin, footerY + 6);
+    pdf.setTextColor(...ORANGE);
+    pdf.setFont("helvetica", "bold");
+    pdf.text(id, pageW - margin, footerY + 6, { align: "right" });
+  }
 
   return { pdf, id };
 }
