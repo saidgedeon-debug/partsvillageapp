@@ -10,7 +10,12 @@ import {
 } from "@/components/app/documents-context";
 import type { PartyRecord } from "@/components/app/parties-context";
 import { currency } from "@/lib/mock-data";
-import { PDF_FONT, pdfCellText, preparePdfFonts } from "@/lib/pdf-fonts";
+import {
+  ensurePdfArabicFont,
+  hasArabic,
+  pdfDrawText,
+  renderArabicPng,
+} from "@/lib/pdf-fonts";
 
 export type ArBucket = "current" | "days31To60" | "days61Plus";
 
@@ -222,23 +227,64 @@ export function openOverdueWhatsApp(client: PartyRecord, statement: ArStatement)
   openWhatsAppText(client, overdueReminderText(client, statement));
 }
 
-export function downloadStatementPdf(client: PartyRecord, statement: ArStatement) {
+export async function downloadStatementPdf(client: PartyRecord, statement: ArStatement) {
+  await ensurePdfArabicFont();
   const pdf = new jsPDF();
-  preparePdfFonts(pdf);
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.setFontSize(18);
   pdf.text("PARTS VILLAGE", 14, 18);
   pdf.setFontSize(13);
   pdf.text("Account statement", 14, 29);
-  pdf.setFont(PDF_FONT, "normal");
+  pdf.setFont("helvetica", "normal");
   pdf.setFontSize(10);
-  pdf.text(pdfCellText(`Client: ${client.name}`), 14, 38);
+  pdfDrawText(pdf, `Client: ${client.name}`, 14, 38, {
+    maxWidthMm: 180,
+    color: "#000000",
+    align: "left",
+  });
   pdf.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 44);
+
+  const arabicHooks = {
+    didParseCell: (data: { section: string; cell: { raw?: unknown; text: string[] } }) => {
+      const raw = String(data.cell.raw ?? "");
+      if (data.section === "body" && hasArabic(raw)) data.cell.text = [""];
+    },
+    didDrawCell: (data: {
+      section: string;
+      cell: {
+        raw?: unknown;
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        styles: { fontSize?: number };
+      };
+    }) => {
+      const raw = String(data.cell.raw ?? "");
+      if (data.section !== "body" || !hasArabic(raw)) return;
+      const img = renderArabicPng(raw, {
+        fontPt: data.cell.styles.fontSize ?? 10,
+        maxWidthMm: Math.max(8, data.cell.width - 4),
+        color: "#000000",
+        align: "left",
+      });
+      if (!img.dataUrl) return;
+      pdf.addImage(
+        img.dataUrl,
+        "PNG",
+        data.cell.x + 2,
+        data.cell.y + (data.cell.height - img.heightMm) / 2,
+        img.widthMm,
+        img.heightMm,
+      );
+    },
+  };
+
   autoTable(pdf, {
     startY: 51,
     head: [["Invoice", "Date", "Age", "Total", "Paid", "Credits", "Due"]],
     body: statement.rows.map((row) => [
-      pdfCellText(row.invoice.id),
+      row.invoice.id,
       row.invoice.date,
       `${row.ageDays}d`,
       currency(row.invoice.total),
@@ -246,8 +292,9 @@ export function downloadStatementPdf(client: PartyRecord, statement: ArStatement
       currency(row.credits),
       currency(row.remaining),
     ]),
-    styles: { font: PDF_FONT, fontStyle: "normal" },
-    headStyles: { font: PDF_FONT, fontStyle: "bold" },
+    styles: { font: "helvetica", fontStyle: "normal" },
+    headStyles: { font: "helvetica", fontStyle: "bold" },
+    ...arabicHooks,
   });
   let finalY =
     (pdf as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? 60;
@@ -257,20 +304,21 @@ export function downloadStatementPdf(client: PartyRecord, statement: ArStatement
       startY: finalY + 8,
       head: [["Credit", "Date", "Type", "Invoice", "Amount"]],
       body: statement.creditNotes.map((cn) => [
-        pdfCellText(cn.id),
+        cn.id,
         cn.date,
         creditLabel(cn),
-        pdfCellText(cn.invoiceId ?? "—"),
+        cn.invoiceId ?? "—",
         `−${currency(cn.total)}`,
       ]),
-      styles: { font: PDF_FONT, fontStyle: "normal" },
-      headStyles: { font: PDF_FONT, fontStyle: "bold" },
+      styles: { font: "helvetica", fontStyle: "normal" },
+      headStyles: { font: "helvetica", fontStyle: "bold" },
+      ...arabicHooks,
     });
     finalY =
       (pdf as jsPDF & { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? finalY;
   }
 
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.text(`Total due: ${currency(statement.total)}`, 14, finalY + 12);
   pdf.save(`statement-${client.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.pdf`);
 }

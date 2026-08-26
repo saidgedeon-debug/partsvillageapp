@@ -124,9 +124,9 @@ function ClientDetail() {
       });
   }, [client, quotations, invoices, receipts, creditNotes]);
 
-  const openDoc = (doc: SavedDocument) => {
+  const openDoc = async (doc: SavedDocument) => {
     const enriched = receiptWithBalanceSnapshot(doc, invoices);
-    const { id, blobUrl } = openSavedDocument(enriched);
+    const { id, blobUrl } = await openSavedDocument(enriched);
     setPreview({ id, blobUrl, doc });
   };
 
@@ -319,7 +319,7 @@ function ClientDetail() {
                 size="sm"
                 variant="outline"
                 disabled={!statement.invoices.length && statement.creditNotes.length === 0}
-                onClick={() => downloadStatementPdf(client, statement)}
+                onClick={() => void downloadStatementPdf(client, statement)}
               >
                 <Download className="mr-1 h-3.5 w-3.5" />
                 PDF
@@ -840,8 +840,10 @@ function ClientDetail() {
         blobUrl={preview?.blobUrl ?? null}
         onDownload={() => {
           if (!preview) return;
-          downloadSavedDocument(receiptWithBalanceSnapshot(preview.doc, invoices));
-          toast.success(`Downloaded ${preview.doc.id}.pdf`);
+          void (async () => {
+            await downloadSavedDocument(receiptWithBalanceSnapshot(preview.doc, invoices));
+            toast.success(`Downloaded ${preview.doc.id}.pdf`);
+          })();
         }}
         onShare={() => {
           if (!preview) return;

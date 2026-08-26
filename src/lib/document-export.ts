@@ -7,7 +7,12 @@ import { currency } from "@/lib/mock-data";
 import { documentGrandTotal, documentTaxAmount, documentDiscountAmount, normalizeDocumentDiscount, roundMoney } from "@/lib/document-money";
 import type { DocumentDiscountType } from "@/lib/document-money";
 import { PARTS_VILLAGE_LOGO_PNG_BASE64 } from "@/lib/parts-village-logo-base64";
-import { PDF_FONT, pdfCellText, preparePdfFonts } from "@/lib/pdf-fonts";
+import {
+  ensurePdfArabicFont,
+  hasArabic,
+  pdfDrawText,
+  renderArabicPng,
+} from "@/lib/pdf-fonts";
 
 const docLabels: Record<DocumentKind, string> = {
   quotation: "Quotation",
@@ -264,7 +269,8 @@ function drawRoundedRect(
 }
 
 /** Build the branded PDF document (no download / no open). */
-export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
+export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string }> {
+  await ensurePdfArabicFont();
   const date = doc.createdAt ?? new Date();
   const id = resolveDocId(doc, date);
   const partyLabel = doc.partyKind === "client" ? "Bill to" : "Supplier";
@@ -272,7 +278,6 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   const moneyLabel = doc.documentKind === "inquiry" ? "Cost" : "Price";
   const title = docLabels[doc.documentKind].toUpperCase();
   const pdf = new jsPDF({ unit: "mm", format: "a4" });
-  preparePdfFonts(pdf);
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
   const margin = 14;
@@ -302,13 +307,13 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   const badgeX = pageW - margin - badgeW;
   drawRoundedRect(pdf, badgeX, 12, badgeW, badgeH, 2.5, ORANGE);
   pdf.setTextColor(...WHITE);
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.setFontSize(12);
   pdf.text(title, badgeX + badgeW / 2, 19.5, { align: "center" });
 
   // Tagline under badge
   pdf.setTextColor(...SLATE);
-  pdf.setFont(PDF_FONT, "normal");
+  pdf.setFont("helvetica", "normal");
   pdf.setFontSize(8);
   pdf.text("HEAVY EQUIPMENT PARTS", badgeX + badgeW / 2, 30, { align: "center" });
 
@@ -328,15 +333,19 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   pdf.rect(margin, cardY, 1.6, cardH, "F");
 
   pdf.setTextColor(...ORANGE);
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.setFontSize(7.5);
   pdf.text(partyLabel.toUpperCase(), margin + 5, cardY + 7);
   pdf.setTextColor(...NAVY);
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.setFontSize(13);
-  pdf.text(pdfCellText(doc.partyName || "—"), margin + 5, cardY + 15);
+  pdfDrawText(pdf, doc.partyName || "—", margin + 5, cardY + 15, {
+    maxWidthMm: cardW - 12,
+    color: "#0B1F33",
+    align: "left",
+  });
   pdf.setTextColor(...SLATE);
-  pdf.setFont(PDF_FONT, "normal");
+  pdf.setFont("helvetica", "normal");
   pdf.setFontSize(8);
   pdf.text("Parts Village client document", margin + 5, cardY + 22);
 
@@ -346,15 +355,15 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   pdf.rect(rightX, cardY, 1.6, cardH, "F");
 
   pdf.setTextColor(...ORANGE);
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.setFontSize(7.5);
   pdf.text("DOCUMENT", rightX + 5, cardY + 7);
   pdf.setTextColor(...NAVY);
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.setFontSize(10);
   pdf.text(id, rightX + 5, cardY + 14);
   pdf.setTextColor(...SLATE);
-  pdf.setFont(PDF_FONT, "normal");
+  pdf.setFont("helvetica", "normal");
   pdf.setFontSize(8.5);
   pdf.text(`Date  ${date.toISOString().slice(0, 10)}`, rightX + 5, cardY + 21);
 
@@ -364,11 +373,11 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     const meta = receiptMetaLines(doc);
     let metaY = cardY + cardH + 6;
     pdf.setTextColor(...NAVY);
-    pdf.setFont(PDF_FONT, "bold");
+    pdf.setFont("helvetica", "bold");
     pdf.setFontSize(9);
     pdf.text("PAYMENT DETAILS", margin, metaY);
     metaY += 5;
-    pdf.setFont(PDF_FONT, "normal");
+    pdf.setFont("helvetica", "normal");
     pdf.setFontSize(9);
     pdf.setTextColor(...SLATE);
     for (const line of meta) {
@@ -387,6 +396,44 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   const discountAmt = documentDiscountAmount(subtotal, discount);
   const total = documentGrandTotal(subtotal, discount);
 
+  const arabicCellHooks = {
+    didParseCell: (data: {
+      section: string;
+      cell: { raw?: unknown; text: string[] };
+    }) => {
+      const raw = String(data.cell.raw ?? "");
+      if (data.section === "body" && hasArabic(raw)) {
+        data.cell.text = [""];
+      }
+    },
+    didDrawCell: (data: {
+      section: string;
+      cell: {
+        raw?: unknown;
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+        styles: { fontSize?: number; textColor?: unknown };
+      };
+    }) => {
+      const raw = String(data.cell.raw ?? "");
+      if (data.section !== "body" || !hasArabic(raw)) return;
+      const pad = 2;
+      const fontPt = data.cell.styles.fontSize ?? 8.5;
+      const img = renderArabicPng(raw, {
+        fontPt,
+        maxWidthMm: Math.max(8, data.cell.width - pad * 2),
+        color: "#0B1F33",
+        align: "right",
+      });
+      if (!img.dataUrl) return;
+      const x = data.cell.x + data.cell.width - pad - img.widthMm;
+      const y = data.cell.y + (data.cell.height - img.heightMm) / 2;
+      pdf.addImage(img.dataUrl, "PNG", x, y, img.widthMm, img.heightMm);
+    },
+  };
+
   if (withMoney) {
     autoTable(pdf, {
       startY: tableStart,
@@ -395,16 +442,16 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       body: doc.lines.map((l) => {
         const unit = lineUnitAmount(l, doc.documentKind);
         return [
-          pdfCellText(l.partNumber),
-          pdfCellText(l.name || "—"),
-          pdfCellText(lineSizeLabel(l) || "—"),
+          l.partNumber,
+          l.name || "—",
+          lineSizeLabel(l) || "—",
           String(l.qty),
           unit > 0 ? currency(unit) : "—",
           unit > 0 ? currency(lineTotal(l, doc.documentKind)) : "—",
         ];
       }),
       styles: {
-        font: PDF_FONT,
+        font: "helvetica",
         fontStyle: "normal",
         fontSize: 8.5,
         cellPadding: { top: 3.2, bottom: 3.2, left: 2.5, right: 2.5 },
@@ -414,7 +461,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
         valign: "middle",
       },
       headStyles: {
-        font: PDF_FONT,
+        font: "helvetica",
         fillColor: NAVY,
         textColor: WHITE,
         fontStyle: "bold",
@@ -430,6 +477,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
         4: { cellWidth: 26, halign: "right" },
         5: { cellWidth: 28, halign: "right", fontStyle: "bold" },
       },
+      ...arabicCellHooks,
       didDrawPage: () => {
         pdf.setFillColor(...ORANGE);
         pdf.rect(0, 0, pageW, 3.2, "F");
@@ -443,13 +491,13 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       margin: { left: margin, right: margin },
       head: [["Part #", "Description", "Size", "Qty"]],
       body: doc.lines.map((l) => [
-        pdfCellText(l.partNumber),
-        pdfCellText(l.name || "—"),
-        pdfCellText(lineSizeLabel(l) || "—"),
+        l.partNumber,
+        l.name || "—",
+        lineSizeLabel(l) || "—",
         String(l.qty),
       ]),
       styles: {
-        font: PDF_FONT,
+        font: "helvetica",
         fontStyle: "normal",
         fontSize: 8.5,
         cellPadding: 3,
@@ -458,7 +506,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
         lineWidth: 0.2,
       },
       headStyles: {
-        font: PDF_FONT,
+        font: "helvetica",
         fillColor: NAVY,
         textColor: WHITE,
         fontStyle: "bold",
@@ -466,8 +514,10 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       },
       alternateRowStyles: { fillColor: LIGHT },
       columnStyles: {
+        1: { halign: "right" },
         2: { fontStyle: "bold", textColor: ORANGE },
       },
+      ...arabicCellHooks,
     });
   }
 
@@ -488,7 +538,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
     let textY = finalY + 7;
     if (hasDiscount) {
       pdf.setTextColor(...ORANGE);
-      pdf.setFont(PDF_FONT, "normal");
+      pdf.setFont("helvetica", "normal");
       pdf.setFontSize(7);
       pdf.text(`Subtotal  ${currency(subtotal)}`, boxX + 8, textY);
       textY += 5;
@@ -500,7 +550,7 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
       textY += 6;
     }
     pdf.setTextColor(...ORANGE);
-    pdf.setFont(PDF_FONT, "bold");
+    pdf.setFont("helvetica", "bold");
     pdf.setFontSize(8);
     pdf.text(
       doc.documentKind === "receipt"
@@ -536,19 +586,19 @@ export function buildPdf(doc: ExportDoc): { pdf: jsPDF; id: string } {
   pdf.setLineWidth(0.5);
   pdf.line(margin, footerY, pageW - margin, footerY);
   pdf.setTextColor(...SLATE);
-  pdf.setFont(PDF_FONT, "normal");
+  pdf.setFont("helvetica", "normal");
   pdf.setFontSize(7.5);
   pdf.text("PARTS VILLAGE  ·  Heavy Equipment Parts", margin, footerY + 6);
   pdf.setTextColor(...ORANGE);
-  pdf.setFont(PDF_FONT, "bold");
+  pdf.setFont("helvetica", "bold");
   pdf.text(id, pageW - margin, footerY + 6, { align: "right" });
 
   return { pdf, id };
 }
 
 /** Build a PDF File for download / native share (never a website URL). */
-export function buildPdfFile(doc: ExportDoc): { id: string; file: File } {
-  const { pdf, id } = buildPdf(doc);
+export async function buildPdfFile(doc: ExportDoc): Promise<{ id: string; file: File }> {
+  const { pdf, id } = await buildPdf(doc);
   const blob = pdf.output("blob");
   const file = new File([blob], `${id}.pdf`, { type: "application/pdf" });
   return { id, file };
@@ -570,7 +620,7 @@ export function canSharePdfFile(file: File): boolean {
 export async function sharePdfFile(
   doc: ExportDoc,
 ): Promise<{ id: string; shared: boolean; cancelled?: boolean }> {
-  const { id, file } = buildPdfFile(doc);
+  const { id, file } = await buildPdfFile(doc);
   const title = `Parts Village — ${docLabels[doc.documentKind]} ${id}`;
   const text = buildShareText(doc);
 
@@ -594,15 +644,15 @@ export async function sharePdfFile(
 }
 
 /** Build PDF and return a blob URL for in-app preview (does not download). */
-export function viewPdf(doc: ExportDoc): { id: string; blobUrl: string } {
-  const { id, file } = buildPdfFile(doc);
+export async function viewPdf(doc: ExportDoc): Promise<{ id: string; blobUrl: string }> {
+  const { id, file } = await buildPdfFile(doc);
   const blobUrl = URL.createObjectURL(file);
   return { id, blobUrl };
 }
 
 /** Explicit download only — call when the user asks to download. */
-export function downloadPdf(doc: ExportDoc): string {
-  const { id, file } = buildPdfFile(doc);
+export async function downloadPdf(doc: ExportDoc): Promise<string> {
+  const { id, file } = await buildPdfFile(doc);
   forceDownloadBlob(file, `${id}.pdf`);
   return id;
 }
@@ -648,12 +698,14 @@ function toExportDoc(doc: SavedDocInput): ExportDoc {
 }
 
 /** Preview a saved document (no download). */
-export function openSavedDocument(doc: SavedDocInput): { id: string; blobUrl: string } {
+export async function openSavedDocument(
+  doc: SavedDocInput,
+): Promise<{ id: string; blobUrl: string }> {
   return viewPdf(toExportDoc(doc));
 }
 
 /** Download a saved document PDF. */
-export function downloadSavedDocument(doc: SavedDocInput): string {
+export async function downloadSavedDocument(doc: SavedDocInput): Promise<string> {
   return downloadPdf(toExportDoc(doc));
 }
 
@@ -720,7 +772,7 @@ export async function exportAndDeliver(
     return { id: result.id, sharedFile: false };
   }
 
-  const id = format === "pdf" ? downloadPdf(doc) : downloadExcel(doc);
+  const id = format === "pdf" ? await downloadPdf(doc) : downloadExcel(doc);
   if (delivery === "whatsapp") openWhatsApp(doc);
   if (delivery === "wechat") openWeChatShare(doc);
   if (delivery === "email") openEmailShare(doc);

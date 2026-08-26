@@ -225,14 +225,14 @@ function DocumentsPage() {
 
   const withReceiptBalance = (doc: SavedDocument) => receiptWithBalanceSnapshot(doc, invoices);
 
-  const openDoc = (doc: SavedDocument) => {
+  const openDoc = async (doc: SavedDocument) => {
     const enriched = withReceiptBalance(doc);
-    const { id, blobUrl } = openSavedDocument(enriched);
+    const { id, blobUrl } = await openSavedDocument(enriched);
     setPreview({ id, blobUrl, doc });
   };
 
-  const downloadDoc = (doc: SavedDocument) => {
-    downloadSavedDocument(withReceiptBalance(doc));
+  const downloadDoc = async (doc: SavedDocument) => {
+    await downloadSavedDocument(withReceiptBalance(doc));
     toast.success(`Downloaded ${doc.id}.pdf`);
   };
 
@@ -309,7 +309,7 @@ function DocumentsPage() {
           title={preview?.id ?? "Document"}
           blobUrl={preview?.blobUrl ?? null}
           onDownload={() => {
-            if (preview) downloadDoc(preview.doc);
+            if (preview) void downloadDoc(preview.doc);
           }}
           onShare={() => {
             if (preview) void shareDoc(preview.doc);
