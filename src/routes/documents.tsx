@@ -5,6 +5,7 @@ import {
   Download,
   Eye,
   FileText,
+  FileUp,
   MoreHorizontal,
   PackageSearch,
   Pencil,
@@ -19,6 +20,7 @@ import { toast } from "sonner";
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
 import { CreateReturnDialog } from "@/components/app/create-return-dialog";
 import { EmptyState } from "@/components/app/empty-state";
+import { QuotationExcelImportDialog } from "@/components/app/quotation-excel-import-dialog";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
 import { PageHeader } from "@/components/app/page-header";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
@@ -94,6 +96,7 @@ function DocumentsPage() {
   const [invoiceOpen, setInvoiceOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<SavedDocument | null>(null);
   const [docKind, setDocKind] = useState<"invoice" | "quotation">("invoice");
+  const [quoteImportOpen, setQuoteImportOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
   const [editingReceipt, setEditingReceipt] = useState<SavedDocument | null>(null);
@@ -262,6 +265,14 @@ function DocumentsPage() {
             if (!open) setEditingDocument(null);
           }}
         />
+        <QuotationExcelImportDialog
+          open={quoteImportOpen}
+          onOpenChange={setQuoteImportOpen}
+          onImported={(quotation) => {
+            void navigate({ search: { tab: "quotations" }, replace: true });
+            toast.success(`Opened quotations · ${quotation.id}`);
+          }}
+        />
         <RecordPaymentDialog
           open={paymentOpen}
           invoice={paymentInvoice}
@@ -332,6 +343,18 @@ function DocumentsPage() {
             <DocCard
               title="Quotations"
               onNew={openNewQuotation}
+              extraAction={
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="gap-1.5"
+                  onClick={() => setQuoteImportOpen(true)}
+                >
+                  <FileUp className="h-3.5 w-3.5" />
+                  Import Excel
+                </Button>
+              }
               headers={["#", "Client", "Date", "Parts", "Total", "Status", ""]}
               rows={filteredQuotes.map((qu) => ({
                 key: qu.id,
