@@ -144,7 +144,7 @@ export function RecordPaymentDialog({
       setAmount(String(roundMoney(receipt.total)));
       setPaymentDate(receipt.paymentDate || receipt.date || localTodayIso());
       setMobile(receipt.paymentMobile ?? "");
-      setNote(receipt.internalNote ?? "");
+      setNote(receipt.customerNote ?? receipt.internalNote ?? "");
       setSubmitting(false);
       return;
     }
@@ -351,12 +351,12 @@ export function RecordPaymentDialog({
           ) : null}
 
           <div className="space-y-1.5">
-            <Label htmlFor="pay-note">Note (optional)</Label>
+            <Label htmlFor="pay-note">Note on receipt (optional)</Label>
             <Input
               id="pay-note"
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="Staff note — not shown on PDF title"
+              placeholder="Printed on the receipt PDF…"
             />
           </div>
         </div>

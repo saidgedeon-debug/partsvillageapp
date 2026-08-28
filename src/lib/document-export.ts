@@ -49,6 +49,8 @@ export type ExportDoc = {
   invoiceTotal?: number;
   amountPaidAfter?: number;
   internalNote?: string;
+  /** Printed on the PDF for the client. */
+  customerNote?: string;
 };
 
 function exportDiscount(doc: ExportDoc) {
@@ -384,8 +386,12 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
       pdf.text(line, margin, metaY);
       metaY += 5;
     }
-    if (doc.internalNote?.trim()) {
-      pdf.text(`Note  ${doc.internalNote.trim()}`, margin, metaY);
+    if (doc.customerNote?.trim()) {
+      pdfDrawText(pdf, `Note  ${doc.customerNote.trim()}`, margin, metaY, {
+        maxWidthMm: pageW - margin * 2,
+        color: "#5B6B7C",
+        align: "left",
+      });
       metaY += 5;
     }
     tableStart = metaY + 4;
@@ -592,6 +598,48 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
     }
   }
 
+  // Customer-facing note (quotation / invoice / credit note)
+  if (
+    doc.documentKind !== "receipt" &&
+    doc.customerNote?.trim()
+  ) {
+    const noteText = doc.customerNote.trim();
+    const noteBlockH = 16;
+    let noteY = finalY;
+    if (withMoney) {
+      // Place under the totals box, left side
+      const hasDiscount = discountAmt > 0;
+      const boxH = hasDiscount ? 42 : 28;
+      noteY = finalY + boxH + 6;
+    }
+    if (noteY + noteBlockH > footerY) {
+      pdf.addPage();
+      pdf.setFillColor(...ORANGE);
+      pdf.rect(0, 0, pageW, 3.2, "F");
+      pdf.setFillColor(...NAVY);
+      pdf.rect(0, 3.2, pageW, 1.1, "F");
+      noteY = 18;
+    }
+    pdf.setTextColor(...ORANGE);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(8);
+    pdf.text("NOTE", margin, noteY);
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.setTextColor(...NAVY);
+    const wrapped = pdf.splitTextToSize(noteText, pageW - margin * 2 - 80);
+    // For Arabic, draw as one canvas line (wrap separately if needed)
+    if (hasArabic(noteText)) {
+      pdfDrawText(pdf, noteText, margin, noteY + 6, {
+        maxWidthMm: pageW - margin * 2 - 80,
+        color: "#0B1F33",
+        align: "left",
+      });
+    } else {
+      pdf.text(wrapped, margin, noteY + 6);
+    }
+  }
+
   // Footer on every page
   const pageCount = pdf.getNumberOfPages();
   for (let p = 1; p <= pageCount; p++) {
@@ -689,6 +737,7 @@ type SavedDocInput = {
   invoiceTotal?: number;
   amountPaidAfter?: number;
   internalNote?: string;
+  customerNote?: string;
 };
 
 function toExportDoc(doc: SavedDocInput): ExportDoc {
@@ -709,6 +758,7 @@ function toExportDoc(doc: SavedDocInput): ExportDoc {
     invoiceTotal: doc.invoiceTotal,
     amountPaidAfter: doc.amountPaidAfter,
     internalNote: doc.internalNote,
+    customerNote: doc.customerNote,
   };
 }
 

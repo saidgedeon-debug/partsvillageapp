@@ -44,6 +44,8 @@ export type SavedDocument = {
   discountValue?: number;
   /** Private staff note — never printed on the PDF. */
   internalNote?: string;
+  /** Customer-facing note — printed on quotation / invoice / receipt PDFs. */
+  customerNote?: string;
   /** Invoice: units sold above on-hand at deduction time (partId → qty). */
   oversoldByPart?: Record<string, number>;
   /** Cumulative amount collected on an invoice. */
@@ -430,9 +432,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           affectsBalance: !alreadyPaid,
           invoiceTotal: invoice.total,
           amountPaidAfter: paidAfter,
-          internalNote:
-            input.note?.trim() ||
-            (alreadyPaid ? "Receipt created for already-paid invoice" : undefined),
+          customerNote: input.note?.trim() || undefined,
+          internalNote: alreadyPaid ? "Receipt created for already-paid invoice" : undefined,
           lines: [
             {
               partId: `pay-${invoice.id}`,
@@ -546,7 +547,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           amountPaidAfter: affects
             ? Math.max(0, Math.round((paidBefore - oldAmount + amount) * 100) / 100)
             : paidBefore,
-          internalNote: input.note?.trim() || undefined,
+          customerNote: input.note?.trim() || undefined,
           lines: [
             {
               partId: `pay-${invoice.id}`,
@@ -923,7 +924,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           affectsBalance: true,
           invoiceTotal: invoiceInput.total,
           amountPaidAfter: paidAfter,
-          internalNote: payment.note?.trim() || undefined,
+          customerNote: payment.note?.trim() || undefined,
           lines: [
             {
               partId: `pay-${invoiceInput.id}`,

@@ -116,6 +116,7 @@ export function CreateInvoiceDialog({
   const [partQuery, setPartQuery] = useState("");
   const [deductStock, setDeductStock] = useState(true);
   const [internalNote, setInternalNote] = useState("");
+  const [customerNote, setCustomerNote] = useState("");
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
   const [createPartOpen, setCreatePartOpen] = useState(false);
@@ -135,6 +136,7 @@ export function CreateInvoiceDialog({
       setPartyId(editing.partyId);
       setLines(editing.lines.map((l) => ({ ...l })));
       setInternalNote(editing.internalNote ?? "");
+      setCustomerNote(editing.customerNote ?? "");
       setDiscountType(editing.discountType === "amount" ? "amount" : "percent");
       setDiscountValue(
         typeof editing.discountValue === "number" && editing.discountValue > 0
@@ -152,6 +154,7 @@ export function CreateInvoiceDialog({
     setPartQuery("");
     setDeductStock(true);
     setInternalNote("");
+    setCustomerNote("");
     setDiscountType("percent");
     setDiscountValue(0);
     setCreatePartOpen(false);
@@ -254,6 +257,7 @@ export function CreateInvoiceDialog({
     }
 
     const note = internalNote.trim() || undefined;
+    const printedNote = customerNote.trim() || undefined;
     const lineSubtotal = roundMoney(lines.reduce((s, l) => s + lineTotal(l, docKind), 0));
     const appliedDiscount = normalizeDocumentDiscount(discountType, discountValue);
     const docTotal = documentGrandTotal(lineSubtotal, appliedDiscount);
@@ -332,6 +336,7 @@ export function CreateInvoiceDialog({
           status,
           lines: [...lines],
           internalNote: note,
+          customerNote: printedNote,
           discountType: appliedDiscount?.type,
           discountValue: appliedDiscount?.value,
         });
@@ -345,6 +350,7 @@ export function CreateInvoiceDialog({
           status: (editing.status as QuoteStatus) || "Sent",
           lines: [...lines],
           internalNote: note,
+          customerNote: printedNote,
           discountType: appliedDiscount?.type,
           discountValue: appliedDiscount?.value,
         });
@@ -399,6 +405,7 @@ export function CreateInvoiceDialog({
       oversoldByPart:
         oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
       internalNote: note,
+      customerNote: printedNote,
       discountType: appliedDiscount?.type,
       discountValue: appliedDiscount?.value,
     };
@@ -636,6 +643,20 @@ export function CreateInvoiceDialog({
 
           <section className="space-y-2">
             <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="invoice-customer-note">Note on document</Label>
+              <span className="text-[11px] text-muted-foreground">Printed on PDF</span>
+            </div>
+            <Textarea
+              id="invoice-customer-note"
+              value={customerNote}
+              onChange={(e) => setCustomerNote(e.target.value)}
+              placeholder="Shown on the quotation / invoice PDF for the client…"
+              className="min-h-[72px] resize-y"
+            />
+          </section>
+
+          <section className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
               <Label htmlFor="invoice-internal-note">Internal note</Label>
               <span className="text-[11px] text-muted-foreground">Private · not on PDF</span>
             </div>
@@ -643,7 +664,7 @@ export function CreateInvoiceDialog({
               id="invoice-internal-note"
               value={internalNote}
               onChange={(e) => setInternalNote(e.target.value)}
-              placeholder="Staff-only note (delivery tip, reminder, etc.) — never printed on the invoice…"
+              placeholder="Staff-only note (delivery tip, reminder, etc.) — never printed…"
               className="min-h-[72px] resize-y"
             />
           </section>
