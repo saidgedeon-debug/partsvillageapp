@@ -21,6 +21,7 @@ import { toast } from "sonner";
 
 import { CreateInvoiceDialog } from "@/components/app/create-invoice-dialog";
 import { CreateReturnDialog } from "@/components/app/create-return-dialog";
+import { confirmAction } from "@/components/app/confirm-dialog";
 import { EmptyState } from "@/components/app/empty-state";
 import { QuotationExcelImportDialog } from "@/components/app/quotation-excel-import-dialog";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
@@ -231,12 +232,20 @@ function DocumentsPage() {
     setInvoiceOpen(true);
   };
 
-  const convertQuoteToInvoice = (quote: SavedDocument) => {
+  const convertQuoteToInvoice = async (quote: SavedDocument) => {
     if (quote.kind !== "quotation") return;
-    if (!window.confirm(`Convert ${quote.id} to an unpaid invoice for ${quote.partyName}?`)) {
-      return;
-    }
-    const deductStock = window.confirm("Deduct stock for these lines now?");
+    const convertOk = await confirmAction({
+      title: `Convert ${quote.id} to invoice?`,
+      description: `Create an unpaid invoice for ${quote.partyName}.`,
+      confirmLabel: "Convert",
+    });
+    if (!convertOk) return;
+    const deductStock = await confirmAction({
+      title: "Deduct stock?",
+      description: "Deduct stock for these lines now?",
+      confirmLabel: "Deduct stock",
+      cancelLabel: "Keep stock",
+    });
 
     let stockDeducted = false;
     let oversoldByPart: Record<string, number> | undefined;
@@ -245,7 +254,7 @@ function DocumentsPage() {
         quote.lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
       );
       const needed = lineQtyByPart(quote.lines);
-      if (!confirmOversell(stockShortagesForQty(needed, getPart, skipCreated))) return;
+      if (!(await confirmOversell(stockShortagesForQty(needed, getPart, skipCreated)))) return;
 
       oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);
       for (const line of quote.lines) {
@@ -293,12 +302,16 @@ function DocumentsPage() {
     }
   };
 
-  const revertInvoiceToQuote = (invoice: SavedDocument) => {
+  const revertInvoiceToQuote = async (invoice: SavedDocument) => {
     if (invoice.kind !== "invoice") return;
-    const ok = window.confirm(
-      `Revert ${invoice.id} back to a quotation?\n\nOnly unpaid invoices with no receipts or returns can be reverted.` +
+    const ok = await confirmAction({
+      title: `Revert ${invoice.id} to a quotation?`,
+      description:
+        "Only unpaid invoices with no receipts or returns can be reverted." +
         (invoice.stockDeducted ? "\nStock that was deducted will be restored." : ""),
-    );
+      confirmLabel: "Revert",
+      destructive: true,
+    });
     if (!ok) return;
 
     try {
@@ -727,16 +740,23 @@ function DocumentsPage() {
                       className="h-8 gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
                       onClick={(e) => {
                         e.stopPropagation();
-                        const ok = window.confirm(deleteReceiptConfirmMessage(rc));
-                        if (!ok) return;
-                        try {
-                          deleteInvoicePayment(rc.id);
-                          toast.success(`Deleted ${rc.id}`);
-                        } catch (err) {
-                          toast.error(
-                            err instanceof Error ? err.message : "Failed to delete receipt",
-                          );
-                        }
+                        void (async () => {
+                          const ok = await confirmAction({
+                            title: "Delete receipt?",
+                            description: deleteReceiptConfirmMessage(rc),
+                            confirmLabel: "Delete",
+                            destructive: true,
+                          });
+                          if (!ok) return;
+                          try {
+                            deleteInvoicePayment(rc.id);
+                            toast.success(`Deleted ${rc.id}`);
+                          } catch (err) {
+                            toast.error(
+                              err instanceof Error ? err.message : "Failed to delete receipt",
+                            );
+                          }
+                        })();
                       }}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -756,16 +776,23 @@ function DocumentsPage() {
                           label: "Delete payment",
                           icon: Trash2,
                           onSelect: () => {
-                            const ok = window.confirm(deleteReceiptConfirmMessage(rc));
-                            if (!ok) return;
-                            try {
-                              deleteInvoicePayment(rc.id);
-                              toast.success(`Deleted ${rc.id}`);
-                            } catch (err) {
-                              toast.error(
-                                err instanceof Error ? err.message : "Failed to delete receipt",
-                              );
-                            }
+                            void (async () => {
+                              const ok = await confirmAction({
+                                title: "Delete receipt?",
+                                description: deleteReceiptConfirmMessage(rc),
+                                confirmLabel: "Delete",
+                                destructive: true,
+                              });
+                              if (!ok) return;
+                              try {
+                                deleteInvoicePayment(rc.id);
+                                toast.success(`Deleted ${rc.id}`);
+                              } catch (err) {
+                                toast.error(
+                                  err instanceof Error ? err.message : "Failed to delete receipt",
+                                );
+                              }
+                            })();
                           },
                         },
                       ]}

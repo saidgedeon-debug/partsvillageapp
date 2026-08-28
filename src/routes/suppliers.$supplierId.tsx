@@ -4,6 +4,7 @@ import { ArrowLeft, Mail, Phone, MapPin, Pencil, StickyNote, Trash2 } from "luci
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
+import { confirmAction } from "@/components/app/confirm-dialog";
 import { useParties } from "@/components/app/parties-context";
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -57,10 +58,17 @@ function SupplierDetail() {
             variant="outline"
             className="gap-1.5 text-destructive"
             onClick={() => {
-              if (!window.confirm(`Delete supplier “${supplier.name}”?`)) return;
-              removeSupplier(supplier.id);
-              toast.success("Supplier deleted");
-              void navigate({ to: "/suppliers" });
+              void (async () => {
+                const ok = await confirmAction({
+                  title: `Delete supplier “${supplier.name}”?`,
+                  confirmLabel: "Delete",
+                  destructive: true,
+                });
+                if (!ok) return;
+                removeSupplier(supplier.id);
+                toast.success("Supplier deleted");
+                void navigate({ to: "/suppliers" });
+              })();
             }}
           >
             <Trash2 className="h-3.5 w-3.5" />

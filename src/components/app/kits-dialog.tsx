@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { partNumbersOf } from "@/lib/mock-data";
 
 type Props = {
   open: boolean;
@@ -26,23 +27,39 @@ type Props = {
 export function KitsDialog({ open, onOpenChange }: Props) {
   const { kits, addKit, removeKit } = useKits();
   const { parts, getPart } = useInventory();
-  const { addPart, documentKind, setDocumentKind, setCartOpen } = useCart();
+  const { lines, addPart, documentKind, setDocumentKind, setCartOpen } = useCart();
   const [name, setName] = useState("");
   const [machine, setMachine] = useState("");
   const [codes, setCodes] = useState("");
+  const [filter, setFilter] = useState("");
 
   const index = useMemo(() => {
     const map = new Map<string, string>();
-    for (const p of parts) map.set(p.partNumber.trim().toLowerCase(), p.id);
+    for (const p of parts) {
+      for (const code of partNumbersOf(p)) {
+        map.set(code.trim().toLowerCase(), p.id);
+      }
+    }
     return map;
   }, [parts]);
+
+  const filteredKits = useMemo(() => {
+    const q = filter.trim().toLowerCase();
+    if (!q) return kits;
+    return kits.filter((kit) => {
+      const labels = kit.lines
+        .map((line) => getPart(line.partId)?.partNumber ?? "")
+        .join(" ");
+      return `${kit.name} ${kit.machine ?? ""} ${labels}`.toLowerCase().includes(q);
+    });
+  }, [kits, filter, getPart]);
 
   const create = () => {
     if (!name.trim()) {
       toast.error("Enter a kit name");
       return;
     }
-    const lines: Array<{ partId: string; qty: number }> = [];
+    const kitLines: Array<{ partId: string; qty: number }> = [];
     for (const raw of codes.split(/[\n,;]+/)) {
       const match = raw.trim().match(/^(.+?)(?:\s*[x×*]\s*(\d+))?$/i);
       const code = (match?.[1] ?? "").trim().toLowerCase();
@@ -50,17 +67,39 @@ export function KitsDialog({ open, onOpenChange }: Props) {
       const id = index.get(code);
       if (id) {
         const qty = Math.max(1, Math.round(Number(match?.[2]) || 1));
-        const existing = lines.find((line) => line.partId === id);
+        const existing = kitLines.find((line) => line.partId === id);
         if (existing) existing.qty += qty;
-        else lines.push({ partId: id, qty });
+        else kitLines.push({ partId: id, qty });
       }
     }
-    if (lines.length === 0) {
+    if (kitLines.length === 0) {
       toast.error("Add at least one valid part code");
       return;
     }
-    addKit({ name: name.trim(), machine: machine.trim() || undefined, lines });
-    toast.success(`Saved kit “${name.trim()}” (${lines.length} parts)`);
+    addKit({ name: name.trim(), machine: machine.trim() || undefined, lines: kitLines });
+    toast.success(`Saved kit “${name.trim()}” (${kitLines.length} parts)`);
+    setName("");
+    setMachine("");
+    setCodes("");
+  };
+
+  const saveFromCart = () => {
+    if (!name.trim()) {
+      toast.error("Enter a kit name first");
+      return;
+    }
+    const kitLines = lines
+      .filter((line) => line.partId && line.category !== "Payment" && line.category !== "Discount")
+      .map((line) => ({
+        partId: line.partId,
+        qty: Math.max(1, Math.round(line.qty) || 1),
+      }));
+    if (kitLines.length === 0) {
+      toast.error("Cart is empty — add parts first");
+      return;
+    }
+    addKit({ name: name.trim(), machine: machine.trim() || undefined, lines: kitLines });
+    toast.success(`Saved kit “${name.trim()}” from cart (${kitLines.length} parts)`);
     setName("");
     setMachine("");
     setCodes("");
@@ -92,7 +131,8 @@ export function KitsDialog({ open, onOpenChange }: Props) {
             Machine kits
           </DialogTitle>
           <DialogDescription>
-            Save usual parts for a machine, then add the whole kit to the cart in one click.
+            Save usual parts for a common job or machine, then add the whole kit to the cart in one
+            click.
           </DialogDescription>
         </DialogHeader>
 
@@ -102,15 +142,15 @@ export function KitsDialog({ open, onOpenChange }: Props) {
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="PC200-7 common sensors"
+              placeholder="PC200-7 seal kit"
             />
           </div>
           <div className="space-y-1.5">
-            <Label>Machine (optional)</Label>
+            <Label>Machine / job (optional)</Label>
             <Input
               value={machine}
               onChange={(e) => setMachine(e.target.value)}
-              placeholder="Komatsu PC200-7"
+              placeholder="Komatsu PC200-7 · boom cylinder"
             />
           </div>
           <div className="space-y-1.5">
@@ -122,16 +162,29 @@ export function KitsDialog({ open, onOpenChange }: Props) {
               placeholder={"A01-1 x2\nA01-2\nA03-12 x4"}
             />
           </div>
-          <Button type="button" onClick={create}>
-            Save kit
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" onClick={create}>
+              Save kit
+            </Button>
+            <Button type="button" variant="outline" onClick={saveFromCart}>
+              Save from cart ({lines.length})
+            </Button>
+          </div>
         </div>
 
+        <Input
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          placeholder="Filter kits by name, machine, or part…"
+        />
+
         <div className="space-y-2">
-          {kits.length === 0 && (
-            <p className="py-4 text-center text-sm text-muted-foreground">No kits yet.</p>
+          {filteredKits.length === 0 && (
+            <p className="py-4 text-center text-sm text-muted-foreground">
+              {kits.length === 0 ? "No kits yet." : "No kits match that filter."}
+            </p>
           )}
-          {kits.map((kit) => (
+          {filteredKits.map((kit) => (
             <div
               key={kit.id}
               className="flex items-start justify-between gap-2 rounded-lg border border-border p-3"
@@ -181,7 +234,7 @@ export function KitsDialog({ open, onOpenChange }: Props) {
         </div>
 
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          <Button type="button" variant="ghost" onClick={() => onOpenChange(false)}>
             Close
           </Button>
         </DialogFooter>

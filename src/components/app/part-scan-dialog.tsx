@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { BrowserMultiFormatReader } from "@zxing/browser";
 import { Camera, Search, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 
@@ -13,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { primaryPartImage } from "@/lib/part-image";
 import { partNumbersOf, type Part } from "@/lib/mock-data";
 
 type Detector = { detect: (source: ImageBitmapSource) => Promise<Array<{ rawValue: string }>> };
@@ -50,6 +52,21 @@ export function PartScanDialog({
     if (!open || !cameraOn) return;
     let cancelled = false;
     let timer = 0;
+    let stopZxing: (() => void) | null = null;
+
+    const handleCode = (code: string) => {
+      setQuery(code);
+      setCameraOn(false);
+      const hit = parts.find((part) =>
+        partNumbersOf(part).some((number) => number.toLowerCase() === code.toLowerCase()),
+      );
+      if (hit) {
+        onOpenChange(false);
+        onOpenPart(hit);
+        toast.success(`Opened ${hit.partNumber}`);
+      }
+    };
+
     const start = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -64,36 +81,40 @@ export function PartScanDialog({
           videoRef.current.srcObject = stream;
           await videoRef.current.play();
         }
+
         const Ctor = (window as Window & { BarcodeDetector?: DetectorCtor }).BarcodeDetector;
-        if (!Ctor) {
-          toast.message("Camera opened. Barcode detection is unavailable; type the code below.");
+        if (Ctor) {
+          const detector = new Ctor();
+          const scan = async () => {
+            if (cancelled || !videoRef.current) return;
+            try {
+              const found = await detector.detect(videoRef.current);
+              const code = found[0]?.rawValue?.trim();
+              if (code) {
+                handleCode(code);
+                return;
+              }
+            } catch {
+              // Video may not be ready for a frame yet.
+            }
+            timer = window.setTimeout(scan, 700);
+          };
+          void scan();
           return;
         }
-        const detector = new Ctor();
-        const scan = async () => {
-          if (cancelled || !videoRef.current) return;
-          try {
-            const found = await detector.detect(videoRef.current);
-            const code = found[0]?.rawValue?.trim();
-            if (code) {
-              setQuery(code);
-              setCameraOn(false);
-              const hit = parts.find((part) =>
-                partNumbersOf(part).some((number) => number.toLowerCase() === code.toLowerCase()),
-              );
-              if (hit) {
-                onOpenChange(false);
-                onOpenPart(hit);
-                toast.success(`Opened ${hit.partNumber}`);
-              }
-              return;
-            }
-          } catch {
-            // Video may not be ready for a frame yet.
+
+        // Fallback for browsers without BarcodeDetector (Firefox, some Safari).
+        const zxing = new BrowserMultiFormatReader();
+        if (!videoRef.current) return;
+        const controls = await zxing.decodeFromStream(stream, videoRef.current, (result) => {
+          if (cancelled) return;
+          const code = result?.getText()?.trim();
+          if (code) {
+            stopZxing?.();
+            handleCode(code);
           }
-          timer = window.setTimeout(scan, 700);
-        };
-        void scan();
+        });
+        stopZxing = () => controls.stop();
       } catch (error) {
         setCameraOn(false);
         toast.error(error instanceof Error ? error.message : "Camera could not be opened");
@@ -103,6 +124,7 @@ export function PartScanDialog({
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
+      stopZxing?.();
       streamRef.current?.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     };
@@ -161,32 +183,46 @@ export function PartScanDialog({
             {query && matches.length === 0 ? (
               <p className="py-5 text-center text-sm text-muted-foreground">No matching part.</p>
             ) : null}
-            {matches.map((part) => (
-              <div key={part.id} className="flex items-center gap-2 border-b py-2 last:border-0">
-                <button
-                  type="button"
-                  className="min-w-0 flex-1 text-left"
-                  onClick={() => choose(part)}
-                >
-                  <p className="font-mono text-sm font-semibold">{part.partNumber}</p>
-                  <p className="truncate text-xs text-muted-foreground">{part.name}</p>
-                </button>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  onClick={() => {
-                    addPart(part, 1);
-                    setCartOpen(true);
-                    onOpenChange(false);
-                    toast.success(`${part.partNumber} added to cart`);
-                  }}
-                >
-                  <ShoppingCart className="mr-1 h-3.5 w-3.5" />
-                  Add
-                </Button>
-              </div>
-            ))}
+            {matches.map((part) => {
+              const img = primaryPartImage(part);
+              return (
+                <div key={part.id} className="flex items-center gap-2 border-b py-2 last:border-0">
+                  {img ? (
+                    <img
+                      src={img}
+                      alt=""
+                      className="h-12 w-12 shrink-0 rounded-md border object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border bg-muted text-[10px] text-muted-foreground">
+                      No photo
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    className="min-w-0 flex-1 text-left"
+                    onClick={() => choose(part)}
+                  >
+                    <p className="font-mono text-sm font-semibold">{part.partNumber}</p>
+                    <p className="truncate text-xs text-muted-foreground">{part.name}</p>
+                  </button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      addPart(part, 1);
+                      setCartOpen(true);
+                      onOpenChange(false);
+                      toast.success(`${part.partNumber} added to cart`);
+                    }}
+                  >
+                    <ShoppingCart className="mr-1 h-3.5 w-3.5" />
+                    Add
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </DialogContent>

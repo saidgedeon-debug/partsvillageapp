@@ -12,7 +12,9 @@ import {
   Inbox,
   Search,
   ClipboardCheck,
+  DatabaseBackup,
 } from "lucide-react";
+import { useState } from "react";
 
 import {
   Sidebar,
@@ -28,8 +30,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import logo from "@/assets/parts-village-logo-clear.png";
+import { BackupDialog } from "@/components/app/backup-dialog";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 import { useCloudHealth } from "@/lib/cloud-store";
+import { Button } from "@/components/ui/button";
 
 type NavItem = {
   title: string;
@@ -45,6 +49,7 @@ const items: NavItem[] = [
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
   { title: "Clients", url: "/clients", icon: Users },
+  { title: "Fleet", url: "/fleet", icon: Wrench },
   { title: "Pre-orders", url: "/pre-orders", icon: ClipboardCheck },
   { title: "Suppliers", url: "/suppliers", icon: Building2 },
   { title: "Documents", url: "/documents", icon: FileText },
@@ -60,6 +65,7 @@ export function AppSidebar() {
   });
   const { pendingCount } = useShareInbox();
   const cloudHealth = useCloudHealth();
+  const [backupOpen, setBackupOpen] = useState(false);
 
   const isActive = (item: NavItem) => {
     if (item.exact) return pathname === item.url;
@@ -116,9 +122,27 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-sidebar-border p-2">
+      <SidebarFooter className="space-y-1 border-t border-sidebar-border p-2">
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-8 w-full justify-start gap-2 px-2 text-sidebar-foreground/80"
+          onClick={() => setBackupOpen(true)}
+        >
+          <DatabaseBackup className="h-3.5 w-3.5" />
+          {!collapsed && <span>Backup</span>}
+        </Button>
         <div className="flex items-center gap-2 px-2 py-1 text-xs text-sidebar-foreground/70">
-          <Wrench className="h-3.5 w-3.5 text-muted-foreground" />
+          <span
+            className={`h-2 w-2 shrink-0 rounded-full ${
+              cloudHealth === "synced"
+                ? "bg-emerald-500"
+                : cloudHealth === "error"
+                  ? "bg-destructive"
+                  : "bg-amber-400"
+            }`}
+          />
           {!collapsed && (
             <span>
               Depot #01 —{" "}
@@ -132,6 +156,7 @@ export function AppSidebar() {
             </span>
           )}
         </div>
+        <BackupDialog open={backupOpen} onOpenChange={setBackupOpen} />
       </SidebarFooter>
     </Sidebar>
   );

@@ -14,6 +14,8 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { CloudGate } from "@/components/app/cloud-gate";
 import { CloudSyncBanner } from "@/components/app/cloud-sync-banner";
+import { OfflineBanner } from "@/components/app/offline-banner";
+import { ConfirmProvider } from "@/components/app/confirm-dialog";
 import { SearchProvider } from "@/components/app/search-context";
 import { PartiesProvider } from "@/components/app/parties-context";
 import { InventoryProvider } from "@/components/app/inventory-context";
@@ -158,43 +160,46 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CloudGate>
-        <SearchProvider>
-          <PartiesProvider>
-            <InventoryProvider>
-              <DocumentsProvider>
-                <FleetProvider>
-                  <PrefsProvider>
-                    <KitsProvider>
-                      <ShipmentsProvider>
-                        <ShareInboxProvider>
-                          <PreOrdersProvider>
-                            <CartProvider>
-                              <SidebarProvider>
-                                <div className="flex min-h-screen w-full bg-background">
-                                  <AppSidebar />
-                                  <SidebarInset className="min-w-0">
-                                    <CloudSyncBanner />
-                                    <Outlet />
-                                  </SidebarInset>
-                                </div>
-                                <DocumentTypeDialog />
-                                <CartSheet />
-                                <CheckoutDialog />
-                                <Toaster />
-                              </SidebarProvider>
-                            </CartProvider>
-                          </PreOrdersProvider>
-                        </ShareInboxProvider>
-                      </ShipmentsProvider>
-                    </KitsProvider>
-                  </PrefsProvider>
-                </FleetProvider>
-              </DocumentsProvider>
-            </InventoryProvider>
-          </PartiesProvider>
-        </SearchProvider>
-      </CloudGate>
+      <ConfirmProvider>
+        <CloudGate>
+          <SearchProvider>
+            <PartiesProvider>
+              <InventoryProvider>
+                <DocumentsProvider>
+                  <FleetProvider>
+                    <PrefsProvider>
+                      <KitsProvider>
+                        <ShipmentsProvider>
+                          <ShareInboxProvider>
+                            <PreOrdersProvider>
+                              <CartProvider>
+                                <SidebarProvider>
+                                  <div className="flex min-h-screen w-full bg-background">
+                                    <AppSidebar />
+                                    <SidebarInset className="min-w-0">
+                                      <OfflineBanner />
+                                      <CloudSyncBanner />
+                                      <Outlet />
+                                    </SidebarInset>
+                                  </div>
+                                  <DocumentTypeDialog />
+                                  <CartSheet />
+                                  <CheckoutDialog />
+                                  <Toaster />
+                                </SidebarProvider>
+                              </CartProvider>
+                            </PreOrdersProvider>
+                          </ShareInboxProvider>
+                        </ShipmentsProvider>
+                      </KitsProvider>
+                    </PrefsProvider>
+                  </FleetProvider>
+                </DocumentsProvider>
+              </InventoryProvider>
+            </PartiesProvider>
+          </SearchProvider>
+        </CloudGate>
+      </ConfirmProvider>
     </QueryClientProvider>
   );
 }

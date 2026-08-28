@@ -123,7 +123,7 @@ export function CheckoutDialog() {
       const needed = lineQtyByPart(lines);
       let oversoldByPart: Record<string, number> | undefined;
       if (isInvoice && deductStock) {
-        if (!confirmOversell(stockShortagesForQty(needed, getPart, skipCreated))) {
+        if (!(await confirmOversell(stockShortagesForQty(needed, getPart, skipCreated)))) {
           return;
         }
         oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);

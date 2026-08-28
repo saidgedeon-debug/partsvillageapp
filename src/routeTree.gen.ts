@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
 import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as LowStockRouteImport } from './routes/low-stock'
 import { Route as PreOrdersRouteImport } from './routes/pre-orders'
@@ -37,6 +38,11 @@ const ChinaShipmentsRoute = ChinaShipmentsRouteImport.update({
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FleetRoute = FleetRouteImport.update({
+  id: '/fleet',
+  path: '/fleet',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InventoryRoute = InventoryRouteImport.update({
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
   '/documents': typeof DocumentsRoute
+  '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
   '/pre-orders': typeof PreOrdersRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
   '/documents': typeof DocumentsRoute
+  '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
   '/pre-orders': typeof PreOrdersRoute
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
   '/documents': typeof DocumentsRoute
+  '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
   '/pre-orders': typeof PreOrdersRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/china-shipments'
     | '/documents'
+    | '/fleet'
     | '/inventory'
     | '/low-stock'
     | '/pre-orders'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/'
     | '/china-shipments'
     | '/documents'
+    | '/fleet'
     | '/inventory'
     | '/low-stock'
     | '/pre-orders'
@@ -182,6 +193,7 @@ export interface FileRouteTypes {
     | '/'
     | '/china-shipments'
     | '/documents'
+    | '/fleet'
     | '/inventory'
     | '/low-stock'
     | '/pre-orders'
@@ -199,6 +211,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChinaShipmentsRoute: typeof ChinaShipmentsRoute
   DocumentsRoute: typeof DocumentsRoute
+  FleetRoute: typeof FleetRoute
   InventoryRoute: typeof InventoryRoute
   LowStockRoute: typeof LowStockRoute
   PreOrdersRoute: typeof PreOrdersRoute
@@ -233,6 +246,13 @@ declare module '@tanstack/react-router' {
       path: '/documents'
       fullPath: '/documents'
       preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fleet': {
+      id: '/fleet'
+      path: '/fleet'
+      fullPath: '/fleet'
+      preLoaderRoute: typeof FleetRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/inventory': {
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChinaShipmentsRoute: ChinaShipmentsRoute,
   DocumentsRoute: DocumentsRoute,
+  FleetRoute: FleetRoute,
   InventoryRoute: InventoryRoute,
   LowStockRoute: LowStockRoute,
   PreOrdersRoute: PreOrdersRoute,
@@ -334,13 +355,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -1,7 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { DollarSign, FileText, AlertTriangle, TrendingUp, Package, Wallet } from "lucide-react";
+import { DollarSign, FileText, AlertTriangle, TrendingUp, Package, Wallet, Clock } from "lucide-react";
 import type { ComponentType } from "react";
 import { useMemo, useState } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { PageHeader } from "@/components/app/page-header";
 import { useDocuments, invoiceAmountPaid, invoiceCredits, receiptAffectsBalance } from "@/components/app/documents-context";
@@ -30,6 +39,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/")({
   component: Index,
 });
+
+function daysAgo(isoDate: string): number {
+  const then = new Date(`${isoDate}T12:00:00`);
+  const now = new Date();
+  return Math.floor((now.getTime() - then.getTime()) / 86_400_000);
+}
 
 function Index() {
   const { parts } = useInventory();
@@ -61,6 +76,50 @@ function Index() {
     () => quotations.filter((q) => q.status === "Sent" || q.status === "Draft").length,
     [quotations],
   );
+
+  const followUpQuotes = useMemo(
+    () =>
+      quotations
+        .filter((q) => q.status === "Sent" || q.status === "Draft")
+        .map((q) => ({ ...q, age: daysAgo(q.date) }))
+        .filter((q) => q.age >= 7)
+        .sort((a, b) => b.age - a.age)
+        .slice(0, 8),
+    [quotations],
+  );
+
+  const monthlySales = useMemo(() => {
+    const buckets = new Map<string, number>();
+    const base = new Date();
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(base.getFullYear(), base.getMonth() - i, 1);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      buckets.set(key, 0);
+    }
+    for (const receipt of receipts) {
+      if (receipt.invoiceId && !receiptAffectsBalance(receipt)) continue;
+      const key = receipt.date.slice(0, 7);
+      if (!buckets.has(key)) continue;
+      buckets.set(key, (buckets.get(key) ?? 0) + receipt.total);
+    }
+    return [...buckets.entries()].map(([month, total]) => ({
+      month: month.slice(5),
+      total: Math.round(total * 100) / 100,
+    }));
+  }, [receipts]);
+
+  const topClients = useMemo(() => {
+    const spend = new Map<string, number>();
+    for (const inv of invoices) {
+      const name = inv.partyName || "Unknown";
+      spend.set(name, (spend.get(name) ?? 0) + invoiceAmountPaid(inv));
+    }
+    return [...spend.entries()]
+      .map(([name, total]) => ({ name, total }))
+      .filter((row) => row.total > 0)
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 6);
+  }, [invoices]);
 
   const lowStockParts = useMemo(
     () =>
@@ -254,6 +313,94 @@ function Index() {
               to="/clients"
               search={{ owed: true }}
             />
+          </div>
+        </section>
+
+        {followUpQuotes.length > 0 ? (
+          <section className="space-y-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Quote follow-up
+            </p>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  Open quotes · 7+ days
+                </CardTitle>
+                <Link
+                  to="/documents"
+                  search={{ tab: "quotations" }}
+                  className="text-xs font-medium text-primary hover:underline"
+                >
+                  All quotations →
+                </Link>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {followUpQuotes.map((q) => (
+                  <div
+                    key={q.id}
+                    className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate font-mono text-xs font-semibold">{q.id}</p>
+                      <p className="truncate text-sm">{q.partyName}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold">{currency(q.total)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {q.age}d · {q.status}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </section>
+        ) : null}
+
+        <section className="space-y-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Trends
+          </p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Collected by month</CardTitle>
+              </CardHeader>
+              <CardContent className="h-56">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlySales}>
+                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} width={48} />
+                    <Tooltip formatter={(value: number) => currency(value)} />
+                    <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Top clients (collected)</CardTitle>
+              </CardHeader>
+              <CardContent className="h-56">
+                {topClients.length === 0 ? (
+                  <p className="py-10 text-center text-sm text-muted-foreground">
+                    No paid sales yet
+                  </p>
+                ) : (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={topClients} layout="vertical" margin={{ left: 8 }}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                      <XAxis type="number" tick={{ fontSize: 12 }} />
+                      <YAxis type="category" dataKey="name" width={90} tick={{ fontSize: 11 }} />
+                      <Tooltip formatter={(value: number) => currency(value)} />
+                      <Bar dataKey="total" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </section>
 

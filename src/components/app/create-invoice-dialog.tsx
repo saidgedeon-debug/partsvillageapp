@@ -250,7 +250,7 @@ export function CreateInvoiceDialog({
 
   const ready = partyName.trim().length > 0 && lines.length > 0;
 
-  const saveDocument = () => {
+  const saveDocument = async () => {
     if (!ready || submitting) {
       if (!ready) toast.error("Choose a client and add at least one part");
       return;
@@ -320,7 +320,7 @@ export function CreateInvoiceDialog({
           getPart,
           new Set(createdPartDeductedRef.current.keys()),
         );
-        if (!confirmOversell(shortages)) return;
+        if (!(await confirmOversell(shortages))) return;
 
         setSubmitting(true);
         for (const [partId, stockChange] of deltas) {
@@ -370,7 +370,7 @@ export function CreateInvoiceDialog({
         lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
       );
       const needed = lineQtyByPart(lines);
-      if (!confirmOversell(stockShortagesForQty(needed, getPart, skipCreated))) {
+      if (!(await confirmOversell(stockShortagesForQty(needed, getPart, skipCreated)))) {
         return;
       }
       oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);

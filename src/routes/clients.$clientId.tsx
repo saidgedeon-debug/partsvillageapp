@@ -21,6 +21,7 @@ import {
 import { toast } from "sonner";
 
 import { PageHeader } from "@/components/app/page-header";
+import { confirmAction } from "@/components/app/confirm-dialog";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
 import { ClientDiscountDialog } from "@/components/app/client-discount-dialog";
 import { CreateReturnDialog } from "@/components/app/create-return-dialog";
@@ -202,18 +203,23 @@ function ClientDetail() {
             variant="outline"
             className="gap-1.5 text-destructive"
             onClick={() => {
-              const hasHistory = clientDocs.some(
-                (d) => d.kind === "invoice" || d.kind === "receipt" || d.kind === "credit_note",
-              );
-              const ok = window.confirm(
-                hasHistory
-                  ? `Delete client “${client.name}”? Their invoices and receipts stay in Documents.`
-                  : `Delete client “${client.name}”?`,
-              );
-              if (!ok) return;
-              removeClient(client.id);
-              toast.success("Client deleted");
-              void navigate({ to: "/clients" });
+              void (async () => {
+                const hasHistory = clientDocs.some(
+                  (d) => d.kind === "invoice" || d.kind === "receipt" || d.kind === "credit_note",
+                );
+                const ok = await confirmAction({
+                  title: `Delete client “${client.name}”?`,
+                  description: hasHistory
+                    ? "Their invoices and receipts stay in Documents."
+                    : undefined,
+                  confirmLabel: "Delete",
+                  destructive: true,
+                });
+                if (!ok) return;
+                removeClient(client.id);
+                toast.success("Client deleted");
+                void navigate({ to: "/clients" });
+              })();
             }}
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -581,16 +587,25 @@ function ClientDetail() {
                                 className="h-8 gap-1 px-2 text-destructive hover:bg-destructive/10 hover:text-destructive"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  const ok = window.confirm(deleteReceiptConfirmMessage(doc));
-                                  if (!ok) return;
-                                  try {
-                                    deleteInvoicePayment(doc.id);
-                                    toast.success(`Deleted ${doc.id}`);
-                                  } catch (err) {
-                                    toast.error(
-                                      err instanceof Error ? err.message : "Failed to delete receipt",
-                                    );
-                                  }
+                                  void (async () => {
+                                    const ok = await confirmAction({
+                                      title: "Delete receipt?",
+                                      description: deleteReceiptConfirmMessage(doc),
+                                      confirmLabel: "Delete",
+                                      destructive: true,
+                                    });
+                                    if (!ok) return;
+                                    try {
+                                      deleteInvoicePayment(doc.id);
+                                      toast.success(`Deleted ${doc.id}`);
+                                    } catch (err) {
+                                      toast.error(
+                                        err instanceof Error
+                                          ? err.message
+                                          : "Failed to delete receipt",
+                                      );
+                                    }
+                                  })();
                                 }}
                               >
                                 <Trash2 className="h-3.5 w-3.5" />

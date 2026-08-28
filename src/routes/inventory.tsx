@@ -30,6 +30,7 @@ import { PartScanDialog } from "@/components/app/part-scan-dialog";
 import { CategoryFormDialog } from "@/components/app/category-form-dialog";
 import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
 import { ExcelImportDialog } from "@/components/app/excel-import-dialog";
+import { SupplierPriceImportDialog } from "@/components/app/supplier-price-import-dialog";
 import { KitsDialog } from "@/components/app/kits-dialog";
 import { VirtualInventoryTable } from "@/components/app/virtual-inventory-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -201,6 +202,7 @@ function InventoryPage() {
   const [categoryDialogOpen, setCategoryDialogOpen] = useState(false);
   const [bulkOpen, setBulkOpen] = useState(false);
   const [excelOpen, setExcelOpen] = useState(false);
+  const [supplierPriceOpen, setSupplierPriceOpen] = useState(false);
   const [kitsOpen, setKitsOpen] = useState(false);
   const [scanOpen, setScanOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<{
@@ -471,8 +473,11 @@ function InventoryPage() {
                 <FileUp className="h-4 w-4" />
                 Upload Excel
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setBulkOpen(true)}>
-                <TableProperties className="h-4 w-4" />
+              <DropdownMenuItem onClick={() => setSupplierPriceOpen(true)}>
+                <FileUp className="h-4 w-4" />
+                Supplier price list
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setBulkOpen(true)}>                <TableProperties className="h-4 w-4" />
                 Bulk stock / prices
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -877,6 +882,7 @@ function InventoryPage() {
       />
       <BulkStockDialog open={bulkOpen} onOpenChange={setBulkOpen} />
       <ExcelImportDialog open={excelOpen} onOpenChange={setExcelOpen} />
+      <SupplierPriceImportDialog open={supplierPriceOpen} onOpenChange={setSupplierPriceOpen} />
       <KitsDialog open={kitsOpen} onOpenChange={setKitsOpen} />
     </>
   );

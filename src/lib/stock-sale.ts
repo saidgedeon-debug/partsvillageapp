@@ -41,14 +41,18 @@ export function stockShortagesForQty(
   return shortages;
 }
 
-export function confirmOversell(shortages: StockShortage[]): boolean {
+export async function confirmOversell(shortages: StockShortage[]): Promise<boolean> {
   if (shortages.length === 0) return true;
   const detail = shortages
     .map((row) => `${row.partNumber}: need ${row.need}, on hand ${row.have}`)
     .join("\n");
-  return window.confirm(
-    `Not enough stock:\n${detail}\n\nSell anyway? Quantity will not go below 0.`,
-  );
+  const { confirmAction } = await import("@/components/app/confirm-dialog");
+  return confirmAction({
+    title: "Not enough stock",
+    description: `${detail}\n\nSell anyway? Quantity will not go below 0.`,
+    confirmLabel: "Sell anyway",
+    destructive: true,
+  });
 }
 
 /** Units sold above on-hand (clamped sales create phantom restock risk later). */

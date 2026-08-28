@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { FileText, Package, Search, Ship, Users } from "lucide-react";
+import { FileText, Package, Search, Ship, Users, Wrench } from "lucide-react";
 
 import { EmptyState } from "@/components/app/empty-state";
 import { useDocuments } from "@/components/app/documents-context";
+import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { PageHeader } from "@/components/app/page-header";
 import { useParties } from "@/components/app/parties-context";
@@ -26,6 +27,7 @@ function GlobalSearchPage() {
   const { clients, suppliers } = useParties();
   const { documents } = useDocuments();
   const { shipments } = useShipments();
+  const { machines } = useFleet();
 
   const partResults = q
     ? parts
@@ -62,6 +64,16 @@ function GlobalSearchPage() {
         )
         .slice(0, 20)
     : [];
+  const machineResults = q
+    ? machines
+        .filter((machine) => {
+          const clientName = clients.find((c) => c.id === machine.clientId)?.name ?? "";
+          return `${machine.make} ${machine.model} ${machine.serialNumber} ${machine.year} ${clientName}`
+            .toLowerCase()
+            .includes(q);
+        })
+        .slice(0, 20)
+    : [];
 
   return (
     <>
@@ -75,7 +87,7 @@ function GlobalSearchPage() {
             <EmptyState
               icon={Search}
               title="Type to search"
-              description="Use the search bar above to find parts, clients, suppliers, documents, and shipments."
+              description="Use the search bar above to find parts, clients, machines, documents, and shipments."
             />
           </div>
         ) : (
@@ -95,13 +107,38 @@ function GlobalSearchPage() {
                 ))}
               </ResultCard>
             ) : null}
+            {machineResults.length > 0 ? (
+              <ResultCard icon={Wrench} title={`Machines (${machineResults.length})`}>
+                {machineResults.map((machine) => {
+                  const clientName =
+                    clients.find((c) => c.id === machine.clientId)?.name ?? "Client";
+                  return (
+                    <Link
+                      key={machine.id}
+                      to="/clients/$clientId"
+                      params={{ clientId: machine.clientId }}
+                      className="block border-b py-2 last:border-0"
+                    >
+                      <p className="text-sm font-medium">
+                        {machine.make} {machine.model}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {machine.serialNumber || "No serial"} · {clientName}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </ResultCard>
+            ) : null}
             {partyResults.length > 0 ? (
               <ResultCard icon={Users} title={`Clients & suppliers (${partyResults.length})`}>
                 {partyResults.map((party) => (
                   <Link
                     key={`${party.kind}-${party.id}`}
                     to={party.kind === "client" ? "/clients/$clientId" : "/suppliers/$supplierId"}
-                    params={party.kind === "client" ? { clientId: party.id } : { supplierId: party.id }}
+                    params={
+                      party.kind === "client" ? { clientId: party.id } : { supplierId: party.id }
+                    }
                     className="block border-b py-2 last:border-0"
                   >
                     <p className="text-sm font-medium">{party.name}</p>
@@ -158,7 +195,8 @@ function GlobalSearchPage() {
             {partResults.length +
               partyResults.length +
               documentResults.length +
-              shipmentResults.length ===
+              shipmentResults.length +
+              machineResults.length ===
             0 ? (
               <div className="col-span-full">
                 <EmptyState

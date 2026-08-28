@@ -109,7 +109,7 @@ export function PreOrderConvertDialog({
     setSubmitting(false);
   }, [open, order, withReceiptDefault, invoiceTotal]);
 
-  const submit = () => {
+  const submit = async () => {
     if (!order || submitting) return;
     if (lines.length === 0) {
       toast.error("Pre-order has no parts");
@@ -149,7 +149,7 @@ export function PreOrderConvertDialog({
       let oversoldByPart: Record<string, number> | undefined;
       if (deductStock) {
         const needed = lineQtyByPart(lines);
-        if (!confirmOversell(stockShortagesForQty(needed, getPart))) {
+        if (!(await confirmOversell(stockShortagesForQty(needed, getPart)))) {
           setSubmitting(false);
           return;
         }

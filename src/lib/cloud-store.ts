@@ -252,12 +252,34 @@ export function useCloudState<T>(
         setCloudHealth(key, "synced");
         markCloudMigrated();
         try {
-          localStorage.removeItem(localStorageKey);
+          localStorage.setItem(localStorageKey, JSON.stringify(loaded.value));
         } catch {
-          // ignore
+          // ignore quota
         }
       } catch (e) {
         if (cancelled) return;
+        // Offline / poor connection: fall back to last cached snapshot so the shop can keep working.
+        try {
+          const raw = localStorage.getItem(localStorageKey);
+          if (raw) {
+            const cached = JSON.parse(raw) as T;
+            skipSave.current = true;
+            dirtyRef.current = false;
+            baseUpdatedAtRef.current = null;
+            baseValueRef.current = cached;
+            setValueState(cached);
+            setReady(true);
+            const msg =
+              (e instanceof Error ? e.message : "Cloud unreachable") +
+              " — using offline cache. Changes save locally until sync returns.";
+            setError(msg);
+            setLastCloudError(msg);
+            setCloudHealth(key, "error");
+            return;
+          }
+        } catch {
+          // ignore parse errors
+        }
         const msg = e instanceof Error ? e.message : "Failed to load cloud data";
         setError(msg);
         setLastCloudError(msg);
@@ -298,6 +320,11 @@ export function useCloudState<T>(
             setError(null);
             setLastCloudError(null);
             setCloudHealth(key, "synced");
+            try {
+              localStorage.setItem(localStorageKey, JSON.stringify(snapshot));
+            } catch {
+              // ignore quota
+            }
           } else {
             // Remote moved ahead — rebase local edits onto latest remote, then retry.
             console.warn(
@@ -346,7 +373,14 @@ export function useCloudState<T>(
         })
         .catch((e) => {
           console.error(`Failed to save ${key}`, e);
-          const msg = e instanceof Error ? e.message : `Failed to save ${key}`;
+          try {
+            localStorage.setItem(localStorageKey, JSON.stringify(snapshot));
+          } catch {
+            // ignore
+          }
+          const msg =
+            (e instanceof Error ? e.message : `Failed to save ${key}`) +
+            " — saved offline; will sync when connection returns.";
           setError(msg);
           setLastCloudError(msg);
           setCloudHealth(key, "error");
@@ -356,7 +390,7 @@ export function useCloudState<T>(
         });
     }, 400);
     return () => window.clearTimeout(t);
-  }, [value, ready, key]);
+  }, [value, ready, key, localStorageKey, fallback]);
 
   useEffect(() => {
     if (!ready || !isSupabaseConfigured) return;

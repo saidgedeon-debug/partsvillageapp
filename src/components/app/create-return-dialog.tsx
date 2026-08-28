@@ -11,6 +11,7 @@ import {
 } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
+import { confirmAction } from "@/components/app/confirm-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -188,7 +189,7 @@ export function CreateReturnDialog({
     );
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (submitting) return;
     try {
       if (!selected) {
@@ -264,9 +265,12 @@ export function CreateReturnDialog({
       let allowRefundOverage = false;
       const remaining = invoiceRemaining(selected, creditNotes);
       if (creditPreview > remaining + 0.005) {
-        const ok = window.confirm(
-          `This return credits ${currency(creditPreview)} but only ${currency(remaining)} remains on the invoice.\n\nContinue and record the overage as refund owed?`,
-        );
+        const ok = await confirmAction({
+          title: "Credit exceeds remaining balance",
+          description: `This return credits ${currency(creditPreview)} but only ${currency(remaining)} remains on the invoice.\n\nContinue and record the overage as refund owed?`,
+          confirmLabel: "Continue",
+          destructive: true,
+        });
         if (!ok) return;
         allowRefundOverage = true;
       }

@@ -3,6 +3,7 @@ import { FileUp } from "lucide-react";
 import { toast } from "sonner";
 
 import { useInventory } from "@/components/app/inventory-context";
+import { confirmAction } from "@/components/app/confirm-dialog";
 import {
   buildInventoryImportPreview,
   guessInventoryMapping,
@@ -66,7 +67,7 @@ export function ExcelImportDialog({ open, onOpenChange }: Props) {
   const creates = preview.filter((row) => row.action === "create");
   const skips = preview.filter((row) => row.action === "skip");
 
-  const applyImport = () => {
+  const applyImport = async () => {
     const bigDrops = updates.filter((row) => {
       if (row.action !== "update" || !row.before || !row.after) return false;
       const qtyDrop =
@@ -86,9 +87,12 @@ export function ExcelImportDialog({ open, onOpenChange }: Props) {
         .slice(0, 5)
         .map((row) => row.code)
         .join(", ");
-      const ok = window.confirm(
-        `${bigDrops.length} update(s) drop quantity or cost by more than 50% (${sample}${bigDrops.length > 5 ? "…" : ""}).\n\nApply anyway?`,
-      );
+      const ok = await confirmAction({
+        title: `${bigDrops.length} large drop(s) detected`,
+        description: `Quantity or cost drops by more than 50% (${sample}${bigDrops.length > 5 ? "…" : ""}).\n\nApply anyway?`,
+        confirmLabel: "Apply anyway",
+        destructive: true,
+      });
       if (!ok) return;
     }
 
