@@ -15,6 +15,7 @@ import { AppSidebar } from "@/components/app/app-sidebar";
 import { CloudGate } from "@/components/app/cloud-gate";
 import { CloudSyncBanner } from "@/components/app/cloud-sync-banner";
 import { OfflineBanner } from "@/components/app/offline-banner";
+import { BackupReminderBanner } from "@/components/app/backup-reminder-banner";
 import { ConfirmProvider } from "@/components/app/confirm-dialog";
 import { SearchProvider } from "@/components/app/search-context";
 import { PartiesProvider } from "@/components/app/parties-context";
@@ -178,6 +179,7 @@ function RootComponent() {
                                     <AppSidebar />
                                     <SidebarInset className="min-w-0">
                                       <OfflineBanner />
+                                      <BackupReminderBanner />
                                       <CloudSyncBanner />
                                       <Outlet />
                                     </SidebarInset>

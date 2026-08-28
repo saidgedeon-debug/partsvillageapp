@@ -1,4 +1,5 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { Camera } from "lucide-react";
 import { toast } from "sonner";
 
 import { useCart } from "@/components/app/cart-context";
@@ -121,11 +122,39 @@ export function PartDetailDialog({
   const { documents } = useDocuments();
   const [form, setForm] = useState<FormState>(emptyForm());
   const [gallery, setGallery] = useState<string[]>([]);
+  const cameraRef = useRef<HTMLInputElement>(null);
   const creating = mode === "create";
   const editing = mode === "edit" || creating;
   const priceHistory = part ? partPriceHistory(part.id, part.partNumber, documents) : [];
   const lastSale = priceHistory.find((event) => event.kind === "sale");
   const lastCost = priceHistory.find((event) => event.kind === "cost");
+
+  const attachPhotoFiles = (files: File[]) => {
+    const room = Math.max(0, 5 - gallery.length);
+    const slice = files.slice(0, room);
+    if (!slice.length) {
+      toast.message("Photo gallery is full (max 5)");
+      return;
+    }
+    const saveNow = !editing && Boolean(part);
+    const partId = part?.id;
+    void (async () => {
+      try {
+        const urls = await Promise.all(slice.map((file) => compressImageToDataUrl(file)));
+        setGallery((current) => {
+          const next = [...current, ...urls].slice(0, 5);
+          if (saveNow && partId) {
+            updatePart(partId, { imageUrl: next[0], imageUrls: next });
+          }
+          return next;
+        });
+        setForm((f) => ({ ...f, imageUrl: f.imageUrl || urls[0] || "" }));
+        toast.success(saveNow ? "Photo saved on part" : `${urls.length} photo${urls.length === 1 ? "" : "s"} attached`);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Could not compress photo");
+      }
+    })();
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -266,7 +295,34 @@ export function PartDetailDialog({
                   </div>
                 ) : null}
               </div>
-            ) : null}
+            ) : (
+              <div className="sm:col-span-2 rounded-lg border border-dashed border-border p-4 text-center">
+                <p className="mb-2 text-sm text-muted-foreground">No photo yet</p>
+              </div>
+            )}
+            <div className="sm:col-span-2">
+              <input
+                ref={cameraRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={(e) => {
+                  const files = [...(e.target.files ?? [])];
+                  e.target.value = "";
+                  if (files.length) attachPhotoFiles(files);
+                }}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full gap-2"
+                onClick={() => cameraRef.current?.click()}
+              >
+                <Camera className="h-4 w-4" />
+                Take / attach photo
+              </Button>
+            </div>
             <div className="sm:col-span-2">
               <Field label="Part Code" value={part.partNumber} />
             </div>
@@ -545,31 +601,41 @@ export function PartDetailDialog({
                 onChange={set("imageUrl")}
                 placeholder="https://… or /parts/photo.jpg"
               />
-              <Input
-                type="file"
-                accept="image/*"
-                multiple
-                className="text-xs"
-                onChange={(e) => {
-                  const files = [...(e.target.files ?? [])].slice(
-                    0,
-                    Math.max(0, 5 - gallery.length),
-                  );
-                  if (!files.length) return;
-                  void (async () => {
-                    try {
-                      const urls = await Promise.all(
-                        files.map((file) => compressImageToDataUrl(file)),
-                      );
-                      setGallery((current) => [...current, ...urls].slice(0, 5));
-                      setForm((f) => ({ ...f, imageUrl: f.imageUrl || urls[0] || "" }));
-                      toast.success(`${urls.length} photo${urls.length === 1 ? "" : "s"} attached`);
-                    } catch (err) {
-                      toast.error(err instanceof Error ? err.message : "Could not compress photo");
-                    }
-                  })();
-                }}
-              />
+              <div className="flex flex-wrap gap-2">
+                <input
+                  ref={cameraRef}
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  className="hidden"
+                  onChange={(e) => {
+                    const files = [...(e.target.files ?? [])];
+                    e.target.value = "";
+                    if (files.length) attachPhotoFiles(files);
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={() => cameraRef.current?.click()}
+                >
+                  <Camera className="h-3.5 w-3.5" />
+                  Take photo
+                </Button>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="max-w-xs text-xs"
+                  onChange={(e) => {
+                    const files = [...(e.target.files ?? [])];
+                    e.target.value = "";
+                    if (files.length) attachPhotoFiles(files);
+                  }}
+                />
+              </div>
               {gallery.length ? (
                 <div className="flex flex-wrap gap-2">
                   {gallery.map((url, index) => (

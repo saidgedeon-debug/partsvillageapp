@@ -44,6 +44,7 @@ import {
   type QuoteStatus,
   type SavedDocument,
 } from "@/components/app/documents-context";
+import { FULFILLMENT_STATUSES, type FulfillmentStatus } from "@/lib/fulfillment";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -111,6 +112,7 @@ function DocumentsPage() {
     creditNotes,
     inquiries,
     updateDocumentStatus,
+    updateDocument,
     deleteInvoicePayment,
     convertQuotationToInvoice,
     convertInvoiceToQuotation,
@@ -556,7 +558,7 @@ function DocumentsPage() {
                   Record payment
                 </Button>
               }
-              headers={["#", "Client", "Date", "Parts", "Paid / Total", "Status", ""]}
+              headers={["#", "Client", "Date", "Parts", "Paid / Total", "Status", "Fulfillment", ""]}
               rows={filteredInvoices.map((iv) => ({
                 key: iv.id,
                 onOpen: () => openDoc(iv),
@@ -597,6 +599,32 @@ function DocumentsPage() {
                       updateDocumentStatus(iv.id, s as InvoiceStatus);
                     }}
                   />,
+                  <Select
+                    key="f"
+                    value={iv.fulfillmentStatus ?? "__none__"}
+                    onValueChange={(v) => {
+                      updateDocument({
+                        ...iv,
+                        fulfillmentStatus:
+                          v === "__none__" ? undefined : (v as FulfillmentStatus),
+                      });
+                    }}
+                  >
+                    <SelectTrigger
+                      className="h-8 w-[130px] text-xs"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <SelectValue placeholder="—" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__none__">—</SelectItem>
+                      {FULFILLMENT_STATUSES.map((s) => (
+                        <SelectItem key={s} value={s}>
+                          {s}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
                     {invoiceRemaining(iv, creditNotes) > 0.005 ? (
                       <Button

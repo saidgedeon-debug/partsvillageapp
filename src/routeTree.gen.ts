@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
+import { Route as CounterRouteImport } from './routes/counter'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as InventoryRouteImport } from './routes/inventory'
@@ -33,6 +34,11 @@ const IndexRoute = IndexRouteImport.update({
 const ChinaShipmentsRoute = ChinaShipmentsRouteImport.update({
   id: '/china-shipments',
   path: '/china-shipments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CounterRoute = CounterRouteImport.update({
+  id: '/counter',
+  path: '/counter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentsRoute = DocumentsRouteImport.update({
@@ -104,6 +110,7 @@ const SuppliersSupplierIdRoute = SuppliersSupplierIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
+  '/counter': typeof CounterRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
+  '/counter': typeof CounterRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
+  '/counter': typeof CounterRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/china-shipments'
+    | '/counter'
     | '/documents'
     | '/fleet'
     | '/inventory'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/china-shipments'
+    | '/counter'
     | '/documents'
     | '/fleet'
     | '/inventory'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/china-shipments'
+    | '/counter'
     | '/documents'
     | '/fleet'
     | '/inventory'
@@ -210,6 +222,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChinaShipmentsRoute: typeof ChinaShipmentsRoute
+  CounterRoute: typeof CounterRoute
   DocumentsRoute: typeof DocumentsRoute
   FleetRoute: typeof FleetRoute
   InventoryRoute: typeof InventoryRoute
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/china-shipments'
       fullPath: '/china-shipments'
       preLoaderRoute: typeof ChinaShipmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/counter': {
+      id: '/counter'
+      path: '/counter'
+      fullPath: '/counter'
+      preLoaderRoute: typeof CounterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documents': {
@@ -338,6 +358,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChinaShipmentsRoute: ChinaShipmentsRoute,
+  CounterRoute: CounterRoute,
   DocumentsRoute: DocumentsRoute,
   FleetRoute: FleetRoute,
   InventoryRoute: InventoryRoute,

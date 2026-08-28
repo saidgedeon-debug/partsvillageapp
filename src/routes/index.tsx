@@ -49,7 +49,7 @@ function daysAgo(isoDate: string): number {
 function Index() {
   const { parts } = useInventory();
   const { clients } = useParties();
-  const { invoices, quotations, receipts, creditNotes } = useDocuments();
+  const { invoices, quotations, receipts, creditNotes, inquiries } = useDocuments();
   const { orders } = useFleet();
   const { shipments } = useShipments();
   const { rmbPerUsd } = usePrefs();
@@ -86,6 +86,17 @@ function Index() {
         .sort((a, b) => b.age - a.age)
         .slice(0, 8),
     [quotations],
+  );
+
+  const staleInquiries = useMemo(
+    () =>
+      inquiries
+        .filter((inq) => inq.status === "Open")
+        .map((inq) => ({ ...inq, age: daysAgo(inq.date) }))
+        .filter((inq) => inq.age >= 7)
+        .sort((a, b) => b.age - a.age)
+        .slice(0, 8),
+    [inquiries],
   );
 
   const monthlySales = useMemo(() => {
@@ -350,6 +361,46 @@ function Index() {
                       <p className="text-xs text-muted-foreground">
                         {q.age}d · {q.status}
                       </p>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </section>
+        ) : null}
+
+        {staleInquiries.length > 0 ? (
+          <section className="space-y-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Supplier follow-up
+            </p>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  Open inquiries · 7+ days
+                </CardTitle>
+                <Link
+                  to="/documents"
+                  search={{ tab: "inquiries" }}
+                  className="text-xs font-medium text-primary hover:underline"
+                >
+                  All inquiries →
+                </Link>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {staleInquiries.map((inq) => (
+                  <div
+                    key={inq.id}
+                    className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate font-mono text-xs font-semibold">{inq.id}</p>
+                      <p className="truncate text-sm">{inq.partyName}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold">{currency(inq.total)}</p>
+                      <p className="text-xs text-muted-foreground">{inq.age}d open</p>
                     </div>
                   </div>
                 ))}

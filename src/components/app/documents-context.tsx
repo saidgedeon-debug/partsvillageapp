@@ -46,6 +46,8 @@ export type SavedDocument = {
   internalNote?: string;
   /** Customer-facing note — printed on quotation / invoice / receipt PDFs. */
   customerNote?: string;
+  /** Invoice: pickup / delivery progress (independent of payment status). */
+  fulfillmentStatus?: import("@/lib/fulfillment").FulfillmentStatus;
   /** Invoice: units sold above on-hand at deduction time (partId → qty). */
   oversoldByPart?: Record<string, number>;
   /** Cumulative amount collected on an invoice. */

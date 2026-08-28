@@ -37,3 +37,61 @@ export function blendedUnitCost(
   if (next <= 0) return Math.max(0, incomingCost);
   return Math.round(((have * currentCost + add * incomingCost) / next + Number.EPSILON) * 100) / 100;
 }
+
+/** Groups of 2+ parts that share at least one part/OEM code. */
+export function findDuplicateGroups(parts: Part[]): Part[][] {
+  const parent = new Map<string, string>();
+  const find = (id: string): string => {
+    const p = parent.get(id) ?? id;
+    if (p !== id) {
+      const root = find(p);
+      parent.set(id, root);
+      return root;
+    }
+    return id;
+  };
+  const union = (a: string, b: string) => {
+    const ra = find(a);
+    const rb = find(b);
+    if (ra !== rb) parent.set(rb, ra);
+  };
+
+  const byCode = new Map<string, string>();
+  for (const part of parts) {
+    parent.set(part.id, part.id);
+    for (const code of normalizedPartCodes(part)) {
+      const existing = byCode.get(code);
+      if (existing) union(existing, part.id);
+      else byCode.set(code, part.id);
+    }
+  }
+
+  const groups = new Map<string, Part[]>();
+  for (const part of parts) {
+    const root = find(part.id);
+    const list = groups.get(root) ?? [];
+    list.push(part);
+    groups.set(root, list);
+  }
+  return [...groups.values()]
+    .filter((g) => g.length > 1)
+    .sort((a, b) => b.length - a.length);
+}
+
+/** Fuzzy match kit machine label to a fleet make/model. */
+export function kitMatchesMachine(
+  kitMachine: string | undefined,
+  make: string,
+  model: string,
+): boolean {
+  const kit = (kitMachine ?? "").trim().toLowerCase();
+  if (!kit) return false;
+  const makeL = make.trim().toLowerCase();
+  const modelL = model.trim().toLowerCase();
+  const combo = `${makeL} ${modelL}`.trim();
+  if (!combo) return false;
+  if (kit.includes(combo) || combo.includes(kit)) return true;
+  if (modelL && (kit.includes(modelL) || modelL.includes(kit))) return true;
+  if (makeL && modelL && kit.includes(makeL) && kit.includes(modelL)) return true;
+  return false;
+}

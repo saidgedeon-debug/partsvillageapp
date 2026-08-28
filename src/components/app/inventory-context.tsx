@@ -12,7 +12,8 @@ import {
 import { loadCatalogParts, resetCatalogPartsCache } from "@/lib/catalog-loader";
 import { useCloudState } from "@/lib/cloud-store";
 import type { Part } from "@/lib/mock-data";
-import { findDuplicatePart } from "@/lib/part-identity";
+import { partNumbersOf } from "@/lib/mock-data";
+import { findDuplicatePart, blendedUnitCost } from "@/lib/part-identity";
 import {
   buildInventoryCategories,
   STANDARD_CATEGORY_LABELS,
@@ -88,6 +89,8 @@ type InventoryContextValue = {
     }[],
   ) => number;
   removePart: (id: string) => void;
+  /** Merge absorbIds into keepId — blends qty/cost/codes/images. */
+  mergeParts: (keepId: string, absorbIds: string[]) => { kept: Part };
   addCategory: (label: string, description?: string) => CategoryRecord | null;
   updateCategory: (
     id: string,
@@ -436,6 +439,113 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
     [setStore],
   );
 
+  const mergeParts = useCallback(
+    (keepId: string, absorbIds: string[]) => {
+      const uniqueAbsorb = [...new Set(absorbIds)].filter((id) => id !== keepId);
+      if (uniqueAbsorb.length === 0) throw new Error("Nothing to merge");
+
+      let keptResult: Part | null = null;
+      const catalogParts = catalogRef.current;
+
+      setStore((prev) => {
+        const overrides = { ...(prev.overrides ?? {}) };
+        let customParts = [...(prev.customParts ?? [])];
+        const resolve = (id: string): Part | undefined => {
+          const custom = customParts.find((p) => p.id === id);
+          if (custom) return custom;
+          const base = catalogParts.find((p) => p.id === id);
+          return base ? applyOverride(base, overrides[id]) : undefined;
+        };
+
+        const keep = resolve(keepId);
+        if (!keep) return prev;
+
+        let qty = keep.quantity;
+        let cost = keep.cost;
+        const codes = new Set(partNumbersOf(keep));
+        const images = [
+          ...(keep.imageUrls?.length ? keep.imageUrls : keep.imageUrl ? [keep.imageUrl] : []),
+        ];
+        const notesBits: string[] = [];
+
+        for (const id of uniqueAbsorb) {
+          const other = resolve(id);
+          if (!other) continue;
+          cost = blendedUnitCost(qty, cost, other.quantity, other.cost);
+          qty += Math.max(0, other.quantity);
+          for (const c of partNumbersOf(other)) codes.add(c);
+          for (const url of other.imageUrls?.length
+            ? other.imageUrls
+            : other.imageUrl
+              ? [other.imageUrl]
+              : []) {
+            if (url && !images.includes(url)) images.push(url);
+          }
+          notesBits.push(other.partNumber);
+
+          const isCustom = customParts.some((p) => p.id === id);
+          if (isCustom) {
+            customParts = customParts.filter((p) => p.id !== id);
+            delete overrides[id];
+          } else {
+            overrides[id] = {
+              ...overrides[id],
+              quantity: 0,
+              notes: `Merged into ${keep.partNumber}`.slice(0, 200),
+            };
+          }
+        }
+
+        const numberList = [...codes];
+        const primary = keep.partNumber;
+        const patch: PartOverride = {
+          quantity: qty,
+          cost,
+          partNumbers: numberList,
+          imageUrl: images[0],
+          imageUrls: images.length ? images.slice(0, 5) : undefined,
+          notes: [keep.notes, notesBits.length ? `Merged: ${notesBits.join(", ")}` : ""]
+            .filter(Boolean)
+            .join(" · ")
+            .slice(0, 400),
+        };
+
+        const keepIsCustom = customParts.some((p) => p.id === keepId);
+        if (keepIsCustom) {
+          customParts = customParts.map((p) =>
+            p.id === keepId
+              ? normalizePart(
+                  {
+                    ...p,
+                    ...patch,
+                    partNumber: primary,
+                    name: p.name,
+                    category: p.category,
+                  },
+                  keepId,
+                )
+              : p,
+          );
+          keptResult = customParts.find((p) => p.id === keepId) ?? null;
+        } else {
+          overrides[keepId] = { ...overrides[keepId], ...patch };
+          const base = catalogParts.find((p) => p.id === keepId)!;
+          keptResult = applyOverride(base, overrides[keepId]);
+        }
+
+        return {
+          overrides,
+          customParts,
+          customCategories: prev.customCategories ?? [],
+        };
+      });
+
+      if (!keptResult) throw new Error("Keep part not found");
+      return { kept: keptResult };
+    },
+    [setStore],
+  );
+
   const addCategory = useCallback(
     (label: string, description?: string) => {
       const trimmed = label.trim();
@@ -602,6 +712,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       adjustPartQuantity,
       bulkUpdateParts,
       removePart,
+      mergeParts,
       addCategory,
       updateCategory,
       removeCategory,
@@ -621,6 +732,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       adjustPartQuantity,
       bulkUpdateParts,
       removePart,
+      mergeParts,
       addCategory,
       updateCategory,
       removeCategory,

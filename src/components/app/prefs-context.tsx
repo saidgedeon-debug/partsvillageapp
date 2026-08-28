@@ -16,13 +16,17 @@ type PrefsState = {
   favoriteCategoryGroups: CategoryGroupId[];
   /** Recently opened category groups, newest first. */
   recentCategoryGroups: CategoryGroupId[];
+  /** ISO timestamp of last successful backup download. */
+  lastBackupAt?: string;
 };
 
 type PrefsContextValue = {
   favoritePartIds: string[];
   rmbPerUsd: number;
   rmbPerUsdUpdatedAt?: string;
+  lastBackupAt?: string;
   setRmbPerUsd: (rate: number) => void;
+  markBackupDone: () => void;
   machinePresets: string[];
   favoriteCategoryGroups: CategoryGroupId[];
   recentCategoryGroups: CategoryGroupId[];
@@ -59,7 +63,8 @@ function isPrefsEmpty(v: PrefsState): boolean {
     (v.favoritePartIds?.length ?? 0) === 0 &&
     (v.machinePresets?.length ?? 0) === 0 &&
     (v.favoriteCategoryGroups?.length ?? 0) === 0 &&
-    (v.recentCategoryGroups?.length ?? 0) === 0
+    (v.recentCategoryGroups?.length ?? 0) === 0 &&
+    !v.lastBackupAt
   );
 }
 
@@ -78,6 +83,7 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         Number.isFinite(rawStore.rmbPerUsd) && rawStore.rmbPerUsd > 0 ? rawStore.rmbPerUsd : 7.15,
       rmbPerUsdUpdatedAt:
         typeof rawStore.rmbPerUsdUpdatedAt === "string" ? rawStore.rmbPerUsdUpdatedAt : undefined,
+      lastBackupAt: typeof rawStore.lastBackupAt === "string" ? rawStore.lastBackupAt : undefined,
       machinePresets: Array.isArray(rawStore.machinePresets) ? rawStore.machinePresets : [],
       favoriteCategoryGroups: Array.isArray(rawStore.favoriteCategoryGroups)
         ? rawStore.favoriteCategoryGroups.filter(isGroupId)
@@ -105,6 +111,10 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     },
     [setStore],
   );
+
+  const markBackupDone = useCallback(() => {
+    setStore((prev) => ({ ...prev, lastBackupAt: new Date().toISOString() }));
+  }, [setStore]);
 
   const toggleFavorite = useCallback((partId: string) => {
     setStore((prev) => {
@@ -168,7 +178,9 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       favoritePartIds: store.favoritePartIds,
       rmbPerUsd: store.rmbPerUsd,
       rmbPerUsdUpdatedAt: store.rmbPerUsdUpdatedAt,
+      lastBackupAt: store.lastBackupAt,
       setRmbPerUsd,
+      markBackupDone,
       machinePresets: store.machinePresets,
       favoriteCategoryGroups: store.favoriteCategoryGroups,
       recentCategoryGroups: store.recentCategoryGroups,
@@ -184,7 +196,9 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       store.favoritePartIds,
       store.rmbPerUsd,
       store.rmbPerUsdUpdatedAt,
+      store.lastBackupAt,
       setRmbPerUsd,
+      markBackupDone,
       store.machinePresets,
       store.favoriteCategoryGroups,
       store.recentCategoryGroups,

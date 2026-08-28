@@ -3,6 +3,7 @@ import { Download, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 import { confirmAction } from "@/components/app/confirm-dialog";
+import { usePrefs } from "@/components/app/prefs-context";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,12 +29,14 @@ type Props = {
 export function BackupDialog({ open, onOpenChange }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
+  const { markBackupDone } = usePrefs();
 
   const exportBackup = async () => {
     setBusy(true);
     try {
       const backup = await buildShopBackup();
       downloadShopBackup(backup);
+      markBackupDone();
       toast.success("Backup downloaded");
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Export failed");

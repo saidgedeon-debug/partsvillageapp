@@ -27,6 +27,9 @@ import { ClientDiscountDialog } from "@/components/app/client-discount-dialog";
 import { CreateReturnDialog } from "@/components/app/create-return-dialog";
 import { useParties } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
+import { useKits } from "@/components/app/kits-context";
+import { useCart } from "@/components/app/cart-context";
+import { useInventory } from "@/components/app/inventory-context";
 import {
   deleteReceiptConfirmMessage,
   invoiceHasReturnableLines,
@@ -36,6 +39,7 @@ import {
 } from "@/components/app/documents-context";
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
+import { kitMatchesMachine } from "@/lib/part-identity";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -91,6 +95,9 @@ function ClientDetail() {
   const { clients, removeClient } = useParties();
   const { quotations, invoices, receipts, creditNotes, deleteInvoicePayment } = useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
+  const { kits } = useKits();
+  const { getPart } = useInventory();
+  const { addPart, setDocumentKind, documentKind, setCartOpen } = useCart();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
   const [paymentOpen, setPaymentOpen] = useState(false);
@@ -709,6 +716,7 @@ function ClientDetail() {
               (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
               0,
             );
+            const matchedKits = kits.filter((kit) => kitMatchesMachine(kit.machine, m.make, m.model));
             return (
               <Card key={m.id}>
                 <CardHeader className="flex flex-row items-start justify-between gap-4 pb-3">
@@ -725,6 +733,38 @@ function ClientDetail() {
                     <p className="text-xs text-muted-foreground">{mOrders.length} orders</p>
                   </div>
                 </CardHeader>
+                {matchedKits.length > 0 ? (
+                  <CardContent className="border-b border-border pb-3">
+                    <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Recommended kits
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {matchedKits.map((kit) => (
+                        <Button
+                          key={kit.id}
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => {
+                            if (!documentKind) setDocumentKind("quotation");
+                            let n = 0;
+                            for (const line of kit.lines) {
+                              const p = getPart(line.partId);
+                              if (p) {
+                                addPart(p, line.qty);
+                                n += 1;
+                              }
+                            }
+                            setCartOpen(true);
+                            toast.success(`Added ${n} parts from “${kit.name}”`);
+                          }}
+                        >
+                          {kit.name} ({kit.lines.length})
+                        </Button>
+                      ))}
+                    </div>
+                  </CardContent>
+                ) : null}
                 <CardContent className="p-0">
                   {mOrders.length === 0 ? (
                     <p className="p-4 text-sm text-muted-foreground">

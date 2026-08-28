@@ -13,6 +13,7 @@ import {
   Search,
   ClipboardCheck,
   DatabaseBackup,
+  Smartphone,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -47,6 +48,7 @@ const items: NavItem[] = [
   { title: "Search", url: "/search", icon: Search },
   { title: "Inventory", url: "/inventory", icon: Package },
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
+  { title: "Counter", url: "/counter", icon: Smartphone },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
   { title: "Clients", url: "/clients", icon: Users },
   { title: "Fleet", url: "/fleet", icon: Wrench },

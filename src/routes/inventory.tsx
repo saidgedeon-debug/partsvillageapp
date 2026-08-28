@@ -9,12 +9,14 @@ import {
   Download,
   FileUp,
   FolderPlus,
+  Merge,
   MoreHorizontal,
   Package,
   PackagePlus,
   Pencil,
   Plus,
   ScanLine,
+  Smartphone,
   Star,
   TableProperties,
 } from "lucide-react";
@@ -32,6 +34,7 @@ import { BulkStockDialog } from "@/components/app/bulk-stock-dialog";
 import { ExcelImportDialog } from "@/components/app/excel-import-dialog";
 import { SupplierPriceImportDialog } from "@/components/app/supplier-price-import-dialog";
 import { KitsDialog } from "@/components/app/kits-dialog";
+import { MergeDuplicatesDialog } from "@/components/app/merge-duplicates-dialog";
 import { VirtualInventoryTable } from "@/components/app/virtual-inventory-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -58,6 +61,11 @@ import {
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
 import { locationOf, partNumbersOf, type Part } from "@/lib/mock-data";
+import {
+  INVENTORY_QUICK_FILTERS,
+  type InventoryQuickFilterId,
+} from "@/lib/inventory-quick-filters";
+import { primaryPartImage } from "@/lib/part-image";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -187,6 +195,8 @@ function InventoryPage() {
     isFavoriteCategoryGroup,
     toggleFavoriteCategoryGroup,
     touchRecentCategoryGroup,
+    favoritePartIds,
+    isFavorite,
   } = usePrefs();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
@@ -196,6 +206,7 @@ function InventoryPage() {
   const [thickness, setThickness] = useState("");
   const [sortMode, setSortMode] = useState<SortMode>("size");
   const [searchOpen, setSearchOpen] = useState(false);
+  const [quickFilter, setQuickFilter] = useState<InventoryQuickFilterId | null>(null);
   const [activePart, setActivePart] = useState<Part | null>(null);
   const [dialogMode, setDialogMode] = useState<DialogMode>("view");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -204,6 +215,7 @@ function InventoryPage() {
   const [excelOpen, setExcelOpen] = useState(false);
   const [supplierPriceOpen, setSupplierPriceOpen] = useState(false);
   const [kitsOpen, setKitsOpen] = useState(false);
+  const [mergeOpen, setMergeOpen] = useState(false);
   const [scanOpen, setScanOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<{
     id: string;
@@ -367,6 +379,19 @@ function InventoryPage() {
       });
     }
 
+    if (quickFilter === "seals-stock") {
+      list = list.filter((p) => p.category === "Seals" && p.quantity > 0);
+    } else if (quickFilter === "zero-cost") {
+      list = list.filter((p) => !(p.cost > 0));
+    } else if (quickFilter === "low-stock") {
+      list = list.filter((p) => p.quantity > 0 && p.quantity <= p.reorderAt);
+    } else if (quickFilter === "favorites") {
+      const fav = new Set(favoritePartIds);
+      list = list.filter((p) => fav.has(p.id) || isFavorite(p.id));
+    } else if (quickFilter === "no-photo") {
+      list = list.filter((p) => !primaryPartImage(p));
+    }
+
     return sortParts(list, isORings ? sortMode : "box");
   }, [
     q,
@@ -379,6 +404,9 @@ function InventoryPage() {
     groupSub,
     groupFilter,
     parts,
+    quickFilter,
+    favoritePartIds,
+    isFavorite,
   ]);
 
   const filterActive = isORings && Boolean(thickness.trim());
@@ -437,6 +465,12 @@ function InventoryPage() {
             Scan
           </Button>
           <Button asChild type="button" variant="outline" className="gap-1.5">
+            <Link to="/counter">
+              <Smartphone className="h-4 w-4" />
+              Counter
+            </Link>
+          </Button>
+          <Button asChild type="button" variant="outline" className="gap-1.5">
             <Link to="/stock-take">
               <ClipboardList className="h-4 w-4" />
               Stock take
@@ -459,6 +493,10 @@ function InventoryPage() {
               <DropdownMenuItem onClick={() => setKitsOpen(true)}>
                 <PackagePlus className="h-4 w-4" />
                 Kits
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setMergeOpen(true)}>
+                <Merge className="h-4 w-4" />
+                Merge duplicates
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
@@ -496,6 +534,20 @@ function InventoryPage() {
         <p className="text-xs text-muted-foreground">
           Categories grow as you seed stock lines (O-Rings, Couplings, Gauges & Accessories, …).
         </p>
+
+        <div className="flex flex-wrap gap-2">
+          {INVENTORY_QUICK_FILTERS.map((f) => (
+            <Button
+              key={f.id}
+              type="button"
+              size="sm"
+              variant={quickFilter === f.id ? "default" : "outline"}
+              onClick={() => setQuickFilter((cur) => (cur === f.id ? null : f.id))}
+            >
+              {f.label}
+            </Button>
+          ))}
+        </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {orderedCategories.map((cat) => {
@@ -884,6 +936,7 @@ function InventoryPage() {
       <ExcelImportDialog open={excelOpen} onOpenChange={setExcelOpen} />
       <SupplierPriceImportDialog open={supplierPriceOpen} onOpenChange={setSupplierPriceOpen} />
       <KitsDialog open={kitsOpen} onOpenChange={setKitsOpen} />
+      <MergeDuplicatesDialog open={mergeOpen} onOpenChange={setMergeOpen} />
     </>
   );
 }
