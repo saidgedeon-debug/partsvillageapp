@@ -70,6 +70,8 @@ export type SavedDocument = {
   invoiceTotal?: number;
   /** Receipt snapshot of invoice amountPaid immediately after this payment. */
   amountPaidAfter?: number;
+  /** Shared id when one cash payment produced several receipts (on-account). */
+  paymentBatchId?: string;
 };
 
 export type RecordPaymentInput = {
@@ -79,6 +81,19 @@ export type RecordPaymentInput = {
   paymentDate: string;
   mobile?: string;
   note?: string;
+};
+
+/** Cash payment applied across one or more open invoices (oldest first). */
+export type RecordAccountPaymentInput = {
+  clientId?: string;
+  clientName: string;
+  amount: number;
+  method: PaymentMethod;
+  paymentDate: string;
+  mobile?: string;
+  note?: string;
+  /** If set, only these invoices (still oldest-first among them). */
+  invoiceIds?: string[];
 };
 
 export type UpdatePaymentInput = {
@@ -257,6 +272,8 @@ type DocumentsContextValue = {
   updateDocumentStatus: (id: string, status: SavedDocument["status"]) => void;
   removeDocument: (id: string) => void;
   recordInvoicePayment: (input: RecordPaymentInput) => SavedDocument;
+  /** Apply a cash payment across open invoices for a client (oldest first). */
+  recordAccountPayment: (input: RecordAccountPaymentInput) => SavedDocument[];
   updateInvoicePayment: (input: UpdatePaymentInput) => SavedDocument;
   /** Delete a receipt and reverse its effect on the linked invoice balance when needed. */
   deleteInvoicePayment: (receiptId: string) => void;
@@ -472,6 +489,160 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
       if (failure) throw failure;
       if (!created) throw new Error("Failed to record payment");
+      return created;
+    },
+    [setDocuments],
+  );
+
+  const recordAccountPayment = useCallback(
+    (input: RecordAccountPaymentInput): SavedDocument[] => {
+      const amount = Math.round(input.amount * 100) / 100;
+      if (!(amount > 0)) throw new Error("Payment amount must be greater than zero");
+      if (input.method !== "Cash" && !input.mobile?.trim()) {
+        throw new Error("Mobile number is required for OMT and Whish");
+      }
+      if (!input.paymentDate.trim()) throw new Error("Payment date is required");
+      const clientName = input.clientName.trim();
+      if (!clientName) throw new Error("Client is required");
+
+      const now = new Date();
+      const batchId = `paybatch-${now.getTime().toString(36)}`;
+      const mobileBit =
+        input.method !== "Cash" && input.mobile?.trim() ? ` · ${input.mobile.trim()}` : "";
+      const note = input.note?.trim();
+      const restrict = input.invoiceIds?.length
+        ? new Set(input.invoiceIds)
+        : null;
+
+      let created: SavedDocument[] = [];
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const creditNotes = cur.filter((d) => d.kind === "credit_note");
+        const nameKey = clientName.toLowerCase();
+
+        const matchesClient = (d: SavedDocument) => {
+          if (input.clientId && d.partyId) return d.partyId === input.clientId;
+          if (input.clientId && !d.partyId) {
+            return d.partyName.trim().toLowerCase() === nameKey;
+          }
+          return d.partyName.trim().toLowerCase() === nameKey;
+        };
+
+        const open = cur
+          .filter(
+            (d) =>
+              d.kind === "invoice" &&
+              matchesClient(d) &&
+              (!restrict || restrict.has(d.id)) &&
+              invoiceRemaining(d, creditNotes) > 0.005,
+          )
+          .map((invoice) => ({
+            invoice,
+            remaining: invoiceRemaining(invoice, creditNotes),
+            ageDays: Math.max(
+              0,
+              Math.floor(
+                (now.getTime() - new Date(`${invoice.date}T00:00:00`).getTime()) / 86_400_000,
+              ),
+            ),
+          }))
+          .sort(
+            (a, b) =>
+              b.ageDays - a.ageDays || a.invoice.date.localeCompare(b.invoice.date),
+          );
+
+        const openTotal = roundMoney(open.reduce((s, row) => s + row.remaining, 0));
+        if (openTotal <= 0.005) {
+          failure = new Error("No open invoice balance for this client");
+          return cur;
+        }
+        if (amount - openTotal > 0.005) {
+          failure = new Error(
+            `Amount exceeds open balance (${currency(openTotal)}). Enter ${currency(openTotal)} or less.`,
+          );
+          return cur;
+        }
+
+        let left = amount;
+        const newReceipts: SavedDocument[] = [];
+        const invoiceUpdates = new Map<string, SavedDocument>();
+
+        for (const row of open) {
+          if (left <= 0.005) break;
+          const apply = Math.min(row.remaining, left);
+          if (apply <= 0.005) continue;
+          const rounded = roundMoney(apply);
+          left = roundMoney(left - rounded);
+
+          const paidBefore = invoiceAmountPaid(row.invoice);
+          const credits = invoiceCredits(row.invoice, creditNotes);
+          const paidAfter = roundMoney(paidBefore + rounded);
+          const status = resolveInvoiceStatus(row.invoice, paidAfter, undefined, credits);
+
+          const receipt: SavedDocument = {
+            id: generateDocId("receipt", new Date(now.getTime() + newReceipts.length * 1000)),
+            kind: "receipt",
+            partyKind: "client",
+            partyId: row.invoice.partyId ?? input.clientId,
+            partyName: row.invoice.partyName || clientName,
+            date: input.paymentDate,
+            createdAt: now.toISOString(),
+            total: rounded,
+            status: "Paid",
+            invoiceId: row.invoice.id,
+            paymentMethod: input.method,
+            paymentDate: input.paymentDate,
+            paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
+            affectsBalance: true,
+            invoiceTotal: row.invoice.total,
+            amountPaidAfter: paidAfter,
+            paymentBatchId: batchId,
+            customerNote: note,
+            internalNote: `On-account payment · batch ${batchId}`,
+            lines: [
+              {
+                partId: `pay-${row.invoice.id}`,
+                partNumber: row.invoice.id,
+                name: `On-account payment toward ${row.invoice.id} · ${input.method}${mobileBit}`,
+                category: "Payment",
+                unitPrice: rounded,
+                unitCost: 0,
+                qty: 1,
+              },
+            ],
+          };
+
+          invoiceUpdates.set(row.invoice.id, {
+            ...row.invoice,
+            amountPaid: paidAfter,
+            status,
+          });
+          newReceipts.push(receipt);
+          emitInvoiceBalanceChange(
+            row.invoice.id,
+            Math.max(0, roundMoney(row.invoice.total - paidAfter - credits)),
+          );
+        }
+
+        if (newReceipts.length === 0) {
+          failure = new Error("Nothing to apply");
+          return cur;
+        }
+
+        created = newReceipts;
+        for (const inv of invoiceUpdates.values()) {
+          void syncDocumentToSupabase(inv);
+        }
+        return [
+          ...newReceipts,
+          ...cur.map((d) => invoiceUpdates.get(d.id) ?? d),
+        ];
+      });
+
+      if (failure) throw failure;
+      if (created.length === 0) throw new Error("Failed to record on-account payment");
       return created;
     },
     [setDocuments],
@@ -1094,6 +1265,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      recordAccountPayment,
       updateInvoicePayment,
       deleteInvoicePayment,
       recordInvoiceReturn,
@@ -1114,6 +1286,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       updateDocumentStatus,
       removeDocument,
       recordInvoicePayment,
+      recordAccountPayment,
       updateInvoicePayment,
       deleteInvoicePayment,
       recordInvoiceReturn,
