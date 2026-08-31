@@ -14,11 +14,13 @@ import {
   Package,
   PackagePlus,
   Pencil,
+  Pin,
   Plus,
   ScanLine,
   Smartphone,
   Star,
   TableProperties,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -178,7 +180,7 @@ function sortParts(list: Part[], mode: SortMode): Part[] {
 }
 
 function InventoryPage() {
-  const { query } = useSearch();
+  const { query, setQuery } = useSearch();
   const { askDocumentForPart } = useCart();
   const {
     parts,
@@ -197,6 +199,9 @@ function InventoryPage() {
     touchRecentCategoryGroup,
     favoritePartIds,
     isFavorite,
+    savedInventoryViews,
+    addSavedInventoryView,
+    removeSavedInventoryView,
   } = usePrefs();
   const q = query.trim().toLowerCase();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
@@ -207,6 +212,7 @@ function InventoryPage() {
   const [sortMode, setSortMode] = useState<SortMode>("size");
   const [searchOpen, setSearchOpen] = useState(false);
   const [quickFilter, setQuickFilter] = useState<InventoryQuickFilterId | null>(null);
+  const [activeSavedViewId, setActiveSavedViewId] = useState<string | null>(null);
   const [activePart, setActivePart] = useState<Part | null>(null);
   const [dialogMode, setDialogMode] = useState<DialogMode>("view");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -542,12 +548,72 @@ function InventoryPage() {
               type="button"
               size="sm"
               variant={quickFilter === f.id ? "default" : "outline"}
-              onClick={() => setQuickFilter((cur) => (cur === f.id ? null : f.id))}
+              onClick={() => {
+                setActiveSavedViewId(null);
+                setQuickFilter((cur) => (cur === f.id ? null : f.id));
+              }}
             >
               {f.label}
             </Button>
           ))}
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => {
+              const name = window.prompt("Name this inventory view");
+              if (!name?.trim()) return;
+              addSavedInventoryView({
+                name: name.trim(),
+                quickFilter,
+                categoryId,
+                search: query.trim(),
+              });
+              toast.success(`Saved view “${name.trim()}”`);
+            }}
+          >
+            <Pin className="h-3.5 w-3.5" />
+            Save view
+          </Button>
         </div>
+
+        {savedInventoryViews.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {savedInventoryViews.map((view) => (
+              <div key={view.id} className="inline-flex items-center gap-0.5">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={activeSavedViewId === view.id ? "default" : "secondary"}
+                  onClick={() => {
+                    setActiveSavedViewId(view.id);
+                    setQuickFilter(
+                      (view.quickFilter as InventoryQuickFilterId | null) ?? null,
+                    );
+                    if (view.categoryId) setCategoryId(view.categoryId);
+                    setQuery(view.search ?? "");
+                  }}
+                >
+                  {view.name}
+                </Button>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="ghost"
+                  className="h-8 w-8"
+                  title="Remove saved view"
+                  onClick={() => {
+                    removeSavedInventoryView(view.id);
+                    if (activeSavedViewId === view.id) setActiveSavedViewId(null);
+                  }}
+                >
+                  <X className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        ) : null}
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {orderedCategories.map((cat) => {

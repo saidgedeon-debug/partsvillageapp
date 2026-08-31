@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Camera, ShoppingCart, Search } from "lucide-react";
+import { Camera, ShoppingCart, Search, WifiOff } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCloudHealth, retryCloudSync } from "@/lib/cloud-store";
 import { primaryPartImage } from "@/lib/part-image";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 
@@ -22,10 +23,49 @@ function CounterPage() {
   const { parts } = useInventory();
   const { addPart, lines, itemCount, setCartOpen, setCheckoutOpen, documentKind, setDocumentKind } =
     useCart();
+  const cloudHealth = useCloudHealth();
+  const [online, setOnline] = useState(
+    typeof navigator === "undefined" ? true : navigator.onLine,
+  );
   const [query, setQuery] = useState("");
   const [cameraOn, setCameraOn] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  useEffect(() => {
+    const goOnline = () => {
+      setOnline(true);
+      retryCloudSync();
+    };
+    const goOffline = () => setOnline(false);
+    window.addEventListener("online", goOnline);
+    window.addEventListener("offline", goOffline);
+    return () => {
+      window.removeEventListener("online", goOnline);
+      window.removeEventListener("offline", goOffline);
+    };
+  }, []);
+
+  const syncBanner =
+    !online
+      ? {
+          title: "Offline — counter still works",
+          detail: "Sales save on this device and sync when you reconnect.",
+          tone: "amber" as const,
+        }
+      : cloudHealth === "error"
+        ? {
+            title: "Cloud sync issue",
+            detail: "Local cart is fine — retry sync so other devices see new sales.",
+            tone: "amber" as const,
+          }
+        : cloudHealth === "syncing"
+          ? {
+              title: "Syncing…",
+              detail: "Pushing counter changes to the cloud.",
+              tone: "muted" as const,
+            }
+          : null;
 
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -135,6 +175,30 @@ function CounterPage() {
           <Link to="/inventory">Exit</Link>
         </Button>
       </header>
+
+      {syncBanner ? (
+        <div
+          role="status"
+          className={
+            syncBanner.tone === "amber"
+              ? "flex flex-wrap items-center justify-between gap-2 border-b border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm"
+              : "flex flex-wrap items-center justify-between gap-2 border-b bg-muted/50 px-3 py-2 text-sm"
+          }
+        >
+          <div className="flex items-start gap-2">
+            <WifiOff className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
+            <div>
+              <p className="font-medium">{syncBanner.title}</p>
+              <p className="text-xs text-muted-foreground">{syncBanner.detail}</p>
+            </div>
+          </div>
+          {!online || cloudHealth === "error" ? (
+            <Button type="button" size="sm" variant="outline" onClick={() => retryCloudSync()}>
+              Retry sync
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
 
       <main className="flex flex-1 flex-col gap-3 p-3 pb-28">
         <Button

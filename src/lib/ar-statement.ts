@@ -10,6 +10,7 @@ import {
 } from "@/components/app/documents-context";
 import type { PartyRecord } from "@/components/app/parties-context";
 import { currency } from "@/lib/mock-data";
+import { roundMoney } from "@/lib/document-money";
 import {
   ensurePdfArabicFont,
   hasArabic,
@@ -36,6 +37,10 @@ export type ArStatement = {
   creditsTotal: number;
   /** Sum of paid+credits above invoice totals (refund / credit balance owed to client). */
   refundOwed: number;
+  /** Credit notes with no invoice link (overpayments parked on account). */
+  unappliedCredits: number;
+  /** Open invoice AR minus unapplied on-account credits (not below zero). */
+  netDue: number;
   current: number;
   days31To60: number;
   days61Plus: number;
@@ -118,16 +123,26 @@ export function buildArStatement(
     .filter((invoice) => belongs(invoice))
     .reduce((s, invoice) => s + invoiceRefundOwed(invoice, creditNotes), 0);
 
+  const unappliedCredits = roundMoney(
+    clientCredits
+      .filter((cn) => !cn.invoiceId)
+      .reduce((s, cn) => s + (Number.isFinite(cn.total) ? cn.total : 0), 0),
+  );
+  const total = roundMoney(current + days31To60 + days61Plus);
+  const netDue = Math.max(0, roundMoney(total - unappliedCredits));
+
   return {
     invoices: rows.map((row) => row.invoice),
     rows,
     creditNotes: clientCredits,
     creditsTotal,
     refundOwed,
+    unappliedCredits,
+    netDue,
     current,
     days31To60,
     days61Plus,
-    total: current + days31To60 + days61Plus,
+    total,
   };
 }
 
@@ -191,6 +206,12 @@ export function statementText(client: PartyRecord, statement: ArStatement): stri
     `31–60 days: ${currency(statement.days31To60)}`,
     `61+ days: ${currency(statement.days61Plus)}`,
     `Total due: ${currency(statement.total)}`,
+    ...(statement.unappliedCredits > 0.005
+      ? [
+          `Unapplied credit: −${currency(statement.unappliedCredits)}`,
+          `Net due: ${currency(statement.netDue)}`,
+        ]
+      : []),
     "",
     "Please arrange payment at your earliest convenience. Thank you.",
   ].join("\n");

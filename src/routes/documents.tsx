@@ -13,6 +13,7 @@ import {
   Pencil,
   Receipt,
   Share2,
+  Split,
   StickyNote,
   Trash2,
   Undo2,
@@ -25,6 +26,7 @@ import { confirmAction } from "@/components/app/confirm-dialog";
 import { EmptyState } from "@/components/app/empty-state";
 import { QuotationExcelImportDialog } from "@/components/app/quotation-excel-import-dialog";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
+import { ReallocatePaymentBatchDialog } from "@/components/app/reallocate-payment-batch-dialog";
 import { PageHeader } from "@/components/app/page-header";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { useSearch } from "@/components/app/search-context";
@@ -45,6 +47,7 @@ import {
   type SavedDocument,
 } from "@/components/app/documents-context";
 import { FULFILLMENT_STATUSES, type FulfillmentStatus } from "@/lib/fulfillment";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -128,6 +131,8 @@ function DocumentsPage() {
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [paymentInvoice, setPaymentInvoice] = useState<SavedDocument | null>(null);
   const [editingReceipt, setEditingReceipt] = useState<SavedDocument | null>(null);
+  const [reallocateBatchId, setReallocateBatchId] = useState<string | null>(null);
+  const [reallocateOpen, setReallocateOpen] = useState(false);
   const [returnOpen, setReturnOpen] = useState(false);
   const [returnInvoice, setReturnInvoice] = useState<SavedDocument | null>(null);
   const [preview, setPreview] = useState<{ id: string; blobUrl: string; doc: SavedDocument } | null>(
@@ -167,10 +172,45 @@ function DocumentsPage() {
           (x.invoiceId ?? "").toLowerCase().includes(q) ||
           (x.paymentMethod ?? "").toLowerCase().includes(q) ||
           (x.paymentMobile ?? "").toLowerCase().includes(q) ||
+          (x.paymentBatchId ?? "").toLowerCase().includes(q) ||
           (x.internalNote ?? "").toLowerCase().includes(q),
       ),
     [q, receipts],
   );
+
+  const receiptBatchTotals = useMemo(() => {
+    const map = new Map<string, { count: number; total: number }>();
+    for (const rc of receipts) {
+      const bid = rc.paymentBatchId?.trim();
+      if (!bid) continue;
+      const cur = map.get(bid) ?? { count: 0, total: 0 };
+      cur.count += 1;
+      cur.total = Math.round((cur.total + rc.total) * 100) / 100;
+      map.set(bid, cur);
+    }
+    for (const cn of creditNotes) {
+      const bid = cn.paymentBatchId?.trim();
+      if (!bid) continue;
+      const cur = map.get(bid) ?? { count: 0, total: 0 };
+      cur.count += 1;
+      cur.total = Math.round((cur.total + cn.total) * 100) / 100;
+      map.set(bid, cur);
+    }
+    return map;
+  }, [receipts, creditNotes]);
+
+  const sortedReceipts = useMemo(() => {
+    return [...filteredReceipts].sort((a, b) => {
+      const ba = a.paymentBatchId ?? "";
+      const bb = b.paymentBatchId ?? "";
+      if (ba !== bb) {
+        if (!ba) return 1;
+        if (!bb) return -1;
+        return bb.localeCompare(ba);
+      }
+      return b.createdAt.localeCompare(a.createdAt) || b.id.localeCompare(a.id);
+    });
+  }, [filteredReceipts]);
   const invoicesWithReceipt = useMemo(
     () =>
       new Set(receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id))),
@@ -420,6 +460,14 @@ function DocumentsPage() {
           onRecorded={(receipt) => {
             openDoc(receipt);
             void navigate({ search: { tab: "receipts" }, replace: true });
+          }}
+        />
+        <ReallocatePaymentBatchDialog
+          open={reallocateOpen}
+          batchId={reallocateBatchId}
+          onOpenChange={(open) => {
+            setReallocateOpen(open);
+            if (!open) setReallocateBatchId(null);
           }}
         />
         <CreateReturnDialog
@@ -728,11 +776,22 @@ function DocumentsPage() {
               onNew={() => openReceivePayment(null)}
               newLabel="Record payment"
               headers={["#", "Client", "Date", "Invoice", "Method", "Amount", ""]}
-              rows={filteredReceipts.map((rc) => ({
+              rows={sortedReceipts.map((rc) => {
+                const batchId = rc.paymentBatchId?.trim();
+                const batchMeta = batchId ? receiptBatchTotals.get(batchId) : undefined;
+                const showReallocate = Boolean(batchId && batchMeta && batchMeta.count >= 1);
+                return {
                 key: rc.id,
                 onOpen: () => openDoc(rc),
                 cells: [
-                  <DocIdLink key="i" id={rc.id} onOpen={() => openDoc(rc)} />,
+                  <div key="i" className="space-y-1">
+                    <DocIdLink id={rc.id} onOpen={() => openDoc(rc)} />
+                    {batchId ? (
+                      <Badge variant="secondary" className="font-mono text-[10px]">
+                        Batch · {batchMeta?.count ?? 1} · {currency(batchMeta?.total ?? rc.total)}
+                      </Badge>
+                    ) : null}
+                  </div>,
                   rc.partyName,
                   rc.paymentDate || rc.date,
                   <span key="inv" className="font-mono text-xs">
@@ -748,6 +807,22 @@ function DocumentsPage() {
                     {currency(rc.total)}
                   </span>,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
+                    {showReallocate ? (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="h-8 gap-1.5"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setReallocateBatchId(batchId!);
+                          setReallocateOpen(true);
+                        }}
+                      >
+                        <Split className="h-3.5 w-3.5" />
+                        Reallocate
+                      </Button>
+                    ) : null}
                     <Button
                       type="button"
                       size="sm"
@@ -795,6 +870,18 @@ function DocumentsPage() {
                       onDownload={() => downloadDoc(rc)}
                       onShare={() => void shareDoc(rc)}
                       extraItems={[
+                        ...(showReallocate
+                          ? [
+                              {
+                                label: "Reallocate batch",
+                                icon: Split,
+                                onSelect: () => {
+                                  setReallocateBatchId(batchId!);
+                                  setReallocateOpen(true);
+                                },
+                              },
+                            ]
+                          : []),
                         {
                           label: "Edit payment",
                           icon: Pencil,
@@ -827,7 +914,8 @@ function DocumentsPage() {
                     />
                   </div>,
                 ],
-              }))}
+              };
+              })}
               emptyTitle={
                 q ? `No receipts match “${query}”` : "No receipts yet"
               }

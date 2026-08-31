@@ -51,6 +51,8 @@ export type ExportDoc = {
   internalNote?: string;
   /** Printed on the PDF for the client. */
   customerNote?: string;
+  /** Invoice fulfillment progress (pickup / delivery). */
+  fulfillmentStatus?: string;
 };
 
 function exportDiscount(doc: ExportDoc) {
@@ -182,13 +184,18 @@ export function buildShareText(doc: ExportDoc): string {
     `Parts Village — ${title}`,
     `Ref: ${id}`,
     `${partyLabel}: ${doc.partyName}`,
+    doc.fulfillmentStatus?.trim()
+      ? `Fulfillment: ${doc.fulfillmentStatus.trim()}`
+      : null,
     "",
     rows,
     "",
     footer,
     "",
     "PDF document attached.",
-  ].join("\n");
+  ]
+    .filter((line) => line !== null)
+    .join("\n");
 }
 
 function forceDownloadBlob(blob: Blob, filename: string) {
@@ -371,6 +378,14 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
 
   // Receipt payment details under meta cards
   let tableStart = cardY + cardH + 8;
+  if (doc.documentKind === "invoice" && doc.fulfillmentStatus?.trim()) {
+    const fy = cardY + cardH + 5;
+    pdf.setTextColor(...ORANGE);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(9);
+    pdf.text(`FULFILLMENT  ${doc.fulfillmentStatus.trim()}`, margin, fy);
+    tableStart = fy + 8;
+  }
   if (doc.documentKind === "receipt") {
     const meta = receiptMetaLines(doc);
     let metaY = cardY + cardH + 6;
@@ -738,6 +753,7 @@ type SavedDocInput = {
   amountPaidAfter?: number;
   internalNote?: string;
   customerNote?: string;
+  fulfillmentStatus?: string;
 };
 
 function toExportDoc(doc: SavedDocInput): ExportDoc {
@@ -759,6 +775,7 @@ function toExportDoc(doc: SavedDocInput): ExportDoc {
     amountPaidAfter: doc.amountPaidAfter,
     internalNote: doc.internalNote,
     customerNote: doc.customerNote,
+    fulfillmentStatus: doc.fulfillmentStatus,
   };
 }
 

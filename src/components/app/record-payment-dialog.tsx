@@ -147,7 +147,7 @@ export function RecordPaymentDialog({
 
   const allocationPreview = useMemo(() => {
     let left = roundMoney(Number(amount) || 0);
-    if (!(left > 0)) return [];
+    if (!(left > 0)) return { rows: [] as Array<{ id: string; apply: number; remaining: number }>, unapplied: 0 };
     const rows: Array<{ id: string; apply: number; remaining: number }> = [];
     for (const iv of accountPool) {
       if (left <= 0.005) break;
@@ -157,7 +157,7 @@ export function RecordPaymentDialog({
       rows.push({ id: iv.id, apply, remaining: rem });
       left = roundMoney(left - apply);
     }
-    return rows;
+    return { rows, unapplied: left > 0.005 ? left : 0 };
   }, [amount, accountPool, creditNotes]);
 
   const selected = clientInvoices.find((iv) => iv.id === invoiceId) ?? null;
@@ -295,13 +295,24 @@ export function RecordPaymentDialog({
           ...payload,
           invoiceIds: selectedInvoiceIds.length ? selectedInvoiceIds : undefined,
         });
-        toast.success(
-          saved.length === 1
-            ? `Receipt ${saved[0]!.id} recorded`
-            : `Payment applied to ${saved.length} invoices (${currency(value)})`,
-        );
+        const receiptCount = saved.filter((d) => d.kind === "receipt").length;
+        const creditCount = saved.filter((d) => d.kind === "credit_note").length;
+        if (receiptCount && creditCount) {
+          toast.success(
+            `Applied to ${receiptCount} invoice${receiptCount === 1 ? "" : "s"}; ${currency(saved.filter((d) => d.kind === "credit_note").reduce((s, d) => s + d.total, 0))} parked as unapplied credit`,
+          );
+        } else if (creditCount && !receiptCount) {
+          toast.success(`Parked ${currency(value)} as unapplied on-account credit`);
+        } else {
+          toast.success(
+            receiptCount === 1
+              ? `Receipt ${saved[0]!.id} recorded`
+              : `Payment applied to ${receiptCount} invoices (${currency(value)})`,
+          );
+        }
         onOpenChange(false);
-        if (saved[0]) onRecorded?.(saved[0]);
+        const firstReceipt = saved.find((d) => d.kind === "receipt");
+        if (firstReceipt) onRecorded?.(firstReceipt);
         return;
       }
 
@@ -329,7 +340,7 @@ export function RecordPaymentDialog({
   const canSubmit = editing
     ? Boolean(invoiceId)
     : mode === "account"
-      ? Boolean(effectiveClientName || effectiveClientId) && accountDue > 0.005
+      ? Boolean(effectiveClientName || effectiveClientId)
       : Boolean(selected);
 
   return (
@@ -458,15 +469,20 @@ export function RecordPaymentDialog({
                 <p className="text-xs text-muted-foreground">No open invoices for this client.</p>
               )}
 
-              {allocationPreview.length > 0 ? (
+              {allocationPreview.rows.length > 0 || allocationPreview.unapplied > 0.005 ? (
                 <div className="rounded-md border border-border px-3 py-2 text-xs text-muted-foreground">
                   <p className="mb-1 font-medium text-foreground">Will apply as:</p>
-                  {allocationPreview.map((row) => (
+                  {allocationPreview.rows.map((row) => (
                     <p key={row.id}>
                       {row.id} · {currency(row.apply)}
                       {row.apply + 0.005 < row.remaining ? " (partial)" : ""}
                     </p>
                   ))}
+                  {allocationPreview.unapplied > 0.005 ? (
+                    <p className="text-foreground">
+                      Unapplied credit · {currency(allocationPreview.unapplied)} (parked on account)
+                    </p>
+                  ) : null}
                 </div>
               ) : null}
             </>

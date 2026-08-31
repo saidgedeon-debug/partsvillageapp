@@ -274,6 +274,11 @@ type DocumentsContextValue = {
   recordInvoicePayment: (input: RecordPaymentInput) => SavedDocument;
   /** Apply a cash payment across open invoices for a client (oldest first). */
   recordAccountPayment: (input: RecordAccountPaymentInput) => SavedDocument[];
+  /** Re-split an on-account payment batch across invoices (same total). */
+  reallocatePaymentBatch: (input: {
+    batchId: string;
+    allocations: Array<{ invoiceId: string; amount: number }>;
+  }) => SavedDocument[];
   updateInvoicePayment: (input: UpdatePaymentInput) => SavedDocument;
   /** Delete a receipt and reverse its effect on the linked invoice balance when needed. */
   deleteInvoicePayment: (receiptId: string) => void;
@@ -554,19 +559,17 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           );
 
         const openTotal = roundMoney(open.reduce((s, row) => s + row.remaining, 0));
-        if (openTotal <= 0.005) {
-          failure = new Error("No open invoice balance for this client");
-          return cur;
-        }
-        if (amount - openTotal > 0.005) {
-          failure = new Error(
-            `Amount exceeds open balance (${currency(openTotal)}). Enter ${currency(openTotal)} or less.`,
-          );
+        // Allow overpayment: apply to open invoices first, park the rest as unapplied credit.
+        const appliedCap = Math.min(amount, openTotal);
+        const unapplied = roundMoney(amount - appliedCap);
+        if (appliedCap <= 0.005 && unapplied <= 0.005) {
+          failure = new Error("Nothing to apply");
           return cur;
         }
 
-        let left = amount;
+        let left = appliedCap;
         const newReceipts: SavedDocument[] = [];
+        const newCredits: SavedDocument[] = [];
         const invoiceUpdates = new Map<string, SavedDocument>();
 
         for (const row of open) {
@@ -626,9 +629,216 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           );
         }
 
-        if (newReceipts.length === 0) {
+        if (unapplied > 0.005) {
+          const partyId = input.clientId ?? open[0]?.invoice.partyId;
+          newCredits.push({
+            id: generateDocId("credit_note", new Date(now.getTime() + 50_000)),
+            kind: "credit_note",
+            partyKind: "client",
+            partyId,
+            partyName: clientName,
+            date: input.paymentDate,
+            createdAt: now.toISOString(),
+            total: unapplied,
+            status: "Paid",
+            discountType: "amount",
+            discountValue: unapplied,
+            paymentBatchId: batchId,
+            paymentMethod: input.method,
+            paymentDate: input.paymentDate,
+            paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
+            internalNote: `Unapplied payment credit · batch ${batchId}${note ? ` · ${note}` : ""}`,
+            customerNote: note,
+            lines: [
+              {
+                partId: `unapplied-${batchId}`,
+                partNumber: "ON-ACCOUNT",
+                name: `Unapplied payment credit · ${input.method}${mobileBit}`,
+                category: "Discount",
+                unitPrice: unapplied,
+                unitCost: 0,
+                qty: 1,
+              },
+            ],
+          });
+        }
+
+        if (newReceipts.length === 0 && newCredits.length === 0) {
           failure = new Error("Nothing to apply");
           return cur;
+        }
+
+        created = [...newReceipts, ...newCredits];
+        for (const inv of invoiceUpdates.values()) {
+          void syncDocumentToSupabase(inv);
+        }
+        return [
+          ...newReceipts,
+          ...newCredits,
+          ...cur.map((d) => invoiceUpdates.get(d.id) ?? d),
+        ];
+      });
+
+      if (failure) throw failure;
+      if (created.length === 0) throw new Error("Failed to record on-account payment");
+      return created;
+    },
+    [setDocuments],
+  );
+
+  const reallocatePaymentBatch = useCallback(
+    (input: {
+      batchId: string;
+      allocations: Array<{ invoiceId: string; amount: number }>;
+    }): SavedDocument[] => {
+      const batchId = input.batchId.trim();
+      if (!batchId) throw new Error("Batch id is required");
+
+      const cleaned = input.allocations
+        .map((row) => ({
+          invoiceId: row.invoiceId.trim(),
+          amount: roundMoney(row.amount),
+        }))
+        .filter((row) => row.invoiceId && row.amount > 0.005);
+      if (cleaned.length === 0) throw new Error("Allocate the payment to at least one invoice");
+
+      let created: SavedDocument[] = [];
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const batchDocs = cur.filter(
+          (d) =>
+            d.paymentBatchId === batchId &&
+            (d.kind === "receipt" || d.kind === "credit_note"),
+        );
+        if (batchDocs.length === 0) {
+          failure = new Error("Payment batch not found");
+          return cur;
+        }
+
+        const batchTotal = roundMoney(
+          batchDocs.reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0),
+        );
+        const allocTotal = roundMoney(cleaned.reduce((s, row) => s + row.amount, 0));
+        if (Math.abs(allocTotal - batchTotal) > 0.015) {
+          failure = new Error(
+            `Allocations must total ${currency(batchTotal)} (currently ${currency(allocTotal)})`,
+          );
+          return cur;
+        }
+
+        const sample = batchDocs[0]!;
+        const method = (sample.paymentMethod ?? "Cash") as PaymentMethod;
+        const paymentDate = sample.paymentDate || sample.date;
+        const mobile = sample.paymentMobile;
+        const note = sample.customerNote;
+        const clientName = sample.partyName;
+        const clientId = sample.partyId;
+        const mobileBit =
+          method !== "Cash" && mobile?.trim() ? ` · ${mobile.trim()}` : "";
+
+        // Reverse prior batch effects: drop batch docs, rebuild invoice paid from remaining receipts.
+        const withoutBatch = cur.filter(
+          (d) =>
+            !(
+              d.paymentBatchId === batchId &&
+              (d.kind === "receipt" || d.kind === "credit_note")
+            ),
+        );
+        const creditNotes = withoutBatch.filter((d) => d.kind === "credit_note");
+        const touchedInvoiceIds = new Set(
+          batchDocs
+            .filter((d) => d.kind === "receipt" && d.invoiceId)
+            .map((d) => d.invoiceId!),
+        );
+        for (const row of cleaned) touchedInvoiceIds.add(row.invoiceId);
+
+        const invoiceUpdates = new Map<string, SavedDocument>();
+        for (const invId of touchedInvoiceIds) {
+          const invoice = withoutBatch.find((d) => d.id === invId && d.kind === "invoice");
+          if (!invoice) continue;
+          const paidAfter = affectingReceiptsPaid(invId, withoutBatch);
+          const credits = invoiceCredits(invoice, creditNotes);
+          invoiceUpdates.set(invId, {
+            ...invoice,
+            amountPaid: paidAfter,
+            status: resolveInvoiceStatus(invoice, paidAfter, undefined, credits),
+          });
+        }
+
+        const workingInvoices = new Map<string, SavedDocument>();
+        for (const d of withoutBatch) {
+          if (d.kind === "invoice") {
+            workingInvoices.set(d.id, invoiceUpdates.get(d.id) ?? d);
+          }
+        }
+
+        const newReceipts: SavedDocument[] = [];
+        const now = new Date();
+        let offset = 0;
+        for (const row of cleaned) {
+          const invoice = workingInvoices.get(row.invoiceId);
+          if (!invoice) {
+            failure = new Error(`Invoice ${row.invoiceId} not found`);
+            return cur;
+          }
+          const rem = invoiceRemaining(invoice, creditNotes);
+          if (row.amount - rem > 0.015) {
+            failure = new Error(
+              `${row.invoiceId} only has ${currency(rem)} open (tried ${currency(row.amount)})`,
+            );
+            return cur;
+          }
+          const paidBefore = invoiceAmountPaid(invoice);
+          const credits = invoiceCredits(invoice, creditNotes);
+          const paidAfter = roundMoney(paidBefore + row.amount);
+          const status = resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
+          const receipt: SavedDocument = {
+            id: generateDocId("receipt", new Date(now.getTime() + offset * 1000)),
+            kind: "receipt",
+            partyKind: "client",
+            partyId: invoice.partyId ?? clientId,
+            partyName: invoice.partyName || clientName,
+            date: paymentDate,
+            createdAt: now.toISOString(),
+            total: row.amount,
+            status: "Paid",
+            invoiceId: invoice.id,
+            paymentMethod: method,
+            paymentDate,
+            paymentMobile: method === "Cash" ? undefined : mobile?.trim(),
+            affectsBalance: true,
+            invoiceTotal: invoice.total,
+            amountPaidAfter: paidAfter,
+            paymentBatchId: batchId,
+            customerNote: note,
+            internalNote: `On-account payment · batch ${batchId} (reallocated)`,
+            lines: [
+              {
+                partId: `pay-${invoice.id}`,
+                partNumber: invoice.id,
+                name: `On-account payment toward ${invoice.id} · ${method}${mobileBit}`,
+                category: "Payment",
+                unitPrice: row.amount,
+                unitCost: 0,
+                qty: 1,
+              },
+            ],
+          };
+          offset += 1;
+          newReceipts.push(receipt);
+          const updatedInv: SavedDocument = {
+            ...invoice,
+            amountPaid: paidAfter,
+            status,
+          };
+          workingInvoices.set(invoice.id, updatedInv);
+          invoiceUpdates.set(invoice.id, updatedInv);
+          emitInvoiceBalanceChange(
+            invoice.id,
+            Math.max(0, roundMoney(invoice.total - paidAfter - credits)),
+          );
         }
 
         created = newReceipts;
@@ -637,12 +847,12 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         }
         return [
           ...newReceipts,
-          ...cur.map((d) => invoiceUpdates.get(d.id) ?? d),
+          ...withoutBatch.map((d) => invoiceUpdates.get(d.id) ?? d),
         ];
       });
 
       if (failure) throw failure;
-      if (created.length === 0) throw new Error("Failed to record on-account payment");
+      if (created.length === 0) throw new Error("Failed to reallocate payment batch");
       return created;
     },
     [setDocuments],
@@ -1266,6 +1476,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       removeDocument,
       recordInvoicePayment,
       recordAccountPayment,
+      reallocatePaymentBatch,
       updateInvoicePayment,
       deleteInvoicePayment,
       recordInvoiceReturn,
@@ -1287,6 +1498,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       removeDocument,
       recordInvoicePayment,
       recordAccountPayment,
+      reallocatePaymentBatch,
       updateInvoicePayment,
       deleteInvoicePayment,
       recordInvoiceReturn,

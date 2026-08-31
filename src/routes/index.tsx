@@ -149,6 +149,21 @@ function Index() {
     () => arQueue.reduce((sum, row) => sum + row.statement.total, 0),
     [arQueue],
   );
+  const arAging = useMemo(() => {
+    let current = 0;
+    let days31To60 = 0;
+    let days61Plus = 0;
+    for (const row of arQueue) {
+      current += row.statement.current;
+      days31To60 += row.statement.days31To60;
+      days61Plus += row.statement.days61Plus;
+    }
+    return [
+      { bucket: "0–30", total: Math.round(current * 100) / 100 },
+      { bucket: "31–60", total: Math.round(days31To60 * 100) / 100 },
+      { bucket: "61+", total: Math.round(days61Plus * 100) / 100 },
+    ];
+  }, [arQueue]);
 
   const recent = useMemo(() => {
     const invoiceIds = new Set(invoices.map((i) => i.id));
@@ -447,6 +462,28 @@ function Index() {
                       <YAxis type="category" dataKey="name" width={90} tick={{ fontSize: 11 }} />
                       <Tooltip formatter={(value: number) => currency(value)} />
                       <Bar dataKey="total" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
+              </CardContent>
+            </Card>
+            <Card className="lg:col-span-2">
+              <CardHeader>
+                <CardTitle className="text-base">AR aging (open invoices)</CardTitle>
+              </CardHeader>
+              <CardContent className="h-56">
+                {arTotal <= 0.005 ? (
+                  <p className="py-10 text-center text-sm text-muted-foreground">
+                    No open receivables
+                  </p>
+                ) : (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={arAging}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+                      <XAxis dataKey="bucket" tick={{ fontSize: 12 }} />
+                      <YAxis tick={{ fontSize: 12 }} width={48} />
+                      <Tooltip formatter={(value: number) => currency(value)} />
+                      <Bar dataKey="total" fill="hsl(var(--destructive))" radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 )}

@@ -4,6 +4,14 @@ import { useCloudState } from "@/lib/cloud-store";
 import type { CategoryGroupId } from "@/lib/inventory-categories";
 import { categoryGroupIds } from "@/lib/inventory-categories";
 
+export type SavedInventoryView = {
+  id: string;
+  name: string;
+  quickFilter?: string | null;
+  categoryId?: string | null;
+  search?: string;
+};
+
 type PrefsState = {
   favoritePartIds: string[];
   /** RMB value of one USD, used for operational estimates. */
@@ -16,6 +24,8 @@ type PrefsState = {
   favoriteCategoryGroups: CategoryGroupId[];
   /** Recently opened category groups, newest first. */
   recentCategoryGroups: CategoryGroupId[];
+  /** Custom inventory filter pins. */
+  savedInventoryViews: SavedInventoryView[];
   /** ISO timestamp of last successful backup download. */
   lastBackupAt?: string;
 };
@@ -30,6 +40,9 @@ type PrefsContextValue = {
   machinePresets: string[];
   favoriteCategoryGroups: CategoryGroupId[];
   recentCategoryGroups: CategoryGroupId[];
+  savedInventoryViews: SavedInventoryView[];
+  addSavedInventoryView: (view: Omit<SavedInventoryView, "id">) => void;
+  removeSavedInventoryView: (id: string) => void;
   isFavorite: (partId: string) => boolean;
   toggleFavorite: (partId: string) => void;
   addMachinePreset: (machine: string) => void;
@@ -55,6 +68,7 @@ function empty(): PrefsState {
     machinePresets: [],
     favoriteCategoryGroups: [],
     recentCategoryGroups: [],
+    savedInventoryViews: [],
   };
 }
 
@@ -64,8 +78,29 @@ function isPrefsEmpty(v: PrefsState): boolean {
     (v.machinePresets?.length ?? 0) === 0 &&
     (v.favoriteCategoryGroups?.length ?? 0) === 0 &&
     (v.recentCategoryGroups?.length ?? 0) === 0 &&
+    (v.savedInventoryViews?.length ?? 0) === 0 &&
     !v.lastBackupAt
   );
+}
+
+function parseSavedViews(raw: unknown): SavedInventoryView[] {
+  if (!Array.isArray(raw)) return [];
+  const out: SavedInventoryView[] = [];
+  for (const row of raw) {
+    if (!row || typeof row !== "object") continue;
+    const r = row as Record<string, unknown>;
+    const id = typeof r.id === "string" ? r.id : "";
+    const name = typeof r.name === "string" ? r.name.trim() : "";
+    if (!id || !name) continue;
+    out.push({
+      id,
+      name,
+      quickFilter: typeof r.quickFilter === "string" ? r.quickFilter : null,
+      categoryId: typeof r.categoryId === "string" ? r.categoryId : null,
+      search: typeof r.search === "string" ? r.search : "",
+    });
+  }
+  return out;
 }
 
 export function PrefsProvider({ children }: { children: ReactNode }) {
@@ -91,6 +126,7 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       recentCategoryGroups: Array.isArray(rawStore.recentCategoryGroups)
         ? rawStore.recentCategoryGroups.filter(isGroupId)
         : [],
+      savedInventoryViews: parseSavedViews(rawStore.savedInventoryViews),
     }),
     [rawStore],
   );
@@ -146,6 +182,41 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const addSavedInventoryView = useCallback(
+    (view: Omit<SavedInventoryView, "id">) => {
+      const name = view.name.trim();
+      if (!name) return;
+      setStore((prev) => {
+        const existing = Array.isArray(prev.savedInventoryViews) ? prev.savedInventoryViews : [];
+        const id = `view-${Date.now().toString(36)}`;
+        return {
+          ...prev,
+          savedInventoryViews: [
+            {
+              id,
+              name,
+              quickFilter: view.quickFilter ?? null,
+              categoryId: view.categoryId ?? null,
+              search: view.search?.trim() || "",
+            },
+            ...existing,
+          ].slice(0, 12),
+        };
+      });
+    },
+    [setStore],
+  );
+
+  const removeSavedInventoryView = useCallback(
+    (id: string) => {
+      setStore((prev) => ({
+        ...prev,
+        savedInventoryViews: (prev.savedInventoryViews ?? []).filter((v) => v.id !== id),
+      }));
+    },
+    [setStore],
+  );
+
   const isFavoriteCategoryGroup = useCallback(
     (groupId: CategoryGroupId) => store.favoriteCategoryGroups.includes(groupId),
     [store.favoriteCategoryGroups],
@@ -184,6 +255,9 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       machinePresets: store.machinePresets,
       favoriteCategoryGroups: store.favoriteCategoryGroups,
       recentCategoryGroups: store.recentCategoryGroups,
+      savedInventoryViews: store.savedInventoryViews,
+      addSavedInventoryView,
+      removeSavedInventoryView,
       isFavorite,
       toggleFavorite,
       addMachinePreset,
@@ -202,6 +276,9 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       store.machinePresets,
       store.favoriteCategoryGroups,
       store.recentCategoryGroups,
+      store.savedInventoryViews,
+      addSavedInventoryView,
+      removeSavedInventoryView,
       isFavorite,
       toggleFavorite,
       addMachinePreset,
