@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
 import { Route as CounterRouteImport } from './routes/counter'
+import { Route as DailyCloseRouteImport } from './routes/daily-close'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as LowStockRouteImport } from './routes/low-stock'
+import { Route as PortalRouteImport } from './routes/portal'
 import { Route as PreOrdersRouteImport } from './routes/pre-orders'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShareRouteImport } from './routes/share'
@@ -41,6 +43,11 @@ const CounterRoute = CounterRouteImport.update({
   path: '/counter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DailyCloseRoute = DailyCloseRouteImport.update({
+  id: '/daily-close',
+  path: '/daily-close',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -59,6 +66,11 @@ const InventoryRoute = InventoryRouteImport.update({
 const LowStockRoute = LowStockRouteImport.update({
   id: '/low-stock',
   path: '/low-stock',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PreOrdersRoute = PreOrdersRouteImport.update({
@@ -111,10 +123,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
   '/counter': typeof CounterRoute
+  '/daily-close': typeof DailyCloseRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
@@ -129,10 +143,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
   '/counter': typeof CounterRoute
+  '/daily-close': typeof DailyCloseRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
@@ -148,10 +164,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
   '/counter': typeof CounterRoute
+  '/daily-close': typeof DailyCloseRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRoute
   '/inventory': typeof InventoryRoute
   '/low-stock': typeof LowStockRoute
+  '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
@@ -168,10 +186,12 @@ export interface FileRouteTypes {
     | '/'
     | '/china-shipments'
     | '/counter'
+    | '/daily-close'
     | '/documents'
     | '/fleet'
     | '/inventory'
     | '/low-stock'
+    | '/portal'
     | '/pre-orders'
     | '/search'
     | '/share'
@@ -186,10 +206,12 @@ export interface FileRouteTypes {
     | '/'
     | '/china-shipments'
     | '/counter'
+    | '/daily-close'
     | '/documents'
     | '/fleet'
     | '/inventory'
     | '/low-stock'
+    | '/portal'
     | '/pre-orders'
     | '/search'
     | '/share'
@@ -204,10 +226,12 @@ export interface FileRouteTypes {
     | '/'
     | '/china-shipments'
     | '/counter'
+    | '/daily-close'
     | '/documents'
     | '/fleet'
     | '/inventory'
     | '/low-stock'
+    | '/portal'
     | '/pre-orders'
     | '/search'
     | '/share'
@@ -223,10 +247,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChinaShipmentsRoute: typeof ChinaShipmentsRoute
   CounterRoute: typeof CounterRoute
+  DailyCloseRoute: typeof DailyCloseRoute
   DocumentsRoute: typeof DocumentsRoute
   FleetRoute: typeof FleetRoute
   InventoryRoute: typeof InventoryRoute
   LowStockRoute: typeof LowStockRoute
+  PortalRoute: typeof PortalRoute
   PreOrdersRoute: typeof PreOrdersRoute
   SearchRoute: typeof SearchRoute
   ShareRoute: typeof ShareRoute
@@ -261,6 +287,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CounterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/daily-close': {
+      id: '/daily-close'
+      path: '/daily-close'
+      fullPath: '/daily-close'
+      preLoaderRoute: typeof DailyCloseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/documents': {
       id: '/documents'
       path: '/documents'
@@ -287,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/low-stock'
       fullPath: '/low-stock'
       preLoaderRoute: typeof LowStockRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pre-orders': {
@@ -359,10 +399,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChinaShipmentsRoute: ChinaShipmentsRoute,
   CounterRoute: CounterRoute,
+  DailyCloseRoute: DailyCloseRoute,
   DocumentsRoute: DocumentsRoute,
   FleetRoute: FleetRoute,
   InventoryRoute: InventoryRoute,
   LowStockRoute: LowStockRoute,
+  PortalRoute: PortalRoute,
   PreOrdersRoute: PreOrdersRoute,
   SearchRoute: SearchRoute,
   ShareRoute: ShareRoute,

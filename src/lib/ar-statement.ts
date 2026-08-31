@@ -180,7 +180,12 @@ function creditLabel(cn: SavedDocument): string {
   return "Return";
 }
 
-export function statementText(client: PartyRecord, statement: ArStatement): string {
+export function statementText(
+  client: PartyRecord,
+  statement: ArStatement,
+  opts?: { promisedPayDate?: string },
+): string {
+  const promised = (opts?.promisedPayDate ?? client.promisedPayDate)?.trim();
   const rows = statement.rows.map(
     (row) =>
       `${row.invoice.id} · ${row.invoice.date} · ${row.ageDays}d · Due ${currency(row.remaining)}${
@@ -212,12 +217,18 @@ export function statementText(client: PartyRecord, statement: ArStatement): stri
           `Net due: ${currency(statement.netDue)}`,
         ]
       : []),
+    ...(promised ? [`Promised pay date: ${promised}`] : []),
     "",
     "Please arrange payment at your earliest convenience. Thank you.",
   ].join("\n");
 }
 
-export function overdueReminderText(client: PartyRecord, statement: ArStatement): string {
+export function overdueReminderText(
+  client: PartyRecord,
+  statement: ArStatement,
+  opts?: { promisedPayDate?: string },
+): string {
+  const promised = (opts?.promisedPayDate ?? client.promisedPayDate)?.trim();
   const overdue = statement.rows.filter((row) => row.bucket !== "current");
   const focus = overdue.length ? overdue : statement.rows;
   const lines = focus.map(
@@ -230,6 +241,7 @@ export function overdueReminderText(client: PartyRecord, statement: ArStatement)
     ...lines,
     "",
     `Total overdue: ${currency((statement.days31To60 + statement.days61Plus) || statement.total)}`,
+    ...(promised ? [`You promised to pay by ${promised}.`] : []),
     "Please let us know if you need a copy of any invoice. Thank you.",
   ].join("\n");
 }

@@ -21,6 +21,11 @@ export type PartyRecord = {
   notes?: string;
   /** Typical supplier lead time; unused for clients. */
   leadTimeDays?: number;
+  /** Promised payment date (ISO date string). */
+  promisedPayDate?: string;
+  preferredPaymentMethod?: "OMT" | "Whish" | "Cash" | string;
+  /** Opaque token for client portal access. */
+  portalToken?: string;
 };
 
 type PartyInput = Partial<PartyRecord> & { name: string };
@@ -78,9 +83,26 @@ function newId(prefix: string) {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
-function normalizeParty(input: PartyInput, prefix: string, existingId?: string): PartyRecord {
+function normalizeParty(
+  input: PartyInput,
+  prefix: string,
+  existing?: PartyRecord,
+): PartyRecord {
+  const promisedPayDate =
+    input.promisedPayDate !== undefined
+      ? input.promisedPayDate.trim() || undefined
+      : existing?.promisedPayDate;
+  const preferredPaymentMethod =
+    input.preferredPaymentMethod !== undefined
+      ? input.preferredPaymentMethod.trim() || undefined
+      : existing?.preferredPaymentMethod;
+  const portalToken =
+    input.portalToken !== undefined
+      ? input.portalToken.trim() || undefined
+      : existing?.portalToken;
+
   return {
-    id: existingId ?? input.id ?? newId(prefix),
+    id: existing?.id ?? input.id ?? newId(prefix),
     name: input.name.trim(),
     contactName: (input.contactName ?? "").trim(),
     email: (input.email ?? "").trim(),
@@ -91,6 +113,9 @@ function normalizeParty(input: PartyInput, prefix: string, existingId?: string):
       Number.isFinite(input.leadTimeDays) && Number(input.leadTimeDays) >= 0
         ? Math.round(Number(input.leadTimeDays))
         : undefined,
+    promisedPayDate,
+    preferredPaymentMethod,
+    portalToken,
   };
 }
 
@@ -123,36 +148,36 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
 
   const addClient = useCallback(
     (input: PartyInput) => {
-      const party = normalizeParty(input, "cli");
+      let party: PartyRecord | null = null;
       setStore((prev) => {
         const exists = (prev.clients ?? []).find(
-          (c) => c.name.toLowerCase() === party.name.toLowerCase(),
+          (c) => c.name.toLowerCase() === input.name.trim().toLowerCase(),
         );
+        party = normalizeParty(input, "cli", exists);
         const clients = exists
-          ? (prev.clients ?? []).map((c) => (c.id === exists.id ? { ...party, id: exists.id } : c))
-          : [party, ...(prev.clients ?? [])];
+          ? (prev.clients ?? []).map((c) => (c.id === exists.id ? party! : c))
+          : [party!, ...(prev.clients ?? [])];
         return { clients, suppliers: prev.suppliers ?? [] };
       });
-      return party;
+      return party!;
     },
     [setStore],
   );
 
   const addSupplier = useCallback(
     (input: PartyInput) => {
-      const party = normalizeParty(input, "sup");
+      let party: PartyRecord | null = null;
       setStore((prev) => {
         const exists = (prev.suppliers ?? []).find(
-          (c) => c.name.toLowerCase() === party.name.toLowerCase(),
+          (c) => c.name.toLowerCase() === input.name.trim().toLowerCase(),
         );
+        party = normalizeParty(input, "sup", exists);
         const suppliers = exists
-          ? (prev.suppliers ?? []).map((c) =>
-              c.id === exists.id ? { ...party, id: exists.id } : c,
-            )
-          : [party, ...(prev.suppliers ?? [])];
+          ? (prev.suppliers ?? []).map((c) => (c.id === exists.id ? party! : c))
+          : [party!, ...(prev.suppliers ?? [])];
         return { clients: prev.clients ?? [], suppliers };
       });
-      return party;
+      return party!;
     },
     [setStore],
   );
@@ -163,9 +188,10 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
       let party: PartyRecord | null = null;
       setStore((prev) => {
         const clients = prev.clients ?? [];
-        if (!clients.some((c) => c.id === id)) return prev;
+        const existing = clients.find((c) => c.id === id);
+        if (!existing) return prev;
         found = true;
-        party = normalizeParty(input, "cli", id);
+        party = normalizeParty(input, "cli", existing);
         return {
           clients: clients.map((c) => (c.id === id ? party! : c)),
           suppliers: prev.suppliers ?? [],
@@ -182,9 +208,10 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
       let party: PartyRecord | null = null;
       setStore((prev) => {
         const suppliers = prev.suppliers ?? [];
-        if (!suppliers.some((c) => c.id === id)) return prev;
+        const existing = suppliers.find((c) => c.id === id);
+        if (!existing) return prev;
         found = true;
-        party = normalizeParty(input, "sup", id);
+        party = normalizeParty(input, "sup", existing);
         return {
           clients: prev.clients ?? [],
           suppliers: suppliers.map((c) => (c.id === id ? party! : c)),

@@ -53,6 +53,8 @@ export type ExportDoc = {
   customerNote?: string;
   /** Invoice fulfillment progress (pickup / delivery). */
   fulfillmentStatus?: string;
+  /** Prior receipt lines for invoice PDFs, e.g. "2024-01-15 OMT $100.00". */
+  paymentHistory?: string[];
 };
 
 function exportDiscount(doc: ExportDoc) {
@@ -378,13 +380,36 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
 
   // Receipt payment details under meta cards
   let tableStart = cardY + cardH + 8;
-  if (doc.documentKind === "invoice" && doc.fulfillmentStatus?.trim()) {
-    const fy = cardY + cardH + 5;
-    pdf.setTextColor(...ORANGE);
-    pdf.setFont("helvetica", "bold");
-    pdf.setFontSize(9);
-    pdf.text(`FULFILLMENT  ${doc.fulfillmentStatus.trim()}`, margin, fy);
-    tableStart = fy + 8;
+  if (doc.documentKind === "invoice") {
+    let metaY = cardY + cardH + 5;
+    if (doc.fulfillmentStatus?.trim()) {
+      pdf.setTextColor(...ORANGE);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(9);
+      pdf.text(`FULFILLMENT  ${doc.fulfillmentStatus.trim()}`, margin, metaY);
+      metaY += 6;
+    }
+    pdf.setTextColor(...SLATE);
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(8);
+    pdf.text("WhatsApp Parts Village · pay OMT/Whish/Cash", margin, metaY);
+    metaY += 6;
+    if (doc.paymentHistory?.length) {
+      pdf.setTextColor(...NAVY);
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(8);
+      pdf.text("PAYMENTS", margin, metaY);
+      metaY += 4.5;
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(8);
+      pdf.setTextColor(...SLATE);
+      for (const line of doc.paymentHistory.slice(0, 12)) {
+        pdf.text(line, margin, metaY);
+        metaY += 4;
+      }
+      metaY += 2;
+    }
+    tableStart = metaY + 4;
   }
   if (doc.documentKind === "receipt") {
     const meta = receiptMetaLines(doc);
@@ -754,6 +779,8 @@ type SavedDocInput = {
   internalNote?: string;
   customerNote?: string;
   fulfillmentStatus?: string;
+  partyPhone?: string;
+  paymentHistory?: string[];
 };
 
 function toExportDoc(doc: SavedDocInput): ExportDoc {
@@ -762,6 +789,7 @@ function toExportDoc(doc: SavedDocInput): ExportDoc {
     documentKind: doc.kind,
     partyKind: doc.partyKind,
     partyName: doc.partyName,
+    partyPhone: doc.partyPhone,
     lines: doc.lines,
     createdAt: new Date(doc.createdAt),
     includeCost: doc.includeCost,
@@ -776,7 +804,36 @@ function toExportDoc(doc: SavedDocInput): ExportDoc {
     internalNote: doc.internalNote,
     customerNote: doc.customerNote,
     fulfillmentStatus: doc.fulfillmentStatus,
+    paymentHistory: doc.paymentHistory,
   };
+}
+
+/** Build payment-history lines for an invoice PDF from linked receipts. */
+export function paymentHistoryLinesForInvoice(
+  invoiceId: string,
+  receipts: Array<{
+    kind?: string;
+    invoiceId?: string;
+    paymentDate?: string;
+    date?: string;
+    paymentMethod?: string;
+    total?: number;
+  }>,
+): string[] {
+  return receipts
+    .filter((r) => r.kind === "receipt" && r.invoiceId === invoiceId)
+    .sort((a, b) => {
+      const da = a.paymentDate || a.date || "";
+      const db = b.paymentDate || b.date || "";
+      return db.localeCompare(da);
+    })
+    .map((r) => {
+      const date = r.paymentDate || r.date || "—";
+      const method = r.paymentMethod || "—";
+      const amount =
+        typeof r.total === "number" && Number.isFinite(r.total) ? currency(r.total) : "—";
+      return `${date} ${method} ${amount}`;
+    });
 }
 
 /** Preview a saved document (no download). */

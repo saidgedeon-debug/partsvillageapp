@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   Banknote,
+  Copy,
   Eye,
   FileText,
   Mail,
@@ -17,6 +18,7 @@ import {
   Percent,
   Undo2,
   Trash2,
+  ShoppingCart,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -25,7 +27,7 @@ import { confirmAction } from "@/components/app/confirm-dialog";
 import { RecordPaymentDialog } from "@/components/app/record-payment-dialog";
 import { ClientDiscountDialog } from "@/components/app/client-discount-dialog";
 import { CreateReturnDialog } from "@/components/app/create-return-dialog";
-import { useParties } from "@/components/app/parties-context";
+import { useParties, type PartyRecord } from "@/components/app/parties-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useKits } from "@/components/app/kits-context";
 import { useCart } from "@/components/app/cart-context";
@@ -40,6 +42,8 @@ import {
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { kitMatchesMachine } from "@/lib/part-identity";
+import { buildCrossSellSuggestions, flattenInvoiceHistory } from "@/lib/cross-sell";
+import { ensurePortalToken, portalPath } from "@/lib/portal-token";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -53,6 +57,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -68,7 +79,12 @@ import {
   openOverdueWhatsApp,
   openStatementWhatsApp,
 } from "@/lib/ar-statement";
-import { openSavedDocument, downloadSavedDocument, shareSavedDocument } from "@/lib/document-export";
+import {
+  openSavedDocument,
+  downloadSavedDocument,
+  shareSavedDocument,
+  paymentHistoryLinesForInvoice,
+} from "@/lib/document-export";
 import { statusChipClass } from "@/lib/status-styles";
 
 export const Route = createFileRoute("/clients/$clientId")({
@@ -92,7 +108,7 @@ function kindLabel(kind: SavedDocument["kind"]) {
 function ClientDetail() {
   const { clientId } = Route.useParams();
   const navigate = useNavigate();
-  const { clients, removeClient } = useParties();
+  const { clients, removeClient, updateClient } = useParties();
   const { quotations, invoices, receipts, creditNotes, deleteInvoicePayment } = useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const { kits } = useKits();
@@ -110,13 +126,28 @@ function ClientDetail() {
   const [serial, setSerial] = useState("");
   const [year, setYear] = useState(String(new Date().getFullYear()));
   const [hours, setHours] = useState("0");
+  const [promisedPayDraft, setPromisedPayDraft] = useState("");
+  const [payMethodDraft, setPayMethodDraft] = useState("");
   const [preview, setPreview] = useState<{
     id: string;
     blobUrl: string;
     doc: SavedDocument;
   } | null>(null);
 
-  const client = clients.find((c) => c.id === clientId) ?? clientById(clientId);
+  const client: PartyRecord | undefined =
+    clients.find((c) => c.id === clientId) ??
+    (() => {
+      const seed = clientById(clientId);
+      if (!seed) return undefined;
+      return {
+        id: seed.id,
+        name: seed.name,
+        contactName: seed.contactName ?? "",
+        email: seed.email ?? "",
+        phone: seed.phone ?? "",
+        address: seed.address ?? "",
+      } satisfies PartyRecord;
+    })();
 
   const clientDocs = useMemo(() => {
     if (!client) return [] as SavedDocument[];
@@ -134,9 +165,71 @@ function ClientDetail() {
 
   const openDoc = async (doc: SavedDocument) => {
     const enriched = receiptWithBalanceSnapshot(doc, invoices);
-    const { id, blobUrl } = await openSavedDocument(enriched);
+    const paymentHistory =
+      enriched.kind === "invoice"
+        ? paymentHistoryLinesForInvoice(enriched.id, receipts)
+        : undefined;
+    const { id, blobUrl } = await openSavedDocument({
+      ...enriched,
+      ...(paymentHistory?.length ? { paymentHistory } : {}),
+    });
     setPreview({ id, blobUrl, doc });
   };
+
+  useEffect(() => {
+    if (!client) return;
+    setPromisedPayDraft(client.promisedPayDate ?? "");
+    setPayMethodDraft(client.preferredPaymentMethod ?? "");
+  }, [client]);
+
+  const timeline = useMemo(() => {
+    if (!client) return [];
+    const docs = clientDocs.map((d) => ({
+      key: `doc-${d.id}`,
+      date: d.paymentDate || d.date,
+      kind: kindLabel(d.kind),
+      id: d.id,
+      amount: Number.isFinite(d.total) ? d.total : 0,
+      status: d.status,
+      sortAt: d.createdAt,
+      doc: d as SavedDocument | null,
+    }));
+    const orders = ordersByClient(client.id).map((o) => ({
+      key: `ord-${o.id}`,
+      date: o.date,
+      kind: "Fleet order",
+      id: o.id,
+      amount: o.lines.reduce((s, l) => s + l.qty * l.unitPrice, 0),
+      status: o.status,
+      sortAt: o.date,
+      doc: null as SavedDocument | null,
+    }));
+    return [...docs, ...orders]
+      .sort((a, b) => {
+        if (a.date !== b.date) return a.date < b.date ? 1 : -1;
+        return b.sortAt.localeCompare(a.sortAt);
+      })
+      .slice(0, 20);
+  }, [client, clientDocs, ordersByClient]);
+
+  const crossSell = useMemo(() => {
+    if (!client) return [];
+    const first = machinesByClient(client.id)[0];
+    if (!first) return [];
+    const clientInvoices = invoices.filter((iv) => documentBelongsToClient(iv, client));
+    return buildCrossSellSuggestions({
+      make: first.make,
+      model: first.model,
+      kits,
+      historyLines: flattenInvoiceHistory(clientInvoices),
+      excludePartIds: new Set(),
+      getPartMeta: (partId) => {
+        const p = getPart(partId);
+        return p ? { partNumber: p.partNumber, name: p.name } : undefined;
+      },
+      limit: 6,
+    });
+  }, [client, machinesByClient, kits, invoices, getPart]);
 
   if (!client) {
     return (
@@ -286,6 +379,156 @@ function ClientDetail() {
         </div>
 
         <Card>
+          <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-3">
+            <div>
+              <CardTitle className="text-base">Client 360</CardTitle>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Activity, promised pay, portal link, and cross-sell
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="gap-1.5"
+                onClick={() => {
+                  const token = ensurePortalToken(client.portalToken);
+                  updateClient(client.id, { ...client, portalToken: token });
+                  const url = `${window.location.origin}${portalPath(client.id, token)}`;
+                  void navigator.clipboard.writeText(url).then(
+                    () => toast.success("Portal link copied"),
+                    () => toast.message(url),
+                  );
+                }}
+              >
+                <Copy className="h-3.5 w-3.5" />
+                Copy portal link
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="client-promised-pay">Promised pay date</Label>
+                <Input
+                  id="client-promised-pay"
+                  type="date"
+                  value={promisedPayDraft}
+                  onChange={(e) => setPromisedPayDraft(e.target.value)}
+                  onBlur={() => {
+                    const next = promisedPayDraft.trim();
+                    const prev = client.promisedPayDate ?? "";
+                    if (next === prev) return;
+                    updateClient(client.id, {
+                      ...client,
+                      promisedPayDate: next,
+                    });
+                    toast.success(next ? `Promised pay · ${next}` : "Promised pay cleared");
+                  }}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Preferred payment</Label>
+                <Select
+                  value={payMethodDraft || "__none__"}
+                  onValueChange={(v) => {
+                    const next = v === "__none__" ? "" : v;
+                    setPayMethodDraft(next);
+                    updateClient(client.id, {
+                      ...client,
+                      preferredPaymentMethod: next,
+                    });
+                    toast.success(next ? `Preferred · ${next}` : "Preferred payment cleared");
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__none__">—</SelectItem>
+                    <SelectItem value="OMT">OMT</SelectItem>
+                    <SelectItem value="Whish">Whish</SelectItem>
+                    <SelectItem value="Cash">Cash</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {timeline.length > 0 ? (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Kind</TableHead>
+                    <TableHead>#</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="text-right">Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {timeline.map((row) => (
+                    <TableRow
+                      key={row.key}
+                      className={row.doc ? "cursor-pointer hover:bg-muted/40" : undefined}
+                      onClick={() => {
+                        if (row.doc) openDoc(row.doc);
+                      }}
+                    >
+                      <TableCell className="text-sm">{row.kind}</TableCell>
+                      <TableCell className="font-mono text-xs">{row.id}</TableCell>
+                      <TableCell>{row.date}</TableCell>
+                      <TableCell className="text-right font-semibold">
+                        {currency(row.amount)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Badge variant="secondary">{row.status}</Badge>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <p className="text-sm text-muted-foreground">No recent activity yet.</p>
+            )}
+
+            {crossSell.length > 0 ? (
+              <div className="space-y-2 border-t border-border pt-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Cross-sell · {fleet[0]?.make} {fleet[0]?.model}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {crossSell.map((s) => (
+                    <Button
+                      key={s.partId}
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      className="gap-1.5"
+                      onClick={() => {
+                        const p = getPart(s.partId);
+                        if (!p) {
+                          toast.error(`Part ${s.partNumber} not in inventory`);
+                          return;
+                        }
+                        if (!documentKind) setDocumentKind("quotation");
+                        addPart(p, s.qty);
+                        setCartOpen(true);
+                        toast.success(`Added ${s.partNumber} ×${s.qty}`);
+                      }}
+                    >
+                      <ShoppingCart className="h-3.5 w-3.5" />
+                      {s.partNumber}
+                      <span className="text-muted-foreground">· {s.reason}</span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </CardContent>
+        </Card>
+
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-3">
             <div>
               <CardTitle className="text-base">Accounts receivable</CardTitle>
@@ -342,7 +585,12 @@ function ClientDetail() {
                 size="sm"
                 variant="outline"
                 disabled={!statement.invoices.length && statement.creditNotes.length === 0}
-                onClick={() => openStatementWhatsApp(client, statement)}
+                onClick={() => {
+                  openStatementWhatsApp(client, statement);
+                  if (client.promisedPayDate) {
+                    toast.message(`Promised pay · ${client.promisedPayDate}`);
+                  }
+                }}
               >
                 <MessageCircle className="mr-1 h-3.5 w-3.5" />
                 Statement
@@ -351,10 +599,17 @@ function ClientDetail() {
                 type="button"
                 size="sm"
                 disabled={!statement.invoices.length}
-                onClick={() => openOverdueWhatsApp(client, statement)}
+                onClick={() => {
+                  openOverdueWhatsApp(client, statement);
+                  if (client.promisedPayDate) {
+                    toast.message(`Promised pay · ${client.promisedPayDate}`);
+                  } else {
+                    toast.message("Overdue WhatsApp opened");
+                  }
+                }}
               >
                 <MessageCircle className="mr-1 h-3.5 w-3.5" />
-                Overdue WhatsApp
+                WhatsApp overdue nudge
               </Button>
             </div>
           </CardHeader>
@@ -871,19 +1126,7 @@ function ClientDetail() {
         open={editOpen}
         onOpenChange={setEditOpen}
         kind="client"
-        party={
-          "contactName" in client
-            ? (client as {
-                id: string;
-                name: string;
-                contactName: string;
-                email: string;
-                phone: string;
-                address: string;
-                notes?: string;
-              })
-            : null
-        }
+        party={client}
       />
 
       <PdfPreviewDialog

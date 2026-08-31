@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -33,6 +40,8 @@ const empty = {
   address: "",
   notes: "",
   leadTimeDays: "",
+  promisedPayDate: "",
+  preferredPaymentMethod: "",
 };
 
 export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Props) {
@@ -55,6 +64,8 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
           party.leadTimeDays != null && Number.isFinite(party.leadTimeDays)
             ? String(party.leadTimeDays)
             : "",
+        promisedPayDate: party.promisedPayDate ?? "",
+        preferredPaymentMethod: party.preferredPaymentMethod ?? "",
       });
     } else {
       setForm(empty);
@@ -91,6 +102,12 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
         kind === "supplier" && form.leadTimeDays.trim()
           ? Math.max(0, Math.round(Number(form.leadTimeDays)))
           : undefined,
+      ...(kind === "client"
+        ? {
+            promisedPayDate: form.promisedPayDate.trim(),
+            preferredPaymentMethod: form.preferredPaymentMethod.trim(),
+          }
+        : {}),
     };
     const saved =
       kind === "client"
@@ -182,6 +199,41 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
                 onChange={set("leadTimeDays")}
                 placeholder="14"
               />
+            </div>
+          ) : null}
+          {kind === "client" ? (
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="party-promised-pay">Promised pay date</Label>
+                <Input
+                  id="party-promised-pay"
+                  type="date"
+                  value={form.promisedPayDate}
+                  onChange={set("promisedPayDate")}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Preferred payment</Label>
+                <Select
+                  value={form.preferredPaymentMethod || "__none__"}
+                  onValueChange={(v) =>
+                    setForm((f) => ({
+                      ...f,
+                      preferredPaymentMethod: v === "__none__" ? "" : v,
+                    }))
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__none__">—</SelectItem>
+                    <SelectItem value="OMT">OMT</SelectItem>
+                    <SelectItem value="Whish">Whish</SelectItem>
+                    <SelectItem value="Cash">Cash</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           ) : null}
           <div className="space-y-1.5">

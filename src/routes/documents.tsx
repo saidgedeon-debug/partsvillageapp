@@ -66,7 +66,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { isDocumentCreatedPart } from "@/lib/document-created-parts";
-import { downloadSavedDocument, openSavedDocument, shareSavedDocument } from "@/lib/document-export";
+import { downloadSavedDocument, openSavedDocument, shareSavedDocument, paymentHistoryLinesForInvoice } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
 import {
   computeOversoldByPart,
@@ -400,7 +400,14 @@ function DocumentsPage() {
 
   const openDoc = async (doc: SavedDocument) => {
     const enriched = withReceiptBalance(doc);
-    const { id, blobUrl } = await openSavedDocument(enriched);
+    const paymentHistory =
+      enriched.kind === "invoice"
+        ? paymentHistoryLinesForInvoice(enriched.id, receipts)
+        : undefined;
+    const { id, blobUrl } = await openSavedDocument({
+      ...enriched,
+      ...(paymentHistory?.length ? { paymentHistory } : {}),
+    });
     setPreview({ id, blobUrl, doc });
   };
 
