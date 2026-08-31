@@ -20,11 +20,25 @@ export type CartLine = {
   /** Supplier / purchase cost (inquiries). */
   unitCost: number;
   qty: number;
+  priceOverrideReason?: string;
+};
+
+export type HeldCart = {
+  id: string;
+  label: string;
+  documentKind: DocumentKind | null;
+  lines: CartLine[];
+  partyId?: string;
+  partyName?: string;
+  heldAt: string;
 };
 
 type CartStored = {
   documentKind: DocumentKind | null;
   lines: CartLine[];
+  partyId?: string;
+  partyName?: string;
+  heldCarts?: HeldCart[];
 };
 
 type CartContextValue = {
@@ -42,22 +56,34 @@ type CartContextValue = {
   confirmDocumentAndAdd: (kind: DocumentKind) => void;
   addPart: (part: Part, qty?: number) => void;
   updateQty: (partId: string, qty: number) => void;
-  updateLinePrice: (partId: string, unitPrice: number) => void;
+  updateLinePrice: (partId: string, unitPrice: number, reason?: string) => void;
   updateLineCost: (partId: string, unitCost: number) => void;
   removeLine: (partId: string) => void;
   clearCart: () => void;
+  partyId?: string;
+  partyName?: string;
+  setCartParty: (id?: string, name?: string) => void;
+  heldCarts: HeldCart[];
+  holdCart: (label: string) => void;
+  resumeHeldCart: (id: string) => void;
+  discardHeldCart: (id: string) => void;
 };
 
 const STORAGE_KEY = "parts-village-cart-v1";
+const MAX_HELD_CARTS = 12;
 
 const CartContext = createContext<CartContextValue | null>(null);
 
 function emptyCart(): CartStored {
-  return { documentKind: null, lines: [] };
+  return { documentKind: null, lines: [], heldCarts: [] };
 }
 
 function isCartEmpty(v: CartStored): boolean {
-  return v.documentKind == null && (v.lines?.length ?? 0) === 0;
+  return (
+    v.documentKind == null &&
+    (v.lines?.length ?? 0) === 0 &&
+    (v.heldCarts?.length ?? 0) === 0
+  );
 }
 
 function partToLine(part: Part, qty = 1): CartLine {
@@ -84,6 +110,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
   const documentKind = store.documentKind ?? null;
   const lines = store.lines ?? [];
+  const partyId = store.partyId;
+  const partyName = store.partyName;
+  const heldCarts = store.heldCarts ?? [];
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [pendingPart, setPendingPart] = useState<Part | null>(null);
@@ -95,14 +124,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [setStore],
   );
 
+  const setCartParty = useCallback(
+    (id?: string, name?: string) => {
+      setStore((prev) => ({ ...prev, partyId: id, partyName: name }));
+    },
+    [setStore],
+  );
+
   const addPart = useCallback(
     (part: Part, qty = 1) => {
       setStore((prev) => {
         const existing = (prev.lines ?? []).find((l) => l.partId === part.id);
-        const lines = existing
+        const nextLines = existing
           ? (prev.lines ?? []).map((l) => (l.partId === part.id ? { ...l, qty: l.qty + qty } : l))
           : [...(prev.lines ?? []), partToLine(part, qty)];
-        return { documentKind: prev.documentKind ?? null, lines };
+        return { ...prev, documentKind: prev.documentKind ?? null, lines: nextLines };
       });
     },
     [setStore],
@@ -147,14 +183,22 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const updateLinePrice = useCallback(
-    (partId: string, unitPrice: number) => {
+    (partId: string, unitPrice: number, reason?: string) => {
       setStore((prev) => ({
         ...prev,
-        lines: prev.lines.map((l) =>
-          l.partId === partId
-            ? { ...l, unitPrice: Number.isFinite(unitPrice) ? Math.max(0, unitPrice) : 0 }
-            : l,
-        ),
+        lines: prev.lines.map((l) => {
+          if (l.partId !== partId) return l;
+          const next: CartLine = {
+            ...l,
+            unitPrice: Number.isFinite(unitPrice) ? Math.max(0, unitPrice) : 0,
+          };
+          if (reason !== undefined) {
+            const trimmed = reason.trim();
+            if (trimmed) next.priceOverrideReason = trimmed;
+            else delete next.priceOverrideReason;
+          }
+          return next;
+        }),
       }));
     },
     [setStore],
@@ -182,9 +226,85 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const clearCart = useCallback(() => {
-    setStore((prev) => ({ ...prev, documentKind: null, lines: [] }));
+    setStore((prev) => ({
+      ...prev,
+      documentKind: null,
+      lines: [],
+      partyId: undefined,
+      partyName: undefined,
+    }));
     setCheckoutOpen(false);
   }, [setStore]);
+
+  const holdCart = useCallback(
+    (label: string) => {
+      if (lines.length === 0) {
+        toast.error("Cart is empty — nothing to hold");
+        return;
+      }
+      if (heldCarts.length >= MAX_HELD_CARTS) {
+        toast.error(`At most ${MAX_HELD_CARTS} held carts`);
+        return;
+      }
+      const trimmed = label.trim() || "Hold";
+      setStore((prev) => {
+        const held = prev.heldCarts ?? [];
+        if (held.length >= MAX_HELD_CARTS) return prev;
+        const ticket: HeldCart = {
+          id: crypto.randomUUID(),
+          label: trimmed,
+          documentKind: prev.documentKind ?? null,
+          lines: prev.lines ?? [],
+          partyId: prev.partyId,
+          partyName: prev.partyName,
+          heldAt: new Date().toISOString(),
+        };
+        return {
+          documentKind: null,
+          lines: [],
+          partyId: undefined,
+          partyName: undefined,
+          heldCarts: [ticket, ...held],
+        };
+      });
+      setCheckoutOpen(false);
+      toast.success(`Held as “${trimmed}”`);
+    },
+    [heldCarts.length, lines.length, setStore],
+  );
+
+  const resumeHeldCart = useCallback(
+    (id: string) => {
+      if (lines.length > 0) {
+        toast.error("Hold or clear the current cart before resuming a held cart");
+        return;
+      }
+      setStore((prev) => {
+        const held = prev.heldCarts ?? [];
+        const ticket = held.find((h) => h.id === id);
+        if (!ticket) return prev;
+        return {
+          documentKind: ticket.documentKind,
+          lines: ticket.lines,
+          partyId: ticket.partyId,
+          partyName: ticket.partyName,
+          heldCarts: held.filter((h) => h.id !== id),
+        };
+      });
+      toast.success("Resumed held cart");
+    },
+    [lines.length, setStore],
+  );
+
+  const discardHeldCart = useCallback(
+    (id: string) => {
+      setStore((prev) => ({
+        ...prev,
+        heldCarts: (prev.heldCarts ?? []).filter((h) => h.id !== id),
+      }));
+    },
+    [setStore],
+  );
 
   const itemCount = useMemo(() => lines.reduce((s, l) => s + l.qty, 0), [lines]);
 
@@ -208,6 +328,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
       updateLineCost,
       removeLine,
       clearCart,
+      partyId,
+      partyName,
+      setCartParty,
+      heldCarts,
+      holdCart,
+      resumeHeldCart,
+      discardHeldCart,
     }),
     [
       documentKind,
@@ -226,6 +353,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
       updateLineCost,
       removeLine,
       clearCart,
+      partyId,
+      partyName,
+      setCartParty,
+      heldCarts,
+      holdCart,
+      resumeHeldCart,
+      discardHeldCart,
     ],
   );
 

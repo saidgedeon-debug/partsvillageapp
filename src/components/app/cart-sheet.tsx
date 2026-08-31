@@ -92,16 +92,29 @@ function MoneyField({
   value,
   onChange,
   label,
+  promptOverrideReason,
 }: {
   value: number;
-  onChange: (n: number) => void;
+  onChange: (n: number, reason?: string) => void;
   label: string;
+  /** When true, live-type updates draft only; on blur, prompt for reason if price changed. */
+  promptOverrideReason?: boolean;
 }) {
   const [draft, setDraft] = useState(value > 0 ? String(value) : "");
 
   useEffect(() => {
     setDraft(value > 0 ? String(value) : "");
   }, [value]);
+
+  const commit = (n: number) => {
+    if (promptOverrideReason && n !== value) {
+      const reason = window.prompt("Price override reason (optional)");
+      onChange(n, reason?.trim() || undefined);
+    } else {
+      onChange(n);
+    }
+    setDraft(String(n));
+  };
 
   return (
     <div className="flex items-center gap-1.5">
@@ -116,6 +129,7 @@ function MoneyField({
         onChange={(e) => {
           const raw = e.target.value;
           setDraft(raw);
+          if (promptOverrideReason) return;
           const n = Number.parseFloat(raw);
           if (Number.isFinite(n) && n >= 0) onChange(n);
         }}
@@ -123,7 +137,15 @@ function MoneyField({
           const n = Number.parseFloat(draft);
           if (!Number.isFinite(n) || n < 0) {
             setDraft(value > 0 ? String(value) : "");
-            onChange(0);
+            if (promptOverrideReason) {
+              if (value !== 0) commit(0);
+            } else {
+              onChange(0);
+            }
+            return;
+          }
+          if (promptOverrideReason) {
+            commit(n);
             return;
           }
           onChange(n);
@@ -149,6 +171,10 @@ export function CartSheet() {
     clearCart,
     setCheckoutOpen,
     itemCount,
+    heldCarts,
+    holdCart,
+    resumeHeldCart,
+    discardHeldCart,
   } = useCart();
 
   const [createPartOpen, setCreatePartOpen] = useState(false);
@@ -277,7 +303,8 @@ export function CartSheet() {
                     <MoneyField
                       label="Price"
                       value={line.unitPrice}
-                      onChange={(n) => updateLinePrice(line.partId, n)}
+                      promptOverrideReason
+                      onChange={(n, reason) => updateLinePrice(line.partId, n, reason)}
                     />
                   )}
                   <span className="ml-auto text-sm font-medium">
@@ -288,9 +315,55 @@ export function CartSheet() {
                         : "Price TBD"}
                   </span>
                 </div>
+                {line.priceOverrideReason ? (
+                  <p className="mt-1.5 text-[10px] text-muted-foreground">
+                    Override: {line.priceOverrideReason}
+                  </p>
+                ) : null}
               </div>
             );
           })}
+
+          {heldCarts.length > 0 && (
+            <div className="space-y-2 border-t border-border pt-3">
+              <p className="text-xs font-medium text-muted-foreground">Held carts</p>
+              {heldCarts.map((h) => (
+                <div
+                  key={h.id}
+                  className="flex items-center justify-between gap-2 rounded-lg border border-border px-3 py-2"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium">{h.label}</p>
+                    <p className="text-[10px] text-muted-foreground">
+                      {h.lines.length} line{h.lines.length === 1 ? "" : "s"}
+                      {h.documentKind ? ` · ${kindLabel[h.documentKind]}` : ""}
+                      {h.partyName ? ` · ${h.partyName}` : ""}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 gap-1">
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-7"
+                      onClick={() => resumeHeldCart(h.id)}
+                    >
+                      Resume
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      className="h-7"
+                      onClick={() => discardHeldCart(h.id)}
+                    >
+                      Discard
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <SheetFooter className="gap-2 border-t border-border pt-4 sm:flex-col">
@@ -310,9 +383,23 @@ export function CartSheet() {
             Finish — choose client or supplier
           </Button>
           {lines.length > 0 && (
-            <Button type="button" variant="ghost" className="w-full" onClick={clearCart}>
-              Clear cart
-            </Button>
+            <>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => {
+                  const label = window.prompt("Hold cart label");
+                  if (label == null) return;
+                  holdCart(label);
+                }}
+              >
+                Hold cart
+              </Button>
+              <Button type="button" variant="ghost" className="w-full" onClick={clearCart}>
+                Clear cart
+              </Button>
+            </>
           )}
         </SheetFooter>
       </SheetContent>

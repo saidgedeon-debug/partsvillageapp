@@ -37,6 +37,7 @@ import {
   roundMoney,
   type DocumentDiscountType,
 } from "@/lib/document-money";
+import { FULFILLMENT_STATUSES, type FulfillmentStatus } from "@/lib/fulfillment";
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import { clearDocumentCreatedParts, isDocumentCreatedPart } from "@/lib/document-created-parts";
@@ -48,7 +49,16 @@ import {
 } from "@/lib/stock-sale";
 
 export function CheckoutDialog() {
-  const { checkoutOpen, setCheckoutOpen, lines, documentKind, clearCart, setCartOpen } = useCart();
+  const {
+    checkoutOpen,
+    setCheckoutOpen,
+    lines,
+    documentKind,
+    clearCart,
+    setCartOpen,
+    partyId: cartPartyId,
+    partyName: cartPartyName,
+  } = useCart();
   const { addDocument } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
   const { addOrder, machinesByClient } = useFleet();
@@ -61,6 +71,7 @@ export function CheckoutDialog() {
   const [delivery, setDelivery] = useState<DeliveryMethod>("offline");
   const [deductStock, setDeductStock] = useState(true);
   const [machineId, setMachineId] = useState("");
+  const [fulfillmentStatus, setFulfillmentStatus] = useState<FulfillmentStatus | "">("");
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -72,20 +83,23 @@ export function CheckoutDialog() {
   useEffect(() => {
     if (checkoutOpen) {
       setPartyKind(documentKind === "inquiry" ? "supplier" : "client");
-      setPartyName("");
-      setPartyId(undefined);
+      const preferCart =
+        documentKind !== "inquiry" && Boolean(cartPartyName?.trim() || cartPartyId);
+      setPartyName(preferCart ? (cartPartyName ?? "") : "");
+      setPartyId(preferCart ? cartPartyId : undefined);
       setFormat("pdf");
       setIncludeCost(true);
-      setDelivery("offline");
+      setDelivery(preferCart ? "whatsapp" : "offline");
       setDeductStock(true);
       setMachineId("");
+      setFulfillmentStatus("");
       setDiscountType("percent");
       setDiscountValue(0);
       setSubmitting(false);
       return;
     }
     clearDocumentCreatedParts();
-  }, [checkoutOpen, documentKind]);
+  }, [checkoutOpen, documentKind, cartPartyId, cartPartyName]);
 
   const subtotal = useMemo(() => {
     if (!documentKind) return 0;
@@ -140,6 +154,7 @@ export function CheckoutDialog() {
           includeCost: isInquiry ? includeCost : true,
           discountType: appliedDiscount?.type,
           discountValue: appliedDiscount?.value,
+          fulfillmentStatus: isInvoice && fulfillmentStatus ? fulfillmentStatus : undefined,
         },
         format,
         delivery,
@@ -185,6 +200,7 @@ export function CheckoutDialog() {
           oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
         discountType: appliedDiscount?.type,
         discountValue: appliedDiscount?.value,
+        fulfillmentStatus: isInvoice && fulfillmentStatus ? fulfillmentStatus : undefined,
       };
       addDocument(saved);
 
@@ -305,6 +321,29 @@ export function CheckoutDialog() {
                     {machinesByClient(partyId).map((machine) => (
                       <SelectItem key={machine.id} value={machine.id}>
                         {machine.make} {machine.model} · {machine.serialNumber}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            ) : null}
+            {isInvoice ? (
+              <div className="space-y-1.5">
+                <Label htmlFor="checkout-fulfillment">Fulfillment</Label>
+                <Select
+                  value={fulfillmentStatus || "__none__"}
+                  onValueChange={(value) =>
+                    setFulfillmentStatus(value === "__none__" ? "" : (value as FulfillmentStatus))
+                  }
+                >
+                  <SelectTrigger id="checkout-fulfillment">
+                    <SelectValue placeholder="Not set" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__none__">Not set</SelectItem>
+                    {FULFILLMENT_STATUSES.map((s) => (
+                      <SelectItem key={s} value={s}>
+                        {s}
                       </SelectItem>
                     ))}
                   </SelectContent>
