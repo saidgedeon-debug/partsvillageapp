@@ -3,6 +3,7 @@ import { FileUp } from "lucide-react";
 import { toast } from "sonner";
 
 import { useInventory } from "@/components/app/inventory-context";
+import { usePrefs } from "@/components/app/prefs-context";
 import { confirmAction } from "@/components/app/confirm-dialog";
 import {
   buildSupplierPricePreview,
@@ -10,6 +11,7 @@ import {
   readSupplierPriceWorkbook,
   type SupplierPriceMapping,
 } from "@/lib/supplier-price-import";
+import { localTodayIso } from "@/lib/date-local";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -27,6 +29,7 @@ type Props = {
 
 export function SupplierPriceImportDialog({ open, onOpenChange }: Props) {
   const { parts, bulkUpdateParts } = useInventory();
+  const { addPriceBook } = usePrefs();
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = useState("");
   const [busy, setBusy] = useState(false);
@@ -80,6 +83,22 @@ export function SupplierPriceImportDialog({ open, onOpenChange }: Props) {
         cost: row.cost,
       })),
     );
+
+    const today = localTodayIso();
+    const defaultName = `Price book ${today}`;
+    const bookName =
+      typeof window !== "undefined"
+        ? window.prompt("Save as price book?", defaultName)?.trim() || defaultName
+        : defaultName;
+    addPriceBook({
+      name: bookName,
+      rows: updates.map((row) => ({
+        partId: row.partId!,
+        partNumber: row.code,
+        cost: row.cost,
+      })),
+    });
+
     toast.success(`Updated cost on ${updates.length} part${updates.length === 1 ? "" : "s"}`);
     onOpenChange(false);
     setFileName("");

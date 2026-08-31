@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { Undo2 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Camera, Undo2, X } from "lucide-react";
 import { toast } from "sonner";
 
 import type { CartLine } from "@/components/app/cart-context";
@@ -34,6 +34,7 @@ import { documentBelongsToClient } from "@/lib/ar-statement";
 import { currency } from "@/lib/mock-data";
 import { localTodayIso } from "@/lib/date-local";
 import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
+import { compressImageToDataUrl } from "@/lib/image-compress";
 import { lineQtyByPart, physicalRestockCap } from "@/lib/stock-sale";
 import { cn } from "@/lib/utils";
 
@@ -133,6 +134,8 @@ export function CreateReturnDialog({
   const [restock, setRestock] = useState(true);
   const [returnDate, setReturnDate] = useState(localTodayIso());
   const [note, setNote] = useState("");
+  const [photos, setPhotos] = useState<string[]>([]);
+  const photoInputRef = useRef<HTMLInputElement>(null);
 
   const returnableInvoices = useMemo(() => {
     const client = clientId ? getClient(clientId) : undefined;
@@ -159,6 +162,7 @@ export function CreateReturnDialog({
     setRestock(true);
     setReturnDate(localTodayIso());
     setNote("");
+    setPhotos([]);
     setSubmitting(false);
   }, [open, invoice, returnableInvoices, invoices, creditNotes]);
 
@@ -187,6 +191,22 @@ export function CreateReturnDialog({
         r.partId === partId && r.unitPrice === unitPrice ? { ...r, qtyToReturn: value } : r,
       ),
     );
+  };
+
+  const onPhotosSelected = async (files: FileList | null) => {
+    if (!files?.length) return;
+    const remaining = Math.max(0, 4 - photos.length);
+    const slice = [...files].slice(0, remaining);
+    if (slice.length === 0) {
+      toast.error("Max 4 return photos");
+      return;
+    }
+    try {
+      const urls = await Promise.all(slice.map((file) => compressImageToDataUrl(file)));
+      setPhotos((prev) => [...prev, ...urls].slice(0, 4));
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not compress photo");
+    }
   };
 
   const submit = async () => {
@@ -285,6 +305,7 @@ export function CreateReturnDialog({
         date: returnDate,
         note: note.trim() || undefined,
         allowRefundOverage,
+        imageUrls: photos.length ? photos : undefined,
       });
 
       for (const { partId, qty } of restockPairs) {
@@ -429,6 +450,57 @@ export function CreateReturnDialog({
               onChange={(e) => setNote(e.target.value)}
               placeholder="Staff note — not printed on PDF title"
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Return photos (optional)</Label>
+            <input
+              ref={photoInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              multiple
+              className="hidden"
+              onChange={(e) => {
+                void onPhotosSelected(e.target.files);
+                e.target.value = "";
+              }}
+            />
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-1.5"
+                disabled={photos.length >= 4}
+                onClick={() => photoInputRef.current?.click()}
+              >
+                <Camera className="h-4 w-4" />
+                Add photo
+              </Button>
+              <span className="text-xs text-muted-foreground">{photos.length}/4</span>
+            </div>
+            {photos.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {photos.map((url) => (
+                  <div key={url.slice(0, 48)} className="relative">
+                    <img
+                      src={url}
+                      alt=""
+                      className="h-16 w-16 rounded border object-cover"
+                    />
+                    <button
+                      type="button"
+                      className="absolute -right-1 -top-1 rounded-full bg-background p-0.5 shadow"
+                      aria-label="Remove photo"
+                      onClick={() => setPhotos((prev) => prev.filter((p) => p !== url))}
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
 
           <p className="text-sm font-medium">

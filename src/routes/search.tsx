@@ -10,6 +10,7 @@ import { useParties } from "@/components/app/parties-context";
 import { useSearch } from "@/components/app/search-context";
 import { useShipments } from "@/components/app/shipments-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { rankByFuzzyScore } from "@/lib/fuzzy-search";
 import { partNumbersOf } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/search")({
@@ -22,21 +23,22 @@ export const Route = createFileRoute("/search")({
 function GlobalSearchPage() {
   const { q: routeQuery } = Route.useSearch();
   const { query, setQuery } = useSearch();
-  const q = (routeQuery || query).trim().toLowerCase();
+  const rawQuery = (routeQuery || query).trim();
+  const q = rawQuery.toLowerCase();
   const { parts } = useInventory();
   const { clients, suppliers } = useParties();
   const { documents } = useDocuments();
   const { shipments } = useShipments();
   const { machines } = useFleet();
 
-  const partResults = q
-    ? parts
-        .filter((part) =>
-          `${partNumbersOf(part).join(" ")} ${part.name} ${part.category}`
-            .toLowerCase()
-            .includes(q),
-        )
-        .slice(0, 20)
+  const partResults = rawQuery
+    ? rankByFuzzyScore(
+        parts,
+        rawQuery,
+        (part) =>
+          `${partNumbersOf(part).join(" ")} ${part.name} ${part.description ?? ""}`,
+        20,
+      )
     : [];
   const partyResults = q
     ? [

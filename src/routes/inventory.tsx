@@ -16,6 +16,7 @@ import {
   Pencil,
   Pin,
   Plus,
+  Printer,
   ScanLine,
   Smartphone,
   Star,
@@ -62,11 +63,13 @@ import {
 } from "@/lib/inventory-categories";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
+import { rankByFuzzyScore } from "@/lib/fuzzy-search";
 import { locationOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import {
   INVENTORY_QUICK_FILTERS,
   type InventoryQuickFilterId,
 } from "@/lib/inventory-quick-filters";
+import { printPartLabels } from "@/lib/part-label";
 import { primaryPartImage } from "@/lib/part-image";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -203,7 +206,7 @@ function InventoryPage() {
     addSavedInventoryView,
     removeSavedInventoryView,
   } = usePrefs();
-  const q = query.trim().toLowerCase();
+  const q = query.trim();
   const [categoryId, setCategoryId] = useState(defaultInventoryCategoryId);
   /** null = all subtypes when a group tile is selected */
   const [groupSub, setGroupSub] = useState<string | null>(null);
@@ -367,22 +370,25 @@ function InventoryPage() {
     }
 
     if (q) {
-      list = list.filter((p) => {
-        const numbers = partNumbersOf(p).join(" ").toLowerCase();
-        return (
-          numbers.includes(q) ||
-          p.partNumber.toLowerCase().includes(q) ||
-          p.name.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          (p.subcategory ?? "").toLowerCase().includes(q) ||
-          String(p.boxNumber ?? "").includes(q) ||
-          locationOf(p).toLowerCase().includes(q) ||
-          (p.insideDiameterMm ?? "").toLowerCase().includes(q) ||
-          (p.crossSectionMm ?? "").toLowerCase().includes(q) ||
-          (p.notes ?? "").toLowerCase().includes(q) ||
-          p.compatibility.some((c) => c.toLowerCase().includes(q))
-        );
-      });
+      list = rankByFuzzyScore(
+        list,
+        q,
+        (p) =>
+          [
+            partNumbersOf(p).join(" "),
+            p.name,
+            p.description ?? "",
+            p.category,
+            p.subcategory ?? "",
+            String(p.boxNumber ?? ""),
+            locationOf(p),
+            p.insideDiameterMm ?? "",
+            p.crossSectionMm ?? "",
+            p.notes ?? "",
+            p.compatibility.join(" "),
+          ].join(" "),
+        Math.min(list.length, 500),
+      );
     }
 
     if (quickFilter === "seals-stock") {
@@ -398,7 +404,7 @@ function InventoryPage() {
       list = list.filter((p) => !primaryPartImage(p));
     }
 
-    return sortParts(list, isORings ? sortMode : "box");
+    return q ? list : sortParts(list, isORings ? sortMode : "box");
   }, [
     q,
     thickness,
@@ -512,6 +518,23 @@ function InventoryPage() {
               >
                 <Download className="h-4 w-4" />
                 Download Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  const toPrint = rows.slice(0, 50);
+                  if (toPrint.length === 0) {
+                    toast.error("No parts to print");
+                    return;
+                  }
+                  void printPartLabels(toPrint).then(() => {
+                    toast.success(
+                      `Opened labels for ${toPrint.length} part${toPrint.length === 1 ? "" : "s"}`,
+                    );
+                  });
+                }}
+              >
+                <Printer className="h-4 w-4" />
+                Print labels
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setExcelOpen(true)}>
                 <FileUp className="h-4 w-4" />

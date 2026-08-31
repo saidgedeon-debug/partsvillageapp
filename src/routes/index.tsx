@@ -30,6 +30,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { buildClientsArQueue } from "@/lib/ar-statement";
+import { buildMarginRadar } from "@/lib/margin-radar";
 import { currency } from "@/lib/mock-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { toUsd } from "@/lib/fx";
@@ -52,7 +53,7 @@ function Index() {
   const { invoices, quotations, receipts, creditNotes, inquiries } = useDocuments();
   const { orders } = useFleet();
   const { shipments } = useShipments();
-  const { rmbPerUsd } = usePrefs();
+  const { rmbPerUsd, priceBooks } = usePrefs();
   const now = new Date();
   const [pnlFrom, setPnlFrom] = useState(
     `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`,
@@ -203,6 +204,35 @@ function Index() {
       : Math.round(
           (priced.reduce((s, p) => s + (p.price - p.cost) * p.quantity, 0) / revenueWeight) * 100,
         );
+
+  const marginRadar = useMemo(() => buildMarginRadar(parts, invoices), [parts, invoices]);
+
+  const priceBookAlerts = useMemo(() => {
+    const latest = priceBooks[0];
+    if (!latest?.rows?.length) return [];
+    const byId = new Map(parts.map((p) => [p.id, p]));
+    const alerts: Array<{
+      partId: string;
+      partNumber: string;
+      name: string;
+      price: number;
+      bookCost: number;
+    }> = [];
+    for (const row of latest.rows) {
+      const part = byId.get(row.partId);
+      if (!part || !(part.price > 0) || !(row.cost > 0)) continue;
+      if (part.price + 0.005 < row.cost) {
+        alerts.push({
+          partId: part.id,
+          partNumber: part.partNumber,
+          name: part.name,
+          price: part.price,
+          bookCost: row.cost,
+        });
+      }
+    }
+    return alerts.slice(0, 8);
+  }, [priceBooks, parts]);
 
   const pnl = useMemo(() => {
     const inRange = (date: string) => date >= pnlFrom && date <= pnlTo;
@@ -423,6 +453,149 @@ function Index() {
             </Card>
           </section>
         ) : null}
+
+        <section className="space-y-3">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Money radar
+          </p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Top profit parts · this month</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {marginRadar.topProfitParts.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No paid sales with margin yet</p>
+                ) : (
+                  marginRadar.topProfitParts.map((row) => (
+                    <div
+                      key={row.partId}
+                      className="flex items-center justify-between gap-3 border-b border-border py-2 last:border-0"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-mono text-xs font-semibold">{row.partNumber}</p>
+                        <p className="truncate text-xs text-muted-foreground">{row.name}</p>
+                      </div>
+                      <p className="shrink-0 text-sm font-semibold text-emerald-700 dark:text-emerald-400">
+                        {currency(row.profit)}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Dead stock · 180d+</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {marginRadar.deadStock.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No stale stock flagged</p>
+                ) : (
+                  marginRadar.deadStock.map(({ part, daysSinceSale }) => (
+                    <div
+                      key={part.id}
+                      className="flex items-center justify-between gap-3 border-b border-border py-2 last:border-0"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-mono text-xs font-semibold">{part.partNumber}</p>
+                        <p className="truncate text-xs text-muted-foreground">{part.name}</p>
+                      </div>
+                      <p className="shrink-0 text-xs text-muted-foreground">
+                        {daysSinceSale == null ? "Never sold" : `${daysSinceSale}d`} · qty{" "}
+                        {part.quantity}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-base">Zero-cost but priced</CardTitle>
+                <Badge variant="secondary">{marginRadar.zeroCostPriced.length}</Badge>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {marginRadar.zeroCostPriced.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">All priced parts have a cost</p>
+                ) : (
+                  marginRadar.zeroCostPriced.map((part) => (
+                    <div
+                      key={part.id}
+                      className="flex items-center justify-between gap-3 border-b border-border py-2 last:border-0"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-mono text-xs font-semibold">{part.partNumber}</p>
+                        <p className="truncate text-xs text-muted-foreground">{part.name}</p>
+                      </div>
+                      <p className="shrink-0 text-sm">{currency(part.price)}</p>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Negative margin sales</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {marginRadar.negativeMarginSales.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No underwater lines found</p>
+                ) : (
+                  marginRadar.negativeMarginSales.map((row) => (
+                    <div
+                      key={`${row.invoiceId}-${row.partNumber}-${row.date}`}
+                      className="flex items-center justify-between gap-3 border-b border-border py-2 last:border-0"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-mono text-xs font-semibold">{row.partNumber}</p>
+                        <p className="truncate text-xs text-muted-foreground">
+                          {row.invoiceId} · {row.date}
+                        </p>
+                      </div>
+                      <p className="shrink-0 text-sm font-semibold text-destructive">
+                        {currency(row.margin)}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {priceBookAlerts.length > 0 ? (
+            <Card className="border-amber-500/40">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                  Price below supplier book cost
+                </CardTitle>
+                <p className="text-xs text-muted-foreground">
+                  Latest book: {priceBooks[0]?.name}
+                </p>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {priceBookAlerts.map((row) => (
+                  <div
+                    key={row.partId}
+                    className="flex items-center justify-between gap-3 border-b border-border py-2 last:border-0"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate font-mono text-xs font-semibold">{row.partNumber}</p>
+                      <p className="truncate text-xs text-muted-foreground">{row.name}</p>
+                    </div>
+                    <p className="shrink-0 text-xs">
+                      sell {currency(row.price)} &lt; book {currency(row.bookCost)}
+                    </p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          ) : null}
+        </section>
 
         <section className="space-y-3">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">

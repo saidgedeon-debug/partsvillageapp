@@ -21,7 +21,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { localTodayIso } from "@/lib/date-local";
-import { partNumbersOf, type Part } from "@/lib/mock-data";
+import { allocateLandedCosts } from "@/lib/landed-cost";
+import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { blendedUnitCost } from "@/lib/part-identity";
 import { allocateFreight } from "@/lib/preorders";
 
@@ -128,6 +129,10 @@ export function ShipmentReceiveDialog({
     return hit?.id ?? null;
   };
 
+  const freightTotal = Number(shipment?.freightCost) || 0;
+  const customsTotal =
+    Number((shipment as { customsCost?: number } | null)?.customsCost) || 0;
+
   const confirm = () => {
     if (!shipment) return;
     const updates: { row: ReceiveRow; partId: string; qty: number; unitCost?: number }[] = [];
@@ -149,10 +154,22 @@ export function ShipmentReceiveDialog({
       return;
     }
 
-    for (const { partId, qty, unitCost } of updates) {
+    const allocations = allocateLandedCosts(
+      updates.map((u) => ({
+        id: u.row.key,
+        qty: u.qty,
+        unitCost: u.unitCost ?? 0,
+      })),
+      freightTotal,
+      customsTotal,
+    );
+    const landedByKey = new Map(allocations.map((a) => [a.id, a.landedUnitCost]));
+
+    for (const { row, partId, qty, unitCost } of updates) {
       const part = getPart(partId);
-      if (part && unitCost != null && Number.isFinite(unitCost) && unitCost >= 0) {
-        const nextCost = blendedUnitCost(part.quantity, part.cost, qty, unitCost);
+      const landed = landedByKey.get(row.key) ?? unitCost;
+      if (part && landed != null && Number.isFinite(landed) && landed >= 0) {
+        const nextCost = blendedUnitCost(part.quantity, part.cost, qty, landed);
         updatePart(partId, { cost: nextCost });
       }
       adjustPartQuantity(partId, qty);
@@ -286,13 +303,20 @@ export function ShipmentReceiveDialog({
           )}
         </div>
 
-        <DialogFooter className="border-t border-border px-6 py-4">
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
-          <Button type="button" onClick={confirm}>
-            Post to inventory
-          </Button>
+        <DialogFooter className="flex-col items-stretch gap-3 border-t border-border px-6 py-4 sm:flex-col">
+          {freightTotal > 0 ? (
+            <p className="text-xs text-muted-foreground">
+              Landed costs include freight {currency(freightTotal)} split by value
+            </p>
+          ) : null}
+          <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button type="button" onClick={confirm}>
+              Post to inventory
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

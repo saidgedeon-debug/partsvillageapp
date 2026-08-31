@@ -72,6 +72,8 @@ export type SavedDocument = {
   amountPaidAfter?: number;
   /** Shared id when one cash payment produced several receipts (on-account). */
   paymentBatchId?: string;
+  /** Credit note / return: optional photo evidence (data URLs). */
+  imageUrls?: string[];
 };
 
 export type RecordPaymentInput = {
@@ -116,6 +118,8 @@ export type RecordReturnInput = {
   note?: string;
   /** Allow credit that pushes paid+credits above invoice total (shop owes client). */
   allowRefundOverage?: boolean;
+  /** Optional return photos (data URLs) stored on the credit note. */
+  imageUrls?: string[];
 };
 
 export type RecordClientDiscountInput = {
@@ -1107,6 +1111,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           restockedPartIds,
           internalNote: input.note?.trim() || undefined,
           lines: returnLines,
+          imageUrls: input.imageUrls?.length ? input.imageUrls : undefined,
         };
 
         const creditsAfter = invoiceCredits(invoice, [...existingCredits, creditNote]);
