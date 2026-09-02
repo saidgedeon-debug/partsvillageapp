@@ -7,6 +7,7 @@ import {
   type SetStateAction,
 } from "react";
 
+import { emitCloudConflict } from "@/lib/cloud-conflict";
 import { mergeShopStateValue } from "@/lib/shop-state-merge";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
@@ -344,6 +345,7 @@ export function useCloudState<T>(
                 skipSave.current = true;
                 setValueState(merged);
                 dirtyRef.current = true;
+                emitCloudConflict(key);
                 const forced = await saveShopState(key, merged, remote.updatedAt);
                 if (forced.saved) {
                   baseUpdatedAtRef.current = forced.updatedAt;
@@ -420,6 +422,7 @@ export function useCloudState<T>(
             // Keep dirty so the debounce save effect uploads the merge (do not skipSave).
             dirtyRef.current = true;
             setValueState(merged);
+            emitCloudConflict(key);
             return;
           }
 
@@ -432,6 +435,7 @@ export function useCloudState<T>(
           skipSave.current = true;
           baseValueRef.current = next;
           setValueState(next);
+          emitCloudConflict(key);
         },
       )
       .subscribe();

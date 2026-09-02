@@ -109,7 +109,8 @@ function ClientDetail() {
   const { clientId } = Route.useParams();
   const navigate = useNavigate();
   const { clients, removeClient, updateClient } = useParties();
-  const { quotations, invoices, receipts, creditNotes, deleteInvoicePayment } = useDocuments();
+  const { quotations, invoices, receipts, creditNotes, deleteInvoicePayment, applyUnappliedCredit } =
+    useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const { kits } = useKits();
   const { getPart } = useInventory();
@@ -121,6 +122,8 @@ function ClientDetail() {
   const [editingReceipt, setEditingReceipt] = useState<SavedDocument | null>(null);
   const [discountOpen, setDiscountOpen] = useState(false);
   const [returnOpen, setReturnOpen] = useState(false);
+  const [applyCreditInvoiceId, setApplyCreditInvoiceId] = useState("");
+  const [applyCreditAmount, setApplyCreditAmount] = useState("");
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [serial, setSerial] = useState("");
@@ -181,6 +184,36 @@ function ClientDetail() {
     setPromisedPayDraft(client.promisedPayDate ?? "");
     setPayMethodDraft(client.preferredPaymentMethod ?? "");
   }, [client]);
+
+  const statementForDefaults = useMemo(
+    () => (client ? buildArStatement(client, invoices, creditNotes) : null),
+    [client, invoices, creditNotes],
+  );
+
+  useEffect(() => {
+    if (!statementForDefaults) return;
+    if (
+      statementForDefaults.unappliedCredits <= 0.005 ||
+      statementForDefaults.rows.length === 0
+    ) {
+      setApplyCreditInvoiceId("");
+      setApplyCreditAmount("");
+      return;
+    }
+    setApplyCreditInvoiceId((prev) => {
+      const stillOpen = statementForDefaults.rows.some((r) => r.invoice.id === prev);
+      const invoiceId = stillOpen ? prev : statementForDefaults.rows[0]!.invoice.id;
+      const row =
+        statementForDefaults.rows.find((r) => r.invoice.id === invoiceId) ??
+        statementForDefaults.rows[0]!;
+      setApplyCreditAmount(
+        String(
+          Math.min(statementForDefaults.unappliedCredits, row.remaining).toFixed(2),
+        ),
+      );
+      return invoiceId;
+    });
+  }, [statementForDefaults]);
 
   const timeline = useMemo(() => {
     if (!client) return [];
@@ -244,7 +277,7 @@ function ClientDetail() {
 
   const fleet = machinesByClient(client.id);
   const allOrders = ordersByClient(client.id);
-  const statement = buildArStatement(client, invoices, creditNotes);
+  const statement = statementForDefaults!;
   const canReturn = invoices.some(
     (iv) => documentBelongsToClient(iv, client) && invoiceHasReturnableLines(iv, creditNotes),
   );
@@ -630,14 +663,27 @@ function ClientDetail() {
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Credits / returns</p>
-                <p className="font-semibold text-emerald-700 dark:text-emerald-400">
-                  −{currency(statement.creditsTotal)}
+                <p className="text-xs text-muted-foreground">Unapplied credit</p>
+                <p
+                  className={
+                    statement.unappliedCredits > 0.005
+                      ? "font-semibold text-emerald-700 dark:text-emerald-400"
+                      : "font-semibold text-muted-foreground"
+                  }
+                >
+                  {statement.unappliedCredits > 0.005
+                    ? `−${currency(statement.unappliedCredits)}`
+                    : currency(0)}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Total due</p>
-                <p className="font-bold text-accent">{currency(statement.total)}</p>
+                <p className="text-xs text-muted-foreground">Net due</p>
+                <p className="font-bold text-accent">{currency(statement.netDue)}</p>
+                {statement.total > statement.netDue + 0.005 ? (
+                  <p className="text-[11px] text-muted-foreground">
+                    Invoice AR {currency(statement.total)}
+                  </p>
+                ) : null}
               </div>
               {statement.refundOwed > 0.005 ? (
                 <div>
@@ -648,6 +694,84 @@ function ClientDetail() {
                 </div>
               ) : null}
             </div>
+            {statement.unappliedCredits > 0.005 && statement.rows.length > 0 ? (
+              <div className="flex flex-wrap items-end gap-2 rounded-md border border-border bg-muted/30 px-3 py-2.5">
+                <div className="min-w-[140px] flex-1 space-y-1">
+                  <Label htmlFor="apply-credit-invoice" className="text-xs text-muted-foreground">
+                    Apply unapplied credit
+                  </Label>
+                  <Select
+                    value={applyCreditInvoiceId || undefined}
+                    onValueChange={(id) => {
+                      setApplyCreditInvoiceId(id);
+                      const row = statement.rows.find((r) => r.invoice.id === id);
+                      if (row) {
+                        setApplyCreditAmount(
+                          String(
+                            Math.min(statement.unappliedCredits, row.remaining).toFixed(2),
+                          ),
+                        );
+                      }
+                    }}
+                  >
+                    <SelectTrigger id="apply-credit-invoice" className="h-9">
+                      <SelectValue placeholder="Open invoice" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {statement.rows.map((row) => (
+                        <SelectItem key={row.invoice.id} value={row.invoice.id}>
+                          {row.invoice.id} · {currency(row.remaining)} due
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="w-[110px] space-y-1">
+                  <Label htmlFor="apply-credit-amount" className="text-xs text-muted-foreground">
+                    Amount
+                  </Label>
+                  <Input
+                    id="apply-credit-amount"
+                    type="number"
+                    min={0.01}
+                    step="0.01"
+                    className="h-9"
+                    value={applyCreditAmount}
+                    onChange={(e) => setApplyCreditAmount(e.target.value)}
+                  />
+                </div>
+                <Button
+                  type="button"
+                  size="sm"
+                  className="h-9"
+                  disabled={!applyCreditInvoiceId}
+                  onClick={() => {
+                    const amount = Number(applyCreditAmount);
+                    if (!Number.isFinite(amount) || amount <= 0) {
+                      toast.error("Enter a valid amount");
+                      return;
+                    }
+                    try {
+                      applyUnappliedCredit({
+                        clientId: client.id,
+                        clientName: client.name,
+                        invoiceId: applyCreditInvoiceId,
+                        amount,
+                      });
+                      toast.success(
+                        `Applied ${currency(amount)} credit to ${applyCreditInvoiceId}`,
+                      );
+                      setApplyCreditInvoiceId("");
+                      setApplyCreditAmount("");
+                    } catch (err) {
+                      toast.error(err instanceof Error ? err.message : "Could not apply credit");
+                    }
+                  }}
+                >
+                  Apply credit
+                </Button>
+              </div>
+            ) : null}
             {statement.rows.length > 0 ? (
               <Table>
                 <TableHeader>

@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -16,6 +17,7 @@ import { CloudGate } from "@/components/app/cloud-gate";
 import { CloudSyncBanner } from "@/components/app/cloud-sync-banner";
 import { OfflineBanner } from "@/components/app/offline-banner";
 import { BackupReminderBanner } from "@/components/app/backup-reminder-banner";
+import { CloudConflictToaster } from "@/components/app/cloud-conflict-toaster";
 import { ConfirmProvider } from "@/components/app/confirm-dialog";
 import { SearchProvider } from "@/components/app/search-context";
 import { PartiesProvider } from "@/components/app/parties-context";
@@ -158,6 +160,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isPortal = pathname.startsWith("/portal");
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -176,18 +180,27 @@ function RootComponent() {
                               <CartProvider>
                                 <SidebarProvider>
                                   <div className="flex min-h-screen w-full bg-background">
-                                    <AppSidebar />
+                                    {isPortal ? null : <AppSidebar />}
                                     <SidebarInset className="min-w-0">
-                                      <OfflineBanner />
-                                      <BackupReminderBanner />
-                                      <CloudSyncBanner />
+                                      {isPortal ? null : (
+                                        <>
+                                          <OfflineBanner />
+                                          <BackupReminderBanner />
+                                          <CloudSyncBanner />
+                                        </>
+                                      )}
                                       <Outlet />
                                     </SidebarInset>
                                   </div>
-                                  <DocumentTypeDialog />
-                                  <CartSheet />
-                                  <CheckoutDialog />
+                                  {isPortal ? null : (
+                                    <>
+                                      <DocumentTypeDialog />
+                                      <CartSheet />
+                                      <CheckoutDialog />
+                                    </>
+                                  )}
                                   <Toaster />
+                                  <CloudConflictToaster />
                                 </SidebarProvider>
                               </CartProvider>
                             </PreOrdersProvider>

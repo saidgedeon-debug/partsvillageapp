@@ -1,5 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { DollarSign, FileText, AlertTriangle, TrendingUp, Package, Wallet, Clock } from "lucide-react";
+import {
+  DollarSign,
+  FileText,
+  AlertTriangle,
+  TrendingUp,
+  Package,
+  Wallet,
+  Clock,
+  MessageCircle,
+} from "lucide-react";
 import type { ComponentType } from "react";
 import { useMemo, useState } from "react";
 import {
@@ -21,6 +30,7 @@ import { useShipments } from "@/components/app/shipments-context";
 import { usePrefs } from "@/components/app/prefs-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -147,7 +157,11 @@ function Index() {
     [clients, invoices, creditNotes],
   );
   const arTotal = useMemo(
-    () => arQueue.reduce((sum, row) => sum + row.statement.total, 0),
+    () => arQueue.reduce((sum, row) => sum + row.statement.netDue, 0),
+    [arQueue],
+  );
+  const arUnappliedTotal = useMemo(
+    () => arQueue.reduce((sum, row) => sum + row.statement.unappliedCredits, 0),
     [arQueue],
   );
   const arAging = useMemo(() => {
@@ -357,12 +371,14 @@ function Index() {
               warn
             />
             <MetricCard
-              label="Who owes me"
+              label="Net AR"
               value={arQueue.length === 0 ? "All clear" : currency(arTotal)}
               hint={
                 arQueue.length === 0
                   ? "No open balances"
-                  : `${arQueue.length} client${arQueue.length === 1 ? "" : "s"}`
+                  : arUnappliedTotal > 0.005
+                    ? `${arQueue.length} client${arQueue.length === 1 ? "" : "s"} · credit −${currency(arUnappliedTotal)}`
+                    : `${arQueue.length} client${arQueue.length === 1 ? "" : "s"}`
               }
               icon={Wallet}
               warn={arQueue.length > 0}
@@ -375,7 +391,7 @@ function Index() {
         {followUpQuotes.length > 0 ? (
           <section className="space-y-3">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              Quote follow-up
+              Quotes to follow up
             </p>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
@@ -392,23 +408,39 @@ function Index() {
                 </Link>
               </CardHeader>
               <CardContent className="space-y-2">
-                {followUpQuotes.map((q) => (
-                  <div
-                    key={q.id}
-                    className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate font-mono text-xs font-semibold">{q.id}</p>
-                      <p className="truncate text-sm">{q.partyName}</p>
+                {followUpQuotes.map((q) => {
+                  const client = clients.find(
+                    (c) => c.id === q.partyId || c.name === q.partyName,
+                  );
+                  const phone = (client?.phone ?? "").replace(/\D/g, "");
+                  const text = `Following up on quotation ${q.id} for ${currency(q.total)}`;
+                  const waUrl = `${phone ? `https://wa.me/${phone}` : "https://wa.me/"}?text=${encodeURIComponent(text)}`;
+                  return (
+                    <div
+                      key={q.id}
+                      className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-mono text-xs font-semibold">{q.id}</p>
+                        <p className="truncate text-sm">{q.partyName}</p>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-2">
+                        <div className="text-right">
+                          <p className="text-sm font-semibold">{currency(q.total)}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {q.age}d · {q.status}
+                          </p>
+                        </div>
+                        <Button type="button" size="sm" variant="outline" className="gap-1" asChild>
+                          <a href={waUrl} target="_blank" rel="noopener noreferrer">
+                            <MessageCircle className="h-3.5 w-3.5" />
+                            WhatsApp
+                          </a>
+                        </Button>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold">{currency(q.total)}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {q.age}d · {q.status}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </CardContent>
             </Card>
           </section>

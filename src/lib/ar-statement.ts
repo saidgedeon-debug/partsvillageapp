@@ -163,12 +163,12 @@ export function buildClientsArQueue(
       client,
       statement: buildArStatement(client, invoices, creditNotes, now),
     }))
-    .filter((row) => row.statement.total > 0.005)
+    .filter((row) => row.statement.netDue > 0.005)
     .sort(
       (a, b) =>
         b.statement.days61Plus - a.statement.days61Plus ||
         b.statement.days31To60 - a.statement.days31To60 ||
-        b.statement.total - a.statement.total,
+        b.statement.netDue - a.statement.netDue,
     );
 }
 
@@ -352,6 +352,17 @@ export async function downloadStatementPdf(client: PartyRecord, statement: ArSta
   }
 
   pdf.setFont("helvetica", "bold");
-  pdf.text(`Total due: ${currency(statement.total)}`, 14, finalY + 12);
+  let y = finalY + 12;
+  if (statement.unappliedCredits > 0.005) {
+    pdf.setFont("helvetica", "normal");
+    pdf.text(`Invoice total: ${currency(statement.total)}`, 14, y);
+    y += 6;
+    pdf.text(`Unapplied credit: −${currency(statement.unappliedCredits)}`, 14, y);
+    y += 6;
+    pdf.setFont("helvetica", "bold");
+    pdf.text(`Net due: ${currency(statement.netDue)}`, 14, y);
+  } else {
+    pdf.text(`Total due: ${currency(statement.total)}`, 14, y);
+  }
   pdf.save(`statement-${client.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.pdf`);
 }

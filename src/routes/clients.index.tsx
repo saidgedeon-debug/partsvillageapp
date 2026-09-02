@@ -67,7 +67,7 @@ function ClientsPage() {
   }, [arQueue]);
 
   const arTotal = useMemo(
-    () => arQueue.reduce((sum, row) => sum + row.statement.total, 0),
+    () => arQueue.reduce((sum, row) => sum + row.statement.netDue, 0),
     [arQueue],
   );
 
@@ -181,7 +181,12 @@ function ClientsPage() {
                         0–30 {currency(statement.current)}
                       </span>
                     )}
-                    <span className="text-xs font-semibold">{currency(statement.total)}</span>
+                    <span className="text-xs font-semibold">{currency(statement.netDue)}</span>
+                    {statement.unappliedCredits > 0.005 ? (
+                      <span className="text-[11px] text-muted-foreground">
+                        credit −{currency(statement.unappliedCredits)}
+                      </span>
+                    ) : null}
                     <Button
                       type="button"
                       size="sm"
@@ -238,7 +243,12 @@ function ClientsPage() {
                           0–30 {currency(statement.current)}
                         </span>
                       )}
-                      <span className="text-sm font-semibold">{currency(statement.total)}</span>
+                      <span className="text-sm font-semibold">{currency(statement.netDue)}</span>
+                      {statement.unappliedCredits > 0.005 ? (
+                        <span className="text-xs text-muted-foreground">
+                          credit −{currency(statement.unappliedCredits)}
+                        </span>
+                      ) : null}
                       <Button
                         type="button"
                         size="sm"
@@ -281,18 +291,25 @@ function ClientsPage() {
                             {orderCount} orders
                           </Badge>
                           {ar ? (
-                            <Badge
-                              className={cn(
-                                "text-xs font-semibold",
-                                ar.statement.days61Plus > 0
-                                  ? "bg-destructive/15 text-destructive"
-                                  : ar.statement.days31To60 > 0
-                                    ? "bg-amber-500/15 text-amber-700 dark:text-amber-400"
-                                    : "bg-sky-500/15 text-sky-700 dark:text-sky-400",
-                              )}
-                            >
-                              Owes {currency(ar.statement.total)}
-                            </Badge>
+                            <>
+                              <Badge
+                                className={cn(
+                                  "text-xs font-semibold",
+                                  ar.statement.days61Plus > 0
+                                    ? "bg-destructive/15 text-destructive"
+                                    : ar.statement.days31To60 > 0
+                                      ? "bg-amber-500/15 text-amber-700 dark:text-amber-400"
+                                      : "bg-sky-500/15 text-sky-700 dark:text-sky-400",
+                                )}
+                              >
+                                Owes {currency(ar.statement.netDue)}
+                              </Badge>
+                              {ar.statement.unappliedCredits > 0.005 ? (
+                                <span className="text-xs text-muted-foreground">
+                                  credit −{currency(ar.statement.unappliedCredits)}
+                                </span>
+                              ) : null}
+                            </>
                           ) : null}
                         </div>
                         <p className="truncate text-sm text-muted-foreground">

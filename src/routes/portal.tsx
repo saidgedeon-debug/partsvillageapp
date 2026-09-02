@@ -114,8 +114,13 @@ function PortalPage() {
                 <p className="font-semibold">{currency(statement.days61Plus)}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Total due</p>
-                <p className="font-bold text-accent">{currency(statement.total)}</p>
+                <p className="text-xs text-muted-foreground">Net due</p>
+                <p className="font-bold text-accent">{currency(statement.netDue)}</p>
+                {statement.unappliedCredits > 0.005 ? (
+                  <p className="text-xs text-muted-foreground">
+                    Unapplied credit −{currency(statement.unappliedCredits)}
+                  </p>
+                ) : null}
               </div>
             </div>
             {client.promisedPayDate ? (

@@ -131,6 +131,14 @@ export type RecordClientDiscountInput = {
   note?: string;
 };
 
+export type ApplyUnappliedCreditInput = {
+  clientId?: string;
+  clientName: string;
+  invoiceId: string;
+  /** How much unapplied credit to attach to this invoice. */
+  amount: number;
+};
+
 /** Whether a receipt changed (or should change) the linked invoice balance. */
 export function receiptAffectsBalance(receipt: SavedDocument): boolean {
   if (receipt.kind !== "receipt") return false;
@@ -289,6 +297,8 @@ type DocumentsContextValue = {
   recordInvoiceReturn: (input: RecordReturnInput) => SavedDocument;
   /** Apply a goodwill / account discount across open invoices (oldest first). */
   recordClientDiscount: (input: RecordClientDiscountInput) => SavedDocument[];
+  /** Attach parked on-account credit to a specific open invoice. */
+  applyUnappliedCredit: (input: ApplyUnappliedCreditInput) => SavedDocument[];
   /** Create an invoice and optionally a linked receipt in one write (avoids stale state). */
   addInvoiceWithOptionalReceipt: (
     invoice: SavedDocument,
@@ -1262,6 +1272,159 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     [setDocuments],
   );
 
+  const applyUnappliedCredit = useCallback(
+    (input: ApplyUnappliedCreditInput): SavedDocument[] => {
+      const amount = roundMoney(input.amount);
+      if (!(amount > 0)) throw new Error("Amount must be greater than zero");
+      const clientName = input.clientName.trim();
+      if (!clientName) throw new Error("Client is required");
+      if (!input.invoiceId.trim()) throw new Error("Invoice is required");
+
+      let created: SavedDocument[] = [];
+      let failure: Error | null = null;
+
+      setDocuments((prev) => {
+        const cur = Array.isArray(prev) ? prev : [];
+        const nameKey = clientName.toLowerCase();
+        const matchesClient = (d: SavedDocument) => {
+          if (input.clientId && d.partyId) return d.partyId === input.clientId;
+          if (input.clientId && !d.partyId) {
+            return d.partyName.trim().toLowerCase() === nameKey;
+          }
+          return d.partyName.trim().toLowerCase() === nameKey;
+        };
+
+        const invoice = cur.find((d) => d.id === input.invoiceId && d.kind === "invoice");
+        if (!invoice) {
+          failure = new Error("Invoice not found");
+          return cur;
+        }
+        if (!matchesClient(invoice)) {
+          failure = new Error("Invoice does not belong to this client");
+          return cur;
+        }
+
+        const creditNotes = cur.filter((d) => d.kind === "credit_note");
+        const rem = invoiceRemaining(invoice, creditNotes);
+        if (rem <= 0.005) {
+          failure = new Error("Invoice has no open balance");
+          return cur;
+        }
+
+        const unapplied = creditNotes
+          .filter((cn) => matchesClient(cn) && !cn.invoiceId)
+          .sort((a, b) => a.date.localeCompare(b.date) || a.createdAt.localeCompare(b.createdAt));
+        const pool = roundMoney(unapplied.reduce((s, cn) => s + cn.total, 0));
+        if (pool <= 0.005) {
+          failure = new Error("No unapplied credit on this account");
+          return cur;
+        }
+
+        const toApply = roundMoney(Math.min(amount, rem, pool));
+        if (toApply <= 0.005) {
+          failure = new Error("Nothing to apply");
+          return cur;
+        }
+
+        let left = toApply;
+        const updates = new Map<string, SavedDocument>();
+        const removals = new Set<string>();
+        const additions: SavedDocument[] = [];
+        const now = new Date();
+
+        for (const cn of unapplied) {
+          if (left <= 0.005) break;
+          const take = roundMoney(Math.min(cn.total, left));
+          if (take <= 0.005) continue;
+          left = roundMoney(left - take);
+
+          if (Math.abs(take - cn.total) <= 0.015) {
+            // Full credit → link to invoice
+            updates.set(cn.id, {
+              ...cn,
+              invoiceId: invoice.id,
+              internalNote: `${cn.internalNote ?? "Unapplied credit"} · applied to ${invoice.id}`,
+            });
+          } else {
+            // Partial: shrink unapplied, add linked slice
+            updates.set(cn.id, {
+              ...cn,
+              total: roundMoney(cn.total - take),
+              discountValue: roundMoney(cn.total - take),
+              lines: [
+                {
+                  ...cn.lines[0],
+                  partId: cn.lines[0]?.partId ?? `unapplied-${cn.id}`,
+                  partNumber: cn.lines[0]?.partNumber ?? "ON-ACCOUNT",
+                  name: cn.lines[0]?.name ?? "Unapplied payment credit",
+                  category: cn.lines[0]?.category ?? "Discount",
+                  unitPrice: roundMoney(cn.total - take),
+                  unitCost: 0,
+                  qty: 1,
+                },
+              ],
+            });
+            additions.push({
+              id: generateDocId("credit_note", new Date(now.getTime() + additions.length * 1000)),
+              kind: "credit_note",
+              partyKind: "client",
+              partyId: invoice.partyId ?? input.clientId,
+              partyName: invoice.partyName || clientName,
+              date: cn.date,
+              createdAt: now.toISOString(),
+              total: take,
+              status: "Paid",
+              invoiceId: invoice.id,
+              discountType: "amount",
+              discountValue: take,
+              paymentBatchId: cn.paymentBatchId,
+              internalNote: `Applied unapplied credit to ${invoice.id}`,
+              lines: [
+                {
+                  partId: `apply-${invoice.id}`,
+                  partNumber: "ON-ACCOUNT",
+                  name: `Applied on-account credit → ${invoice.id}`,
+                  category: "Discount",
+                  unitPrice: take,
+                  unitCost: 0,
+                  qty: 1,
+                },
+              ],
+            });
+          }
+        }
+
+        const nextDocs = [
+          ...additions,
+          ...cur
+            .filter((d) => !removals.has(d.id))
+            .map((d) => updates.get(d.id) ?? d),
+        ];
+        const nextCredits = nextDocs.filter((d) => d.kind === "credit_note");
+        const paid = invoiceAmountPaid(invoice);
+        const creditsAfter = invoiceCredits(invoice, nextCredits);
+        const updatedInvoice: SavedDocument = {
+          ...invoice,
+          status: resolveInvoiceStatus(invoice, paid, undefined, creditsAfter),
+        };
+        created = additions.length
+          ? additions
+          : [...updates.values()].filter((d) => d.kind === "credit_note");
+        void syncDocumentToSupabase(updatedInvoice);
+        emitInvoiceBalanceChange(
+          invoice.id,
+          Math.max(0, roundMoney(invoice.total - paid - creditsAfter)),
+        );
+        return nextDocs.map((d) => (d.id === invoice.id ? updatedInvoice : d));
+      });
+
+      if (failure) throw failure;
+      if (created.length === 0) throw new Error("Failed to apply unapplied credit");
+      return created;
+    },
+    [setDocuments],
+  );
+
   const addInvoiceWithOptionalReceipt = useCallback(
     (
       invoiceInput: SavedDocument,
@@ -1486,6 +1649,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       deleteInvoicePayment,
       recordInvoiceReturn,
       recordClientDiscount,
+      applyUnappliedCredit,
       addInvoiceWithOptionalReceipt,
       convertQuotationToInvoice,
       convertInvoiceToQuotation,
@@ -1508,6 +1672,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       deleteInvoicePayment,
       recordInvoiceReturn,
       recordClientDiscount,
+      applyUnappliedCredit,
       addInvoiceWithOptionalReceipt,
       convertQuotationToInvoice,
       convertInvoiceToQuotation,
