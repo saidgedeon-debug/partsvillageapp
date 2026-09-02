@@ -27,6 +27,11 @@ export type Part = {
   crossSectionMm?: string;
   /** Bag breakdown or other notes. */
   notes?: string;
+  /**
+   * Interchange / supersession: this part replaces these OEM or catalog codes
+   * (also searchable when the old code is scanned).
+   */
+  replacesCodes?: string[];
   /** Public URL for product photo. */
   imageUrl?: string;
   /** Gallery images; first item is the primary image. */
@@ -57,6 +62,9 @@ export function partNumbersOf(part: Part): string[] {
   }
 
   if (out.length === 0) add(part.partNumber);
+  if (part.replacesCodes?.length) {
+    for (const code of part.replacesCodes) add(code);
+  }
   return out;
 }
 

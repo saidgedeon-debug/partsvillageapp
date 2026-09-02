@@ -15,6 +15,7 @@ import {
   DatabaseBackup,
   Smartphone,
   Banknote,
+  PackagePlus,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -52,6 +53,7 @@ const items: NavItem[] = [
   { title: "Counter", url: "/counter", icon: Smartphone },
   { title: "Daily close", url: "/daily-close", icon: Banknote },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
+  { title: "Reorder", url: "/reorder", icon: PackagePlus },
   { title: "Clients", url: "/clients", icon: Users },
   { title: "Fleet", url: "/fleet", icon: Wrench },
   { title: "Pre-orders", url: "/pre-orders", icon: ClipboardCheck },

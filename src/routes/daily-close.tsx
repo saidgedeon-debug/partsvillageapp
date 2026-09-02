@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { localTodayIso } from "@/lib/date-local";
 import { currency } from "@/lib/mock-data";
+import { downloadZReportPdf } from "@/lib/z-report";
 
 export const Route = createFileRoute("/daily-close")({
   head: () => ({
@@ -46,16 +47,18 @@ function DailyClosePage() {
     let cash = 0;
     let omt = 0;
     let whish = 0;
+    let receiptCount = 0;
     for (const r of receipts) {
       const d = r.paymentDate || r.date;
       if (d !== date) continue;
+      receiptCount += 1;
       const amount = Number(r.total) || 0;
       const method = r.paymentMethod ?? "Cash";
       if (method === "OMT") omt += amount;
       else if (method === "Whish") whish += amount;
       else cash += amount;
     }
-    return { cash, omt, whish };
+    return { cash, omt, whish, receiptCount };
   }, [receipts, date]);
 
   const cash = parseMoney(countedCash);
@@ -65,6 +68,20 @@ function DailyClosePage() {
   const varOmt = omt - expected.omt;
   const varWhish = whish - expected.whish;
   const varTotal = varCash + varOmt + varWhish;
+
+  const printZReport = () => {
+    downloadZReportPdf({
+      date,
+      expectedCash: expected.cash,
+      expectedOmt: expected.omt,
+      expectedWhish: expected.whish,
+      countedCash: cash,
+      countedOmt: omt,
+      countedWhish: whish,
+      note: note.trim() || undefined,
+      receiptCount: expected.receiptCount,
+    });
+  };
 
   const save = () => {
     addDailyClose({
@@ -77,7 +94,12 @@ function DailyClosePage() {
       countedWhish: whish,
       note: note.trim() || undefined,
     });
-    toast.success(`Saved close for ${date}`);
+    toast.success(`Saved close for ${date}`, {
+      action: {
+        label: "Print Z-report",
+        onClick: () => printZReport(),
+      },
+    });
     setNote("");
   };
 
@@ -135,6 +157,9 @@ function DailyClosePage() {
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-sm font-medium">Total variance</span>
             <Badge variant={varianceTone(varTotal)}>{currency(varTotal)}</Badge>
+            <span className="text-xs text-muted-foreground">
+              {expected.receiptCount} receipt{expected.receiptCount === 1 ? "" : "s"}
+            </span>
           </div>
 
           <div className="space-y-1.5">
@@ -147,9 +172,14 @@ function DailyClosePage() {
             />
           </div>
 
-          <Button type="button" onClick={save}>
-            Save close
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" onClick={save}>
+              Save close
+            </Button>
+            <Button type="button" variant="outline" onClick={printZReport}>
+              Print Z-report
+            </Button>
+          </div>
         </CardContent>
       </Card>
 

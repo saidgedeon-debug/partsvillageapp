@@ -38,6 +38,8 @@ function CounterPage() {
     partyId,
     partyName,
     setCartParty,
+    updateLinePrice,
+    heldCarts,
   } = useCart();
   const cloudHealth = useCloudHealth();
   const [online, setOnline] = useState(
@@ -223,6 +225,27 @@ function CounterPage() {
   }, [cameraOn, parts]);
 
   const cartTotal = lines.reduce((s, l) => s + l.qty * l.unitPrice, 0);
+  const stripLines = lines.slice(0, 4);
+
+  const editLinePrice = (partId: string, current: number, label: string) => {
+    const raw = window.prompt(`New price for ${label}`, String(current));
+    if (raw == null) return;
+    const n = Number(raw);
+    if (!Number.isFinite(n) || n < 0) {
+      toast.error("Enter a valid price");
+      return;
+    }
+    let reason: string | undefined;
+    if (Math.abs(n - current) > 0.0005) {
+      reason = window.prompt("Reason for price change (optional)")?.trim() || undefined;
+    }
+    updateLinePrice(partId, n, reason);
+  };
+
+  const openFinish = () => {
+    if (!documentKind) setDocumentKind("invoice");
+    setCheckoutOpen(true);
+  };
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
@@ -231,9 +254,16 @@ function CounterPage() {
           <p className="text-xs uppercase tracking-wide text-muted-foreground">Counter mode</p>
           <h1 className="text-lg font-bold">Scan &amp; sell</h1>
         </div>
-        <Button asChild type="button" variant="ghost" size="sm">
-          <Link to="/inventory">Exit</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          {heldCarts.length > 0 ? (
+            <Badge variant="secondary" className="tabular-nums">
+              Held {heldCarts.length}
+            </Badge>
+          ) : null}
+          <Button asChild type="button" variant="ghost" size="sm">
+            <Link to="/inventory">Exit</Link>
+          </Button>
+        </div>
       </header>
 
       {syncBanner ? (
@@ -260,7 +290,45 @@ function CounterPage() {
         </div>
       ) : null}
 
-      <main className="flex flex-1 flex-col gap-3 p-3 pb-28">
+      <main className="flex flex-1 flex-col gap-3 p-3 pb-36">
+        {stripLines.length > 0 ? (
+          <div className="rounded-lg border border-border bg-card px-3 py-2">
+            <div className="mb-1.5 flex items-center justify-between gap-2">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Cart · {itemCount} line{itemCount === 1 ? "" : "s"}
+              </p>
+              <p className="text-sm font-semibold">{currency(cartTotal)}</p>
+            </div>
+            <ul className="space-y-1">
+              {stripLines.map((line) => (
+                <li
+                  key={line.partId}
+                  className="flex items-center justify-between gap-2 text-sm"
+                >
+                  <span className="min-w-0 truncate font-mono text-xs font-semibold">
+                    {line.partNumber}{" "}
+                    <span className="font-sans font-normal text-muted-foreground">
+                      ×{line.qty}
+                    </span>
+                  </span>
+                  <button
+                    type="button"
+                    className="shrink-0 rounded px-1.5 py-0.5 font-semibold tabular-nums underline-offset-2 hover:bg-muted hover:underline"
+                    onClick={() => editLinePrice(line.partId, line.unitPrice, line.partNumber)}
+                  >
+                    {currency(line.unitPrice)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {lines.length > 4 ? (
+              <p className="mt-1 text-[11px] text-muted-foreground">
+                +{lines.length - 4} more in cart
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+
         <div className="space-y-2">
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {recentClients.map((c) => {
@@ -377,26 +445,42 @@ function CounterPage() {
       </main>
 
       <div className="fixed inset-x-0 bottom-0 border-t bg-background/95 p-3 backdrop-blur">
-        <div className="mx-auto flex max-w-lg gap-2">
+        <div className="mx-auto flex max-w-lg flex-col gap-2">
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="relative h-12 flex-1 gap-2 text-base"
+              onClick={() => setCartOpen(true)}
+            >
+              <ShoppingCart className="h-5 w-5" />
+              Cart ({itemCount}) · {currency(cartTotal)}
+              {heldCarts.length > 0 ? (
+                <Badge
+                  variant="secondary"
+                  className="absolute -right-1 -top-2 h-5 min-w-5 px-1 text-[10px]"
+                >
+                  {heldCarts.length} held
+                </Badge>
+              ) : null}
+            </Button>
+            <Button
+              type="button"
+              className="h-12 flex-1 text-base"
+              disabled={itemCount === 0}
+              onClick={openFinish}
+            >
+              Checkout
+            </Button>
+          </div>
           <Button
             type="button"
-            variant="outline"
-            className="h-14 flex-1 gap-2 text-base"
-            onClick={() => setCartOpen(true)}
-          >
-            <ShoppingCart className="h-5 w-5" />
-            Cart ({itemCount}) · {currency(cartTotal)}
-          </Button>
-          <Button
-            type="button"
-            className="h-14 flex-1 text-base"
+            variant="secondary"
+            className="h-11 w-full text-base"
             disabled={itemCount === 0}
-            onClick={() => {
-              if (!documentKind) setDocumentKind("invoice");
-              setCheckoutOpen(true);
-            }}
+            onClick={openFinish}
           >
-            Checkout
+            Finish &amp; share
           </Button>
         </div>
       </div>

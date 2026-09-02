@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 import { Camera } from "lucide-react";
 import { toast } from "sonner";
 
@@ -21,6 +21,7 @@ import { currency, filterStandCode, locationOf, oemNumbersOf, partNumbersOf, typ
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { FILTER_SUBCATEGORIES } from "@/lib/filters-inventory";
 import { compressImageToDataUrl } from "@/lib/image-compress";
+import { buildPartDemandMap, partDemandFor } from "@/lib/demand-forecast";
 import { partPriceHistory } from "@/lib/part-price-history";
 
 type Mode = "view" | "edit" | "create";
@@ -54,6 +55,7 @@ type FormState = {
   insideDiameterMm: string;
   crossSectionMm: string;
   compatibility: string;
+  replacesCodes: string;
   notes: string;
   imageUrl: string;
 };
@@ -71,6 +73,7 @@ const emptyForm = (category = "", prefill?: Props["createPrefill"]): FormState =
   insideDiameterMm: "",
   crossSectionMm: "",
   compatibility: "",
+  replacesCodes: "",
   notes: "",
   imageUrl: "",
 });
@@ -94,6 +97,7 @@ function partToForm(part: Part): FormState {
     insideDiameterMm: part.insideDiameterMm ?? "",
     crossSectionMm: part.crossSectionMm ?? "",
     compatibility: part.compatibility.join(", "),
+    replacesCodes: (part.replacesCodes ?? []).join(", "),
     notes: part.notes ?? "",
     imageUrl: part.imageUrl ?? "",
   };
@@ -119,7 +123,7 @@ export function PartDetailDialog({
 }: Props) {
   const { addPart, updatePart, categoryLabels } = useInventory();
   const { askDocumentForPart } = useCart();
-  const { documents } = useDocuments();
+  const { documents, invoices } = useDocuments();
   const [form, setForm] = useState<FormState>(emptyForm());
   const [gallery, setGallery] = useState<string[]>([]);
   const cameraRef = useRef<HTMLInputElement>(null);
@@ -128,6 +132,10 @@ export function PartDetailDialog({
   const priceHistory = part ? partPriceHistory(part.id, part.partNumber, documents) : [];
   const lastSale = priceHistory.find((event) => event.kind === "sale");
   const lastCost = priceHistory.find((event) => event.kind === "cost");
+  const demand = useMemo(() => {
+    if (!part || editing) return null;
+    return partDemandFor(part, buildPartDemandMap(invoices));
+  }, [part, invoices, editing]);
 
   const attachPhotoFiles = (files: File[]) => {
     const room = Math.max(0, 5 - gallery.length);
@@ -218,6 +226,10 @@ export function PartDetailDialog({
       crossSectionMm: form.crossSectionMm.trim() || undefined,
       compatibility: form.compatibility
         .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+      replacesCodes: form.replacesCodes
+        .split(/[,;\n]+/)
         .map((s) => s.trim())
         .filter(Boolean),
       notes: form.notes.trim() || undefined,
@@ -406,6 +418,46 @@ export function PartDetailDialog({
               }
             />
             <Field label="Reorder at" value={String(part.reorderAt)} />
+            {part.replacesCodes?.length ? (
+              <div className="sm:col-span-2">
+                <Field label="Replaces codes" value={part.replacesCodes.join(" · ")} />
+              </div>
+            ) : null}
+            {demand ? (
+              <div className="sm:col-span-2 rounded-lg border border-border bg-muted/30 p-3">
+                <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Demand
+                </p>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <p className="text-sm">
+                    Sold last 30d / 90d:{" "}
+                    <span className="font-semibold tabular-nums">
+                      {demand.unitsSold30d} / {demand.unitsSold90d}
+                    </span>
+                  </p>
+                  <p className="text-sm">
+                    ≈{" "}
+                    <span className="font-semibold tabular-nums">{demand.avgPerMonth}</span> / month
+                  </p>
+                  <p className="text-sm">
+                    Days of cover:{" "}
+                    <span className="font-semibold tabular-nums">
+                      {demand.daysOfCover != null ? demand.daysOfCover : "—"}
+                    </span>
+                  </p>
+                  {demand.suggestedReorderQty > 0 ? (
+                    <p className="text-sm">
+                      Suggested reorder:{" "}
+                      <span className="font-semibold tabular-nums">
+                        {demand.suggestedReorderQty}
+                      </span>
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">No reorder suggested</p>
+                  )}
+                </div>
+              </div>
+            ) : null}
             <div className="sm:col-span-2">
               <Field label="Notes" value={part.notes ?? ""} />
             </div>
@@ -587,6 +639,16 @@ export function PartDetailDialog({
                 inputMode="numeric"
                 value={form.reorderAt}
                 onChange={set("reorderAt")}
+              />
+            </div>
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="part-replaces">Replaces codes (comma-separated)</Label>
+              <Input
+                id="part-replaces"
+                className="font-mono"
+                value={form.replacesCodes}
+                onChange={set("replacesCodes")}
+                placeholder="e.g. OLD-123, SUPERSEDED-456"
               />
             </div>
             <div className="space-y-1.5 sm:col-span-2">

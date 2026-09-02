@@ -22,6 +22,16 @@ export function BackupReminderBanner() {
 
   if (!overdue || dismissed) return null;
 
+  const lastBackupLabel = (() => {
+    if (!lastBackupAt) return null;
+    const t = Date.parse(lastBackupAt);
+    if (!Number.isFinite(t)) return null;
+    return new Date(t).toLocaleString(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  })();
+
   const days = lastBackupAt
     ? Math.floor((Date.now() - Date.parse(lastBackupAt)) / 86_400_000)
     : null;
@@ -37,9 +47,12 @@ export function BackupReminderBanner() {
           <div>
             <p className="font-medium">Weekly backup reminder</p>
             <p className="text-xs text-muted-foreground">
-              {days == null
-                ? "No backup downloaded yet. Export a JSON snapshot for peace of mind."
-                : `Last backup was ${days} day${days === 1 ? "" : "s"} ago.`}
+              One-click weekly backup keeps your shop recoverable without a login.
+              {lastBackupLabel
+                ? ` Last backup: ${lastBackupLabel}${
+                    days != null ? ` (${days} day${days === 1 ? "" : "s"} ago)` : ""
+                  }.`
+                : " No backup downloaded yet."}
             </p>
           </div>
         </div>

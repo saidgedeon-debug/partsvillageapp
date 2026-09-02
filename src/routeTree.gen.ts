@@ -19,6 +19,7 @@ import { Route as InventoryRouteImport } from './routes/inventory'
 import { Route as LowStockRouteImport } from './routes/low-stock'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as PreOrdersRouteImport } from './routes/pre-orders'
+import { Route as ReorderRouteImport } from './routes/reorder'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShareRouteImport } from './routes/share'
 import { Route as ShareInboxRouteImport } from './routes/share-inbox'
@@ -78,6 +79,11 @@ const PreOrdersRoute = PreOrdersRouteImport.update({
   path: '/pre-orders',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReorderRoute = ReorderRouteImport.update({
+  id: '/reorder',
+  path: '/reorder',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/low-stock': typeof LowStockRoute
   '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
+  '/reorder': typeof ReorderRoute
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/low-stock': typeof LowStockRoute
   '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
+  '/reorder': typeof ReorderRoute
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/low-stock': typeof LowStockRoute
   '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
+  '/reorder': typeof ReorderRoute
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/low-stock'
     | '/portal'
     | '/pre-orders'
+    | '/reorder'
     | '/search'
     | '/share'
     | '/share-inbox'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/low-stock'
     | '/portal'
     | '/pre-orders'
+    | '/reorder'
     | '/search'
     | '/share'
     | '/share-inbox'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/low-stock'
     | '/portal'
     | '/pre-orders'
+    | '/reorder'
     | '/search'
     | '/share'
     | '/share-inbox'
@@ -254,6 +266,7 @@ export interface RootRouteChildren {
   LowStockRoute: typeof LowStockRoute
   PortalRoute: typeof PortalRoute
   PreOrdersRoute: typeof PreOrdersRoute
+  ReorderRoute: typeof ReorderRoute
   SearchRoute: typeof SearchRoute
   ShareRoute: typeof ShareRoute
   ShareInboxRoute: typeof ShareInboxRoute
@@ -336,6 +349,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PreOrdersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reorder': {
+      id: '/reorder'
+      path: '/reorder'
+      fullPath: '/reorder'
+      preLoaderRoute: typeof ReorderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -406,6 +426,7 @@ const rootRouteChildren: RootRouteChildren = {
   LowStockRoute: LowStockRoute,
   PortalRoute: PortalRoute,
   PreOrdersRoute: PreOrdersRoute,
+  ReorderRoute: ReorderRoute,
   SearchRoute: SearchRoute,
   ShareRoute: ShareRoute,
   ShareInboxRoute: ShareInboxRoute,

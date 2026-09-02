@@ -51,6 +51,7 @@ export type PartOverride = Partial<
     | "notes"
     | "imageUrl"
     | "imageUrls"
+    | "replacesCodes"
   >
 >;
 
@@ -138,6 +139,8 @@ function applyOverride(base: Part, override?: PartOverride): Part {
     ...override,
     compatibility: override.compatibility ?? base.compatibility,
     partNumbers: override.partNumbers ?? base.partNumbers,
+    replacesCodes:
+      override.replacesCodes !== undefined ? override.replacesCodes : base.replacesCodes,
   };
   return {
     ...merged,
@@ -176,6 +179,7 @@ function normalizePart(input: PartInput, id?: string): Part {
     crossSectionMm: input.crossSectionMm,
     notes: input.notes,
     imageUrl: input.imageUrl,
+    replacesCodes: input.replacesCodes?.length ? input.replacesCodes : undefined,
   };
 }
 
