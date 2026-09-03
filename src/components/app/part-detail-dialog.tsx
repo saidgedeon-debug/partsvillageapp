@@ -20,6 +20,7 @@ import {
 import { currency, filterStandCode, locationOf, oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { FILTER_SUBCATEGORIES } from "@/lib/filters-inventory";
+import { SEAL_SUBCATEGORIES } from "@/lib/seal-subcategories";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { buildPartDemandMap, partDemandFor } from "@/lib/demand-forecast";
 import { partPriceHistory } from "@/lib/part-price-history";
@@ -64,7 +65,7 @@ const emptyForm = (category = "", prefill?: Props["createPrefill"]): FormState =
   partNumbers: prefill?.partNumber?.trim() ?? "",
   name: prefill?.name?.trim() ?? "",
   category,
-  subcategory: category === "Hydraulic Parts" ? "Center Pin" : "",
+  subcategory: category === "Hydraulic Parts" ? "Center Pin" : category === "Seals" ? "Wear Ring" : "",
   quantity: prefill?.quantity?.trim() ?? "0",
   reorderAt: "0",
   cost: "",
@@ -489,7 +490,9 @@ export function PartDetailDialog({
                     subcategory:
                       category === "Hydraulic Parts"
                         ? f.subcategory || "Center Pin"
-                        : f.subcategory,
+                        : category === "Seals"
+                          ? f.subcategory || "Wear Ring"
+                          : f.subcategory,
                   }));
                 }}
                 placeholder="Select or type a category"
@@ -512,6 +515,23 @@ export function PartDetailDialog({
                 />
                 <datalist id="hydraulic-subcategory-options">
                   {HYDRAULIC_SUBCATEGORIES.map((s) => (
+                    <option key={s} value={s} />
+                  ))}
+                </datalist>
+              </div>
+            )}
+            {form.category === "Seals" && (
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label htmlFor="part-seal-subcategory">Subcategory</Label>
+                <Input
+                  id="part-seal-subcategory"
+                  list="seal-subcategory-options"
+                  value={form.subcategory}
+                  onChange={set("subcategory")}
+                  placeholder="Wear Ring, SPGW, HBY, …"
+                />
+                <datalist id="seal-subcategory-options">
+                  {SEAL_SUBCATEGORIES.map((s) => (
                     <option key={s} value={s} />
                   ))}
                 </datalist>

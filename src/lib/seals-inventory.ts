@@ -1,5 +1,11 @@
 /** Seals catalog from FINAL new inventory.xlsx (Wear Rings + seal batches). */
 import type { Part } from "@/lib/mock-data";
+import {
+  SEAL_SUBCATEGORIES,
+  type SealSubcategory,
+} from "@/lib/seal-subcategories";
+
+export { SEAL_SUBCATEGORIES, type SealSubcategory };
 
 export const sealParts: Part[] = [
   {

@@ -4,6 +4,7 @@ import { CircleDot, Cog, Disc, Filter, Gauge, LayoutGrid, Link2, Package } from 
 import { BEARING_SUBCATEGORIES } from "@/lib/bearings-subcategories";
 import { FILTER_SUBCATEGORIES } from "@/lib/filters-inventory";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulic-subcategories";
+import { SEAL_SUBCATEGORIES } from "@/lib/seal-subcategories";
 import type { Part } from "@/lib/mock-data";
 
 /**
@@ -151,7 +152,7 @@ const basePinned: InventoryCategoryDef[] = [
   {
     id: "seals",
     label: "Seals",
-    description: "Wear Ring · SPGW · HP Seal · …",
+    description: SEAL_SUBCATEGORIES.slice(0, 6).join(" · ") + " · …",
     matchCategory: "Seals",
     icon: Disc,
   },

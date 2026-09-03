@@ -62,6 +62,7 @@ import {
   type CategoryGroupId,
 } from "@/lib/inventory-categories";
 import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
+import { SEAL_SUBCATEGORIES } from "@/lib/seal-subcategories";
 import { downloadInventoryExcel } from "@/lib/inventory-export";
 import { rankByFuzzyScore } from "@/lib/fuzzy-search";
 import { locationOf, partNumbersOf, type Part } from "@/lib/mock-data";
@@ -239,6 +240,7 @@ function InventoryPage() {
   const isGroupMode = activeGroup != null;
   const isORings = activeCategory?.matchCategory === "O-Rings";
   const isHydraulics = activeCategory?.matchCategory === "Hydraulic Parts";
+  const isSeals = activeCategory?.matchCategory === "Seals";
   const isFilters = activeCategory?.matchCategory === "Filters";
 
   const orderedCategories = useMemo(() => {
@@ -263,6 +265,26 @@ function InventoryPage() {
       label,
       count: counts.get(label) ?? 0,
     }));
+  }, [parts]);
+
+  const sealSubs = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const p of parts) {
+      if (p.category !== "Seals") continue;
+      const sub = (p.subcategory ?? "").trim();
+      if (!sub) continue;
+      counts.set(sub, (counts.get(sub) ?? 0) + 1);
+    }
+    const known = new Set<string>(SEAL_SUBCATEGORIES);
+    const ordered = SEAL_SUBCATEGORIES.map((label) => ({
+      label,
+      count: counts.get(label) ?? 0,
+    })).filter((s) => s.count > 0);
+    const extras = [...counts.entries()]
+      .filter(([label]) => !known.has(label))
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([label, count]) => ({ label, count }));
+    return [...ordered, ...extras];
   }, [parts]);
 
   const visibleGroupSubs = useMemo(() => {
@@ -358,7 +380,7 @@ function InventoryPage() {
       }
     } else if (activeCategory?.matchCategory) {
       list = list.filter((p) => categoriesMatch(p.category, activeCategory.matchCategory!));
-      if (isHydraulics && groupSub) {
+      if ((isHydraulics || isSeals) && groupSub) {
         list = list.filter(
           (p) => (p.subcategory ?? "").trim().toLowerCase() === groupSub.toLowerCase(),
         );
@@ -412,6 +434,7 @@ function InventoryPage() {
     activeCategory,
     isORings,
     isHydraulics,
+    isSeals,
     activeGroup,
     groupSub,
     groupFilter,
@@ -722,7 +745,7 @@ function InventoryPage() {
                 <Package className="h-4 w-4 text-accent" />
                 {isGroupMode && groupSub
                   ? groupSub
-                  : isHydraulics && groupSub
+                  : (isHydraulics || isSeals) && groupSub
                     ? groupSub
                     : (activeCategory?.label ?? "Parts Catalog")}
               </CardTitle>
@@ -806,6 +829,50 @@ function InventoryPage() {
                     </Badge>
                   </Button>
                   {hydraulicSubs.map((sub) => (
+                    <Button
+                      key={sub.label}
+                      type="button"
+                      size="sm"
+                      variant={groupSub === sub.label ? "default" : "outline"}
+                      className="h-8"
+                      onClick={() => {
+                        setGroupSub(sub.label);
+                        setScrollToListToken((n) => n + 1);
+                      }}
+                    >
+                      {sub.label}
+                      <Badge variant="secondary" className="ml-1.5">
+                        {sub.count}
+                      </Badge>
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isSeals && (
+              <div className="space-y-2">
+                <p className="text-xs text-muted-foreground">
+                  Pick a seal type from the Excel inventory — Wear Ring, SPGW, SPG, Glyd, HBY, TCN,
+                  and more.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant={groupSub === null ? "default" : "outline"}
+                    className="h-8"
+                    onClick={() => {
+                      setGroupSub(null);
+                      setScrollToListToken((n) => n + 1);
+                    }}
+                  >
+                    All
+                    <Badge variant="secondary" className="ml-1.5">
+                      {categoryCounts.byCategory.get("Seals") ?? 0}
+                    </Badge>
+                  </Button>
+                  {sealSubs.map((sub) => (
                     <Button
                       key={sub.label}
                       type="button"
