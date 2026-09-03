@@ -316,7 +316,7 @@ function InventoryPage() {
   ) => {
     if (group) return categoryCounts.groups[group];
     if (!matchCategory) return categoryCounts.all;
-    return categoryCounts.byCategory.get(matchCategory) ?? 0;
+    return countPartsForCategory(parts, matchCategory);
   };
 
   const openPart = (part: Part, mode: DialogMode) => {

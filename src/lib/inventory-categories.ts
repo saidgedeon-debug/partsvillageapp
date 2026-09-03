@@ -65,6 +65,9 @@ export const categoryGroupIds = GROUP_RULES.map((r) => r.id);
 export const STANDARD_CATEGORY_LABELS = [
   "O-Rings",
   "Seals",
+  "Sensors",
+  "Switches",
+  "Electrical",
   "Couplings",
   "Gauges & Accessories",
   "Hydraulic Parts",
@@ -125,12 +128,24 @@ export function categoryBelongsToGroup(
 function iconFor(category: string): LucideIcon {
   const c = category.toLowerCase();
   if (c.includes("o-ring") || c.includes("oring")) return CircleDot;
+  if (c.includes("seal")) return Disc;
+  if (c.includes("sensor")) return Gauge;
+  if (c.includes("switch") || c.includes("electrical") || c.includes("misc")) return Package;
   if (c.includes("coupling") || c.includes("coupler")) return Link2;
   if (c.includes("gauge")) return Gauge;
   if (c.includes("hydraulic")) return Disc;
   if (c.includes("bearing")) return Cog;
   if (c.includes("filter")) return Filter;
   return Package;
+}
+
+/** Count parts whose category matches a tile label (handles Misc vs MISC). */
+export function countPartsForCategory(parts: Part[], matchCategory: string): number {
+  let n = 0;
+  for (const p of parts) {
+    if (categoriesMatch(p.category, matchCategory)) n += 1;
+  }
+  return n;
 }
 
 /** Fixed main tiles — add new stock lines here one by one. */
@@ -155,6 +170,27 @@ const basePinned: InventoryCategoryDef[] = [
     description: SEAL_SUBCATEGORIES.slice(0, 6).join(" · ") + " · …",
     matchCategory: "Seals",
     icon: Disc,
+  },
+  {
+    id: "sensors",
+    label: "Sensors",
+    description: "Engine, hydraulic & temperature sensors",
+    matchCategory: "Sensors",
+    icon: Gauge,
+  },
+  {
+    id: "switches",
+    label: "Switches",
+    description: "Pressure & electrical switches",
+    matchCategory: "Switches",
+    icon: Package,
+  },
+  {
+    id: "electrical",
+    label: "Electrical",
+    description: "Other electrical / OTHERS imports",
+    matchCategory: "Electrical",
+    icon: Package,
   },
   {
     id: "couplings",
@@ -200,11 +236,14 @@ const basePinned: InventoryCategoryDef[] = [
   },
 ];
 
-/** Whitelist — nothing else is shown on the inventory tiles. */
+/** Whitelist — main inventory tiles (custom categories with these ids also show). */
 export const MAIN_INVENTORY_CATEGORY_IDS = [
   "all",
   "o-rings",
   "seals",
+  "sensors",
+  "switches",
+  "electrical",
   "couplings",
   "gauges",
   "hydraulics",
@@ -280,27 +319,46 @@ export function buildCategoryBrowsePicks(parts: Part[]): CategoryBrowsePick[] {
 
 export function buildInventoryCategories(
   parts: Part[],
-  _customCategories: CustomCategoryInput[] = [],
+  customCategories: CustomCategoryInput[] = [],
 ): InventoryCategoryDef[] {
-  const counts = new Map<string, number>();
-  for (const p of parts) {
-    const label = displayCategory(p.category);
-    counts.set(label, (counts.get(label) ?? 0) + 1);
-  }
-
-  return basePinned.map((tile) => {
+  const pinned = basePinned.map((tile) => {
     if (!tile.matchCategory) {
       return {
         ...tile,
         description: `${parts.length} part${parts.length === 1 ? "" : "s"}`,
       };
     }
-    const n = counts.get(displayCategory(tile.matchCategory)) ?? 0;
+    const n = countPartsForCategory(parts, tile.matchCategory);
     return {
       ...tile,
       description: `${n} part${n === 1 ? "" : "s"}`,
     };
   });
+
+  const pinnedIds = new Set(pinned.map((t) => t.id));
+  const pinnedLabels = new Set(
+    pinned.map((t) => (t.matchCategory ? categoryKey(t.matchCategory) : "")).filter(Boolean),
+  );
+
+  const extras: InventoryCategoryDef[] = [];
+  for (const c of customCategories) {
+    const id = (c.id || slugCategory(c.label)).trim();
+    const label = c.label.trim();
+    if (!id || !label) continue;
+    if (pinnedIds.has(id) || pinnedLabels.has(categoryKey(label))) continue;
+    extras.push({
+      id,
+      label,
+      description:
+        c.description?.trim() ||
+        `${countPartsForCategory(parts, label)} part${countPartsForCategory(parts, label) === 1 ? "" : "s"}`,
+      matchCategory: label,
+      icon: iconFor(label),
+      custom: true,
+    });
+  }
+
+  return [...pinned, ...extras];
 }
 
 /** Static snapshot for non-reactive callers (seed / SSR). Prefer useInventory().categories. */
