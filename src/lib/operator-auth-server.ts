@@ -179,6 +179,43 @@ export type UnlockResult =
     }
   | { ok: false; error: string };
 
+/** Shared session issuance after PIN or Face ID verification. */
+export async function issueOperatorSession(): Promise<UnlockResult> {
+  try {
+    const pinCfg = expectedPin();
+    if (!pinCfg.ok) return pinCfg;
+
+    const admin = adminClient();
+    const emails = operatorEmails();
+    const password = operatorPassword(pinCfg.pin);
+    const signInEmail = unlockSignInEmail(emails);
+
+    for (const email of emails) {
+      const ensured = await ensureOperatorUser(admin, email, password);
+      if (!ensured.ok) return ensured;
+    }
+
+    const { data: sess, error } = await admin.auth.signInWithPassword({
+      email: signInEmail,
+      password,
+    });
+    if (error || !sess.session) {
+      console.error(error ?? new Error("Sign-in failed"));
+      return { ok: false, error: "Unlock failed" };
+    }
+
+    return {
+      ok: true,
+      access_token: sess.session.access_token,
+      refresh_token: sess.session.refresh_token,
+      expires_in: sess.session.expires_in,
+    };
+  } catch (e) {
+    console.error(e);
+    return { ok: false, error: "Unlock failed" };
+  }
+}
+
 export const unlockOperator = createServerFn({ method: "POST" })
   .validator((data: unknown) => unlockSchema.parse(data))
   .handler(async ({ data }): Promise<UnlockResult> => {
@@ -194,37 +231,9 @@ export const unlockOperator = createServerFn({ method: "POST" })
       return { ok: false, error: "Invalid PIN" };
     }
 
-    try {
-      const admin = adminClient();
-      const emails = operatorEmails();
-      const password = operatorPassword(pinCfg.pin);
-      const signInEmail = unlockSignInEmail(emails);
-
-      for (const email of emails) {
-        const ensured = await ensureOperatorUser(admin, email, password);
-        if (!ensured.ok) return ensured;
-      }
-
-      const { data: sess, error } = await admin.auth.signInWithPassword({
-        email: signInEmail,
-        password,
-      });
-      if (error || !sess.session) {
-        console.error(error ?? new Error("Sign-in failed"));
-        return { ok: false, error: "Unlock failed" };
-      }
-
-      clearUnlockFailures(rateKey);
-      return {
-        ok: true,
-        access_token: sess.session.access_token,
-        refresh_token: sess.session.refresh_token,
-        expires_in: sess.session.expires_in,
-      };
-    } catch (e) {
-      console.error(e);
-      return { ok: false, error: "Unlock failed" };
-    }
+    const result = await issueOperatorSession();
+    if (result.ok) clearUnlockFailures(rateKey);
+    return result;
   });
 
 const portalSchema = z.object({
