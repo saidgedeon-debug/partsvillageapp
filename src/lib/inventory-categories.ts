@@ -203,6 +203,7 @@ const basePinned: InventoryCategoryDef[] = [
 export const MAIN_INVENTORY_CATEGORY_IDS = [
   "all",
   "o-rings",
+  "seals",
   "couplings",
   "gauges",
   "hydraulics",
