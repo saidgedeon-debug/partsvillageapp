@@ -60,7 +60,7 @@ export function CheckoutDialog() {
     partyId: cartPartyId,
     partyName: cartPartyName,
   } = useCart();
-  const { addDocument } = useDocuments();
+  const { addDocument, updateDocument } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
   const { addOrder, machinesByClient } = useFleet();
   const { clients, suppliers } = useParties();
@@ -170,22 +170,14 @@ export function CheckoutDialog() {
 
       let stockDeducted = false;
       if (isInvoice && deductStock) {
-        if (!(await confirmOversell(stockShortagesForQty(needed, getPart, skipCreated)))) {
-          toast.error("Checkout aborted — stock changed and oversell was declined");
-          return;
+        const lateShortages = stockShortagesForQty(needed, getPart, skipCreated);
+        if (lateShortages.length > 0) {
+          if (!(await confirmOversell(lateShortages))) {
+            toast.error("Checkout aborted — stock changed and oversell was declined");
+            return;
+          }
         }
         oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);
-        let deducted = 0;
-        for (const line of lines) {
-          const part = getPart(line.partId);
-          if (!part) continue;
-          if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
-            adjustPartQuantity(line.partId, line.qty - part.quantity);
-          }
-          adjustPartQuantity(line.partId, -line.qty);
-          deducted += 1;
-        }
-        stockDeducted = deducted > 0;
       }
 
       const id = generateDocId(documentKind, createdAt);
@@ -204,14 +196,32 @@ export function CheckoutDialog() {
         status,
         includeCost: isInquiry ? includeCost : undefined,
         lines: [...lines],
-        stockDeducted,
+        stockDeducted: false,
         oversoldByPart:
           oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
         discountType: appliedDiscount?.type,
         discountValue: appliedDiscount?.value,
         fulfillmentStatus: isInvoice && fulfillmentStatus ? fulfillmentStatus : undefined,
       };
+      // Persist invoice first, then deduct stock (avoids stock-down-without-invoice).
       addDocument(saved);
+
+      if (isInvoice && deductStock) {
+        let deducted = 0;
+        for (const line of lines) {
+          const part = getPart(line.partId);
+          if (!part) continue;
+          if (isDocumentCreatedPart(line.partId) && part.quantity < line.qty) {
+            adjustPartQuantity(line.partId, line.qty - part.quantity);
+          }
+          adjustPartQuantity(line.partId, -line.qty);
+          deducted += 1;
+        }
+        stockDeducted = deducted > 0;
+        if (stockDeducted) {
+          updateDocument({ ...saved, stockDeducted: true });
+        }
+      }
 
       if (isInvoice && partyKind === "client") {
         const client =

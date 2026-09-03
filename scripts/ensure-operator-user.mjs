@@ -1,9 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
+import { createHash } from "node:crypto";
 
 const url = process.env.VITE_SUPABASE_URL;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const pin = process.env.OPERATOR_PIN?.trim();
-const password = process.env.OPERATOR_PASSWORD?.trim() || pin;
+const password =
+  process.env.OPERATOR_PASSWORD?.trim() ||
+  (pin
+    ? createHash("sha256").update(`parts-village-operator-v1:${pin}`).digest("hex")
+    : undefined);
 
 function operatorEmails() {
   const primary = process.env.OPERATOR_EMAIL?.trim();
@@ -58,7 +63,7 @@ for (const email of emails) {
       email,
       password,
       email_confirm: true,
-      user_metadata: { role: "operator" },
+      user_metadata: { display: "operator" },
       app_metadata: { role: "operator" },
     });
     if (created.error) {
@@ -69,7 +74,7 @@ for (const email of emails) {
   } else {
     const updated = await admin.auth.admin.updateUserById(existing.id, {
       password,
-      user_metadata: { role: "operator" },
+      user_metadata: { display: "operator" },
       app_metadata: { role: "operator" },
     });
     if (updated.error) {

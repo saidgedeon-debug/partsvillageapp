@@ -15,9 +15,16 @@ import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 
 import { issueOperatorSession, type UnlockResult } from "@/lib/operator-auth-server";
+import {
+  checkDurableRateLimit,
+  hashRateKey,
+  recordDurableFailure,
+} from "@/lib/durable-rate-limit";
 
 const STORE_KEY = "operator_webauthn";
 const CHALLENGE_TTL_MS = 5 * 60 * 1000;
+const FACE_RATE_WINDOW_MS = 15 * 60 * 1000;
+const FACE_RATE_MAX = 30;
 
 type StoredCredential = {
   id: string;
@@ -31,6 +38,8 @@ type StoreValue = {
   credentials: StoredCredential[];
   challenges?: Record<string, { kind: "reg" | "auth"; expires: number }>;
 };
+
+type StoreRow = { value: StoreValue; updatedAt: string | null };
 
 function env(name: string): string | undefined {
   const v = process.env[name]?.trim();
@@ -60,15 +69,40 @@ async function requestHeaders(): Promise<Headers | undefined> {
 }
 
 function rpFromHeaders(headers: Headers | undefined): { rpID: string; origin: string } {
+  const pinnedRp = env("WEBAUTHN_RP_ID");
+  const pinnedOrigin = env("WEBAUTHN_ORIGIN");
+  if (pinnedRp && pinnedOrigin) {
+    return { rpID: pinnedRp, origin: pinnedOrigin };
+  }
+
   const hostRaw =
     headers?.get("x-forwarded-host")?.split(",")[0]?.trim() ||
     headers?.get("host")?.trim() ||
     "localhost";
   const host = hostRaw.split(":")[0] || "localhost";
+  const allow = (env("WEBAUTHN_ALLOWED_HOSTS") || "partsvillageapp.vercel.app,localhost,127.0.0.1")
+    .split(",")
+    .map((h) => h.trim().toLowerCase())
+    .filter(Boolean);
+  if (allow.length && !allow.includes(host.toLowerCase())) {
+    // Fall back to production host rather than accepting arbitrary forwarded hosts.
+    return {
+      rpID: pinnedRp || "partsvillageapp.vercel.app",
+      origin: pinnedOrigin || "https://partsvillageapp.vercel.app",
+    };
+  }
   const proto =
     headers?.get("x-forwarded-proto")?.split(",")[0]?.trim() ||
     (host === "localhost" || host === "127.0.0.1" ? "http" : "https");
   return { rpID: host, origin: `${proto}://${hostRaw}` };
+}
+
+async function faceRateKey(): Promise<string> {
+  const headers = await requestHeaders();
+  const forwarded = headers?.get("x-forwarded-for")?.split(",")[0]?.trim();
+  const realIp = headers?.get("x-real-ip")?.trim();
+  const ip = forwarded || realIp || "global";
+  return `face:${hashRateKey(ip)}`;
 }
 
 function toB64url(buf: Uint8Array): string {
@@ -98,36 +132,68 @@ function pruneChallengeMap(
   return next;
 }
 
-async function loadStore(admin: ReturnType<typeof adminClient>): Promise<StoreValue> {
+async function loadStoreRow(admin: ReturnType<typeof adminClient>): Promise<StoreRow> {
   const { data, error } = await admin
     .from("shop_state")
-    .select("value")
+    .select("value, updated_at")
     .eq("key", STORE_KEY)
     .maybeSingle();
   if (error) throw error;
   const val = data?.value as StoreValue | null;
   if (!val || !Array.isArray(val.credentials)) {
-    return { credentials: [], challenges: {} };
+    return {
+      value: { credentials: [], challenges: {} },
+      updatedAt: (data?.updated_at as string | undefined) ?? null,
+    };
   }
   return {
-    credentials: val.credentials,
-    challenges: pruneChallengeMap(val.challenges),
+    value: {
+      credentials: val.credentials,
+      challenges: pruneChallengeMap(val.challenges),
+    },
+    updatedAt: (data?.updated_at as string | undefined) ?? null,
   };
 }
 
 async function saveStore(
   admin: ReturnType<typeof adminClient>,
   value: StoreValue,
-): Promise<void> {
+  expectedUpdatedAt: string | null,
+): Promise<{ saved: boolean; updatedAt: string }> {
+  if (expectedUpdatedAt) {
+    const remote = await loadStoreRow(admin);
+    if (remote.updatedAt && remote.updatedAt !== expectedUpdatedAt) {
+      return { saved: false, updatedAt: remote.updatedAt };
+    }
+  }
+  const updatedAt = new Date().toISOString();
   const { error } = await admin.from("shop_state").upsert({
     key: STORE_KEY,
     value: {
       credentials: value.credentials,
       challenges: pruneChallengeMap(value.challenges),
     },
-    updated_at: new Date().toISOString(),
+    updated_at: updatedAt,
   });
   if (error) throw error;
+  return { saved: true, updatedAt };
+}
+
+async function mutateStore(
+  admin: ReturnType<typeof adminClient>,
+  mutator: (store: StoreValue) => StoreValue | null,
+): Promise<StoreValue> {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const row = await loadStoreRow(admin);
+    const next = mutator({
+      credentials: [...row.value.credentials],
+      challenges: { ...(row.value.challenges ?? {}) },
+    });
+    if (next == null) return row.value;
+    const result = await saveStore(admin, next, row.updatedAt);
+    if (result.saved) return next;
+  }
+  throw new Error("Face ID store busy — try again");
 }
 
 async function rememberChallenge(
@@ -135,10 +201,11 @@ async function rememberChallenge(
   challenge: string,
   kind: "reg" | "auth",
 ) {
-  const store = await loadStore(admin);
-  store.challenges = pruneChallengeMap(store.challenges);
-  store.challenges[challenge] = { kind, expires: Date.now() + CHALLENGE_TTL_MS };
-  await saveStore(admin, store);
+  await mutateStore(admin, (store) => {
+    store.challenges = pruneChallengeMap(store.challenges);
+    store.challenges[challenge] = { kind, expires: Date.now() + CHALLENGE_TTL_MS };
+    return store;
+  });
 }
 
 async function takeChallenge(
@@ -146,13 +213,19 @@ async function takeChallenge(
   challenge: string,
   kind: "reg" | "auth",
 ): Promise<boolean> {
-  const store = await loadStore(admin);
-  store.challenges = pruneChallengeMap(store.challenges);
-  const entry = store.challenges[challenge];
-  if (!entry || entry.kind !== kind) return false;
-  delete store.challenges[challenge];
-  await saveStore(admin, store);
-  return true;
+  let ok = false;
+  await mutateStore(admin, (store) => {
+    store.challenges = pruneChallengeMap(store.challenges);
+    const entry = store.challenges[challenge];
+    if (!entry || entry.kind !== kind) {
+      ok = false;
+      return null;
+    }
+    delete store.challenges[challenge];
+    ok = true;
+    return store;
+  });
+  return ok;
 }
 
 async function requireOperatorAccessToken(
@@ -161,9 +234,7 @@ async function requireOperatorAccessToken(
   const admin = adminClient();
   const { data, error } = await admin.auth.getUser(accessToken);
   if (error || !data.user) return { ok: false, error: "Session expired — unlock with PIN first" };
-  const role =
-    (data.user.app_metadata as { role?: string } | undefined)?.role ||
-    (data.user.user_metadata as { role?: string } | undefined)?.role;
+  const role = (data.user.app_metadata as { role?: string } | undefined)?.role;
   if (role !== "operator") return { ok: false, error: "Not an operator session" };
   return { ok: true };
 }
@@ -183,7 +254,7 @@ export const beginFaceIdRegister = createServerFn({ method: "POST" })
       const headers = await requestHeaders();
       const { rpID } = rpFromHeaders(headers);
       const admin = adminClient();
-      const store = await loadStore(admin);
+      const store = (await loadStoreRow(admin)).value;
 
       const options = await generateRegistrationOptions({
         rpName: "Parts Village",
@@ -258,16 +329,17 @@ export const finishFaceIdRegister = createServerFn({ method: "POST" })
         }
 
         const { credential } = verification.registrationInfo;
-        const store = await loadStore(admin);
-        store.credentials = store.credentials.filter((c) => c.id !== credential.id);
-        store.credentials.push({
-          id: credential.id,
-          publicKey: toB64url(credential.publicKey),
-          counter: credential.counter,
-          transports: credential.transports,
-          createdAt: new Date().toISOString(),
+        await mutateStore(admin, (store) => {
+          store.credentials = store.credentials.filter((c) => c.id !== credential.id);
+          store.credentials.push({
+            id: credential.id,
+            publicKey: toB64url(credential.publicKey),
+            counter: credential.counter,
+            transports: credential.transports,
+            createdAt: new Date().toISOString(),
+          });
+          return store;
         });
-        await saveStore(admin, store);
 
         return { ok: true, credentialId: credential.id };
       } catch (e) {
@@ -287,10 +359,17 @@ export const beginFaceIdUnlock = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }): Promise<FaceOptionsOk | FaceErr> => {
     try {
+      const rateKey = await faceRateKey();
+      const rate = await checkDurableRateLimit(rateKey, {
+        windowMs: FACE_RATE_WINDOW_MS,
+        maxFailures: FACE_RATE_MAX,
+      });
+      if (!rate.ok) return rate;
+
       const headers = await requestHeaders();
       const { rpID } = rpFromHeaders(headers);
       const admin = adminClient();
-      const store = await loadStore(admin);
+      const store = (await loadStoreRow(admin)).value;
       if (store.credentials.length === 0) {
         return { ok: false, error: "Face ID not set up — unlock with PIN first" };
       }
@@ -322,6 +401,13 @@ export const finishFaceIdUnlock = createServerFn({ method: "POST" })
   .validator((data: unknown) => z.object({ response: z.any() }).parse(data))
   .handler(async ({ data }): Promise<UnlockResult> => {
     try {
+      const rateKey = await faceRateKey();
+      const rate = await checkDurableRateLimit(rateKey, {
+        windowMs: FACE_RATE_WINDOW_MS,
+        maxFailures: FACE_RATE_MAX,
+      });
+      if (!rate.ok) return rate;
+
       const headers = await requestHeaders();
       const { rpID, origin } = rpFromHeaders(headers);
       const response = data.response as AuthenticationResponseJSON;
@@ -333,17 +419,31 @@ export const finishFaceIdUnlock = createServerFn({ method: "POST" })
         ) as { challenge?: string };
         challenge = json.challenge ?? "";
       } catch {
+        await recordDurableFailure(rateKey, {
+          windowMs: FACE_RATE_WINDOW_MS,
+          maxFailures: FACE_RATE_MAX,
+        });
         return { ok: false, error: "Face ID unlock failed" };
       }
 
       const admin = adminClient();
       if (!challenge || !(await takeChallenge(admin, challenge, "auth"))) {
+        await recordDurableFailure(rateKey, {
+          windowMs: FACE_RATE_WINDOW_MS,
+          maxFailures: FACE_RATE_MAX,
+        });
         return { ok: false, error: "Face ID challenge expired — try again" };
       }
 
-      const store = await loadStore(admin);
+      const store = (await loadStoreRow(admin)).value;
       const stored = store.credentials.find((c) => c.id === response.id);
-      if (!stored) return { ok: false, error: "Unknown Face ID credential" };
+      if (!stored) {
+        await recordDurableFailure(rateKey, {
+          windowMs: FACE_RATE_WINDOW_MS,
+          maxFailures: FACE_RATE_MAX,
+        });
+        return { ok: false, error: "Unknown Face ID credential" };
+      }
 
       const verification = await verifyAuthenticationResponse({
         response,
@@ -360,11 +460,19 @@ export const finishFaceIdUnlock = createServerFn({ method: "POST" })
       });
 
       if (!verification.verified) {
+        await recordDurableFailure(rateKey, {
+          windowMs: FACE_RATE_WINDOW_MS,
+          maxFailures: FACE_RATE_MAX,
+        });
         return { ok: false, error: "Face ID verification failed" };
       }
 
-      stored.counter = verification.authenticationInfo.newCounter;
-      await saveStore(admin, store);
+      const newCounter = verification.authenticationInfo.newCounter;
+      await mutateStore(admin, (s) => {
+        const cred = s.credentials.find((c) => c.id === stored.id);
+        if (cred) cred.counter = newCounter;
+        return s;
+      });
 
       return issueOperatorSession();
     } catch (e) {

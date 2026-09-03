@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { receiptAffectsBalance, useDocuments } from "@/components/app/documents-context";
+import { documentAffectsCashDrawer, useDocuments } from "@/components/app/documents-context";
 import { PageHeader } from "@/components/app/page-header";
 import { usePrefs } from "@/components/app/prefs-context";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +18,10 @@ export const Route = createFileRoute("/daily-close")({
   head: () => ({
     meta: [
       { title: "Daily close — Parts Village" },
-      { name: "description", content: "Count Cash, OMT, and Whish against the day’s receipts." },
+      {
+        name: "description",
+        content: "Count Cash, OMT, and Whish against the day’s receipts and cash credits.",
+      },
     ],
   }),
   component: DailyClosePage,
@@ -49,7 +52,7 @@ function csvEscape(value: string | number): string {
 }
 
 function DailyClosePage() {
-  const { receipts } = useDocuments();
+  const { documents } = useDocuments();
   const { dailyCloses, addDailyClose } = usePrefs();
   const [date, setDate] = useState(localTodayIso);
   const [countedCash, setCountedCash] = useState("");
@@ -63,8 +66,8 @@ function DailyClosePage() {
     let omt = 0;
     let whish = 0;
     let receiptCount = 0;
-    for (const r of receipts) {
-      if (!receiptAffectsBalance(r)) continue;
+    for (const r of documents) {
+      if (!documentAffectsCashDrawer(r)) continue;
       const d = r.paymentDate || r.date;
       if (d !== date) continue;
       receiptCount += 1;
@@ -75,7 +78,7 @@ function DailyClosePage() {
       else cash += amount;
     }
     return { cash, omt, whish, receiptCount };
-  }, [receipts, date]);
+  }, [documents, date]);
 
   const cash = parseMoney(countedCash);
   const omt = parseMoney(countedOmt);

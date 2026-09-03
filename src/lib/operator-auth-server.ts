@@ -8,6 +8,13 @@ import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
 import { verifyPortalToken } from "@/lib/portal-token";
+import {
+  checkDurableRateLimit,
+  clearDurableFailures,
+  hashRateKey,
+  recordDurableFailure,
+} from "@/lib/durable-rate-limit";
+import { timingSafeEqualString } from "@/lib/timing-safe";
 
 function env(name: string): string | undefined {
   const v = process.env[name]?.trim();
@@ -54,19 +61,20 @@ function unlockSignInEmail(emails: string[]): string {
   return env("OPERATOR_EMAIL") || emails[0]!;
 }
 
+/**
+ * Auth password is never the raw PIN when OPERATOR_PASSWORD is unset —
+ * derived so direct Supabase password-grant cannot use the shop PIN.
+ */
 function operatorPassword(pin: string): string {
-  return env("OPERATOR_PASSWORD") || pin;
+  const explicit = env("OPERATOR_PASSWORD");
+  if (explicit) return explicit;
+  return createHash("sha256").update(`parts-village-operator-v1:${pin}`).digest("hex");
 }
 
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 const RATE_MAX_FAILURES = 5;
-
-type RateEntry = { failures: number[]; lockedUntil?: number };
-const unlockAttempts = new Map<string, RateEntry>();
-
-function hashIp(ip: string): string {
-  return createHash("sha256").update(ip).digest("hex").slice(0, 32);
-}
+const PORTAL_RATE_WINDOW_MS = 15 * 60 * 1000;
+const PORTAL_RATE_MAX = 40;
 
 function rateLimitKeyFromHeaders(headers: Headers | undefined): string {
   if (!headers) return "global";
@@ -74,7 +82,7 @@ function rateLimitKeyFromHeaders(headers: Headers | undefined): string {
   const realIp = headers.get("x-real-ip")?.trim();
   const ip = forwarded || realIp;
   if (!ip) return "global";
-  return hashIp(ip);
+  return hashRateKey(ip);
 }
 
 async function unlockRateKey(): Promise<string> {
@@ -84,41 +92,23 @@ async function unlockRateKey(): Promise<string> {
       (mod as { getRequest?: () => Request }).getRequest ??
       (mod as { getWebRequest?: () => Request }).getWebRequest;
     const req = typeof getRequest === "function" ? getRequest() : undefined;
-    return rateLimitKeyFromHeaders(req?.headers);
+    return `unlock:${rateLimitKeyFromHeaders(req?.headers)}`;
   } catch {
-    return "global";
+    return "unlock:global";
   }
 }
 
-function checkRateLimit(key: string): { ok: true } | { ok: false; error: string } {
-  const now = Date.now();
-  const entry = unlockAttempts.get(key);
-  if (!entry) return { ok: true };
-  if (entry.lockedUntil && entry.lockedUntil > now) {
-    return { ok: false, error: "Too many attempts — try again in 15 minutes" };
+async function portalRateKey(): Promise<string> {
+  try {
+    const mod = await import("@tanstack/react-start/server");
+    const getRequest =
+      (mod as { getRequest?: () => Request }).getRequest ??
+      (mod as { getWebRequest?: () => Request }).getWebRequest;
+    const req = typeof getRequest === "function" ? getRequest() : undefined;
+    return `portal:${rateLimitKeyFromHeaders(req?.headers)}`;
+  } catch {
+    return "portal:global";
   }
-  entry.failures = entry.failures.filter((t) => now - t < RATE_WINDOW_MS);
-  if (entry.failures.length >= RATE_MAX_FAILURES) {
-    entry.lockedUntil = now + RATE_WINDOW_MS;
-    unlockAttempts.set(key, entry);
-    return { ok: false, error: "Too many attempts — try again in 15 minutes" };
-  }
-  return { ok: true };
-}
-
-function recordUnlockFailure(key: string) {
-  const now = Date.now();
-  const entry = unlockAttempts.get(key) ?? { failures: [] };
-  entry.failures = entry.failures.filter((t) => now - t < RATE_WINDOW_MS);
-  entry.failures.push(now);
-  if (entry.failures.length >= RATE_MAX_FAILURES) {
-    entry.lockedUntil = now + RATE_WINDOW_MS;
-  }
-  unlockAttempts.set(key, entry);
-}
-
-function clearUnlockFailures(key: string) {
-  unlockAttempts.delete(key);
 }
 
 async function ensureOperatorUser(
@@ -136,9 +126,10 @@ async function ensureOperatorUser(
     (u) => u.email?.toLowerCase() === email.toLowerCase(),
   );
 
+  // RLS trusts app_metadata.role only (user_metadata is client-writable).
   const meta = {
-    user_metadata: { role: "operator" },
     app_metadata: { role: "operator" },
+    user_metadata: { display: "operator" },
   };
 
   if (!existing) {
@@ -223,16 +214,22 @@ export const unlockOperator = createServerFn({ method: "POST" })
     if (!pinCfg.ok) return pinCfg;
 
     const rateKey = await unlockRateKey();
-    const rate = checkRateLimit(rateKey);
+    const rate = await checkDurableRateLimit(rateKey, {
+      windowMs: RATE_WINDOW_MS,
+      maxFailures: RATE_MAX_FAILURES,
+    });
     if (!rate.ok) return rate;
 
-    if (data.pin !== pinCfg.pin) {
-      recordUnlockFailure(rateKey);
+    if (!timingSafeEqualString(data.pin, pinCfg.pin)) {
+      await recordDurableFailure(rateKey, {
+        windowMs: RATE_WINDOW_MS,
+        maxFailures: RATE_MAX_FAILURES,
+      });
       return { ok: false, error: "Invalid PIN" };
     }
 
     const result = await issueOperatorSession();
-    if (result.ok) clearUnlockFailures(rateKey);
+    if (result.ok) await clearDurableFailures(rateKey);
     return result;
   });
 
@@ -282,6 +279,13 @@ export const fetchPortalStatement = createServerFn({ method: "POST" })
   .validator((data: unknown) => portalSchema.parse(data))
   .handler(async ({ data }): Promise<PortalStatementResult> => {
     try {
+      const rateKey = await portalRateKey();
+      const rate = await checkDurableRateLimit(rateKey, {
+        windowMs: PORTAL_RATE_WINDOW_MS,
+        maxFailures: PORTAL_RATE_MAX,
+      });
+      if (!rate.ok) return { ok: false, error: "Too many attempts — try again later" };
+
       const admin = adminClient();
       const { data: partiesRow, error: pErr } = await admin
         .from("shop_state")
@@ -335,8 +339,13 @@ export const fetchPortalStatement = createServerFn({ method: "POST" })
           client.portalTokenExpiresAt,
         )
       ) {
+        await recordDurableFailure(rateKey, {
+          windowMs: PORTAL_RATE_WINDOW_MS,
+          maxFailures: PORTAL_RATE_MAX,
+        });
         return { ok: false, error: "invalid" };
       }
+      await clearDurableFailures(rateKey);
 
       const docsVal = docsRow?.value as { documents?: Doc[] } | null;
       const documents = docsVal?.documents ?? [];

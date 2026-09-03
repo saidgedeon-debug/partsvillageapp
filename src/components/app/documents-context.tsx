@@ -70,6 +70,11 @@ export type SavedDocument = {
   invoiceTotal?: number;
   /** Receipt snapshot of invoice amountPaid immediately after this payment. */
   amountPaidAfter?: number;
+  /**
+   * Credit note from an on-account overpayment that took real Cash/OMT/Whish —
+   * include in daily-close drawer expected totals.
+   */
+  cashDrawerImpact?: boolean;
   /** Receipt snapshot of invoice remaining after this payment (credits included). */
   invoiceRemainingAfter?: number;
   /** Shared id when one cash payment produced several receipts (on-account). */
@@ -152,6 +157,20 @@ export function receiptAffectsBalance(receipt: SavedDocument): boolean {
   if (receipt.kind !== "receipt") return false;
   if (typeof receipt.affectsBalance === "boolean") return receipt.affectsBalance;
   return receipt.internalNote !== "Receipt created for already-paid invoice";
+}
+
+/** Cash/OMT/Whish that should appear on the daily-close Z expected totals. */
+export function documentAffectsCashDrawer(doc: SavedDocument): boolean {
+  if (doc.kind === "receipt") return receiptAffectsBalance(doc);
+  if (doc.kind === "credit_note") {
+    if (doc.cashDrawerImpact === true) return true;
+    // Legacy unapplied payment credits (no invoiceId, has payment method).
+    if (!doc.invoiceId && doc.paymentMethod && doc.paymentDate) {
+      const note = (doc.internalNote ?? "").toLowerCase();
+      return note.includes("unapplied payment");
+    }
+  }
+  return false;
 }
 
 export function invoiceAmountPaid(inv: SavedDocument): number {
@@ -716,6 +735,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             paymentMethod: input.method,
             paymentDate: input.paymentDate,
             paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
+            cashDrawerImpact: true,
             internalNote: `Unapplied payment credit · batch ${batchId}${note ? ` · ${note}` : ""}`,
             customerNote: note,
             lines: [

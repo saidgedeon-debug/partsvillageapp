@@ -1,5 +1,7 @@
 /** 3-way JSON merge for shop_state blobs (base = last acknowledged remote). */
 
+import { healDocumentsAmountPaid } from "./document-money-heal";
+
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
@@ -111,14 +113,22 @@ export function mergeShopStateValue(
 
   if (Array.isArray(local) && Array.isArray(remote)) {
     const baseArr = Array.isArray(base) ? base : [];
+    let merged: unknown[];
     if (arrayHasIds(local) || arrayHasIds(remote) || arrayHasIds(baseArr)) {
-      return mergeKeyedArray(baseArr, local, remote);
+      merged = mergeKeyedArray(baseArr, local, remote);
+    } else {
+      merged = mergePrimitiveArray(baseArr, local, remote);
     }
-    return mergePrimitiveArray(baseArr, local, remote);
+    if (fieldKey === "documents") return healDocumentsAmountPaid(merged);
+    return merged;
   }
 
   if (isPlainObject(local) && isPlainObject(remote)) {
-    return mergeObject(isPlainObject(base) ? base : undefined, local, remote);
+    const merged = mergeObject(isPlainObject(base) ? base : undefined, local, remote);
+    if (Array.isArray(merged.documents)) {
+      return healDocumentsAmountPaid(merged);
+    }
+    return merged;
   }
 
   if (
@@ -134,5 +144,17 @@ export function mergeShopStateValue(
     return remote + (local - base);
   }
 
-  return local;
+  // Prefer local on scalar conflict; heal invoice amountPaid when merging documents blobs.
+  const preferred = local;
+  if (fieldKey === "documents" && Array.isArray(preferred)) {
+    return healDocumentsAmountPaid(preferred);
+  }
+  if (
+    fieldKey == null &&
+    isPlainObject(preferred) &&
+    Array.isArray((preferred as Record<string, unknown>).documents)
+  ) {
+    return healDocumentsAmountPaid(preferred);
+  }
+  return preferred;
 }

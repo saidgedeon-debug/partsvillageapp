@@ -43,7 +43,7 @@ import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
 import { kitMatchesMachine } from "@/lib/part-identity";
 import { buildCrossSellSuggestions, flattenInvoiceHistory } from "@/lib/cross-sell";
-import { ensurePortalToken, portalPath } from "@/lib/portal-token";
+import { ensurePortalToken, portalPath, revokePortalToken, rotatePortalToken } from "@/lib/portal-token";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -445,6 +445,41 @@ function ClientDetail() {
               >
                 <Copy className="h-3.5 w-3.5" />
                 Copy portal link
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  const { token, expiresAt } = rotatePortalToken();
+                  updateClient(client.id, {
+                    ...client,
+                    portalToken: token,
+                    portalTokenExpiresAt: expiresAt,
+                  });
+                  const url = `${window.location.origin}${portalPath(client.id, token)}`;
+                  void navigator.clipboard.writeText(url).then(
+                    () => toast.success(`New portal link copied · expires ${expiresAt.slice(0, 10)}`),
+                    () => toast.message(url),
+                  );
+                }}
+              >
+                Rotate link
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  if (!window.confirm("Revoke this client’s portal link now?")) return;
+                  updateClient(client.id, {
+                    ...client,
+                    ...revokePortalToken(),
+                  });
+                  toast.success("Portal link revoked");
+                }}
+              >
+                Revoke
               </Button>
             </div>
           </CardHeader>

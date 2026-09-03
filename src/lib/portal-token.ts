@@ -1,5 +1,7 @@
 /** Generate or reuse a client portal access token. */
 
+import { timingSafeEqualString } from "@/lib/timing-safe";
+
 export const PORTAL_TOKEN_DAYS = 90;
 
 function mintPortalToken(): string {
@@ -53,6 +55,19 @@ export function ensurePortalToken(
   return { token: mintPortalToken(), expiresAt: portalTokenExpiryIso() };
 }
 
+/** Always mint a new portal token (revoke old implicitly). */
+export function rotatePortalToken(): { token: string; expiresAt: string } {
+  return { token: mintPortalToken(), expiresAt: portalTokenExpiryIso() };
+}
+
+/** Clear portal access until a new link is generated. */
+export function revokePortalToken(): {
+  portalToken: "";
+  portalTokenExpiresAt: "";
+} {
+  return { portalToken: "", portalTokenExpiresAt: "" };
+}
+
 /** Build the client portal URL path with client id and token query params. */
 export function portalPath(clientId: string, token: string): string {
   const params = new URLSearchParams({ c: clientId, t: token });
@@ -68,5 +83,5 @@ export function verifyPortalToken(
 ): boolean {
   if (!clientId || !token || !stored) return false;
   if (isPortalTokenExpired(expiresAt)) return false;
-  return token === stored;
+  return timingSafeEqualString(token, stored);
 }

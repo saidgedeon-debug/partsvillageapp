@@ -32,4 +32,41 @@ describe("mergeShopStateValue numeric delta", () => {
   it("uses last-writer local for bare numbers without a delta field key", () => {
     expect(mergeShopStateValue(10, 12, 15)).toBe(12);
   });
+
+  it("heals invoice amountPaid from receipts after documents merge", () => {
+    const base = {
+      documents: [
+        { id: "inv-1", kind: "invoice", total: 100, amountPaid: 0, status: "Unpaid" },
+      ],
+    };
+    const local = {
+      documents: [
+        { id: "inv-1", kind: "invoice", total: 100, amountPaid: 40, status: "Partial" },
+        {
+          id: "r1",
+          kind: "receipt",
+          invoiceId: "inv-1",
+          total: 40,
+          affectsBalance: true,
+        },
+      ],
+    };
+    const remote = {
+      documents: [
+        { id: "inv-1", kind: "invoice", total: 100, amountPaid: 25, status: "Partial" },
+        {
+          id: "r2",
+          kind: "receipt",
+          invoiceId: "inv-1",
+          total: 25,
+          affectsBalance: true,
+        },
+      ],
+    };
+    const merged = mergeShopStateValue(base, local, remote) as {
+      documents: { id: string; amountPaid?: number }[];
+    };
+    const inv = merged.documents.find((d) => d.id === "inv-1");
+    expect(inv?.amountPaid).toBe(65);
+  });
 });

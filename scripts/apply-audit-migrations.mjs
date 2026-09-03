@@ -19,6 +19,8 @@ const files = [
   "supabase/migrations/20260903090000_lock_shop_state_authenticated.sql",
   "supabase/migrations/20260903090100_lock_legacy_table_selects.sql",
   "supabase/migrations/20260903090200_part_photos_bucket.sql",
+  "supabase/migrations/20260903110000_operator_role_rls.sql",
+  "supabase/migrations/20260903120000_operator_app_metadata_only.sql",
 ];
 
 let client;

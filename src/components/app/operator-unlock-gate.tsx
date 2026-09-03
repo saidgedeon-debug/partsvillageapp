@@ -27,6 +27,7 @@ import type {
 
 const SESSION_FLAG = "pv-operator-unlocked-v1";
 const SESSION_AT = "pv-operator-unlocked-at-v1";
+const ABS_UNLOCK_AT = "pv-operator-abs-unlocked-at-v1";
 const FACE_ID_CRED = "pv-face-id-cred-v1";
 const SESSION_MAX_MS = 12 * 60 * 60 * 1000;
 
@@ -40,10 +41,14 @@ function hasLocalUnlock(): boolean {
 
 function unlockTimestamp(): number | null {
   try {
-    const raw = sessionStorage.getItem(SESSION_AT);
-    if (!raw) return null;
-    const n = Number(raw);
-    return Number.isFinite(n) ? n : null;
+    const sessionRaw = sessionStorage.getItem(SESSION_AT);
+    const absRaw = localStorage.getItem(ABS_UNLOCK_AT);
+    const sessionAt = sessionRaw ? Number(sessionRaw) : NaN;
+    const absAt = absRaw ? Number(absRaw) : NaN;
+    const candidates = [sessionAt, absAt].filter((n) => Number.isFinite(n));
+    if (!candidates.length) return null;
+    // Absolute wall-clock unlock time wins (survives tab restore tricks).
+    return Math.min(...candidates);
   } catch {
     return null;
   }
@@ -56,9 +61,15 @@ function isUnlockFresh(): boolean {
 }
 
 function markLocalUnlock() {
+  const now = String(Date.now());
   try {
     sessionStorage.setItem(SESSION_FLAG, "1");
-    sessionStorage.setItem(SESSION_AT, String(Date.now()));
+    sessionStorage.setItem(SESSION_AT, now);
+  } catch {
+    // ignore
+  }
+  try {
+    localStorage.setItem(ABS_UNLOCK_AT, now);
   } catch {
     // ignore
   }
@@ -103,6 +114,11 @@ export function clearOperatorUnlock() {
   try {
     sessionStorage.removeItem(SESSION_FLAG);
     sessionStorage.removeItem(SESSION_AT);
+  } catch {
+    // ignore
+  }
+  try {
+    localStorage.removeItem(ABS_UNLOCK_AT);
   } catch {
     // ignore
   }
@@ -292,6 +308,20 @@ export function OperatorUnlockGate({ children }: { children: ReactNode }) {
       setBusy(false);
     }
   };
+
+  useEffect(() => {
+    if (!ready || !unlocked) return;
+    const tick = () => {
+      if (!isUnlockFresh()) {
+        clearOperatorUnlock();
+        setExpiredMessage(true);
+        setUnlocked(false);
+        toast.message("Session expired — unlock again");
+      }
+    };
+    const id = window.setInterval(tick, 60_000);
+    return () => window.clearInterval(id);
+  }, [ready, unlocked]);
 
   useEffect(() => {
     if (!ready || unlocked || busy || !faceAvailable || !faceCredId) return;
