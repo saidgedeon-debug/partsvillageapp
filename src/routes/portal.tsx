@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 import { PageHeader } from "@/components/app/page-header";
-import { useDocuments } from "@/components/app/documents-context";
-import { useParties } from "@/components/app/parties-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,9 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { buildArStatement, documentBelongsToClient } from "@/lib/ar-statement";
+import {
+  fetchPortalStatement,
+  type PortalStatementPayload,
+} from "@/lib/operator-auth-server";
 import { currency } from "@/lib/mock-data";
-import { verifyPortalToken } from "@/lib/portal-token";
 
 type PortalSearch = {
   c?: string;
@@ -39,33 +40,43 @@ export const Route = createFileRoute("/portal")({
 
 function PortalPage() {
   const { c: clientId, t: token } = Route.useSearch();
-  const { getClient } = useParties();
-  const { invoices, quotations, creditNotes } = useDocuments();
+  const [loading, setLoading] = useState(true);
+  const [payload, setPayload] = useState<PortalStatementPayload | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  const client = clientId ? getClient(clientId) : undefined;
-  const allowed =
-    Boolean(client) &&
-    Boolean(clientId) &&
-    Boolean(token) &&
-    verifyPortalToken(clientId!, token!, client?.portalToken);
+  useEffect(() => {
+    let cancelled = false;
+    if (!clientId || !token) {
+      setLoading(false);
+      setError("missing");
+      return;
+    }
+    setLoading(true);
+    void fetchPortalStatement({ data: { clientId, token } })
+      .then((result) => {
+        if (cancelled) return;
+        if (!result.ok) {
+          setError(result.error);
+          setPayload(null);
+        } else {
+          setPayload(result);
+          setError(null);
+        }
+      })
+      .catch((e) => {
+        if (cancelled) return;
+        setError(e instanceof Error ? e.message : "Failed to load");
+        setPayload(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [clientId, token]);
 
-  const statement = useMemo(() => {
-    if (!client || !allowed) return null;
-    return buildArStatement(client, invoices, creditNotes);
-  }, [client, allowed, invoices, creditNotes]);
-
-  const openQuotes = useMemo(() => {
-    if (!client || !allowed) return [];
-    return quotations
-      .filter(
-        (q) =>
-          documentBelongsToClient(q, client) &&
-          (q.status === "Draft" || q.status === "Sent"),
-      )
-      .sort((a, b) => b.date.localeCompare(a.date));
-  }, [client, allowed, quotations]);
-
-  if (!clientId || !token) {
+  if (!clientId || !token || error === "missing") {
     return (
       <>
         <PageHeader title="Account" subtitle="Parts Village client portal" />
@@ -78,7 +89,18 @@ function PortalPage() {
     );
   }
 
-  if (!allowed || !client || !statement) {
+  if (loading) {
+    return (
+      <>
+        <PageHeader title="Account" subtitle="Parts Village client portal" />
+        <main className="flex flex-1 items-center justify-center p-6">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </main>
+      </>
+    );
+  }
+
+  if (error || !payload) {
     return (
       <>
         <PageHeader title="Account" subtitle="Parts Village client portal" />
@@ -90,6 +112,8 @@ function PortalPage() {
       </>
     );
   }
+
+  const { client, statement, openQuotes } = payload;
 
   return (
     <>
@@ -153,9 +177,9 @@ function PortalPage() {
                 </TableHeader>
                 <TableBody>
                   {statement.rows.map((row) => (
-                    <TableRow key={row.invoice.id}>
-                      <TableCell className="font-mono text-xs">{row.invoice.id}</TableCell>
-                      <TableCell>{row.invoice.date}</TableCell>
+                    <TableRow key={row.invoiceId}>
+                      <TableCell className="font-mono text-xs">{row.invoiceId}</TableCell>
+                      <TableCell>{row.date}</TableCell>
                       <TableCell className="text-right text-xs">{row.ageDays}d</TableCell>
                       <TableCell className="text-right font-semibold">
                         {currency(row.remaining)}
@@ -204,6 +228,9 @@ function PortalPage() {
           </CardContent>
         </Card>
       </main>
+      <footer className="border-t px-4 py-4 text-center text-sm text-muted-foreground md:px-6">
+        Questions? WhatsApp Parts Village
+      </footer>
     </>
   );
 }

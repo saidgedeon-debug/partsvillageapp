@@ -1,5 +1,15 @@
 import { partNumbersOf, type Part } from "@/lib/mock-data";
 
+/** Catalog rows archived after a merge — hide from duplicate detection. */
+export function isArchivedMergedPart(part: {
+  partNumber?: string;
+  notes?: string;
+}): boolean {
+  const code = (part.partNumber ?? "").trim();
+  if (code.startsWith("__merged__")) return true;
+  return (part.notes ?? "").includes("Merged into");
+}
+
 export function normalizedPartCodes(part: {
   partNumber?: string;
   partNumbers?: string[];
@@ -20,6 +30,7 @@ export function findDuplicatePart(
   if (incoming.size === 0) return undefined;
   return parts.find((part) => {
     if (ignoreId && part.id === ignoreId) return false;
+    if (isArchivedMergedPart(part)) return false;
     return normalizedPartCodes(part).some((code) => incoming.has(code));
   });
 }
@@ -40,6 +51,7 @@ export function blendedUnitCost(
 
 /** Groups of 2+ parts that share at least one part/OEM code. */
 export function findDuplicateGroups(parts: Part[]): Part[][] {
+  const active = parts.filter((p) => !isArchivedMergedPart(p));
   const parent = new Map<string, string>();
   const find = (id: string): string => {
     const p = parent.get(id) ?? id;
@@ -57,7 +69,7 @@ export function findDuplicateGroups(parts: Part[]): Part[][] {
   };
 
   const byCode = new Map<string, string>();
-  for (const part of parts) {
+  for (const part of active) {
     parent.set(part.id, part.id);
     for (const code of normalizedPartCodes(part)) {
       const existing = byCode.get(code);
@@ -67,7 +79,7 @@ export function findDuplicateGroups(parts: Part[]): Part[][] {
   }
 
   const groups = new Map<string, Part[]>();
-  for (const part of parts) {
+  for (const part of active) {
     const root = find(part.id);
     const list = groups.get(root) ?? [];
     list.push(part);

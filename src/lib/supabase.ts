@@ -8,7 +8,14 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 export const isSupabaseConfigured = Boolean(url && anonKey);
 
 export const supabase: SupabaseClient<Database> | null = isSupabaseConfigured
-  ? createClient<Database>(url!, anonKey!)
+  ? createClient<Database>(url!, anonKey!, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: false,
+        storageKey: "pv-operator-auth",
+      },
+    })
   : null;
 
 /** Throws if Supabase env vars are missing — app is online-only. */

@@ -143,6 +143,28 @@ export function CheckoutDialog() {
         oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);
       }
 
+      if (isInvoice) {
+        const belowCost = lines.filter((l) => {
+          const part = getPart(l.partId);
+          return Boolean(part && part.cost > 0 && l.unitPrice < part.cost);
+        });
+        if (belowCost.length > 0) {
+          const list = belowCost
+            .map((l) => {
+              const cost = getPart(l.partId)?.cost ?? 0;
+              return `• ${l.partNumber}: ${currency(l.unitPrice)} < cost ${currency(cost)}`;
+            })
+            .join("\n");
+          if (
+            !window.confirm(
+              `Some lines are priced below cost:\n\n${list}\n\nContinue anyway?`,
+            )
+          ) {
+            return;
+          }
+        }
+      }
+
       const { id, sharedFile, cancelled } = await exportAndDeliver(
         {
           documentKind,
@@ -167,6 +189,11 @@ export function CheckoutDialog() {
 
       let stockDeducted = false;
       if (isInvoice && deductStock) {
+        if (!(await confirmOversell(stockShortagesForQty(needed, getPart, skipCreated)))) {
+          toast.error("Checkout aborted — stock changed and oversell was declined");
+          return;
+        }
+        oversoldByPart = computeOversoldByPart(needed, getPart, skipCreated);
         let deducted = 0;
         for (const line of lines) {
           const part = getPart(line.partId);

@@ -9,6 +9,7 @@ import {
 
 import { emitCloudConflict } from "@/lib/cloud-conflict";
 import { mergeShopStateValue } from "@/lib/shop-state-merge";
+import { parseShopStateValue } from "@/lib/shop-state-schema";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
 export type ShopStateKey =
@@ -102,7 +103,12 @@ export async function fetchShopState<T>(key: ShopStateKey, fallback: T): Promise
   const { data, error } = await sb.from("shop_state").select("value").eq("key", key).maybeSingle();
   if (error) throw error;
   if (data?.value == null) return fallback;
-  return data.value as T;
+  const parsed = parseShopStateValue<T>(key, data.value);
+  if (!parsed.ok) {
+    setLastCloudError(parsed.error);
+    return fallback;
+  }
+  return parsed.value;
 }
 
 /** Read value + updated_at for optimistic concurrency. */
@@ -242,18 +248,27 @@ export function useCloudState<T>(
       try {
         const loaded = await loadOrMigrateShopState(key, localStorageKey, fallback, isEmpty);
         if (cancelled) return;
+        const parsed = parseShopStateValue<T>(key, loaded.value);
+        const accepted = parsed.ok ? parsed.value : fallback;
+        if (!parsed.ok) {
+          setError(parsed.error);
+          setLastCloudError(parsed.error);
+          setCloudHealth(key, "error");
+        }
         skipSave.current = true;
         dirtyRef.current = false;
         baseUpdatedAtRef.current = loaded.updatedAt;
-        baseValueRef.current = loaded.value;
-        setValueState(loaded.value);
+        baseValueRef.current = accepted;
+        setValueState(accepted);
         setReady(true);
-        setError(null);
-        setLastCloudError(null);
-        setCloudHealth(key, "synced");
+        if (parsed.ok) {
+          setError(null);
+          setLastCloudError(null);
+          setCloudHealth(key, "synced");
+        }
         markCloudMigrated();
         try {
-          localStorage.setItem(localStorageKey, JSON.stringify(loaded.value));
+          localStorage.setItem(localStorageKey, JSON.stringify(accepted));
         } catch {
           // ignore quota
         }

@@ -20,6 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { normalizePhoneE164 } from "@/lib/phone";
 
 type Kind = "client" | "supplier";
 
@@ -86,10 +87,15 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
       toast.error("Enter a valid email address");
       return;
     }
-    const phone = form.phone.trim();
-    if (phone && !/^[\d\s+().-]{7,}$/.test(phone)) {
-      toast.error("Enter a valid phone number");
-      return;
+    const phoneRaw = form.phone.trim();
+    let phone = "";
+    if (phoneRaw) {
+      const normalized = normalizePhoneE164(phoneRaw);
+      if (!normalized) {
+        toast.error("Enter a valid mobile with country code (e.g. +961 71 000 000)");
+        return;
+      }
+      phone = normalized;
     }
     const payload = {
       name: form.name,
@@ -174,7 +180,7 @@ export function PartyFormDialog({ open, onOpenChange, kind, party, onSaved }: Pr
                 id="party-phone"
                 value={form.phone}
                 onChange={set("phone")}
-                placeholder="+1 …"
+                placeholder="+961 71 000 000"
               />
             </div>
           </div>

@@ -72,6 +72,7 @@ import {
 } from "@/lib/inventory-quick-filters";
 import { printPartLabels } from "@/lib/part-label";
 import { primaryPartImage } from "@/lib/part-image";
+import { findDuplicateGroups } from "@/lib/part-identity";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -234,6 +235,8 @@ function InventoryPage() {
   } | null>(null);
   const [scrollToListToken, setScrollToListToken] = useState(0);
   const listRef = useRef<HTMLDivElement>(null);
+
+  const duplicateGroupCount = useMemo(() => findDuplicateGroups(parts).length, [parts]);
 
   const activeCategory = categories.find((c) => c.id === categoryId) ?? categories[0];
   const activeGroup = activeCategory?.group ?? null;
@@ -517,6 +520,20 @@ function InventoryPage() {
               Low stock
             </Link>
           </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => setMergeOpen(true)}
+          >
+            <Merge className="h-4 w-4" />
+            Duplicates
+            {duplicateGroupCount > 0 ? (
+              <Badge variant="secondary" className="ml-0.5 tabular-nums">
+                {duplicateGroupCount}
+              </Badge>
+            ) : null}
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button type="button" variant="outline" className="gap-1.5">
@@ -528,10 +545,6 @@ function InventoryPage() {
               <DropdownMenuItem onClick={() => setKitsOpen(true)}>
                 <PackagePlus className="h-4 w-4" />
                 Kits
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setMergeOpen(true)}>
-                <Merge className="h-4 w-4" />
-                Merge duplicates
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {

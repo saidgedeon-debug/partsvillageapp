@@ -143,6 +143,27 @@ function CounterPage() {
     [parts, query],
   );
 
+  const qTrim = query.trim();
+  const exactHit = useMemo(() => {
+    if (!qTrim) return undefined;
+    const lower = qTrim.toLowerCase();
+    return parts.find((part) => {
+      const codes =
+        part.partNumbers?.length && part.partNumbers.some((n) => n.trim())
+          ? part.partNumbers
+          : [part.partNumber];
+      return codes.some((n) => n.trim().toLowerCase() === lower);
+    });
+  }, [parts, qTrim]);
+
+  const supersession = useMemo(() => {
+    if (!qTrim || exactHit) return undefined;
+    const lower = qTrim.toLowerCase();
+    return parts.find((part) =>
+      (part.replacesCodes ?? []).some((c) => c.trim().toLowerCase() === lower),
+    );
+  }, [parts, qTrim, exactHit]);
+
   const add = (part: Part) => {
     if (!documentKind) setDocumentKind("invoice");
     addPart(part, 1);
@@ -414,6 +435,19 @@ function CounterPage() {
             autoFocus
           />
         </div>
+        {supersession ? (
+          <button
+            type="button"
+            onClick={() => add(supersession)}
+            className="w-full rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2.5 text-left text-sm active:bg-amber-500/20"
+          >
+            <p className="font-medium">
+              <span className="font-mono font-bold">{supersession.partNumber}</span> replaces{" "}
+              <span className="font-mono">{qTrim}</span>
+            </p>
+            <p className="text-xs text-muted-foreground">Tap to add the replacement part</p>
+          </button>
+        ) : null}
         <div className="space-y-2">
           {matches.map((part) => {
             const img = primaryPartImage(part);

@@ -17,6 +17,7 @@ import {
   pdfDrawText,
   renderArabicPng,
 } from "@/lib/pdf-fonts";
+import { normalizePhoneE164 } from "@/lib/phone";
 
 export type ArBucket = "current" | "days31To60" | "days61Plus";
 
@@ -247,7 +248,7 @@ export function overdueReminderText(
 }
 
 function openWhatsAppText(client: PartyRecord, text: string) {
-  const phone = client.phone.replace(/\D/g, "");
+  const phone = normalizePhoneE164(client.phone) ?? "";
   const base = phone ? `https://wa.me/${phone}` : "https://wa.me/";
   window.open(`${base}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
 }

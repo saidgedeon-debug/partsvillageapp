@@ -20,7 +20,39 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(handleSharePost(event.request));
     return;
   }
+
+  // Navigation + same-origin static assets: network first, cache fallback
+  const isNavigate = event.request.mode === "navigate";
+  const dest = event.request.destination;
+  const isStaticAsset =
+    event.request.method === "GET" &&
+    url.origin === self.location.origin &&
+    (["style", "script", "image", "font", "manifest"].includes(dest) ||
+      /\.(js|css|png|jpe?g|svg|webp|ico|woff2?|ttf|map|webmanifest)$/i.test(url.pathname));
+
+  if (isNavigate || isStaticAsset) {
+    event.respondWith(networkThenCache(event.request));
+  }
 });
+
+async function networkThenCache(request) {
+  try {
+    const response = await fetch(request);
+    if (response && response.ok && response.type === "basic") {
+      const cache = await caches.open(CACHE);
+      void cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    if (request.mode === "navigate") {
+      const shell = await caches.match("/");
+      if (shell) return shell;
+    }
+    return new Response("Offline", { status: 503, statusText: "Offline" });
+  }
+}
 
 async function handleSharePost(request) {
   try {

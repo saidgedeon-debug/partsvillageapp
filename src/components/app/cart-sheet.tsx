@@ -174,6 +174,7 @@ export function CartSheet() {
     heldCarts,
     holdCart,
     resumeHeldCart,
+    convertHeldToQuotation,
     discardHeldCart,
   } = useCart();
 
@@ -349,6 +350,15 @@ export function CartSheet() {
                       onClick={() => resumeHeldCart(h.id)}
                     >
                       Resume
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      className="h-7"
+                      onClick={() => convertHeldToQuotation(h.id)}
+                    >
+                      to Quote
                     </Button>
                     <Button
                       type="button"

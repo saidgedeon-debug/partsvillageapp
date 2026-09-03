@@ -68,11 +68,17 @@ export function ShipmentReceiveDialog({
   const { orders: preOrders } = usePreOrders();
   const [rows, setRows] = useState<ReceiveRow[]>([]);
   const [search, setSearch] = useState("");
+  const [customsCost, setCustomsCost] = useState("");
 
   useEffect(() => {
     if (!open || !shipment) return;
     setRows(rowsFromShipment(shipment));
     setSearch("");
+    setCustomsCost(
+      shipment.customsCost != null && Number.isFinite(shipment.customsCost)
+        ? String(shipment.customsCost)
+        : "",
+    );
   }, [open, shipment]);
 
   const landedByPartId = useMemo(() => {
@@ -130,8 +136,7 @@ export function ShipmentReceiveDialog({
   };
 
   const freightTotal = Number(shipment?.freightCost) || 0;
-  const customsTotal =
-    Number((shipment as { customsCost?: number } | null)?.customsCost) || 0;
+  const customsTotal = Number(customsCost) || 0;
 
   const confirm = () => {
     if (!shipment) return;
@@ -193,6 +198,7 @@ export function ShipmentReceiveDialog({
     const allDone = nextLines.every((line) => line.qtyReceived >= line.qtyOrdered);
     updateShipment(shipment.id, {
       lines: nextLines,
+      customsCost: customsTotal,
       stockReceivedAt: new Date().toISOString(),
       arrivedAt: shipment.arrivedAt || localTodayIso(),
       status: allDone || shipment.status === "Arrived" || shipment.status === "In stock"
@@ -222,6 +228,25 @@ export function ShipmentReceiveDialog({
         </DialogHeader>
 
         <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-6 py-4">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label>Freight (from shipment)</Label>
+              <p className="text-sm tabular-nums">{currency(freightTotal)}</p>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="receive-customs">Customs cost</Label>
+              <Input
+                id="receive-customs"
+                type="number"
+                min={0}
+                step={0.01}
+                value={customsCost}
+                onChange={(e) => setCustomsCost(e.target.value)}
+                placeholder="0"
+              />
+            </div>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="receive-search">Add part from inventory</Label>
             <Input

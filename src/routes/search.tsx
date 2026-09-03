@@ -40,41 +40,45 @@ function GlobalSearchPage() {
         20,
       )
     : [];
-  const partyResults = q
-    ? [
-        ...clients.map((party) => ({ ...party, kind: "client" as const })),
-        ...suppliers.map((party) => ({ ...party, kind: "supplier" as const })),
-      ]
-        .filter((party) => `${party.name} ${party.phone} ${party.email}`.toLowerCase().includes(q))
-        .slice(0, 20)
+  const partyResults = rawQuery
+    ? rankByFuzzyScore(
+        [
+          ...clients.map((party) => ({ ...party, kind: "client" as const })),
+          ...suppliers.map((party) => ({ ...party, kind: "supplier" as const })),
+        ],
+        rawQuery,
+        (party) => `${party.name} ${party.phone} ${party.email}`,
+        20,
+      )
     : [];
-  const documentResults = q
-    ? documents
-        .filter((doc) =>
-          `${doc.id} ${doc.partyName} ${doc.lines.map((l) => l.partNumber).join(" ")}`
-            .toLowerCase()
-            .includes(q),
-        )
-        .slice(0, 20)
+  const documentResults = rawQuery
+    ? rankByFuzzyScore(
+        documents,
+        rawQuery,
+        (doc) =>
+          `${doc.id} ${doc.partyName} ${doc.lines.map((l) => l.partNumber).join(" ")}`,
+        20,
+      )
     : [];
-  const shipmentResults = q
-    ? shipments
-        .filter((shipment) =>
-          `${shipment.title} ${shipment.supplier} ${shipment.trackingNumber ?? ""} ${shipment.containerNo ?? ""}`
-            .toLowerCase()
-            .includes(q),
-        )
-        .slice(0, 20)
+  const shipmentResults = rawQuery
+    ? rankByFuzzyScore(
+        shipments,
+        rawQuery,
+        (shipment) =>
+          `${shipment.title} ${shipment.supplier} ${shipment.trackingNumber ?? ""} ${shipment.containerNo ?? ""}`,
+        20,
+      )
     : [];
-  const machineResults = q
-    ? machines
-        .filter((machine) => {
+  const machineResults = rawQuery
+    ? rankByFuzzyScore(
+        machines,
+        rawQuery,
+        (machine) => {
           const clientName = clients.find((c) => c.id === machine.clientId)?.name ?? "";
-          return `${machine.make} ${machine.model} ${machine.serialNumber} ${machine.year} ${clientName}`
-            .toLowerCase()
-            .includes(q);
-        })
-        .slice(0, 20)
+          return `${machine.make} ${machine.model} ${machine.serialNumber} ${machine.year} ${clientName}`;
+        },
+        20,
+      )
     : [];
 
   return (

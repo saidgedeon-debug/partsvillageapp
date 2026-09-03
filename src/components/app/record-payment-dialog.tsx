@@ -71,6 +71,8 @@ export function RecordPaymentDialog({
   const { clients } = useParties();
   const [submitting, setSubmitting] = useState(false);
   const editing = Boolean(receipt?.id && receipt.kind === "receipt");
+  /** Stable idempotency key for this dialog open / submit attempt. */
+  const [clientRequestId, setClientRequestId] = useState(() => crypto.randomUUID());
 
   const [mode, setMode] = useState<PayMode>("single");
   const [accountClientId, setAccountClientId] = useState("");
@@ -184,6 +186,7 @@ export function RecordPaymentDialog({
 
   useEffect(() => {
     if (!open) return;
+    setClientRequestId(crypto.randomUUID());
     if (editing && receipt) {
       setMode("single");
       setInvoiceId(receipt.invoiceId ?? "");
@@ -258,6 +261,7 @@ export function RecordPaymentDialog({
       }
 
       setSubmitting(true);
+      const requestId = clientRequestId || crypto.randomUUID();
       const payload = {
         amount: value,
         method,
@@ -293,6 +297,7 @@ export function RecordPaymentDialog({
           clientId: effectiveClientId || undefined,
           clientName: name,
           ...payload,
+          clientRequestId: requestId,
           invoiceIds: selectedInvoiceIds.length ? selectedInvoiceIds : undefined,
         });
         const receiptCount = saved.filter((d) => d.kind === "receipt").length;
@@ -321,7 +326,11 @@ export function RecordPaymentDialog({
         setSubmitting(false);
         return;
       }
-      const saved = recordInvoicePayment({ invoiceId, ...payload });
+      const saved = recordInvoicePayment({
+        invoiceId,
+        ...payload,
+        clientRequestId: requestId,
+      });
       toast.success(`Receipt ${saved.id} recorded for ${invoiceId}`);
       onOpenChange(false);
       onRecorded?.(saved);
@@ -333,6 +342,7 @@ export function RecordPaymentDialog({
             ? "Could not update payment"
             : "Could not record payment",
       );
+      setClientRequestId(crypto.randomUUID());
       setSubmitting(false);
     }
   };

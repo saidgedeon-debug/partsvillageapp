@@ -13,6 +13,7 @@ import {
   Search,
   ClipboardCheck,
   DatabaseBackup,
+  Lock,
   Smartphone,
   Banknote,
   PackagePlus,
@@ -34,9 +35,11 @@ import {
 } from "@/components/ui/sidebar";
 import logo from "@/assets/parts-village-logo-clear.png";
 import { BackupDialog } from "@/components/app/backup-dialog";
+import { clearOperatorUnlock } from "@/components/app/operator-unlock-gate";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 import { useCloudHealth } from "@/lib/cloud-store";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 type NavItem = {
   title: string;
@@ -138,6 +141,21 @@ export function AppSidebar() {
         >
           <DatabaseBackup className="h-3.5 w-3.5" />
           {!collapsed && <span>Backup</span>}
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-8 w-full justify-start gap-2 px-2 text-sidebar-foreground/80"
+          aria-label="Lock shop"
+          onClick={() => {
+            clearOperatorUnlock();
+            toast.message("Shop locked");
+            window.location.reload();
+          }}
+        >
+          <Lock className="h-3.5 w-3.5" />
+          {!collapsed && <span>Lock</span>}
         </Button>
         <div className="flex items-center gap-2 px-2 py-1 text-xs text-sidebar-foreground/70">
           <span

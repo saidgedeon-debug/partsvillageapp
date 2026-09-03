@@ -72,6 +72,8 @@ export type SavedDocument = {
   amountPaidAfter?: number;
   /** Shared id when one cash payment produced several receipts (on-account). */
   paymentBatchId?: string;
+  /** Client-generated idempotency key for a payment submit attempt. */
+  clientRequestId?: string;
   /** Credit note / return: optional photo evidence (data URLs). */
   imageUrls?: string[];
 };
@@ -83,6 +85,8 @@ export type RecordPaymentInput = {
   paymentDate: string;
   mobile?: string;
   note?: string;
+  /** Idempotency key — repeat submit with the same id returns the existing receipt. */
+  clientRequestId?: string;
 };
 
 /** Cash payment applied across one or more open invoices (oldest first). */
@@ -96,6 +100,8 @@ export type RecordAccountPaymentInput = {
   note?: string;
   /** If set, only these invoices (still oldest-first among them). */
   invoiceIds?: string[];
+  /** Idempotency key — repeat submit returns receipts/credits from the same batch. */
+  clientRequestId?: string;
 };
 
 export type UpdatePaymentInput = {
@@ -407,6 +413,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
       const now = new Date();
       const receiptId = generateDocId("receipt", now);
+      const requestId = input.clientRequestId?.trim() || undefined;
       const mobileBit =
         input.method !== "Cash" && input.mobile?.trim() ? ` · ${input.mobile.trim()}` : "";
 
@@ -415,6 +422,17 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
       setDocuments((prev) => {
         const cur = Array.isArray(prev) ? prev : [];
+        if (requestId) {
+          const existing = cur.find(
+            (d) =>
+              d.kind === "receipt" &&
+              (d.clientRequestId === requestId || d.paymentBatchId === requestId),
+          );
+          if (existing) {
+            created = existing;
+            return cur;
+          }
+        }
         const invoice = cur.find((d) => d.id === input.invoiceId && d.kind === "invoice");
         if (!invoice) {
           failure = new Error("Invoice not found");
@@ -470,6 +488,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           affectsBalance: !alreadyPaid,
           invoiceTotal: invoice.total,
           amountPaidAfter: paidAfter,
+          paymentBatchId: requestId,
+          clientRequestId: requestId,
           customerNote: input.note?.trim() || undefined,
           internalNote: alreadyPaid ? "Receipt created for already-paid invoice" : undefined,
           lines: [
@@ -525,7 +545,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       if (!clientName) throw new Error("Client is required");
 
       const now = new Date();
-      const batchId = `paybatch-${now.getTime().toString(36)}`;
+      const requestId = input.clientRequestId?.trim() || undefined;
+      const batchId = requestId ?? `paybatch-${now.getTime().toString(36)}`;
       const mobileBit =
         input.method !== "Cash" && input.mobile?.trim() ? ` · ${input.mobile.trim()}` : "";
       const note = input.note?.trim();
@@ -538,6 +559,17 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
       setDocuments((prev) => {
         const cur = Array.isArray(prev) ? prev : [];
+        if (requestId) {
+          const existing = cur.filter(
+            (d) =>
+              (d.kind === "receipt" || d.kind === "credit_note") &&
+              (d.clientRequestId === requestId || d.paymentBatchId === requestId),
+          );
+          if (existing.length) {
+            created = existing;
+            return cur;
+          }
+        }
         const creditNotes = cur.filter((d) => d.kind === "credit_note");
         const nameKey = clientName.toLowerCase();
 
@@ -616,6 +648,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             invoiceTotal: row.invoice.total,
             amountPaidAfter: paidAfter,
             paymentBatchId: batchId,
+            clientRequestId: requestId,
             customerNote: note,
             internalNote: `On-account payment · batch ${batchId}`,
             lines: [
@@ -658,6 +691,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             discountType: "amount",
             discountValue: unapplied,
             paymentBatchId: batchId,
+            clientRequestId: requestId,
             paymentMethod: input.method,
             paymentDate: input.paymentDate,
             paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),

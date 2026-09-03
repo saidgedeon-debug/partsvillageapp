@@ -34,6 +34,20 @@ function varianceTone(v: number): "default" | "secondary" | "destructive" | "out
   return "destructive";
 }
 
+function monthKeyFromDate(isoDate: string): string {
+  return isoDate.slice(0, 7);
+}
+
+function currentMonthKey(): string {
+  return monthKeyFromDate(localTodayIso());
+}
+
+function csvEscape(value: string | number): string {
+  const s = String(value);
+  if (/[",\n\r]/.test(s)) return `"${s.replace(/"/g, '""')}"`;
+  return s;
+}
+
 function DailyClosePage() {
   const { receipts } = useDocuments();
   const { dailyCloses, addDailyClose } = usePrefs();
@@ -42,6 +56,7 @@ function DailyClosePage() {
   const [countedOmt, setCountedOmt] = useState("");
   const [countedWhish, setCountedWhish] = useState("");
   const [note, setNote] = useState("");
+  const [month, setMonth] = useState(currentMonthKey);
 
   const expected = useMemo(() => {
     let cash = 0;
@@ -68,6 +83,42 @@ function DailyClosePage() {
   const varOmt = omt - expected.omt;
   const varWhish = whish - expected.whish;
   const varTotal = varCash + varOmt + varWhish;
+
+  const monthCloses = useMemo(
+    () => dailyCloses.filter((e) => monthKeyFromDate(e.date) === month),
+    [dailyCloses, month],
+  );
+
+  const monthRollup = useMemo(() => {
+    const sum = {
+      expectedCash: 0,
+      expectedOmt: 0,
+      expectedWhish: 0,
+      countedCash: 0,
+      countedOmt: 0,
+      countedWhish: 0,
+      days: monthCloses.length,
+    };
+    for (const e of monthCloses) {
+      sum.expectedCash += e.expectedCash;
+      sum.expectedOmt += e.expectedOmt;
+      sum.expectedWhish += e.expectedWhish;
+      sum.countedCash += e.countedCash;
+      sum.countedOmt += e.countedOmt;
+      sum.countedWhish += e.countedWhish;
+    }
+    return {
+      ...sum,
+      varCash: sum.countedCash - sum.expectedCash,
+      varOmt: sum.countedOmt - sum.expectedOmt,
+      varWhish: sum.countedWhish - sum.expectedWhish,
+      varTotal:
+        sum.countedCash -
+        sum.expectedCash +
+        (sum.countedOmt - sum.expectedOmt) +
+        (sum.countedWhish - sum.expectedWhish),
+    };
+  }, [monthCloses]);
 
   const printZReport = () => {
     downloadZReportPdf({
@@ -101,6 +152,74 @@ function DailyClosePage() {
       },
     });
     setNote("");
+  };
+
+  const exportMonthCsv = () => {
+    if (!monthCloses.length) {
+      toast.message("No closes in this month");
+      return;
+    }
+    const header = [
+      "date",
+      "expectedCash",
+      "countedCash",
+      "varCash",
+      "expectedOmt",
+      "countedOmt",
+      "varOmt",
+      "expectedWhish",
+      "countedWhish",
+      "varWhish",
+      "varTotal",
+      "note",
+    ];
+    const lines = [
+      header.join(","),
+      ...monthCloses
+        .slice()
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .map((e) => {
+          const vc = e.countedCash - e.expectedCash;
+          const vo = e.countedOmt - e.expectedOmt;
+          const vw = e.countedWhish - e.expectedWhish;
+          return [
+            csvEscape(e.date),
+            e.expectedCash,
+            e.countedCash,
+            vc,
+            e.expectedOmt,
+            e.countedOmt,
+            vo,
+            e.expectedWhish,
+            e.countedWhish,
+            vw,
+            vc + vo + vw,
+            csvEscape(e.note ?? ""),
+          ].join(",");
+        }),
+      [
+        "TOTAL",
+        monthRollup.expectedCash,
+        monthRollup.countedCash,
+        monthRollup.varCash,
+        monthRollup.expectedOmt,
+        monthRollup.countedOmt,
+        monthRollup.varOmt,
+        monthRollup.expectedWhish,
+        monthRollup.countedWhish,
+        monthRollup.varWhish,
+        monthRollup.varTotal,
+        "",
+      ].join(","),
+    ];
+    const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `z-rollup-${month}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Month CSV downloaded");
   };
 
   return (
@@ -180,6 +299,76 @@ function DailyClosePage() {
               Print Z-report
             </Button>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Monthly Z rollup</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex flex-wrap items-end gap-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="close-month">Month</Label>
+              <Input
+                id="close-month"
+                type="month"
+                value={month}
+                onChange={(e) => setMonth(e.target.value || currentMonthKey())}
+                className="max-w-xs"
+              />
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              disabled={!monthCloses.length}
+              onClick={exportMonthCsv}
+            >
+              Export month CSV
+            </Button>
+          </div>
+
+          {monthCloses.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No saved closes for this month.</p>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-3">
+              {(
+                [
+                  ["Cash", monthRollup.expectedCash, monthRollup.countedCash, monthRollup.varCash],
+                  ["OMT", monthRollup.expectedOmt, monthRollup.countedOmt, monthRollup.varOmt],
+                  ["Whish", monthRollup.expectedWhish, monthRollup.countedWhish, monthRollup.varWhish],
+                ] as const
+              ).map(([label, exp, counted, variance]) => (
+                <div key={label} className="space-y-1 rounded-md border p-3 text-sm">
+                  <p className="font-medium">{label}</p>
+                  <p className="text-xs text-muted-foreground">Expected {currency(exp)}</p>
+                  <p className="text-xs text-muted-foreground">Counted {currency(counted)}</p>
+                  <p>
+                    Variance{" "}
+                    <span
+                      className={
+                        Math.abs(variance) < 0.005 ? "text-muted-foreground" : "text-destructive"
+                      }
+                    >
+                      {currency(variance)}
+                    </span>
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {monthCloses.length > 0 ? (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-medium">Month variance</span>
+              <Badge variant={varianceTone(monthRollup.varTotal)}>
+                {currency(monthRollup.varTotal)}
+              </Badge>
+              <span className="text-xs text-muted-foreground">
+                {monthRollup.days} day{monthRollup.days === 1 ? "" : "s"} closed
+              </span>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
 

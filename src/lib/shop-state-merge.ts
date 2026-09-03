@@ -114,5 +114,16 @@ export function mergeShopStateValue(base: unknown, local: unknown, remote: unkno
     return mergeObject(isPlainObject(base) ? base : undefined, local, remote);
   }
 
+  if (
+    typeof base === "number" &&
+    Number.isFinite(base) &&
+    typeof local === "number" &&
+    Number.isFinite(local) &&
+    typeof remote === "number" &&
+    Number.isFinite(remote)
+  ) {
+    return remote + (local - base);
+  }
+
   return local;
 }

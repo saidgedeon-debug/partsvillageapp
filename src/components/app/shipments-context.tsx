@@ -86,6 +86,8 @@ export type ChinaShipment = {
   /** Goods cost */
   totalCost?: number;
   currency: "USD" | "RMB";
+  /** Import / Beirut customs duty allocated with freight into landed cost. */
+  customsCost?: number;
   /** Titus Logistics freight details */
   freightMode?: "Air" | "Sea LCL" | "Sea FCL" | "Other";
   freightCost?: number;
@@ -128,6 +130,7 @@ export type ShipmentInput = {
   notes?: string;
   totalCost?: number;
   currency?: "USD" | "RMB";
+  customsCost?: number;
   freightMode?: ChinaShipment["freightMode"];
   freightCost?: number;
   freightCurrency?: "USD" | "RMB";
@@ -221,6 +224,7 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
         notes: input.notes?.trim() || undefined,
         totalCost: Number.isFinite(input.totalCost) ? input.totalCost : undefined,
         currency: input.currency ?? "USD",
+        customsCost: Number.isFinite(input.customsCost) ? input.customsCost : undefined,
         freightMode: input.freightMode,
         freightCost: Number.isFinite(input.freightCost) ? input.freightCost : undefined,
         freightCurrency: input.freightCurrency ?? "USD",
@@ -287,6 +291,7 @@ export function ShipmentsProvider({ children }: { children: ReactNode }) {
             arrivedAt: patch.arrivedAt !== undefined ? patch.arrivedAt || undefined : s.arrivedAt,
             totalCost: patch.totalCost !== undefined ? num(patch.totalCost) : s.totalCost,
             currency: patch.currency ?? s.currency,
+            customsCost: patch.customsCost !== undefined ? num(patch.customsCost) : s.customsCost,
             freightMode: patch.freightMode !== undefined ? patch.freightMode : s.freightMode,
             freightCost: patch.freightCost !== undefined ? num(patch.freightCost) : s.freightCost,
             freightCurrency: patch.freightCurrency ?? s.freightCurrency,

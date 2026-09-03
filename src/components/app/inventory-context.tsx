@@ -496,6 +496,8 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
             overrides[id] = {
               ...overrides[id],
               quantity: 0,
+              partNumber: `__merged__${id}`,
+              partNumbers: [],
               notes: `Merged into ${keep.partNumber}`.slice(0, 200),
             };
           }

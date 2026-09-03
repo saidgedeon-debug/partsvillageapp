@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { CloudGate } from "@/components/app/cloud-gate";
+import { OperatorUnlockGate } from "@/components/app/operator-unlock-gate";
 import { CloudSyncBanner } from "@/components/app/cloud-sync-banner";
 import { OfflineBanner } from "@/components/app/offline-banner";
 import { BackupReminderBanner } from "@/components/app/backup-reminder-banner";
@@ -167,52 +168,53 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ConfirmProvider>
         <CloudGate>
-          <SearchProvider>
-            <PartiesProvider>
-              <InventoryProvider>
-                <DocumentsProvider>
-                  <FleetProvider>
-                    <PrefsProvider>
-                      <KitsProvider>
-                        <ShipmentsProvider>
-                          <ShareInboxProvider>
-                            <PreOrdersProvider>
-                              <CartProvider>
-                                <SidebarProvider>
-                                  <div className="flex min-h-screen w-full bg-background">
-                                    {isPortal ? null : <AppSidebar />}
-                                    <SidebarInset className="min-w-0">
-                                      {isPortal ? null : (
-                                        <>
+          {isPortal ? (
+            <>
+              <Outlet />
+              <Toaster />
+            </>
+          ) : (
+            <OperatorUnlockGate>
+              <SearchProvider>
+                <PartiesProvider>
+                  <InventoryProvider>
+                    <DocumentsProvider>
+                      <FleetProvider>
+                        <PrefsProvider>
+                          <KitsProvider>
+                            <ShipmentsProvider>
+                              <ShareInboxProvider>
+                                <PreOrdersProvider>
+                                  <CartProvider>
+                                    <SidebarProvider>
+                                      <div className="flex min-h-screen w-full bg-background">
+                                        <AppSidebar />
+                                        <SidebarInset className="min-w-0">
                                           <OfflineBanner />
                                           <BackupReminderBanner />
                                           <CloudSyncBanner />
-                                        </>
-                                      )}
-                                      <Outlet />
-                                    </SidebarInset>
-                                  </div>
-                                  {isPortal ? null : (
-                                    <>
+                                          <Outlet />
+                                        </SidebarInset>
+                                      </div>
                                       <DocumentTypeDialog />
                                       <CartSheet />
                                       <CheckoutDialog />
-                                    </>
-                                  )}
-                                  <Toaster />
-                                  <CloudConflictToaster />
-                                </SidebarProvider>
-                              </CartProvider>
-                            </PreOrdersProvider>
-                          </ShareInboxProvider>
-                        </ShipmentsProvider>
-                      </KitsProvider>
-                    </PrefsProvider>
-                  </FleetProvider>
-                </DocumentsProvider>
-              </InventoryProvider>
-            </PartiesProvider>
-          </SearchProvider>
+                                      <Toaster />
+                                      <CloudConflictToaster />
+                                    </SidebarProvider>
+                                  </CartProvider>
+                                </PreOrdersProvider>
+                              </ShareInboxProvider>
+                            </ShipmentsProvider>
+                          </KitsProvider>
+                        </PrefsProvider>
+                      </FleetProvider>
+                    </DocumentsProvider>
+                  </InventoryProvider>
+                </PartiesProvider>
+              </SearchProvider>
+            </OperatorUnlockGate>
+          )}
         </CloudGate>
       </ConfirmProvider>
     </QueryClientProvider>

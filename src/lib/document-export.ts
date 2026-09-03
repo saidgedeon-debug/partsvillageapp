@@ -13,6 +13,7 @@ import {
   pdfDrawText,
   renderArabicPng,
 } from "@/lib/pdf-fonts";
+import { normalizePhoneE164 } from "@/lib/phone";
 
 const docLabels: Record<DocumentKind, string> = {
   quotation: "Quotation",
@@ -855,11 +856,23 @@ export async function shareSavedDocument(
   return sharePdfFile(toExportDoc(doc));
 }
 
-export function openWhatsApp(doc: ExportDoc) {
+function navigateShareWindow(url: string, target?: Window | null) {
+  if (target && !target.closed) {
+    try {
+      target.location.href = url;
+      return;
+    } catch {
+      // fall through to window.open
+    }
+  }
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+export function openWhatsApp(doc: ExportDoc, target?: Window | null) {
   const text = buildShareText(doc);
-  const phone = (doc.partyPhone ?? "").replace(/\D/g, "");
+  const phone = normalizePhoneE164(doc.partyPhone ?? "") ?? "";
   const base = phone ? `https://wa.me/${phone}` : "https://wa.me/";
-  window.open(`${base}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+  navigateShareWindow(`${base}?text=${encodeURIComponent(text)}`, target);
 }
 
 export function openWeChatShare(doc: ExportDoc) {
@@ -868,14 +881,14 @@ export function openWeChatShare(doc: ExportDoc) {
   return text;
 }
 
-export function openEmailShare(doc: ExportDoc) {
+export function openEmailShare(doc: ExportDoc, target?: Window | null) {
   const date = doc.createdAt ?? new Date();
   const id = resolveDocId(doc, date);
   const subject = `Parts Village — ${docLabels[doc.documentKind]} ${id}`;
   const body = buildShareText(doc);
-  window.open(
+  navigateShareWindow(
     `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,
-    "_blank",
+    target,
   );
 }
 
@@ -896,24 +909,54 @@ export async function exportAndDeliver(
   format: ExportFormat,
   delivery: DeliveryMethod,
 ): Promise<ExportDeliveryResult> {
-  if (format === "pdf" && delivery !== "offline") {
-    const result = await sharePdfFile(doc);
-    if (result.cancelled) {
-      return { id: result.id, sharedFile: false, cancelled: true };
-    }
-    if (result.shared) {
-      return { id: result.id, sharedFile: true };
-    }
-    // Desktop / no file-share support: PDF downloaded; open text channel only (no URL).
-    if (delivery === "whatsapp") openWhatsApp(doc);
-    if (delivery === "wechat") openWeChatShare(doc);
-    if (delivery === "email") openEmailShare(doc);
-    return { id: result.id, sharedFile: false };
-  }
+  // Open synchronously before any await so popup blockers don't kill WhatsApp/email.
+  const needsPopup =
+    delivery === "whatsapp" || delivery === "email" || delivery === "wechat";
+  const popup = needsPopup ? window.open("about:blank", "_blank") : null;
 
-  const id = format === "pdf" ? await downloadPdf(doc) : downloadExcel(doc);
-  if (delivery === "whatsapp") openWhatsApp(doc);
-  if (delivery === "wechat") openWeChatShare(doc);
-  if (delivery === "email") openEmailShare(doc);
-  return { id, sharedFile: false };
+  const closePopup = () => {
+    try {
+      if (popup && !popup.closed) popup.close();
+    } catch {
+      // ignore
+    }
+  };
+
+  try {
+    if (format === "pdf" && delivery !== "offline") {
+      const result = await sharePdfFile(doc);
+      if (result.cancelled) {
+        closePopup();
+        return { id: result.id, sharedFile: false, cancelled: true };
+      }
+      if (result.shared) {
+        closePopup();
+        return { id: result.id, sharedFile: true };
+      }
+      // Desktop / no file-share support: PDF downloaded; open text channel only (no URL).
+      if (delivery === "whatsapp") openWhatsApp(doc, popup);
+      else if (delivery === "email") openEmailShare(doc, popup);
+      else if (delivery === "wechat") {
+        openWeChatShare(doc);
+        closePopup();
+      } else {
+        closePopup();
+      }
+      return { id: result.id, sharedFile: false };
+    }
+
+    const id = format === "pdf" ? await downloadPdf(doc) : downloadExcel(doc);
+    if (delivery === "whatsapp") openWhatsApp(doc, popup);
+    else if (delivery === "email") openEmailShare(doc, popup);
+    else if (delivery === "wechat") {
+      openWeChatShare(doc);
+      closePopup();
+    } else {
+      closePopup();
+    }
+    return { id, sharedFile: false };
+  } catch (err) {
+    closePopup();
+    throw err;
+  }
 }

@@ -22,6 +22,7 @@ import { HYDRAULIC_SUBCATEGORIES } from "@/lib/hydraulics-inventory";
 import { FILTER_SUBCATEGORIES } from "@/lib/filters-inventory";
 import { SEAL_SUBCATEGORIES } from "@/lib/seal-subcategories";
 import { compressImageToDataUrl } from "@/lib/image-compress";
+import { uploadPartImageDataUrl } from "@/lib/part-image-storage";
 import { buildPartDemandMap, partDemandFor } from "@/lib/demand-forecast";
 import { partPriceHistory } from "@/lib/part-price-history";
 
@@ -160,7 +161,11 @@ export function PartDetailDialog({
     const partId = part?.id;
     void (async () => {
       try {
-        const urls = await Promise.all(slice.map((file) => compressImageToDataUrl(file)));
+        const compressed = await Promise.all(slice.map((file) => compressImageToDataUrl(file)));
+        const uploadId = partId || "new-part";
+        const urls = await Promise.all(
+          compressed.map((dataUrl) => uploadPartImageDataUrl(dataUrl, uploadId)),
+        );
         setGallery((current) => {
           const next = [...current, ...urls].slice(0, 5);
           if (saveNow && partId) {
@@ -756,6 +761,7 @@ export function PartDetailDialog({
                         }}
                         className={`rounded border p-1 ${index === 0 ? "border-accent" : "border-border"}`}
                         title="Set as primary"
+                        aria-label={index === 0 ? "Primary photo" : "Set as primary photo"}
                       >
                         <img src={url} alt="" className="h-16 w-16 object-contain" />
                       </button>

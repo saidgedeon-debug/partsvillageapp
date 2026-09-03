@@ -92,6 +92,7 @@ export function ShipmentFormDialog({
   const [notes, setNotes] = useState("");
   const [totalCost, setTotalCost] = useState("");
   const [currency, setCurrency] = useState<"USD" | "RMB">("USD");
+  const [customsCost, setCustomsCost] = useState("");
   const [freightMode, setFreightMode] = useState<ChinaShipment["freightMode"]>("Air");
   const [freightCost, setFreightCost] = useState("");
   const [freightCurrency, setFreightCurrency] = useState<"USD" | "RMB">("USD");
@@ -124,6 +125,11 @@ export function ShipmentFormDialog({
           : "",
       );
       setCurrency(shipment.currency);
+      setCustomsCost(
+        shipment.customsCost != null && Number.isFinite(shipment.customsCost)
+          ? String(shipment.customsCost)
+          : "",
+      );
       setFreightMode(shipment.freightMode ?? "Air");
       setFreightCost(
         shipment.freightCost != null && Number.isFinite(shipment.freightCost)
@@ -166,6 +172,7 @@ export function ShipmentFormDialog({
     setNotes(initialValues?.notes ?? "");
     setTotalCost("");
     setCurrency("USD");
+    setCustomsCost("");
     setFreightMode("Air");
     setFreightCost("");
     setFreightCurrency("USD");
@@ -260,6 +267,7 @@ export function ShipmentFormDialog({
       notes,
       totalCost: parseOptNumber(totalCost),
       currency,
+      customsCost: parseOptNumber(customsCost),
       freightMode,
       freightCost: titusFields.freightCost,
       freightCurrency: titusFields.freightCurrency,
@@ -552,6 +560,18 @@ export function ShipmentFormDialog({
                 value={titusLocation}
                 onChange={(e) => setTitusLocation(e.target.value)}
                 placeholder="e.g. Guangzhou warehouse · on vessel · Beirut customs"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="ship-customs">Customs cost (USD)</Label>
+              <Input
+                id="ship-customs"
+                type="number"
+                min={0}
+                step={0.01}
+                value={customsCost}
+                onChange={(e) => setCustomsCost(e.target.value)}
+                placeholder="Import duty / clearance"
               />
             </div>
           </div>

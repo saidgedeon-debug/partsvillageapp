@@ -66,6 +66,7 @@ type CartContextValue = {
   heldCarts: HeldCart[];
   holdCart: (label: string) => void;
   resumeHeldCart: (id: string) => void;
+  convertHeldToQuotation: (id: string) => void;
   discardHeldCart: (id: string) => void;
 };
 
@@ -279,19 +280,50 @@ export function CartProvider({ children }: { children: ReactNode }) {
         toast.error("Hold or clear the current cart before resuming a held cart");
         return;
       }
+      const ticket = heldCarts.find((h) => h.id === id);
+      if (!ticket) return;
+      let kind = ticket.documentKind;
+      if (!kind) {
+        const asQuote = window.confirm(
+          "This hold has no document type. Open as quotation?",
+        );
+        kind = asQuote ? "quotation" : null;
+      }
       setStore((prev) => {
         const held = prev.heldCarts ?? [];
-        const ticket = held.find((h) => h.id === id);
-        if (!ticket) return prev;
+        if (!held.some((h) => h.id === id)) return prev;
         return {
-          documentKind: ticket.documentKind,
+          documentKind: kind,
           lines: ticket.lines,
           partyId: ticket.partyId,
           partyName: ticket.partyName,
           heldCarts: held.filter((h) => h.id !== id),
         };
       });
-      toast.success("Resumed held cart");
+      toast.success(kind === "quotation" ? "Resumed as quotation" : "Resumed held cart");
+    },
+    [heldCarts, lines.length, setStore],
+  );
+
+  const convertHeldToQuotation = useCallback(
+    (id: string) => {
+      if (lines.length > 0) {
+        toast.error("Hold or clear the current cart before resuming a held cart");
+        return;
+      }
+      setStore((prev) => {
+        const held = prev.heldCarts ?? [];
+        const ticket = held.find((h) => h.id === id);
+        if (!ticket) return prev;
+        return {
+          documentKind: "quotation",
+          lines: ticket.lines,
+          partyId: ticket.partyId,
+          partyName: ticket.partyName,
+          heldCarts: held.filter((h) => h.id !== id),
+        };
+      });
+      toast.success("Opened as quotation");
     },
     [lines.length, setStore],
   );
@@ -334,6 +366,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       heldCarts,
       holdCart,
       resumeHeldCart,
+      convertHeldToQuotation,
       discardHeldCart,
     }),
     [
@@ -359,6 +392,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       heldCarts,
       holdCart,
       resumeHeldCart,
+      convertHeldToQuotation,
       discardHeldCart,
     ],
   );
