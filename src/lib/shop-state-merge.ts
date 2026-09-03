@@ -86,7 +86,7 @@ function mergeObject(
     const hasL = Object.prototype.hasOwnProperty.call(local, key);
     const hasR = Object.prototype.hasOwnProperty.call(remote, key);
     if (hasL && hasR) {
-      out[key] = mergeShopStateValue(b, local[key], remote[key]);
+      out[key] = mergeShopStateValue(b, local[key], remote[key], key);
     } else if (hasL) {
       if (equalJson(local[key], b)) continue;
       out[key] = local[key];
@@ -97,7 +97,14 @@ function mergeObject(
   return out;
 }
 
-export function mergeShopStateValue(base: unknown, local: unknown, remote: unknown): unknown {
+const DELTA_NUMERIC_KEYS = new Set(["quantity", "reorderAt"]);
+
+export function mergeShopStateValue(
+  base: unknown,
+  local: unknown,
+  remote: unknown,
+  fieldKey?: string,
+): unknown {
   if (equalJson(local, remote)) return local;
   if (equalJson(local, base)) return remote;
   if (equalJson(remote, base)) return local;
@@ -115,6 +122,8 @@ export function mergeShopStateValue(base: unknown, local: unknown, remote: unkno
   }
 
   if (
+    fieldKey != null &&
+    DELTA_NUMERIC_KEYS.has(fieldKey) &&
     typeof base === "number" &&
     Number.isFinite(base) &&
     typeof local === "number" &&

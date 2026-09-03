@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { useDocuments } from "@/components/app/documents-context";
+import { receiptAffectsBalance, useDocuments } from "@/components/app/documents-context";
 import { PageHeader } from "@/components/app/page-header";
 import { usePrefs } from "@/components/app/prefs-context";
 import { Badge } from "@/components/ui/badge";
@@ -64,6 +64,7 @@ function DailyClosePage() {
     let whish = 0;
     let receiptCount = 0;
     for (const r of receipts) {
+      if (!receiptAffectsBalance(r)) continue;
       const d = r.paymentDate || r.date;
       if (d !== date) continue;
       receiptCount += 1;

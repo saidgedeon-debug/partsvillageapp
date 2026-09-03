@@ -167,7 +167,7 @@ function ClientDetail() {
   }, [client, quotations, invoices, receipts, creditNotes]);
 
   const openDoc = async (doc: SavedDocument) => {
-    const enriched = receiptWithBalanceSnapshot(doc, invoices);
+    const enriched = receiptWithBalanceSnapshot(doc, invoices, creditNotes);
     const paymentHistory =
       enriched.kind === "invoice"
         ? paymentHistoryLinesForInvoice(enriched.id, receipts)
@@ -426,12 +426,20 @@ function ClientDetail() {
                 variant="outline"
                 className="gap-1.5"
                 onClick={() => {
-                  const token = ensurePortalToken(client.portalToken);
-                  updateClient(client.id, { ...client, portalToken: token });
+                  const { token, expiresAt } = ensurePortalToken(
+                    client.portalToken,
+                    client.portalTokenExpiresAt,
+                  );
+                  updateClient(client.id, {
+                    ...client,
+                    portalToken: token,
+                    portalTokenExpiresAt: expiresAt,
+                  });
                   const url = `${window.location.origin}${portalPath(client.id, token)}`;
+                  const expiryLabel = expiresAt.slice(0, 10);
                   void navigator.clipboard.writeText(url).then(
-                    () => toast.success("Portal link copied"),
-                    () => toast.message(url),
+                    () => toast.success(`Portal link copied · expires ${expiryLabel}`),
+                    () => toast.message(`${url} · expires ${expiryLabel}`),
                   );
                 }}
               >
@@ -1263,7 +1271,7 @@ function ClientDetail() {
         onDownload={() => {
           if (!preview) return;
           void (async () => {
-            await downloadSavedDocument(receiptWithBalanceSnapshot(preview.doc, invoices));
+            await downloadSavedDocument(receiptWithBalanceSnapshot(preview.doc, invoices, creditNotes));
             toast.success(`Downloaded ${preview.doc.id}.pdf`);
           })();
         }}
@@ -1271,7 +1279,7 @@ function ClientDetail() {
           if (!preview) return;
           void (async () => {
             const result = await shareSavedDocument(
-              receiptWithBalanceSnapshot(preview.doc, invoices),
+              receiptWithBalanceSnapshot(preview.doc, invoices, creditNotes),
             );
             if (result.cancelled) {
               toast.message("Share cancelled");

@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   exportAndDeliver,
+  generateDocId,
   lineTotal,
   type DeliveryMethod,
   type ExportFormat,
@@ -136,6 +137,8 @@ export function CheckoutDialog() {
       );
       const needed = lineQtyByPart(lines);
       let oversoldByPart: Record<string, number> | undefined;
+
+      // Invoices: confirm oversell + below-cost first, then deduct + save, then export.
       if (isInvoice && deductStock) {
         if (!(await confirmOversell(stockShortagesForQty(needed, getPart, skipCreated)))) {
           return;
@@ -165,28 +168,6 @@ export function CheckoutDialog() {
         }
       }
 
-      const { id, sharedFile, cancelled } = await exportAndDeliver(
-        {
-          documentKind,
-          partyKind,
-          partyName: partyName.trim(),
-          partyPhone: selectedParty?.phone,
-          lines,
-          createdAt,
-          includeCost: isInquiry ? includeCost : true,
-          discountType: appliedDiscount?.type,
-          discountValue: appliedDiscount?.value,
-          fulfillmentStatus: isInvoice && fulfillmentStatus ? fulfillmentStatus : undefined,
-        },
-        format,
-        delivery,
-      );
-
-      if (cancelled) {
-        toast.message("Share cancelled");
-        return;
-      }
-
       let stockDeducted = false;
       if (isInvoice && deductStock) {
         if (!(await confirmOversell(stockShortagesForQty(needed, getPart, skipCreated)))) {
@@ -207,6 +188,7 @@ export function CheckoutDialog() {
         stockDeducted = deducted > 0;
       }
 
+      const id = generateDocId(documentKind, createdAt);
       const status: SavedDocument["status"] =
         documentKind === "quotation" ? "Sent" : documentKind === "invoice" ? "Unpaid" : "Open";
 
@@ -254,24 +236,50 @@ export function CheckoutDialog() {
         }
       }
 
-      const fmt = format === "pdf" ? "PDF" : "Excel";
-      const deliveryMsg = sharedFile
-        ? " — PDF file shared"
-        : delivery === "whatsapp"
-          ? format === "pdf"
-            ? " — PDF downloaded, WhatsApp opened"
-            : " — WhatsApp opened"
-          : delivery === "wechat"
+      const { sharedFile, cancelled } = await exportAndDeliver(
+        {
+          id,
+          documentKind,
+          partyKind,
+          partyName: partyName.trim(),
+          partyPhone: selectedParty?.phone,
+          lines,
+          createdAt,
+          includeCost: isInquiry ? includeCost : true,
+          discountType: appliedDiscount?.type,
+          discountValue: appliedDiscount?.value,
+          fulfillmentStatus: isInvoice && fulfillmentStatus ? fulfillmentStatus : undefined,
+        },
+        format,
+        delivery,
+      );
+
+      if (cancelled) {
+        toast.message(
+          isInvoice
+            ? `Invoice saved (${id}) — share cancelled`
+            : `${documentKind === "quotation" ? "Quotation" : "Document"} saved (${id}) — share cancelled`,
+        );
+      } else {
+        const fmt = format === "pdf" ? "PDF" : "Excel";
+        const deliveryMsg = sharedFile
+          ? " — PDF file shared"
+          : delivery === "whatsapp"
             ? format === "pdf"
-              ? " — PDF downloaded, message copied for WeChat"
-              : " — message copied for WeChat"
-            : delivery === "email"
+              ? " — PDF downloaded, WhatsApp opened"
+              : " — WhatsApp opened"
+            : delivery === "wechat"
               ? format === "pdf"
-                ? " — PDF downloaded, email draft opened"
-                : " — email draft opened"
-              : " — saved offline";
-      const stockMsg = stockDeducted ? " · stock updated" : "";
-      toast.success(`${fmt} saved (${id})${deliveryMsg}${stockMsg}`);
+                ? " — PDF downloaded, message copied for WeChat"
+                : " — message copied for WeChat"
+              : delivery === "email"
+                ? format === "pdf"
+                  ? " — PDF downloaded, email draft opened"
+                  : " — email draft opened"
+                : " — saved offline";
+        const stockMsg = stockDeducted ? " · stock updated" : "";
+        toast.success(`${fmt} saved (${id})${deliveryMsg}${stockMsg}`);
+      }
 
       if (andClose) {
         clearCart();

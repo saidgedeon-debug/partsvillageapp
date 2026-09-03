@@ -10,6 +10,8 @@ import { unlockOperator } from "@/lib/operator-auth-server";
 import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 const SESSION_FLAG = "pv-operator-unlocked-v1";
+const SESSION_AT = "pv-operator-unlocked-at-v1";
+const SESSION_MAX_MS = 12 * 60 * 60 * 1000;
 
 function hasLocalUnlock(): boolean {
   try {
@@ -19,9 +21,27 @@ function hasLocalUnlock(): boolean {
   }
 }
 
+function unlockTimestamp(): number | null {
+  try {
+    const raw = sessionStorage.getItem(SESSION_AT);
+    if (!raw) return null;
+    const n = Number(raw);
+    return Number.isFinite(n) ? n : null;
+  } catch {
+    return null;
+  }
+}
+
+function isUnlockFresh(): boolean {
+  const at = unlockTimestamp();
+  if (at == null) return false;
+  return Date.now() - at <= SESSION_MAX_MS;
+}
+
 function markLocalUnlock() {
   try {
     sessionStorage.setItem(SESSION_FLAG, "1");
+    sessionStorage.setItem(SESSION_AT, String(Date.now()));
   } catch {
     // ignore
   }
@@ -30,6 +50,7 @@ function markLocalUnlock() {
 export function clearOperatorUnlock() {
   try {
     sessionStorage.removeItem(SESSION_FLAG);
+    sessionStorage.removeItem(SESSION_AT);
   } catch {
     // ignore
   }
@@ -45,6 +66,7 @@ export function OperatorUnlockGate({ children }: { children: ReactNode }) {
   const [unlocked, setUnlocked] = useState(false);
   const [pin, setPin] = useState("");
   const [busy, setBusy] = useState(false);
+  const [expiredMessage, setExpiredMessage] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -59,8 +81,14 @@ export function OperatorUnlockGate({ children }: { children: ReactNode }) {
       const { data } = await supabase.auth.getSession();
       if (cancelled) return;
       if (data.session) {
-        markLocalUnlock();
-        setUnlocked(true);
+        if (isUnlockFresh()) {
+          setUnlocked(true);
+        } else {
+          // Session exists but unlock was > 12h ago or no timestamp this browser session.
+          clearOperatorUnlock();
+          setExpiredMessage(true);
+          setUnlocked(false);
+        }
       } else if (hasLocalUnlock()) {
         // Stale flag without session — force re-entry.
         clearOperatorUnlock();
@@ -98,6 +126,7 @@ export function OperatorUnlockGate({ children }: { children: ReactNode }) {
         return;
       }
       markLocalUnlock();
+      setExpiredMessage(false);
       setUnlocked(true);
       toast.success("Unlocked");
     } catch (e) {
@@ -123,9 +152,13 @@ export function OperatorUnlockGate({ children }: { children: ReactNode }) {
             <Lock className="h-5 w-5 text-accent" />
             <h1 className="text-lg font-semibold tracking-tight">Operator unlock</h1>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Enter the shop PIN to open Parts Village. Client portal links do not need this PIN.
-          </p>
+          {expiredMessage ? (
+            <p className="text-sm text-destructive">Session expired — enter PIN again</p>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              Enter the shop PIN to open Parts Village. Client portal links do not need this PIN.
+            </p>
+          )}
           <div className="space-y-1.5">
             <Label htmlFor="operator-pin">PIN</Label>
             <Input

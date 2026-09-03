@@ -396,7 +396,8 @@ function DocumentsPage() {
     setReturnOpen(true);
   };
 
-  const withReceiptBalance = (doc: SavedDocument) => receiptWithBalanceSnapshot(doc, invoices);
+  const withReceiptBalance = (doc: SavedDocument) =>
+    receiptWithBalanceSnapshot(doc, invoices, creditNotes);
 
   const openDoc = async (doc: SavedDocument) => {
     const enriched = withReceiptBalance(doc);

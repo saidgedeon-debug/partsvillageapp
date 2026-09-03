@@ -1,4 +1,4 @@
-/** Compress an image file to a JPEG data URL for cloud storage. */
+/** Compress an image file to a JPEG data URL for cloud storage (canvas re-encode strips EXIF). */
 
 export const IMAGE_DATA_URL_MAX_CHARS = 700_000;
 

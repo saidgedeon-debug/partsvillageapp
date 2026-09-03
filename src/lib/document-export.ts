@@ -49,6 +49,8 @@ export type ExportDoc = {
   paymentMobile?: string;
   invoiceTotal?: number;
   amountPaidAfter?: number;
+  /** Remaining on invoice after this payment (includes credits when known). */
+  invoiceRemainingAfter?: number;
   internalNote?: string;
   /** Printed on the PDF for the client. */
   customerNote?: string;
@@ -626,9 +628,15 @@ export async function buildPdf(doc: ExportDoc): Promise<{ pdf: jsPDF; id: string
     if (
       doc.documentKind === "receipt" &&
       typeof doc.invoiceTotal === "number" &&
-      typeof doc.amountPaidAfter === "number"
+      (typeof doc.invoiceRemainingAfter === "number" || typeof doc.amountPaidAfter === "number")
     ) {
-      const rem = Math.max(0, Math.round((doc.invoiceTotal - doc.amountPaidAfter) * 100) / 100);
+      const rem =
+        typeof doc.invoiceRemainingAfter === "number" && Number.isFinite(doc.invoiceRemainingAfter)
+          ? Math.max(0, Math.round(doc.invoiceRemainingAfter * 100) / 100)
+          : Math.max(
+              0,
+              Math.round((doc.invoiceTotal - (doc.amountPaidAfter ?? 0)) * 100) / 100,
+            );
       pdf.setFontSize(8);
       pdf.setTextColor(...ORANGE);
       pdf.text(
@@ -777,6 +785,7 @@ type SavedDocInput = {
   paymentMobile?: string;
   invoiceTotal?: number;
   amountPaidAfter?: number;
+  invoiceRemainingAfter?: number;
   internalNote?: string;
   customerNote?: string;
   fulfillmentStatus?: string;
@@ -802,6 +811,7 @@ function toExportDoc(doc: SavedDocInput): ExportDoc {
     paymentMobile: doc.paymentMobile,
     invoiceTotal: doc.invoiceTotal,
     amountPaidAfter: doc.amountPaidAfter,
+    invoiceRemainingAfter: doc.invoiceRemainingAfter,
     internalNote: doc.internalNote,
     customerNote: doc.customerNote,
     fulfillmentStatus: doc.fulfillmentStatus,

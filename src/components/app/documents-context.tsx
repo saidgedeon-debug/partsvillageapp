@@ -70,6 +70,8 @@ export type SavedDocument = {
   invoiceTotal?: number;
   /** Receipt snapshot of invoice amountPaid immediately after this payment. */
   amountPaidAfter?: number;
+  /** Receipt snapshot of invoice remaining after this payment (credits included). */
+  invoiceRemainingAfter?: number;
   /** Shared id when one cash payment produced several receipts (on-account). */
   paymentBatchId?: string;
   /** Client-generated idempotency key for a payment submit attempt. */
@@ -187,20 +189,32 @@ export function deleteReceiptConfirmMessage(receipt: SavedDocument): string {
 export function receiptWithBalanceSnapshot(
   receipt: SavedDocument,
   invoices: SavedDocument[],
+  creditNotes: SavedDocument[] = [],
 ): SavedDocument {
   if (receipt.kind !== "receipt" || !receipt.invoiceId) return receipt;
   if (
     typeof receipt.invoiceTotal === "number" &&
-    typeof receipt.amountPaidAfter === "number"
+    typeof receipt.amountPaidAfter === "number" &&
+    typeof receipt.invoiceRemainingAfter === "number"
   ) {
     return receipt;
   }
   const inv = invoices.find((i) => i.id === receipt.invoiceId);
   if (!inv) return receipt;
+  const amountPaidAfter =
+    typeof receipt.amountPaidAfter === "number"
+      ? receipt.amountPaidAfter
+      : invoiceAmountPaid(inv);
+  const credits = invoiceCredits(inv, creditNotes);
+  const invoiceRemainingAfter =
+    typeof receipt.invoiceRemainingAfter === "number"
+      ? receipt.invoiceRemainingAfter
+      : Math.max(0, Math.round((inv.total - amountPaidAfter - credits) * 100) / 100);
   return {
     ...receipt,
-    invoiceTotal: inv.total,
-    amountPaidAfter: invoiceAmountPaid(inv),
+    invoiceTotal: typeof receipt.invoiceTotal === "number" ? receipt.invoiceTotal : inv.total,
+    amountPaidAfter,
+    invoiceRemainingAfter,
   };
 }
 
@@ -470,6 +484,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
               ? "Paid"
               : resolveInvoiceStatus(invoice, paidAfter, undefined, credits))
           : resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
+        const remainingAfter = Math.max(
+          0,
+          Math.round((invoice.total - paidAfter - credits) * 100) / 100,
+        );
 
         const receipt: SavedDocument = {
           id: receiptId,
@@ -488,6 +506,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           affectsBalance: !alreadyPaid,
           invoiceTotal: invoice.total,
           amountPaidAfter: paidAfter,
+          invoiceRemainingAfter: remainingAfter,
           paymentBatchId: requestId,
           clientRequestId: requestId,
           customerNote: input.note?.trim() || undefined,
@@ -629,6 +648,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           const credits = invoiceCredits(row.invoice, creditNotes);
           const paidAfter = roundMoney(paidBefore + rounded);
           const status = resolveInvoiceStatus(row.invoice, paidAfter, undefined, credits);
+          const remainingAfter = Math.max(0, roundMoney(row.invoice.total - paidAfter - credits));
 
           const receipt: SavedDocument = {
             id: generateDocId("receipt", new Date(now.getTime() + newReceipts.length * 1000)),
@@ -647,6 +667,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             affectsBalance: true,
             invoiceTotal: row.invoice.total,
             amountPaidAfter: paidAfter,
+            invoiceRemainingAfter: remainingAfter,
             paymentBatchId: batchId,
             clientRequestId: requestId,
             customerNote: note,
@@ -842,6 +863,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           const credits = invoiceCredits(invoice, creditNotes);
           const paidAfter = roundMoney(paidBefore + row.amount);
           const status = resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
+          const remainingAfter = Math.max(0, roundMoney(invoice.total - paidAfter - credits));
           const receipt: SavedDocument = {
             id: generateDocId("receipt", new Date(now.getTime() + offset * 1000)),
             kind: "receipt",
@@ -859,6 +881,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             affectsBalance: true,
             invoiceTotal: invoice.total,
             amountPaidAfter: paidAfter,
+            invoiceRemainingAfter: remainingAfter,
             paymentBatchId: batchId,
             customerNote: note,
             internalNote: `On-account payment · batch ${batchId} (reallocated)`,
@@ -966,6 +989,14 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           }
         }
 
+        const nextPaidAfter = affects
+          ? Math.max(0, Math.round((paidBefore - oldAmount + amount) * 100) / 100)
+          : paidBefore;
+        const remainingAfter = Math.max(
+          0,
+          Math.round((invoice.total - nextPaidAfter - credits) * 100) / 100,
+        );
+
         const nextReceipt: SavedDocument = {
           ...receipt,
           date: input.paymentDate,
@@ -975,9 +1006,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           paymentMobile: input.method === "Cash" ? undefined : input.mobile?.trim(),
           affectsBalance: affects,
           invoiceTotal: invoice.total,
-          amountPaidAfter: affects
-            ? Math.max(0, Math.round((paidBefore - oldAmount + amount) * 100) / 100)
-            : paidBefore,
+          amountPaidAfter: nextPaidAfter,
+          invoiceRemainingAfter: remainingAfter,
           customerNote: input.note?.trim() || undefined,
           lines: [
             {
@@ -1491,6 +1521,10 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             : "";
         const paidAfter = amount;
         const status = resolveInvoiceStatus(invoiceInput, paidAfter);
+        const remainingAfter = Math.max(
+          0,
+          Math.round((invoiceInput.total - paidAfter) * 100) / 100,
+        );
 
         resultReceipt = {
           id: receiptId,
@@ -1509,6 +1543,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           affectsBalance: true,
           invoiceTotal: invoiceInput.total,
           amountPaidAfter: paidAfter,
+          invoiceRemainingAfter: remainingAfter,
           customerNote: payment.note?.trim() || undefined,
           lines: [
             {

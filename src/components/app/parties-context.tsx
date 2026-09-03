@@ -26,6 +26,8 @@ export type PartyRecord = {
   preferredPaymentMethod?: "OMT" | "Whish" | "Cash" | string;
   /** Opaque token for client portal access. */
   portalToken?: string;
+  /** ISO date (YYYY-MM-DD or full ISO) when portalToken stops working. */
+  portalTokenExpiresAt?: string;
 };
 
 type PartyInput = Partial<PartyRecord> & { name: string };
@@ -100,6 +102,10 @@ function normalizeParty(
     input.portalToken !== undefined
       ? input.portalToken.trim() || undefined
       : existing?.portalToken;
+  const portalTokenExpiresAt =
+    input.portalTokenExpiresAt !== undefined
+      ? input.portalTokenExpiresAt.trim() || undefined
+      : existing?.portalTokenExpiresAt;
 
   return {
     id: existing?.id ?? input.id ?? newId(prefix),
@@ -116,6 +122,7 @@ function normalizeParty(
     promisedPayDate,
     preferredPaymentMethod,
     portalToken,
+    portalTokenExpiresAt,
   };
 }
 
