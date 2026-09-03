@@ -56,6 +56,7 @@ import {
   buildGroupSubcategories,
   categoriesMatch,
   categoryBelongsToGroup,
+  countPartsForCategory,
   defaultInventoryCategoryId,
   displayCategory,
   MAIN_INVENTORY_CATEGORY_IDS,
