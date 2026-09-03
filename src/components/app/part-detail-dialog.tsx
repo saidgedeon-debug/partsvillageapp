@@ -44,7 +44,8 @@ type Props = {
 };
 
 type FormState = {
-  partNumbers: string;
+  partNumber: string;
+  crossReferences: string;
   name: string;
   category: string;
   subcategory: string;
@@ -61,8 +62,16 @@ type FormState = {
   imageUrl: string;
 };
 
+function splitMultiValues(raw: string): string[] {
+  return raw
+    .split(/[\n,;]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
 const emptyForm = (category = "", prefill?: Props["createPrefill"]): FormState => ({
-  partNumbers: prefill?.partNumber?.trim() ?? "",
+  partNumber: prefill?.partNumber?.trim() ?? "",
+  crossReferences: "",
   name: prefill?.name?.trim() ?? "",
   category,
   subcategory: category === "Hydraulic Parts" ? "Center Pin" : category === "Seals" ? "Wear Ring" : "",
@@ -80,8 +89,10 @@ const emptyForm = (category = "", prefill?: Props["createPrefill"]): FormState =
 });
 
 function partToForm(part: Part): FormState {
+  const numbers = partNumbersOf(part);
   return {
-    partNumbers: partNumbersOf(part).join("\n"),
+    partNumber: numbers[0] ?? part.partNumber,
+    crossReferences: numbers.slice(1).join("\n"),
     name: part.name,
     category: part.category,
     subcategory: part.subcategory ?? "",
@@ -97,8 +108,8 @@ function partToForm(part: Part): FormState {
           : "",
     insideDiameterMm: part.insideDiameterMm ?? "",
     crossSectionMm: part.crossSectionMm ?? "",
-    compatibility: part.compatibility.join(", "),
-    replacesCodes: (part.replacesCodes ?? []).join(", "),
+    compatibility: part.compatibility.join("\n"),
+    replacesCodes: (part.replacesCodes ?? []).join("\n"),
     notes: part.notes ?? "",
     imageUrl: part.imageUrl ?? "",
   };
@@ -180,12 +191,17 @@ export function PartDetailDialog({
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const save = () => {
-    const numbers = form.partNumbers
-      .split(/[\n,;]+/)
-      .map((s) => s.trim())
-      .filter(Boolean);
+    const primary = form.partNumber.trim();
+    const crossRefs = splitMultiValues(form.crossReferences);
+    const numbers = Array.from(
+      new Map(
+        [primary, ...crossRefs]
+          .filter(Boolean)
+          .map((n) => [n.toLowerCase(), n] as const),
+      ).values(),
+    );
     if (numbers.length === 0) {
-      toast.error("At least one part number is required");
+      toast.error("Primary part number is required");
       return;
     }
     if (!form.category.trim()) {
@@ -225,14 +241,8 @@ export function PartDetailDialog({
       boxNumber,
       insideDiameterMm: form.insideDiameterMm.trim() || undefined,
       crossSectionMm: form.crossSectionMm.trim() || undefined,
-      compatibility: form.compatibility
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      replacesCodes: form.replacesCodes
-        .split(/[,;\n]+/)
-        .map((s) => s.trim())
-        .filter(Boolean),
+      compatibility: splitMultiValues(form.compatibility),
+      replacesCodes: splitMultiValues(form.replacesCodes),
       notes: form.notes.trim() || undefined,
       imageUrl: form.imageUrl.trim() || undefined,
       imageUrls: gallery.length ? gallery : undefined,
@@ -339,19 +349,18 @@ export function PartDetailDialog({
             <div className="sm:col-span-2">
               <Field label="Part Code" value={part.partNumber} />
             </div>
-            {part.category !== "O-Rings" && (
-              <div className="sm:col-span-2">
-                <Field
-                  label="OEM / Serial Number"
-                  value={oemNumbersOf(part).length ? oemNumbersOf(part).join(" · ") : ""}
-                />
-              </div>
-            )}
-            {part.category === "O-Rings" && (
-              <div className="sm:col-span-2">
-                <Field label="Part numbers" value={partNumbersOf(part).join(" · ")} />
-              </div>
-            )}
+            <div className="sm:col-span-2">
+              <Field
+                label="Cross-reference part numbers"
+                value={oemNumbersOf(part).length ? oemNumbersOf(part).join(" · ") : ""}
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <Field
+                label="Machine compatibility"
+                value={part.compatibility.length ? part.compatibility.join(" · ") : ""}
+              />
+            </div>
             <Field label="Category" value={part.category} />
             {part.category === "Hydraulic Parts" && (
               <Field label="Subcategory" value={part.subcategory ?? ""} />
@@ -389,10 +398,6 @@ export function PartDetailDialog({
             {part.category !== "O-Rings" && part.category !== "Seals" && (
               <>
                 <Field label="Qty" value={part.quantity.toLocaleString()} />
-                <Field
-                  label="Machine Compatibility"
-                  value={part.compatibility.length ? part.compatibility.join(", ") : ""}
-                />
                 {part.category === "Filters" ? (
                   <Field label="Stand" value={locationOf(part)} />
                 ) : (
@@ -466,15 +471,41 @@ export function PartDetailDialog({
         ) : (
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1.5 sm:col-span-2">
-              <Label htmlFor="part-numbers">Part numbers</Label>
+              <Label htmlFor="part-number">Primary part number</Label>
+              <Input
+                id="part-number"
+                className="font-mono"
+                value={form.partNumber}
+                onChange={set("partNumber")}
+                placeholder="e.g. SPGW100 or WR100*95*15"
+              />
+            </div>
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="part-cross-refs">Cross-reference part numbers</Label>
               <Textarea
-                id="part-numbers"
+                id="part-cross-refs"
                 className="font-mono"
                 rows={3}
-                placeholder={"Primary number on first line\nOEM / alternate on next lines"}
-                value={form.partNumbers}
-                onChange={set("partNumbers")}
+                placeholder={"OEM / alternate / interchange codes\nOne per line (or comma-separated)"}
+                value={form.crossReferences}
+                onChange={set("crossReferences")}
               />
+              <p className="text-[11px] text-muted-foreground">
+                These codes are searchable and usable when scanning or looking up the part.
+              </p>
+            </div>
+            <div className="space-y-1.5 sm:col-span-2">
+              <Label htmlFor="part-compat">Machine compatibility</Label>
+              <Textarea
+                id="part-compat"
+                rows={3}
+                placeholder={"e.g. Komatsu PC200-7\nHitachi EX200\nCaterpillar 320D"}
+                value={form.compatibility}
+                onChange={set("compatibility")}
+              />
+              <p className="text-[11px] text-muted-foreground">
+                One machine / model per line (commas also work).
+              </p>
             </div>
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="part-category">Category</Label>
@@ -570,15 +601,6 @@ export function PartDetailDialog({
               <Label htmlFor="part-name">Description / name</Label>
               <Input id="part-name" value={form.name} onChange={set("name")} />
             </div>
-            <div className="space-y-1.5 sm:col-span-2">
-              <Label htmlFor="part-compat">Machine (comma-separated)</Label>
-              <Input
-                id="part-compat"
-                value={form.compatibility}
-                onChange={set("compatibility")}
-                placeholder="e.g. Komatsu PC200-7, Hitachi EX200"
-              />
-            </div>
             {showDimFields && (
               <>
                 {showORingFields ? (
@@ -662,13 +684,14 @@ export function PartDetailDialog({
               />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
-              <Label htmlFor="part-replaces">Replaces codes (comma-separated)</Label>
-              <Input
+              <Label htmlFor="part-replaces">Replaces / supersession codes</Label>
+              <Textarea
                 id="part-replaces"
                 className="font-mono"
+                rows={2}
                 value={form.replacesCodes}
                 onChange={set("replacesCodes")}
-                placeholder="e.g. OLD-123, SUPERSEDED-456"
+                placeholder={"Old codes this part replaces\nOne per line (or comma-separated)"}
               />
             </div>
             <div className="space-y-1.5 sm:col-span-2">

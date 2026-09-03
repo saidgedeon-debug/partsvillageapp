@@ -179,6 +179,7 @@ function normalizePart(input: PartInput, id?: string): Part {
     crossSectionMm: input.crossSectionMm,
     notes: input.notes,
     imageUrl: input.imageUrl,
+    imageUrls: input.imageUrls?.length ? input.imageUrls : undefined,
     replacesCodes: input.replacesCodes?.length ? input.replacesCodes : undefined,
   };
 }
