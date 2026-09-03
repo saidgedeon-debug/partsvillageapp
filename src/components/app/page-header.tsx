@@ -1,4 +1,5 @@
 import { Search, ShoppingCart } from "lucide-react";
+import type { ReactNode } from "react";
 import { useNavigate } from "@tanstack/react-router";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -9,7 +10,15 @@ import { Badge } from "@/components/ui/badge";
 import { useSearch } from "./search-context";
 import { useCart } from "./cart-context";
 
-export function PageHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+export function PageHeader({
+  title,
+  subtitle,
+  actions,
+}: {
+  title: string;
+  subtitle?: string;
+  actions?: ReactNode;
+}) {
   const { query, setQuery } = useSearch();
   const { itemCount, setCartOpen, documentKind } = useCart();
   const navigate = useNavigate();
@@ -25,6 +34,7 @@ export function PageHeader({ title, subtitle }: { title: string; subtitle?: stri
             <p className="truncate text-xs text-muted-foreground">{subtitle}</p>
           ) : null}
         </div>
+        {actions ? <div className="hidden shrink-0 items-center gap-2 sm:flex">{actions}</div> : null}
         <div className="relative hidden w-full max-w-md md:block">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input

@@ -17,6 +17,9 @@ import {
   Smartphone,
   Banknote,
   PackagePlus,
+  TrendingUp,
+  MessageCircle,
+  Printer,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -55,6 +58,9 @@ const items: NavItem[] = [
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
   { title: "Counter", url: "/counter", icon: Smartphone },
   { title: "Daily close", url: "/daily-close", icon: Banknote },
+  { title: "Insights", url: "/insights", icon: TrendingUp },
+  { title: "Collections", url: "/collections", icon: MessageCircle },
+  { title: "Labels", url: "/labels", icon: Printer },
   { title: "Low stock", url: "/low-stock", icon: AlertTriangle },
   { title: "Reorder", url: "/reorder", icon: PackagePlus },
   { title: "Clients", url: "/clients", icon: Users },

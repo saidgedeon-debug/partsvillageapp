@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { documentAffectsCashDrawer, useDocuments } from "@/components/app/documents-context";
+import { useDocuments } from "@/components/app/documents-context";
 import { PageHeader } from "@/components/app/page-header";
 import { usePrefs } from "@/components/app/prefs-context";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { localTodayIso } from "@/lib/date-local";
+import { computeDrawerExpected } from "@/lib/drawer-radar";
 import { currency } from "@/lib/mock-data";
 import { downloadZReportPdf } from "@/lib/z-report";
 
@@ -61,24 +62,10 @@ function DailyClosePage() {
   const [note, setNote] = useState("");
   const [month, setMonth] = useState(currentMonthKey);
 
-  const expected = useMemo(() => {
-    let cash = 0;
-    let omt = 0;
-    let whish = 0;
-    let receiptCount = 0;
-    for (const r of documents) {
-      if (!documentAffectsCashDrawer(r)) continue;
-      const d = r.paymentDate || r.date;
-      if (d !== date) continue;
-      receiptCount += 1;
-      const amount = Number(r.total) || 0;
-      const method = r.paymentMethod ?? "Cash";
-      if (method === "OMT") omt += amount;
-      else if (method === "Whish") whish += amount;
-      else cash += amount;
-    }
-    return { cash, omt, whish, receiptCount };
-  }, [documents, date]);
+  const expected = useMemo(
+    () => computeDrawerExpected(documents, date),
+    [documents, date],
+  );
 
   const cash = parseMoney(countedCash);
   const omt = parseMoney(countedOmt);

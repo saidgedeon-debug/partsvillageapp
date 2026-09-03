@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Camera, ShoppingCart, Search, WifiOff, X } from "lucide-react";
+import { Camera, ImageIcon, ShoppingCart, Search, WifiOff, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import { toast } from "sonner";
 
 import { useCart } from "@/components/app/cart-context";
+import { PhotoPartMatchDialog } from "@/components/app/photo-part-match-dialog";
+import { VoiceCartButton } from "@/components/app/voice-cart-button";
 import { useDocuments } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
@@ -47,6 +49,7 @@ function CounterPage() {
   );
   const [query, setQuery] = useState("");
   const [cameraOn, setCameraOn] = useState(true);
+  const [photoMatchOpen, setPhotoMatchOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -68,7 +71,7 @@ function CounterPage() {
     !online
       ? {
           title: "Offline — counter still works",
-          detail: "Sales save on this device and sync when you reconnect.",
+          detail: "Cart, checkout, and invoices stay on this phone — they sync automatically when you’re back online.",
           tone: "amber" as const,
         }
       : cloudHealth === "error"
@@ -407,16 +410,30 @@ function CounterPage() {
           ) : null}
         </div>
 
-        <Button
-          type="button"
-          size="lg"
-          variant={cameraOn ? "secondary" : "outline"}
-          className="h-12 gap-2 text-base"
-          onClick={() => setCameraOn((v) => !v)}
-        >
-          <Camera className="h-5 w-5" />
-          {cameraOn ? "Stop camera" : "Start camera"}
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <VoiceCartButton />
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => setPhotoMatchOpen(true)}
+          >
+            <ImageIcon className="h-4 w-4" />
+            Photo match
+          </Button>
+          <Button
+            type="button"
+            size="lg"
+            variant={cameraOn ? "secondary" : "outline"}
+            className="h-12 flex-1 gap-2 text-base"
+            onClick={() => setCameraOn((v) => !v)}
+          >
+            <Camera className="h-5 w-5" />
+            {cameraOn ? "Stop camera" : "Start camera"}
+          </Button>
+        </div>
+        <PhotoPartMatchDialog open={photoMatchOpen} onOpenChange={setPhotoMatchOpen} />
         {cameraOn ? (
           <video
             ref={videoRef}

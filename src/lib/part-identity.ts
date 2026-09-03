@@ -1,4 +1,4 @@
-import { partNumbersOf, type Part } from "@/lib/mock-data";
+import { oemNumbersOf, partNumbersOf, type Part } from "@/lib/mock-data";
 
 /** Catalog rows archived after a merge — hide from duplicate detection. */
 export function isArchivedMergedPart(part: {
@@ -19,6 +19,20 @@ export function normalizedPartCodes(part: {
     partNumbers: part.partNumbers,
   } as Part);
   return raw.map((n) => n.trim().toLowerCase()).filter(Boolean);
+}
+
+/** All codes used for smart duplicate detection (primary + OEM/cross-refs). */
+export function smartDuplicateCodes(part: Part): string[] {
+  const codes = new Set<string>(normalizedPartCodes(part));
+  for (const oem of oemNumbersOf(part)) {
+    const c = oem.trim().toLowerCase();
+    if (c) codes.add(c);
+  }
+  for (const c of [...codes]) {
+    const compact = c.replace(/[^a-z0-9]/g, "");
+    if (compact.length >= 4) codes.add(compact);
+  }
+  return [...codes];
 }
 
 export function findDuplicatePart(
@@ -49,7 +63,7 @@ export function blendedUnitCost(
   return Math.round(((have * currentCost + add * incomingCost) / next + Number.EPSILON) * 100) / 100;
 }
 
-/** Groups of 2+ parts that share at least one part/OEM code. */
+/** Groups of 2+ parts that share part #, OEM, or compact cross-ref codes. */
 export function findDuplicateGroups(parts: Part[]): Part[][] {
   const active = parts.filter((p) => !isArchivedMergedPart(p));
   const parent = new Map<string, string>();
@@ -71,7 +85,8 @@ export function findDuplicateGroups(parts: Part[]): Part[][] {
   const byCode = new Map<string, string>();
   for (const part of active) {
     parent.set(part.id, part.id);
-    for (const code of normalizedPartCodes(part)) {
+    for (const code of smartDuplicateCodes(part)) {
+      if (code.length < 3) continue;
       const existing = byCode.get(code);
       if (existing) union(existing, part.id);
       else byCode.set(code, part.id);

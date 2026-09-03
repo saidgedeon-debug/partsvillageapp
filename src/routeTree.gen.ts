@@ -11,11 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
+import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as CounterRouteImport } from './routes/counter'
 import { Route as DailyCloseRouteImport } from './routes/daily-close'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as FleetRouteImport } from './routes/fleet'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as InventoryRouteImport } from './routes/inventory'
+import { Route as LabelsRouteImport } from './routes/labels'
 import { Route as LowStockRouteImport } from './routes/low-stock'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as PreOrdersRouteImport } from './routes/pre-orders'
@@ -26,6 +29,7 @@ import { Route as ShareInboxRouteImport } from './routes/share-inbox'
 import { Route as StockTakeRouteImport } from './routes/stock-take'
 import { Route as ClientsIndexRouteImport } from './routes/clients.index'
 import { Route as ClientsClientIdRouteImport } from './routes/clients.$clientId'
+import { Route as FleetMachineIdRouteImport } from './routes/fleet.$machineId'
 import { Route as SuppliersIndexRouteImport } from './routes/suppliers.index'
 import { Route as SuppliersSupplierIdRouteImport } from './routes/suppliers.$supplierId'
 
@@ -37,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
 const ChinaShipmentsRoute = ChinaShipmentsRouteImport.update({
   id: '/china-shipments',
   path: '/china-shipments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CollectionsRoute = CollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CounterRoute = CounterRouteImport.update({
@@ -59,9 +68,19 @@ const FleetRoute = FleetRouteImport.update({
   path: '/fleet',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InventoryRoute = InventoryRouteImport.update({
   id: '/inventory',
   path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabelsRoute = LabelsRouteImport.update({
+  id: '/labels',
+  path: '/labels',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LowStockRoute = LowStockRouteImport.update({
@@ -114,6 +133,11 @@ const ClientsClientIdRoute = ClientsClientIdRouteImport.update({
   path: '/clients/$clientId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FleetMachineIdRoute = FleetMachineIdRouteImport.update({
+  id: '/$machineId',
+  path: '/$machineId',
+  getParentRoute: () => FleetRoute,
+} as any)
 const SuppliersIndexRoute = SuppliersIndexRouteImport.update({
   id: '/suppliers/',
   path: '/suppliers/',
@@ -128,11 +152,14 @@ const SuppliersSupplierIdRoute = SuppliersSupplierIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
+  '/collections': typeof CollectionsRoute
   '/counter': typeof CounterRoute
   '/daily-close': typeof DailyCloseRoute
   '/documents': typeof DocumentsRoute
-  '/fleet': typeof FleetRoute
+  '/fleet': typeof FleetRouteWithChildren
+  '/insights': typeof InsightsRoute
   '/inventory': typeof InventoryRoute
+  '/labels': typeof LabelsRoute
   '/low-stock': typeof LowStockRoute
   '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
@@ -142,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
+  '/fleet/$machineId': typeof FleetMachineIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients/': typeof ClientsIndexRoute
   '/suppliers/': typeof SuppliersIndexRoute
@@ -149,11 +177,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
+  '/collections': typeof CollectionsRoute
   '/counter': typeof CounterRoute
   '/daily-close': typeof DailyCloseRoute
   '/documents': typeof DocumentsRoute
-  '/fleet': typeof FleetRoute
+  '/fleet': typeof FleetRouteWithChildren
+  '/insights': typeof InsightsRoute
   '/inventory': typeof InventoryRoute
+  '/labels': typeof LabelsRoute
   '/low-stock': typeof LowStockRoute
   '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
@@ -163,6 +194,7 @@ export interface FileRoutesByTo {
   '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
+  '/fleet/$machineId': typeof FleetMachineIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients': typeof ClientsIndexRoute
   '/suppliers': typeof SuppliersIndexRoute
@@ -171,11 +203,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/china-shipments': typeof ChinaShipmentsRoute
+  '/collections': typeof CollectionsRoute
   '/counter': typeof CounterRoute
   '/daily-close': typeof DailyCloseRoute
   '/documents': typeof DocumentsRoute
-  '/fleet': typeof FleetRoute
+  '/fleet': typeof FleetRouteWithChildren
+  '/insights': typeof InsightsRoute
   '/inventory': typeof InventoryRoute
+  '/labels': typeof LabelsRoute
   '/low-stock': typeof LowStockRoute
   '/portal': typeof PortalRoute
   '/pre-orders': typeof PreOrdersRoute
@@ -185,6 +220,7 @@ export interface FileRoutesById {
   '/share-inbox': typeof ShareInboxRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
+  '/fleet/$machineId': typeof FleetMachineIdRoute
   '/suppliers/$supplierId': typeof SuppliersSupplierIdRoute
   '/clients/': typeof ClientsIndexRoute
   '/suppliers/': typeof SuppliersIndexRoute
@@ -194,11 +230,14 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/china-shipments'
+    | '/collections'
     | '/counter'
     | '/daily-close'
     | '/documents'
     | '/fleet'
+    | '/insights'
     | '/inventory'
+    | '/labels'
     | '/low-stock'
     | '/portal'
     | '/pre-orders'
@@ -208,6 +247,7 @@ export interface FileRouteTypes {
     | '/share-inbox'
     | '/stock-take'
     | '/clients/$clientId'
+    | '/fleet/$machineId'
     | '/suppliers/$supplierId'
     | '/clients/'
     | '/suppliers/'
@@ -215,11 +255,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/china-shipments'
+    | '/collections'
     | '/counter'
     | '/daily-close'
     | '/documents'
     | '/fleet'
+    | '/insights'
     | '/inventory'
+    | '/labels'
     | '/low-stock'
     | '/portal'
     | '/pre-orders'
@@ -229,6 +272,7 @@ export interface FileRouteTypes {
     | '/share-inbox'
     | '/stock-take'
     | '/clients/$clientId'
+    | '/fleet/$machineId'
     | '/suppliers/$supplierId'
     | '/clients'
     | '/suppliers'
@@ -236,11 +280,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/china-shipments'
+    | '/collections'
     | '/counter'
     | '/daily-close'
     | '/documents'
     | '/fleet'
+    | '/insights'
     | '/inventory'
+    | '/labels'
     | '/low-stock'
     | '/portal'
     | '/pre-orders'
@@ -250,6 +297,7 @@ export interface FileRouteTypes {
     | '/share-inbox'
     | '/stock-take'
     | '/clients/$clientId'
+    | '/fleet/$machineId'
     | '/suppliers/$supplierId'
     | '/clients/'
     | '/suppliers/'
@@ -258,11 +306,14 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChinaShipmentsRoute: typeof ChinaShipmentsRoute
+  CollectionsRoute: typeof CollectionsRoute
   CounterRoute: typeof CounterRoute
   DailyCloseRoute: typeof DailyCloseRoute
   DocumentsRoute: typeof DocumentsRoute
-  FleetRoute: typeof FleetRoute
+  FleetRoute: typeof FleetRouteWithChildren
+  InsightsRoute: typeof InsightsRoute
   InventoryRoute: typeof InventoryRoute
+  LabelsRoute: typeof LabelsRoute
   LowStockRoute: typeof LowStockRoute
   PortalRoute: typeof PortalRoute
   PreOrdersRoute: typeof PreOrdersRoute
@@ -293,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChinaShipmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/collections': {
+      id: '/collections'
+      path: '/collections'
+      fullPath: '/collections'
+      preLoaderRoute: typeof CollectionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/counter': {
       id: '/counter'
       path: '/counter'
@@ -321,11 +379,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FleetRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/inventory': {
       id: '/inventory'
       path: '/inventory'
       fullPath: '/inventory'
       preLoaderRoute: typeof InventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/labels': {
+      id: '/labels'
+      path: '/labels'
+      fullPath: '/labels'
+      preLoaderRoute: typeof LabelsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/low-stock': {
@@ -398,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientsClientIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fleet/$machineId': {
+      id: '/fleet/$machineId'
+      path: '/$machineId'
+      fullPath: '/fleet/$machineId'
+      preLoaderRoute: typeof FleetMachineIdRouteImport
+      parentRoute: typeof FleetRoute
+    }
     '/suppliers/': {
       id: '/suppliers/'
       path: '/suppliers'
@@ -415,14 +494,27 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface FleetRouteChildren {
+  FleetMachineIdRoute: typeof FleetMachineIdRoute
+}
+
+const FleetRouteChildren: FleetRouteChildren = {
+  FleetMachineIdRoute: FleetMachineIdRoute,
+}
+
+const FleetRouteWithChildren = FleetRoute._addFileChildren(FleetRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChinaShipmentsRoute: ChinaShipmentsRoute,
+  CollectionsRoute: CollectionsRoute,
   CounterRoute: CounterRoute,
   DailyCloseRoute: DailyCloseRoute,
   DocumentsRoute: DocumentsRoute,
-  FleetRoute: FleetRoute,
+  FleetRoute: FleetRouteWithChildren,
+  InsightsRoute: InsightsRoute,
   InventoryRoute: InventoryRoute,
+  LabelsRoute: LabelsRoute,
   LowStockRoute: LowStockRoute,
   PortalRoute: PortalRoute,
   PreOrdersRoute: PreOrdersRoute,

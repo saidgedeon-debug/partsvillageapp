@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Copy, Download, PackagePlus } from "lucide-react";
+import { ArrowLeft, Copy, Download, MessageCircle, PackagePlus } from "lucide-react";
 import { useMemo } from "react";
 import { toast } from "sonner";
 
@@ -7,6 +7,7 @@ import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { useDocuments } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
+import { useParties } from "@/components/app/parties-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { buildReorderSuggestions } from "@/lib/demand-forecast";
+import { normalizePhoneE164 } from "@/lib/phone";
 
 export const Route = createFileRoute("/reorder")({
   head: () => ({
@@ -49,6 +51,7 @@ function csvEscape(value: string | number): string {
 function ReorderPage() {
   const { parts, catalogReady } = useInventory();
   const { invoices } = useDocuments();
+  const { suppliers } = useParties();
 
   const suggestions = useMemo(
     () => buildReorderSuggestions(parts, invoices),
@@ -108,6 +111,44 @@ function ReorderPage() {
     toast.success("CSV downloaded");
   };
 
+  const whatsappChinaPo = () => {
+    if (!suggestions.length) {
+      toast.message("Nothing to order");
+      return;
+    }
+    const china =
+      suppliers.find((s) => /china|kafu|supplier/i.test(`${s.name} ${s.notes ?? ""}`)) ||
+      suppliers[0];
+    const lines = suggestions
+      .slice(0, 40)
+      .map(
+        ({ part, demand, reason }) =>
+          `${part.partNumber} × ${suggestedQty(part, demand)} (${reason})`,
+      );
+    const text = [
+      "Parts Village restock request:",
+      "",
+      ...lines,
+      "",
+      suggestions.length > 40 ? `…and ${suggestions.length - 40} more (see CSV).` : "",
+      "Please confirm availability and ETA. Thank you.",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    // Also trigger CSV so they can attach from phone Files
+    exportCsv();
+
+    const phone = china ? normalizePhoneE164(china.phone) : null;
+    const base = phone ? `https://wa.me/${phone}` : "https://wa.me/";
+    window.open(`${base}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    toast.success(
+      china
+        ? `WhatsApp opened for ${china.name} — attach the CSV if needed`
+        : "WhatsApp opened — pick your China supplier chat",
+    );
+  };
+
   return (
     <>
       <PageHeader
@@ -146,6 +187,16 @@ function ReorderPage() {
           >
             <Copy className="h-3.5 w-3.5" />
             Copy part numbers
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            className="gap-1.5"
+            disabled={!suggestions.length}
+            onClick={whatsappChinaPo}
+          >
+            <MessageCircle className="h-3.5 w-3.5" />
+            WhatsApp China PO
           </Button>
           <Button
             type="button"

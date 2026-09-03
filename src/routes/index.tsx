@@ -40,6 +40,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { buildClientsArQueue } from "@/lib/ar-statement";
+import { computeDrawerExpected } from "@/lib/drawer-radar";
 import { buildMarginRadar } from "@/lib/margin-radar";
 import { currency } from "@/lib/mock-data";
 import { isSupabaseConfigured } from "@/lib/supabase";
@@ -60,7 +61,7 @@ function daysAgo(isoDate: string): number {
 function Index() {
   const { parts } = useInventory();
   const { clients } = useParties();
-  const { invoices, quotations, receipts, creditNotes, inquiries } = useDocuments();
+  const { invoices, quotations, receipts, creditNotes, inquiries, documents } = useDocuments();
   const { orders } = useFleet();
   const { shipments } = useShipments();
   const { rmbPerUsd, priceBooks } = usePrefs();
@@ -151,6 +152,9 @@ function Index() {
         .slice(0, 8),
     [parts],
   );
+
+  const drawer = useMemo(() => computeDrawerExpected(documents), [documents]);
+  const drawerTotal = drawer.cash + drawer.omt + drawer.whish;
 
   const arQueue = useMemo(
     () => buildClientsArQueue(clients, invoices, creditNotes),
@@ -385,6 +389,65 @@ function Index() {
               to="/clients"
               search={{ owed: true }}
             />
+          </div>
+        </section>
+
+        <section className="space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Live drawer · {drawer.date}
+            </p>
+            <div className="flex gap-3 text-xs">
+              <Link to="/insights" className="font-medium text-primary hover:underline">
+                Weekly board →
+              </Link>
+              <Link to="/collections" className="font-medium text-primary hover:underline">
+                Chase AR →
+              </Link>
+              <Link to="/daily-close" className="font-medium text-primary hover:underline">
+                Daily close →
+              </Link>
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Cash</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-semibold tabular-nums">{currency(drawer.cash)}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">OMT</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-semibold tabular-nums">{currency(drawer.omt)}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Whish</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-semibold tabular-nums">{currency(drawer.whish)}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Expected today
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-semibold tabular-nums">{currency(drawerTotal)}</p>
+                <p className="text-xs text-muted-foreground">
+                  {drawer.receiptCount} cash-drawer receipt
+                  {drawer.receiptCount === 1 ? "" : "s"}
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </section>
 

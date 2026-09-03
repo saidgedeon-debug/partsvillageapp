@@ -87,11 +87,15 @@ function FleetPage() {
                 </TableHeader>
                 <TableBody>
                   {filtered.map((m) => (
-                    <TableRow key={m.id}>
+                    <TableRow key={m.id} className="cursor-pointer hover:bg-muted/40">
                       <TableCell>
-                        <p className="font-medium">
+                        <Link
+                          to="/fleet/$machineId"
+                          params={{ machineId: m.id }}
+                          className="font-medium text-primary hover:underline"
+                        >
                           {m.make} {m.model}
-                        </p>
+                        </Link>
                       </TableCell>
                       <TableCell className="font-mono text-xs">{m.serialNumber || "—"}</TableCell>
                       <TableCell>
