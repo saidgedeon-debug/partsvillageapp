@@ -127,6 +127,37 @@ function isStoreEmpty(v: StoredState): boolean {
   );
 }
 
+function isKafuPart(p: { id?: string; notes?: string; name?: string }): boolean {
+  const id = (p.id ?? "").toLowerCase();
+  if (id.startsWith("kafu-") || id.includes("kafu")) return true;
+  const notes = (p.notes ?? "").toLowerCase();
+  if (notes.includes("supplier: kafu") || notes.includes("kafu08") || notes.includes("卡弗")) {
+    return true;
+  }
+  return false;
+}
+
+/** Drop leftover Kafu catalog rows from cloud/local overrides + custom parts. */
+function stripKafuFromInventory(v: StoredState): StoredState {
+  const overrides = { ...(v.overrides ?? {}) };
+  let changed = false;
+  for (const id of Object.keys(overrides)) {
+    if (id.toLowerCase().startsWith("kafu-") || id.toLowerCase().includes("kafu")) {
+      delete overrides[id];
+      changed = true;
+    }
+  }
+  const prevCustom = v.customParts ?? [];
+  const customParts = prevCustom.filter((p) => !isKafuPart(p));
+  if (customParts.length !== prevCustom.length) changed = true;
+  if (!changed) return v;
+  return {
+    overrides,
+    customParts,
+    customCategories: v.customCategories ?? [],
+  };
+}
+
 function clampNonNeg(n: number, integers = false): number {
   const v = Number.isFinite(n) ? Math.max(0, n) : 0;
   return integers ? Math.round(v) : v;
@@ -197,6 +228,7 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
   const [catalogRetryToken, setCatalogRetryToken] = useState(0);
   const catalogRef = useRef<Part[]>([]);
   const catalogReady = catalogChunkReady && cloudReady;
+  const kafuPurgedRef = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -217,6 +249,14 @@ export function InventoryProvider({ children }: { children: ReactNode }) {
       cancelled = true;
     };
   }, [catalogRetryToken]);
+
+  useEffect(() => {
+    if (!cloudReady || kafuPurgedRef.current) return;
+    kafuPurgedRef.current = true;
+    const cleaned = stripKafuFromInventory(store);
+    if (cleaned !== store) setStore(cleaned);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- purge once when cloud finishes loading
+  }, [cloudReady]);
 
   const retryCatalogLoad = useCallback(() => {
     resetCatalogPartsCache();

@@ -49,19 +49,6 @@ type PartiesContextValue = {
 
 const STORAGE_KEY = "parts-village-parties-v1";
 
-const SEED_SUPPLIERS: PartyRecord[] = [
-  {
-    id: "sup-kafu",
-    name: "Kafu Engineering Machine Fitting Co., Ltd.",
-    contactName: "",
-    email: "kafu2009@163.com",
-    phone: "0086-18988918836",
-    address:
-      "No. 221, The 2nd Street, Guangzhou International Machinery Parts Center, NO. 36, Zhuji Road, Tianhe District, Guangzhou",
-    notes: "Catalog 2025 · www.kafu08.com · WhatsApp 0086-18102782293",
-  },
-];
-
 type PartiesStored = { clients: PartyRecord[]; suppliers: PartyRecord[] };
 
 function emptyParties(): PartiesStored {
@@ -72,10 +59,31 @@ function isPartiesEmpty(v: PartiesStored): boolean {
   return (v.clients?.length ?? 0) === 0 && (v.suppliers?.length ?? 0) === 0;
 }
 
+function isKafuSupplier(s: PartyRecord): boolean {
+  const id = (s.id ?? "").toLowerCase();
+  const name = (s.name ?? "").toLowerCase();
+  const email = (s.email ?? "").toLowerCase();
+  const notes = (s.notes ?? "").toLowerCase();
+  return (
+    id === "sup-kafu" ||
+    id.includes("kafu") ||
+    name.includes("kafu") ||
+    email.includes("kafu") ||
+    notes.includes("kafu08") ||
+    notes.includes("卡弗")
+  );
+}
+
+function stripKafuSuppliers(v: PartiesStored): PartiesStored {
+  const suppliers = (v.suppliers ?? []).filter((s) => !isKafuSupplier(s));
+  if (suppliers.length === (v.suppliers ?? []).length) return v;
+  return { clients: v.clients ?? [], suppliers };
+}
+
 function seedDefaults(): PartiesStored {
   return {
     clients: seedClients.map((c) => ({ ...c })),
-    suppliers: SEED_SUPPLIERS.map((s) => ({ ...s })),
+    suppliers: [],
   };
 }
 
@@ -146,8 +154,11 @@ export function PartiesProvider({ children }: { children: ReactNode }) {
     seededRef.current = true;
     if (isPartiesEmpty(store)) {
       setStore(seedDefaults());
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- seed once when cloud finishes loading
+    const cleaned = stripKafuSuppliers(store);
+    if (cleaned !== store) setStore(cleaned);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- seed / purge once when cloud finishes loading
   }, [ready]);
 
   const clients = store.clients ?? [];

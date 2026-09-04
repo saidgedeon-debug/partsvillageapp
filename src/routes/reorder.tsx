@@ -119,7 +119,7 @@ function ReorderPage() {
       return;
     }
     const china =
-      suppliers.find((s) => /china|kafu|supplier/i.test(`${s.name} ${s.notes ?? ""}`)) ||
+      suppliers.find((s) => /china|supplier/i.test(`${s.name} ${s.notes ?? ""}`)) ||
       suppliers[0];
     const lines = suggestions
       .slice(0, 40)
