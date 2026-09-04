@@ -94,7 +94,7 @@ export function PageHeader({
         </div>
       </div>
       {actions ? (
-        <div className="flex gap-2 overflow-x-auto px-3 pb-3 [-ms-overflow-style:none] [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden [&>*]:shrink-0">
+        <div className="flex flex-wrap gap-2 px-3 pb-3 md:hidden">
           {actions}
         </div>
       ) : null}

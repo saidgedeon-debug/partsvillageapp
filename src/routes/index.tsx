@@ -701,7 +701,7 @@ function Index() {
               <CardHeader>
                 <CardTitle className="text-base">Collected by month</CardTitle>
               </CardHeader>
-              <CardContent className="h-56">
+              <CardContent className="h-56 min-w-0 overflow-x-clip">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={monthlySales}>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
@@ -717,7 +717,7 @@ function Index() {
               <CardHeader>
                 <CardTitle className="text-base">Top clients (collected)</CardTitle>
               </CardHeader>
-              <CardContent className="h-56">
+              <CardContent className="h-56 min-w-0 overflow-x-clip">
                 {topClients.length === 0 ? (
                   <p className="py-10 text-center text-sm text-muted-foreground">
                     No paid sales yet
@@ -739,7 +739,7 @@ function Index() {
               <CardHeader>
                 <CardTitle className="text-base">AR aging (open invoices)</CardTitle>
               </CardHeader>
-              <CardContent className="h-56">
+              <CardContent className="h-56 min-w-0 overflow-x-clip">
                 {arTotal <= 0.005 ? (
                   <p className="py-10 text-center text-sm text-muted-foreground">
                     No open receivables

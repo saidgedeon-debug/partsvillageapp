@@ -354,7 +354,7 @@ function CounterPage() {
         ) : null}
 
         <div className="space-y-2">
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+        <div className="flex flex-wrap gap-2">
             {recentClients.map((c) => {
               const selected = partyId === c.id || partyName === c.name;
               return (
@@ -363,7 +363,6 @@ function CounterPage() {
                   type="button"
                   size="sm"
                   variant={selected ? "default" : "outline"}
-                  className="shrink-0"
                   onClick={() => setCartParty(c.id, c.name)}
                 >
                   {c.name}
@@ -393,16 +392,16 @@ function CounterPage() {
               <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Last bought
               </p>
-              <div className="flex gap-2 overflow-x-auto pb-1">
+              <div className="flex flex-wrap gap-2">
                 {lastBought.map((part) => (
                   <button
                     key={part.id}
                     type="button"
                     onClick={() => add(part)}
-                    className="shrink-0 rounded-md border border-border bg-card px-3 py-2 text-left active:bg-muted"
+                    className="rounded-md border border-border bg-card px-3 py-2 text-left active:bg-muted"
                   >
                     <p className="font-mono text-sm font-semibold">{part.partNumber}</p>
-                    <p className="max-w-[8rem] truncate text-xs text-muted-foreground">{part.name}</p>
+                    <p className="max-w-[10rem] truncate text-xs text-muted-foreground">{part.name}</p>
                   </button>
                 ))}
               </div>

@@ -192,9 +192,9 @@ function RootComponent() {
                                 <PreOrdersProvider>
                                   <CartProvider>
                                     <SidebarProvider>
-                                      <div className="flex min-h-dvh w-full bg-background">
+                                      <div className="flex min-h-dvh w-full max-w-[100vw] overflow-x-clip bg-background">
                                         <AppSidebar />
-                                        <SidebarInset className="min-w-0 mobile-nav-pad">
+                                        <SidebarInset className="min-w-0 max-w-full overflow-x-clip mobile-nav-pad">
                                           <OfflineBanner />
                                           <BackupReminderBanner />
                                           <CloudSyncBanner />

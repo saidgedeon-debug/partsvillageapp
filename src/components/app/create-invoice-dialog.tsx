@@ -560,7 +560,7 @@ export function CreateInvoiceDialog({
               </p>
             ) : (
               <div className="overflow-hidden rounded-lg border border-border">
-                <div className="grid grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] gap-2 border-b border-border bg-muted/40 px-3 py-2 text-[11px] font-medium text-muted-foreground">
+                <div className="hidden grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] gap-2 border-b border-border bg-muted/40 px-3 py-2 text-[11px] font-medium text-muted-foreground md:grid">
                   <span>Code</span>
                   <span>Description</span>
                   <span>Size</span>
@@ -572,59 +572,65 @@ export function CreateInvoiceDialog({
                 {lines.map((l) => (
                   <div
                     key={l.partId}
-                    className="grid grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] items-center gap-2 border-b border-border px-3 py-2 last:border-b-0"
+                    className="grid grid-cols-1 gap-2 border-b border-border p-3 last:border-b-0 md:grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] md:items-center md:gap-2 md:px-3 md:py-2"
                   >
                     <Input
                       value={l.partNumber}
                       onChange={(e) => updateLine(l.partId, { partNumber: e.target.value })}
-                      className="h-8 font-mono text-xs font-semibold"
+                      className="h-10 font-mono text-sm font-semibold md:h-8 md:text-xs"
                       aria-label={`Code for ${l.partNumber}`}
                     />
                     <Input
                       value={l.name}
                       onChange={(e) => updateLine(l.partId, { name: e.target.value })}
                       placeholder="Description…"
-                      className="h-8 text-xs"
+                      className="h-10 text-sm md:h-8 md:text-xs"
                       aria-label={`Description for ${l.partNumber}`}
                     />
                     <Input
                       value={formatSize(l.insideDiameterMm, l.crossSectionMm)}
                       onChange={(e) => updateLine(l.partId, { size: e.target.value })}
                       placeholder="26.5 x 3"
-                      className="h-8 font-mono text-xs"
+                      className="h-10 font-mono text-sm md:h-8 md:text-xs"
                       aria-label={`Size for ${l.partNumber}`}
                     />
-                    <Input
-                      type="number"
-                      min={1}
-                      step={1}
-                      value={l.qty}
-                      onChange={(e) => updateLine(l.partId, { qty: Number(e.target.value) })}
-                      className="h-8 font-mono text-xs"
-                    />
-                    <Input
-                      type="number"
-                      min={0}
-                      step={0.01}
-                      value={l.unitPrice}
-                      onChange={(e) =>
-                        updateLine(l.partId, { unitPrice: Number(e.target.value) })
-                      }
-                      className="h-8 font-mono text-xs"
-                    />
-                    <p className="text-right text-xs font-medium">
-                      {currency(lineTotal(l, docKind))}
-                    </p>
-                    <Button
-                      type="button"
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8 text-muted-foreground hover:text-destructive"
-                      onClick={() => removeLine(l.partId)}
-                      aria-label={`Remove ${l.partNumber}`}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
+                    <div className="grid grid-cols-2 gap-2 md:contents">
+                      <Input
+                        type="number"
+                        min={1}
+                        step={1}
+                        value={l.qty}
+                        onChange={(e) => updateLine(l.partId, { qty: Number(e.target.value) })}
+                        className="h-10 font-mono text-sm md:h-8 md:text-xs"
+                        aria-label={`Qty for ${l.partNumber}`}
+                      />
+                      <Input
+                        type="number"
+                        min={0}
+                        step={0.01}
+                        value={l.unitPrice}
+                        onChange={(e) =>
+                          updateLine(l.partId, { unitPrice: Number(e.target.value) })
+                        }
+                        className="h-10 font-mono text-sm md:h-8 md:text-xs"
+                        aria-label={`Price for ${l.partNumber}`}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between gap-2 md:contents">
+                      <p className="text-sm font-medium md:text-right md:text-xs">
+                        {currency(lineTotal(l, docKind))}
+                      </p>
+                      <Button
+                        type="button"
+                        size="icon"
+                        variant="ghost"
+                        className="h-10 w-10 text-muted-foreground hover:text-destructive md:h-8 md:w-8"
+                        onClick={() => removeLine(l.partId)}
+                        aria-label={`Remove ${l.partNumber}`}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>

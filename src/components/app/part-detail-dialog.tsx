@@ -311,13 +311,13 @@ export function PartDetailDialog({
                   className="mx-auto max-h-56 w-auto object-contain"
                 />
                 {(part.imageUrls?.length ?? 0) > 1 ? (
-                  <div className="flex gap-2 overflow-x-auto">
+                  <div className="flex flex-wrap gap-2">
                     {part.imageUrls!.map((url) => (
                       <img
                         key={url}
                         src={url}
                         alt=""
-                        className="h-14 w-14 shrink-0 rounded border object-contain"
+                        className="h-14 w-14 rounded border object-contain"
                       />
                     ))}
                   </div>

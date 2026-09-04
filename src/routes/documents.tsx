@@ -505,24 +505,24 @@ function DocumentsPage() {
           }}
         />
         <Tabs value={tab} onValueChange={setTab}>
-          <TabsList>
-            <TabsTrigger value="quotations">
+          <TabsList className="h-auto w-full justify-start">
+            <TabsTrigger value="quotations" className="flex-none">
               <FileText className="mr-2 h-4 w-4" />
               Quotations ({quotations.length})
             </TabsTrigger>
-            <TabsTrigger value="invoices">
+            <TabsTrigger value="invoices" className="flex-none">
               <StickyNote className="mr-2 h-4 w-4" />
               Invoices ({invoices.length})
             </TabsTrigger>
-            <TabsTrigger value="receipts">
+            <TabsTrigger value="receipts" className="flex-none">
               <Receipt className="mr-2 h-4 w-4" />
               Receipts ({receipts.length})
             </TabsTrigger>
-            <TabsTrigger value="credit_notes">
+            <TabsTrigger value="credit_notes" className="flex-none">
               <Undo2 className="mr-2 h-4 w-4" />
               Credit notes ({creditNotes.length})
             </TabsTrigger>
-            <TabsTrigger value="inquiries">
+            <TabsTrigger value="inquiries" className="flex-none">
               <PackageSearch className="mr-2 h-4 w-4" />
               Inquiries ({inquiries.length})
             </TabsTrigger>

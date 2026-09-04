@@ -524,7 +524,7 @@ export function ShipmentFormDialog({
                 />
               </div>
             </div>
-            <div className="grid grid-cols-[1fr_6.5rem] gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_6.5rem]">
               <div className="space-y-1.5">
                 <Label htmlFor="ship-freight">Freight cost (Titus)</Label>
                 <Input
@@ -576,7 +576,7 @@ export function ShipmentFormDialog({
             </div>
           </div>
 
-          <div className="grid grid-cols-[1fr_6.5rem] gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_6.5rem]">
             <div className="space-y-1.5">
               <Label htmlFor="ship-cost">Goods cost</Label>
               <Input
