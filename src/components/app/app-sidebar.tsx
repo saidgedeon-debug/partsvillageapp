@@ -21,6 +21,8 @@ import {
   MessageCircle,
   Printer,
   MapPin,
+  PackageCheck,
+  UserRound,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -60,6 +62,8 @@ const items: NavItem[] = [
   { title: "Stock map", url: "/stock-map", icon: MapPin },
   { title: "Counter", url: "/counter", icon: Smartphone },
   { title: "Daily close", url: "/daily-close", icon: Banknote },
+  { title: "Shift", url: "/shift", icon: UserRound },
+  { title: "Delivery", url: "/delivery-board", icon: PackageCheck },
   { title: "Insights", url: "/insights", icon: TrendingUp },
   { title: "Collections", url: "/collections", icon: MessageCircle },
   { title: "Labels", url: "/labels", icon: Printer },

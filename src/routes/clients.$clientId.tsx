@@ -467,38 +467,47 @@ function ClientDetail() {
             </div>
 
             {timeline.length > 0 ? (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Kind</TableHead>
-                    <TableHead>#</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {timeline.map((row) => (
-                    <TableRow
-                      key={row.key}
-                      className={row.doc ? "cursor-pointer hover:bg-muted/40" : undefined}
-                      onClick={() => {
-                        if (row.doc) openDoc(row.doc);
-                      }}
-                    >
-                      <TableCell className="text-sm">{row.kind}</TableCell>
-                      <TableCell className="font-mono text-xs">{row.id}</TableCell>
-                      <TableCell>{row.date}</TableCell>
-                      <TableCell className="text-right font-semibold">
-                        {currency(row.amount)}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Badge variant="secondary">{row.status}</Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <div className="relative space-y-0 border-l-2 border-border pl-4">
+                {timeline.slice(0, 10).map((row) => (
+                  <button
+                    key={row.key}
+                    type="button"
+                    className="relative mb-4 block w-full rounded-lg border border-border bg-card p-3 text-left last:mb-0 hover:bg-muted/40 disabled:cursor-default disabled:hover:bg-card"
+                    disabled={!row.doc}
+                    onClick={() => {
+                      if (row.doc) openDoc(row.doc);
+                    }}
+                  >
+                    <span className="absolute -left-[1.4rem] top-4 h-3 w-3 rounded-full border-2 border-background bg-primary" />
+                    <div className="flex flex-wrap items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="text-xs text-muted-foreground">{row.date}</p>
+                        <p className="font-medium">
+                          {row.kind}{" "}
+                          <span className="font-mono text-xs text-muted-foreground">{row.id}</span>
+                        </p>
+                        {row.doc?.lines?.length ? (
+                          <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+                            {row.doc.lines
+                              .slice(0, 4)
+                              .map((l) => `${l.partNumber}×${l.qty}`)
+                              .join(" · ")}
+                            {row.doc.lines.length > 4
+                              ? ` · +${row.doc.lines.length - 4} more`
+                              : ""}
+                          </p>
+                        ) : null}
+                      </div>
+                      <div className="text-right">
+                        <p className="font-semibold">{currency(row.amount)}</p>
+                        <Badge variant="secondary" className="mt-1">
+                          {row.status}
+                        </Badge>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
             ) : (
               <p className="text-sm text-muted-foreground">No recent activity yet.</p>
             )}

@@ -105,6 +105,50 @@ export function findDuplicateGroups(parts: Part[]): Part[][] {
     .sort((a, b) => b.length - a.length);
 }
 
+/**
+ * In-stock substitutes for an out-of-stock part:
+ * - reverse supersession (other parts that replace this code)
+ * - shared OEM / compact codes
+ * - same category + ID/CS size match
+ */
+export function findSubstituteParts(parts: Part[], part: Part, limit = 5): Part[] {
+  if (!part) return [];
+  const codes = new Set(smartDuplicateCodes(part));
+  const primary = part.partNumber.trim().toLowerCase();
+  const scored: { part: Part; score: number }[] = [];
+
+  for (const candidate of parts) {
+    if (candidate.id === part.id) continue;
+    if (isArchivedMergedPart(candidate)) continue;
+    if (candidate.quantity <= 0) continue;
+
+    let score = 0;
+    const replaces = (candidate.replacesCodes ?? []).map((c) => c.trim().toLowerCase());
+    if (replaces.some((c) => codes.has(c) || c === primary)) score += 40;
+
+    const candCodes = smartDuplicateCodes(candidate);
+    if (candCodes.some((c) => codes.has(c))) score += 30;
+
+    if (
+      part.category &&
+      candidate.category === part.category &&
+      part.insideDiameterMm &&
+      part.crossSectionMm &&
+      candidate.insideDiameterMm === part.insideDiameterMm &&
+      candidate.crossSectionMm === part.crossSectionMm
+    ) {
+      score += 20;
+    }
+
+    if (score > 0) scored.push({ part: candidate, score });
+  }
+
+  return scored
+    .sort((a, b) => b.score - a.score || b.part.quantity - a.part.quantity)
+    .slice(0, limit)
+    .map((r) => r.part);
+}
+
 /** Fuzzy match kit machine label to a fleet make/model. */
 export function kitMatchesMachine(
   kitMachine: string | undefined,

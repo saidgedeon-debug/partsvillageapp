@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/app/page-header";
 import { useDocuments } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
+import { usePrefs } from "@/components/app/prefs-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -52,6 +53,7 @@ function ReorderPage() {
   const { parts, catalogReady } = useInventory();
   const { invoices } = useDocuments();
   const { suppliers } = useParties();
+  const { lastChinaPoDraftAt, markChinaPoDraftSent } = usePrefs();
 
   const suggestions = useMemo(
     () => buildReorderSuggestions(parts, invoices),
@@ -142,12 +144,21 @@ function ReorderPage() {
     const phone = china ? normalizePhoneE164(china.phone) : null;
     const base = phone ? `https://wa.me/${phone}` : "https://wa.me/";
     window.open(`${base}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    markChinaPoDraftSent();
     toast.success(
       china
         ? `WhatsApp opened for ${china.name} — attach the CSV if needed`
         : "WhatsApp opened — pick your China supplier chat",
     );
   };
+
+  const daysSinceDraft = useMemo(() => {
+    if (!lastChinaPoDraftAt) return 999;
+    const then = new Date(lastChinaPoDraftAt).getTime();
+    if (!Number.isFinite(then)) return 999;
+    return Math.floor((Date.now() - then) / 86_400_000);
+  }, [lastChinaPoDraftAt]);
+  const weeklyDue = suggestions.length > 0 && daysSinceDraft >= 7;
 
   return (
     <>
@@ -160,6 +171,25 @@ function ReorderPage() {
         }
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
+        {weeklyDue ? (
+          <Card className="border-amber-500/40 bg-amber-500/10">
+            <CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
+              <div>
+                <p className="font-medium">Weekly China PO draft is due</p>
+                <p className="text-sm text-muted-foreground">
+                  {lastChinaPoDraftAt
+                    ? `Last sent ${daysSinceDraft} day${daysSinceDraft === 1 ? "" : "s"} ago`
+                    : "No draft sent yet"}{" "}
+                  · {suggestions.length} parts to consider
+                </p>
+              </div>
+              <Button type="button" className="gap-1.5" onClick={whatsappChinaPo}>
+                <MessageCircle className="h-4 w-4" />
+                Send weekly draft
+              </Button>
+            </CardContent>
+          </Card>
+        ) : null}
         <div className="flex flex-wrap items-center gap-2">
           <Button asChild variant="ghost" size="sm">
             <Link to="/inventory">

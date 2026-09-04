@@ -9,6 +9,7 @@ import {
   FileText,
   FileUp,
   MoreHorizontal,
+  Package,
   PackageSearch,
   Pencil,
   Receipt,
@@ -68,6 +69,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { isDocumentCreatedPart } from "@/lib/document-created-parts";
 import { downloadSavedDocument, openSavedDocument, shareSavedDocument, paymentHistoryLinesForInvoice } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
+import { downloadPackingSlip } from "@/lib/packing-slip";
 import {
   computeOversoldByPart,
   confirmOversell,
@@ -731,6 +733,14 @@ function DocumentsPage() {
                       onDownload={() => downloadDoc(iv)}
                       onShare={() => void shareDoc(iv)}
                       extraItems={[
+                        {
+                          label: "Packing slip",
+                          icon: Package,
+                          onSelect: () => {
+                            downloadPackingSlip(iv);
+                            toast.success("Packing slip downloaded");
+                          },
+                        },
                         {
                           label: "Edit",
                           icon: Pencil,

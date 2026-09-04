@@ -33,6 +33,18 @@ export type PriceBookEntry = {
   rows: Array<{ partId: string; partNumber: string; cost: number }>;
 };
 
+export type ShiftEntry = {
+  id: string;
+  openedAt: string;
+  closedAt?: string;
+  cashierName: string;
+  openingCash: number;
+  closingCash?: number;
+  expectedCash?: number;
+  handoffToName?: string;
+  note?: string;
+};
+
 type PrefsState = {
   favoritePartIds: string[];
   /** RMB value of one USD, used for operational estimates. */
@@ -53,6 +65,10 @@ type PrefsState = {
   digestPhone?: string;
   /** Supplier price books (newest first, max 24). */
   priceBooks: PriceBookEntry[];
+  /** Cashier shift handoffs (newest first, max 60). */
+  shifts: ShiftEntry[];
+  /** ISO timestamp of last China PO WhatsApp draft. */
+  lastChinaPoDraftAt?: string;
   /** ISO timestamp of last successful backup download. */
   lastBackupAt?: string;
 };
@@ -78,6 +94,16 @@ type PrefsContextValue = {
   priceBooks: PriceBookEntry[];
   addPriceBook: (entry: Omit<PriceBookEntry, "id" | "createdAt">) => void;
   removePriceBook: (id: string) => void;
+  shifts: ShiftEntry[];
+  startShift: (input: { cashierName: string; openingCash: number; note?: string }) => void;
+  endShift: (input: {
+    closingCash: number;
+    expectedCash?: number;
+    handoffToName?: string;
+    note?: string;
+  }) => void;
+  lastChinaPoDraftAt?: string;
+  markChinaPoDraftSent: () => void;
   isFavorite: (partId: string) => boolean;
   toggleFavorite: (partId: string) => void;
   addMachinePreset: (machine: string) => void;
@@ -91,6 +117,7 @@ const STORAGE_KEY = "parts-village-prefs-v1";
 const RECENT_GROUP_LIMIT = 6;
 const DAILY_CLOSE_LIMIT = 60;
 const PRICE_BOOK_LIMIT = 24;
+const SHIFT_LIMIT = 60;
 
 const PrefsContext = createContext<PrefsContextValue | null>(null);
 
@@ -109,6 +136,7 @@ function empty(): PrefsState {
     dailyCloses: [],
     digestPhone: undefined,
     priceBooks: [],
+    shifts: [],
   };
 }
 
@@ -121,7 +149,9 @@ function isPrefsEmpty(v: PrefsState): boolean {
     (v.savedInventoryViews?.length ?? 0) === 0 &&
     (v.dailyCloses?.length ?? 0) === 0 &&
     (v.priceBooks?.length ?? 0) === 0 &&
-    !v.lastBackupAt
+    (v.shifts?.length ?? 0) === 0 &&
+    !v.lastBackupAt &&
+    !v.lastChinaPoDraftAt
   );
 }
 
@@ -214,6 +244,34 @@ function parsePriceBooks(raw: unknown): PriceBookEntry[] {
   return out.slice(0, PRICE_BOOK_LIMIT);
 }
 
+function parseShifts(raw: unknown): ShiftEntry[] {
+  if (!Array.isArray(raw)) return [];
+  const out: ShiftEntry[] = [];
+  for (const row of raw) {
+    if (!row || typeof row !== "object") continue;
+    const r = row as Record<string, unknown>;
+    const id = typeof r.id === "string" ? r.id : "";
+    const openedAt = typeof r.openedAt === "string" ? r.openedAt : "";
+    const cashierName = typeof r.cashierName === "string" ? r.cashierName.trim() : "";
+    if (!id || !openedAt || !cashierName) continue;
+    out.push({
+      id,
+      openedAt,
+      closedAt: typeof r.closedAt === "string" ? r.closedAt : undefined,
+      cashierName,
+      openingCash: asFiniteNumber(r.openingCash),
+      closingCash: r.closingCash != null ? asFiniteNumber(r.closingCash) : undefined,
+      expectedCash: r.expectedCash != null ? asFiniteNumber(r.expectedCash) : undefined,
+      handoffToName:
+        typeof r.handoffToName === "string" && r.handoffToName.trim()
+          ? r.handoffToName.trim()
+          : undefined,
+      note: typeof r.note === "string" && r.note.trim() ? r.note.trim() : undefined,
+    });
+  }
+  return out.slice(0, SHIFT_LIMIT);
+}
+
 export function PrefsProvider({ children }: { children: ReactNode }) {
   const { value: rawStore, setValue: setStore } = useCloudState<PrefsState>(
     "prefs",
@@ -242,6 +300,11 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       digestPhone:
         typeof rawStore.digestPhone === "string" ? rawStore.digestPhone.trim() || undefined : undefined,
       priceBooks: parsePriceBooks(rawStore.priceBooks),
+      shifts: parseShifts(rawStore.shifts),
+      lastChinaPoDraftAt:
+        typeof rawStore.lastChinaPoDraftAt === "string"
+          ? rawStore.lastChinaPoDraftAt
+          : undefined,
     }),
     [rawStore],
   );
@@ -420,6 +483,57 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     [setStore],
   );
 
+  const startShift = useCallback(
+    (input: { cashierName: string; openingCash: number; note?: string }) => {
+      const cashierName = input.cashierName.trim();
+      if (!cashierName) return;
+      setStore((prev) => {
+        const existing = Array.isArray(prev.shifts) ? prev.shifts : [];
+        if (existing.some((s) => !s.closedAt)) return prev;
+        const next: ShiftEntry = {
+          id: `shift-${Date.now().toString(36)}`,
+          openedAt: new Date().toISOString(),
+          cashierName,
+          openingCash: Math.max(0, input.openingCash),
+          note: input.note?.trim() || undefined,
+        };
+        return { ...prev, shifts: [next, ...existing].slice(0, SHIFT_LIMIT) };
+      });
+    },
+    [setStore],
+  );
+
+  const endShift = useCallback(
+    (input: {
+      closingCash: number;
+      expectedCash?: number;
+      handoffToName?: string;
+      note?: string;
+    }) => {
+      setStore((prev) => {
+        const existing = Array.isArray(prev.shifts) ? prev.shifts : [];
+        const openIdx = existing.findIndex((s) => !s.closedAt);
+        if (openIdx < 0) return prev;
+        const next = [...existing];
+        const cur = next[openIdx]!;
+        next[openIdx] = {
+          ...cur,
+          closedAt: new Date().toISOString(),
+          closingCash: Math.max(0, input.closingCash),
+          expectedCash: input.expectedCash,
+          handoffToName: input.handoffToName?.trim() || undefined,
+          note: input.note?.trim() || cur.note,
+        };
+        return { ...prev, shifts: next };
+      });
+    },
+    [setStore],
+  );
+
+  const markChinaPoDraftSent = useCallback(() => {
+    setStore((prev) => ({ ...prev, lastChinaPoDraftAt: new Date().toISOString() }));
+  }, [setStore]);
+
   const isFavoriteCategoryGroup = useCallback(
     (groupId: CategoryGroupId) => store.favoriteCategoryGroups.includes(groupId),
     [store.favoriteCategoryGroups],
@@ -469,6 +583,11 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       priceBooks: store.priceBooks,
       addPriceBook,
       removePriceBook,
+      shifts: store.shifts,
+      startShift,
+      endShift,
+      lastChinaPoDraftAt: store.lastChinaPoDraftAt,
+      markChinaPoDraftSent,
       isFavorite,
       toggleFavorite,
       addMachinePreset,
@@ -498,6 +617,11 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       store.priceBooks,
       addPriceBook,
       removePriceBook,
+      store.shifts,
+      startShift,
+      endShift,
+      store.lastChinaPoDraftAt,
+      markChinaPoDraftSent,
       isFavorite,
       toggleFavorite,
       addMachinePreset,

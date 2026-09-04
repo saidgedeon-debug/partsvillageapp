@@ -8,6 +8,7 @@ import { useDocuments, type SavedDocument } from "@/components/app/documents-con
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
+import { usePrefs } from "@/components/app/prefs-context";
 import { PartySearchPicker } from "@/components/app/party-search-picker";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -59,6 +60,7 @@ export function CheckoutDialog() {
     documentKind,
     clearCart,
     setCartOpen,
+    updateLineCost,
     partyId: cartPartyId,
     partyName: cartPartyName,
   } = useCart();
@@ -66,6 +68,8 @@ export function CheckoutDialog() {
   const { adjustPartQuantity, getPart } = useInventory();
   const { addOrder, machinesByClient } = useFleet();
   const { clients, suppliers } = useParties();
+  const { priceBooks } = usePrefs();
+  const [priceBookId, setPriceBookId] = useState("");
   const [partyKind, setPartyKind] = useState<PartyKind>("client");
   const [partyName, setPartyName] = useState("");
   const [partyId, setPartyId] = useState<string | undefined>();
@@ -438,6 +442,59 @@ export function CheckoutDialog() {
                   Without cost
                 </Button>
               </div>
+              {priceBooks.length > 0 ? (
+                <div className="space-y-1.5 pt-1">
+                  <Label>Apply price book costs</Label>
+                  <div className="flex flex-wrap gap-2">
+                    <Select
+                      value={priceBookId || "__none__"}
+                      onValueChange={(v) => setPriceBookId(v === "__none__" ? "" : v)}
+                    >
+                      <SelectTrigger className="min-w-[12rem] flex-1">
+                        <SelectValue placeholder="Choose book" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="__none__">Choose book…</SelectItem>
+                        {priceBooks.map((b) => (
+                          <SelectItem key={b.id} value={b.id}>
+                            {b.name}
+                            {b.supplierName ? ` · ${b.supplierName}` : ""}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      disabled={!priceBookId}
+                      onClick={() => {
+                        const book = priceBooks.find((b) => b.id === priceBookId);
+                        if (!book) return;
+                        const byId = new Map(book.rows.map((r) => [r.partId, r.cost]));
+                        const byNum = new Map(
+                          book.rows.map((r) => [r.partNumber.trim().toLowerCase(), r.cost]),
+                        );
+                        let n = 0;
+                        for (const line of lines) {
+                          const cost =
+                            byId.get(line.partId) ??
+                            byNum.get(line.partNumber.trim().toLowerCase());
+                          if (cost == null || !(cost > 0)) continue;
+                          updateLineCost(line.partId, cost);
+                          n += 1;
+                        }
+                        toast.success(
+                          n
+                            ? `Applied ${book.name} to ${n} line${n === 1 ? "" : "s"}`
+                            : "No matching parts in this book",
+                        );
+                      }}
+                    >
+                      Apply
+                    </Button>
+                  </div>
+                </div>
+              ) : null}
             </section>
           )}
 

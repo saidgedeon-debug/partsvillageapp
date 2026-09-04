@@ -18,6 +18,7 @@ import { useCloudHealth, usePendingSyncCount, retryCloudSync } from "@/lib/cloud
 import { rankByFuzzyScore } from "@/lib/fuzzy-search";
 import { primaryPartImage } from "@/lib/part-image";
 import { lastClientSalePrice } from "@/lib/part-price-history";
+import { findSubstituteParts } from "@/lib/part-identity";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
@@ -46,7 +47,14 @@ function CounterPage() {
     setCartParty,
     updateLinePrice,
     heldCarts,
+    resumeHeldCart,
+    discardHeldCart,
   } = useCart();
+  const [heldOpen, setHeldOpen] = useState(false);
+  const [subPrompt, setSubPrompt] = useState<{
+    original: Part;
+    substitutes: Part[];
+  } | null>(null);
   const cloudHealth = useCloudHealth();
   const pendingSync = usePendingSyncCount();
   const [online, setOnline] = useState(
@@ -178,11 +186,20 @@ function CounterPage() {
     );
   }, [parts, qTrim, exactHit]);
 
-  const add = (part: Part) => {
+  const add = (part: Part, opts?: { force?: boolean }) => {
+    if (!opts?.force && part.quantity <= 0) {
+      const substitutes = findSubstituteParts(parts, part);
+      if (substitutes.length > 0) {
+        setSubPrompt({ original: part, substitutes });
+        return;
+      }
+      toast.message(`${part.partNumber} is out of stock`);
+    }
     if (!documentKind) setDocumentKind("invoice");
     addPart(part, 1);
     toast.success(`${part.partNumber} · cart ${itemCount + 1}`);
     setQuery("");
+    setSubPrompt(null);
   };
 
   useEffect(() => {
@@ -296,15 +313,93 @@ function CounterPage() {
         </div>
         <div className="flex items-center gap-2">
           {heldCarts.length > 0 ? (
-            <Badge variant="secondary" className="tabular-nums">
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              className="tabular-nums"
+              onClick={() => setHeldOpen((v) => !v)}
+            >
               Held {heldCarts.length}
-            </Badge>
+            </Button>
           ) : null}
           <Button asChild type="button" variant="ghost" size="sm">
             <Link to="/inventory">Exit</Link>
           </Button>
         </div>
       </header>
+
+      {heldOpen && heldCarts.length > 0 ? (
+        <div className="space-y-2 border-b bg-muted/30 px-3 py-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Resume held cart
+          </p>
+          {heldCarts.map((h) => (
+            <div
+              key={h.id}
+              className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border bg-card px-3 py-2"
+            >
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium">{h.label}</p>
+                <p className="text-xs text-muted-foreground">
+                  {h.lines.length} line{h.lines.length === 1 ? "" : "s"}
+                  {h.partyName ? ` · ${h.partyName}` : ""}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  onClick={() => {
+                    resumeHeldCart(h.id);
+                    setHeldOpen(false);
+                    toast.success(`Resumed ${h.label}`);
+                  }}
+                >
+                  Resume
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    discardHeldCart(h.id);
+                    toast.message("Held cart discarded");
+                  }}
+                >
+                  Discard
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      {subPrompt ? (
+        <div className="space-y-2 border-b border-amber-500/40 bg-amber-500/10 px-3 py-3">
+          <p className="text-sm font-medium">
+            {subPrompt.original.partNumber} is out of stock — try a substitute?
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {subPrompt.substitutes.map((s) => (
+              <Button key={s.id} type="button" size="sm" onClick={() => add(s, { force: true })}>
+                {s.partNumber} · qty {s.quantity}
+              </Button>
+            ))}
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => add(subPrompt.original, { force: true })}
+            >
+              Add anyway
+            </Button>
+            <Button type="button" size="sm" variant="ghost" onClick={() => setSubPrompt(null)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      ) : null}
 
       {syncBanner ? (
         <div

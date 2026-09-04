@@ -14,6 +14,7 @@ import { Route as ChinaShipmentsRouteImport } from './routes/china-shipments'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as CounterRouteImport } from './routes/counter'
 import { Route as DailyCloseRouteImport } from './routes/daily-close'
+import { Route as DeliveryBoardRouteImport } from './routes/delivery-board'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as FleetRouteImport } from './routes/fleet'
 import { Route as InsightsRouteImport } from './routes/insights'
@@ -26,6 +27,7 @@ import { Route as ReorderRouteImport } from './routes/reorder'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShareRouteImport } from './routes/share'
 import { Route as ShareInboxRouteImport } from './routes/share-inbox'
+import { Route as ShiftRouteImport } from './routes/shift'
 import { Route as StockMapRouteImport } from './routes/stock-map'
 import { Route as StockTakeRouteImport } from './routes/stock-take'
 import { Route as ClientsIndexRouteImport } from './routes/clients.index'
@@ -57,6 +59,11 @@ const CounterRoute = CounterRouteImport.update({
 const DailyCloseRoute = DailyCloseRouteImport.update({
   id: '/daily-close',
   path: '/daily-close',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeliveryBoardRoute = DeliveryBoardRouteImport.update({
+  id: '/delivery-board',
+  path: '/delivery-board',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocumentsRoute = DocumentsRouteImport.update({
@@ -119,6 +126,11 @@ const ShareInboxRoute = ShareInboxRouteImport.update({
   path: '/share-inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShiftRoute = ShiftRouteImport.update({
+  id: '/shift',
+  path: '/shift',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StockMapRoute = StockMapRouteImport.update({
   id: '/stock-map',
   path: '/stock-map',
@@ -161,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/collections': typeof CollectionsRoute
   '/counter': typeof CounterRoute
   '/daily-close': typeof DailyCloseRoute
+  '/delivery-board': typeof DeliveryBoardRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRouteWithChildren
   '/insights': typeof InsightsRoute
@@ -173,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
+  '/shift': typeof ShiftRoute
   '/stock-map': typeof StockMapRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
@@ -187,6 +201,7 @@ export interface FileRoutesByTo {
   '/collections': typeof CollectionsRoute
   '/counter': typeof CounterRoute
   '/daily-close': typeof DailyCloseRoute
+  '/delivery-board': typeof DeliveryBoardRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRouteWithChildren
   '/insights': typeof InsightsRoute
@@ -199,6 +214,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
+  '/shift': typeof ShiftRoute
   '/stock-map': typeof StockMapRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
@@ -214,6 +230,7 @@ export interface FileRoutesById {
   '/collections': typeof CollectionsRoute
   '/counter': typeof CounterRoute
   '/daily-close': typeof DailyCloseRoute
+  '/delivery-board': typeof DeliveryBoardRoute
   '/documents': typeof DocumentsRoute
   '/fleet': typeof FleetRouteWithChildren
   '/insights': typeof InsightsRoute
@@ -226,6 +243,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
+  '/shift': typeof ShiftRoute
   '/stock-map': typeof StockMapRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
@@ -242,6 +260,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/counter'
     | '/daily-close'
+    | '/delivery-board'
     | '/documents'
     | '/fleet'
     | '/insights'
@@ -254,6 +273,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/share'
     | '/share-inbox'
+    | '/shift'
     | '/stock-map'
     | '/stock-take'
     | '/clients/$clientId'
@@ -268,6 +288,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/counter'
     | '/daily-close'
+    | '/delivery-board'
     | '/documents'
     | '/fleet'
     | '/insights'
@@ -280,6 +301,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/share'
     | '/share-inbox'
+    | '/shift'
     | '/stock-map'
     | '/stock-take'
     | '/clients/$clientId'
@@ -294,6 +316,7 @@ export interface FileRouteTypes {
     | '/collections'
     | '/counter'
     | '/daily-close'
+    | '/delivery-board'
     | '/documents'
     | '/fleet'
     | '/insights'
@@ -306,6 +329,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/share'
     | '/share-inbox'
+    | '/shift'
     | '/stock-map'
     | '/stock-take'
     | '/clients/$clientId'
@@ -321,6 +345,7 @@ export interface RootRouteChildren {
   CollectionsRoute: typeof CollectionsRoute
   CounterRoute: typeof CounterRoute
   DailyCloseRoute: typeof DailyCloseRoute
+  DeliveryBoardRoute: typeof DeliveryBoardRoute
   DocumentsRoute: typeof DocumentsRoute
   FleetRoute: typeof FleetRouteWithChildren
   InsightsRoute: typeof InsightsRoute
@@ -333,6 +358,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   ShareRoute: typeof ShareRoute
   ShareInboxRoute: typeof ShareInboxRoute
+  ShiftRoute: typeof ShiftRoute
   StockMapRoute: typeof StockMapRoute
   StockTakeRoute: typeof StockTakeRoute
   ClientsClientIdRoute: typeof ClientsClientIdRoute
@@ -376,6 +402,13 @@ declare module '@tanstack/react-router' {
       path: '/daily-close'
       fullPath: '/daily-close'
       preLoaderRoute: typeof DailyCloseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/delivery-board': {
+      id: '/delivery-board'
+      path: '/delivery-board'
+      fullPath: '/delivery-board'
+      preLoaderRoute: typeof DeliveryBoardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/documents': {
@@ -462,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShareInboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shift': {
+      id: '/shift'
+      path: '/shift'
+      fullPath: '/shift'
+      preLoaderRoute: typeof ShiftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stock-map': {
       id: '/stock-map'
       path: '/stock-map'
@@ -530,6 +570,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollectionsRoute: CollectionsRoute,
   CounterRoute: CounterRoute,
   DailyCloseRoute: DailyCloseRoute,
+  DeliveryBoardRoute: DeliveryBoardRoute,
   DocumentsRoute: DocumentsRoute,
   FleetRoute: FleetRouteWithChildren,
   InsightsRoute: InsightsRoute,
@@ -542,6 +583,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   ShareRoute: ShareRoute,
   ShareInboxRoute: ShareInboxRoute,
+  ShiftRoute: ShiftRoute,
   StockMapRoute: StockMapRoute,
   StockTakeRoute: StockTakeRoute,
   ClientsClientIdRoute: ClientsClientIdRoute,
