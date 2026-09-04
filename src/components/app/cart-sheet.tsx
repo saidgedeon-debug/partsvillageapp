@@ -46,17 +46,17 @@ function QtyField({
         type="button"
         size="icon"
         variant="outline"
-        className="h-8 w-8"
+        className="h-11 w-11"
         aria-label="Decrease quantity"
         onClick={() => onChange(Math.max(1, qty - 1))}
       >
-        <Minus className="h-3.5 w-3.5" />
+        <Minus className="h-4 w-4" />
       </Button>
       <Input
         type="number"
         min={1}
         inputMode="numeric"
-        className="h-8 w-16 px-1 text-center font-semibold [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="h-11 w-16 px-1 text-center text-base font-semibold [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         value={draft}
         onChange={(e) => {
           const raw = e.target.value;
@@ -78,11 +78,11 @@ function QtyField({
         type="button"
         size="icon"
         variant="outline"
-        className="h-8 w-8"
+        className="h-11 w-11"
         aria-label="Increase quantity"
         onClick={() => onChange(qty + 1)}
       >
-        <Plus className="h-3.5 w-3.5" />
+        <Plus className="h-4 w-4" />
       </Button>
     </div>
   );
@@ -198,7 +198,7 @@ export function CartSheet() {
 
   return (
     <Sheet open={cartOpen} onOpenChange={setCartOpen}>
-      <SheetContent className="flex w-full flex-col sm:max-w-md">
+      <SheetContent className="flex w-full flex-col gap-0 p-4 sm:max-w-md sm:p-6">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5" />

@@ -13,6 +13,7 @@ import { type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app/app-sidebar";
+import { MobileBottomNav } from "@/components/app/mobile-bottom-nav";
 import { CloudGate } from "@/components/app/cloud-gate";
 import { OperatorUnlockGate } from "@/components/app/operator-unlock-gate";
 import { CloudSyncBanner } from "@/components/app/cloud-sync-banner";
@@ -105,7 +106,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        name: "viewport",
+        content:
+          "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5",
+      },
       { title: "Parts Village — Heavy Equipment Parts CRM" },
       {
         name: "description",
@@ -187,14 +192,15 @@ function RootComponent() {
                                 <PreOrdersProvider>
                                   <CartProvider>
                                     <SidebarProvider>
-                                      <div className="flex min-h-screen w-full bg-background">
+                                      <div className="flex min-h-dvh w-full bg-background">
                                         <AppSidebar />
-                                        <SidebarInset className="min-w-0">
+                                        <SidebarInset className="min-w-0 mobile-nav-pad">
                                           <OfflineBanner />
                                           <BackupReminderBanner />
                                           <CloudSyncBanner />
                                           <Outlet />
                                         </SidebarInset>
+                                        <MobileBottomNav />
                                       </div>
                                       <DocumentTypeDialog />
                                       <CartSheet />

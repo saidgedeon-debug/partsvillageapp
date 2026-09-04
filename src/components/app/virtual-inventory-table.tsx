@@ -6,7 +6,14 @@ import { InlineNumberCell } from "@/components/app/inline-number-cell";
 import { EmptyState } from "@/components/app/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { locationOf, oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
+import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  currency,
+  locationOf,
+  oemNumbersOf,
+  partDescriptionOf,
+  type Part,
+} from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -26,7 +33,8 @@ type Props = {
   ) => void;
 };
 
-const ROW_H = 68;
+const DESKTOP_ROW_H = 68;
+const MOBILE_CARD_H = 148;
 
 export function VirtualInventoryTable({
   rows,
@@ -40,12 +48,14 @@ export function VirtualInventoryTable({
   onAddToCart,
   onPatch,
 }: Props) {
+  const isMobile = useIsMobile();
   const parentRef = useRef<HTMLDivElement>(null);
+  const rowH = isMobile ? MOBILE_CARD_H : DESKTOP_ROW_H;
   const virtualizer = useVirtualizer({
     count: rows.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => ROW_H,
-    overscan: 12,
+    estimateSize: () => rowH,
+    overscan: isMobile ? 6 : 12,
   });
 
   const gridClass = isORings
@@ -60,48 +70,144 @@ export function VirtualInventoryTable({
     return <EmptyState title={emptyMessage} />;
   }
 
+  if (isMobile) {
+    return (
+      <div
+        ref={parentRef}
+        className="max-h-[min(72dvh,820px)] overflow-auto overscroll-contain pr-0.5"
+      >
+        <div className="relative w-full" style={{ height: `${virtualizer.getTotalSize()}px` }}>
+          {virtualizer.getVirtualItems().map((vRow) => {
+            const p = rows[vRow.index];
+            const low = p.quantity > 0 && p.quantity <= p.reorderAt;
+            const description = partDescriptionOf(p);
+            return (
+              <div
+                key={p.id}
+                className="absolute left-0 w-full px-0.5"
+                style={{
+                  height: `${vRow.size}px`,
+                  transform: `translateY(${vRow.start}px)`,
+                }}
+              >
+                <article className="flex h-[140px] flex-col justify-between rounded-xl border border-border bg-card p-3 shadow-sm">
+                  <button
+                    type="button"
+                    className="flex w-full items-start gap-3 text-left"
+                    onClick={() => onView(p)}
+                  >
+                    {p.imageUrl ? (
+                      <img
+                        src={p.imageUrl}
+                        alt=""
+                        className="h-12 w-12 shrink-0 rounded-lg border border-border bg-muted/30 object-contain"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-dashed border-border text-[10px] text-muted-foreground">
+                        {isORings ? p.boxNumber ?? "—" : "—"}
+                      </div>
+                    )}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="font-mono text-sm font-bold leading-tight">{p.partNumber}</p>
+                        {low ? (
+                          <Badge variant="destructive" className="shrink-0 gap-1 text-[10px]">
+                            <AlertTriangle className="h-3 w-3" />
+                            Low
+                          </Badge>
+                        ) : null}
+                      </div>
+                      <p className="mt-0.5 line-clamp-1 text-sm text-muted-foreground">
+                        {description || p.name || "—"}
+                      </p>
+                      <p className="mt-1 text-sm font-semibold">
+                        {p.price > 0 ? currency(p.price) : "No price"}
+                        <span className="font-normal text-muted-foreground">
+                          {" "}
+                          · qty {p.quantity}
+                        </span>
+                      </p>
+                    </div>
+                  </button>
+                  <div className="flex items-center gap-2">
+                    <div className="min-w-0 flex-1">
+                      <InlineNumberCell
+                        value={p.quantity}
+                        ariaLabel={`Edit quantity for ${p.partNumber}`}
+                        className={cn(
+                          "h-11 w-full justify-center text-base",
+                          low && "font-semibold text-accent",
+                        )}
+                        onCommit={(n) => onPatch(p, { quantity: n })}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="h-11 shrink-0 gap-1.5 px-3"
+                      onClick={() => onEdit(p)}
+                    >
+                      <Pencil className="h-4 w-4" />
+                      Edit
+                    </Button>
+                    <Button
+                      type="button"
+                      className="h-11 shrink-0 gap-1.5 px-3"
+                      onClick={() => onAddToCart(p)}
+                    >
+                      <ShoppingCart className="h-4 w-4" />
+                      Cart
+                    </Button>
+                  </div>
+                </article>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div ref={parentRef} className="max-h-[min(70vh,720px)] overflow-auto">
       <div className="min-w-max">
-      <div
-        className={cn(
-          gridClass,
-          "sticky top-0 z-10 border-b border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground",
-        )}
-      >
-        {isORings ? (
-          <>
-            <span>Box</span>
-            <span>Part #</span>
-            <span>ID</span>
-            <span>CS</span>
-            <span>Category</span>
-            <span className="text-right">Qty</span>
-            {showCosts ? <span className="text-right">Cost</span> : null}
-            <span className="text-right">Price</span>
-            <span className="text-right">Actions</span>
-          </>
-        ) : (
-          <>
-            <span>Photo</span>
-            <span>Code</span>
-            <span>Description</span>
-            <span>OEM</span>
-            <span>Machine</span>
-            <span>{locationColumnLabel}</span>
-            <span>Category</span>
-            <span className="text-right">Qty</span>
-            {showCosts ? <span className="text-right">Cost</span> : null}
-            <span className="text-right">Price</span>
-            <span className="text-right">Actions</span>
-          </>
-        )}
-      </div>
-
         <div
-          className="relative w-full"
-          style={{ height: `${virtualizer.getTotalSize()}px` }}
+          className={cn(
+            gridClass,
+            "sticky top-0 z-10 border-b border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground",
+          )}
         >
+          {isORings ? (
+            <>
+              <span>Box</span>
+              <span>Part #</span>
+              <span>ID</span>
+              <span>CS</span>
+              <span>Category</span>
+              <span className="text-right">Qty</span>
+              {showCosts ? <span className="text-right">Cost</span> : null}
+              <span className="text-right">Price</span>
+              <span className="text-right">Actions</span>
+            </>
+          ) : (
+            <>
+              <span>Photo</span>
+              <span>Code</span>
+              <span>Description</span>
+              <span>OEM</span>
+              <span>Machine</span>
+              <span>{locationColumnLabel}</span>
+              <span>Category</span>
+              <span className="text-right">Qty</span>
+              {showCosts ? <span className="text-right">Cost</span> : null}
+              <span className="text-right">Price</span>
+              <span className="text-right">Actions</span>
+            </>
+          )}
+        </div>
+
+        <div className="relative w-full" style={{ height: `${virtualizer.getTotalSize()}px` }}>
           {virtualizer.getVirtualItems().map((vRow) => {
             const p = rows[vRow.index];
             const low = p.quantity > 0 && p.quantity <= p.reorderAt;
@@ -202,9 +308,7 @@ export function VirtualInventoryTable({
                     <span className="line-clamp-2 text-xs text-muted-foreground">
                       {machine || "—"}
                     </span>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {page || "—"}
-                    </span>
+                    <span className="font-mono text-xs text-muted-foreground">{page || "—"}</span>
                     <Badge variant="secondary" className="w-fit max-w-full truncate text-[10px]">
                       {p.category}
                     </Badge>

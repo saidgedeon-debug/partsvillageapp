@@ -272,8 +272,8 @@ function CounterPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
-      <header className="flex items-center justify-between gap-2 border-b px-3 py-3">
+    <div className="flex min-h-dvh flex-col bg-background">
+      <header className="flex items-center justify-between gap-2 border-b px-3 py-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
         <div>
           <p className="text-xs uppercase tracking-wide text-muted-foreground">Counter mode</p>
           <h1 className="text-lg font-bold">Scan &amp; sell</h1>
@@ -314,7 +314,7 @@ function CounterPage() {
         </div>
       ) : null}
 
-      <main className="flex flex-1 flex-col gap-3 p-3 pb-36">
+      <main className="flex flex-1 flex-col gap-3 p-3 pb-[calc(10.5rem+env(safe-area-inset-bottom))]">
         {stripLines.length > 0 ? (
           <div className="rounded-lg border border-border bg-card px-3 py-2">
             <div className="mb-1.5 flex items-center justify-between gap-2">
@@ -495,7 +495,7 @@ function CounterPage() {
         </div>
       </main>
 
-      <div className="fixed inset-x-0 bottom-0 border-t bg-background/95 p-3 backdrop-blur">
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t bg-background/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur">
         <div className="mx-auto flex max-w-lg flex-col gap-2">
           <div className="flex gap-2">
             <Button

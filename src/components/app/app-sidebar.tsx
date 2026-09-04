@@ -73,7 +73,7 @@ const items: NavItem[] = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, setOpenMobile, isMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const { pathname } = useRouterState({
     select: (r) => ({ pathname: r.location.pathname }),
@@ -86,6 +86,10 @@ export function AppSidebar() {
     if (item.exact) return pathname === item.url;
     const path = item.url.split("?")[0];
     return pathname === path || pathname.startsWith(path + "/");
+  };
+
+  const go = () => {
+    if (isMobile) setOpenMobile(false);
   };
 
   return (
@@ -115,8 +119,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={isActive(item)} tooltip={item.title}>
-                    <Link to={item.url} className="flex items-center gap-2">
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive(item)}
+                    tooltip={item.title}
+                    className="h-11 md:h-8"
+                  >
+                    <Link to={item.url} className="flex items-center gap-2" onClick={go}>
                       <item.icon className="h-4 w-4" />
                       {!collapsed && (
                         <span className="flex flex-1 items-center justify-between gap-2">
@@ -142,7 +151,7 @@ export function AppSidebar() {
           type="button"
           variant="ghost"
           size="sm"
-          className="h-8 w-full justify-start gap-2 px-2 text-sidebar-foreground/80"
+          className="h-11 w-full justify-start gap-2 px-2 text-sidebar-foreground/80 md:h-8"
           onClick={() => setBackupOpen(true)}
         >
           <DatabaseBackup className="h-3.5 w-3.5" />
@@ -152,7 +161,7 @@ export function AppSidebar() {
           type="button"
           variant="ghost"
           size="sm"
-          className="h-8 w-full justify-start gap-2 px-2 text-sidebar-foreground/80"
+          className="h-11 w-full justify-start gap-2 px-2 text-sidebar-foreground/80 md:h-8"
           aria-label="Lock shop"
           onClick={() => {
             clearOperatorUnlock();
