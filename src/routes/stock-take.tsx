@@ -155,9 +155,26 @@ function StockTakePage() {
     if (mode === "photo") {
       toast.message(`${part.partNumber} — snap a photo`);
       window.setTimeout(() => photoInputRef.current?.click(), 250);
-    } else {
-      toast.message(`${part.partNumber} ready — enter qty`);
+      return;
     }
+    if (mode === "receive") {
+      const before = part.quantity;
+      const after = before + 1;
+      adjustPartQuantity(part.id, 1);
+      pushLog(part, before, after, "receive");
+      toast.success(`${part.partNumber}: +1 → ${after}`);
+      setCode("");
+      setQty("");
+      return;
+    }
+    // Counted qty: jump to qty field for immediate edit
+    setQty(String(part.quantity));
+    toast.message(`${part.partNumber} — edit counted qty`);
+    window.setTimeout(() => {
+      const el = document.getElementById("st-qty") as HTMLInputElement | null;
+      el?.focus();
+      el?.select();
+    }, 50);
   };
 
   return (
@@ -168,7 +185,9 @@ function StockTakePage() {
           catalogReady
             ? mode === "photo"
               ? "Scan a part, snap a photo, then scan the next"
-              : "Type a part or OEM code, then set counted qty or add received qty"
+              : mode === "receive"
+                ? "Scan barcode to +1 received, or type a code and apply"
+                : "Scan barcode to edit counted qty, or type a code"
             : "Loading catalog…"
         }
       />

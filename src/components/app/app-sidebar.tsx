@@ -20,6 +20,7 @@ import {
   TrendingUp,
   MessageCircle,
   Printer,
+  MapPin,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -40,7 +41,7 @@ import logo from "@/assets/parts-village-logo-clear.png";
 import { BackupDialog } from "@/components/app/backup-dialog";
 import { clearOperatorUnlock } from "@/components/app/operator-unlock-gate";
 import { useShareInbox } from "@/components/app/share-inbox-context";
-import { useCloudHealth } from "@/lib/cloud-store";
+import { useCloudHealth, usePendingSyncCount } from "@/lib/cloud-store";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
@@ -56,6 +57,7 @@ const items: NavItem[] = [
   { title: "Search", url: "/search", icon: Search },
   { title: "Inventory", url: "/inventory", icon: Package },
   { title: "Stock take", url: "/stock-take", icon: ClipboardList },
+  { title: "Stock map", url: "/stock-map", icon: MapPin },
   { title: "Counter", url: "/counter", icon: Smartphone },
   { title: "Daily close", url: "/daily-close", icon: Banknote },
   { title: "Insights", url: "/insights", icon: TrendingUp },
@@ -80,6 +82,7 @@ export function AppSidebar() {
   });
   const { pendingCount } = useShareInbox();
   const cloudHealth = useCloudHealth();
+  const pendingSync = usePendingSyncCount();
   const [backupOpen, setBackupOpen] = useState(false);
 
   const isActive = (item: NavItem) => {
@@ -175,23 +178,27 @@ export function AppSidebar() {
         <div className="flex items-center gap-2 px-2 py-1 text-xs text-sidebar-foreground/70">
           <span
             className={`h-2 w-2 shrink-0 rounded-full ${
-              cloudHealth === "synced"
-                ? "bg-emerald-500"
-                : cloudHealth === "error"
-                  ? "bg-destructive"
-                  : "bg-amber-400"
+              cloudHealth === "error"
+                ? "bg-destructive"
+                : pendingSync > 0 || cloudHealth === "syncing"
+                  ? "bg-amber-400"
+                  : cloudHealth === "synced"
+                    ? "bg-emerald-500"
+                    : "bg-amber-400"
             }`}
           />
           {!collapsed && (
             <span>
               Depot #01 —{" "}
-              {cloudHealth === "synced"
-                ? "Synced"
-                : cloudHealth === "syncing"
-                  ? "Syncing…"
-                  : cloudHealth === "error"
-                    ? "Sync error"
-                    : "Loading…"}
+              {pendingSync > 0
+                ? `${pendingSync} pending`
+                : cloudHealth === "synced"
+                  ? "Synced"
+                  : cloudHealth === "syncing"
+                    ? "Syncing…"
+                    : cloudHealth === "error"
+                      ? "Sync error"
+                      : "Loading…"}
             </span>
           )}
         </div>

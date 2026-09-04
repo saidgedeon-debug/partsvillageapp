@@ -53,6 +53,8 @@ export function CheckoutDialog() {
   const {
     checkoutOpen,
     setCheckoutOpen,
+    preferWhatsAppShare,
+    clearPreferWhatsAppShare,
     lines,
     documentKind,
     clearCart,
@@ -90,7 +92,7 @@ export function CheckoutDialog() {
       setPartyId(preferCart ? cartPartyId : undefined);
       setFormat("pdf");
       setIncludeCost(true);
-      setDelivery(preferCart ? "whatsapp" : "offline");
+      setDelivery(preferCart || preferWhatsAppShare ? "whatsapp" : "offline");
       setDeductStock(true);
       setMachineId("");
       setFulfillmentStatus("");
@@ -99,8 +101,16 @@ export function CheckoutDialog() {
       setSubmitting(false);
       return;
     }
+    clearPreferWhatsAppShare();
     clearDocumentCreatedParts();
-  }, [checkoutOpen, documentKind, cartPartyId, cartPartyName]);
+  }, [
+    checkoutOpen,
+    documentKind,
+    cartPartyId,
+    cartPartyName,
+    preferWhatsAppShare,
+    clearPreferWhatsAppShare,
+  ]);
 
   const subtotal = useMemo(() => {
     if (!documentKind) return 0;

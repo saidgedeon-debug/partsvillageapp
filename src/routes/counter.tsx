@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Camera, ImageIcon, ShoppingCart, Search, WifiOff, X } from "lucide-react";
+import { Camera, ImageIcon, ShoppingCart, Search, Star, WifiOff, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrowserMultiFormatReader } from "@zxing/browser";
 import { toast } from "sonner";
@@ -10,13 +10,16 @@ import { VoiceCartButton } from "@/components/app/voice-cart-button";
 import { useDocuments } from "@/components/app/documents-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
+import { usePrefs } from "@/components/app/prefs-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCloudHealth, retryCloudSync } from "@/lib/cloud-store";
+import { useCloudHealth, usePendingSyncCount, retryCloudSync } from "@/lib/cloud-store";
 import { rankByFuzzyScore } from "@/lib/fuzzy-search";
 import { primaryPartImage } from "@/lib/part-image";
+import { lastClientSalePrice } from "@/lib/part-price-history";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/counter")({
   component: CounterPage,
@@ -29,12 +32,13 @@ function CounterPage() {
   const { parts } = useInventory();
   const { clients } = useParties();
   const { invoices } = useDocuments();
+  const { isFavorite, toggleFavorite, favoritePartIds } = usePrefs();
   const {
     addPart,
     lines,
     itemCount,
     setCartOpen,
-    setCheckoutOpen,
+    openCheckout,
     documentKind,
     setDocumentKind,
     partyId,
@@ -44,6 +48,7 @@ function CounterPage() {
     heldCarts,
   } = useCart();
   const cloudHealth = useCloudHealth();
+  const pendingSync = usePendingSyncCount();
   const [online, setOnline] = useState(
     typeof navigator === "undefined" ? true : navigator.onLine,
   );
@@ -71,20 +76,26 @@ function CounterPage() {
     !online
       ? {
           title: "Offline — counter still works",
-          detail: "Cart, checkout, and invoices stay on this phone — they sync automatically when you’re back online.",
+          detail:
+            pendingSync > 0
+              ? `${pendingSync} change${pendingSync === 1 ? "" : "s"} waiting to sync when you’re back online.`
+              : "Cart, checkout, and invoices stay on this phone — they sync automatically when you’re back online.",
           tone: "amber" as const,
         }
-      : cloudHealth === "error"
+      : pendingSync > 0 || cloudHealth === "syncing"
         ? {
-            title: "Cloud sync issue",
-            detail: "Local cart is fine — retry sync so other devices see new sales.",
-            tone: "amber" as const,
+            title:
+              pendingSync > 0
+                ? `${pendingSync} waiting to sync`
+                : "Syncing…",
+            detail: "Pushing counter changes to the cloud.",
+            tone: "muted" as const,
           }
-        : cloudHealth === "syncing"
+        : cloudHealth === "error"
           ? {
-              title: "Syncing…",
-              detail: "Pushing counter changes to the cloud.",
-              tone: "muted" as const,
+              title: "Cloud sync issue",
+              detail: "Local cart is fine — retry sync so other devices see new sales.",
+              tone: "amber" as const,
             }
           : null;
 
@@ -266,9 +277,14 @@ function CounterPage() {
     updateLinePrice(partId, n, reason);
   };
 
-  const openFinish = () => {
+  const favorites = useMemo(() => {
+    const set = new Set(favoritePartIds);
+    return parts.filter((p) => set.has(p.id)).slice(0, 20);
+  }, [parts, favoritePartIds]);
+
+  const openFinish = (whatsapp = false) => {
     if (!documentKind) setDocumentKind("invoice");
-    setCheckoutOpen(true);
+    openCheckout({ whatsapp });
   };
 
   return (
@@ -350,6 +366,29 @@ function CounterPage() {
                 +{lines.length - 4} more in cart
               </p>
             ) : null}
+          </div>
+        ) : null}
+
+        {favorites.length > 0 ? (
+          <div className="space-y-1.5">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Favorites · quick sell
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {favorites.map((part) => (
+                <button
+                  key={part.id}
+                  type="button"
+                  onClick={() => add(part)}
+                  className="rounded-md border border-accent/40 bg-accent/5 px-3 py-2 text-left active:bg-accent/15"
+                >
+                  <p className="font-mono text-sm font-semibold">{part.partNumber}</p>
+                  <p className="max-w-[10rem] truncate text-xs text-muted-foreground">
+                    {part.price > 0 ? currency(part.price) : part.name}
+                  </p>
+                </button>
+              ))}
+            </div>
           </div>
         ) : null}
 
@@ -467,28 +506,55 @@ function CounterPage() {
         <div className="space-y-2">
           {matches.map((part) => {
             const img = primaryPartImage(part);
+            const last = lastClientSalePrice(part.id, part.partNumber, invoices, {
+              id: partyId,
+              name: partyName,
+            });
+            const fav = isFavorite(part.id);
             return (
-              <button
+              <div
                 key={part.id}
-                type="button"
-                onClick={() => add(part)}
-                className="flex w-full items-center gap-3 rounded-lg border border-border bg-card p-3 text-left active:bg-muted"
+                className="flex w-full items-center gap-2 rounded-lg border border-border bg-card p-2"
               >
-                {img ? (
-                  <img src={img} alt="" className="h-16 w-16 rounded-md object-cover" />
-                ) : (
-                  <div className="flex h-16 w-16 items-center justify-center rounded-md bg-muted text-[10px] text-muted-foreground">
-                    No photo
+                <button
+                  type="button"
+                  onClick={() => add(part)}
+                  className="flex min-w-0 flex-1 items-center gap-3 p-1 text-left active:opacity-80"
+                >
+                  {img ? (
+                    <img src={img} alt="" className="h-16 w-16 rounded-md object-cover" />
+                  ) : (
+                    <div className="flex h-16 w-16 items-center justify-center rounded-md bg-muted text-[10px] text-muted-foreground">
+                      No photo
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="font-mono text-base font-bold">{part.partNumber}</p>
+                    <p className="truncate text-sm text-muted-foreground">{part.name}</p>
+                    <p className="text-sm font-semibold">
+                      {part.price > 0 ? currency(part.price) : "No price"} · qty {part.quantity}
+                    </p>
+                    {last ? (
+                      <p className="text-xs text-accent">
+                        Last for {partyName}: {currency(last.amount)} · {last.date}
+                      </p>
+                    ) : null}
                   </div>
-                )}
-                <div className="min-w-0 flex-1">
-                  <p className="font-mono text-base font-bold">{part.partNumber}</p>
-                  <p className="truncate text-sm text-muted-foreground">{part.name}</p>
-                  <p className="text-sm font-semibold">
-                    {part.price > 0 ? currency(part.price) : "No price"} · qty {part.quantity}
-                  </p>
-                </div>
-              </button>
+                </button>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="ghost"
+                  className="h-11 w-11 shrink-0"
+                  aria-label={fav ? "Unpin favorite" : "Pin favorite"}
+                  onClick={() => {
+                    toggleFavorite(part.id);
+                    toast.message(fav ? "Removed from favorites" : "Pinned to favorites");
+                  }}
+                >
+                  <Star className={cn("h-5 w-5", fav && "fill-amber-400 text-amber-500")} />
+                </Button>
+              </div>
             );
           })}
         </div>
@@ -518,7 +584,7 @@ function CounterPage() {
               type="button"
               className="h-12 flex-1 text-base"
               disabled={itemCount === 0}
-              onClick={openFinish}
+              onClick={() => openFinish(false)}
             >
               Checkout
             </Button>
@@ -528,9 +594,9 @@ function CounterPage() {
             variant="secondary"
             className="h-11 w-full text-base"
             disabled={itemCount === 0}
-            onClick={openFinish}
+            onClick={() => openFinish(true)}
           >
-            Finish &amp; share
+            Finish &amp; WhatsApp PDF
           </Button>
         </div>
       </div>

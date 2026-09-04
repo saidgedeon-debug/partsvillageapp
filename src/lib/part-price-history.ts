@@ -32,3 +32,22 @@ export function partPriceHistory(
     .filter((event) => event.amount > 0)
     .sort((a, b) => b.date.localeCompare(a.date) || b.documentId.localeCompare(a.documentId));
 }
+
+/** Most recent invoice unit price this client paid for the part. */
+export function lastClientSalePrice(
+  partId: string,
+  partNumber: string,
+  invoices: SavedDocument[],
+  party?: { id?: string; name?: string },
+): PartPriceEvent | undefined {
+  const partyId = party?.id?.trim();
+  const partyName = party?.name?.trim().toLowerCase();
+  if (!partyId && !partyName) return undefined;
+  const scoped = invoices.filter((doc) => {
+    if (doc.kind !== "invoice") return false;
+    if (partyId && doc.partyId === partyId) return true;
+    if (partyName && doc.partyName.trim().toLowerCase() === partyName) return true;
+    return false;
+  });
+  return partPriceHistory(partId, partNumber, scoped).find((e) => e.kind === "sale");
+}

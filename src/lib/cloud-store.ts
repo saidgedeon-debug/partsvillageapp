@@ -33,12 +33,24 @@ let healthVersion = 0;
 let lastCloudError: string | null = null;
 const retryListeners = new Set<() => void>();
 let retryToken = 0;
+const pendingByKey = new Map<ShopStateKey, boolean>();
+let pendingVersion = 0;
+const pendingListeners = new Set<() => void>();
 
 function setCloudHealth(key: ShopStateKey, status: CloudHealthStatus) {
   if (healthByKey.get(key) === status) return;
   healthByKey.set(key, status);
   healthVersion += 1;
   healthListeners.forEach((listener) => listener());
+}
+
+function setPendingKey(key: ShopStateKey, pending: boolean) {
+  const prev = pendingByKey.get(key) === true;
+  if (prev === pending) return;
+  if (pending) pendingByKey.set(key, true);
+  else pendingByKey.delete(key);
+  pendingVersion += 1;
+  pendingListeners.forEach((listener) => listener());
 }
 
 function setLastCloudError(message: string | null) {
@@ -62,6 +74,19 @@ export function useCloudHealth(): CloudHealthStatus {
   if (statuses.includes("syncing")) return "syncing";
   if (statuses.length === 0 || statuses.includes("loading")) return "loading";
   return "synced";
+}
+
+/** How many shop_state keys have local edits waiting to sync. */
+export function usePendingSyncCount(): number {
+  useSyncExternalStore(
+    (listener) => {
+      pendingListeners.add(listener);
+      return () => pendingListeners.delete(listener);
+    },
+    () => pendingVersion,
+    () => 0,
+  );
+  return pendingByKey.size;
 }
 
 export function useCloudError(): string | null {
@@ -228,7 +253,10 @@ export function useCloudState<T>(
   const setValue: Dispatch<SetStateAction<T>> = (action) => {
     setValueState((prev) => {
       const next = typeof action === "function" ? (action as (p: T) => T)(prev) : action;
-      if (!skipSave.current) dirtyRef.current = true;
+      if (!skipSave.current) {
+        dirtyRef.current = true;
+        setPendingKey(key, true);
+      }
       return next;
     });
   };
@@ -257,6 +285,7 @@ export function useCloudState<T>(
         }
         skipSave.current = true;
         dirtyRef.current = false;
+        setPendingKey(key, false);
         baseUpdatedAtRef.current = loaded.updatedAt;
         baseValueRef.current = accepted;
         setValueState(accepted);
@@ -332,6 +361,7 @@ export function useCloudState<T>(
               JSON.stringify(valueRef.current) === JSON.stringify(snapshot)
             ) {
               dirtyRef.current = false;
+              setPendingKey(key, false);
             }
             setError(null);
             setLastCloudError(null);
@@ -360,6 +390,7 @@ export function useCloudState<T>(
                 skipSave.current = true;
                 setValueState(merged);
                 dirtyRef.current = true;
+                setPendingKey(key, true);
                 emitCloudConflict(key);
                 const forced = await saveShopState(key, merged, remote.updatedAt);
                 if (forced.saved) {
@@ -370,6 +401,7 @@ export function useCloudState<T>(
                     JSON.stringify(valueRef.current) === JSON.stringify(merged)
                   ) {
                     dirtyRef.current = false;
+                    setPendingKey(key, false);
                   }
                   setError(null);
                   setLastCloudError(null);

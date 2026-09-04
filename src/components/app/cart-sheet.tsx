@@ -3,6 +3,7 @@ import { Minus, PackagePlus, Plus, ShoppingCart, Trash2 } from "lucide-react";
 
 import { useCart, type DocumentKind } from "@/components/app/cart-context";
 import { QuickCreateDocumentPartDialog } from "@/components/app/quick-create-document-part-dialog";
+import { useDocuments } from "@/components/app/documents-context";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ import {
 import { currency, type Part } from "@/lib/mock-data";
 import { lineTotal, lineUnitAmount } from "@/lib/document-export";
 import { documentGrandTotal, roundMoney } from "@/lib/document-money";
+import { lastClientSalePrice } from "@/lib/part-price-history";
 
 const kindLabel = {
   quotation: "Quotation",
@@ -169,14 +171,17 @@ export function CartSheet() {
     updateLineCost,
     removeLine,
     clearCart,
-    setCheckoutOpen,
     itemCount,
     heldCarts,
     holdCart,
     resumeHeldCart,
     convertHeldToQuotation,
     discardHeldCart,
+    partyId,
+    partyName,
+    openCheckout,
   } = useCart();
+  const { invoices } = useDocuments();
 
   const [createPartOpen, setCreatePartOpen] = useState(false);
 
@@ -268,6 +273,13 @@ export function CartSheet() {
           )}
           {lines.map((line) => {
             const unit = documentKind ? lineUnitAmount(line, documentKind) : line.unitPrice;
+            const last =
+              !isInquiry && (partyId || partyName)
+                ? lastClientSalePrice(line.partId, line.partNumber, invoices, {
+                    id: partyId,
+                    name: partyName,
+                  })
+                : undefined;
             return (
               <div key={line.partId} className="rounded-lg border border-border p-3">
                 <div className="flex items-start justify-between gap-2">
@@ -280,6 +292,25 @@ export function CartSheet() {
                         {line.boxNumber != null ? ` · Box ${line.boxNumber}` : ""}
                       </p>
                     )}
+                    {last && Math.abs(last.amount - line.unitPrice) > 0.005 ? (
+                      <button
+                        type="button"
+                        className="mt-1 text-left text-xs font-medium text-accent underline-offset-2 hover:underline"
+                        onClick={() =>
+                          updateLinePrice(
+                            line.partId,
+                            last.amount,
+                            `Last price for ${partyName || "client"} on ${last.date}`,
+                          )
+                        }
+                      >
+                        Use last price {currency(last.amount)} ({last.date})
+                      </button>
+                    ) : last ? (
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Matches last client price · {last.date}
+                      </p>
+                    ) : null}
                   </div>
                   <Button
                     type="button"
@@ -387,10 +418,10 @@ export function CartSheet() {
             disabled={lines.length === 0 || !documentKind}
             onClick={() => {
               setCartOpen(false);
-              setCheckoutOpen(true);
+              openCheckout({ whatsapp: true });
             }}
           >
-            Finish — choose client or supplier
+            Finish &amp; WhatsApp PDF
           </Button>
           {lines.length > 0 && (
             <>

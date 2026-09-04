@@ -49,6 +49,8 @@ type PrefsState = {
   savedInventoryViews: SavedInventoryView[];
   /** Daily cash/OMT/Whish close records (newest first, max 60). */
   dailyCloses: DailyCloseEntry[];
+  /** Phone for daily sales WhatsApp digest (E.164 digits ok). */
+  digestPhone?: string;
   /** Supplier price books (newest first, max 24). */
   priceBooks: PriceBookEntry[];
   /** ISO timestamp of last successful backup download. */
@@ -71,6 +73,8 @@ type PrefsContextValue = {
   dailyCloses: DailyCloseEntry[];
   addDailyClose: (entry: Omit<DailyCloseEntry, "id" | "closedAt">) => void;
   removeDailyClose: (id: string) => void;
+  digestPhone?: string;
+  setDigestPhone: (phone: string) => void;
   priceBooks: PriceBookEntry[];
   addPriceBook: (entry: Omit<PriceBookEntry, "id" | "createdAt">) => void;
   removePriceBook: (id: string) => void;
@@ -103,6 +107,7 @@ function empty(): PrefsState {
     recentCategoryGroups: [],
     savedInventoryViews: [],
     dailyCloses: [],
+    digestPhone: undefined,
     priceBooks: [],
   };
 }
@@ -234,6 +239,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
         : [],
       savedInventoryViews: parseSavedViews(rawStore.savedInventoryViews),
       dailyCloses: parseDailyCloses(rawStore.dailyCloses),
+      digestPhone:
+        typeof rawStore.digestPhone === "string" ? rawStore.digestPhone.trim() || undefined : undefined,
       priceBooks: parsePriceBooks(rawStore.priceBooks),
     }),
     [rawStore],
@@ -363,6 +370,16 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
     [setStore],
   );
 
+  const setDigestPhone = useCallback(
+    (phone: string) => {
+      setStore((prev) => ({
+        ...prev,
+        digestPhone: phone.trim() || undefined,
+      }));
+    },
+    [setStore],
+  );
+
   const addPriceBook = useCallback(
     (entry: Omit<PriceBookEntry, "id" | "createdAt">) => {
       const name = entry.name.trim();
@@ -447,6 +464,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       dailyCloses: store.dailyCloses,
       addDailyClose,
       removeDailyClose,
+      digestPhone: store.digestPhone,
+      setDigestPhone,
       priceBooks: store.priceBooks,
       addPriceBook,
       removePriceBook,
@@ -474,6 +493,8 @@ export function PrefsProvider({ children }: { children: ReactNode }) {
       store.dailyCloses,
       addDailyClose,
       removeDailyClose,
+      store.digestPhone,
+      setDigestPhone,
       store.priceBooks,
       addPriceBook,
       removePriceBook,

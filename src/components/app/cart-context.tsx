@@ -50,6 +50,10 @@ type CartContextValue = {
   setCartOpen: (open: boolean) => void;
   checkoutOpen: boolean;
   setCheckoutOpen: (open: boolean) => void;
+  /** When true, checkout opens with WhatsApp PDF delivery selected. */
+  preferWhatsAppShare: boolean;
+  openCheckout: (opts?: { whatsapp?: boolean }) => void;
+  clearPreferWhatsAppShare: () => void;
   pendingPart: Part | null;
   askDocumentForPart: (part: Part) => void;
   clearPendingPart: () => void;
@@ -116,7 +120,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const heldCarts = store.heldCarts ?? [];
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [preferWhatsAppShare, setPreferWhatsAppShare] = useState(false);
   const [pendingPart, setPendingPart] = useState<Part | null>(null);
+
+  const openCheckout = useCallback((opts?: { whatsapp?: boolean }) => {
+    setPreferWhatsAppShare(Boolean(opts?.whatsapp));
+    setCheckoutOpen(true);
+  }, []);
+
+  const clearPreferWhatsAppShare = useCallback(() => {
+    setPreferWhatsAppShare(false);
+  }, []);
 
   const setDocumentKind = useCallback(
     (kind: DocumentKind | null) => {
@@ -350,6 +364,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setCartOpen,
       checkoutOpen,
       setCheckoutOpen,
+      preferWhatsAppShare,
+      openCheckout,
+      clearPreferWhatsAppShare,
       pendingPart,
       askDocumentForPart,
       clearPendingPart,
@@ -376,6 +393,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       itemCount,
       cartOpen,
       checkoutOpen,
+      preferWhatsAppShare,
+      openCheckout,
+      clearPreferWhatsAppShare,
       pendingPart,
       askDocumentForPart,
       clearPendingPart,

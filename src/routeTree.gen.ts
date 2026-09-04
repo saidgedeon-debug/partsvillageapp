@@ -26,6 +26,7 @@ import { Route as ReorderRouteImport } from './routes/reorder'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ShareRouteImport } from './routes/share'
 import { Route as ShareInboxRouteImport } from './routes/share-inbox'
+import { Route as StockMapRouteImport } from './routes/stock-map'
 import { Route as StockTakeRouteImport } from './routes/stock-take'
 import { Route as ClientsIndexRouteImport } from './routes/clients.index'
 import { Route as ClientsClientIdRouteImport } from './routes/clients.$clientId'
@@ -118,6 +119,11 @@ const ShareInboxRoute = ShareInboxRouteImport.update({
   path: '/share-inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StockMapRoute = StockMapRouteImport.update({
+  id: '/stock-map',
+  path: '/stock-map',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StockTakeRoute = StockTakeRouteImport.update({
   id: '/stock-take',
   path: '/stock-take',
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
+  '/stock-map': typeof StockMapRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/fleet/$machineId': typeof FleetMachineIdRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
+  '/stock-map': typeof StockMapRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/fleet/$machineId': typeof FleetMachineIdRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/share': typeof ShareRoute
   '/share-inbox': typeof ShareInboxRoute
+  '/stock-map': typeof StockMapRoute
   '/stock-take': typeof StockTakeRoute
   '/clients/$clientId': typeof ClientsClientIdRoute
   '/fleet/$machineId': typeof FleetMachineIdRoute
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/share'
     | '/share-inbox'
+    | '/stock-map'
     | '/stock-take'
     | '/clients/$clientId'
     | '/fleet/$machineId'
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/share'
     | '/share-inbox'
+    | '/stock-map'
     | '/stock-take'
     | '/clients/$clientId'
     | '/fleet/$machineId'
@@ -295,6 +306,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/share'
     | '/share-inbox'
+    | '/stock-map'
     | '/stock-take'
     | '/clients/$clientId'
     | '/fleet/$machineId'
@@ -321,6 +333,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   ShareRoute: typeof ShareRoute
   ShareInboxRoute: typeof ShareInboxRoute
+  StockMapRoute: typeof StockMapRoute
   StockTakeRoute: typeof StockTakeRoute
   ClientsClientIdRoute: typeof ClientsClientIdRoute
   SuppliersSupplierIdRoute: typeof SuppliersSupplierIdRoute
@@ -449,6 +462,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShareInboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stock-map': {
+      id: '/stock-map'
+      path: '/stock-map'
+      fullPath: '/stock-map'
+      preLoaderRoute: typeof StockMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stock-take': {
       id: '/stock-take'
       path: '/stock-take'
@@ -522,6 +542,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   ShareRoute: ShareRoute,
   ShareInboxRoute: ShareInboxRoute,
+  StockMapRoute: StockMapRoute,
   StockTakeRoute: StockTakeRoute,
   ClientsClientIdRoute: ClientsClientIdRoute,
   SuppliersSupplierIdRoute: SuppliersSupplierIdRoute,

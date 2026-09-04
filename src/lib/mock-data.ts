@@ -82,15 +82,19 @@ export function filterStandCode(stand: number | string): string {
   return raw.toUpperCase().startsWith("F-") ? raw : `F-${raw}`;
 }
 
-/** Visible location: filter stand F-26, catalog page, or box number. */
+/** Visible location: filter stand F-26, catalog page, box, or Loc:/Aisle: in notes. */
 export function locationOf(
-  part: Pick<Part, "category" | "boxNumber" | "catalogPage">,
+  part: Pick<Part, "category" | "boxNumber" | "catalogPage" | "notes">,
 ): string {
   if (part.category === "Filters") {
     if (part.boxNumber != null) return filterStandCode(part.boxNumber);
     if (part.catalogPage?.trim()) return part.catalogPage.trim();
     return "";
   }
+  const fromNotes = part.notes
+    ?.match(/(?:aisle|shelf|loc(?:ation)?)\s*[:#]?\s*([A-Za-z0-9\-/. ]{1,24})/i)?.[1]
+    ?.trim();
+  if (fromNotes) return fromNotes;
   return part.catalogPage?.trim() || (part.boxNumber != null ? String(part.boxNumber) : "");
 }
 

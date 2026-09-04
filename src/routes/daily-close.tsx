@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MessageCircle } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { buildDailyDigestText, openDailyDigestWhatsApp } from "@/lib/daily-digest";
 import { localTodayIso } from "@/lib/date-local";
 import { computeDrawerExpected } from "@/lib/drawer-radar";
 import { currency } from "@/lib/mock-data";
@@ -53,8 +55,8 @@ function csvEscape(value: string | number): string {
 }
 
 function DailyClosePage() {
-  const { documents } = useDocuments();
-  const { dailyCloses, addDailyClose } = usePrefs();
+  const { documents, invoices } = useDocuments();
+  const { dailyCloses, addDailyClose, digestPhone, setDigestPhone } = usePrefs();
   const [date, setDate] = useState(localTodayIso);
   const [countedCash, setCountedCash] = useState("");
   const [countedOmt, setCountedOmt] = useState("");
@@ -289,6 +291,38 @@ function DailyClosePage() {
             <Button type="button" variant="outline" onClick={printZReport}>
               Print Z-report
             </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="gap-1.5"
+              onClick={() => {
+                const invoiceCount = invoices.filter((i) => i.date === date).length;
+                const text = buildDailyDigestText(expected, {
+                  invoiceCount,
+                  note: note.trim() || undefined,
+                });
+                openDailyDigestWhatsApp(digestPhone, text);
+                toast.success(
+                  digestPhone
+                    ? "WhatsApp digest opened"
+                    : "WhatsApp opened — pick a chat (set digest phone below to skip)",
+                );
+              }}
+            >
+              <MessageCircle className="h-4 w-4" />
+              WhatsApp digest
+            </Button>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="digest-phone">Digest phone (owner / manager)</Label>
+            <Input
+              id="digest-phone"
+              value={digestPhone ?? ""}
+              onChange={(e) => setDigestPhone(e.target.value)}
+              placeholder="9613… or leave blank to pick chat"
+              inputMode="tel"
+            />
           </div>
         </CardContent>
       </Card>
