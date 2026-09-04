@@ -2,6 +2,7 @@ import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
 import type { SavedDocument } from "@/components/app/documents-context";
+import { effectiveFulfillment, fulfillmentIsMixed } from "@/lib/fulfillment";
 
 /** Warehouse packing / pick slip — no prices, sorted by box when possible. */
 export function downloadPackingSlip(doc: SavedDocument): void {
@@ -23,8 +24,10 @@ export function downloadPackingSlip(doc: SavedDocument): void {
   pdf.setTextColor(88, 98, 112);
   pdf.text(`Date: ${doc.date}`, margin, 34);
   pdf.text(`Customer: ${doc.partyName || "—"}`, margin, 40);
-  if (doc.fulfillmentStatus) {
-    pdf.text(`Status: ${doc.fulfillmentStatus}`, margin, 46);
+  const overall = effectiveFulfillment(doc);
+  const mixed = fulfillmentIsMixed(doc.lines ?? []);
+  if (overall) {
+    pdf.text(`Status: ${mixed ? `Mixed (${overall})` : overall}`, margin, 46);
   }
   pdf.text(`Printed ${new Date().toLocaleString()}`, 120, 34);
 
@@ -36,8 +39,8 @@ export function downloadPackingSlip(doc: SavedDocument): void {
   });
 
   autoTable(pdf, {
-    startY: doc.fulfillmentStatus ? 52 : 48,
-    head: [["Part #", "Description", "Box", "Size", "Qty"]],
+    startY: overall ? 52 : 48,
+    head: [["Part #", "Description", "Box", "Size", "Qty", "Status"]],
     body: lines.map((l) => [
       l.partNumber,
       l.name || "—",
@@ -46,13 +49,15 @@ export function downloadPackingSlip(doc: SavedDocument): void {
         ? `${l.insideDiameterMm ?? "—"} × ${l.crossSectionMm ?? "—"}`
         : "—",
       String(l.qty),
+      l.fulfillmentStatus ?? overall ?? "—",
     ]),
     styles: { fontSize: 9, cellPadding: 2.5 },
     headStyles: { fillColor: [18, 42, 86], textColor: 255 },
     columnStyles: {
-      0: { cellWidth: 32, fontStyle: "bold" },
-      2: { cellWidth: 16, halign: "center" },
-      4: { cellWidth: 14, halign: "right", fontStyle: "bold" },
+      0: { cellWidth: 28, fontStyle: "bold" },
+      2: { cellWidth: 14, halign: "center" },
+      4: { cellWidth: 12, halign: "right", fontStyle: "bold" },
+      5: { cellWidth: 28 },
     },
     margin: { left: margin, right: margin },
   });

@@ -47,7 +47,13 @@ import {
   type QuoteStatus,
   type SavedDocument,
 } from "@/components/app/documents-context";
-import { FULFILLMENT_STATUSES, type FulfillmentStatus } from "@/lib/fulfillment";
+import {
+  FULFILLMENT_STATUSES,
+  deriveDocFulfillment,
+  effectiveFulfillment,
+  fulfillmentIsMixed,
+  type FulfillmentStatus,
+} from "@/lib/fulfillment";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -659,12 +665,32 @@ function DocumentsPage() {
                   />,
                   <Select
                     key="f"
-                    value={iv.fulfillmentStatus ?? "__none__"}
+                    value={
+                      fulfillmentIsMixed(iv.lines ?? [])
+                        ? "__mixed__"
+                        : (effectiveFulfillment(iv) ?? "__none__")
+                    }
                     onValueChange={(v) => {
+                      if (v === "__mixed__") return;
+                      if (v === "__none__") {
+                        updateDocument({
+                          ...iv,
+                          fulfillmentStatus: undefined,
+                          lines: (iv.lines ?? []).map((l) => ({
+                            ...l,
+                            fulfillmentStatus: undefined,
+                          })),
+                        });
+                        return;
+                      }
+                      const next = v as FulfillmentStatus;
                       updateDocument({
                         ...iv,
-                        fulfillmentStatus:
-                          v === "__none__" ? undefined : (v as FulfillmentStatus),
+                        fulfillmentStatus: next,
+                        lines: (iv.lines ?? []).map((l) => ({
+                          ...l,
+                          fulfillmentStatus: next,
+                        })),
                       });
                     }}
                   >
@@ -676,6 +702,11 @@ function DocumentsPage() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="__none__">—</SelectItem>
+                      {fulfillmentIsMixed(iv.lines ?? []) ? (
+                        <SelectItem value="__mixed__" disabled>
+                          Mixed ({deriveDocFulfillment(iv.lines ?? [])})
+                        </SelectItem>
+                      ) : null}
                       {FULFILLMENT_STATUSES.map((s) => (
                         <SelectItem key={s} value={s}>
                           {s}

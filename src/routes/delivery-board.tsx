@@ -17,7 +17,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FULFILLMENT_STATUSES, type FulfillmentStatus } from "@/lib/fulfillment";
+import {
+  FULFILLMENT_STATUSES,
+  deriveDocFulfillment,
+  effectiveFulfillment,
+  fulfillmentIsMixed,
+  type FulfillmentStatus,
+} from "@/lib/fulfillment";
 import { currency } from "@/lib/mock-data";
 import { normalizePhoneE164 } from "@/lib/phone";
 import { downloadPackingSlip } from "@/lib/packing-slip";
@@ -33,7 +39,7 @@ export const Route = createFileRoute("/delivery-board")({
 });
 
 function statusOf(doc: SavedDocument): FulfillmentStatus {
-  return doc.fulfillmentStatus ?? "Waiting parts";
+  return effectiveFulfillment(doc) ?? "Waiting parts";
 }
 
 function DeliveryBoardPage() {
@@ -59,16 +65,41 @@ function DeliveryBoardPage() {
     }));
   }, [openInvoices]);
 
-  const setStatus = (iv: SavedDocument, next: FulfillmentStatus) => {
-    updateDocument({ ...iv, fulfillmentStatus: next });
-    toast.success(`${iv.id} → ${next}`);
+  const setDocStatus = (iv: SavedDocument, next: FulfillmentStatus) => {
+    updateDocument({
+      ...iv,
+      fulfillmentStatus: next,
+      lines: (iv.lines ?? []).map((l) => ({ ...l, fulfillmentStatus: next })),
+    });
+    toast.success(`${iv.id} → ${next} (all lines)`);
+  };
+
+  const setLineStatus = (
+    iv: SavedDocument,
+    partId: string,
+    next: FulfillmentStatus | undefined,
+  ) => {
+    const lines = (iv.lines ?? []).map((l) =>
+      l.partId === partId ? { ...l, fulfillmentStatus: next } : l,
+    );
+    const derived = deriveDocFulfillment(lines);
+    updateDocument({
+      ...iv,
+      lines,
+      fulfillmentStatus: derived ?? iv.fulfillmentStatus,
+    });
+    toast.success(
+      next
+        ? `${iv.id} · line → ${next}`
+        : `${iv.id} · line status cleared`,
+    );
   };
 
   return (
     <>
       <PageHeader
         title="Delivery / pickup board"
-        subtitle="Advance each invoice from waiting parts → ready → delivered / picked up"
+        subtitle="Mark some lines Ready and others Waiting on the same invoice — or advance the whole order"
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         {openInvoices.length === 0 ? (
@@ -96,6 +127,7 @@ function DeliveryBoardPage() {
                         (c) => c.id === iv.partyId || c.name === iv.partyName,
                       );
                       const phone = normalizePhoneE164(client?.phone ?? "");
+                      const mixed = fulfillmentIsMixed(iv.lines ?? []);
                       return (
                         <div
                           key={iv.id}
@@ -107,6 +139,7 @@ function DeliveryBoardPage() {
                               <p className="truncate text-sm font-medium">{iv.partyName}</p>
                               <p className="text-xs text-muted-foreground">
                                 {iv.date} · {currency(iv.total)}
+                                {mixed ? " · Mixed lines" : ""}
                               </p>
                               {client?.address ? (
                                 <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
@@ -117,7 +150,7 @@ function DeliveryBoardPage() {
                           </div>
                           <Select
                             value={statusOf(iv)}
-                            onValueChange={(v) => setStatus(iv, v as FulfillmentStatus)}
+                            onValueChange={(v) => setDocStatus(iv, v as FulfillmentStatus)}
                           >
                             <SelectTrigger className="h-9">
                               <SelectValue />
@@ -125,11 +158,62 @@ function DeliveryBoardPage() {
                             <SelectContent>
                               {FULFILLMENT_STATUSES.map((s) => (
                                 <SelectItem key={s} value={s}>
-                                  {s}
+                                  All lines · {s}
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
+                          {(iv.lines ?? []).length > 0 ? (
+                            <div className="space-y-1.5 rounded-md border border-dashed border-border p-2">
+                              <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                                Partial pickup
+                              </p>
+                              {(iv.lines ?? []).slice(0, 12).map((line) => (
+                                <div
+                                  key={`${iv.id}-${line.partId}`}
+                                  className="flex items-center gap-2"
+                                >
+                                  <div className="min-w-0 flex-1">
+                                    <p className="truncate font-mono text-[11px] font-semibold">
+                                      {line.partNumber}
+                                    </p>
+                                    <p className="truncate text-[10px] text-muted-foreground">
+                                      ×{line.qty} {line.name}
+                                    </p>
+                                  </div>
+                                  <Select
+                                    value={line.fulfillmentStatus ?? "__inherit__"}
+                                    onValueChange={(v) =>
+                                      setLineStatus(
+                                        iv,
+                                        line.partId,
+                                        v === "__inherit__"
+                                          ? undefined
+                                          : (v as FulfillmentStatus),
+                                      )
+                                    }
+                                  >
+                                    <SelectTrigger className="h-8 w-[7.5rem] shrink-0 text-[11px]">
+                                      <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="__inherit__">—</SelectItem>
+                                      {FULFILLMENT_STATUSES.map((s) => (
+                                        <SelectItem key={s} value={s}>
+                                          {s}
+                                        </SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              ))}
+                              {(iv.lines ?? []).length > 12 ? (
+                                <p className="text-[10px] text-muted-foreground">
+                                  +{(iv.lines ?? []).length - 12} more — edit invoice for all
+                                </p>
+                              ) : null}
+                            </div>
+                          ) : null}
                           <div className="flex flex-wrap gap-2">
                             <Button
                               type="button"
@@ -146,7 +230,9 @@ function DeliveryBoardPage() {
                               <Button type="button" size="sm" variant="outline" asChild>
                                 <a
                                   href={`https://wa.me/${phone}?text=${encodeURIComponent(
-                                    `Hi ${iv.partyName}, your order ${iv.id} is ${statusOf(iv)}.`,
+                                    `Hi ${iv.partyName}, your order ${iv.id} is ${statusOf(iv)}${
+                                      mixed ? " (some lines still waiting)" : ""
+                                    }.`,
                                   )}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
@@ -156,6 +242,9 @@ function DeliveryBoardPage() {
                                 </a>
                               </Button>
                             ) : null}
+                            <Button type="button" size="sm" variant="ghost" asChild>
+                              <Link to="/documents">Documents</Link>
+                            </Button>
                           </div>
                         </div>
                       );
@@ -167,10 +256,8 @@ function DeliveryBoardPage() {
           </div>
         )}
         <p className="text-xs text-muted-foreground">
-          Tip: set fulfillment status at checkout, or change it here / on Documents.
-          <Link to="/documents" className="ml-1 text-primary hover:underline">
-            Open documents →
-          </Link>
+          Tip: set individual lines to Ready / Waiting parts for partial pickup, or use “All lines”
+          to advance the whole invoice.
         </p>
       </main>
     </>

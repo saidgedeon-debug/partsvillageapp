@@ -7,6 +7,7 @@ import { DocumentDiscountControls } from "@/components/app/document-discount-con
 import { useDocuments, type SavedDocument } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
+import { useKits } from "@/components/app/kits-context";
 import { useParties } from "@/components/app/parties-context";
 import { usePrefs } from "@/components/app/prefs-context";
 import { PartySearchPicker } from "@/components/app/party-search-picker";
@@ -39,6 +40,7 @@ import {
   roundMoney,
   type DocumentDiscountType,
 } from "@/lib/document-money";
+import { addKitPartsToCart, kitsForMachine } from "@/lib/cross-sell";
 import { FULFILLMENT_STATUSES, type FulfillmentStatus } from "@/lib/fulfillment";
 import { currency } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
@@ -58,6 +60,7 @@ export function CheckoutDialog() {
     clearPreferWhatsAppShare,
     lines,
     documentKind,
+    addPart,
     clearCart,
     setCartOpen,
     updateLineCost,
@@ -66,7 +69,8 @@ export function CheckoutDialog() {
   } = useCart();
   const { addDocument, updateDocument } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
-  const { addOrder, machinesByClient } = useFleet();
+  const { addOrder, machinesByClient, machines } = useFleet();
+  const { kits } = useKits();
   const { clients, suppliers } = useParties();
   const { priceBooks } = usePrefs();
   const [priceBookId, setPriceBookId] = useState("");
@@ -86,6 +90,15 @@ export function CheckoutDialog() {
   const isInquiry = documentKind === "inquiry";
   const isInvoice = documentKind === "invoice";
   const canDiscount = documentKind === "quotation" || documentKind === "invoice";
+
+  const selectedMachine = useMemo(
+    () => machines.find((m) => m.id === machineId),
+    [machines, machineId],
+  );
+  const machineKits = useMemo(() => {
+    if (!selectedMachine) return [];
+    return kitsForMachine(kits, selectedMachine.make, selectedMachine.model);
+  }, [kits, selectedMachine]);
 
   useEffect(() => {
     if (checkoutOpen) {
@@ -198,6 +211,11 @@ export function CheckoutDialog() {
       const status: SavedDocument["status"] =
         documentKind === "quotation" ? "Sent" : documentKind === "invoice" ? "Unpaid" : "Open";
 
+      const savedLines =
+        isInvoice && fulfillmentStatus
+          ? lines.map((l) => ({ ...l, fulfillmentStatus: fulfillmentStatus as FulfillmentStatus }))
+          : [...lines];
+
       const saved: SavedDocument = {
         id,
         kind: documentKind,
@@ -209,7 +227,7 @@ export function CheckoutDialog() {
         total: computedTotal,
         status,
         includeCost: isInquiry ? includeCost : undefined,
-        lines: [...lines],
+        lines: savedLines,
         stockDeducted: false,
         oversoldByPart:
           oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
@@ -384,6 +402,33 @@ export function CheckoutDialog() {
                     ))}
                   </SelectContent>
                 </Select>
+                {machineKits.length > 0 ? (
+                  <div className="space-y-1.5 rounded-md border border-dashed border-border p-2">
+                    <p className="text-[11px] font-medium text-muted-foreground">
+                      Sell kit for {selectedMachine?.make} {selectedMachine?.model}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {machineKits.map((kit) => (
+                        <Button
+                          key={kit.id}
+                          type="button"
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => {
+                            const n = addKitPartsToCart(kit, getPart, addPart);
+                            toast.success(
+                              n > 0
+                                ? `Added ${n} parts from “${kit.name}”`
+                                : `No stocked parts found for “${kit.name}”`,
+                            );
+                          }}
+                        >
+                          {kit.name} ({kit.lines.length})
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               </div>
             ) : null}
             {isInvoice ? (

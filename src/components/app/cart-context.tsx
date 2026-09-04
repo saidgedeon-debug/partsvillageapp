@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useState, type ReactNo
 import { toast } from "sonner";
 
 import { useCloudState } from "@/lib/cloud-store";
+import type { FulfillmentStatus } from "@/lib/fulfillment";
 import type { Part } from "@/lib/mock-data";
 
 export type DocumentKind = "quotation" | "invoice" | "inquiry" | "receipt" | "credit_note";
@@ -21,6 +22,8 @@ export type CartLine = {
   unitCost: number;
   qty: number;
   priceOverrideReason?: string;
+  /** Invoice line pickup/delivery status (partial fulfillment). */
+  fulfillmentStatus?: FulfillmentStatus;
 };
 
 export type HeldCart = {

@@ -1,15 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Wrench } from "lucide-react";
+import { ArrowLeft, PackagePlus, Wrench } from "lucide-react";
 import { useMemo } from "react";
+import { toast } from "sonner";
 
+import { useCart } from "@/components/app/cart-context";
 import { EmptyState } from "@/components/app/empty-state";
 import { PageHeader } from "@/components/app/page-header";
 import { useDocuments } from "@/components/app/documents-context";
 import { useFleet } from "@/components/app/fleet-context";
+import { useInventory } from "@/components/app/inventory-context";
+import { useKits } from "@/components/app/kits-context";
 import { useParties } from "@/components/app/parties-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -18,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { addKitPartsToCart, kitsForMachine } from "@/lib/cross-sell";
 import { currency } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/fleet/$machineId")({
@@ -32,10 +37,18 @@ function MachineHistoryPage() {
   const { machines, ordersByMachine } = useFleet();
   const { clients } = useParties();
   const { documents } = useDocuments();
+  const { kits } = useKits();
+  const { getPart } = useInventory();
+  const { addPart, setDocumentKind, documentKind, setCartOpen, setCartParty } = useCart();
 
   const machine = machines.find((m) => m.id === machineId);
   const client = clients.find((c) => c.id === machine?.clientId);
   const fleetOrders = ordersByMachine(machineId);
+
+  const matchedKits = useMemo(() => {
+    if (!machine) return [];
+    return kitsForMachine(kits, machine.make, machine.model);
+  }, [kits, machine]);
 
   const timeline = useMemo(() => {
     const rows: {
@@ -108,6 +121,20 @@ function MachineHistoryPage() {
     );
   }
 
+  const sellKit = (kitId: string) => {
+    const kit = kits.find((k) => k.id === kitId);
+    if (!kit) return;
+    if (!documentKind) setDocumentKind("invoice");
+    if (client) setCartParty(client.id, client.name);
+    const n = addKitPartsToCart(kit, getPart, addPart);
+    setCartOpen(true);
+    toast.success(
+      n > 0
+        ? `Added ${n} parts from “${kit.name}”`
+        : `No stocked parts found for “${kit.name}”`,
+    );
+  };
+
   return (
     <>
       <PageHeader
@@ -124,10 +151,38 @@ function MachineHistoryPage() {
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap gap-2">
-          <Badge variant="secondary">{fleetOrders.length} order link{fleetOrders.length === 1 ? "" : "s"}</Badge>
-          <Badge variant="outline">{timeline.length} line{timeline.length === 1 ? "" : "s"}</Badge>
+          <Badge variant="secondary">
+            {fleetOrders.length} order link{fleetOrders.length === 1 ? "" : "s"}
+          </Badge>
+          <Badge variant="outline">
+            {timeline.length} line{timeline.length === 1 ? "" : "s"}
+          </Badge>
           {machine.year ? <Badge variant="outline">{machine.year}</Badge> : null}
         </div>
+
+        {matchedKits.length > 0 ? (
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-base">
+                <PackagePlus className="h-4 w-4" />
+                Sell kit
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-wrap gap-2">
+              {matchedKits.map((kit) => (
+                <Button
+                  key={kit.id}
+                  type="button"
+                  variant="secondary"
+                  onClick={() => sellKit(kit.id)}
+                >
+                  {kit.name} ({kit.lines.length} parts)
+                </Button>
+              ))}
+            </CardContent>
+          </Card>
+        ) : null}
+
         <Card>
           <CardContent className="p-0">
             <Table>

@@ -40,8 +40,7 @@ import {
 } from "@/components/app/documents-context";
 import { PartyFormDialog } from "@/components/app/party-form-dialog";
 import { PdfPreviewDialog } from "@/components/app/pdf-preview-dialog";
-import { kitMatchesMachine } from "@/lib/part-identity";
-import { buildCrossSellSuggestions, flattenInvoiceHistory } from "@/lib/cross-sell";
+import { addKitPartsToCart, buildCrossSellSuggestions, flattenInvoiceHistory, kitsForMachine } from "@/lib/cross-sell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -1082,7 +1081,7 @@ function ClientDetail() {
               (s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0),
               0,
             );
-            const matchedKits = kits.filter((kit) => kitMatchesMachine(kit.machine, m.make, m.model));
+            const matchedKits = kitsForMachine(kits, m.make, m.model);
             return (
               <Card key={m.id}>
                 <CardHeader className="flex flex-row items-start justify-between gap-4 pb-3">
@@ -1113,16 +1112,13 @@ function ClientDetail() {
                           variant="secondary"
                           onClick={() => {
                             if (!documentKind) setDocumentKind("quotation");
-                            let n = 0;
-                            for (const line of kit.lines) {
-                              const p = getPart(line.partId);
-                              if (p) {
-                                addPart(p, line.qty);
-                                n += 1;
-                              }
-                            }
+                            const n = addKitPartsToCart(kit, getPart, addPart);
                             setCartOpen(true);
-                            toast.success(`Added ${n} parts from “${kit.name}”`);
+                            toast.success(
+                              n > 0
+                                ? `Added ${n} parts from “${kit.name}”`
+                                : `No stocked parts found for “${kit.name}”`,
+                            );
                           }}
                         >
                           {kit.name} ({kit.lines.length})

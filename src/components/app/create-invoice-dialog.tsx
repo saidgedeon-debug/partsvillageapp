@@ -31,6 +31,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { generateDocId, lineTotal } from "@/lib/document-export";
 import {
@@ -39,6 +46,11 @@ import {
   roundMoney,
   type DocumentDiscountType,
 } from "@/lib/document-money";
+import {
+  FULFILLMENT_STATUSES,
+  deriveDocFulfillment,
+  type FulfillmentStatus,
+} from "@/lib/fulfillment";
 import { currency, partNumbersOf, type Part } from "@/lib/mock-data";
 import { isDocumentCreatedPart, clearDocumentCreatedParts } from "@/lib/document-created-parts";
 import {
@@ -216,8 +228,11 @@ export function CreateInvoiceDialog({
 
   const updateLine = (
     partId: string,
-    patch: Partial<Pick<CartLine, "qty" | "unitPrice" | "name" | "partNumber">> & {
+    patch: Partial<
+      Pick<CartLine, "qty" | "unitPrice" | "name" | "partNumber" | "fulfillmentStatus">
+    > & {
       size?: string;
+      clearFulfillment?: boolean;
     },
   ) => {
     setLines((prev) =>
@@ -234,6 +249,11 @@ export function CreateInvoiceDialog({
         }
         if (patch.name !== undefined) next.name = patch.name;
         if (patch.partNumber !== undefined) next.partNumber = patch.partNumber;
+        if (patch.clearFulfillment) {
+          next.fulfillmentStatus = undefined;
+        } else if (patch.fulfillmentStatus !== undefined) {
+          next.fulfillmentStatus = patch.fulfillmentStatus;
+        }
         if (patch.size !== undefined) {
           const parsed = parseSize(patch.size);
           next.insideDiameterMm = parsed.insideDiameterMm;
@@ -335,6 +355,7 @@ export function CreateInvoiceDialog({
           amountPaid: paid,
           status,
           lines: [...lines],
+          fulfillmentStatus: deriveDocFulfillment(lines) ?? editing.fulfillmentStatus,
           internalNote: note,
           customerNote: printedNote,
           discountType: appliedDiscount?.type,
@@ -572,8 +593,9 @@ export function CreateInvoiceDialog({
                 {lines.map((l) => (
                   <div
                     key={l.partId}
-                    className="grid grid-cols-1 gap-2 border-b border-border p-3 last:border-b-0 md:grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] md:items-center md:gap-2 md:px-3 md:py-2"
+                    className="border-b border-border last:border-b-0"
                   >
+                    <div className="grid grid-cols-1 gap-2 p-3 md:grid-cols-[5.5rem_minmax(0,1fr)_6.5rem_4rem_5rem_4.5rem_2.25rem] md:items-center md:gap-2 md:px-3 md:py-2">
                     <Input
                       value={l.partNumber}
                       onChange={(e) => updateLine(l.partId, { partNumber: e.target.value })}
@@ -631,6 +653,38 @@ export function CreateInvoiceDialog({
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </div>
+                    </div>
+                    {isInvoice ? (
+                      <div className="flex items-center gap-2 px-3 pb-3 md:px-3 md:pb-2">
+                        <span className="shrink-0 text-[11px] font-medium text-muted-foreground">
+                          Pickup
+                        </span>
+                        <Select
+                          value={l.fulfillmentStatus ?? "__none__"}
+                          onValueChange={(v) => {
+                            if (v === "__none__") {
+                              updateLine(l.partId, { clearFulfillment: true });
+                            } else {
+                              updateLine(l.partId, {
+                                fulfillmentStatus: v as FulfillmentStatus,
+                              });
+                            }
+                          }}
+                        >
+                          <SelectTrigger className="h-8 max-w-[11rem] text-xs">
+                            <SelectValue placeholder="—" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none__">—</SelectItem>
+                            {FULFILLMENT_STATUSES.map((s) => (
+                              <SelectItem key={s} value={s}>
+                                {s}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ) : null}
                   </div>
                 ))}
               </div>

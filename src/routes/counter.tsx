@@ -8,13 +8,16 @@ import { useCart } from "@/components/app/cart-context";
 import { PhotoPartMatchDialog } from "@/components/app/photo-part-match-dialog";
 import { VoiceCartButton } from "@/components/app/voice-cart-button";
 import { useDocuments } from "@/components/app/documents-context";
+import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
+import { useKits } from "@/components/app/kits-context";
 import { useParties } from "@/components/app/parties-context";
 import { usePrefs } from "@/components/app/prefs-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCloudHealth, usePendingSyncCount, retryCloudSync } from "@/lib/cloud-store";
+import { addKitPartsToCart, kitsForMachine } from "@/lib/cross-sell";
 import { rankByFuzzyScore } from "@/lib/fuzzy-search";
 import { primaryPartImage } from "@/lib/part-image";
 import { lastClientSalePrice } from "@/lib/part-price-history";
@@ -30,9 +33,11 @@ type Detector = { detect: (source: ImageBitmapSource) => Promise<Array<{ rawValu
 type DetectorCtor = new (options?: { formats?: string[] }) => Detector;
 
 function CounterPage() {
-  const { parts } = useInventory();
+  const { parts, getPart } = useInventory();
   const { clients } = useParties();
   const { invoices } = useDocuments();
+  const { machinesByClient } = useFleet();
+  const { kits } = useKits();
   const { isFavorite, toggleFavorite, favoritePartIds } = usePrefs();
   const {
     addPart,
@@ -51,6 +56,7 @@ function CounterPage() {
     discardHeldCart,
   } = useCart();
   const [heldOpen, setHeldOpen] = useState(false);
+  const [kitMachineId, setKitMachineId] = useState<string>("");
   const [subPrompt, setSubPrompt] = useState<{
     original: Part;
     substitutes: Part[];
@@ -153,6 +159,36 @@ function CounterPage() {
     }
     return out;
   }, [invoices, partyId, partyName, parts]);
+
+  const clientMachines = useMemo(() => {
+    if (!partyId) return [];
+    return machinesByClient(partyId);
+  }, [machinesByClient, partyId]);
+
+  const activeKitMachine = useMemo(() => {
+    if (!clientMachines.length) return undefined;
+    return clientMachines.find((m) => m.id === kitMachineId) ?? clientMachines[0];
+  }, [clientMachines, kitMachineId]);
+
+  const counterKits = useMemo(() => {
+    if (!activeKitMachine) return [];
+    return kitsForMachine(kits, activeKitMachine.make, activeKitMachine.model);
+  }, [activeKitMachine, kits]);
+
+  useEffect(() => {
+    if (!partyId) {
+      setKitMachineId("");
+      return;
+    }
+    const list = machinesByClient(partyId);
+    if (list.length === 0) {
+      setKitMachineId("");
+      return;
+    }
+    if (!list.some((m) => m.id === kitMachineId)) {
+      setKitMachineId(list[0].id);
+    }
+  }, [partyId, machinesByClient, kitMachineId]);
 
   const matches = useMemo(
     () =>
@@ -519,6 +555,55 @@ function CounterPage() {
                 <X className="h-3.5 w-3.5" />
                 Clear
               </Button>
+            </div>
+          ) : null}
+          {clientMachines.length > 0 ? (
+            <div className="space-y-1.5">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Machine kit
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {clientMachines.map((m) => (
+                  <Button
+                    key={m.id}
+                    type="button"
+                    size="sm"
+                    variant={activeKitMachine?.id === m.id ? "default" : "outline"}
+                    onClick={() => setKitMachineId(m.id)}
+                  >
+                    {m.make} {m.model}
+                  </Button>
+                ))}
+              </div>
+              {counterKits.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {counterKits.map((kit) => (
+                    <Button
+                      key={kit.id}
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => {
+                        if (!documentKind) setDocumentKind("invoice");
+                        const n = addKitPartsToCart(kit, getPart, addPart);
+                        setCartOpen(true);
+                        toast.success(
+                          n > 0
+                            ? `Added ${n} parts from “${kit.name}”`
+                            : `No stocked parts found for “${kit.name}”`,
+                        );
+                      }}
+                    >
+                      Sell {kit.name} ({kit.lines.length})
+                    </Button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  No kits match {activeKitMachine?.make} {activeKitMachine?.model} — create one in
+                  Kits.
+                </p>
+              )}
             </div>
           ) : null}
           {lastBought.length > 0 ? (

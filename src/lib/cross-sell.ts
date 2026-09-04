@@ -1,6 +1,29 @@
 import type { SavedDocument } from "@/components/app/documents-context";
 import type { PartKit } from "@/components/app/kits-context";
+import type { Part } from "@/lib/mock-data";
 import { kitMatchesMachine } from "@/lib/part-identity";
+
+/** Kits whose machine label matches make/model. */
+export function kitsForMachine(kits: PartKit[], make: string, model: string): PartKit[] {
+  return kits.filter((kit) => kitMatchesMachine(kit.machine, make, model));
+}
+
+/** Add every kit line that exists in inventory. Returns count of parts added. */
+export function addKitPartsToCart(
+  kit: PartKit,
+  getPart: (id: string) => Part | undefined,
+  addPart: (part: Part, qty?: number) => void,
+): number {
+  let n = 0;
+  for (const line of kit.lines) {
+    const p = getPart(line.partId);
+    if (p) {
+      addPart(p, line.qty);
+      n += 1;
+    }
+  }
+  return n;
+}
 
 export type CrossSellSuggestion = {
   partId: string;

@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { addKitPartsToCart } from "@/lib/cross-sell";
 import { partNumbersOf } from "@/lib/mock-data";
 
 type Props = {
@@ -109,16 +110,13 @@ export function KitsDialog({ open, onOpenChange }: Props) {
     const kit = kits.find((k) => k.id === kitId);
     if (!kit) return;
     if (!documentKind) setDocumentKind("quotation");
-    let n = 0;
-    for (const line of kit.lines) {
-      const p = getPart(line.partId);
-      if (p) {
-        addPart(p, line.qty);
-        n += 1;
-      }
-    }
+    const n = addKitPartsToCart(kit, getPart, addPart);
     setCartOpen(true);
-    toast.success(`Added ${n} parts from “${kit.name}” to cart`);
+    toast.success(
+      n > 0
+        ? `Added ${n} parts from “${kit.name}” to cart`
+        : `No stocked parts found for “${kit.name}”`,
+    );
     onOpenChange(false);
   };
 
