@@ -71,21 +71,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { isDocumentCreatedPart } from "@/lib/document-created-parts";
-import {
-  downloadSavedDocument,
-  openSavedDocument,
-  shareSavedDocument,
-  paymentHistoryLinesForInvoice,
-} from "@/lib/document-export";
+import { downloadSavedDocument, openSavedDocument, shareSavedDocument, paymentHistoryLinesForInvoice } from "@/lib/document-export";
 import { currency } from "@/lib/mock-data";
 import { downloadPackingSlip } from "@/lib/packing-slip";
 import {
@@ -155,11 +143,9 @@ function DocumentsPage() {
   const [reallocateOpen, setReallocateOpen] = useState(false);
   const [returnOpen, setReturnOpen] = useState(false);
   const [returnInvoice, setReturnInvoice] = useState<SavedDocument | null>(null);
-  const [preview, setPreview] = useState<{
-    id: string;
-    blobUrl: string;
-    doc: SavedDocument;
-  } | null>(null);
+  const [preview, setPreview] = useState<{ id: string; blobUrl: string; doc: SavedDocument } | null>(
+    null,
+  );
 
   const filteredQuotes = useMemo(
     () =>
@@ -234,7 +220,8 @@ function DocumentsPage() {
     });
   }, [filteredReceipts]);
   const invoicesWithReceipt = useMemo(
-    () => new Set(receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id))),
+    () =>
+      new Set(receipts.map((r) => r.invoiceId).filter((id): id is string => Boolean(id))),
     [receipts],
   );
   const filteredCreditNotes = useMemo(
@@ -299,9 +286,7 @@ function DocumentsPage() {
     if (quote.kind !== "quotation") return;
     const hamdanQtyWarning =
       String(quote.internalNote ?? "").includes("hamdan-handwritten-order-v1") ||
-      String(quote.customerNote ?? "")
-        .toLowerCase()
-        .includes("643331600");
+      String(quote.customerNote ?? "").toLowerCase().includes("643331600");
     const convertOk = await confirmAction({
       title: `Convert ${quote.id} to invoice?`,
       description:
@@ -366,7 +351,9 @@ function DocumentsPage() {
           })),
         });
       }
-      toast.success(`${quote.id} → ${invoice.id}` + (stockDeducted ? " · stock deducted" : ""));
+      toast.success(
+        `${quote.id} → ${invoice.id}` + (stockDeducted ? " · stock deducted" : ""),
+      );
       void navigate({ search: { tab: "invoices" }, replace: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Convert failed");
@@ -643,16 +630,7 @@ function DocumentsPage() {
                   Record payment
                 </Button>
               }
-              headers={[
-                "#",
-                "Client",
-                "Date",
-                "Parts",
-                "Paid / Total",
-                "Status",
-                "Fulfillment",
-                "",
-              ]}
+              headers={["#", "Client", "Date", "Parts", "Paid / Total", "Status", "Fulfillment", ""]}
               rows={filteredInvoices.map((iv) => ({
                 key: iv.id,
                 onOpen: () => openDoc(iv),
@@ -860,48 +838,33 @@ function DocumentsPage() {
                 const batchMeta = batchId ? receiptBatchTotals.get(batchId) : undefined;
                 const showReallocate = Boolean(batchId && batchMeta && batchMeta.count >= 1);
                 return {
-                  key: rc.id,
-                  onOpen: () => openDoc(rc),
-                  cells: [
-                    <div key="i" className="space-y-1">
-                      <DocIdLink id={rc.id} onOpen={() => openDoc(rc)} />
-                      {batchId ? (
-                        <Badge variant="secondary" className="font-mono text-[10px]">
-                          Batch · {batchMeta?.count ?? 1} · {currency(batchMeta?.total ?? rc.total)}
-                        </Badge>
-                      ) : null}
-                    </div>,
-                    rc.partyName,
-                    rc.paymentDate || rc.date,
-                    <span key="inv" className="font-mono text-xs">
-                      {rc.invoiceId ?? "—"}
-                    </span>,
-                    <span key="m" className="text-xs">
-                      {rc.paymentMethod ?? "—"}
-                      {rc.paymentMobile ? (
-                        <span className="block text-muted-foreground">{rc.paymentMobile}</span>
-                      ) : null}
-                    </span>,
-                    <span key="t" className="font-semibold">
-                      {currency(rc.total)}
-                    </span>,
-                    <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
-                      {showReallocate ? (
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          className="h-8 gap-1.5"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setReallocateBatchId(batchId!);
-                            setReallocateOpen(true);
-                          }}
-                        >
-                          <Split className="h-3.5 w-3.5" />
-                          Reallocate
-                        </Button>
-                      ) : null}
+                key: rc.id,
+                onOpen: () => openDoc(rc),
+                cells: [
+                  <div key="i" className="space-y-1">
+                    <DocIdLink id={rc.id} onOpen={() => openDoc(rc)} />
+                    {batchId ? (
+                      <Badge variant="secondary" className="font-mono text-[10px]">
+                        Batch · {batchMeta?.count ?? 1} · {currency(batchMeta?.total ?? rc.total)}
+                      </Badge>
+                    ) : null}
+                  </div>,
+                  rc.partyName,
+                  rc.paymentDate || rc.date,
+                  <span key="inv" className="font-mono text-xs">
+                    {rc.invoiceId ?? "—"}
+                  </span>,
+                  <span key="m" className="text-xs">
+                    {rc.paymentMethod ?? "—"}
+                    {rc.paymentMobile ? (
+                      <span className="block text-muted-foreground">{rc.paymentMobile}</span>
+                    ) : null}
+                  </span>,
+                  <span key="t" className="font-semibold">
+                    {currency(rc.total)}
+                  </span>,
+                  <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
+                    {showReallocate ? (
                       <Button
                         type="button"
                         size="sm"
@@ -909,94 +872,113 @@ function DocumentsPage() {
                         className="h-8 gap-1.5"
                         onClick={(e) => {
                           e.stopPropagation();
-                          openEditReceipt(rc);
+                          setReallocateBatchId(batchId!);
+                          setReallocateOpen(true);
                         }}
                       >
-                        <Pencil className="h-3.5 w-3.5" />
-                        Edit
+                        <Split className="h-3.5 w-3.5" />
+                        Reallocate
                       </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        className="h-8 gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          void (async () => {
-                            const ok = await confirmAction({
-                              title: "Delete receipt?",
-                              description: deleteReceiptConfirmMessage(rc),
-                              confirmLabel: "Delete",
-                              destructive: true,
-                            });
-                            if (!ok) return;
-                            try {
-                              deleteInvoicePayment(rc.id);
-                              toast.success(`Deleted ${rc.id}`);
-                            } catch (err) {
-                              toast.error(
-                                err instanceof Error ? err.message : "Failed to delete receipt",
-                              );
-                            }
-                          })();
-                        }}
-                      >
-                        <Trash2 className="h-3.5 w-3.5" />
-                        Delete
-                      </Button>
-                      <OpenButton
-                        onOpen={() => openDoc(rc)}
-                        onDownload={() => downloadDoc(rc)}
-                        onShare={() => void shareDoc(rc)}
-                        extraItems={[
-                          ...(showReallocate
-                            ? [
-                                {
-                                  label: "Reallocate batch",
-                                  icon: Split,
-                                  onSelect: () => {
-                                    setReallocateBatchId(batchId!);
-                                    setReallocateOpen(true);
-                                  },
+                    ) : null}
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-8 gap-1.5"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openEditReceipt(rc);
+                      }}
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      Edit
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="h-8 gap-1.5 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void (async () => {
+                          const ok = await confirmAction({
+                            title: "Delete receipt?",
+                            description: deleteReceiptConfirmMessage(rc),
+                            confirmLabel: "Delete",
+                            destructive: true,
+                          });
+                          if (!ok) return;
+                          try {
+                            deleteInvoicePayment(rc.id);
+                            toast.success(`Deleted ${rc.id}`);
+                          } catch (err) {
+                            toast.error(
+                              err instanceof Error ? err.message : "Failed to delete receipt",
+                            );
+                          }
+                        })();
+                      }}
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                      Delete
+                    </Button>
+                    <OpenButton
+                      onOpen={() => openDoc(rc)}
+                      onDownload={() => downloadDoc(rc)}
+                      onShare={() => void shareDoc(rc)}
+                      extraItems={[
+                        ...(showReallocate
+                          ? [
+                              {
+                                label: "Reallocate batch",
+                                icon: Split,
+                                onSelect: () => {
+                                  setReallocateBatchId(batchId!);
+                                  setReallocateOpen(true);
                                 },
-                              ]
-                            : []),
-                          {
-                            label: "Edit payment",
-                            icon: Pencil,
-                            onSelect: () => openEditReceipt(rc),
+                              },
+                            ]
+                          : []),
+                        {
+                          label: "Edit payment",
+                          icon: Pencil,
+                          onSelect: () => openEditReceipt(rc),
+                        },
+                        {
+                          label: "Delete payment",
+                          icon: Trash2,
+                          onSelect: () => {
+                            void (async () => {
+                              const ok = await confirmAction({
+                                title: "Delete receipt?",
+                                description: deleteReceiptConfirmMessage(rc),
+                                confirmLabel: "Delete",
+                                destructive: true,
+                              });
+                              if (!ok) return;
+                              try {
+                                deleteInvoicePayment(rc.id);
+                                toast.success(`Deleted ${rc.id}`);
+                              } catch (err) {
+                                toast.error(
+                                  err instanceof Error ? err.message : "Failed to delete receipt",
+                                );
+                              }
+                            })();
                           },
-                          {
-                            label: "Delete payment",
-                            icon: Trash2,
-                            onSelect: () => {
-                              void (async () => {
-                                const ok = await confirmAction({
-                                  title: "Delete receipt?",
-                                  description: deleteReceiptConfirmMessage(rc),
-                                  confirmLabel: "Delete",
-                                  destructive: true,
-                                });
-                                if (!ok) return;
-                                try {
-                                  deleteInvoicePayment(rc.id);
-                                  toast.success(`Deleted ${rc.id}`);
-                                } catch (err) {
-                                  toast.error(
-                                    err instanceof Error ? err.message : "Failed to delete receipt",
-                                  );
-                                }
-                              })();
-                            },
-                          },
-                        ]}
-                      />
-                    </div>,
-                  ],
-                };
+                        },
+                      ]}
+                    />
+                  </div>,
+                ],
+              };
               })}
-              emptyTitle={q ? `No receipts match “${query}”` : "No receipts yet"}
-              emptyDescription={q ? "Try a different search." : "Record a payment on an invoice."}
+              emptyTitle={
+                q ? `No receipts match “${query}”` : "No receipts yet"
+              }
+              emptyDescription={
+                q ? "Try a different search." : "Record a payment on an invoice."
+              }
               emptyIcon={Banknote}
             />
           </TabsContent>
@@ -1031,7 +1013,9 @@ function DocumentsPage() {
                   />,
                 ],
               }))}
-              emptyTitle={q ? `No credit notes match “${query}”` : "No credit notes yet"}
+              emptyTitle={
+                q ? `No credit notes match “${query}”` : "No credit notes yet"
+              }
               emptyDescription={
                 q
                   ? "Try a different search."
@@ -1112,7 +1096,13 @@ function OpenButton({
 }) {
   return (
     <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-      <Button type="button" size="sm" variant="outline" className="h-8 gap-1.5" onClick={onOpen}>
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        className="h-8 gap-1.5"
+        onClick={onOpen}
+      >
         <Eye className="h-3.5 w-3.5" />
         Open
       </Button>
@@ -1205,7 +1195,10 @@ function DocCard({
         <CardTitle className="text-base">{title}</CardTitle>
         <div className="flex flex-wrap items-center justify-end gap-2">
           {extraAction}
-          <Button size="sm" onClick={onNew}>
+          <Button
+            size="sm"
+            onClick={onNew}
+          >
             {newLabel ?? `+ New ${title.replace(/s$/, "")}`}
           </Button>
         </div>
