@@ -284,15 +284,23 @@ function DocumentsPage() {
 
   const convertQuoteToInvoice = async (quote: SavedDocument) => {
     if (quote.kind !== "quotation") return;
+    const hamdanQtyWarning =
+      String(quote.internalNote ?? "").includes("hamdan-handwritten-order-v1") ||
+      String(quote.customerNote ?? "").toLowerCase().includes("643331600");
     const convertOk = await confirmAction({
       title: `Convert ${quote.id} to invoice?`,
-      description: `Create an unpaid invoice for ${quote.partyName}.`,
+      description:
+        `Create an unpaid invoice for ${quote.partyName}.` +
+        (hamdanQtyWarning
+          ? "\n\nPart 643331600: quantity 10 produces an invoice total of $12,323.40. Quantity 1 would produce $10,973.40.\nConfirm the quantity and total before converting this Draft."
+          : ""),
       confirmLabel: "Convert",
     });
     if (!convertOk) return;
     const deductStock = await confirmAction({
       title: "Deduct stock?",
-      description: "Deduct stock for these lines now?",
+      description:
+        "Deduct stock for these lines now? This is the only stock deduction for this order — do not deduct stock separately.",
       confirmLabel: "Deduct stock",
       cancelLabel: "Keep stock",
     });
