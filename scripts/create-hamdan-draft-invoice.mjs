@@ -1,7 +1,8 @@
 /**
  * Upsert Hamdan handwritten order into live shop_state.
  *
- * - Find existing client "Hamdan" (trim + case-insensitive). Never create a client.
+ * - Find existing client (default "Rida Hamdan"; override with --client "Name").
+ *   Match trim + case-insensitive. Never create a client.
  * - Upsert each SKU (catalog override or custom part). Never treat qty as stock-in.
  * - Do not overwrite existing purchase cost; set sell price only if missing/zero.
  * - Create/refresh one Draft quotation (idempotent). stockDeducted=false.
@@ -9,6 +10,7 @@
  *
  * Usage:
  *   node --env-file=.env.local scripts/create-hamdan-draft-invoice.mjs --yes
+ *   node --env-file=.env.local scripts/create-hamdan-draft-invoice.mjs --yes --client "Rida Hamdan"
  *   node --env-file=.env.local scripts/create-hamdan-draft-invoice.mjs --yes --dry-run
  */
 import fs from "node:fs";
@@ -17,6 +19,11 @@ import { createClient } from "@supabase/supabase-js";
 
 const YES = process.argv.includes("--yes");
 const DRY_RUN = process.argv.includes("--dry-run");
+function argValue(flag) {
+  const i = process.argv.indexOf(flag);
+  return i >= 0 ? process.argv[i + 1] : undefined;
+}
+const CLIENT_QUERY = (argValue("--client") || "Rida Hamdan").trim();
 if (!YES) {
   console.error("Refusing to write shop_state. Re-run with --yes after reviewing.");
   process.exit(1);
@@ -482,36 +489,36 @@ const inventory = {
 };
 const documents = Array.isArray(docsRow.value) ? [...docsRow.value] : [];
 
-const hamdanMatches = parties.clients.filter(
+const clientQueryKey = CLIENT_QUERY.toLowerCase();
+const clientMatches = parties.clients.filter(
   (c) =>
     String(c.name ?? "")
       .trim()
-      .toLowerCase() === "hamdan",
+      .toLowerCase() === clientQueryKey,
 );
-if (hamdanMatches.length === 0) {
-  console.error('ERROR: Client "Hamdan" not found. Invoice not created.');
+if (clientMatches.length === 0) {
+  console.error(`ERROR: Client "${CLIENT_QUERY}" not found. Invoice not created.`);
   const near = parties.clients
-    .filter((c) =>
-      String(c.name ?? "")
-        .toLowerCase()
-        .includes("hamdan"),
-    )
+    .filter((c) => {
+      const n = String(c.name ?? "").toLowerCase();
+      return n.includes("hamdan") || n.includes(clientQueryKey);
+    })
     .map((c) => ({ id: c.id, name: c.name }));
   console.error(near.length ? `Near matches: ${JSON.stringify(near)}` : "Candidates: (none)");
   process.exit(1);
 }
-if (hamdanMatches.length > 1) {
-  console.error("ERROR: Multiple Hamdan clients found. Stopping. Candidates:");
+if (clientMatches.length > 1) {
+  console.error(`ERROR: Multiple clients match "${CLIENT_QUERY}". Stopping. Candidates:`);
   console.error(
     JSON.stringify(
-      hamdanMatches.map((c) => ({ id: c.id, name: c.name, phone: c.phone, email: c.email })),
+      clientMatches.map((c) => ({ id: c.id, name: c.name, phone: c.phone, email: c.email })),
       null,
       2,
     ),
   );
   process.exit(1);
 }
-const client = hamdanMatches[0];
+const client = clientMatches[0];
 console.log(`Using client ${client.name} (${client.id})`);
 
 /** @type {Map<string, { kind: 'custom'|'catalog', id: string }>} */
