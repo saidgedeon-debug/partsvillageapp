@@ -24,18 +24,18 @@
 
 | Status | Count | Share |
 |---|---|---|
-| Pass | 108 | 29% |
-| Fail | 139 | 37% |
+| Pass | 109 | 28% |
+| Fail | 145 | 38% |
 | Blocked | 10 | 3% |
-| Not Verified | 121 | 32% |
-| **Total test cases** | **378** | |
+| Not Verified | 120 | 31% |
+| **Total test cases** | **384** | |
 
 Three things to keep in mind when reading these totals:
 
-- **The 139 failures map to 65 distinct issues**, not 139 problems. A single root cause fails many
+- **The 145 failures map to 67 distinct issues**, not 145 problems. A single root cause fails many
   test cases — `STK-002` (no stock audit trail) alone accounts for eight rows, and `DAT-001` (no
   database constraints) accounts for several more.
-- **The 121 unverified cases are concentrated** in section 14 (design/responsive/accessibility — 36
+- **The 120 unverified cases are concentrated** in section 14 (design/responsive/accessibility — 36
   of 37 rows) and section 17 (route coverage, where routes were mapped from source but not driven
   through a browser). See §17 of the audit report for the full unverified list.
 - **Section 13 (PDF and printing) is now rendered rather than read.** Its 39 cases were produced by
@@ -55,7 +55,7 @@ Three things to keep in mind when reading these totals:
 | 8. Quotations | 25 | 5 | 12 | 0 | 8 |
 | 9. Invoices | 27 | 10 | 8 | 0 | 9 |
 | 10. Inventory and stock | 40 | 8 | 14 | 3 | 15 |
-| 11. Customers and suppliers | 22 | 6 | 8 | 0 | 8 |
+| 11. Customers and suppliers | 28 | 7 | 14 | 0 | 7 |
 | 12. Reports and dashboard | 23 | 2 | 15 | 0 | 6 |
 | 13. PDF and printing | 39 | 18 | 16 | 2 | 3 |
 | 14. Design, responsive, accessibility | 37 | 0 | 1 | 0 | 36 |
@@ -321,9 +321,15 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Parties | `/clients/` | Phone numbers normalised | E.164 | `normalizePhoneE164` covered by 5 passing tests | Build | **Pass** | — |
 | Parties | `/clients/$clientId` | AR statement builds per client | Correct | `buildArStatement` implemented | Source | **Pass** | — |
 | Parties | `/clients/$clientId` | Documents attribute to the correct client | Correct | `documentBelongsToClient` matches on id, falling back to name | Source | **Pass** | — |
-| Parties | `/clients/` | Deleting a client with invoices is blocked | Blocked | No referential integrity; orphaning structurally possible | Source | **Not Verified** | `DAT-001` |
-| Parties | `/clients/` | Archive is distinct from delete | Distinct | No archive concept found for parties | Source | **Fail** | `STK-007` |
-| Parties | `/clients/` | Duplicate customer detection | Warned | No duplicate detection for parties | Source | **Fail** | `STK-006` |
+| Parties | `/clients/$clientId` | Deleting a client with unpaid invoices is blocked | Blocked | Deletion proceeds; the invoices remain but leave AR | Harness | **Fail** | `CUS-001` |
+| Parties | `/` | Dashboard AR total survives deleting an indebted client | Unchanged | **$6,950.00 → $950.00**; $6,000 of receivables vanished | Harness | **Fail** | `CUS-001` |
+| Parties | `/clients/$clientId` | Deleted client's statement is still reachable | Reachable | `getClient(id)` misses → "Client not found"; no route can reach it | Source | **Fail** | `CUS-001` |
+| Parties | `/suppliers/$supplierId` | Delete warns about related history | Warned | Confirm dialog mentions no related inquiries or orders at all | Source | **Fail** | `CUS-001` |
+| Parties | `/clients/` | Archive is distinct from delete | Distinct | No archive concept found for parties | Source | **Fail** | `CUS-001` |
+| Parties | `/clients/` | Duplicate customer detection | Warned | No duplicate detection anywhere in the party forms | Source | **Fail** | `CUS-002` |
+| Parties | `/clients/` | Re-adding an existing name preserves contact details | Preserved | `phone`/`email`/`address`/`contactName` overwritten with `""` | Source | **Fail** | `CUS-002` |
+| Parties | `/documents` | Quotation Excel import preserves an existing client's contacts | Preserved | `addClient({name, notes})` blanks every contact field | Source | **Fail** | `CUS-002` |
+| Parties | `/clients/` | Duplicate name keeps documents correctly linked | Linked | Existing `id` is preserved, so documents stay attached | Source | **Pass** | — |
 | Parties | `/clients/` | Client balance matches source documents | Matches | `netDue = total − paid − credits`; distorted by `FIN-001`/`FIN-003` | Source | **Fail** | `FIN-001` |
 | Parties | `/suppliers/` | Supplier balances tracked | Tracked | Inquiries link to suppliers; no payables ledger | Source | **Not Verified** | — |
 | Parties | `/clients/` | Create a client | Saved | — | — | **Not Verified** | — |

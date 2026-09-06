@@ -67,10 +67,10 @@ keep reappearing until that is addressed.
 | Priority | Count | Meaning |
 |---|---|---|
 | **P0 — Critical** | 5 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 12 | Core feature broken or serious business risk |
+| **P1 — High** | 14 | Core feature broken or serious business risk |
 | **P2 — Medium** | 34 | Important defect with a workaround |
 | **P3 — Low** | 14 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **65** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours (§8), a 10-row verified-correct PDF table (§13), and a `NOT VERIFIED` list (§17) |
+| **Total** | **67** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours (§8), a 10-row verified-correct PDF table (§13), and a `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
@@ -400,6 +400,40 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 - **Business impact:** A corrupted quantity produces a plausible zero-total invoice rather than an error, so the corruption is invisible.
 - **Recommended fix:** Validate at input/parse time with Zod; make `roundMoney` throw (or return `null`) on non-finite input.
 - **Regression test:** Assert that constructing a document with `NaN` qty throws rather than producing `total: 0`.
+
+### `CUS-001` · P1 · Customers — deleting a client hides money they still owe
+
+- **Page/feature:** `/clients/$clientId` → Delete.
+- **Description:** `removeClient` unconditionally filters the party out of the `clients` array. Their invoices stay in the `documents` blob, still carrying the now-dangling `partyId`. Because the dashboard's "Money owed" card and the collections queue are both built by iterating **clients** (`buildClientsArQueue(clients, invoices, creditNotes)`), a deleted client's open invoices stop being counted anywhere.
+- **Actual:** **Verified numerically with the app's own functions.** Two unpaid invoices totalling **$6,000.00** for "Alpha Earthmoving", plus $950.00 for another client:
+
+  | | Alpha Earthmoving | Beta Contracting | Dashboard AR total |
+  |---|---|---|---|
+  | Before delete | $6,000.00 (2 open) | $950.00 (1 open) | **$6,950.00** |
+  | After `removeClient` | — | $950.00 (1 open) | **$950.00** |
+
+  All three invoices are still in the documents blob; `INV-A1` and `INV-A2` still reference the deleted client. **$6,000.00 of receivables silently left the books.** The client detail route resolves the party with `getClient(id)` and renders "Client not found", so there is no longer any route in the app that can produce that client's statement or record a payment against those invoices.
+- **Expected:** Either block deletion while unpaid invoices exist, or archive the client (keeping them in AR calculations) rather than removing the record.
+- **Evidence:** `src/components/app/parties-context.tsx:243-251` (unconditional filter); `src/lib/ar-statement.ts:156-174` (queue iterates clients); `src/routes/index.tsx:159-169` (dashboard AR total). Harness output above.
+- **Reproduction:** Create a client, invoice them twice without payment, note the dashboard "Money owed" figure, delete the client from their detail page, and re-read the dashboard.
+- **Business impact:** This is a money-losing defect dressed up as a tidy-up action. The confirmation dialog says *"Their invoices and receipts stay in Documents"* — which is literally true and actively misleading, because it reassures the operator that nothing is lost while the debt stops being chased. There is no referential integrity to prevent it (`DAT-001`) and no audit log to detect it afterwards.
+- **Relevant files:** `src/components/app/parties-context.tsx`, `src/routes/clients.$clientId.tsx:335-353`, `src/lib/ar-statement.ts`.
+- **Recommended fix:** Block deletion when `invoiceRemaining > 0` for any of the client's invoices; otherwise add an `archived` flag that hides the client from pickers but keeps them in AR and statement calculations.
+- **Regression test:** Assert that deleting a client with an unpaid invoice is refused, and that the dashboard AR total is unchanged.
+- **Note on suppliers:** `removeSupplier` is worse — its confirmation dialog makes no mention of related history at all (`src/routes/suppliers.$supplierId.tsx:60-72`).
+
+### `CUS-002` · P1 · Customers — re-adding an existing name silently overwrites their contact details
+
+- **Page/feature:** New client / new supplier forms, the party quick-picker, and the quotation Excel import.
+- **Description:** `addClient` looks for an existing party whose name matches case-insensitively and, when it finds one, **replaces that record** via `normalizeParty(input, "cli", exists)`. The id is preserved, but `normalizeParty` writes `contactName`, `email`, `phone`, `address`, and `notes` from the input **using `(input.x ?? "").trim()`** — so any field absent from the input becomes an empty string. Nothing in the UI detects or warns about the duplicate.
+- **Actual:** Adding "alpha earthmoving" when "Alpha Earthmoving" already exists silently wipes their phone, email, address, and contact name. The most likely trigger is not manual entry but the importer: `quotation-excel-import-dialog.tsx:95` calls `addClient({ name, notes: "Created from quotation Excel import" })` with no contact fields at all, so **importing a quotation spreadsheet for an existing customer erases that customer's entire contact record** and overwrites their notes.
+- **Expected:** A duplicate name is detected and the operator is asked whether to use the existing record, merge, or create a separate one. An importer should never blank fields it does not supply.
+- **Evidence:** `src/components/app/parties-context.tsx:167-183` (the `exists` branch) and `:118-134` (`normalizeParty` field assignment); call sites at `party-form-dialog.tsx:122`, `party-search-picker.tsx:50`, `quotation-excel-import-dialog.tsx:95`. A repository-wide search for duplicate-name detection in the party forms returns nothing.
+- **Reproduction:** Create client "Alpha Earthmoving" with a phone number. Import a quotation spreadsheet naming "Alpha Earthmoving". Re-open the client — the phone number is gone.
+- **Business impact:** Customer phone numbers are how this business delivers documents (the app shares quotations and invoices over WhatsApp using `partyPhone`). Losing them silently breaks document delivery, and with no audit log the loss is unattributable and unrecoverable. Note the *upside* of the current design: because the id is preserved, existing documents stay correctly linked — so this is contact-data loss, not orphaning.
+- **Relevant files:** `src/components/app/parties-context.tsx`, `src/components/app/quotation-excel-import-dialog.tsx`, `src/components/app/party-form-dialog.tsx`.
+- **Recommended fix:** Split "create" from "upsert". Have `addClient` refuse an existing name and return the match so the caller can prompt; give the importer an explicit `findOrCreateClient` that never writes empty fields over populated ones.
+- **Regression test:** Assert that `addClient({ name: "alpha earthmoving" })` against an existing "Alpha Earthmoving" with a phone number leaves the phone number intact.
 
 ---
 
@@ -1399,7 +1433,7 @@ Stated plainly, as required. These were **not** confirmed and no claim in this r
 4. **Runtime confirmation of the XSS payload rendering in the browser DOM.** React escaping makes this near-certainly safe and there is only one benign `dangerouslySetInnerHTML`. In the **PDF** it is now confirmed safe: the `<b>test</b>` part number renders as literal text (§13). The on-screen DOM was not separately inspected for it.
 5. **Observed dashboard figures.** Every formula in §11 was read from source and the calculation harness exercised the money functions directly, but I did not transcribe the rendered dashboard cards and reconcile them against source records by hand.
 6. **Negative stock behaviour in the UI.** Whether the app blocks, warns, or silently accepts a negative quantity. `confirmOversell` and `stockShortagesForQty` exist and imply a warning on oversell, but the manual-edit path was not tested. `STK-008` describes the consequence if negatives are permitted.
-7. **Delete protection for clients/suppliers with transactions.** Whether deleting a customer who has invoices is blocked, warned, or orphans the documents. No referential integrity exists in the data model, so orphaning is structurally possible.
+7. *(Now verified — see `CUS-001`.)* Client and supplier deletion is **not** blocked when transactions exist, and the resulting loss of receivables from the dashboard was measured. What remains unverified is only the on-screen wording of the confirmation dialog as rendered.
 8. **Import/export round-trip.** Inventory import from spreadsheet/CSV, export accuracy, and malformed-file handling.
 9. **Offline behaviour.** The service worker and `/counter` ("Offline — counter still works") imply offline support; neither offline operation nor reconnect-and-sync was exercised.
 10. **Barcode scanning, label printing, photo upload.** Require physical devices or a real Storage bucket.
@@ -1520,6 +1554,12 @@ codebase.
 16. **`FIN-003`** — Add payment terms and `dueDate`; derive `Overdue`; age against due date (Q4).
 17. **`FIN-007`** — Backfill receipts, then remove the status-based paid fallback.
 18. **`FUN-005`** — Reject `NaN`/`Infinity` at input boundaries instead of coercing to 0.
+18a. **`CUS-001`** — Refuse to delete a client with unpaid invoices; add an `archived` flag for the
+    tidy-up case so the receivable stays on the books. Before shipping, **check production for
+    clients already deleted this way** — orphaned invoices are detectable by scanning the documents
+    blob for `partyId` values with no matching client.
+18b. **`CUS-002`** — Split create from upsert so a duplicate name prompts instead of overwriting, and
+    stop the Excel importer writing empty contact fields over populated ones.
 
 ### Stage 3b — Customer-facing documents (small, self-contained, high visibility)
 
@@ -1665,6 +1705,8 @@ each; money and status logic verified by harness.
 | `BLD-001` | P1 | Build | No `typecheck` script; a real type error ships undetected |
 | `DAT-001` | P1 | Architecture | No transactional integrity or database-enforced constraints (root cause of many below) |
 | `PDF-005` | P1 | PDF | AR statement prints "Net due" off the bottom of the page — 8 of 350 shapes |
+| `CUS-001` | P1 | Customers | Deleting a client removes $6,000 of demonstrated AR from the dashboard and collections queue |
+| `CUS-002` | P1 | Customers | Re-adding an existing name silently wipes phone/email/address; the Excel importer triggers it |
 | `FIN-004` | P2 | Money | Two different subtotal definitions (0.12 vs 0.06 demonstrated) |
 | `FIN-005` | P2 | Money | Tax hardcoded to 0; no VAT configuration |
 | `FIN-006` | P2 | Money | Currency effectively hardcoded to USD |
