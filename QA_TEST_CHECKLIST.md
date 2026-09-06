@@ -24,21 +24,24 @@
 
 | Status | Count | Share |
 |---|---|---|
-| Pass | 91 | 25% |
-| Fail | 128 | 36% |
-| Blocked | 8 | 2% |
-| Not Verified | 133 | 37% |
-| **Total test cases** | **360** | |
+| Pass | 108 | 29% |
+| Fail | 139 | 37% |
+| Blocked | 10 | 3% |
+| Not Verified | 121 | 32% |
+| **Total test cases** | **378** | |
 
-Two things to keep in mind when reading these totals:
+Three things to keep in mind when reading these totals:
 
-- **The 128 failures map to 54 distinct issues**, not 128 problems. A single root cause fails many
+- **The 139 failures map to 65 distinct issues**, not 139 problems. A single root cause fails many
   test cases — `STK-002` (no stock audit trail) alone accounts for eight rows, and `DAT-001` (no
   database constraints) accounts for several more.
-- **The 133 unverified cases are concentrated** in section 14 (design/responsive/accessibility — 36
-  of 37 rows), section 13 (rendered PDFs — 15 of 21 rows), and section 17 (route coverage, where
-  routes were mapped from source but not driven through a browser). See §17 of the audit report for
-  the full unverified list.
+- **The 121 unverified cases are concentrated** in section 14 (design/responsive/accessibility — 36
+  of 37 rows) and section 17 (route coverage, where routes were mapped from source but not driven
+  through a browser). See §17 of the audit report for the full unverified list.
+- **Section 13 (PDF and printing) is now rendered rather than read.** Its 39 cases were produced by
+  executing the application's own PDF builders and parsing the resulting page content streams, so
+  every position below is a measurement in millimetres. 18 of those 39 pass — including the one that
+  matters most, screen total exactly equalling PDF total across five discount scenarios.
 
 | Section | Cases | Pass | Fail | Blocked | Not Verified |
 |---|---|---|---|---|---|
@@ -54,7 +57,7 @@ Two things to keep in mind when reading these totals:
 | 10. Inventory and stock | 40 | 8 | 14 | 3 | 15 |
 | 11. Customers and suppliers | 22 | 6 | 8 | 0 | 8 |
 | 12. Reports and dashboard | 23 | 2 | 15 | 0 | 6 |
-| 13. PDF and printing | 21 | 1 | 5 | 0 | 15 |
+| 13. PDF and printing | 39 | 18 | 16 | 2 | 3 |
 | 14. Design, responsive, accessibility | 37 | 0 | 1 | 0 | 36 |
 | 15. Security behaviour | 13 | 3 | 5 | 3 | 2 |
 | 16. Performance and reliability | 20 | 2 | 11 | 0 | 7 |
@@ -368,29 +371,53 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 
 ## 13. PDF and printing
 
+> **Method note.** These rows are `Rendered`: the application's own `buildPdf()` and
+> `downloadStatementPdf()` were loaded through Vite's SSR module loader and executed, 16 document
+> fixtures plus a 350-shape AR statement sweep were produced, and the resulting PDF content streams
+> were parsed to recover the position, font size, and text of every drawn string. Positions below are
+> measured in millimetres on a 210 × 297 mm page with a 14 mm margin and the footer rule at y = 281.
+
 | Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
 |---|---|---|---|---|---|---|---|
+| PDF | `/documents` | A4 page size | 210 × 297 mm | `MediaBox [0 0 595.28 841.89]` on every document from every builder | Rendered | **Pass** | — |
+| PDF | `/documents` | Page margins consistent | Uniform | 14 mm left/right; footer rule at 281 mm | Rendered | **Pass** | — |
+| PDF | `/documents` | Short document renders on one page | 1 page | 3-line invoice → 1 page | Rendered | **Pass** | — |
+| PDF | `/documents` | Long document spans multiple pages | Correct | 40-line invoice → 3 pages | Rendered | **Pass** | — |
+| PDF | `/documents` | Table headers repeat on pages 2+ | Repeated | Header found on pages 1, 2 **and** 3 | Rendered | **Pass** | — |
+| PDF | `/documents` | Page breaks do not split rows | Clean breaks | No row straddles a boundary in any fixture | Rendered | **Pass** | — |
+| PDF | `/documents` | Long descriptions wrap rather than clip | Wrapped | 210-char description wraps in the auto-width column | Rendered | **Pass** | — |
+| PDF | `/documents` | Long part numbers wrap rather than clip | Wrapped | 75-char part number wraps in the fixed 28 mm column | Rendered | **Pass** | — |
+| PDF | `/documents` | Special characters render as literal text | Literal | `<b>test</b> & 'quote' "dq" \ ; DROP TABLE parts;--` printed verbatim; parens/backslashes correctly escaped in the stream | Rendered | **Pass** | — |
+| PDF | `/documents` | PDF grand total exactly matches the screen — no discount | Identical | `$141.09` computed and printed | Rendered | **Pass** | — |
+| PDF | `/documents` | …with a 12.5% percent discount | Identical | `$123.45` computed and printed | Rendered | **Pass** | — |
+| PDF | `/documents` | …with a $33.33 amount discount | Identical | `$107.76` computed and printed | Rendered | **Pass** | — |
+| PDF | `/documents` | …with a discount exceeding the subtotal | Clamped, identical | Total 0 → prints `TBD` | Rendered | **Pass** | — |
+| PDF | `/documents` | …with a 150% discount | Clamped to 100% | Total 0 → prints `TBD` | Rendered | **Pass** | — |
+| PDF | `/documents` | Zero-priced document | Sensible output | Prints `TBD`, not `$0.00` | Rendered | **Pass** | — |
+| PDF | `/documents` | Supplier inquiry without costs hides money | No money columns | Money columns and total omitted | Rendered | **Pass** | — |
+| PDF | `/documents` | Company logo appears | Present | Logo image drawn at 14 mm, 36 × 37.5 mm, page 1 | Rendered | **Pass** | — |
 | PDF | `/documents` | PDF uses the same totals formula as the screen | Identical | Both `roundMoney(Σ roundMoney(qty × price))` | Source | **Pass** | — |
-| PDF | `/documents` | Page numbers appear on every page | "Page X of Y" | No pagination logic in any builder | Source | **Fail** | `PDF-001` |
-| PDF | `/documents` | Downloaded filename includes date and customer | Descriptive | Derived from the document id only | Source | **Fail** | `PDF-002` |
+| PDF | `/clients/$clientId` | AR statement total block stays on the page | On page | **`Net due` drawn at y = 303 mm on a 297 mm page** — 8 of 350 statement shapes | Rendered | **Fail** | `PDF-005` |
+| PDF | `/documents` | Long client name stays inside the Bill-to card | Within 103 mm | 78-char name is 187.1 mm wide from x = 19 → **right edge 206.1 mm**, past the 196 mm margin | Rendered | **Fail** | `PDF-006` |
+| PDF | `/documents` | Long customer note stays above the footer | Above 281 mm | 12 rows + 600-char note → lowest text at **301.7 mm, off the paper** | Rendered | **Fail** | `PDF-007` |
+| PDF | `/documents` | Continuation pages identify the document | Reference + customer | Page 2 has no client name, no BILL TO/DOCUMENT card, no date | Rendered | **Fail** | `PDF-008` |
+| PDF | `/clients/$clientId` | Statement page 2 identifies the account | Identified | Page 2 carries nothing — no header and no footer at all | Rendered | **Fail** | `PDF-008` |
+| PDF | `/documents` | All payments print in the history block | All | 20 supplied, **12 printed**, 8 silently dropped | Rendered | **Fail** | `PDF-009` |
+| PDF | `/documents` | Page numbers appear on every page | "Page X of Y" | No page-number string on any page of any fixture | Rendered | **Fail** | `PDF-001` |
+| PDF | `/documents` | Signature area present | Present | No signature / "received by" area on any document type | Rendered | **Fail** | `PDF-010` |
+| PDF | `/documents` | Notes and terms rendered | Present | Free-text note renders; **no structured terms block exists** | Rendered | **Fail** | `PDF-010` |
+| PDF | `/documents` | Document reference stays inside its card | Within 196 mm | 27-char generated id ok (162 mm); 60-char id reaches **234.7 mm, off the paper** | Rendered | **Fail** | `PDF-011` |
+| PDF | `/documents` | Totals box fits very large amounts | Fits | `$987,653,332,345.68` fits (192 mm); `$987,654,311,123,456.80` escapes to 197.8 mm | Rendered | **Fail** | `PDF-012` |
+| PDF | `/documents` | Table column alignment consistent with headers | Consistent | Description column right-aligned under a left-aligned header | Rendered | **Fail** | `PDF-013` |
+| PDF | `/documents` | Downloaded filename includes date and customer | Descriptive | `${id}.pdf`; statement is `statement-<client>.pdf` with **no date** — 7 statements requested the identical filename | Rendered | **Fail** | `PDF-002` |
 | PDF | `/documents` | One shared totals routine | Single source | Three near-duplicate blocks recompute totals | Source | **Fail** | `PDF-003` |
 | PDF | — | Fonts and logo are lazily loaded | Lazy | 709 KB of base64 embedded in source and bundled | Build | **Fail** | `PDF-004` |
-| PDF | `/documents` | Company logo and details appear | Present | Logo asset present; placement not observed | Source | **Not Verified** | — |
-| PDF | `/documents` | A4 page size and margins | Correct | — | — | **Not Verified** | `PDF-005` |
-| PDF | `/documents` | Table headers repeat on pages 2+ | Repeated | — | — | **Not Verified** | `PDF-005` |
-| PDF | `/documents` | Page breaks do not split rows | Clean breaks | — | — | **Not Verified** | `PDF-005` |
-| PDF | `/documents` | No clipped or overlapping content | Clean | — | — | **Not Verified** | `PDF-005` |
-| PDF | `/documents` | 42-line quotation spans multiple pages correctly | Correct | Fixture seeded; PDF not rendered | — | **Not Verified** | `PDF-005` |
-| PDF | `/documents` | Short document renders on one page | Correct | — | — | **Not Verified** | — |
-| PDF | `/documents` | Long descriptions wrap rather than clip | Wrapped | — | — | **Not Verified** | `PDF-005` |
-| PDF | `/documents` | PDF grand total exactly matches the screen | Identical | Formulas match; end-to-end not confirmed | Source | **Not Verified** | `PDF-006` |
-| PDF | `/documents` | Signature area present | Present | — | — | **Not Verified** | — |
-| PDF | `/documents` | Notes and terms rendered | Present | — | — | **Not Verified** | — |
-| PDF | `/documents` | Currency symbol correct throughout | Correct | USD hardcoded | Source | **Fail** | `FIN-006` |
-| PDF | `/documents` | Unicode customer name renders correctly | Correct glyphs | Arabic font embedded; not observed | — | **Not Verified** | — |
-| PDF | `/clients/$clientId` | AR statement PDF is accurate | Matches screen | — | — | **Not Verified** | — |
-| PDF | `/documents` | Packing slip output | Correct | `downloadPackingSlip` exists | Source | **Not Verified** | — |
-| Print | all | Browser print stylesheet | Clean output | — | — | **Not Verified** | — |
+| PDF | `/documents` | Currency symbol correct throughout | Correct | USD hardcoded | Rendered | **Fail** | `FIN-006` |
+| PDF | `/documents` | Arabic / RTL text shapes correctly | Correct glyphs | `renderArabicPng` needs a browser `<canvas>`; the Arabic path never executes in Node | — | **Blocked** | — |
+| PDF | `/documents` | Packing slip output | Correct | `downloadPackingSlip` exists (`src/lib/packing-slip.ts`, A4) | Source | **Not Verified** | — |
+| PDF | `/labels` | Part label output (57 × 32 mm stock) | Correct | `part-label.ts` uses a 57 × 32 mm landscape format | Source | **Not Verified** | — |
+| PDF | `/daily-close` | Z-report output | Correct | `z-report.ts` uses A4 | Source | **Not Verified** | — |
+| Print | all | Browser print stylesheet / `window.print()` | Clean output | No headless browser available in this environment | — | **Blocked** | — |
 
 ## 14. Design, responsive, and accessibility
 

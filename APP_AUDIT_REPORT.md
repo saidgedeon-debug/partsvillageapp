@@ -51,6 +51,12 @@ by reading it:
    the codebase** across 14 stock-mutation call sites — a wrong quantity is undetectable and
    untraceable after the fact. (`STK-001`, `STK-002`)
 
+A fourth finding is worth surfacing here because it affects documents customers actually receive:
+**the account statement can print the "Net due" figure off the bottom of the page.** The number is
+computed correctly and displayed correctly on screen; the PDF simply draws it past the paper edge, so
+the customer gets a statement listing what they were invoiced with no indication of what they owe.
+Rendering the app's real PDF code across 350 statement shapes found 8 that do this. (`PDF-005`)
+
 **Recommendation.** Do not treat this as a list of bugs to patch individually. Fix the four
 contained P0s first (they are small, local changes), then decide on the architectural question in
 §18, because roughly half of the P1/P2 findings are symptoms of the JSON-blob data model and will
@@ -61,14 +67,16 @@ keep reappearing until that is addressed.
 | Priority | Count | Meaning |
 |---|---|---|
 | **P0 — Critical** | 5 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 11 | Core feature broken or serious business risk |
-| **P2 — Medium** | 29 | Important defect with a workaround |
-| **P3 — Low** | 9 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **54** | Plus 11 controls verified sound (§14) and a `NOT VERIFIED` list (§17) |
+| **P1 — High** | 12 | Core feature broken or serious business risk |
+| **P2 — Medium** | 34 | Important defect with a workaround |
+| **P3 — Low** | 14 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **65** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours (§8), a 10-row verified-correct PDF table (§13), and a `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
-decision described in `DAT-001`.
+decision described in `DAT-001`. Several findings also record things that work: the screen total and
+the PDF total agree exactly across every discount scenario tested, stock quantities cannot be driven
+negative, and oversell is deliberately tracked rather than lost.
 
 ---
 
@@ -409,6 +417,7 @@ statements, authentication, rate limiting, the portal, or PDF totals.
   Two failure modes follow:
   1. **Failure path:** if the conversion throws (`"Quotation not found"` — e.g. the quotation was already converted or deleted on another device), stock has been permanently deducted with **no invoice** to account for it.
   2. **Double-deduct path:** trigger the conversion twice (double-click, or two tabs). The first pass deducts and converts. The second pass deducts *again*, then throws `"Quotation not found"` — leaving **one invoice and two deductions**.
+- **Scope qualifier (verified):** `adjustPartQuantity` clamps at zero (`Math.max(0, …)`), so this cannot drive a quantity negative. The consequence is that the size of the error depends on stock depth — a part with 100 on hand converted twice for 7 units goes `100 → 93 → 86`, losing 7 units that no document accounts for, whereas a part with 2 on hand simply lands at 0 and the excess is absorbed by the clamp. **The defect is therefore worst on well-stocked, fast-moving parts**, which is the opposite of intuition and makes it easy to miss during casual testing.
 - **Expected:** Stock and document changes commit atomically, or the stock change is compensated on failure.
 - **Evidence:** `src/routes/documents.tsx:285-353` (deduct at 302-319, convert at 321-325, bare catch at 350-352); `src/components/app/documents-context.tsx:1620-1622` (the throw).
 - **Reproduction:** Open `/documents` in two browser tabs. In both, choose Convert on the same quotation and confirm "Deduct stock". One tab succeeds; the other errors — then compare the part quantity against the expected single deduction.
@@ -477,15 +486,50 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 - **Recommended fix:** Add an explicit `archived` flag; never discard override values on delete.
 - **Regression test:** Remove a catalog part with a custom quantity; assert either archival or an explicit confirmation naming the values to be lost.
 
-### `STK-008` · P2 · Inventory — inventory valuation is unrounded and reduced by negative stock
+### `STK-009` · P2 · Inventory — quantities are silently rounded to whole units
 
-- **Description:** `inventoryValue = parts.reduce((s, p) => s + p.cost * p.quantity, 0)` — no rounding, no clamping, no exclusion of never-stocked catalog rows.
-- **Actual:** Raw float accumulation over the entire catalog. Any part with negative on-hand (which the app permits — see §13 `NOT VERIFIED`) *subtracts* from total inventory value.
-- **Expected:** Valuation rounded to cents, computed over stocked parts only, with negative on-hand either impossible or surfaced rather than netted away.
+- **Description:** `adjustPartQuantity` applies `Math.max(0, Math.round(current.quantity + delta))` on both the catalog-override and custom-part branches.
+- **Actual:** Every stock change is rounded to an integer. A fractional movement (2.5 m of hose, 0.75 kg of grease) is rounded rather than stored, and repeated fractional sales accumulate drift. `Math.round` also rounds `.5` toward positive infinity, so the drift is directionally biased.
+- **Expected:** Either fractional quantities are supported for parts sold by length/weight/volume, or non-integer movements are rejected at input with a clear message.
+- **Evidence:** `src/components/app/inventory-context.tsx:395` (catalog branch) and `:405` (custom-parts branch).
+- **Reproduction:** Sell 0.5 of a part twice from a stock of 10. Each `Math.round(10 − 0.5) = 10` (then `Math.round(10 − 0.5) = 10` again), so on-hand does not move at all despite two sales.
+- **Business impact:** For a hydraulics business, hose, seal cord, and bulk lubricants are commonly sold by fractional measure. Those parts cannot be tracked accurately, and because there is no movement log (`STK-002`) the drift is invisible.
+- **Relevant files:** `src/components/app/inventory-context.tsx`, `src/lib/mock-data.ts` (`Part.quantity`).
+- **Recommended fix:** Decide per unit of measurement whether fractional stock is allowed; store quantities as integers in a base unit (e.g. millimetres, grams) to avoid float drift entirely.
+- **Regression test:** Two 0.5 sales from a stock of 10 must leave 9, not 10.
+
+### Verified-correct stock behaviours ✅
+
+Established from source and worth preserving during remediation:
+
+- **Quantities cannot go negative.** `adjustPartQuantity` clamps at `Math.max(0, …)` on both branches.
+- **Oversell is tracked separately rather than lost.** Because the clamp would otherwise hide a shortfall, `computeOversoldByPart` records the oversold amount on the invoice (`oversoldByPart`), and `physicalRestockCap(soldQty, oversoldQty, alreadyRestocked)` uses it so a return only restocks units that physically existed. This is a genuinely careful piece of design.
+- **Oversell is confirmed with the operator** before committing, via `confirmOversell(stockShortagesForQty(...))`.
+- **Below-cost sales are confirmed** in the same pre-commit check.
+- **Duplicate part merges blend cost** using a weighted average (`blendedUnitCost`) rather than overwriting.
+
+### `STK-008` · P3 · Inventory — inventory valuation is an unrounded float over the whole catalog
+
+- **Description:** `inventoryValue = parts.reduce((s, p) => s + p.cost * p.quantity, 0)` — raw float accumulation with no rounding and no exclusion of never-stocked catalog rows.
+- **Actual:** The figure is a raw float rather than a cents-exact currency amount, and it is computed across the entire static catalog (thousands of O-ring and seal rows) rather than only parts actually held.
+- **Expected:** `roundMoney(Σ cost × quantity)` over stocked parts.
 - **Evidence:** `src/routes/index.tsx:216`.
-- **Business impact:** A negative-stock part hides real inventory value; the figure is also a long float rather than a currency amount.
-- **Recommended fix:** `roundMoney(Σ cost × max(0, qty))` and report negative-stock parts as an exception list.
-- **Regression test:** Set one part to −5; assert valuation does not decrease and an exception is raised.
+- **Assessment — downgraded to P3 after verification.** I initially expected negative on-hand to be able to subtract from this total. It cannot: `clampNonNeg` is applied in `applyOverride` and `normalizePart`, `bulkUpdateParts` clamps quantity/cost/price/reorderAt at `Math.max(0, …)`, and `adjustPartQuantity` clamps at zero. **Negative quantities, costs, and prices are impossible throughout inventory**, so the only real defect here is the missing rounding and the catalog-wide scope.
+- **Business impact:** Cosmetic and mild — a long float where a currency figure belongs.
+- **Recommended fix:** `roundMoney(...)` and filter to `quantity > 0`.
+- **Regression test:** Assert the value is cents-exact and unchanged by catalog rows with zero on-hand.
+
+### `STK-010` · P2 · Inventory — out-of-range numeric input is silently clamped instead of rejected
+
+- **Description:** `clampNonNeg` coerces any negative quantity, cost, price, or reorder point to `0` without telling the user.
+- **Actual:** Typing `-5` as a quantity silently stores `0`, overwriting the real figure. Typing a negative cost silently stores `0`, which then makes the part appear to have zero cost and 100% margin in the dashboard's margin calculations. No validation message is shown and nothing records that a value was altered.
+- **Expected:** Out-of-range input is rejected at the form with a clear message, leaving the stored value untouched.
+- **Evidence:** `clampNonNeg` used at `src/components/app/inventory-context.tsx:180,184,186,187,203-206`; `bulkUpdateParts` at `:436-446`.
+- **Reproduction:** Edit a part with 40 on hand, enter `-5` as the quantity, save. On-hand becomes `0`, not `40`, and no warning appears.
+- **Business impact:** A typo (a stray minus sign) silently destroys a real stock figure or cost, and with no movement log (`STK-002`) there is no way to recover the previous value. A zeroed cost also silently inflates the reported average margin.
+- **Relevant files:** `src/components/app/inventory-context.tsx`, the inventory edit form.
+- **Recommended fix:** Validate at the form boundary with Zod and surface the error; reserve clamping for defensive normalisation of already-stored data, not for user input.
+- **Regression test:** Submitting `-5` must reject and leave the stored quantity unchanged.
 
 ---
 
@@ -810,30 +854,172 @@ What was established from the running build and source, and what remains:
 
 ## 13. PDF and printing issues
 
-Reviewed by reading `src/lib/document-export.ts` (three separate PDF builders at lines ~163, ~247,
-~443) and the AR statement exporter in `src/lib/ar-statement.ts`. **Rendered output was not opened**,
-so page-break, clipping, and multi-page behaviour are marked `NOT VERIFIED` below.
+**This section is now backed by rendered output, not source reading.** I loaded the application's own
+`buildPdf()` (`src/lib/document-export.ts`) and `downloadStatementPdf()` (`src/lib/ar-statement.ts`)
+through Vite's SSR module loader — so the real code, the real money functions, and the real layout
+constants — rendered 16 document fixtures plus a 350-shape sweep of AR statements, and parsed the
+resulting PDF content streams to recover the position, font size, and text of every drawn string.
+That makes it possible to state overflow and page-break behaviour in millimetres rather than by
+inspection. The harness lives outside the repository (`/tmp/pdf-audit/`) and generated PDFs are in
+`/tmp/pdf-audit/out/`.
+
+### What the rendered output confirms is correct ✅
+
+| Item | Result |
+|---|---|
+| **A4 page size** | ✅ 210 × 297 mm on every document from every builder (`MediaBox [0 0 595.28 841.89]`). |
+| **Margins** | ✅ Consistent 14 mm left/right; footer rule at y = 281 mm. |
+| **Repeated table headers** | ✅ Verified. A 40-line invoice renders 3 pages and the `Part # / Description / Size / Qty / Price / Total` header appears on **pages 1, 2 and 3**. |
+| **Page breaks do not split rows** | ✅ No row straddles a page boundary in any fixture. |
+| **Long descriptions** | ✅ A 210-character description wraps inside the auto-width column; no clipping. |
+| **Long part numbers** | ✅ A 75-character part number wraps inside the fixed 28 mm column; no clipping. |
+| **Special characters** | ✅ `Ø26.5×3 «Ürün» — 50% <b>test</b> & 'quote' "dq" \ / ; DROP TABLE parts;--` renders as **literal text**. No markup interpretation, no PDF-syntax escape (parentheses and backslashes are correctly escaped in the content stream). |
+| **Screen total = PDF total** | ✅ Verified across no discount, 12.5% percent discount, $33.33 amount discount, discount exceeding subtotal, and a 150% discount clamped to 100%. In all five the figure produced by the app's own `documentGrandTotal()` is the exact string printed in the totals box. |
+| **Zero-priced documents** | ✅ Print `TBD` rather than `$0.00`, which is the sensible choice for an un-priced quotation. |
+| **Supplier inquiry without costs** | ✅ Correctly omits all money columns and prints no total. |
+
+The screen-versus-PDF total agreement is worth calling out: it is the single most important
+requirement in this section and it holds. The defects below are all **layout** defects — the numbers
+are right, but on some documents they are printed where nobody can read them.
+
+### `PDF-005` · **P1** · AR statement — "Net due" can be printed off the bottom of the page
+
+- **Page/feature:** Client detail → *Download statement* (`downloadStatementPdf`).
+- **Description:** The statement's closing total block is drawn at `y = finalY + 12`, then subsequent lines at `+6` each, with **no page-height check and no `addPage()`**. When the invoice table happens to end low on the page, the last line of the block is placed beyond the 297 mm page and simply never appears.
+- **Actual:** With 26 open invoices and one unapplied credit note, the block renders as `Invoice total: $14,787.50` at y = 291 mm, `Unapplied credit: −$25.00` at y = 297 mm, and **`Net due: $14,762.50` at y = 303 mm — 6 mm past the bottom edge of the paper.** The customer receives a statement that lists what they were invoiced but omits what they actually owe.
+- **Expected:** The total block is measured before drawing and moved to a new page if it does not fit, exactly as `buildPdf` already does for its own totals box.
+- **Evidence:** `src/lib/ar-statement.ts:355-367`. Swept 350 statement shapes (1–70 invoices × {0,1,5,15,30} credit notes); **8 shapes place `Net due` off the page** — at nInv/nCred = 12/15, 22/5, 26/1, 31/30, 46/15, 56/5, 60/1, 65/30 — landing at y = 303–304 mm. Reproducer PDF: `/tmp/pdf-audit/out/ar-statement-netdue-offpage.pdf`.
+- **Reproduction:** Give a client 26 open invoices and one standalone credit note (no `invoiceId`), open the client page, and download the statement. Compare the on-screen net due against the PDF.
+- **Business impact:** This is the worst kind of document defect: the figure is computed correctly, the screen shows it correctly, and the customer-facing PDF silently omits it. It only triggers on the three-line branch — which is selected precisely when unapplied credits exist, i.e. exactly the statements a customer is most likely to query. A statement that shows a $14,787.50 invoice total and no net due invites either an overpayment or a dispute.
+- **Relevant files:** `src/lib/ar-statement.ts`.
+- **Recommended fix:** Before drawing, compute the block height (`lines × 6 + 12`) and call `pdf.addPage()` when `y + height > pageH - bottomMargin`. Better, reuse the guard already written in `document-export.ts:587-594`.
+- **Regression test:** Assert that for 1–80 invoices × 0–30 credit notes, every line of the total block has `y <= pageHeight - bottomMargin`.
+
+### `PDF-006` · P2 · Long client names escape the "Bill to" card and run across the page
+
+- **Page/feature:** All quotation / invoice / credit-note PDFs.
+- **Description:** `pdfDrawText()` accepts a `maxWidthMm` option and the call site passes one — but the function **ignores it for non-Arabic text**. The Latin branch calls `pdf.text(text, x, y)` with no `maxWidth` and no wrapping; only the Arabic branch (which renders through a canvas) honours the constraint.
+- **Actual:** A 78-character client name is drawn as one unwrapped run 187.1 mm wide starting at x = 19 mm, so its right edge lands at **206.1 mm on a 210 mm page** — 10.1 mm past the 196 mm right margin and 3.9 mm from the paper edge. It overruns its own 89 mm "Bill to" card and prints straight through the "DOCUMENT" card that holds the reference and date.
+- **Expected:** The name wraps or truncates within the card, as the passed `maxWidthMm` implies.
+- **Evidence:** `src/lib/pdf-fonts.ts:117-119` (the early return that drops `maxWidthMm`); call site `src/lib/document-export.ts:356-360`. Measured with jsPDF's own Helvetica metrics; see `/tmp/pdf-audit/out/03-invoice-long-party-name.pdf`.
+- **Reproduction:** Create a client named `Al Mashreq General Trading & Heavy Equipment Spare Parts Company SARL Offshore`, invoice them, and download the PDF.
+- **Business impact:** Company names of this length are normal in the Gulf and Levant trading sector. The document looks broken to the customer, and the overlapping text can obscure the invoice reference. The bug is easy to miss in review because the call site *looks* correct — the width limit is right there in the arguments.
+- **Relevant files:** `src/lib/pdf-fonts.ts`, `src/lib/document-export.ts`, `src/lib/ar-statement.ts:274-278` (same call pattern).
+- **Recommended fix:** In the Latin branch, use `pdf.splitTextToSize(text, maxWidthMm)` and draw the resulting lines, or pass `{ maxWidth }` through to `pdf.text`.
+- **Regression test:** Render a 78-character party name and assert every drawn run ends at or before the card's right edge.
+
+### `PDF-007` · P2 · A long customer note prints past the footer and off the paper
+
+- **Page/feature:** Quotation / invoice / credit-note PDFs with a customer note.
+- **Description:** The note block reserves a **fixed 16 mm** (`noteBlockH = 16`) regardless of how many lines the text actually wraps to, and the wrapped lines are emitted with a single `pdf.text(lines, …)` call that never paginates.
+- **Actual:** Measured lowest text position on the last page:
+
+| Table rows | Note length | Lowest text | Verdict |
+|---|---|---|---|
+| 6 | 200 chars | 217.0 mm | ok |
+| 6 | 600 chars | 242.6 mm | ok |
+| 6 | 1200 chars | 275.5 mm | ok |
+| 6 | 2400 chars | **341.2 mm** | off the paper |
+| **12** | **600 chars** | **301.7 mm** | **off the paper** |
+| 12 | 1200 chars | 334.5 mm | off the paper |
+| 22 | 2400 chars | 291.8 mm | overlaps the footer |
+
+  A 12-line invoice with a 600-character note — roughly 90 words of ordinary payment terms — already pushes text beyond the page.
+- **Expected:** The note's real height is measured and it is moved to a new page, or paginated, when it does not fit.
+- **Evidence:** `src/lib/document-export.ts:651-690` (`noteBlockH = 16`, then `pdf.text(wrapped, margin, noteY + 6)`).
+- **Reproduction:** Create a 12-line invoice, paste ~600 characters of terms into the customer note, download the PDF, and read the last page.
+- **Business impact:** The customer silently loses the terms and conditions the business intended to attach — including payment, warranty, and return terms, which are the terms most likely to matter in a dispute. Because the on-screen preview is the same PDF, the operator can only notice by scrolling to the bottom of the last page.
+- **Relevant files:** `src/lib/document-export.ts`.
+- **Recommended fix:** Compute `wrapped.length × lineHeight` and paginate; add the same `footerY` guard used for the totals box.
+- **Regression test:** For 1–30 table rows × note lengths up to 4000 characters, assert no drawn text exceeds `pageHeight − footerReserve`.
+
+### `PDF-008` · P2 · Continuation pages carry no client, no document number, and no date
+
+- **Page/feature:** All multi-page PDFs (document exports and AR statements).
+- **Description:** `didDrawPage` redraws only the two thin accent bars at the top of continuation pages. The logo, the "BILL TO" card, the "DOCUMENT" card, the reference, and the date are drawn once, imperatively, before the table.
+- **Actual:** Verified on a 40-line invoice (3 pages) and a 40-invoice statement (2 pages):
+
+| | Client name | BILL TO card | DOCUMENT card | Date | Table header | Page number |
+|---|---|---|---|---|---|---|
+| Invoice p1 | yes | yes | yes | yes | yes | no |
+| Invoice p2 | **no** | **no** | **no** | **no** | yes | no |
+| Invoice p3 | **no** | **no** | **no** | **no** | yes | no |
+| Statement p1 | yes | — | — | yes | yes | no |
+| Statement p2 | **no** | — | — | **no** | yes | no |
+
+  The only identifying mark on page 2 of an invoice is the document reference in the 7.5 pt footer. An AR statement's page 2 has **no footer at all**, so it carries nothing identifying whatsoever.
+- **Expected:** Every page repeats at minimum the document number, the customer, the date, and "Page X of Y".
+- **Evidence:** `src/lib/document-export.ts:533-538` (`didDrawPage` draws bars only), `:692-706` (footer loop, no statement equivalent); `src/lib/ar-statement.ts:266-332`.
+- **Reproduction:** Invoice 40 line items, download the PDF, and look at page 2 in isolation.
+- **Business impact:** Combined with the absence of page numbers (`PDF-001`), a detached or mis-collated page cannot be matched back to its document, and neither the customer nor an auditor can tell whether pages are missing. For a statement page 2 there is literally no way to identify the account.
+- **Relevant files:** `src/lib/document-export.ts`, `src/lib/ar-statement.ts`.
+- **Recommended fix:** Move the header into `didDrawPage` (or a `drawHeader(pageNo)` helper) and extend the footer loop to the statement builder.
+- **Regression test:** Assert every page of a 3-page invoice contains the reference, the customer name, and a page number.
+
+### `PDF-009` · P2 · Invoice PDF silently truncates payment history to 12 entries
+
+- **Page/feature:** Invoice PDF, PAYMENTS block.
+- **Description:** `doc.paymentHistory.slice(0, 12)` caps the printed history with no indication that entries were dropped.
+- **Actual:** Supplied 20 receipt lines; **12 printed, 8 silently discarded.** No "and N more" marker.
+- **Expected:** Print all payments (paginating if needed), or state explicitly how many are not shown.
+- **Evidence:** `src/lib/document-export.ts:409`; harness reports `payment-history lines supplied=20, printed=12`.
+- **Reproduction:** Record 20 partial payments against one invoice and export it.
+- **Business impact:** An invoice paid in many small instalments — normal for the counter-sales pattern this app supports — shows a payment list that does not add up to the paid total. A customer reconciling the document will conclude the business has lost their payments.
+- **Relevant files:** `src/lib/document-export.ts`.
+- **Recommended fix:** Remove the cap and paginate the block, or append `+ N earlier payments`.
+- **Regression test:** With 20 receipts, assert the printed lines sum to the invoice's `amountPaid`.
 
 ### `PDF-001` · P2 · No page numbers on any generated PDF
 
 - **Description:** No PDF builder emits "Page X of Y".
-- **Actual:** A 42-line quotation spans multiple pages with no pagination markers.
+- **Actual:** **Verified by rendering.** A 40-line invoice produces 3 pages and a 40-invoice statement produces 2 pages; no page in any of the 16 rendered fixtures contains a page-number string. The document footer prints only `PARTS VILLAGE · Heavy Equipment Parts` and the reference; the AR statement has no footer at all.
 - **Expected:** "Page X of Y" on every page — required to prove a multi-page invoice is complete.
-- **Evidence:** No `getNumberOfPages`/page-footer logic in `src/lib/document-export.ts`.
-- **Business impact:** A customer or auditor cannot tell whether a page is missing.
-- **Recommended fix:** After building, loop `pdf.getNumberOfPages()` and stamp a footer.
-- **Regression test:** Generate a 42-line quotation; assert every page carries a correct "Page X of Y".
+- **Evidence:** `src/lib/document-export.ts:692-706` (footer loop stamps branding and reference only); regex scan for `/Page\s*\d/i` across every rendered page returns no match.
+- **Business impact:** A customer or auditor cannot tell whether a page is missing. Compounded by `PDF-008`, page 2 of a document is completely anonymous.
+- **Recommended fix:** The footer loop already iterates `pdf.getNumberOfPages()` — add `Page ${p} of ${pageCount}` to it. This is a two-line change for the document builder.
+- **Regression test:** Generate a 40-line invoice; assert every page carries a correct "Page X of Y".
+
+### `PDF-010` · P3 · No signature area and no structured terms block on any document
+
+- **Description:** Neither builder draws a signature line, a "received by" area, or a terms-and-conditions block. Terms can only be typed by hand into the free-text customer note of each individual document — which is also the field that overflows (`PDF-007`).
+- **Actual:** **Verified by rendering.** A case-insensitive scan for `signature`, `signed`, `received by`, `terms`, and `conditions` across all 16 fixtures matched only where I had deliberately typed the word "terms" into a note.
+- **Expected:** A signature/acknowledgement area on quotations, delivery-relevant invoices, and credit notes, plus reusable standing terms configured once rather than retyped per document.
+- **Evidence:** `src/lib/document-export.ts:692-706`; `src/lib/ar-statement.ts:355-368`.
+- **Business impact:** A quotation with no signature block cannot be returned as a signed acceptance, which is the normal way this business would evidence an order. Retyping terms per document guarantees they will be inconsistent or forgotten.
+- **Relevant files:** `src/lib/document-export.ts`, `src/lib/ar-statement.ts`.
+- **Recommended fix:** Add a signature area above the footer, and a settings-level standing-terms string appended to every document.
+- **Regression test:** Assert a quotation PDF contains a signature area and the configured standing terms.
+- **Business decision needed:** see question 13 in §18 — the wording of standing terms is a business decision, not a technical one.
+
+### `PDF-011` · P3 · The document reference is drawn unwrapped and can run off the paper
+
+- **Description:** The reference in the "DOCUMENT" card is drawn with raw `pdf.text(id, …)` — no width limit, no wrapping.
+- **Actual:** **Verified by rendering.** The app's own generated ids are 27 characters and measure 50.0 mm from x = 112 mm (right edge 162 mm) — comfortably inside the card. A 60-character reference measures 122.7 mm, ending at **234.7 mm on a 210 mm page**, i.e. off the paper entirely.
+- **Expected:** The reference is wrapped, shrunk, or truncated to the card width.
+- **Evidence:** `src/lib/document-export.ts:378`; measured widths above.
+- **Assessment:** **P3 because generated ids are safe.** `resolveDocId` prefers `doc.id` when set, so this only bites if a reference arrives from an import or is set manually. It is a latent defect rather than a live one, and worth fixing at the same time as `PDF-006` since the cause is identical.
+- **Recommended fix:** Use `pdf.splitTextToSize` or reduce the font size to fit the card.
+- **Regression test:** Assert a 60-character reference stays within the card.
+
+### `PDF-012` · P3 · The totals box overflows for astronomically large totals
+
+- **Description:** The grand total is drawn at 18 pt inside a 78 mm navy box with no fit check.
+- **Actual:** **Verified by rendering.** `$987,653,332,345.68` (≈$9.9 × 10¹¹) fits, ending at 192 mm inside the box's 196 mm edge. `$987,654,311,123,456.80` ends at **197.8 mm**, escaping both the box and the right margin.
+- **Expected:** Font size reduces to fit, or the amount is formatted more compactly.
+- **Evidence:** `src/lib/document-export.ts:624-627`.
+- **Assessment:** Not reachable with realistic parts-trading figures, and `roundMoney` already loses cent precision well below this magnitude (`FIN-002`), so the money defect bites first. Recorded for completeness.
+- **Recommended fix:** Measure with `getTextWidth` and step the font size down until it fits.
+- **Regression test:** Assert the total string always ends within the box.
 
 ### `PDF-002` · P2 · Downloaded filename has no date and no customer
 
-- **Description:** Filenames derive from the document id only.
-- **Actual:** Since the id embeds a timestamp the name is unique, but it is long and machine-oriented.
-- **Expected:** `Invoice_INV-2026-0001_Alpha-Earthmoving_2026-08-20.pdf`.
-- **Evidence:** download calls in `src/lib/document-export.ts`.
-- **Business impact:** A folder of saved PDFs is hard to browse or search by customer or date.
+- **Description:** Filenames derive from the document id only, and the AR statement's filename has no date at all.
+- **Actual:** Document exports save as `${id}.pdf` — unique, because the id embeds a timestamp, but long and machine-oriented. **The AR statement is worse:** `downloadStatementPdf` saves `statement-<slugified-client-name>.pdf` with **no date**, so every statement for the same client collides. Verified by intercepting the app's `save()` call: 7 different statements for one client all requested the identical filename `statement-beirut-heavy-equipment.pdf`.
+- **Expected:** `Invoice_INV-2026-0001_Alpha-Earthmoving_2026-08-20.pdf`, and a dated statement filename.
+- **Evidence:** download calls in `src/lib/document-export.ts:712-716`; `src/lib/ar-statement.ts:368`.
+- **Business impact:** A folder of saved PDFs is hard to browse or search by customer or date. For statements, re-downloading either overwrites the previous month's file or accumulates `(1)`, `(2)` suffixes, so the operator cannot tell which statement was actually sent to the customer.
 - **Recommended fix:** Compose the filename from type, number, sanitised customer name, and date.
-- **Regression test:** Assert the filename matches the expected pattern and is filesystem-safe for the Unicode/quote-bearing customer name in the seed data.
-- **Status:** filename construction reviewed in source; **actual downloaded name NOT VERIFIED**.
+- **Regression test:** Assert the filename matches the expected pattern, includes the date, and is filesystem-safe for the Unicode/quote-bearing customer name in the seed data.
 
 ### `PDF-003` · P3 · Three near-duplicate PDF builders
 
@@ -852,16 +1038,30 @@ so page-break, clipping, and multi-page behaviour are marked `NOT VERIFIED` belo
 - **Recommended fix:** Move to `public/`, `fetch()` lazily on first PDF generation.
 - **Regression test:** Assert the initial bundle excludes them and PDF generation still embeds the font/logo.
 
-### PDF items requiring rendered output — NOT VERIFIED
+### `PDF-013` · P3 · Description column is right-aligned under a left-aligned header
 
-A4 sizing and margins · logo and company details placement · customer block · document number and
-date · table alignment · long-description wrapping · **repeated table headers on pages 2+** · page
-breaks not splitting rows · totals block placement · notes and terms · **signature area** · absence
-of clipped or overlapping content · **PDF grand total exactly matching the screen** ·
-short-vs-multi-page comparison.
+- **Description:** The table's description column sets `halign: "right"` while the header row is `halign: "left"`.
+- **Actual:** Part descriptions are pushed to the right edge of their column, so the text does not line up with the "Description" header above it and reads as ragged-left down the page. Adjacent columns mix alignments: part number left, description right, size left-bold-orange, quantity centre, price right, total right.
+- **Expected:** Text columns left-aligned under left-aligned headers; numeric columns right-aligned.
+- **Evidence:** `src/lib/document-export.ts:524-531` (`1: { cellWidth: "auto", halign: "right" }`) versus `:515-522` (`headStyles … halign: "left"`).
+- **Business impact:** Cosmetic, but it is the most visible typographic inconsistency on the customer-facing document, and it makes long wrapped descriptions harder to scan.
+- **Recommended fix:** Left-align the description column, or right-align the header to match.
+- **Regression test:** Visual snapshot of a rendered invoice.
 
-`PDF-005` (P2) is reserved for repeated-header behaviour and `PDF-006` (P2) for screen/PDF total
-agreement, pending the rendered check in §17.
+### Remaining PDF items still NOT VERIFIED
+
+Two things could not be checked in this environment and remain explicitly unverified:
+
+1. **Arabic text rendering in PDFs.** `renderArabicPng` needs a browser `<canvas>`; in Node `ensurePdfArabicFont()` returns early and the Arabic path is never exercised. Arabic shaping, right-to-left placement, and the mixed Arabic/Latin cell hooks are therefore **NOT VERIFIED**. Notably, the `maxWidthMm` bug in `PDF-006` affects *only* the Latin path, so Arabic party names are expected to be constrained correctly — the opposite of the usual pattern, and worth confirming in a browser.
+2. **Browser print/`window.print()` output and physical paper margins.** The audit verified the generated PDF geometry, not what a specific printer driver does with it. No headless browser was available in this environment.
+
+Everything else in Phase 10 — A4 sizing, margins, logo and company block placement, customer block,
+document number and date, table alignment, long-description and long-part-number wrapping, repeated
+table headers on continuation pages, page breaks not splitting rows, totals block placement, notes,
+signature area, clipped/overlapping content, screen-versus-PDF total agreement, short-versus-
+multi-page comparison, and the downloaded filename — **was rendered and measured**, and is recorded
+above either as a confirmed defect (`PDF-001`, `PDF-002`, `PDF-005`–`PDF-013`) or in the
+verified-correct table at the top of this section.
 
 ---
 
@@ -990,7 +1190,7 @@ Genuinely good, and worth protecting during remediation:
 | **Signup** | ✅ Disabled (`enable_signup = false` in `config.toml`). |
 | **`.env` handling** | ✅ Gitignored; no credential files committed. |
 
-### `DEP-001` · P2 · Seven known dependency vulnerabilities, one with no fix
+### Dependency vulnerabilities (catalogued as `DEP-001` in §15)
 
 `npm audit` (read-only; nothing upgraded): **5 high, 2 moderate, 0 critical** across 549 dependencies.
 
@@ -1193,10 +1393,10 @@ Stated plainly, as required. These were **not** confirmed and no claim in this r
 
 ### Not verified because browser-driven testing did not complete
 
-1. **All of Phase 9 (design and UX).** No page was visually inspected at 375/768/1440 px. No findings on appearance, brand consistency, typography, spacing, button hierarchy, icons, cards, tables, forms, modals, navigation, sidebar/mobile-menu behaviour, responsive layout, horizontal overflow, long-text handling, empty/loading/error states, success messages, disabled controls, confirmation dialogs, destructive warnings, validation messages, keyboard navigation, focus indicators, colour contrast, accessibility labels, terminology, or date/currency/number formatting consistency.
-2. **Rendered PDF inspection (most of Phase 10).** A4 sizing, margins, logo placement, table alignment, long-description wrapping, multi-page behaviour, repeated headers, page breaks, signature area, clipping, the actual downloaded filename, and exact screen-vs-PDF total agreement.
+1. **Phase 9 (design and UX).** See the note below — a browser-driven pass was run and its findings are in §12. Anything §12 does not explicitly report was **not** inspected.
+2. **Arabic text in PDFs, and browser print output.** Everything else in Phase 10 was rendered and measured (see §13). The Arabic canvas path cannot run without a browser `<canvas>`, and no headless browser was available to test `window.print()` or physical printer margins.
 3. **Interactive CRUD edge cases (much of Phase 3).** Duplicate submission, refresh-after-save, browser back/forward, invalid data, empty required fields, very long text, special characters in forms, decimal/zero/negative inputs, and simulated network failure — per form, through the UI.
-4. **Runtime confirmation of the XSS payload rendering.** React escaping makes this near-certainly safe and there is only one benign `dangerouslySetInnerHTML`, but I did not visually confirm that the `<b>test</b>` customer name renders as literal text on screen and in the PDF.
+4. **Runtime confirmation of the XSS payload rendering in the browser DOM.** React escaping makes this near-certainly safe and there is only one benign `dangerouslySetInnerHTML`. In the **PDF** it is now confirmed safe: the `<b>test</b>` part number renders as literal text (§13). The on-screen DOM was not separately inspected for it.
 5. **Observed dashboard figures.** Every formula in §11 was read from source and the calculation harness exercised the money functions directly, but I did not transcribe the rendered dashboard cards and reconcile them against source records by hand.
 6. **Negative stock behaviour in the UI.** Whether the app blocks, warns, or silently accepts a negative quantity. `confirmOversell` and `stockShortagesForQty` exist and imply a warning on oversell, but the manual-edit path was not tested. `STK-008` describes the consequence if negatives are permitted.
 7. **Delete protection for clients/suppliers with transactions.** Whether deleting a customer who has invoices is blocked, warned, or orphans the documents. No referential integrity exists in the data model, so orphaning is structurally possible.
@@ -1262,6 +1462,11 @@ outright, which is far better than adding an auth check.
 **Q12 — Part photo privacy.** Are part photos acceptable to expose publicly (`SEC-005`)? Making the
 bucket private and using signed URLs is straightforward if not.
 
+**Q13 — Standing terms and signature.** There is no terms-and-conditions block and no signature area
+on any document (`PDF-010`); terms can only be retyped into each document's note field. What standing
+terms should print on quotations and invoices (payment, warranty, returns, title), and do you want a
+signature/acceptance area on quotations so a signed copy can come back as the order confirmation?
+
 ---
 
 ## 19. Recommended repair plan, in priority order
@@ -1316,26 +1521,44 @@ codebase.
 17. **`FIN-007`** — Backfill receipts, then remove the status-based paid fallback.
 18. **`FUN-005`** — Reject `NaN`/`Infinity` at input boundaries instead of coercing to 0.
 
+### Stage 3b — Customer-facing documents (small, self-contained, high visibility)
+
+These are all in two files and are independent of everything above, so they can ship on their own.
+
+19. **`PDF-005`** — Add the missing page-fit guard to the AR statement's total block. This is the one
+    P1 in the group: a customer-facing statement can omit the net due entirely.
+20. **`PDF-007`** — Measure the customer note's real height and paginate it.
+21. **`PDF-006`** / **`PDF-011`** — Honour `maxWidthMm` in `pdfDrawText`'s Latin branch; one fix
+    resolves both the overflowing client name and the overflowing reference.
+22. **`PDF-008`** / **`PDF-001`** — Move the document header into `didDrawPage`, extend the footer
+    loop to the statement builder, and stamp "Page X of Y".
+23. **`PDF-009`** — Remove the 12-entry payment-history cap.
+24. **`PDF-002`** — Add the date and customer to download filenames, including the statement's.
+25. **`PDF-010`** / **`PDF-013`** — Signature area, standing terms (Q13), and column alignment.
+
+*Verify:* re-run the rendering harness described in §13 and assert no drawn text exceeds the page or
+the footer reserve.
+
 ### Stage 4 — Quality gates (cheap, prevents regression)
 
-19. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
-20. Run `npm run format` once to clear 977 formatting errors, then enforce it.
-21. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
-22. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
-23. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
+26. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
+27. Run `npm run format` once to clear 977 formatting errors, then enforce it.
+28. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
+29. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
+30. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
     requirement.
-24. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
+31. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
     untrusted files.
 
-### Stage 5 — Complete the audit (I recommend this before Stage 6)
+### Stage 5 — Close the remaining verification gaps
 
-25. Finish Phases 9 and 10 — the browser-driven design, responsive, and rendered-PDF passes listed
-    in §17. Roughly a third of the original scope is still `NOT VERIFIED`, and design defects are
-    cheap to fix but only findable by looking.
+32. Finish the interactive CRUD edge-case matrix (§17 item 3) and confirm Arabic PDF rendering and
+    browser print output in a real browser (§17 item 2). Design defects are cheap to fix but only
+    findable by looking, so this is worth doing before committing to Stage 6.
 
 ### Stage 6 — The architectural decision (largest change; needs your call)
 
-26. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
+33. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
     into real tables with foreign keys, unique constraints, indexes, transactions, and pagination.
 
     This is invasive: it touches every data context, every route that reads them, the merge layer,
@@ -1441,6 +1664,7 @@ each; money and status logic verified by harness.
 | `PERF-002` | P1 | Performance | Whole-blob read/write amplification; no data-layer pagination |
 | `BLD-001` | P1 | Build | No `typecheck` script; a real type error ships undetected |
 | `DAT-001` | P1 | Architecture | No transactional integrity or database-enforced constraints (root cause of many below) |
+| `PDF-005` | P1 | PDF | AR statement prints "Net due" off the bottom of the page — 8 of 350 shapes |
 | `FIN-004` | P2 | Money | Two different subtotal definitions (0.12 vs 0.06 demonstrated) |
 | `FIN-005` | P2 | Money | Tax hardcoded to 0; no VAT configuration |
 | `FIN-006` | P2 | Money | Currency effectively hardcoded to USD |
@@ -1456,7 +1680,8 @@ each; money and status logic verified by harness.
 | `STK-005` | P2 | Inventory | Part-number uniqueness enforced on create but not update |
 | `STK-006` | P2 | Inventory | Concurrent creates can duplicate a part number |
 | `STK-007` | P2 | Inventory | `removePart` silently resets quantity and pricing |
-| `STK-008` | P2 | Inventory | Valuation unrounded and reduced by negative stock |
+| `STK-009` | P2 | Inventory | Quantities silently rounded to whole units; fractional stock drifts |
+| `STK-010` | P2 | Inventory | Negative input silently clamped to 0 instead of rejected |
 | `RPT-002` | P2 | Reports | Two different low-stock definitions |
 | `RPT-003` | P2 | Reports | Revenue grouped by client name, not id |
 | `RPT-004` | P2 | Reports | Date handling mixes local-time bucketing with raw string slicing |
@@ -1469,11 +1694,20 @@ each; money and status logic verified by harness.
 | `PERF-001` | P2 | Performance | 4.48 MB client JS; 1.35 MB main chunk |
 | `PERF-003` | P2 | Database | Every index is on a dead table |
 | `PERF-004` | P2 | Reliability | 35 `exhaustive-deps` warnings in the data layer |
-| `PDF-001` | P2 | PDF | No page numbers |
-| `PDF-002` | P2 | PDF | Filename lacks date and customer |
+| `PDF-001` | P2 | PDF | No page numbers on any document — verified across 16 rendered fixtures |
+| `PDF-002` | P2 | PDF | Filename lacks date and customer; statement filenames collide |
+| `PDF-006` | P2 | PDF | Long client name escapes the Bill-to card to 206 mm on a 210 mm page |
+| `PDF-007` | P2 | PDF | Long customer note prints past the footer and off the paper |
+| `PDF-008` | P2 | PDF | Continuation pages carry no client, reference, or date |
+| `PDF-009` | P2 | PDF | Payment history silently truncated to 12 entries |
 | `UX-001` | P3 | UI | `dangerouslySetInnerHTML` in chart CSS (not currently exploitable) |
 | `PDF-003` | P3 | PDF | Three near-duplicate PDF total blocks |
 | `PDF-004` | P3 | PDF | 709 KB of base64 assets in source |
+| `PDF-010` | P3 | PDF | No signature area and no standing terms block |
+| `PDF-011` | P3 | PDF | Document reference drawn unwrapped; a long id leaves the paper |
+| `PDF-012` | P3 | PDF | Totals box overflows for astronomically large amounts |
+| `PDF-013` | P3 | PDF | Description column right-aligned under a left-aligned header |
+| `STK-008` | P3 | Inventory | Inventory valuation is an unrounded float over the whole catalog |
 | `PERF-005` | P3 | Reliability | Conflict retry loop has no backoff or ceiling |
 | `BLD-002` | P3 | Build | Dev server logs `node:crypto` externalisation error from a server module |
 | `DEP-002` | P3 | Deps | `package-lock.json` out of sync; `npm ci` fails |
