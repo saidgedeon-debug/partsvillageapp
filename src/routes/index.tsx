@@ -366,7 +366,7 @@ function Index() {
             Overview
           </p>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            <MetricCard label="Lifetime collected" value={currency(paidSales)} icon={DollarSign} accent />
+            <MetricCard label="Collected" value={currency(paidSales)} icon={DollarSign} accent />
             <MetricCard label="Active Quotes" value={String(activeQuotes)} icon={FileText} />
             <MetricCard
               label="Low Stock Alerts"
