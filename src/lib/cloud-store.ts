@@ -8,7 +8,7 @@ import {
 } from "react";
 
 import { emitCloudConflict } from "@/lib/cloud-conflict";
-import { mergeShopStateValue } from "@/lib/shop-state-merge";
+import { adoptUnsyncedLocalItems, mergeShopStateValue } from "@/lib/shop-state-merge";
 import { parseShopStateValue } from "@/lib/shop-state-schema";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
@@ -190,9 +190,28 @@ export async function loadOrMigrateShopState<T>(
   localStorageKey: string,
   fallback: T,
   isEmpty: (v: T) => boolean,
-): Promise<{ value: T; updatedAt: string | null }> {
+): Promise<{ value: T; updatedAt: string | null; needsSave?: boolean; cloudValue?: T }> {
   const row = await fetchShopStateRow<T>(key);
   if (row.value != null && !isEmpty(row.value)) {
+    if (typeof window !== "undefined") {
+      try {
+        const raw = localStorage.getItem(localStorageKey);
+        if (raw) {
+          const cached = JSON.parse(raw) as T;
+          const adopted = adoptUnsyncedLocalItems(row.value, cached) as T;
+          if (adopted !== row.value) {
+            return {
+              value: adopted,
+              updatedAt: row.updatedAt,
+              needsSave: true,
+              cloudValue: row.value,
+            };
+          }
+        }
+      } catch {
+        // ignore cache parse errors
+      }
+    }
     return { value: row.value, updatedAt: row.updatedAt };
   }
 
@@ -240,26 +259,43 @@ export function useCloudState<T>(
   const skipSave = useRef(true);
   const dirtyRef = useRef(false);
   const savingRef = useRef(false);
+  const pendingRetryRef = useRef(false);
+  const readyRef = useRef(false);
+  const persistNowRef = useRef<() => Promise<void>>(async () => {});
+  const pullRemoteRef = useRef<() => Promise<void>>(async () => {});
   const baseUpdatedAtRef = useRef<string | null>(null);
   /** Last remote value we acknowledged (for 3-way merge on conflict). */
   const baseValueRef = useRef<T>(fallback);
   const valueRef = useRef(value);
   valueRef.current = value;
+  readyRef.current = ready;
 
   useEffect(() => {
     setCloudHealth(key, "loading");
   }, [key, retry]);
 
+  const writeCache = (next: T) => {
+    try {
+      localStorage.setItem(localStorageKey, JSON.stringify(next));
+    } catch {
+      // ignore quota
+    }
+  };
+
   const setValue: Dispatch<SetStateAction<T>> = (action) => {
     setValueState((prev) => {
       const next = typeof action === "function" ? (action as (p: T) => T)(prev) : action;
+      if (next === prev) return prev;
       if (!skipSave.current) {
         dirtyRef.current = true;
         setPendingKey(key, true);
+        writeCache(next);
       }
       return next;
     });
   };
+
+  const mergeFieldKey = key === "documents" ? "documents" : undefined;
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -284,16 +320,16 @@ export function useCloudState<T>(
           setCloudHealth(key, "error");
         }
         skipSave.current = true;
-        dirtyRef.current = false;
-        setPendingKey(key, false);
+        dirtyRef.current = Boolean(loaded.needsSave);
+        setPendingKey(key, Boolean(loaded.needsSave));
         baseUpdatedAtRef.current = loaded.updatedAt;
-        baseValueRef.current = accepted;
+        baseValueRef.current = loaded.cloudValue ?? accepted;
         setValueState(accepted);
         setReady(true);
         if (parsed.ok) {
           setError(null);
           setLastCloudError(null);
-          setCloudHealth(key, "synced");
+          setCloudHealth(key, loaded.needsSave ? "syncing" : "synced");
         }
         markCloudMigrated();
         try {
@@ -338,108 +374,213 @@ export function useCloudState<T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps -- load once per key / retry
   }, [key, retry]);
 
+  const persistNow = async () => {
+    if (!readyRef.current || !isSupabaseConfigured) return;
+    if (savingRef.current) {
+      pendingRetryRef.current = true;
+      return;
+    }
+    if (!dirtyRef.current && !pendingRetryRef.current) return;
+
+    savingRef.current = true;
+    pendingRetryRef.current = false;
+    setCloudHealth(key, "syncing");
+    let snapshot = valueRef.current;
+    let wrote = false;
+    writeCache(snapshot);
+
+    try {
+      let expected = baseUpdatedAtRef.current;
+      if (!expected) {
+        const remote = await fetchShopStateRow<T>(key);
+        if (remote.updatedAt && remote.value != null) {
+          const merged = mergeShopStateValue(
+            baseValueRef.current,
+            snapshot,
+            remote.value,
+            mergeFieldKey,
+          ) as T;
+          baseValueRef.current = remote.value;
+          baseUpdatedAtRef.current = remote.updatedAt;
+          expected = remote.updatedAt;
+          if (JSON.stringify(merged) !== JSON.stringify(snapshot)) {
+            skipSave.current = true;
+            snapshot = merged;
+            setValueState(merged);
+            writeCache(merged);
+          }
+        }
+      }
+
+      const result = await saveShopState(key, snapshot, expected);
+      if (result.saved) {
+        wrote = true;
+        baseUpdatedAtRef.current = result.updatedAt;
+        baseValueRef.current = snapshot;
+        if (
+          valueRef.current === snapshot ||
+          JSON.stringify(valueRef.current) === JSON.stringify(snapshot)
+        ) {
+          dirtyRef.current = false;
+          setPendingKey(key, false);
+        }
+        setError(null);
+        setLastCloudError(null);
+        setCloudHealth(key, "synced");
+        writeCache(snapshot);
+      } else {
+        console.warn(`shop_state:${key} remote revision changed; merging local edits onto remote`);
+        const remote = await fetchShopStateRow<T>(key);
+        const remoteValue = remote.value ?? fallback;
+        const merged = mergeShopStateValue(
+          baseValueRef.current,
+          valueRef.current,
+          remoteValue,
+          mergeFieldKey,
+        ) as T;
+        baseValueRef.current = remoteValue;
+        baseUpdatedAtRef.current = remote.updatedAt;
+        skipSave.current = true;
+        setValueState(merged);
+        dirtyRef.current = true;
+        setPendingKey(key, true);
+        emitCloudConflict(key);
+        const forced = await saveShopState(key, merged, remote.updatedAt);
+        if (forced.saved) {
+          wrote = true;
+          baseUpdatedAtRef.current = forced.updatedAt;
+          baseValueRef.current = merged;
+          if (
+            valueRef.current === merged ||
+            JSON.stringify(valueRef.current) === JSON.stringify(merged)
+          ) {
+            dirtyRef.current = false;
+            setPendingKey(key, false);
+          }
+          setError(null);
+          setLastCloudError(null);
+          setCloudHealth(key, "synced");
+          writeCache(merged);
+        } else {
+          baseUpdatedAtRef.current = forced.updatedAt;
+          pendingRetryRef.current = true;
+          setCloudHealth(key, "syncing");
+        }
+      }
+    } catch (e) {
+      console.error(`Failed to save ${key}`, e);
+      writeCache(snapshot);
+      const msg =
+        (e instanceof Error ? e.message : `Failed to save ${key}`) +
+        " — saved offline; will sync when connection returns.";
+      setError(msg);
+      setLastCloudError(msg);
+      setCloudHealth(key, "error");
+    } finally {
+      savingRef.current = false;
+      const retry = pendingRetryRef.current || (wrote && dirtyRef.current);
+      if (retry) {
+        pendingRetryRef.current = false;
+        window.setTimeout(() => {
+          void persistNowRef.current();
+        }, 50);
+      }
+    }
+  };
+  persistNowRef.current = persistNow;
+
+  const applyRemote = (next: T, updatedAt: string | null) => {
+    if (updatedAt) baseUpdatedAtRef.current = updatedAt;
+    if (dirtyRef.current || savingRef.current) {
+      const merged = mergeShopStateValue(
+        baseValueRef.current,
+        valueRef.current,
+        next,
+        mergeFieldKey,
+      ) as T;
+      baseValueRef.current = next;
+      if (JSON.stringify(merged) === JSON.stringify(valueRef.current)) return;
+      dirtyRef.current = true;
+      setPendingKey(key, true);
+      setValueState(merged);
+      writeCache(merged);
+      emitCloudConflict(key);
+      return;
+    }
+    if (JSON.stringify(valueRef.current) === JSON.stringify(next)) {
+      baseValueRef.current = next;
+      return;
+    }
+    skipSave.current = true;
+    baseValueRef.current = next;
+    setValueState(next);
+    writeCache(next);
+  };
+
+  const pullRemote = async () => {
+    if (!readyRef.current || !isSupabaseConfigured) return;
+    try {
+      const remote = await fetchShopStateRow<T>(key);
+      if (remote.value == null) return;
+      if (remote.updatedAt && remote.updatedAt === baseUpdatedAtRef.current && !dirtyRef.current) {
+        return;
+      }
+      const parsed = parseShopStateValue<T>(key, remote.value);
+      if (!parsed.ok) return;
+      applyRemote(parsed.value, remote.updatedAt);
+    } catch {
+      // keep local; next focus / retry will try again
+    }
+  };
+  pullRemoteRef.current = pullRemote;
+
   useEffect(() => {
     if (!ready || !isSupabaseConfigured) return;
     if (skipSave.current) {
       skipSave.current = false;
-      return;
+      if (!dirtyRef.current) return;
     }
     const t = window.setTimeout(() => {
-      if (savingRef.current) return;
-      savingRef.current = true;
-      setCloudHealth(key, "syncing");
-      const snapshot = valueRef.current;
-      const expected = baseUpdatedAtRef.current;
-      void saveShopState(key, snapshot, expected)
-        .then((result) => {
-          if (result.saved) {
-            baseUpdatedAtRef.current = result.updatedAt;
-            baseValueRef.current = snapshot;
-            // Only clear dirty if nothing newer was typed during the save.
-            if (
-              valueRef.current === snapshot ||
-              JSON.stringify(valueRef.current) === JSON.stringify(snapshot)
-            ) {
-              dirtyRef.current = false;
-              setPendingKey(key, false);
-            }
-            setError(null);
-            setLastCloudError(null);
-            setCloudHealth(key, "synced");
-            try {
-              localStorage.setItem(localStorageKey, JSON.stringify(snapshot));
-            } catch {
-              // ignore quota
-            }
-          } else {
-            // Remote moved ahead — rebase local edits onto latest remote, then retry.
-            console.warn(
-              `shop_state:${key} remote revision changed; merging local edits onto remote`,
-            );
-            void (async () => {
-              try {
-                const remote = await fetchShopStateRow<T>(key);
-                const remoteValue = remote.value ?? fallback;
-                const merged = mergeShopStateValue(
-                  baseValueRef.current,
-                  valueRef.current,
-                  remoteValue,
-                ) as T;
-                baseValueRef.current = remoteValue;
-                baseUpdatedAtRef.current = remote.updatedAt;
-                skipSave.current = true;
-                setValueState(merged);
-                dirtyRef.current = true;
-                setPendingKey(key, true);
-                emitCloudConflict(key);
-                const forced = await saveShopState(key, merged, remote.updatedAt);
-                if (forced.saved) {
-                  baseUpdatedAtRef.current = forced.updatedAt;
-                  baseValueRef.current = merged;
-                  if (
-                    valueRef.current === merged ||
-                    JSON.stringify(valueRef.current) === JSON.stringify(merged)
-                  ) {
-                    dirtyRef.current = false;
-                    setPendingKey(key, false);
-                  }
-                  setError(null);
-                  setLastCloudError(null);
-                  setCloudHealth(key, "synced");
-                } else {
-                  // Still racing — leave dirty; next edit/debounce will retry.
-                  baseUpdatedAtRef.current = forced.updatedAt;
-                  setCloudHealth(key, "syncing");
-                }
-              } catch (e) {
-                const msg = e instanceof Error ? e.message : `Failed to save ${key}`;
-                setError(msg);
-                setLastCloudError(msg);
-                setCloudHealth(key, "error");
-              }
-            })();
-          }
-        })
-        .catch((e) => {
-          console.error(`Failed to save ${key}`, e);
-          try {
-            localStorage.setItem(localStorageKey, JSON.stringify(snapshot));
-          } catch {
-            // ignore
-          }
-          const msg =
-            (e instanceof Error ? e.message : `Failed to save ${key}`) +
-            " — saved offline; will sync when connection returns.";
-          setError(msg);
-          setLastCloudError(msg);
-          setCloudHealth(key, "error");
-        })
-        .finally(() => {
-          savingRef.current = false;
-        });
+      void persistNowRef.current();
     }, 400);
     return () => window.clearTimeout(t);
-  }, [value, ready, key, localStorageKey, fallback]);
+  }, [value, ready, key]);
+
+  useEffect(() => {
+    if (!ready || !isSupabaseConfigured) return;
+
+    const flush = () => {
+      if (dirtyRef.current || pendingRetryRef.current) {
+        void persistNowRef.current();
+      }
+    };
+    const refresh = () => {
+      if (document.visibilityState === "hidden") {
+        flush();
+        return;
+      }
+      void pullRemoteRef.current();
+      if (dirtyRef.current) void persistNowRef.current();
+    };
+
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("pagehide", flush);
+    window.addEventListener("freeze", flush);
+    window.addEventListener("focus", refresh);
+    window.addEventListener("online", refresh);
+    const poll = window.setInterval(() => {
+      if (document.visibilityState === "visible") void pullRemoteRef.current();
+    }, 45_000);
+
+    return () => {
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("pagehide", flush);
+      window.removeEventListener("freeze", flush);
+      window.removeEventListener("focus", refresh);
+      window.removeEventListener("online", refresh);
+      window.clearInterval(poll);
+    };
+  }, [ready, key]);
 
   useEffect(() => {
     if (!ready || !isSupabaseConfigured) return;
@@ -457,32 +598,12 @@ export function useCloudState<T>(
         (payload) => {
           const row = payload.new as { value?: T; updated_at?: string } | null;
           const next = row?.value;
-          if (next === undefined) return;
-
-          if (row?.updated_at) baseUpdatedAtRef.current = row.updated_at;
-
-          // While local edits are in flight, merge remote into local instead of dropping either side.
-          if (dirtyRef.current || savingRef.current) {
-            const merged = mergeShopStateValue(baseValueRef.current, valueRef.current, next) as T;
-            baseValueRef.current = next;
-            if (JSON.stringify(merged) === JSON.stringify(valueRef.current)) return;
-            // Keep dirty so the debounce save effect uploads the merge (do not skipSave).
-            dirtyRef.current = true;
-            setValueState(merged);
-            emitCloudConflict(key);
+          // Large JSON blobs are often missing from realtime — refetch the row.
+          if (next === undefined) {
+            void pullRemoteRef.current();
             return;
           }
-
-          const cur = JSON.stringify(valueRef.current);
-          const incoming = JSON.stringify(next);
-          if (cur === incoming) {
-            baseValueRef.current = next;
-            return;
-          }
-          skipSave.current = true;
-          baseValueRef.current = next;
-          setValueState(next);
-          emitCloudConflict(key);
+          applyRemote(next, row?.updated_at ?? null);
         },
       )
       .subscribe();
@@ -490,6 +611,8 @@ export function useCloudState<T>(
     return () => {
       void sb.removeChannel(channel);
     };
+    // applyRemote reads refs; resubscribe only when the store key is ready.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, key]);
 
   return { value, setValue, ready, error };

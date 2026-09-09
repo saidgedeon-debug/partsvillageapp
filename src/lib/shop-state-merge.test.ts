@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { mergeShopStateValue } from "./shop-state-merge";
+import { adoptUnsyncedLocalItems, mergeShopStateValue } from "./shop-state-merge";
 
 describe("mergeShopStateValue numeric delta", () => {
   it("applies local delta on quantity fields", () => {
@@ -68,5 +68,26 @@ describe("mergeShopStateValue numeric delta", () => {
     };
     const inv = merged.documents.find((d) => d.id === "inv-1");
     expect(inv?.amountPaid).toBe(65);
+  });
+
+  it("keeps a remote-only invoice when local is stale", () => {
+    const base = [{ id: "inv-1", kind: "invoice", total: 100 }];
+    const local = [{ id: "inv-1", kind: "invoice", total: 100 }];
+    const remote = [
+      { id: "inv-2", kind: "invoice", total: 40 },
+      { id: "inv-1", kind: "invoice", total: 100 },
+    ];
+    const merged = mergeShopStateValue(base, local, remote) as { id: string }[];
+    expect(merged.map((d) => d.id).sort()).toEqual(["inv-1", "inv-2"]);
+  });
+
+  it("adopts a phone-only invoice that never reached the cloud", () => {
+    const remote = [{ id: "inv-1", kind: "invoice", total: 100 }];
+    const cached = [
+      { id: "inv-phone", kind: "invoice", total: 25 },
+      { id: "inv-1", kind: "invoice", total: 100 },
+    ];
+    const adopted = adoptUnsyncedLocalItems(remote, cached) as { id: string }[];
+    expect(adopted.map((d) => d.id)).toEqual(["inv-phone", "inv-1"]);
   });
 });

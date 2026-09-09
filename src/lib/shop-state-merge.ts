@@ -58,6 +58,42 @@ function mergeKeyedArray(base: unknown[], local: unknown[], remote: unknown[]): 
   return [...localOnly, ...mergedRemote];
 }
 
+/**
+ * Keep locally created rows that never reached the cloud (e.g. a phone invoice
+ * saved only to cache) without overwriting newer remote rows.
+ */
+export function adoptUnsyncedLocalItems(remote: unknown, cached: unknown): unknown {
+  if (Array.isArray(remote) && Array.isArray(cached)) {
+    if (!(arrayHasIds(remote) || arrayHasIds(cached))) return remote;
+    const remoteIds = new Set<string>();
+    for (const item of remote) {
+      const id = itemId(item);
+      if (id) remoteIds.add(id);
+    }
+    const extras = cached.filter((item) => {
+      const id = itemId(item);
+      return Boolean(id && !remoteIds.has(id));
+    });
+    if (extras.length === 0) return remote;
+    const adopted = [...extras, ...remote];
+    return healDocumentsAmountPaid(adopted);
+  }
+  if (isPlainObject(remote) && isPlainObject(cached)) {
+    const out: Record<string, unknown> = { ...remote };
+    let changed = false;
+    const keys = new Set([...Object.keys(remote), ...Object.keys(cached)]);
+    for (const key of keys) {
+      const next = adoptUnsyncedLocalItems(remote[key], cached[key]);
+      if (next !== remote[key] && next !== undefined) {
+        out[key] = next;
+        changed = true;
+      }
+    }
+    return changed ? out : remote;
+  }
+  return remote;
+}
+
 function mergePrimitiveArray(base: unknown[], local: unknown[], remote: unknown[]): unknown[] {
   if (equalJson(local, base)) return remote;
   if (equalJson(remote, base)) return local;
