@@ -11,6 +11,7 @@ import {
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useParties } from "@/components/app/parties-context";
+import { usePreOrders } from "@/components/app/preorders-context";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -33,6 +34,7 @@ import { generateDocId, lineTotal } from "@/lib/document-export";
 import { documentGrandTotal, roundMoney } from "@/lib/document-money";
 import { currency } from "@/lib/mock-data";
 import {
+  invoiceNoteForPreOrder,
   preOrderIsPaid,
   preOrderRemaining,
   type CustomerPreOrder,
@@ -75,6 +77,7 @@ export function PreOrderConvertDialog({
   onCreated,
 }: Props) {
   const { addInvoiceWithOptionalReceipt } = useDocuments();
+  const { markConverted } = usePreOrders();
   const { adjustPartQuantity, getPart } = useInventory();
   const { addOrder } = useFleet();
   const { clients } = useParties();
@@ -178,7 +181,7 @@ export function PreOrderConvertDialog({
         stockDeducted,
         oversoldByPart:
           oversoldByPart && Object.keys(oversoldByPart).length > 0 ? oversoldByPart : undefined,
-        internalNote: `From pre-order ${order.id}${order.notes ? ` · ${order.notes}` : ""}`,
+        internalNote: invoiceNoteForPreOrder(order),
       };
 
       const { invoice, receipt } = addInvoiceWithOptionalReceipt(
@@ -214,6 +217,8 @@ export function PreOrderConvertDialog({
           })),
         });
       }
+
+      markConverted(order.id, invoice.id);
 
       toast.success(
         receipt

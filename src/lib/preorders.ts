@@ -1,4 +1,4 @@
-import { roundMoney } from "@/lib/document-money";
+import { roundMoney } from "./document-money";
 
 export type PreOrderLine = {
   partId: string;
@@ -25,9 +25,68 @@ export type CustomerPreOrder = {
   notes?: string;
   /** True while parts are still pending from abroad. */
   needsProcurement: boolean;
+  /** Invoice created from this pre-order — treated as closed. */
+  invoiceId?: string;
+  /** When the pre-order was transferred to an invoice. */
+  convertedAt?: string;
   createdAt: string;
   updatedAt: string;
 };
+
+const FROM_PREORDER_NOTE = /From pre-order\s+(\S+)/i;
+
+export function preOrderIdFromInvoiceNote(note?: string | null): string | null {
+  if (!note) return null;
+  const match = note.match(FROM_PREORDER_NOTE);
+  const id = match?.[1]?.trim();
+  return id || null;
+}
+
+export function invoiceNoteForPreOrder(order: Pick<CustomerPreOrder, "id" | "notes">): string {
+  return `From pre-order ${order.id}${order.notes ? ` · ${order.notes}` : ""}`;
+}
+
+export function preOrderIsConverted(order: Pick<CustomerPreOrder, "invoiceId" | "convertedAt">): boolean {
+  return Boolean(order.invoiceId || order.convertedAt);
+}
+
+export type InvoiceLinkHint = {
+  id: string;
+  kind?: string;
+  internalNote?: string | null;
+};
+
+/** Stamp pre-orders that already have a matching invoice so they leave the open list. */
+export function closePreOrdersLinkedToInvoices(
+  orders: CustomerPreOrder[],
+  invoices: InvoiceLinkHint[],
+  convertedAt = "",
+): CustomerPreOrder[] {
+  const invoiceByPreOrder = new Map<string, string>();
+  for (const invoice of invoices) {
+    if (invoice.kind && invoice.kind !== "invoice") continue;
+    const preOrderId = preOrderIdFromInvoiceNote(invoice.internalNote);
+    if (!preOrderId || invoiceByPreOrder.has(preOrderId)) continue;
+    invoiceByPreOrder.set(preOrderId, invoice.id);
+  }
+  if (invoiceByPreOrder.size === 0) return orders;
+
+  let changed = false;
+  const next = orders.map((order) => {
+    if (preOrderIsConverted(order)) return order;
+    const invoiceId = invoiceByPreOrder.get(order.id);
+    if (!invoiceId) return order;
+    changed = true;
+    return {
+      ...order,
+      invoiceId,
+      convertedAt: convertedAt || order.updatedAt || order.createdAt,
+      needsProcurement: false,
+      updatedAt: convertedAt || order.updatedAt,
+    };
+  });
+  return changed ? next : orders;
+}
 
 export function preOrderRemaining(order: CustomerPreOrder): number {
   return Math.max(0, roundMoney((Number.isFinite(order.total) ? order.total : 0) - (Number.isFinite(order.amountPaid) ? order.amountPaid : 0)));
@@ -128,7 +187,7 @@ export type SupplierOrderItem = {
 export function buildSupplierOrderList(orders: CustomerPreOrder[]): SupplierOrderItem[] {
   const map = new Map<string, SupplierOrderItem>();
   for (const order of orders) {
-    if (!order.needsProcurement) continue;
+    if (!order.needsProcurement || preOrderIsConverted(order)) continue;
     for (const line of order.lines) {
       const key = `${line.partNumber.trim().toLowerCase()}::${line.name.trim().toLowerCase()}`;
       const existing = map.get(key);

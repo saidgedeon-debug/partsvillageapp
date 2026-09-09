@@ -2,13 +2,16 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   type ReactNode,
 } from "react";
 
+import { useDocuments } from "@/components/app/documents-context";
 import { useCloudState } from "@/lib/cloud-store";
 import { roundMoney } from "@/lib/document-money";
 import {
+  closePreOrdersLinkedToInvoices,
   linesTotal,
   type CustomerPreOrder,
   type PreOrderLine,
@@ -31,6 +34,7 @@ type PreOrdersContextValue = {
   addOrder: (input: PreOrderInput) => CustomerPreOrder;
   updateOrder: (id: string, patch: Partial<PreOrderInput>) => CustomerPreOrder | null;
   recordDeposit: (id: string, amount: number) => CustomerPreOrder | null;
+  markConverted: (id: string, invoiceId: string) => CustomerPreOrder | null;
   removeOrder: (id: string) => void;
 };
 
@@ -61,6 +65,7 @@ function normalizeShipmentCost(value: unknown): number | undefined {
 }
 
 export function PreOrdersProvider({ children }: { children: ReactNode }) {
+  const { documents } = useDocuments();
   const { value: orders, setValue: setOrders } = useCloudState<CustomerPreOrder[]>(
     "pre-orders",
     STORAGE_KEY,
@@ -69,6 +74,12 @@ export function PreOrdersProvider({ children }: { children: ReactNode }) {
   );
 
   const list = Array.isArray(orders) ? orders : [];
+
+  useEffect(() => {
+    const next = closePreOrdersLinkedToInvoices(list, documents);
+    if (next === list) return;
+    setOrders(next);
+  }, [documents, list, setOrders]);
 
   const addOrder = useCallback(
     (input: PreOrderInput) => {
@@ -164,6 +175,30 @@ export function PreOrdersProvider({ children }: { children: ReactNode }) {
     [setOrders],
   );
 
+  const markConverted = useCallback(
+    (id: string, invoiceId: string) => {
+      let updated: CustomerPreOrder | null = null;
+      const now = new Date().toISOString();
+      const invoice = invoiceId.trim();
+      if (!invoice) return null;
+      setOrders((prev) =>
+        (Array.isArray(prev) ? prev : []).map((order) => {
+          if (order.id !== id) return order;
+          updated = {
+            ...order,
+            invoiceId: invoice,
+            convertedAt: now,
+            needsProcurement: false,
+            updatedAt: now,
+          };
+          return updated;
+        }),
+      );
+      return updated;
+    },
+    [setOrders],
+  );
+
   const removeOrder = useCallback(
     (id: string) => {
       setOrders((prev) => (Array.isArray(prev) ? prev : []).filter((order) => order.id !== id));
@@ -177,9 +212,10 @@ export function PreOrdersProvider({ children }: { children: ReactNode }) {
       addOrder,
       updateOrder,
       recordDeposit,
+      markConverted,
       removeOrder,
     }),
-    [list, addOrder, updateOrder, recordDeposit, removeOrder],
+    [list, addOrder, updateOrder, recordDeposit, markConverted, removeOrder],
   );
 
   return <PreOrdersContext.Provider value={value}>{children}</PreOrdersContext.Provider>;

@@ -40,6 +40,7 @@ import {
 import { localTodayIso } from "@/lib/date-local";
 import { currency } from "@/lib/mock-data";
 import {
+  preOrderIsConverted,
   preOrderIsPaid,
   preOrderRemaining,
   type CustomerPreOrder,
@@ -69,18 +70,31 @@ function PreOrdersPage() {
   const [depositAmount, setDepositAmount] = useState("");
   const [convertOrder, setConvertOrder] = useState<CustomerPreOrder | null>(null);
   const [convertWithReceipt, setConvertWithReceipt] = useState(false);
+  const [showInvoiced, setShowInvoiced] = useState(false);
 
-  const rows = useMemo(
-    () =>
-      [...orders].sort(
-        (a, b) =>
-          b.orderedAt.localeCompare(a.orderedAt) || b.createdAt.localeCompare(a.createdAt),
-      ),
+  const invoicedCount = useMemo(
+    () => orders.filter((order) => preOrderIsConverted(order)).length,
     [orders],
   );
 
-  const pendingBalance = rows.filter((order) => !preOrderIsPaid(order)).length;
-  const openProcurement = rows.filter((order) => order.needsProcurement).length;
+  const rows = useMemo(
+    () =>
+      [...orders]
+        .filter((order) => showInvoiced || !preOrderIsConverted(order))
+        .sort(
+          (a, b) =>
+            b.orderedAt.localeCompare(a.orderedAt) || b.createdAt.localeCompare(a.createdAt),
+        ),
+    [orders, showInvoiced],
+  );
+
+  const openCount = orders.length - invoicedCount;
+  const pendingBalance = rows.filter(
+    (order) => !preOrderIsConverted(order) && !preOrderIsPaid(order),
+  ).length;
+  const openProcurement = rows.filter(
+    (order) => !preOrderIsConverted(order) && order.needsProcurement,
+  ).length;
 
   const createShipmentFromOrder = (order: CustomerPreOrder) => {
     const lines: ShipmentLine[] = order.lines.map((line, index) => ({
@@ -112,7 +126,7 @@ function PreOrdersPage() {
     <>
       <PageHeader
         title="Customer pre-orders"
-        subtitle={`${rows.length} orders · ${pendingBalance} with balance due · ${openProcurement} need abroad procurement`}
+        subtitle={`${openCount} open · ${invoicedCount} invoiced · ${pendingBalance} with balance due · ${openProcurement} need abroad procurement`}
       />
       <main className="flex-1 space-y-4 p-4 md:p-6">
         <div className="flex flex-wrap items-center gap-2">
@@ -136,6 +150,15 @@ function PreOrdersPage() {
             <ClipboardList className="h-4 w-4" />
             Generate Supplier Order List
           </Button>
+          {invoicedCount > 0 ? (
+            <Button
+              type="button"
+              variant={showInvoiced ? "secondary" : "ghost"}
+              onClick={() => setShowInvoiced((v) => !v)}
+            >
+              {showInvoiced ? "Hide invoiced" : `Show invoiced (${invoicedCount})`}
+            </Button>
+          ) : null}
         </div>
 
         <Card>
@@ -161,8 +184,16 @@ function PreOrdersPage() {
                     <TableCell colSpan={7}>
                       <EmptyState
                         icon={ClipboardList}
-                        title="No customer pre-orders yet"
-                        description="Create one to track deposits for abroad parts."
+                        title={
+                          invoicedCount > 0 && !showInvoiced
+                            ? "No open pre-orders"
+                            : "No customer pre-orders yet"
+                        }
+                        description={
+                          invoicedCount > 0 && !showInvoiced
+                            ? "Converted pre-orders now live on their invoices. Use Show invoiced to review them."
+                            : "Create one to track deposits for abroad parts."
+                        }
                       />
                     </TableCell>
                   </TableRow>
@@ -170,12 +201,17 @@ function PreOrdersPage() {
                   rows.map((order) => {
                     const remaining = preOrderRemaining(order);
                     const paid = preOrderIsPaid(order);
+                    const converted = preOrderIsConverted(order);
                     return (
-                      <TableRow key={order.id}>
+                      <TableRow key={order.id} className={converted ? "opacity-70" : undefined}>
                         <TableCell>
                           <p className="font-medium">{order.clientName}</p>
                           <div className="mt-1 flex flex-wrap gap-1">
-                            {order.needsProcurement ? (
+                            {converted ? (
+                              <Badge variant="outline" className="text-xs">
+                                Invoiced{order.invoiceId ? ` · ${order.invoiceId}` : ""}
+                              </Badge>
+                            ) : order.needsProcurement ? (
                               <Badge variant="secondary" className="text-xs">
                                 Abroad pending
                               </Badge>
@@ -212,17 +248,33 @@ function PreOrdersPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex flex-wrap items-center justify-end gap-1">
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setDepositOrder(order);
-                                setDepositAmount(String(remaining > 0 ? remaining : ""));
-                              }}
-                            >
-                              Deposit
-                            </Button>
+                            {converted ? (
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() =>
+                                  void navigate({
+                                    to: "/documents",
+                                    search: { tab: "invoices" },
+                                  })
+                                }
+                              >
+                                Open invoice
+                              </Button>
+                            ) : (
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setDepositOrder(order);
+                                  setDepositAmount(String(remaining > 0 ? remaining : ""));
+                                }}
+                              >
+                                Deposit
+                              </Button>
+                            )}
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
                                 <Button
@@ -236,47 +288,51 @@ function PreOrdersPage() {
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent align="end">
-                                <DropdownMenuItem
-                                  onClick={() => {
-                                    setConvertWithReceipt(false);
-                                    setConvertOrder(order);
-                                  }}
-                                >
-                                  <FileText className="h-3.5 w-3.5" />
-                                  Create invoice
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                  onClick={() => {
-                                    setConvertWithReceipt(true);
-                                    setConvertOrder(order);
-                                  }}
-                                >
-                                  <Receipt className="h-3.5 w-3.5" />
-                                  Create invoice + receipt
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => createShipmentFromOrder(order)}>
-                                  <Ship className="h-3.5 w-3.5" />
-                                  Create China shipment
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                  onClick={() => {
-                                    setEditing(order);
-                                    setFormOpen(true);
-                                  }}
-                                >
-                                  Edit
-                                </DropdownMenuItem>
-                                {order.needsProcurement ? (
-                                  <DropdownMenuItem
-                                    onClick={() => {
-                                      updateOrder(order.id, { needsProcurement: false });
-                                      toast.success("Marked as ordered from supplier");
-                                    }}
-                                  >
-                                    Mark ordered
-                                  </DropdownMenuItem>
-                                ) : null}
-                                <DropdownMenuSeparator />
+                                {converted ? null : (
+                                  <>
+                                    <DropdownMenuItem
+                                      onClick={() => {
+                                        setConvertWithReceipt(false);
+                                        setConvertOrder(order);
+                                      }}
+                                    >
+                                      <FileText className="h-3.5 w-3.5" />
+                                      Create invoice
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      onClick={() => {
+                                        setConvertWithReceipt(true);
+                                        setConvertOrder(order);
+                                      }}
+                                    >
+                                      <Receipt className="h-3.5 w-3.5" />
+                                      Create invoice + receipt
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => createShipmentFromOrder(order)}>
+                                      <Ship className="h-3.5 w-3.5" />
+                                      Create China shipment
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem
+                                      onClick={() => {
+                                        setEditing(order);
+                                        setFormOpen(true);
+                                      }}
+                                    >
+                                      Edit
+                                    </DropdownMenuItem>
+                                    {order.needsProcurement ? (
+                                      <DropdownMenuItem
+                                        onClick={() => {
+                                          updateOrder(order.id, { needsProcurement: false });
+                                          toast.success("Marked as ordered from supplier");
+                                        }}
+                                      >
+                                        Mark ordered
+                                      </DropdownMenuItem>
+                                    ) : null}
+                                    <DropdownMenuSeparator />
+                                  </>
+                                )}
                                 <DropdownMenuItem
                                   className="text-destructive focus:text-destructive"
                                   onClick={() => {
