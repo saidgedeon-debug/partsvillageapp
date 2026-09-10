@@ -1,6 +1,8 @@
-import { Search, ShoppingCart } from "lucide-react";
 import type { ReactNode } from "react";
+import { Search, ShoppingCart } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
+
+import { CloudSyncButton } from "@/components/app/cloud-sync-button";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
@@ -56,6 +58,7 @@ export function PageHeader({
             aria-label="Search"
           />
         </div>
+        <CloudSyncButton compact className="shrink-0" />
         <Button
           type="button"
           variant="outline"

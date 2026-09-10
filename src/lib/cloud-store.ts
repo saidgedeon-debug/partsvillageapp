@@ -101,14 +101,46 @@ export function useCloudError(): string | null {
   return lastCloudError;
 }
 
-/** Bump retry token so every useCloudState remounts its load effect. */
-export function retryCloudSync() {
+type RegisteredStore = {
+  persist: () => Promise<void>;
+  pull: (force?: boolean) => Promise<void>;
+};
+
+const syncRegistry = new Map<ShopStateKey, RegisteredStore>();
+
+function registerCloudStore(key: ShopStateKey, store: RegisteredStore) {
+  syncRegistry.set(key, store);
+  return () => {
+    if (syncRegistry.get(key) === store) syncRegistry.delete(key);
+  };
+}
+
+/** Upload local edits, then pull the latest cloud copy on this device. */
+export async function syncNow(): Promise<void> {
   setLastCloudError(null);
-  for (const key of healthByKey.keys()) {
-    setCloudHealth(key, "loading");
+  const stores = [...syncRegistry.values()];
+  if (stores.length === 0) {
+    retryToken += 1;
+    retryListeners.forEach((listener) => listener());
+    return;
   }
-  retryToken += 1;
-  retryListeners.forEach((listener) => listener());
+  for (const key of healthByKey.keys()) {
+    if (healthByKey.get(key) !== "error") setCloudHealth(key, "syncing");
+  }
+  await Promise.allSettled(stores.map((store) => store.persist()));
+  await Promise.allSettled(stores.map((store) => store.pull(true)));
+  const stillPending = [...pendingByKey.values()].some(Boolean);
+  const hasError = [...healthByKey.values()].includes("error");
+  if (!stillPending && !hasError) {
+    for (const key of healthByKey.keys()) {
+      setCloudHealth(key, "synced");
+    }
+  }
+}
+
+/** @deprecated Use syncNow — remounting drops in-flight phone edits. */
+export function retryCloudSync() {
+  void syncNow();
 }
 
 function useCloudRetryToken() {
@@ -260,9 +292,10 @@ export function useCloudState<T>(
   const dirtyRef = useRef(false);
   const savingRef = useRef(false);
   const pendingRetryRef = useRef(false);
+  const savingWaitersRef = useRef<Array<() => void>>([]);
   const readyRef = useRef(false);
   const persistNowRef = useRef<() => Promise<void>>(async () => {});
-  const pullRemoteRef = useRef<() => Promise<void>>(async () => {});
+  const pullRemoteRef = useRef<(force?: boolean) => Promise<void>>(async () => {});
   const baseUpdatedAtRef = useRef<string | null>(null);
   /** Last remote value we acknowledged (for 3-way merge on conflict). */
   const baseValueRef = useRef<T>(fallback);
@@ -378,7 +411,10 @@ export function useCloudState<T>(
     if (!readyRef.current || !isSupabaseConfigured) return;
     if (savingRef.current) {
       pendingRetryRef.current = true;
-      return;
+      await new Promise<void>((resolve) => {
+        savingWaitersRef.current.push(resolve);
+      });
+      return persistNowRef.current();
     }
     if (!dirtyRef.current && !pendingRetryRef.current) return;
 
@@ -478,8 +514,10 @@ export function useCloudState<T>(
       setCloudHealth(key, "error");
     } finally {
       savingRef.current = false;
+      const waiters = savingWaitersRef.current.splice(0);
+      waiters.forEach((resolve) => resolve());
       const retry = pendingRetryRef.current || (wrote && dirtyRef.current);
-      if (retry) {
+      if (retry && waiters.length === 0) {
         pendingRetryRef.current = false;
         window.setTimeout(() => {
           void persistNowRef.current();
@@ -517,12 +555,17 @@ export function useCloudState<T>(
     writeCache(next);
   };
 
-  const pullRemote = async () => {
+  const pullRemote = async (force = false) => {
     if (!readyRef.current || !isSupabaseConfigured) return;
     try {
       const remote = await fetchShopStateRow<T>(key);
       if (remote.value == null) return;
-      if (remote.updatedAt && remote.updatedAt === baseUpdatedAtRef.current && !dirtyRef.current) {
+      if (
+        !force &&
+        remote.updatedAt &&
+        remote.updatedAt === baseUpdatedAtRef.current &&
+        !dirtyRef.current
+      ) {
         return;
       }
       const parsed = parseShopStateValue<T>(key, remote.value);
@@ -535,6 +578,13 @@ export function useCloudState<T>(
   pullRemoteRef.current = pullRemote;
 
   useEffect(() => {
+    return registerCloudStore(key, {
+      persist: () => persistNowRef.current(),
+      pull: (force) => pullRemoteRef.current(force),
+    });
+  }, [key]);
+
+  useEffect(() => {
     if (!ready || !isSupabaseConfigured) return;
     if (skipSave.current) {
       skipSave.current = false;
@@ -542,7 +592,7 @@ export function useCloudState<T>(
     }
     const t = window.setTimeout(() => {
       void persistNowRef.current();
-    }, 400);
+    }, key === "documents" ? 150 : 250);
     return () => window.clearTimeout(t);
   }, [value, ready, key]);
 
@@ -569,8 +619,11 @@ export function useCloudState<T>(
     window.addEventListener("focus", refresh);
     window.addEventListener("online", refresh);
     const poll = window.setInterval(() => {
-      if (document.visibilityState === "visible") void pullRemoteRef.current();
-    }, 45_000);
+      if (document.visibilityState === "visible") {
+        if (dirtyRef.current) void persistNowRef.current();
+        void pullRemoteRef.current();
+      }
+    }, 12_000);
 
     return () => {
       document.removeEventListener("visibilitychange", refresh);
@@ -595,18 +648,16 @@ export function useCloudState<T>(
           table: "shop_state",
           filter: `key=eq.${key}`,
         },
-        (payload) => {
-          const row = payload.new as { value?: T; updated_at?: string } | null;
-          const next = row?.value;
-          // Large JSON blobs are often missing from realtime — refetch the row.
-          if (next === undefined) {
-            void pullRemoteRef.current();
-            return;
-          }
-          applyRemote(next, row?.updated_at ?? null);
+        () => {
+          // Always refetch — large JSON rows are often truncated in realtime payloads.
+          void pullRemoteRef.current(true);
         },
       )
-      .subscribe();
+      .subscribe((status) => {
+        if (status === "SUBSCRIBED" || status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+          void pullRemoteRef.current(status !== "SUBSCRIBED");
+        }
+      });
 
     return () => {
       void sb.removeChannel(channel);

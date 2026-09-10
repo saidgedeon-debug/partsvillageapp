@@ -41,6 +41,7 @@ import {
 } from "@/components/ui/sidebar";
 import logo from "@/assets/parts-village-logo-clear.png";
 import { BackupDialog } from "@/components/app/backup-dialog";
+import { CloudSyncButton } from "@/components/app/cloud-sync-button";
 import { clearOperatorUnlock } from "@/components/app/operator-unlock-gate";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 import { useCloudHealth, usePendingSyncCount } from "@/lib/cloud-store";
@@ -154,6 +155,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="space-y-1 border-t border-sidebar-border p-2">
+        <CloudSyncButton className="h-11 w-full justify-start md:h-8" />
         <Button
           type="button"
           variant="ghost"
