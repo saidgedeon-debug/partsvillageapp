@@ -26,7 +26,7 @@ correct (Row Level Security is properly locked to an operator role, no server se
 client bundle, the inventory table is virtualised, and reverting a paid invoice is properly
 blocked).
 
-However, the audit found **six P0 issues** that put financial and stock data at risk, and the root
+However, the audit found **five P0 issues** that put financial and stock data at risk, and the root
 cause of most of them is architectural: **the application does not use a relational database.**
 All business data lives in twelve giant JSONB rows in a single `shop_state` table. The whole
 dataset is loaded into the browser, mutated in React state, and written back as a whole blob. There
@@ -51,13 +51,6 @@ by reading it:
    the codebase** across 14 stock-mutation call sites — a wrong quantity is undetectable and
    untraceable after the fact. (`STK-001`, `STK-002`)
 
-The fourth P0 is the one I would fix first, because it is a two-line change that stops silent stock
-corruption through a workflow the app actively encourages. **Exporting inventory to Excel and
-re-importing the unmodified file overwrites one part with another part's quantity, cost, and price**,
-and reports success while doing it. The importer truncates every part code at the first `/`, so
-`HOSE-1/2` is looked up as `HOSE-1` and updates that part instead. Slash-bearing part numbers are
-routine in hydraulics. (`IMP-001`)
-
 Two further findings are worth surfacing here because they affect what customers actually see.
 **The account statement can print the "Net due" figure off the bottom of the page.** The number is
 computed correctly and displayed correctly on screen; the PDF simply draws it past the paper edge, so
@@ -67,20 +60,28 @@ And **the client portal is completely broken** — the only page this business s
 world crashes on every load and shows the customer a raw React error, `useCart must be used within
 CartProvider`. I confirmed this on the live deployment, not just locally. (`UX-002`)
 
-**Recommendation.** Do not treat this as a list of bugs to patch individually. Fix the four
-contained P0s first (they are small, local changes), then decide on the architectural question in
-§18, because roughly half of the P1/P2 findings are symptoms of the JSON-blob data model and will
-keep reappearing until that is addressed.
+**One correction to record, because it changes a headline.** An earlier pass of this audit reported a
+sixth P0: that exporting inventory to Excel and re-importing it overwrites the wrong part, because
+part codes are truncated at the first `/`. That truncation is real, but it lives in
+`parseInventoryExcelFile`, which is **exported and never called anywhere in the application**. The
+live Upload-Excel path (`ExcelImportDialog` → `buildInventoryImportPreview`) matches part codes
+exactly and round-trips the app's own export file correctly. The finding is retained as `IMP-001` at
+**P3** — a latent trap in dead code, not a live data-corruption bug. See §8.
+
+**Recommendation.** Do not treat this as a list of bugs to patch individually. Fix the contained P0s
+first (they are small, local changes), then decide on the architectural question in §18, because
+roughly half of the P1/P2 findings are symptoms of the JSON-blob data model and will keep reappearing
+until that is addressed.
 
 ### Findings by priority
 
 | Priority | Count | Meaning |
 |---|---|---|
-| **P0 — Critical** | 6 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 16 | Core feature broken or serious business risk |
+| **P0 — Critical** | 5 | Data loss, major security exposure, or incorrect financial/stock data |
+| **P1 — High** | 15 | Core feature broken or serious business risk |
 | **P2 — Medium** | 42 | Important defect with a workaround |
-| **P3 — Low** | 26 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **90** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours (§8), a 10-row verified-correct PDF table (§13), a 12-row verified-correct design/UX table (§12), and a `NOT VERIFIED` list (§17) |
+| **P3 — Low** | 28 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **90** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours and 7 verified-correct import behaviours (§8), a 10-row verified-correct PDF table (§13), a 12-row verified-correct design/UX table (§12), and a `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
@@ -576,6 +577,61 @@ Established from source and worth preserving during remediation:
 - **Relevant files:** `src/components/app/inventory-context.tsx`, the inventory edit form.
 - **Recommended fix:** Validate at the form boundary with Zod and surface the error; reserve clamping for defensive normalisation of already-stored data, not for user input.
 - **Regression test:** Submitting `-5` must reject and leave the stored quantity unchanged.
+
+### Inventory import and export
+
+**What the live import path gets right ✅** — verified by reading the whole path end to end
+(`ExcelImportDialog` → `readInventoryWorkbook` → `guessInventoryMapping` →
+`buildInventoryImportPreview` → `bulkUpdateParts`):
+
+| Behaviour | Result |
+|---|---|
+| Part codes are matched **exactly** | `index.get(code.toLowerCase())` against `partNumber` plus every OEM cross-reference (`inventory-import.ts:83-84,94`). A code containing `/` matches itself. |
+| The app's own export round-trips | `downloadInventoryExcel` writes `"Part Code": p.partNumber` verbatim (`inventory-export.ts:24`) and `guessInventoryMapping` maps `"part code"` back to it (`inventory-import.ts:66`). |
+| A dry run is shown before anything is written | Counts of updates / creates / skips, plus per-row `ACTION · code · name · qty a→b · cost a→b · price a→b` (`excel-import-dialog.tsx:180-196`). |
+| Skips carry a reason | `{ action: "skip", reason: "Missing part number" }` (`inventory-import.ts:89`). |
+| Large drops require confirmation | Any quantity or cost falling below 50% of its current value triggers a destructive `confirmAction` naming up to five affected codes (`excel-import-dialog.tsx:71-97`). |
+| Blank cells do not erase data | `toNum("")` returns `undefined`, and `bulkUpdateParts` skips undefined fields, so an empty Cost column leaves cost untouched (`inventory-import.ts:151`, `inventory-context.tsx:436-448`). |
+| Export column set is complete | 14 columns including OEM, machine, location, and notes (`inventory-export.ts:23-38`). |
+
+### `IMP-001` · P3 · Inventory import — dead parser truncates part codes at `/`, `|`, or `,`
+
+- **Description:** `parseInventoryExcelFile` derives the lookup key as `String(codeRaw).split(/[/|,]/)[0]`, so any part code containing `/`, `|`, or `,` is truncated at the first separator and resolves to a **different part**.
+- **Actual:** A row for `HOSE-1/2` computes the key `hose-1` and therefore matches the part `HOSE-1`, writing that row's quantity, cost, and price onto the wrong record. The function reports the write as a success in its `matched` count.
+- **Expected:** Exact matching, as the live path already does.
+- **Why this is P3 and not P0.** The function is **exported but never called**. `rg parseInventoryExcelFile` across the repository returns only its own definition (`src/lib/inventory-import.ts:157`). Every Excel import in the UI goes through `buildInventoryImportPreview`, which matches exactly. An earlier pass of this audit exercised this function directly and reported the resulting corruption as a live P0; that was wrong, and the correction is recorded in §1.
+- **Evidence:** `src/lib/inventory-import.ts:190-193` for the split; the absence of any caller for the reachability claim. Slash-bearing part numbers are routine in hydraulics, so the trap is a realistic one if the function is ever wired up.
+- **Business impact:** None today. The risk is that the function looks like the ready-made bulk importer and is plausibly the one a future change would reach for.
+- **Relevant files:** `src/lib/inventory-import.ts:157-249`.
+- **Recommended fix:** Delete `parseInventoryExcelFile`. If a headless bulk path is wanted later, build it on `buildInventoryImportPreview` so there is one matching rule.
+- **Regression test:** If the function is kept, assert that a row for `HOSE-1/2` does not modify `HOSE-1`.
+
+### `IMP-002` · P2 · Inventory import — duplicate rows for one part silently keep only the last
+
+- **Description:** When a spreadsheet contains more than one row for the same part, the values are neither summed nor rejected; each row overwrites the previous one field by field.
+- **Actual:** `buildInventoryImportPreview` emits one `update` per input row, and `bulkUpdateParts` applies them in order with `overrides[u.id] = { ...overrides[u.id], ...patch }`. Three rows for one part with quantities 10, 7, and 3 therefore leave the part at **3** — the first two are silently discarded. The success toast reports `${updated}` from a counter incremented once per *row*, so the same part written three times is reported as "3 updated", implying three parts changed.
+- **Expected:** Duplicate rows are either aggregated (the intuitive reading for a quantity column) or rejected with the duplicated codes named, and the result count reflects distinct parts.
+- **Evidence:** `src/components/app/inventory-context.tsx:452-453` (shallow merge then `count += 1`), `src/lib/inventory-import.ts:86` (`rows.map`, one entry per row), `src/components/app/excel-import-dialog.tsx:99,105-107` (apply and report).
+- **Reproduction:** Import a sheet with three rows for the same part code and different quantities. The final quantity is the last row's, and the toast reports three updates.
+- **Business impact:** Moderate. The dry run does list every affected row, so an attentive operator can see the duplicates before applying — that visibility is what keeps this at P2. But nothing flags them as duplicates, and a merged supplier sheet with one line per delivery is exactly the case where summing is expected.
+- **Relevant files:** `src/lib/inventory-import.ts`, `src/components/app/inventory-context.tsx`, `src/components/app/excel-import-dialog.tsx`.
+- **Recommended fix:** Group preview rows by resolved part id, and either sum quantities or emit a `skip` with reason "duplicate row for <code>". Count distinct ids in the toast.
+- **Regression test:** A three-row duplicate file must either total 20 or be rejected, and the reported count must be 1, never 3.
+
+### `IMP-003` · P3 · Inventory import — the dry run lists only the first 30 rows
+
+- **Description:** The preview that justifies the import shows at most 30 rows.
+- **Actual:** `preview.slice(0, 30)` renders the per-row detail, with no "showing 30 of N" note. The summary line above it does give true totals (`{updates} updates · {creates} new parts · {skips} skipped`), so the operator knows how many rows exist — but for a 500-row supplier file, 470 rows are applied without their before→after values ever being visible.
+- **Expected:** A scrollable or paginated full list, or an explicit "showing the first 30 of N rows" disclosure.
+- **Evidence:** `src/components/app/excel-import-dialog.tsx:186`. The container is already `max-h-40 overflow-y-auto`, so the cap is not needed for layout.
+- **Business impact:** Low. The >50% drop confirmation still fires for the dangerous cases regardless of position in the file, which is the main protection.
+- **Relevant files:** `src/components/app/excel-import-dialog.tsx`.
+- **Recommended fix:** Remove the `.slice(0, 30)` — the list already scrolls — or add the count disclosure.
+- **Regression test:** Assert every preview row is reachable, or that the disclosure names the true total.
+
+**Still open from §8 for the import path:** the bulk write records no stock movement (`STK-002`),
+fractional quantities are silently rounded (`STK-009`), and negative values are silently clamped
+(`STK-010`). Those are properties of `bulkUpdateParts`, not of the importer, and are listed above.
 
 ---
 
@@ -1701,7 +1757,7 @@ Stated plainly, as required. These were **not** confirmed and no claim in this r
 9. **`/fleet/$machineId` and `/share`.** The seeded fleet had no machines, so the machine detail route was never rendered; `share.ts` is a server action reached only by the Web Share Target, which needs a real installed PWA.
 10. **Screen-reader announcement quality.** Roles, names, and structure were measured programmatically, but no actual screen reader was run, so announcement order and phrasing are unverified.
 
-**Now verified, previously listed here** — recorded so the change is visible: Phase 9 design and UX at all three widths (§12, 83 screenshots and 79 measured samples); client/supplier deletion protection and the exact confirmation wording (`CUS-001`); inventory import/export round-trip (`IMP-001`–`IMP-003`); offline behaviour and reconnect (§12, verified working); modal keyboard behaviour and focus management (§12).
+**Now verified, previously listed here** — recorded so the change is visible: Phase 9 design and UX at all three widths (§12, 83 screenshots and 79 measured samples); client/supplier deletion protection and the exact confirmation wording (`CUS-001`); the inventory import and export path, traced end to end from the dialog to the write, with the export round trip confirmed identity-safe (§8, `IMP-001`–`IMP-003`); offline behaviour and reconnect (§12, verified working); modal keyboard behaviour and focus management (§12).
 
 ### Not verifiable in this environment
 
@@ -1825,6 +1881,11 @@ codebase.
     blob for `partyId` values with no matching client.
 18b. **`CUS-002`** — Split create from upsert so a duplicate name prompts instead of overwriting, and
     stop the Excel importer writing empty contact fields over populated ones.
+18c. **`IMP-002`** — Group import preview rows by resolved part id so duplicate rows are either summed
+    or rejected by name, and count distinct parts in the result toast rather than rows. Pair this with
+    **`IMP-001`** (delete the unreachable `parseInventoryExcelFile` so there is only one matching rule
+    in the codebase) and **`IMP-003`** (drop the 30-row preview cap — the container already scrolls).
+    All three are small and confined to three files.
 
 ### Stage 3b — Customer-facing documents (small, self-contained, high visibility)
 
@@ -1843,6 +1904,35 @@ These are all in two files and are independent of everything above, so they can 
 
 *Verify:* re-run the rendering harness described in §13 and assert no drawn text exceeds the page or
 the footer reserve.
+
+### Stage 3c — Customer-facing portal, and on-screen readability
+
+The portal item is urgent for a different reason from everything above: it is the one surface your
+customers see, and right now they see a blank page. The readability items are grouped with it because
+they are almost all single-line theme or utility-class changes.
+
+25a. **`UX-002`** — Fix the portal crash. It fails identically on the local build and on production,
+    so no customer has been able to use it. Add an error boundary around the portal route as well,
+    so the next failure shows a message instead of white space.
+25b. **`SEC-004`** — Move portal tokens out of query strings, make expiry **fail closed**, and remove
+    the `Math.random()` fallback in favour of `crypto.getRandomValues`. Ship with 25a, since both are
+    in the portal path and the token change is what makes the fixed portal safe to circulate.
+25c. **`UX-005`** / **`UX-006`** / **`UX-011`** — Darken the accent colour used for money and stock
+    figures to reach 4.5:1, raise border tokens to 3:1, and give the focus ring its own high-contrast
+    colour at a consistent 2 px. These are token edits in one theme file and fix the largest number
+    of measured samples per line changed.
+25d. **`UX-003`** — Replace `overflow-x: clip` with `auto` on the scroll containers. `clip` is what
+    makes 991 px of `/stock-map` permanently unreachable rather than merely off-screen.
+25e. **`UX-004`** / **`UX-008`** — Move the table un-stack breakpoint above 768 px, and keep column
+    labels in the stacked view.
+25f. **`UX-007`** — Give form validation an inline message, `aria-invalid`, and focus movement, rather
+    than a toast that disappears. This is the one item in this stage that is more than a token change,
+    and it is also the one that most affects daily data entry.
+25g. **`UX-009`** / **`UX-018`** — Add a skip link and make the backup reminder dismissible, which
+    together remove most of the 23 tab stops standing before the first in-content control.
+
+*Verify:* re-run the measurement pass from §12 at 375 / 768 / 1440 px and confirm the contrast ratios,
+the reachable width on `/stock-map`, and the tab-stop count before first content.
 
 ### Stage 4 — Quality gates (cheap, prevents regression)
 
@@ -1931,7 +2021,7 @@ each; money and status logic verified by harness.
 | Client portal | ✅ Runtime-verified locally **and on production**; **completely broken** (`UX-002`) plus `SEC-004` |
 | Dashboard and report calculations | ✅ Formulas documented (§11); **3 defects** (`RPT-001`…`003`) |
 | PDF generation | ✅ Rendered and measured (§13); **13 defects** |
-| Import / export | ✅ Harness-verified (§8); **1 P0, 1 P1, 1 P2** (`IMP-001`…`003`) |
+| Import / export | ✅ Live path source-verified end to end (§8); 7 behaviours correct, **1 P2 + 2 P3** (`IMP-001`…`003`) |
 | Offline behaviour | ✅ Runtime-verified working — banner appears offline and clears on reconnect |
 | Share target | ⚠️ Source-verified; needs an installed PWA to exercise |
 | Responsive layout, contrast, keyboard, modals | ✅ Runtime-measured at 3 widths (§12); **20 findings**, 12 behaviours verified correct |
@@ -1995,6 +2085,7 @@ each; money and status logic verified by harness.
 | `STK-007` | P2 | Inventory | `removePart` silently resets quantity and pricing |
 | `STK-009` | P2 | Inventory | Quantities silently rounded to whole units; fractional stock drifts |
 | `STK-010` | P2 | Inventory | Negative input silently clamped to 0 instead of rejected |
+| `IMP-002` | P2 | Import | Duplicate rows for one part keep only the last, and the count reports rows not parts |
 | `RPT-002` | P2 | Reports | Two different low-stock definitions |
 | `RPT-003` | P2 | Reports | Revenue grouped by client name, not id |
 | `RPT-004` | P2 | Reports | Date handling mixes local-time bucketing with raw string slicing |
@@ -2040,6 +2131,8 @@ each; money and status logic verified by harness.
 | `PDF-012` | P3 | PDF | Totals box overflows for astronomically large amounts |
 | `PDF-013` | P3 | PDF | Description column right-aligned under a left-aligned header |
 | `STK-008` | P3 | Inventory | Inventory valuation is an unrounded float over the whole catalog |
+| `IMP-001` | P3 | Import | Dead `parseInventoryExcelFile` truncates part codes at separators — unreachable, so latent |
+| `IMP-003` | P3 | Import | Import dry run lists only the first 30 rows, with no "30 of N" disclosure |
 | `PERF-005` | P3 | Reliability | Conflict retry loop has no backoff or ceiling |
 | `BLD-002` | P3 | Build | Dev server logs `node:crypto` externalisation error from a server module |
 | `DEP-002` | P3 | Deps | `package-lock.json` out of sync; `npm ci` fails |
