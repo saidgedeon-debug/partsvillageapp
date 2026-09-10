@@ -26,7 +26,7 @@ correct (Row Level Security is properly locked to an operator role, no server se
 client bundle, the inventory table is virtualised, and reverting a paid invoice is properly
 blocked).
 
-However, the audit found **five P0 issues** that put financial and stock data at risk, and the root
+However, the audit found **six P0 issues** that put financial and stock data at risk, and the root
 cause of most of them is architectural: **the application does not use a relational database.**
 All business data lives in twelve giant JSONB rows in a single `shop_state` table. The whole
 dataset is loaded into the browser, mutated in React state, and written back as a whole blob. There
@@ -51,11 +51,21 @@ by reading it:
    the codebase** across 14 stock-mutation call sites — a wrong quantity is undetectable and
    untraceable after the fact. (`STK-001`, `STK-002`)
 
-A fourth finding is worth surfacing here because it affects documents customers actually receive:
-**the account statement can print the "Net due" figure off the bottom of the page.** The number is
+The fourth P0 is the one I would fix first, because it is a two-line change that stops silent stock
+corruption through a workflow the app actively encourages. **Exporting inventory to Excel and
+re-importing the unmodified file overwrites one part with another part's quantity, cost, and price**,
+and reports success while doing it. The importer truncates every part code at the first `/`, so
+`HOSE-1/2` is looked up as `HOSE-1` and updates that part instead. Slash-bearing part numbers are
+routine in hydraulics. (`IMP-001`)
+
+Two further findings are worth surfacing here because they affect what customers actually see.
+**The account statement can print the "Net due" figure off the bottom of the page.** The number is
 computed correctly and displayed correctly on screen; the PDF simply draws it past the paper edge, so
 the customer gets a statement listing what they were invoiced with no indication of what they owe.
 Rendering the app's real PDF code across 350 statement shapes found 8 that do this. (`PDF-005`)
+And **the client portal is completely broken** — the only page this business shares with the outside
+world crashes on every load and shows the customer a raw React error, `useCart must be used within
+CartProvider`. I confirmed this on the live deployment, not just locally. (`UX-002`)
 
 **Recommendation.** Do not treat this as a list of bugs to patch individually. Fix the four
 contained P0s first (they are small, local changes), then decide on the architectural question in
@@ -66,17 +76,19 @@ keep reappearing until that is addressed.
 
 | Priority | Count | Meaning |
 |---|---|---|
-| **P0 — Critical** | 5 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 14 | Core feature broken or serious business risk |
-| **P2 — Medium** | 34 | Important defect with a workaround |
-| **P3 — Low** | 14 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **67** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours (§8), a 10-row verified-correct PDF table (§13), and a `NOT VERIFIED` list (§17) |
+| **P0 — Critical** | 6 | Data loss, major security exposure, or incorrect financial/stock data |
+| **P1 — High** | 16 | Core feature broken or serious business risk |
+| **P2 — Medium** | 42 | Important defect with a workaround |
+| **P3 — Low** | 26 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **90** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours (§8), a 10-row verified-correct PDF table (§13), a 12-row verified-correct design/UX table (§12), and a `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
 decision described in `DAT-001`. Several findings also record things that work: the screen total and
 the PDF total agree exactly across every discount scenario tested, stock quantities cannot be driven
-negative, and oversell is deliberately tracked rather than lost.
+negative, oversell is deliberately tracked rather than lost, no page horizontally scrolls at any of
+the three tested widths, and the modal dialogs correctly trap focus, close on Escape, and label every
+field.
 
 ---
 
@@ -854,26 +866,277 @@ Phase 8 requires the formula behind every dashboard number. All are computed **c
 
 ## 12. Design and responsive issues
 
-> **Status: NOT VERIFIED — the most significant gap in this audit.**
+**This section is backed by browser measurements, not source reading.** I drove headless Chrome over
+the DevTools Protocol against the local production build, unlocked the operator gate, and walked
+**26 routes × 375 / 768 / 1440 px = 79 samples**, capturing a full-page screenshot of each (83
+screenshots) plus, for every sample, measured layout geometry, colour contrast, accessible names,
+heading structure, tap-target sizes, font scale, and console errors. Keyboard navigation, focus
+rings, dialog behaviour, destructive-action confirmations, offline state, and the mobile navigation
+drawer were then exercised with real key and click events.
 
-Phase 9 explicitly requires visually inspecting the running application at 375 px, 768 px, and
-1440 px rather than reading source. A browser-driven pass over every page at all three widths did
-not complete within this audit run, so I am **not** reporting design findings I cannot evidence with
-a screenshot. Claiming otherwise would violate the "no unverified claims" requirement.
+> **Note on evidence artifacts.** The harness, raw JSON, and screenshots were written to a scratch
+> directory (`/tmp/ux-audit/`) on the audit VM, which does not persist beyond the run. Every
+> measurement is therefore reproduced inline below — ratios, pixel counts, tab-stop indices, element
+> selectors — so each finding stands on its own without the file. Where a screenshot is named it
+> records which sample the measurement came from, not a file you can open today.
 
-What was established from the running build and source, and what remains:
+One correction worth stating, because it changes what this section claims: my first contrast pass
+reported **zero** failures. That was a false negative — this theme declares its colours in `oklch()`
+and the probe only parsed `rgb()`. Re-running with every colour resolved to real sRGB (painted to a
+canvas and read back) found systematic failures on the accent colour and on every control border.
+The numbers below are from the corrected pass.
 
-| Item | Status |
+### What the running application gets right ✅
+
+| Item | Measured result |
 |---|---|
-| Production build serves and responds (HTTP 200, 6 ms) | ✅ Verified |
-| Operator gate blocks the app until unlock | ✅ Verified (code + server probe) |
-| Prior work in this repo addressed phone-width horizontal scroll (commit `2562f87` "Stop sideways page scrolling — stack tables and clip overflow on phones") | ℹ️ Indicates known past problems in this area |
-| Inventory table is virtualised (`VirtualInventoryTable`) rather than rendering all rows | ✅ Verified in source — good for large catalogs |
-| Per-page appearance, spacing, typography, contrast, focus indicators, empty/loading/error states at 3 widths | ❌ **NOT VERIFIED** |
-| Long part numbers / 300-character descriptions overflow behaviour | ❌ **NOT VERIFIED** |
-| Mobile menu and sidebar behaviour | ❌ **NOT VERIFIED** |
-| Keyboard navigation, focus trapping, Escape-to-close on modals | ❌ **NOT VERIFIED** |
-| Colour contrast and accessibility labels | ❌ **NOT VERIFIED** |
+| **No page-level horizontal scroll** | `document.scrollWidth == innerWidth` on **all 26 routes at all three widths**. Zero sideways page scroll. |
+| **Focus indicators exist** | Every focusable element receives `box-shadow: <accent> 0 0 0 2px` and correctly matches `:focus-visible`. |
+| **Dialog behaviour is correct** | "Add part" modal: `role="dialog"`, `aria-labelledby` + `aria-describedby` present, focus moves into the dialog and lands on the first field, **focus trap held across 30 consecutive Tab presses**, Escape closes it, focus returns to the opener, body scroll is restored, and the dialog scrolls internally when taller than the viewport. All 14 fields have real `<label>` elements; numeric fields set `inputMode="numeric"`/`"decimal"`. |
+| **Destructive confirmation is well built** | Client delete opens `role="alertdialog"`, default focus is on **Cancel**, and Delete carries destructive styling. Cancelling left the record intact. |
+| **Offline behaviour works** | With the network forced offline, `/documents` showed "You are offline — Working from the last cached shop data. Edits save on this device until you reconnect." and the banner cleared automatically on reconnect. |
+| **Bottom navigation does not cover content** | `mobile-nav-pad` applies `padding-bottom: 60px` below 768 px. Scrolled to the very bottom of `/clients`, `/documents`, `/shift`, and `/suppliers` at 375 px, **no** content element was overlapped by the fixed nav. |
+| **Mobile drawer** | 320 px sheet over a 375 px viewport, 21 links, all fitting without inner scroll, has an accessible name, closes on Escape. |
+| **Hamburger target size on phones** | 44 × 44 px at 375 px — meets the 44 px guideline. |
+| **Zoom is not blocked** | `viewport` meta is `width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5` — pinch-zoom up to 5× is allowed. |
+| **Document structure** | `<html lang="en">` on every route; a distinct, meaningful `<title>` per route (21 distinct titles); an `<h1>` on **27/27** samples; **zero** duplicate DOM ids; **zero** `<img>` without `alt`. |
+| **404 handling** | An unknown route renders a proper "404 / Page not found / The page you're looking for doesn't exist or has been moved / Go home". |
+| **Desktop layout** | At 1440 px, **0** elements overflow their container on any route except `/inventory` (which has a deliberate horizontal scroller). |
+
+### `UX-002` · **P1** · `/portal` — the customer-facing client portal crashes on every load
+
+- **Description:** The client portal — the only externally-shared page, sent to customers as a tokenised account link — throws a React context error and renders the generic error boundary instead of the account statement.
+- **Actual:** Every load at every width shows **"This page didn't load / Something went wrong on our end"** with the raw developer string **`useCart must be used within CartProvider`** printed on screen. No statement, no invoices, no quotations.
+- **Expected:** The portal renders the client's aging summary, open invoices, and open quotations; or, for a bad link, the intended "This portal link is invalid or expired" message.
+- **Root cause:** `portal.tsx` renders `<PageHeader>` in **all four** of its render branches (missing-link, loading, error, and success). `PageHeader` calls `useCart()` at `page-header.tsx:22`. `__root.tsx:176-180` deliberately — and correctly — renders the portal *outside* `CartProvider`, so the hook has no provider and throws. The failure is unconditional and independent of token validity.
+- **Evidence:** Reproduced at 375, 768, and 1440 px against the local production build, and **confirmed on the live deployment** at `https://partsvillageapp.vercel.app/portal`. The production check was a read-only GET with **no token**, so the page short-circuits before any data fetch — the request log showed no Supabase call of any kind, only static assets. Console: `Error: useCart must be used within CartProvider`.
+- **Reproduction:** Open `https://partsvillageapp.vercel.app/portal` in any browser. With or without `?c=…&t=…`, the error boundary renders.
+- **Business impact:** Every customer who clicks their account link sees a broken page, and the internal React error text is shown to an external party. `SEC-004` already notes portal tokens travel in the URL; this finding means the feature they unlock does not work at all. Two features that depend on it — "Send account link" and the AR chase workflow — cannot deliver value.
+- **Relevant files:** `src/routes/portal.tsx` (all four returns), `src/components/app/page-header.tsx:22`, `src/routes/__root.tsx:176-180`.
+- **Recommended fix:** Give the portal its own lightweight header instead of the operator `PageHeader`, or split the cart-dependent part of `PageHeader` into a separate component that the portal does not render. Also stop rendering raw `error.message` in the error boundary for externally reachable routes.
+- **Regression test:** Render `/portal` with no params, an invalid token, and a valid token, and assert the error boundary is absent in all three. Add a smoke check that no route outside `CartProvider` imports `PageHeader`.
+
+### `UX-003` · **P2** · Content wider than its container is clipped and permanently unreachable
+
+- **Description:** `overflow-x: clip` is applied at every level of the layout, so anything wider than the container is cut off with **no scrollbar and no way to reach it** — not by page scroll, not by dragging, not by any scrollable ancestor.
+- **Actual:** Measured worst cases, with the amount of content lost past the right edge:
+
+  | Route | Width | Lost | What is lost |
+  |---|---|---|---|
+  | `/stock-map` | 375 px | **991 px** | Shelf/bin cards ~3× wider than the viewport; part rows and quantities are simply gone |
+  | `/reorder` | 768 px | 218 px | The **Reason** column ("On hand 4 ≤ reorder 10") |
+  | `/documents` | 768 px | 160 px | The **Status** dropdown and the **Open** button — the row's primary action |
+  | `/` (dashboard) | 375 px | 266 px | Right-hand columns of "Recent invoices & orders" and "Low Stock" cards (Total, Status) |
+  | `/` (dashboard) | 768 px | 108 px | Same two cards |
+  | `/counter` | 375 px | 85 px | A long part-name button runs off the edge |
+
+- **Expected:** Either the content reflows to fit, or the container scrolls horizontally so the content stays reachable.
+- **Evidence:** For each case I walked the full ancestor chain and attempted both a page scroll and a programmatic `scrollLeft` on every ancestor. Both failed. Example for `/documents` at 768 px — the chain from the clipped cell up to `<body>` is `table (overflow-x: visible) → div.relative.w-full.max-w-full.overflow-x-clip → div.p-0 → div.rounded-xl.border → main.flex-1 (clip) → main.relative (clip) → div.flex.min-h-dvh (clip) → body (clip)`; `pageScrolled: false, ancestorScrolled: false`.
+- **Reproduction:** Open `/documents` at exactly 768 px wide with the sidebar expanded. The Status control and Open button are not visible and cannot be scrolled to.
+- **Business impact:** This is worse than a cosmetic overflow. On `/documents` at tablet width the operator cannot open or re-status a document at all; on `/stock-map` at phone width — the primary device for warehouse work — most of the page's data is invisible. Because there is no scrollbar, nothing indicates that data is missing, so a wrong reading looks like a complete reading.
+- **Root cause note:** Commit `2562f87` ("Stop sideways page scrolling — stack tables and clip overflow on phones") removed the sideways-scroll symptom by switching to `clip`. `clip` differs from `hidden` in that it also disables programmatic scrolling, so the fix converted a visible annoyance into silent data loss on screen.
+- **Relevant files:** `src/routes/__root.tsx:195,197`, `src/styles.css:200-204` (`.no-x-scroll`), `src/components/ui/table.tsx` (the `overflow-x-clip` wrapper), `src/routes/stock-map.tsx`, `src/routes/index.tsx`, `src/routes/reorder.tsx`.
+- **Recommended fix:** Replace `overflow-x: clip` with `overflow-x: auto` on the *table/card wrappers* so wide content scrolls inside its own card, and keep the page itself from scrolling by constraining those wrappers to `max-width: 100%`. That gets the original goal (no sideways page scroll) without amputating content. For `/stock-map`, the card grid needs `min-w-0` on its items so they can shrink.
+- **Regression test:** For each route at 375/768/1440, assert that no visible element's `getBoundingClientRect().right` exceeds its nearest scrollable-or-clipping ancestor's right edge; where it does, assert that ancestor can actually scroll.
+
+### `UX-004` · **P2** · At 768 px the table layout expands at the exact width the sidebar takes 256 px
+
+- **Description:** Two responsive decisions collide at the `md` (768 px) breakpoint. Below it, tables collapse to stacked cards and the sidebar is off-canvas. At and above it, tables render as real multi-column tables **and** the sidebar becomes permanently pinned at 256 px. So the table switches to its widest layout at the moment the content area shrinks to its narrowest usable value.
+- **Actual:** At 768 px the content area is **512 px** (`main` starts at x=256). A `/documents` table needing 647 px and a `/reorder` table needing 705 px are squeezed into it. On `/documents` the effect is severe: the Parts column collapses to roughly 30 px, so every part number wraps onto its own line and a single quotation row becomes about 1000 px tall (one row listed AS568-100 through AS568-141 vertically).
+- **Expected:** The content area should not be at its narrowest when the layout is at its widest. Either the sidebar should stay off-canvas until ~1024 px, or the table breakpoint should move up.
+- **Evidence:** Measured `main` geometry per width: 375 px → content 375 px at x=0 (sidebar off-canvas); 768 px → content **512 px** at x=256; 1024 px → 768 px at x=256; 1440 px → 1184 px at x=256. Clipped-element counts on `/documents` at 768 px: **23**.
+- **Workaround (verified):** Collapsing the sidebar with the toggle restores the content area to **720 px** and fixes it — `/documents` goes from 23 clipped elements to **0**, `/reorder` from 120 to 9 (worst residual overhang 10 px). This is what keeps the finding at P2 rather than P1. The operator has to know to do it, and the sidebar reopens by default.
+- **Business impact:** Tablet portrait is a natural device for a parts counter. In that posture the documents list is both unreadable and unusable until the sidebar is manually collapsed.
+- **Relevant files:** `src/components/ui/sidebar.tsx` (the `md:` pinning breakpoint), `src/components/ui/table.tsx` (`max-md:block` stacking), `src/routes/documents.tsx`, `src/routes/reorder.tsx`.
+- **Recommended fix:** Move the sidebar's pinned breakpoint to `lg` (1024 px) so tablets get the off-canvas drawer and the full content width, or default the sidebar to collapsed between 768 px and 1024 px.
+- **Regression test:** Assert the content area is at least ~700 px wide at every width where tables render un-stacked.
+
+### `UX-005` · **P2** · The accent colour used for the most important financial figures fails WCAG AA
+
+- **Description:** `--accent: oklch(0.72 0.19 48)` resolves to `rgb(255, 119, 22)`. Used as *text* on the app's white and near-white surfaces it measures **2.66:1** on `#ffffff` and **2.52:1** on the page background `rgb(247,249,250)`. WCAG 2.1 AA requires 4.5:1 for normal text and 3:1 for large text; these fail both.
+- **Actual:** Measured failures, all of which are money or stock figures — the numbers the operator most needs to read accurately:
+
+  | Route | Element | Ratio | Needs |
+  |---|---|---|---|
+  | `/clients/cl-alpha` | Client balance `$926.87` (16 px bold) | 2.66:1 | 4.5 |
+  | `/insights` | Margin `$7,499,985.00` (14 px 600) | 2.66:1 | 4.5 |
+  | `/insights` | `Open` status label (12 px) | 2.66:1 | 4.5 |
+  | `/inventory` | Low-stock quantity (12 px 600) | 2.66:1 | 4.5 |
+  | `/` (dashboard) | Accent KPI figure (14 px bold) | 2.52:1 | 4.5 |
+  | `/clients` | `Owes $926.87` badge, `rgb(187,77,0)` on `rgb(255,240,217)` | 4.48:1 | 4.5 |
+
+- **Expected:** At least 4.5:1 for these figures.
+- **Evidence:** Corrected contrast pass over 23 routes at 375 px and 1440 px, 198–3260 text nodes measured per route, every colour resolved to sRGB by canvas paint. Note the theme is otherwise clean: `foreground`/`muted-foreground` on the standard surfaces pass, and most routes have **zero** text failures.
+- **Business impact:** A parts counter is a bright, often sunlit environment and the app is used on phones. The single least legible colour in the palette is reserved for balances due and margins. Misreading those has direct financial consequence.
+- **Relevant files:** `src/styles.css` (the `--accent` token), `src/routes/clients.$clientId.tsx`, `src/routes/insights.tsx`, `src/routes/index.tsx`, `src/components/app/*` using `text-accent`.
+- **Recommended fix:** Keep `oklch(0.72 0.19 48)` for fills and borders where it works, and add a darker text-only variant (roughly `oklch(0.52 0.17 48)` reaches ~4.6:1 on white) bound to a `--accent-text` token used wherever the accent is applied to type.
+- **Regression test:** A contrast assertion over the rendered theme that fails the build if any text token pair drops below 4.5:1 (3:1 for large text).
+
+### `UX-006` · **P2** · Every input, button, and card border fails non-text contrast
+
+- **Description:** `--border: oklch(0.9 0.01 250)` measures **1.27:1** against the page background, **1.28:1** against the banner background, and **1.34:1** against white cards. WCAG 2.1 AA (1.4.11 Non-text Contrast) requires **3:1** for the visual boundary of a UI component.
+- **Actual:** Applies to `input`, `button`, `table`, `article`, and card borders across **23 routes** — effectively the whole application. Two accent-tinted borders at 40% alpha also fail (1.35:1 and 1.46:1). The only passing border measured was the primary button's own dark border at 14.65:1.
+- **Expected:** ≥ 3:1 so field and control edges are perceivable.
+- **Evidence:** Non-text contrast pass identified 13 distinct failing pairs. Visible in the "Add part" dialog sample, where the 14 field outlines are barely distinguishable from the dialog surface.
+- **Business impact:** Form fields do not visually read as fields. On a phone in daylight, the operator cannot see where an input begins — which matters most on the numeric quantity and price fields.
+- **Relevant files:** `src/styles.css` (`--border`, `--input`), `src/components/ui/input.tsx`, `src/components/ui/card.tsx`.
+- **Recommended fix:** Darken the interactive border token to roughly `oklch(0.72 0.02 250)` (~3:1 on white) for inputs and controls; the lighter value is acceptable for purely decorative dividers.
+- **Regression test:** Extend the contrast assertion above to cover `--border`/`--input` against `--background` and `--card`.
+
+### `UX-007` · **P2** · Form validation is a transient toast with no inline error and no focus move
+
+- **Description:** Submitting the 14-field "Add part" dialog with every field empty produces no inline validation of any kind.
+- **Actual:** The dialog stays open; `aria-invalid` is set on nothing; no field is marked or highlighted; focus does not move; **no `required` attribute exists on any of the 14 fields**. The only feedback is a Sonner toast reading "Primary part number is required", which disappears on its own. On a form that scrolls internally, the offending field may not even be on screen when the toast appears.
+- **Expected:** The invalid field is marked (`aria-invalid`, visible message adjacent to the field), focus moves to it, and the message persists until corrected.
+- **Evidence:** Measured after a real click on **Create** with an empty form: `{ dialogStillOpen: true, inlineErrors: [], firstInvalidFocused: null, toasts: ["Primary part number is required"] }`. Field inventory confirms `required: false` on all 14.
+- **Business impact:** WCAG 3.3.1 (Error Identification) and 3.3.2 (Labels or Instructions) are not met. Practically, the operator is told something is wrong but not where, and the notice vanishes.
+- **Relevant files:** `src/components/app/part-detail-dialog.tsx`, `src/components/app/party-form-dialog.tsx`, and the other `*-dialog.tsx` forms (the project already depends on `react-hook-form` + `@hookform/resolvers` + `zod`, which are not used for this).
+- **Recommended fix:** Wire these dialogs to the `react-hook-form` + `zod` stack already installed, and render `FormMessage` per field. Keep the toast as a summary if desired.
+- **Regression test:** Submit each dialog empty and assert an inline message exists, `aria-invalid="true"` is set, and `document.activeElement` is the first invalid field.
+
+### `UX-008` · **P2** · The stacked mobile table view drops all column labels
+
+- **Description:** Below 768 px, tables switch from rows to stacked cards by hiding `thead` (`max-md:hidden`) — but the cells carry no substitute label, so the values stack with nothing identifying them.
+- **Actual:** On `/documents` at 375 px a quotation renders as an unlabelled column of values: `Q-20260904-100000000-q001`, `Alpha Earthmoving SARL`, `2026-09-04`, a long run of part numbers, `$9,627.94`, a `Sent` dropdown, `Open`. Nothing says which is the date, which is the total, or what the number list is. The parts run is also cut mid-list with no ellipsis or "+38 more".
+- **Expected:** Each value carries its field label in the stacked view, as the desktop header provides.
+- **Evidence:** The 375 px `/documents` sample versus the 1440 px one, which shows the intended `# / Client / Date / Parts / Total / Status` headers. Affects every route using the shared stacked-table pattern (`/documents`, `/reorder`, `/collections`, `/insights`, `/pre-orders`, `/clients/$clientId`).
+- **Business impact:** The phone is the primary device. An unlabelled stack of a document id, a date, and two numbers invites misreading a total as something else.
+- **Relevant files:** `src/components/ui/table.tsx` (`max-md:block` / `max-md:hidden` classes), and each route's `TableCell` usage.
+- **Recommended fix:** Emit a `data-label` on each `TableCell` and render it via `::before` in the stacked breakpoint, or give the mobile breakpoint a purpose-built card with explicit labels.
+- **Regression test:** At 375 px assert every stacked cell has a non-empty visible label.
+
+### `UX-009` · **P2** · No skip link, and 23 tab stops before reaching page content
+
+- **Description:** Keyboard users must traverse the entire sidebar on every page before reaching the page itself.
+- **Actual:** Measured with real Tab key events on `/inventory`: the first focusable element inside `<main>` is tab stop **23**. There is **no** skip link (`document.querySelector('a[href^="#"]')` returns nothing on every route). The same 22 sidebar links are re-traversed on every navigation.
+- **Expected:** A "Skip to main content" link as the first focusable element.
+- **Evidence:** Tab walk recorded stops 1–22 as sidebar links (`Dashboard`, `Search`, `Inventory`, …), with stop 23 the first in-content control ("Later", from the backup banner). Confirmed on `/`, `/inventory`, `/documents`, `/clients`.
+- **Business impact:** WCAG 2.4.1 (Bypass Blocks). For a single-operator app this is efficiency rather than access, but it makes keyboard-only operation of the counter impractical.
+- **Relevant files:** `src/routes/__root.tsx` (add the link before `<AppSidebar />`), `src/components/app/app-sidebar.tsx`.
+- **Recommended fix:** Add a visually-hidden-until-focused `<a href="#main-content">Skip to main content</a>` as the first child of the layout, and `id="main-content"` on `SidebarInset`.
+- **Regression test:** Assert the first Tab from a fresh load focuses the skip link, and activating it moves focus into `<main>`.
+
+### `UX-010` · P3 · Controls are 32 px tall, below the 44 px touch guideline, and one is 16 px
+
+- **Description:** The default control height is 32 px, which is under the 44 px target recommended for touch. A few controls are below even the WCAG 2.5.8 minimum of 24 × 24.
+- **Actual:** At 1440 px the dominant button geometry is 32 px tall (495 instances). At 375 px, `/low-stock` has **416 of 424** interactive elements under 40 × 40, `/labels` 84 of 92, `/inventory` 26 of 106. Most are 32 px-tall buttons — acceptable under WCAG 2.5.8's 24 px floor but below the 44 px comfort guideline. The genuine failures are the **16 × 16 px** row-toggle buttons in the `/labels` table, which are under the 24 px minimum.
+- **Expected:** 44 × 44 for primary touch targets; never below 24 × 24.
+- **Evidence:** Tap-target census across all samples. Positive note: the mobile hamburger is correctly 44 × 44, and the bottom-nav items are 75 × 56.
+- **Business impact:** The app is used on a phone in a workshop, plausibly with gloves or dirty hands. 16 px checkboxes on the label-printing table will be mis-tapped.
+- **Relevant files:** `src/components/ui/button.tsx` (size variants), `src/routes/labels.tsx`.
+- **Recommended fix:** Raise the 16 px toggles to at least 24 px with a 44 px hit area via padding, and consider a touch-sized variant for the phone breakpoint.
+- **Regression test:** At 375 px assert no interactive element is smaller than 24 × 24.
+
+### `UX-011` · P3 · The focus ring is the accent orange at 2.51:1, and its width is inconsistent
+
+- **Description:** Focus indicators are present and correct in behaviour but marginal in visibility.
+- **Actual:** The ring is `box-shadow: oklch(0.72 0.19 48) 0 0 0 Npx` — the same orange as `UX-005`, measuring **2.51:1** against the page background where WCAG 2.4.11 requires 3:1. Width is **2 px** on sidebar links but **1 px** on in-content controls.
+- **Expected:** ≥ 3:1 against the adjacent background, at a consistent width of at least 2 px.
+- **Evidence:** Computed `box-shadow` captured for a sidebar link (2 px) and the first main-content button (1 px). The 2.51:1 figure is the measured accent-on-background pair from the contrast pass.
+- **Relevant files:** `src/styles.css` (`--ring`), `src/components/ui/button.tsx`, `src/components/ui/sidebar.tsx`.
+- **Recommended fix:** Darken `--ring` to meet 3:1 and standardise on a 2 px ring with a 2 px offset.
+- **Regression test:** Assert `--ring` against `--background` and `--card` is ≥ 3:1, and that ring width is uniform.
+
+### `UX-012` · P3 · Body text is 12 px, with 10–11 px secondary labels
+
+- **Description:** The typographic scale is small for a desktop business application and for a phone used at arm's length.
+- **Actual:** Font-size census across all routes at 1440 px: **12 px is the dominant body size (3,863 nodes)**, then 14 px (2,253), then 10 px (335) and 11 px (169). 16 px appears 157 times, 24 px only 11. Specific 10–11 px cases: bottom-nav labels (`Home`, `Counter`, `Stock`) at 11 px, the inventory `Low` badge at 10 px, `Reorder at 2` on `/low-stock` at 11 px, `Qty` label at 10 px, `credit −$75.00` on `/clients` at 11 px, `Invoice AR $1,001.87` on `/clients/cl-alpha` at 11 px, `Partial pickup` and the part-number line on `/delivery-board` at 10–11 px.
+- **Expected:** 14–16 px body text; 12 px as the floor for secondary text.
+- **Evidence:** Font-size census over the full sweep. Zoom is not blocked (`maximum-scale=5`), which mitigates this.
+- **Relevant files:** `src/styles.css`, `src/components/app/mobile-bottom-nav.tsx`, `src/routes/low-stock.tsx`, `src/routes/delivery-board.tsx`.
+- **Recommended fix:** Shift the scale up one step (body 14 px, secondary 12 px) and remove the `text-[10px]` and `text-[11px]` one-offs.
+- **Regression test:** Assert no rendered text node computes below 12 px.
+
+### `UX-013` · P3 · Five search and date inputs have no accessible name
+
+- **Description:** Several inputs are identifiable only by placeholder, and one has nothing at all.
+- **Actual:** With no `<label>`, `aria-label`, `aria-labelledby`, or `title`: a bare `type="date"` input; `Find location or part #…` (`/stock-map`); `Search part #, name, box…` (`/labels`); `Part # or OEM #` (`/counter`); `Serial, make, model, or client…` (`/fleet`). A further five rely on placeholder text alone, including the global `Search part #, serial #, or client…` used on `/`, `/inventory`, `/low-stock`, `/stock-map`, `/stock-take`, and `/reorder`.
+- **Expected:** A programmatic name on every field; placeholders should not be the only label, since they vanish on input.
+- **Evidence:** Accessible-name census across all samples. For contrast, the "Add part" dialog does this correctly — all 14 fields have real `<label>` elements.
+- **Relevant files:** `src/components/app/search-context.tsx`, `src/routes/stock-map.tsx`, `src/routes/labels.tsx`, `src/routes/counter.tsx`, `src/routes/fleet.tsx`.
+- **Recommended fix:** Add `aria-label` to the icon-only search fields and a visible `<Label>` to the date input.
+- **Regression test:** Assert every rendered form control has a non-empty accessible name.
+
+### `UX-014` · P3 · Heading levels skip from `h1` to `h3`
+
+- **Description:** The list pages jump a heading level.
+- **Actual:** On `/clients` and `/suppliers` at all three widths, the page `h1` is followed directly by `h3` for each record name (`Alpha Earthmoving SARL`, `Ningbo Fluid Power Co., Ltd`) with no intervening `h2`.
+- **Expected:** No skipped levels (WCAG 1.3.1 / 2.4.10).
+- **Evidence:** Heading-structure census — 6 affected samples. Every other route's heading order is clean, and all 27 samples have an `h1`.
+- **Relevant files:** `src/routes/clients.index.tsx`, `src/routes/suppliers.index.tsx`.
+- **Recommended fix:** Use `h2` for record cards, or add a section `h2` above the list.
+- **Regression test:** Assert heading levels never increase by more than one.
+
+### `UX-015` · P3 · Modal background is not hidden from assistive technology
+
+- **Description:** The modal traps keyboard focus and blocks the mouse, but does not mark the background as inert for screen readers.
+- **Actual:** With the "Add part" dialog open, the dialog has **no `aria-modal`**, and the app shell (`div.group/sidebar-wrapper`, which holds the sidebar and all page content) has **neither `aria-hidden` nor `inert`**. `body` does get `pointer-events: none`, and the overlay is `aria-hidden="true"`.
+- **Expected:** `aria-modal="true"` on the dialog, or `aria-hidden`/`inert` on the background, so a screen reader in browse mode cannot wander behind the modal.
+- **Evidence:** `body` children snapshot with the dialog open: shell div `ariaHidden: null, inert: false`; dialog container `ariaHidden: null`; `aria-modal: null`. Keyboard containment was separately verified working across 30 tabs, so this is a browse-mode gap only.
+- **Relevant files:** `src/components/ui/dialog.tsx`.
+- **Recommended fix:** Set `aria-modal="true"` on `DialogContent` (or upgrade to a Radix version that applies `inert` to siblings).
+- **Regression test:** With a dialog open, assert the app shell is `aria-hidden` or `inert`.
+
+### `UX-016` · P3 · Date and money formatting are inconsistent across the app
+
+- **Description:** Two date styles and two money formatters coexist.
+- **Actual:** Dates render as raw ISO `YYYY-MM-DD` almost everywhere (`2026-09-06`, `2026-09-04`, 12 distinct values observed) because stored strings are printed directly. The exception is the backup reminder banner, which renders a browser-locale date — observed as `10/21/2026` on `/low-stock` — via `toLocaleString(undefined, …)`. Three PDF builders use a third style (`toLocaleDateString()` / `toLocaleString()` with no locale). Separately, two money formatters exist: `currency()` (`mock-data.ts:184`) forces exactly 2 decimals, while `formatMoneyWithUsd()` (`fx.ts:18`) sets `maximumFractionDigits: 2` with **no minimum**, so it renders `$55` rather than `$55.00`.
+- **Expected:** One date formatter and one money formatter used everywhere.
+- **Evidence:** Slash-date detection isolated to the backup banner (`span.text-xs.text-muted-foreground`, confirmed by DOM walk on `/low-stock`). Money decimal census across the sweep: 166 amounts with 2 decimals, 12 with 0. **Caveat:** `formatMoneyWithUsd` is used only on `/china-shipments`, which had no shipment records in my seed, so the *rendered* zero-decimal difference is **NOT VERIFIED** — the divergence is confirmed in source, not on screen. Note also that `misc-inventory.ts:10,17,24,31` embeds prices as free text inside description and notes fields ("FOB cost USD 55 · Sell USD 270"), which will drift from the real price fields when either is edited.
+- **Relevant files:** `src/lib/fx.ts:18`, `src/lib/mock-data.ts:184`, `src/components/app/backup-reminder-banner.tsx:29`, `src/lib/ar-statement.ts:279`, `src/lib/z-report.ts:38`, `src/lib/packing-slip.ts:32`, `src/lib/misc-inventory.ts`.
+- **Recommended fix:** Export one `formatDate`/`formatMoney` pair and use them everywhere, including the PDF builders; give `formatMoneyWithUsd` a `minimumFractionDigits: 2`.
+- **Regression test:** Unit-test both formatters for 0, 0.5, 55, and 1234.5; lint against direct `toLocaleString` use in components.
+
+### `UX-017` · P3 · Button geometry is inconsistent
+
+- **Description:** Buttons come in many unrelated sizes and corner radii.
+- **Actual:** At 1440 px across all routes there are **17 distinct height/font-size/radius combinations**, spanning **11 distinct heights** (16, 20, 28, 32, 36, 38, 44, 48, 54, 86, 120 px) and **4 distinct radii** (0, 4, 6, 8 px). Two of those heights account for most instances (32 px ×495 and 20 px ×203), so the tail is a long list of one-offs — `h38`, `h44`, `h54` each appear once.
+- **Expected:** A small, deliberate set of sizes from the design system.
+- **Evidence:** Button-geometry census over the full sweep.
+- **Relevant files:** `src/components/ui/button.tsx` and the routes that override its classes inline.
+- **Recommended fix:** Restrict to the `Button` component's declared size variants and remove ad-hoc height/radius overrides.
+- **Regression test:** A lint rule against `h-[…]` and `rounded-[…]` overrides on `Button`.
+
+### `UX-018` · P3 · The "Weekly backup reminder" banner appears on every page
+
+- **Description:** A dismissible-but-recurring banner occupies the top of every route.
+- **Actual:** "Weekly backup reminder — One-click weekly backup keeps your shop recoverable without a login. No backup downloaded yet. [Later] [Backup now]" renders above the page header on all 26 routes at all three widths, and is the **first tab stop inside the content area** on every page (see `UX-009`). It is the leading text on every page for a screen reader, and on a 375 px viewport it consumes roughly 100 px of the 812 px viewport.
+- **Expected:** Surface a backup reminder once per session, or as a badge on a single Backup control.
+- **Evidence:** Present in every one of the 83 screenshots; on the 375 px `/documents` sample it takes about an eighth of the phone viewport.
+- **Relevant files:** `src/components/app/backup-reminder-banner.tsx`, `src/routes/__root.tsx:199`.
+- **Recommended fix:** Show it on the dashboard only, or once per session with a longer snooze than "Later" appears to give.
+- **Regression test:** Assert the banner renders at most once per session after "Later".
+
+### `UX-019` · P3 · Empty states are inconsistent, and some offer no way forward
+
+- **Description:** Pages with no records vary in whether they suggest an action.
+- **Actual:** `/fleet` shows "No machines yet" with **no create action** on the page (the only buttons are the banner's "Later"/"Backup now" and the sidebar toggle). `/pre-orders` and `/share-inbox` do it properly, offering "New pre-order" / "Generate Supplier Order List" and "Upload photo / PDF". `/china-shipments` shows "0 shown · 0 total" plus empty tab counters "All (0) Titus (0) Other (0)" but no create action.
+- **Expected:** A consistent empty state: what this page is for, and the primary action to populate it.
+- **Evidence:** Inventory of the buttons present inside `<main>` on each empty page.
+- **Relevant files:** `src/components/app/empty-state.tsx` (exists but is not used consistently), `src/routes/fleet.tsx`, `src/routes/china-shipments.tsx`.
+- **Recommended fix:** Route all empty states through `EmptyState` with a mandatory primary action.
+- **Regression test:** Assert every empty state renders a primary action.
+
+### `UX-020` · P3 · There are no loading states anywhere
+
+- **Description:** No skeletons or spinners appear on any page after the initial unlock.
+- **Actual:** Across all 26 routes: `skeleton: 0`, `spinner: 0`. The only spinner in the application is on the operator unlock gate. This follows from the architecture — the whole dataset is loaded once as a single blob (`DAT-001`, `PERF-002`), so individual pages have nothing to wait for. The consequence is that the *first* load has no progressive feedback, and any future per-page fetch would have no pattern to follow.
+- **Expected:** At least a skeleton for the initial blob load, which is the slow one.
+- **Evidence:** Skeleton/spinner census over the full sweep.
+- **Relevant files:** `src/components/ui/skeleton.tsx` (present, unused), `src/components/app/cloud-gate.tsx`.
+- **Recommended fix:** Render skeletons in `CloudGate` while the initial state loads.
+- **Regression test:** Assert a skeleton or spinner is visible while the initial load is pending.
+
+### `UX-021` · P3 · The public portal downloads the entire internal application bundle
+
+- **Description:** The unauthenticated, customer-facing portal pulls the operator app's internal modules.
+- **Actual:** Loading `https://partsvillageapp.vercel.app/portal` with no token fetched, among others, `inventory-context`, `inventory-categories`, `hydraulic-subcategories`, `seal-subcategories`, `bearings-subcategories`, `filters-inventory`, `invoice-order-sync`, `mock-data`, `confirm-dialog`, and **`jspdf.es.min`** — 34 asset requests in total for a page that shows a read-only statement.
+- **Expected:** The portal should ship only what it renders.
+- **Evidence:** Full request list captured during the production portal check. No Supabase request was made, so no customer data was involved.
+- **Business impact:** Wasted bandwidth on a customer's phone, and the internal catalog taxonomy is shipped to external parties. Minor disclosure rather than a breach — the modules contain code and category structure, not customer records.
+- **Relevant files:** `src/routes/portal.tsx` (its imports pull `PageHeader`, which pulls the cart and inventory graph), `src/routes/__root.tsx`.
+- **Recommended fix:** Fixing `UX-002` by giving the portal a standalone header removes most of this graph at the same time.
+- **Regression test:** Assert the portal's asset manifest excludes inventory, cart, and PDF modules.
 
 ### `UX-001` · P3 · `dangerouslySetInnerHTML` in the chart component
 
@@ -1425,27 +1688,29 @@ and the type error are not enforced on any change.
 
 Stated plainly, as required. These were **not** confirmed and no claim in this report depends on them.
 
-### Not verified because browser-driven testing did not complete
+### Not verified, or only partly verified
 
-1. **Phase 9 (design and UX).** See the note below — a browser-driven pass was run and its findings are in §12. Anything §12 does not explicitly report was **not** inspected.
-2. **Arabic text in PDFs, and browser print output.** Everything else in Phase 10 was rendered and measured (see §13). The Arabic canvas path cannot run without a browser `<canvas>`, and no headless browser was available to test `window.print()` or physical printer margins.
-3. **Interactive CRUD edge cases (much of Phase 3).** Duplicate submission, refresh-after-save, browser back/forward, invalid data, empty required fields, very long text, special characters in forms, decimal/zero/negative inputs, and simulated network failure — per form, through the UI.
-4. **Runtime confirmation of the XSS payload rendering in the browser DOM.** React escaping makes this near-certainly safe and there is only one benign `dangerouslySetInnerHTML`. In the **PDF** it is now confirmed safe: the `<b>test</b>` part number renders as literal text (§13). The on-screen DOM was not separately inspected for it.
-5. **Observed dashboard figures.** Every formula in §11 was read from source and the calculation harness exercised the money functions directly, but I did not transcribe the rendered dashboard cards and reconcile them against source records by hand.
-6. **Negative stock behaviour in the UI.** Whether the app blocks, warns, or silently accepts a negative quantity. `confirmOversell` and `stockShortagesForQty` exist and imply a warning on oversell, but the manual-edit path was not tested. `STK-008` describes the consequence if negatives are permitted.
-7. *(Now verified — see `CUS-001`.)* Client and supplier deletion is **not** blocked when transactions exist, and the resulting loss of receivables from the dashboard was measured. What remains unverified is only the on-screen wording of the confirmation dialog as rendered.
-8. **Import/export round-trip.** Inventory import from spreadsheet/CSV, export accuracy, and malformed-file handling.
-9. **Offline behaviour.** The service worker and `/counter` ("Offline — counter still works") imply offline support; neither offline operation nor reconnect-and-sync was exercised.
-10. **Barcode scanning, label printing, photo upload.** Require physical devices or a real Storage bucket.
-11. **WebAuthn / Face ID.** Requires a platform authenticator; only reviewed in source (and it correctly gates on `requireOperatorAccessToken`).
+1. **Arabic text in PDFs, and browser print output.** Everything else in Phase 10 was rendered and measured (see §13). The Arabic canvas path cannot run without a browser `<canvas>` inside the PDF harness, and I did not exercise `window.print()` or check physical printer margins on paper.
+2. **Interactive CRUD edge cases (part of Phase 3).** Now partly covered: the "Add part" dialog was submitted empty and its validation behaviour measured (`UX-007`), the client-delete confirmation was opened and cancelled, and long text / special characters were confirmed to render and to reach the PDF safely. Still **not** exercised per form through the UI: duplicate submission, refresh-after-save, browser back/forward, decimal/zero/negative numeric input, and mid-write network failure.
+3. **Runtime confirmation of the XSS payload rendering in the browser DOM.** Partly resolved: the seeded `<b>test</b>` part name was observed rendering as **literal text** in the `/documents`, `/delivery-board`, and `/counter` samples, and in the PDF (§13). I did not separately assert the absence of an injected element in the DOM tree.
+4. **Observed dashboard figures reconciled by hand.** Every formula in §11 was read from source and the calculation harness exercised the money functions directly. The dashboard cards were rendered and screenshotted, but I did not transcribe each figure and reconcile it against source records manually.
+5. **Negative stock behaviour in the UI.** Whether the app blocks, warns, or silently accepts a negative quantity. `confirmOversell` and `stockShortagesForQty` exist and imply a warning on oversell, but the manual-edit path was not tested. `STK-008` describes the consequence if negatives are permitted.
+6. **Zero-decimal money rendering.** `formatMoneyWithUsd` diverges from `currency()` in source (`UX-016`), but it is used only on `/china-shipments`, which had no records in the seed — so the rendered difference was not observed.
+7. **Barcode scanning, label printing, photo upload.** Require physical devices or a real Storage bucket.
+8. **WebAuthn / Face ID.** Requires a platform authenticator; only reviewed in source (and it correctly gates on `requireOperatorAccessToken`).
+9. **`/fleet/$machineId` and `/share`.** The seeded fleet had no machines, so the machine detail route was never rendered; `share.ts` is a server action reached only by the Web Share Target, which needs a real installed PWA.
+10. **Screen-reader announcement quality.** Roles, names, and structure were measured programmatically, but no actual screen reader was run, so announcement order and phrasing are unverified.
+
+**Now verified, previously listed here** — recorded so the change is visible: Phase 9 design and UX at all three widths (§12, 83 screenshots and 79 measured samples); client/supplier deletion protection and the exact confirmation wording (`CUS-001`); inventory import/export round-trip (`IMP-001`–`IMP-003`); offline behaviour and reconnect (§12, verified working); modal keyboard behaviour and focus management (§12).
 
 ### Not verifiable in this environment
 
-12. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
-13. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
-14. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
-15. **Real-world data volume and timings.** All performance figures are from build output and source analysis, not production telemetry.
-16. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
+11. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
+12. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
+13. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
+14. **Real-world data volume and timings.** All performance figures are from build output and source analysis, not production telemetry.
+15. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
+16. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
 
 ---
 
@@ -1622,9 +1887,12 @@ flow appears below with its verification status.
 
 ### Routes — 27/27 discovered and mapped
 
-All 27 routes are inventoried in §3. **Static analysis: 27/27.** **Runtime exercise: partial** —
-`/` and the operator gate were exercised via the running build and server probes; the remaining
-pages were mapped from source but not individually driven through a browser (§17).
+All 27 routes are inventoried in §3. **Static analysis: 27/27.** **Runtime exercise: 26/27** — every
+route except `/fleet/$machineId` was loaded in a real browser at 375, 768, and 1440 px, screenshotted
+full-page, and measured (79 samples, 83 screenshots; §12). `/fleet/$machineId` could not be rendered
+because the seeded fleet contained no machines. `/share` is a server action reachable only through the
+Web Share Target and was reviewed in source only. An unknown route was also loaded to verify the 404
+page. `/portal` was additionally loaded against the live deployment (read-only, no token).
 
 ### `shop_state` keys — 12/12
 
@@ -1636,8 +1904,8 @@ tables (8) confirmed dead and revoked.
 
 | Endpoint | Auth | Verified |
 |---|---|---|
-| `unlockOperator` | PIN + rate limit | ✅ Runtime probe — **rate limit bypassable** (`SEC-001`) |
-| `fetchPortalStatement` | Portal token + rate limit | ✅ Source review (`SEC-004`) |
+| `unlockOperator` | PIN + rate limit | ✅ Runtime probe — **rate limit bypassable** (`SEC-001`); also driven through the real unlock UI |
+| `fetchPortalStatement` | Portal token + rate limit | ✅ Source review (`SEC-004`); **never reached at runtime — its only caller crashes first** (`UX-002`) |
 | `beginFaceIdRegister` | `requireOperatorAccessToken` | ✅ Source review |
 | `finishFaceIdRegister` | `requireOperatorAccessToken` | ✅ Source review |
 | `beginFaceIdUnlock` | Pre-auth by design | ✅ Source review |
@@ -1659,12 +1927,14 @@ each; money and status logic verified by harness.
 | Credit note / return → stock and balance | ✅ Source-verified; **1 defect** (`FIN-002` residue) |
 | Stock deduction and restoration | ✅ Source-verified; **2 P0** (`STK-001`, `STK-002`) |
 | Multi-device merge and conflict resolution | ✅ Harness-verified; **1 P0** (`FIN-001`) |
-| Operator unlock | ✅ Runtime-verified; **1 P0** (`SEC-001`) |
-| Client portal | ✅ Source-verified; **1 defect** (`SEC-004`) |
+| Operator unlock | ✅ Runtime-verified through the real UI; **1 P0** (`SEC-001`) |
+| Client portal | ✅ Runtime-verified locally **and on production**; **completely broken** (`UX-002`) plus `SEC-004` |
 | Dashboard and report calculations | ✅ Formulas documented (§11); **3 defects** (`RPT-001`…`003`) |
-| PDF generation | ⚠️ Source-verified; **rendered output NOT VERIFIED** |
-| Import / export | ❌ **NOT VERIFIED** |
-| Offline / share target | ⚠️ Source-verified; **runtime NOT VERIFIED** |
+| PDF generation | ✅ Rendered and measured (§13); **13 defects** |
+| Import / export | ✅ Harness-verified (§8); **1 P0, 1 P1, 1 P2** (`IMP-001`…`003`) |
+| Offline behaviour | ✅ Runtime-verified working — banner appears offline and clears on reconnect |
+| Share target | ⚠️ Source-verified; needs an installed PWA to exercise |
+| Responsive layout, contrast, keyboard, modals | ✅ Runtime-measured at 3 widths (§12); **20 findings**, 12 behaviours verified correct |
 
 ### Honest scorecard by phase
 
@@ -1672,14 +1942,14 @@ each; money and status logic verified by harness.
 |---|---|
 | 1 — Project understanding | ✅ Complete |
 | 2 — Technical verification | ✅ Complete |
-| 3 — Feature testing | ⚠️ Partial — logic verified by harness; interactive UI edge cases not driven |
-| 4 — Inventory | ⚠️ Mostly — 8 findings; negative-stock UI behaviour and import/export unverified |
+| 3 — Feature testing | ⚠️ Mostly — logic verified by harness, dialogs/validation/confirmations/offline driven in a browser; per-form numeric and duplicate-submit edge cases not driven |
+| 4 — Inventory | ✅ Mostly complete — 11 findings including import/export; negative-stock UI behaviour unverified |
 | 5 — Quotations | ✅ Logic complete — 4 findings |
 | 6 — Invoices and payments | ✅ Logic complete — 7 findings |
-| 7 — Customers and suppliers | ⚠️ Partial — model reviewed; delete protection unverified |
-| 8 — Reports and dashboard | ✅ All formulas documented — 3 findings; rendered figures not transcribed |
-| 9 — Design and UX | ❌ **NOT VERIFIED** |
-| 10 — Printing and PDF | ⚠️ Partial — source reviewed; rendered output not inspected |
+| 7 — Customers and suppliers | ✅ Complete — delete protection and duplicate handling both verified (`CUS-001`, `CUS-002`) |
+| 8 — Reports and dashboard | ✅ All formulas documented — 3 findings; rendered figures not transcribed by hand |
+| 9 — Design and UX | ✅ Complete — 79 measured samples, 83 screenshots, 20 findings, 12 verified-correct behaviours |
+| 10 — Printing and PDF | ✅ Complete — real PDFs rendered and measured; Arabic and physical print unverified |
 | 11 — Security | ✅ Complete — 8 findings, 2 confirmed by live probe, 11 controls verified sound |
 | 12 — Performance | ⚠️ Mostly — build/architecture analysed; runtime timings not measured |
 
@@ -1707,6 +1977,7 @@ each; money and status logic verified by harness.
 | `PDF-005` | P1 | PDF | AR statement prints "Net due" off the bottom of the page — 8 of 350 shapes |
 | `CUS-001` | P1 | Customers | Deleting a client removes $6,000 of demonstrated AR from the dashboard and collections queue |
 | `CUS-002` | P1 | Customers | Re-adding an existing name silently wipes phone/email/address; the Excel importer triggers it |
+| `UX-002` | P1 | Portal | The customer-facing portal crashes on every load, locally and on production |
 | `FIN-004` | P2 | Money | Two different subtotal definitions (0.12 vs 0.06 demonstrated) |
 | `FIN-005` | P2 | Money | Tax hardcoded to 0; no VAT configuration |
 | `FIN-006` | P2 | Money | Currency effectively hardcoded to USD |
@@ -1742,7 +2013,26 @@ each; money and status logic verified by harness.
 | `PDF-007` | P2 | PDF | Long customer note prints past the footer and off the paper |
 | `PDF-008` | P2 | PDF | Continuation pages carry no client, reference, or date |
 | `PDF-009` | P2 | PDF | Payment history silently truncated to 12 entries |
+| `UX-003` | P2 | Layout | `overflow-x: clip` makes off-container content permanently unreachable — 991 px lost on `/stock-map` |
+| `UX-004` | P2 | Layout | Tables un-stack at 768 px, exactly where the sidebar squeezes content to 512 px |
+| `UX-005` | P2 | A11y | Accent colour on money and stock figures measures 2.52–2.66:1 against a 4.5:1 requirement |
+| `UX-006` | P2 | A11y | Every input, button, and card border measures 1.27–1.34:1 against a 3:1 requirement |
+| `UX-007` | P2 | Forms | Validation is a transient toast — no inline error, no `aria-invalid`, no focus move, no `required` |
+| `UX-008` | P2 | Layout | Stacked mobile table view drops every column label |
+| `UX-009` | P2 | A11y | No skip link, and 23 tab stops before the first in-content control |
 | `UX-001` | P3 | UI | `dangerouslySetInnerHTML` in chart CSS (not currently exploitable) |
+| `UX-010` | P3 | A11y | 32 px default control height; 16 × 16 px row toggles on `/labels` |
+| `UX-011` | P3 | A11y | Focus ring is the accent orange at 2.51:1, and 1 px in content vs 2 px in the sidebar |
+| `UX-012` | P3 | Typography | 12 px dominant body text, with 10–11 px secondary labels |
+| `UX-013` | P3 | A11y | Five inputs have no accessible name; five more rely on placeholder alone |
+| `UX-014` | P3 | A11y | `/clients` and `/suppliers` skip `h1` → `h3` |
+| `UX-015` | P3 | A11y | Modal sets no `aria-modal` and leaves the app shell non-inert |
+| `UX-016` | P3 | Consistency | Two date styles and two money formatters coexist |
+| `UX-017` | P3 | Consistency | 17 distinct button height/font/radius combinations |
+| `UX-018` | P3 | UX | Backup reminder banner renders on all 26 routes and is the first in-content tab stop |
+| `UX-019` | P3 | UX | Empty states inconsistent; `/fleet` and `/china-shipments` offer no way forward |
+| `UX-020` | P3 | UX | No skeleton or spinner anywhere after unlock |
+| `UX-021` | P3 | Performance | Public portal downloads inventory, cart, and PDF modules — 34 asset requests |
 | `PDF-003` | P3 | PDF | Three near-duplicate PDF total blocks |
 | `PDF-004` | P3 | PDF | 709 KB of base64 assets in source |
 | `PDF-010` | P3 | PDF | No signature area and no standing terms block |
