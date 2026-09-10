@@ -268,7 +268,7 @@ export async function downloadStatementPdf(client: PartyRecord, statement: ArSta
   pdf.setFontSize(18);
   pdf.text("PARTS VILLAGE", 14, 18);
   pdf.setFontSize(13);
-  pdf.text("Account statement", 14, 29);
+  pdf.text("Total balance", 14, 29);
   pdf.setFont("helvetica", "normal");
   pdf.setFontSize(10);
   pdfDrawText(pdf, `Client: ${client.name}`, 14, 38, {
@@ -365,5 +365,5 @@ export async function downloadStatementPdf(client: PartyRecord, statement: ArSta
   } else {
     pdf.text(`Total due: ${currency(statement.total)}`, 14, y);
   }
-  pdf.save(`statement-${client.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.pdf`);
+  pdf.save(`balance-${client.name.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.pdf`);
 }

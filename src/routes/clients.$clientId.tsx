@@ -14,6 +14,8 @@ import {
   Plus,
   Download,
   MessageCircle,
+  Package,
+  PackageCheck,
   Percent,
   Undo2,
   Trash2,
@@ -31,6 +33,7 @@ import { useFleet } from "@/components/app/fleet-context";
 import { useKits } from "@/components/app/kits-context";
 import { useCart } from "@/components/app/cart-context";
 import { useInventory } from "@/components/app/inventory-context";
+import { usePreOrders } from "@/components/app/preorders-context";
 import {
   deleteReceiptConfirmMessage,
   invoiceHasReturnableLines,
@@ -77,6 +80,11 @@ import {
   openStatementWhatsApp,
 } from "@/lib/ar-statement";
 import {
+  buildClientPartReports,
+  downloadPartsReceivedPdf,
+  downloadPartsWaitingPdf,
+} from "@/lib/client-reports";
+import {
   openSavedDocument,
   downloadSavedDocument,
   shareSavedDocument,
@@ -111,6 +119,7 @@ function ClientDetail() {
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const { kits } = useKits();
   const { getPart } = useInventory();
+  const { orders: preOrders } = usePreOrders();
   const { addPart, setDocumentKind, documentKind, setCartOpen } = useCart();
   const [editOpen, setEditOpen] = useState(false);
   const [machineOpen, setMachineOpen] = useState(false);
@@ -260,6 +269,11 @@ function ClientDetail() {
       limit: 6,
     });
   }, [client, machinesByClient, kits, invoices, getPart]);
+
+  const partReports = useMemo(() => {
+    if (!client) return { received: [], waiting: [] };
+    return buildClientPartReports(client, invoices, preOrders);
+  }, [client, invoices, preOrders]);
 
   if (!client) {
     return (
@@ -548,6 +562,61 @@ function ClientDetail() {
         </Card>
 
         <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Client reports</CardTitle>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Download a PDF of the balance, parts already received, or parts still waiting
+            </p>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="secondary"
+              className="gap-1.5"
+              onClick={() => {
+                void downloadStatementPdf(client, statement).then(
+                  () => toast.success("Total balance PDF downloaded"),
+                  () => toast.error("Could not create balance PDF"),
+                );
+              }}
+            >
+              <Download className="h-3.5 w-3.5" />
+              Total balance
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="gap-1.5"
+              onClick={() => {
+                void downloadPartsReceivedPdf(client, partReports.received).then(
+                  () => toast.success("Parts received PDF downloaded"),
+                  () => toast.error("Could not create parts received PDF"),
+                );
+              }}
+            >
+              <PackageCheck className="h-3.5 w-3.5" />
+              Parts received
+              {partReports.received.length > 0 ? ` (${partReports.received.length})` : ""}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="gap-1.5"
+              onClick={() => {
+                void downloadPartsWaitingPdf(client, partReports.waiting).then(
+                  () => toast.success("Parts waiting PDF downloaded"),
+                  () => toast.error("Could not create parts waiting PDF"),
+                );
+              }}
+            >
+              <Package className="h-3.5 w-3.5" />
+              Parts still waiting
+              {partReports.waiting.length > 0 ? ` (${partReports.waiting.length})` : ""}
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
           <CardHeader className="flex flex-row items-center justify-between gap-3">
             <div>
               <CardTitle className="text-base">Accounts receivable</CardTitle>
@@ -593,11 +662,10 @@ function ClientDetail() {
                 type="button"
                 size="sm"
                 variant="outline"
-                disabled={!statement.invoices.length && statement.creditNotes.length === 0}
                 onClick={() => void downloadStatementPdf(client, statement)}
               >
                 <Download className="mr-1 h-3.5 w-3.5" />
-                PDF
+                Total balance
               </Button>
               <Button
                 type="button"
