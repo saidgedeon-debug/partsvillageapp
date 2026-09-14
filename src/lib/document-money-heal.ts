@@ -67,6 +67,14 @@ function healDocArray(docs: unknown[]): unknown[] {
       (d) => d.kind === "receipt" && d.invoiceId === id && receiptAffectsBalance(d),
     );
     const fromReceipts = sumAffectingPaid(id, records);
+    let paperPaid = 0;
+    for (const d of records) {
+      if (d.kind !== "receipt" || d.invoiceId !== id) continue;
+      if (receiptAffectsBalance(d)) continue;
+      const n = Number(d.total);
+      if (Number.isFinite(n)) paperPaid += n;
+    }
+    paperPaid = Math.max(0, Math.round(paperPaid * 100) / 100);
     const prevPaid =
       typeof item.amountPaid === "number" && Number.isFinite(item.amountPaid)
         ? Math.max(0, item.amountPaid)
@@ -74,9 +82,16 @@ function healDocArray(docs: unknown[]): unknown[] {
     const total = Number(item.total);
     const t = Number.isFinite(total) ? total : 0;
     // Never wipe a legacy paid invoice that has no receipt rows.
+    // If amountPaid was lost but a paperwork receipt exists, that receipt is the payment.
     const paid = hasReceipts
       ? fromReceipts
-      : (prevPaid ?? (item.status === "Paid" ? t : 0));
+      : prevPaid != null && prevPaid > 0.005
+        ? prevPaid
+        : item.status === "Paid"
+          ? t
+          : paperPaid > 0.005
+            ? paperPaid
+            : (prevPaid ?? 0);
     const credits = creditsFor(id, records);
     const status = resolveStatus(item, paid, credits);
     if (prevPaid === paid && item.status === status) return item;

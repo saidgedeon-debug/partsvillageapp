@@ -67,7 +67,7 @@ describe("invoiceCredits / invoiceRemaining", () => {
     expect(invoiceRemaining(invoice, [], [invoice])).toBe(0);
   });
 
-  it("ignores paperwork-only receipts when computing dues", () => {
+  it("ignores paperwork-only receipts when stored amountPaid already covers the bill", () => {
     const invoice: MoneyDoc = { id: "inv-1", kind: "invoice", total: 50, amountPaid: 50, status: "Paid" };
     const documents: MoneyDoc[] = [
       invoice,
@@ -80,6 +80,23 @@ describe("invoiceCredits / invoiceRemaining", () => {
       },
     ];
     expect(invoiceAmountPaid(invoice, documents)).toBe(50);
+    expect(invoiceRemaining(invoice, [], documents)).toBe(0);
+  });
+
+  it("uses a paperwork receipt when amountPaid was lost and the invoice looks unpaid", () => {
+    const invoice: MoneyDoc = { id: "inv-1", kind: "invoice", total: 780, amountPaid: 0, status: "Unpaid" };
+    const documents: MoneyDoc[] = [
+      invoice,
+      {
+        id: "r1",
+        kind: "receipt",
+        total: 780,
+        invoiceId: "inv-1",
+        affectsBalance: false,
+        internalNote: "Receipt created for already-paid invoice",
+      },
+    ];
+    expect(invoiceAmountPaid(invoice, documents)).toBe(780);
     expect(invoiceRemaining(invoice, [], documents)).toBe(0);
   });
 });
@@ -101,6 +118,23 @@ describe("healDocumentsAmountPaid", () => {
     ]) as Array<{ id: string; amountPaid?: number; status?: string }>;
     const inv = healed.find((d) => d.id === "inv-1");
     expect(inv?.amountPaid).toBe(75);
+    expect(inv?.status).toBe("Paid");
+  });
+
+  it("heals an unpaid invoice whose only receipt is paperwork for an already-paid bill", () => {
+    const healed = healDocumentsAmountPaid([
+      { id: "inv-1", kind: "invoice", total: 50, amountPaid: 0, status: "Unpaid" },
+      {
+        id: "r1",
+        kind: "receipt",
+        invoiceId: "inv-1",
+        total: 50,
+        affectsBalance: false,
+        internalNote: "Receipt created for already-paid invoice",
+      },
+    ]) as Array<{ id: string; amountPaid?: number; status?: string }>;
+    const inv = healed.find((d) => d.id === "inv-1");
+    expect(inv?.amountPaid).toBe(50);
     expect(inv?.status).toBe("Paid");
   });
 });

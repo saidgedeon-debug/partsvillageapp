@@ -145,8 +145,8 @@ function ClientsPage() {
                 <div>
                   <CardTitle className="text-base">Who owes me</CardTitle>
                   <p className="text-xs text-muted-foreground">
-                    {arQueue.length} client{arQueue.length === 1 ? "" : "s"} · total{" "}
-                    {currency(arTotal)} open
+                    {arQueue.length} client{arQueue.length === 1 ? "" : "s"} ·{" "}
+                    {currency(arTotal)} due
                   </p>
                 </div>
                 <Button type="button" size="sm" variant="outline" onClick={() => setOwedOnly(true)}>
@@ -181,7 +181,9 @@ function ClientsPage() {
                         0–30 {currency(statement.current)}
                       </span>
                     )}
-                    <span className="text-xs font-semibold">{currency(statement.netDue)}</span>
+                    <span className="text-xs font-semibold tabular-nums">
+                      Due {currency(statement.netDue)}
+                    </span>
                     {statement.unappliedCredits > 0.005 ? (
                       <span className="text-[11px] text-muted-foreground">
                         credit −{currency(statement.unappliedCredits)}
@@ -243,7 +245,9 @@ function ClientsPage() {
                           0–30 {currency(statement.current)}
                         </span>
                       )}
-                      <span className="text-sm font-semibold">{currency(statement.netDue)}</span>
+                      <span className="text-sm font-semibold tabular-nums">
+                        Due {currency(statement.netDue)}
+                      </span>
                       {statement.unappliedCredits > 0.005 ? (
                         <span className="text-xs text-muted-foreground">
                           credit −{currency(statement.unappliedCredits)}

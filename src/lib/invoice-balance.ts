@@ -17,14 +17,22 @@ export function receiptAffectsBalance(receipt: BalanceDoc): boolean {
   return receipt.internalNote !== "Receipt created for already-paid invoice";
 }
 
-export function affectingReceiptsPaid(invoiceId: string, documents: BalanceDoc[] = []): number {
+function sumReceipts(
+  invoiceId: string,
+  documents: BalanceDoc[],
+  affecting: boolean,
+): number {
   const sum = documents
-    .filter(
-      (d) =>
-        d.kind === "receipt" && d.invoiceId === invoiceId && receiptAffectsBalance(d),
-    )
+    .filter((d) => {
+      if (d.kind !== "receipt" || d.invoiceId !== invoiceId) return false;
+      return affecting ? receiptAffectsBalance(d) : !receiptAffectsBalance(d);
+    })
     .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
   return Math.max(0, Math.round(sum * 100) / 100);
+}
+
+export function affectingReceiptsPaid(invoiceId: string, documents: BalanceDoc[] = []): number {
+  return sumReceipts(invoiceId, documents, true);
 }
 
 export function invoiceCredits(inv: BalanceDoc, creditNotes: BalanceDoc[] = []): number {
@@ -42,17 +50,24 @@ export function invoiceCredits(inv: BalanceDoc, creditNotes: BalanceDoc[] = []):
  */
 export function invoiceAmountPaid(inv: BalanceDoc, documents: BalanceDoc[] = []): number {
   if (inv.kind !== "invoice") return 0;
+  const stored =
+    typeof inv.amountPaid === "number" && Number.isFinite(inv.amountPaid)
+      ? Math.max(0, inv.amountPaid)
+      : null;
+  const total = Number.isFinite(inv.total) ? inv.total : 0;
   if (documents.length > 0) {
-    const hasReceipts = documents.some(
+    const hasAffecting = documents.some(
       (d) => d.kind === "receipt" && d.invoiceId === inv.id && receiptAffectsBalance(d),
     );
-    if (hasReceipts) return affectingReceiptsPaid(inv.id, documents);
+    if (hasAffecting) return affectingReceiptsPaid(inv.id, documents);
   }
-  if (typeof inv.amountPaid === "number" && Number.isFinite(inv.amountPaid)) {
-    return Math.max(0, inv.amountPaid);
+  if (stored != null && stored > 0.005) return stored;
+  if (inv.status === "Paid") return total;
+  if (documents.length > 0) {
+    const paperPaid = sumReceipts(inv.id, documents, false);
+    if (paperPaid > 0.005) return paperPaid;
   }
-  const total = Number.isFinite(inv.total) ? inv.total : 0;
-  return inv.status === "Paid" ? total : 0;
+  return stored ?? 0;
 }
 
 export function invoiceRemaining(
