@@ -380,6 +380,15 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     setDocuments(healed as SavedDocument[]);
   }, [documents, setDocuments]);
 
+  useEffect(() => {
+    const list = Array.isArray(documents) ? documents : [];
+    const credits = list.filter((d) => d.kind === "credit_note");
+    for (const inv of list) {
+      if (inv.kind !== "invoice") continue;
+      emitInvoiceBalanceChange(inv.id, invoiceRemaining(inv, credits, list));
+    }
+  }, [documents]);
+
   const addDocument = useCallback(
     (doc: SavedDocument) => {
       setDocuments((prev) => [doc, ...(Array.isArray(prev) ? prev : []).filter((d) => d.id !== doc.id)]);
@@ -1602,6 +1611,11 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
 
       if (failure) throw failure;
       void syncDocumentToSupabase(resultInvoice);
+      if (resultReceipt) void syncDocumentToSupabase(resultReceipt);
+      emitInvoiceBalanceChange(
+        resultInvoice.id,
+        Math.max(0, roundMoney(resultInvoice.total - (resultInvoice.amountPaid ?? 0))),
+      );
       return { invoice: resultInvoice, receipt: resultReceipt };
     },
     [setDocuments],

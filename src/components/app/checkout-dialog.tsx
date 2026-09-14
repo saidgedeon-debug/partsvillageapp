@@ -4,7 +4,13 @@ import { toast } from "sonner";
 
 import { useCart, type PartyKind } from "@/components/app/cart-context";
 import { DocumentDiscountControls } from "@/components/app/document-discount-controls";
-import { useDocuments, type SavedDocument } from "@/components/app/documents-context";
+import {
+  useDocuments,
+  type PaymentMethod,
+  type SavedDocument,
+} from "@/components/app/documents-context";
+import { Input } from "@/components/ui/input";
+import { localTodayIso } from "@/lib/date-local";
 import { useFleet } from "@/components/app/fleet-context";
 import { useInventory } from "@/components/app/inventory-context";
 import { useKits } from "@/components/app/kits-context";
@@ -67,7 +73,7 @@ export function CheckoutDialog() {
     partyId: cartPartyId,
     partyName: cartPartyName,
   } = useCart();
-  const { addDocument, updateDocument } = useDocuments();
+  const { addDocument, updateDocument, addInvoiceWithOptionalReceipt } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
   const { addOrder, machinesByClient, machines } = useFleet();
   const { kits } = useKits();
@@ -83,6 +89,10 @@ export function CheckoutDialog() {
   const [deductStock, setDeductStock] = useState(true);
   const [machineId, setMachineId] = useState("");
   const [fulfillmentStatus, setFulfillmentStatus] = useState<FulfillmentStatus | "">("");
+  const [collectPayment, setCollectPayment] = useState(false);
+  const [payMethod, setPayMethod] = useState<PaymentMethod>("Cash");
+  const [payAmount, setPayAmount] = useState("");
+  const [payMobile, setPayMobile] = useState("");
   const [discountType, setDiscountType] = useState<DocumentDiscountType>("percent");
   const [discountValue, setDiscountValue] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -113,6 +123,10 @@ export function CheckoutDialog() {
       setDeductStock(true);
       setMachineId("");
       setFulfillmentStatus("");
+      setCollectPayment(false);
+      setPayMethod("Cash");
+      setPayAmount("");
+      setPayMobile("");
       setDiscountType("percent");
       setDiscountValue(0);
       setSubmitting(false);
@@ -158,6 +172,15 @@ export function CheckoutDialog() {
         ? normalizeDocumentDiscount(discountType, discountValue)
         : undefined;
       const computedTotal = documentGrandTotal(subtotal, appliedDiscount);
+      const payNow =
+        isInvoice &&
+        partyKind === "client" &&
+        collectPayment &&
+        roundMoney(Number(payAmount) || computedTotal) > 0.005;
+      if (payNow && payMethod !== "Cash" && !payMobile.trim()) {
+        toast.error("Mobile number is required for OMT and Whish");
+        return;
+      }
 
       const skipCreated = new Set(
         lines.filter((l) => isDocumentCreatedPart(l.partId)).map((l) => l.partId),
@@ -235,8 +258,20 @@ export function CheckoutDialog() {
         discountValue: appliedDiscount?.value,
         fulfillmentStatus: isInvoice && fulfillmentStatus ? fulfillmentStatus : undefined,
       };
-      // Persist invoice first, then deduct stock (avoids stock-down-without-invoice).
-      addDocument(saved);
+      const paidAmount = payNow
+        ? Math.min(computedTotal, roundMoney(Number(payAmount) || computedTotal))
+        : 0;
+
+      if (isInvoice && payNow) {
+        addInvoiceWithOptionalReceipt(saved, {
+          amount: paidAmount,
+          method: payMethod,
+          paymentDate: saved.date || localTodayIso(),
+          mobile: payMethod === "Cash" ? undefined : payMobile.trim(),
+        });
+      } else {
+        addDocument(saved);
+      }
 
       if (isInvoice && deductStock) {
         let deducted = 0;
@@ -251,7 +286,16 @@ export function CheckoutDialog() {
         }
         stockDeducted = deducted > 0;
         if (stockDeducted) {
-          updateDocument({ ...saved, stockDeducted: true });
+          updateDocument({
+            ...saved,
+            stockDeducted: true,
+            ...(payNow
+              ? {
+                  amountPaid: paidAmount,
+                  status: paidAmount >= computedTotal - 0.005 ? "Paid" : "Partial",
+                }
+              : {}),
+          });
         }
       }
 
@@ -265,7 +309,7 @@ export function CheckoutDialog() {
             clientId: client.id,
             machineId,
             date: saved.date,
-            status: "Pending",
+            status: payNow && paidAmount >= computedTotal - 0.005 ? "Paid" : "Pending",
             documentId: id,
             lines: lines.map((l) => ({
               partId: l.partId,
@@ -436,9 +480,14 @@ export function CheckoutDialog() {
                 <Label htmlFor="checkout-fulfillment">Fulfillment</Label>
                 <Select
                   value={fulfillmentStatus || "__none__"}
-                  onValueChange={(value) =>
-                    setFulfillmentStatus(value === "__none__" ? "" : (value as FulfillmentStatus))
-                  }
+                  onValueChange={(value) => {
+                    const next = value === "__none__" ? "" : (value as FulfillmentStatus);
+                    setFulfillmentStatus(next);
+                    if (next === "Picked up" || next === "Delivered") {
+                      setCollectPayment(true);
+                      if (!payAmount) setPayAmount(String(total));
+                    }
+                  }}
                 >
                   <SelectTrigger id="checkout-fulfillment">
                     <SelectValue placeholder="Not set" />
@@ -569,6 +618,78 @@ export function CheckoutDialog() {
               </p>
             </section>
           )}
+
+          {isInvoice && partyKind === "client" ? (
+            <section className="space-y-2">
+              <Label>Payment</Label>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  className="flex-1"
+                  variant={collectPayment ? "default" : "outline"}
+                  onClick={() => {
+                    setCollectPayment(true);
+                    if (!payAmount) setPayAmount(String(total));
+                  }}
+                >
+                  Collect now
+                </Button>
+                <Button
+                  type="button"
+                  className="flex-1"
+                  variant={!collectPayment ? "default" : "outline"}
+                  onClick={() => setCollectPayment(false)}
+                >
+                  Pay later
+                </Button>
+              </div>
+              {collectPayment ? (
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <Label htmlFor="checkout-pay-amount">Amount</Label>
+                    <Input
+                      id="checkout-pay-amount"
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      value={payAmount}
+                      onChange={(e) => setPayAmount(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label>Method</Label>
+                    <Select
+                      value={payMethod}
+                      onValueChange={(v) => setPayMethod(v as PaymentMethod)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Cash">Cash</SelectItem>
+                        <SelectItem value="OMT">OMT</SelectItem>
+                        <SelectItem value="Whish">Whish</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {payMethod !== "Cash" ? (
+                    <div className="col-span-2 space-y-1">
+                      <Label htmlFor="checkout-pay-mobile">Mobile</Label>
+                      <Input
+                        id="checkout-pay-mobile"
+                        value={payMobile}
+                        onChange={(e) => setPayMobile(e.target.value)}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  Invoice stays due until you tap Record payment on the client.
+                </p>
+              )}
+            </section>
+          ) : null}
 
           <section className="space-y-2">
             <Label>File format</Label>
