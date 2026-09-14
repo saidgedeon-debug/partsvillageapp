@@ -9,6 +9,10 @@ import {
 
 import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-context";
 import { generateDocId, type PaymentMethod } from "@/lib/document-export";
+import {
+  invoiceIdFromQuotationId,
+  quotationIdFromConversionNote,
+} from "@/lib/document-source";
 import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
 import { healDocumentsAmountPaid } from "@/lib/document-money-heal";
 import { useCloudState } from "@/lib/cloud-store";
@@ -1621,8 +1625,30 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           failure = new Error("Quotation not found");
           return cur;
         }
+        const existing = cur.find(
+          (d) =>
+            d.kind === "invoice" &&
+            (d.id === invoiceIdFromQuotationId(quote.id) ||
+              quotationIdFromConversionNote(d.internalNote) === quote.id),
+        );
+        if (existing) {
+          const next =
+            extras?.stockDeducted && !existing.stockDeducted
+              ? {
+                  ...existing,
+                  stockDeducted: true,
+                  oversoldByPart: extras.oversoldByPart ?? existing.oversoldByPart,
+                }
+              : existing;
+          out.push(next);
+          return [
+            next,
+            ...cur.filter((d) => d.id !== quotationId && d.id !== next.id),
+          ];
+        }
+
         const now = new Date();
-        const invoiceId = generateDocId("invoice", now);
+        const invoiceId = invoiceIdFromQuotationId(quote.id) || generateDocId("invoice", now);
         const noteBits = [
           quote.internalNote?.trim(),
           `Converted from quotation ${quote.id}`,

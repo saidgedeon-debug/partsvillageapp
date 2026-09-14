@@ -31,10 +31,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { generateDocId, lineTotal } from "@/lib/document-export";
+import { invoiceIdFromPreOrderId } from "@/lib/document-source";
 import { documentGrandTotal, roundMoney } from "@/lib/document-money";
 import { currency } from "@/lib/mock-data";
 import {
   invoiceNoteForPreOrder,
+  preOrderIdFromInvoiceNote,
   preOrderIsPaid,
   preOrderRemaining,
   type CustomerPreOrder,
@@ -76,7 +78,7 @@ export function PreOrderConvertDialog({
   withReceiptDefault = false,
   onCreated,
 }: Props) {
-  const { addInvoiceWithOptionalReceipt } = useDocuments();
+  const { addInvoiceWithOptionalReceipt, invoices } = useDocuments();
   const { markConverted } = usePreOrders();
   const { adjustPartQuantity, getPart } = useInventory();
   const { addOrder } = useFleet();
@@ -143,10 +145,20 @@ export function PreOrderConvertDialog({
       }
     }
 
+    const already = invoices.find(
+      (d) => d.kind === "invoice" && preOrderIdFromInvoiceNote(d.internalNote) === order.id,
+    );
+    if (already) {
+      markConverted(order.id, already.id);
+      toast.message(`Already transferred to ${already.id}`);
+      onOpenChange(false);
+      return;
+    }
+
     setSubmitting(true);
     try {
       const createdAt = new Date();
-      const invoiceId = generateDocId("invoice", createdAt);
+      const invoiceId = invoiceIdFromPreOrderId(order.id) || generateDocId("invoice", createdAt);
 
       let stockDeducted = false;
       let oversoldByPart: Record<string, number> | undefined;

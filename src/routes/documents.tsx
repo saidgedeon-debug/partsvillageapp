@@ -327,7 +327,10 @@ function DocumentsPage() {
       const client =
         (invoice.partyId && clients.find((c) => c.id === invoice.partyId)) ||
         clients.find((c) => c.name.toLowerCase() === invoice.partyName.trim().toLowerCase());
-      if (client) {
+      if (
+        client &&
+        !orders.some((o) => o.documentId === invoice.id || o.id === `ord-${invoice.id}`)
+      ) {
         addOrder({
           id: `ord-${invoice.id}`,
           clientId: client.id,

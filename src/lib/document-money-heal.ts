@@ -1,5 +1,7 @@
 /** Recompute invoice amountPaid from affecting receipts after multi-device merge. */
 
+import { healDuplicateConvertedDocuments } from "./document-duplicate-heal";
+
 function isPlainObject(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null && !Array.isArray(v);
 }
@@ -48,13 +50,14 @@ function creditsFor(invoiceId: string, docs: Record<string, unknown>[]): number 
 
 /** Heal amountPaid on invoices inside a documents shop_state blob or raw array. */
 export function healDocumentsAmountPaid(value: unknown): unknown {
-  if (Array.isArray(value)) {
-    return healDocArray(value);
+  const deduped = healDuplicateConvertedDocuments(value);
+  if (Array.isArray(deduped)) {
+    return healDocArray(deduped);
   }
-  if (isPlainObject(value) && Array.isArray(value.documents)) {
-    return { ...value, documents: healDocArray(value.documents) };
+  if (isPlainObject(deduped) && Array.isArray(deduped.documents)) {
+    return { ...deduped, documents: healDocArray(deduped.documents) };
   }
-  return value;
+  return deduped;
 }
 
 function healDocArray(docs: unknown[]): unknown[] {
