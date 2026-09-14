@@ -99,6 +99,23 @@ describe("invoiceCredits / invoiceRemaining", () => {
     expect(invoiceAmountPaid(invoice, documents)).toBe(780);
     expect(invoiceRemaining(invoice, [], documents)).toBe(0);
   });
+
+  it("counts only the real $500 when a merged duplicate receipt is paperwork", () => {
+    const invoice: MoneyDoc = {
+      id: "inv-1",
+      kind: "invoice",
+      total: 985,
+      amountPaid: 999.99,
+      status: "Paid",
+    };
+    const documents: MoneyDoc[] = [
+      invoice,
+      { id: "r1", kind: "receipt", total: 500, invoiceId: "inv-1", affectsBalance: true },
+      { id: "r2", kind: "receipt", total: 499.99, invoiceId: "inv-1", affectsBalance: false },
+    ];
+    expect(invoiceAmountPaid(invoice, documents)).toBe(500);
+    expect(invoiceRemaining(invoice, [], documents)).toBe(485);
+  });
 });
 
 describe("healDocumentsAmountPaid", () => {

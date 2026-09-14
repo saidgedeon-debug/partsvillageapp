@@ -13,7 +13,7 @@ describe("invoiceIdFromQuotationId", () => {
 });
 
 describe("healDuplicateConvertedDocuments", () => {
-  it("keeps one invoice per converted quotation and moves receipts onto it", () => {
+  it("keeps one invoice and does not stack the same first payment twice", () => {
     const docs = [
       {
         id: "INV-B",
@@ -32,19 +32,72 @@ describe("healDuplicateConvertedDocuments", () => {
         stockDeducted: true,
         internalNote: "Converted from quotation Q-1",
       },
-      { id: "R1", kind: "receipt", invoiceId: "INV-A", total: 500, affectsBalance: true },
-      { id: "R2", kind: "receipt", invoiceId: "INV-B", total: 499.99, affectsBalance: true },
+      {
+        id: "R1",
+        kind: "receipt",
+        invoiceId: "INV-A",
+        total: 500,
+        affectsBalance: true,
+        paymentDate: "2026-09-10",
+        invoiceRemainingAfter: 485,
+      },
+      {
+        id: "R2",
+        kind: "receipt",
+        invoiceId: "INV-B",
+        total: 499.99,
+        affectsBalance: true,
+        paymentDate: "2026-09-10",
+        invoiceRemainingAfter: 485.01,
+      },
     ];
     const healed = healDocumentsAmountPaid(docs) as Array<Record<string, unknown>>;
     const invoices = healed.filter((d) => d.kind === "invoice");
     expect(invoices).toHaveLength(1);
     expect(invoices[0]?.id).toBe("INV-A");
-    expect(invoices[0]?.amountPaid).toBe(999.99);
-    expect(invoices[0]?.status).toBe("Paid");
-    expect(healed.filter((d) => d.kind === "receipt").map((d) => d.invoiceId)).toEqual([
-      "INV-A",
-      "INV-A",
-    ]);
+    expect(invoices[0]?.amountPaid).toBe(500);
+    expect(invoices[0]?.status).toBe("Partial");
+    const receipts = healed.filter((d) => d.kind === "receipt");
+    expect(receipts.map((d) => d.invoiceId)).toEqual(["INV-A", "INV-A"]);
+    expect(receipts.filter((d) => d.affectsBalance !== false)).toHaveLength(1);
+  });
+
+  it("unsticks two first-payment receipts already sitting on one merged invoice", () => {
+    const healed = healDocumentsAmountPaid([
+      {
+        id: "INV-A",
+        kind: "invoice",
+        total: 985,
+        amountPaid: 999.99,
+        status: "Paid",
+        internalNote: "Converted from quotation Q-1",
+      },
+      {
+        id: "R1",
+        kind: "receipt",
+        invoiceId: "INV-A",
+        total: 500,
+        affectsBalance: true,
+        paymentDate: "2026-09-10",
+        createdAt: "2026-09-10T06:26:17.610Z",
+        invoiceRemainingAfter: 485,
+      },
+      {
+        id: "R2",
+        kind: "receipt",
+        invoiceId: "INV-A",
+        total: 499.99,
+        affectsBalance: true,
+        paymentDate: "2026-09-10",
+        createdAt: "2026-09-10T10:45:22.486Z",
+        invoiceRemainingAfter: 485.01,
+      },
+    ]) as Array<Record<string, unknown>>;
+    const inv = healed.find((d) => d.id === "INV-A");
+    expect(inv?.amountPaid).toBe(500);
+    expect(inv?.status).toBe("Partial");
+    expect(healed.find((d) => d.id === "R1")?.affectsBalance).not.toBe(false);
+    expect(healed.find((d) => d.id === "R2")?.affectsBalance).toBe(false);
   });
 
   it("keeps one invoice per pre-order source", () => {
