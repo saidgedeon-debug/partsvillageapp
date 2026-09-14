@@ -114,7 +114,7 @@ function ClientDetail() {
   const { clientId } = Route.useParams();
   const navigate = useNavigate();
   const { clients, removeClient, updateClient } = useParties();
-  const { quotations, invoices, receipts, creditNotes, deleteInvoicePayment, applyUnappliedCredit } =
+  const { quotations, invoices, receipts, creditNotes, documents, deleteInvoicePayment, applyUnappliedCredit } =
     useDocuments();
   const { machinesByClient, ordersByClient, ordersByMachine, addMachine } = useFleet();
   const { kits } = useKits();
@@ -192,8 +192,8 @@ function ClientDetail() {
   }, [client]);
 
   const statementForDefaults = useMemo(
-    () => (client ? buildArStatement(client, invoices, creditNotes) : null),
-    [client, invoices, creditNotes],
+    () => (client ? buildArStatement(client, invoices, creditNotes, new Date(), documents) : null),
+    [client, invoices, creditNotes, documents],
   );
 
   useEffect(() => {

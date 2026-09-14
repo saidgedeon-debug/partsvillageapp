@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   type ReactNode,
 } from "react";
@@ -9,8 +10,17 @@ import {
 import type { CartLine, DocumentKind, PartyKind } from "@/components/app/cart-context";
 import { generateDocId, type PaymentMethod } from "@/lib/document-export";
 import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
+import { healDocumentsAmountPaid } from "@/lib/document-money-heal";
 import { useCloudState } from "@/lib/cloud-store";
 import { emitInvoiceBalanceChange } from "@/lib/invoice-order-sync";
+import {
+  affectingReceiptsPaid as affectingReceiptsPaidFromLedger,
+  invoiceAmountPaid as invoiceAmountPaidFromLedger,
+  invoiceCredits as invoiceCreditsFromLedger,
+  invoiceRefundOwed as invoiceRefundOwedFromLedger,
+  invoiceRemaining as invoiceRemainingFromLedger,
+  receiptAffectsBalance as receiptAffectsBalanceFromLedger,
+} from "@/lib/invoice-balance";
 import { currency } from "@/lib/mock-data";
 
 export type QuoteStatus = "Draft" | "Sent" | "Accepted" | "Rejected";
@@ -154,9 +164,7 @@ export type ApplyUnappliedCreditInput = {
 
 /** Whether a receipt changed (or should change) the linked invoice balance. */
 export function receiptAffectsBalance(receipt: SavedDocument): boolean {
-  if (receipt.kind !== "receipt") return false;
-  if (typeof receipt.affectsBalance === "boolean") return receipt.affectsBalance;
-  return receipt.internalNote !== "Receipt created for already-paid invoice";
+  return receiptAffectsBalanceFromLedger(receipt);
 }
 
 /** Cash/OMT/Whish that should appear on the daily-close Z expected totals. */
@@ -173,13 +181,11 @@ export function documentAffectsCashDrawer(doc: SavedDocument): boolean {
   return false;
 }
 
-export function invoiceAmountPaid(inv: SavedDocument): number {
-  if (inv.kind !== "invoice") return 0;
-  if (typeof inv.amountPaid === "number" && Number.isFinite(inv.amountPaid)) {
-    return Math.max(0, inv.amountPaid);
-  }
-  const total = Number.isFinite(inv.total) ? inv.total : 0;
-  return inv.status === "Paid" ? total : 0;
+export function invoiceAmountPaid(
+  inv: SavedDocument,
+  documents: SavedDocument[] = [],
+): number {
+  return invoiceAmountPaidFromLedger(inv, documents);
 }
 
 /** Sum of receipts that actually moved this invoice's balance. */
@@ -187,13 +193,7 @@ export function affectingReceiptsPaid(
   invoiceId: string,
   documents: SavedDocument[] = [],
 ): number {
-  const sum = documents
-    .filter(
-      (d) =>
-        d.kind === "receipt" && d.invoiceId === invoiceId && receiptAffectsBalance(d),
-    )
-    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
-  return Math.max(0, Math.round(sum * 100) / 100);
+  return affectingReceiptsPaidFromLedger(invoiceId, documents);
 }
 
 export function deleteReceiptConfirmMessage(receipt: SavedDocument): string {
@@ -242,33 +242,24 @@ export function invoiceCredits(
   inv: SavedDocument,
   creditNotes: SavedDocument[] = [],
 ): number {
-  if (inv.kind !== "invoice") return 0;
-  const sum = creditNotes
-    .filter((d) => d.kind === "credit_note" && d.invoiceId === inv.id)
-    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
-  return Math.max(0, Math.round(sum * 100) / 100);
+  return invoiceCreditsFromLedger(inv, creditNotes);
 }
 
 export function invoiceRemaining(
   inv: SavedDocument,
   creditNotes: SavedDocument[] = [],
+  documents: SavedDocument[] = [],
 ): number {
-  const total = Number.isFinite(inv.total) ? inv.total : 0;
-  const paid = invoiceAmountPaid(inv);
-  const credits = invoiceCredits(inv, creditNotes);
-  return Math.max(0, Math.round((total - paid - credits) * 100) / 100);
+  return invoiceRemainingFromLedger(inv, creditNotes, documents);
 }
 
 /** Cash / credit balance the shop owes the client on this invoice (paid+credits above total). */
 export function invoiceRefundOwed(
   inv: SavedDocument,
   creditNotes: SavedDocument[] = [],
+  documents: SavedDocument[] = [],
 ): number {
-  if (inv.kind !== "invoice") return 0;
-  const total = Number.isFinite(inv.total) ? inv.total : 0;
-  const paid = invoiceAmountPaid(inv);
-  const credits = invoiceCredits(inv, creditNotes);
-  return Math.max(0, Math.round((paid + credits - total) * 100) / 100);
+  return invoiceRefundOwedFromLedger(inv, creditNotes, documents);
 }
 
 /** Qty still returnable for a part on an invoice. */
@@ -375,6 +366,16 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
     isDocumentsEmpty,
   );
 
+  useEffect(() => {
+    const list = Array.isArray(documents) ? documents : [];
+    if (list.length === 0) return;
+    const healed = healDocumentsAmountPaid(list);
+    if (!Array.isArray(healed)) return;
+    const changed = healed.some((item, i) => item !== list[i]);
+    if (!changed) return;
+    setDocuments(healed as SavedDocument[]);
+  }, [documents, setDocuments]);
+
   const addDocument = useCallback(
     (doc: SavedDocument) => {
       setDocuments((prev) => [doc, ...(Array.isArray(prev) ? prev : []).filter((d) => d.id !== doc.id)]);
@@ -403,7 +404,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           if (d.id !== id) return d;
           if (d.kind === "invoice") {
             const invStatus = status as InvoiceStatus;
-            const amountPaid = invoiceAmountPaid(d);
+            const amountPaid = invoiceAmountPaid(d, list);
             const credits = invoiceCredits(
               d,
               list.filter((x) => x.kind === "credit_note"),
@@ -472,7 +473,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           return cur;
         }
 
-        const paidBefore = invoiceAmountPaid(invoice);
+        const paidBefore = invoiceAmountPaid(invoice, cur);
         const credits = invoiceCredits(
           invoice,
           cur.filter((d) => d.kind === "credit_note"),
@@ -612,11 +613,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         const nameKey = clientName.toLowerCase();
 
         const matchesClient = (d: SavedDocument) => {
-          if (input.clientId && d.partyId) return d.partyId === input.clientId;
-          if (input.clientId && !d.partyId) {
-            return d.partyName.trim().toLowerCase() === nameKey;
-          }
-          return d.partyName.trim().toLowerCase() === nameKey;
+          if (input.clientId && d.partyId === input.clientId) return true;
+          return Boolean(nameKey) && d.partyName.trim().toLowerCase() === nameKey;
         };
 
         const open = cur
@@ -625,11 +623,11 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
               d.kind === "invoice" &&
               matchesClient(d) &&
               (!restrict || restrict.has(d.id)) &&
-              invoiceRemaining(d, creditNotes) > 0.005,
+              invoiceRemaining(d, creditNotes, cur) > 0.005,
           )
           .map((invoice) => ({
             invoice,
-            remaining: invoiceRemaining(invoice, creditNotes),
+            remaining: invoiceRemaining(invoice, creditNotes, cur),
             ageDays: Math.max(
               0,
               Math.floor(
@@ -663,7 +661,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           const rounded = roundMoney(apply);
           left = roundMoney(left - rounded);
 
-          const paidBefore = invoiceAmountPaid(row.invoice);
+          const paidBefore = invoiceAmountPaid(row.invoice, cur);
           const credits = invoiceCredits(row.invoice, creditNotes);
           const paidAfter = roundMoney(paidBefore + rounded);
           const status = resolveInvoiceStatus(row.invoice, paidAfter, undefined, credits);
@@ -872,14 +870,14 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             failure = new Error(`Invoice ${row.invoiceId} not found`);
             return cur;
           }
-          const rem = invoiceRemaining(invoice, creditNotes);
+          const rem = invoiceRemaining(invoice, creditNotes, cur);
           if (row.amount - rem > 0.015) {
             failure = new Error(
               `${row.invoiceId} only has ${currency(rem)} open (tried ${currency(row.amount)})`,
             );
             return cur;
           }
-          const paidBefore = invoiceAmountPaid(invoice);
+          const paidBefore = invoiceAmountPaid(invoice, cur);
           const credits = invoiceCredits(invoice, creditNotes);
           const paidAfter = roundMoney(paidBefore + row.amount);
           const status = resolveInvoiceStatus(invoice, paidAfter, undefined, credits);
@@ -988,7 +986,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         );
         const affects = receiptAffectsBalance(receipt);
         const oldAmount = Math.round((Number.isFinite(receipt.total) ? receipt.total : 0) * 100) / 100;
-        const paidBefore = invoiceAmountPaid(invoice);
+        const paidBefore = invoiceAmountPaid(invoice, cur);
 
         if (affects) {
           const remainingWithoutThis = Math.max(
@@ -1170,7 +1168,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           returnLines.reduce((s, l) => s + l.qty * (l.unitPrice || 0), 0),
         );
         const creditTotal = roundMoney(listTotal * ratio);
-        const paid = invoiceAmountPaid(invoice);
+        const paid = invoiceAmountPaid(invoice, cur);
         const creditsBefore = invoiceCredits(invoice, existingCredits);
         const remainingBefore = Math.max(
           0,
@@ -1251,16 +1249,21 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
       setDocuments((prev) => {
         const cur = Array.isArray(prev) ? prev : [];
         const creditNotes = cur.filter((d) => d.kind === "credit_note");
+        const nameKey = input.clientName.trim().toLowerCase();
+        const matchesClient = (d: SavedDocument) => {
+          if (d.partyId === input.clientId) return true;
+          return Boolean(nameKey) && d.partyName.trim().toLowerCase() === nameKey;
+        };
         const open = cur
           .filter(
             (d) =>
               d.kind === "invoice" &&
-              d.partyId === input.clientId &&
-              invoiceRemaining(d, creditNotes) > 0.005,
+              matchesClient(d) &&
+              invoiceRemaining(d, creditNotes, cur) > 0.005,
           )
           .map((invoice) => ({
             invoice,
-            remaining: invoiceRemaining(invoice, creditNotes),
+            remaining: invoiceRemaining(invoice, creditNotes, cur),
             ageDays: Math.max(
               0,
               Math.floor(
@@ -1326,7 +1329,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           newCredits.push(creditNote);
           workingCredits.push(creditNote);
 
-          const paid = invoiceAmountPaid(row.invoice);
+          const paid = invoiceAmountPaid(row.invoice, cur);
           const creditsAfter = invoiceCredits(row.invoice, workingCredits);
           invoiceUpdates.set(row.invoice.id, {
             ...row.invoice,
@@ -1371,11 +1374,8 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         const cur = Array.isArray(prev) ? prev : [];
         const nameKey = clientName.toLowerCase();
         const matchesClient = (d: SavedDocument) => {
-          if (input.clientId && d.partyId) return d.partyId === input.clientId;
-          if (input.clientId && !d.partyId) {
-            return d.partyName.trim().toLowerCase() === nameKey;
-          }
-          return d.partyName.trim().toLowerCase() === nameKey;
+          if (input.clientId && d.partyId === input.clientId) return true;
+          return Boolean(nameKey) && d.partyName.trim().toLowerCase() === nameKey;
         };
 
         const invoice = cur.find((d) => d.id === input.invoiceId && d.kind === "invoice");
@@ -1389,7 +1389,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
         }
 
         const creditNotes = cur.filter((d) => d.kind === "credit_note");
-        const rem = invoiceRemaining(invoice, creditNotes);
+        const rem = invoiceRemaining(invoice, creditNotes, cur);
         if (rem <= 0.005) {
           failure = new Error("Invoice has no open balance");
           return cur;
@@ -1485,7 +1485,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
             .map((d) => updates.get(d.id) ?? d),
         ];
         const nextCredits = nextDocs.filter((d) => d.kind === "credit_note");
-        const paid = invoiceAmountPaid(invoice);
+        const paid = invoiceAmountPaid(invoice, nextDocs);
         const creditsAfter = invoiceCredits(invoice, nextCredits);
         const updatedInvoice: SavedDocument = {
           ...invoice,
@@ -1666,7 +1666,7 @@ export function DocumentsProvider({ children }: { children: ReactNode }) {
           failure = new Error("Invoice not found");
           return cur;
         }
-        const paid = invoiceAmountPaid(invoice);
+        const paid = invoiceAmountPaid(invoice, cur);
         if (paid > 0.005) {
           failure = new Error("Cannot revert — invoice has payments. Delete receipts first.");
           return cur;

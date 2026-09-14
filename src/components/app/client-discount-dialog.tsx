@@ -39,7 +39,7 @@ export function ClientDiscountDialog({
   clientName,
   onRecorded,
 }: Props) {
-  const { invoices, creditNotes, recordClientDiscount } = useDocuments();
+  const { invoices, creditNotes, documents, recordClientDiscount } = useDocuments();
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [date, setDate] = useState(localTodayIso());
@@ -49,10 +49,14 @@ export function ClientDiscountDialog({
     () =>
       roundMoney(
         invoices
-          .filter((iv) => iv.partyId === clientId)
-          .reduce((s, iv) => s + invoiceRemaining(iv, creditNotes), 0),
+          .filter(
+            (iv) =>
+              iv.partyId === clientId ||
+              iv.partyName.trim().toLowerCase() === clientName.trim().toLowerCase(),
+          )
+          .reduce((s, iv) => s + invoiceRemaining(iv, creditNotes, documents), 0),
       ),
-    [invoices, creditNotes, clientId],
+    [invoices, creditNotes, documents, clientId, clientName],
   );
 
   useEffect(() => {

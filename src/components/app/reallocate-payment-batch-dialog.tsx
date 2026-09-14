@@ -67,14 +67,14 @@ export function ReallocatePaymentBatchDialog({ open, onOpenChange, batchId }: Pr
         return iv.partyName.trim().toLowerCase() === nameKey;
       })
       .map((iv) => {
-        const rem = invoiceRemaining(iv, creditNotes);
+        const rem = invoiceRemaining(iv, creditNotes, documents);
         const fromBatch = batchByInvoice.get(iv.id) ?? 0;
         const room = roundMoney(rem + fromBatch);
         return { invoice: iv, room, fromBatch };
       })
       .filter((row) => row.room > 0.005 || row.fromBatch > 0.005)
       .sort((a, b) => a.invoice.date.localeCompare(b.invoice.date));
-  }, [invoices, creditNotes, batchDocs, batchId]);
+  }, [invoices, creditNotes, documents, batchDocs, batchId]);
 
   useEffect(() => {
     if (!open || !batchId) return;

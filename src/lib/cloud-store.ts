@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { emitCloudConflict } from "@/lib/cloud-conflict";
+import { healDocumentsAmountPaid } from "@/lib/document-money-heal";
 import { adoptUnsyncedLocalItems, mergeShopStateValue } from "@/lib/shop-state-merge";
 import { parseShopStateValue } from "@/lib/shop-state-schema";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
@@ -25,6 +26,11 @@ export type ShopStateKey =
   | "pre-orders";
 
 const MIGRATE_FLAG = "parts-village-cloud-migrated-v1";
+
+function healShopStateValue<T>(key: ShopStateKey, value: T): T {
+  if (key !== "documents") return value;
+  return healDocumentsAmountPaid(value) as T;
+}
 
 export type CloudHealthStatus = "loading" | "syncing" | "synced" | "error";
 const healthByKey = new Map<ShopStateKey, CloudHealthStatus>();
@@ -346,7 +352,7 @@ export function useCloudState<T>(
         const loaded = await loadOrMigrateShopState(key, localStorageKey, fallback, isEmpty);
         if (cancelled) return;
         const parsed = parseShopStateValue<T>(key, loaded.value);
-        const accepted = parsed.ok ? parsed.value : fallback;
+        const accepted = parsed.ok ? healShopStateValue(key, parsed.value) : fallback;
         if (!parsed.ok) {
           setError(parsed.error);
           setLastCloudError(parsed.error);
@@ -376,7 +382,7 @@ export function useCloudState<T>(
         try {
           const raw = localStorage.getItem(localStorageKey);
           if (raw) {
-            const cached = JSON.parse(raw) as T;
+            const cached = healShopStateValue(key, JSON.parse(raw) as T);
             skipSave.current = true;
             dirtyRef.current = false;
             baseUpdatedAtRef.current = null;
@@ -528,6 +534,7 @@ export function useCloudState<T>(
   persistNowRef.current = persistNow;
 
   const applyRemote = (next: T, updatedAt: string | null) => {
+    next = healShopStateValue(key, next);
     if (updatedAt) baseUpdatedAtRef.current = updatedAt;
     if (dirtyRef.current || savingRef.current) {
       const merged = mergeShopStateValue(

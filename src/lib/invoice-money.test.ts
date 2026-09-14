@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-/** Minimal doc shape matching SavedDocument fields used by invoice money helpers. */
+import { healDocumentsAmountPaid } from "./document-money-heal";
+import {
+  invoiceAmountPaid,
+  invoiceCredits,
+  invoiceRemaining,
+} from "./invoice-balance";
+
 type MoneyDoc = {
   id: string;
   kind: string;
@@ -8,34 +14,9 @@ type MoneyDoc = {
   status?: string;
   amountPaid?: number;
   invoiceId?: string;
+  affectsBalance?: boolean;
+  internalNote?: string | null;
 };
-
-/** Mirrors documents-context `invoiceAmountPaid`. */
-function invoiceAmountPaid(inv: MoneyDoc): number {
-  if (inv.kind !== "invoice") return 0;
-  if (typeof inv.amountPaid === "number" && Number.isFinite(inv.amountPaid)) {
-    return Math.max(0, inv.amountPaid);
-  }
-  const total = Number.isFinite(inv.total) ? inv.total : 0;
-  return inv.status === "Paid" ? total : 0;
-}
-
-/** Mirrors documents-context `invoiceCredits`. */
-function invoiceCredits(inv: MoneyDoc, creditNotes: MoneyDoc[] = []): number {
-  if (inv.kind !== "invoice") return 0;
-  const sum = creditNotes
-    .filter((d) => d.kind === "credit_note" && d.invoiceId === inv.id)
-    .reduce((s, d) => s + (Number.isFinite(d.total) ? d.total : 0), 0);
-  return Math.max(0, Math.round(sum * 100) / 100);
-}
-
-/** Mirrors documents-context `invoiceRemaining`. */
-function invoiceRemaining(inv: MoneyDoc, creditNotes: MoneyDoc[] = []): number {
-  const total = Number.isFinite(inv.total) ? inv.total : 0;
-  const paid = invoiceAmountPaid(inv);
-  const credits = invoiceCredits(inv, creditNotes);
-  return Math.max(0, Math.round((total - paid - credits) * 100) / 100);
-}
 
 describe("invoiceCredits / invoiceRemaining", () => {
   it("sums linked credit notes only", () => {
@@ -67,5 +48,59 @@ describe("invoiceCredits / invoiceRemaining", () => {
   it("returns 0 credits for non-invoices", () => {
     const receipt: MoneyDoc = { id: "rcp-1", kind: "receipt", total: 10, status: "Paid" };
     expect(invoiceCredits(receipt, [])).toBe(0);
+  });
+
+  it("uses affecting receipts when amountPaid is stale or zero", () => {
+    const invoice: MoneyDoc = { id: "inv-1", kind: "invoice", total: 100, amountPaid: 0, status: "Unpaid" };
+    const documents: MoneyDoc[] = [
+      invoice,
+      { id: "r1", kind: "receipt", total: 60, invoiceId: "inv-1", affectsBalance: true },
+      { id: "r2", kind: "receipt", total: 40, invoiceId: "inv-1", affectsBalance: true },
+    ];
+    expect(invoiceAmountPaid(invoice, documents)).toBe(100);
+    expect(invoiceRemaining(invoice, [], documents)).toBe(0);
+  });
+
+  it("keeps stored amountPaid when there are no affecting receipts", () => {
+    const invoice: MoneyDoc = { id: "inv-1", kind: "invoice", total: 80, amountPaid: 80, status: "Paid" };
+    expect(invoiceAmountPaid(invoice, [invoice])).toBe(80);
+    expect(invoiceRemaining(invoice, [], [invoice])).toBe(0);
+  });
+
+  it("ignores paperwork-only receipts when computing dues", () => {
+    const invoice: MoneyDoc = { id: "inv-1", kind: "invoice", total: 50, amountPaid: 50, status: "Paid" };
+    const documents: MoneyDoc[] = [
+      invoice,
+      {
+        id: "r1",
+        kind: "receipt",
+        total: 50,
+        invoiceId: "inv-1",
+        internalNote: "Receipt created for already-paid invoice",
+      },
+    ];
+    expect(invoiceAmountPaid(invoice, documents)).toBe(50);
+    expect(invoiceRemaining(invoice, [], documents)).toBe(0);
+  });
+});
+
+describe("healDocumentsAmountPaid", () => {
+  it("sets amountPaid from receipts when receipts exist", () => {
+    const healed = healDocumentsAmountPaid([
+      { id: "inv-1", kind: "invoice", total: 100, amountPaid: 0, status: "Unpaid" },
+      { id: "r1", kind: "receipt", invoiceId: "inv-1", total: 100, affectsBalance: true },
+    ]) as Array<{ id: string; amountPaid?: number; status?: string }>;
+    const inv = healed.find((d) => d.id === "inv-1");
+    expect(inv?.amountPaid).toBe(100);
+    expect(inv?.status).toBe("Paid");
+  });
+
+  it("does not wipe a legacy paid invoice that has no receipt rows", () => {
+    const healed = healDocumentsAmountPaid([
+      { id: "inv-1", kind: "invoice", total: 75, amountPaid: 75, status: "Paid" },
+    ]) as Array<{ id: string; amountPaid?: number; status?: string }>;
+    const inv = healed.find((d) => d.id === "inv-1");
+    expect(inv?.amountPaid).toBe(75);
+    expect(inv?.status).toBe("Paid");
   });
 });

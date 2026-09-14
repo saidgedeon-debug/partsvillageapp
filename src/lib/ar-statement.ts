@@ -66,9 +66,10 @@ export function documentBelongsToClient(
   client: { id: string; name: string },
 ): boolean {
   if (doc.partyKind && doc.partyKind !== "client") return false;
-  if (doc.partyId) return doc.partyId === client.id;
+  const idMatch = Boolean(doc.partyId && doc.partyId === client.id);
   const name = client.name.trim().toLowerCase();
-  return Boolean(name) && doc.partyName.trim().toLowerCase() === name;
+  const nameMatch = Boolean(name) && doc.partyName.trim().toLowerCase() === name;
+  return idMatch || nameMatch;
 }
 
 export function buildArStatement(
@@ -76,6 +77,7 @@ export function buildArStatement(
   invoices: SavedDocument[],
   creditNotes: SavedDocument[] = [],
   now = new Date(),
+  documents: SavedDocument[] = [],
 ): ArStatement {
   const party =
     typeof client === "string" ? { id: client, name: "" } : client;
@@ -88,17 +90,19 @@ export function buildArStatement(
     .filter((cn) => cn.kind === "credit_note" && belongs(cn))
     .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
 
+  const ledger = documents.length > 0 ? documents : [...invoices, ...creditNotes];
+
   const rows: ArInvoiceRow[] = invoices
     .filter(
       (invoice) =>
-        belongs(invoice) && invoiceRemaining(invoice, creditNotes) > 0.005,
+        belongs(invoice) && invoiceRemaining(invoice, creditNotes, ledger) > 0.005,
     )
     .map((invoice) => {
       const ageDays = invoiceAgeDays(invoice.date, now);
       return {
         invoice,
-        remaining: invoiceRemaining(invoice, creditNotes),
-        paid: invoiceAmountPaid(invoice),
+        remaining: invoiceRemaining(invoice, creditNotes, ledger),
+        paid: invoiceAmountPaid(invoice, ledger),
         credits: invoiceCredits(invoice, creditNotes),
         ageDays,
         bucket: bucketForAge(ageDays),
@@ -122,7 +126,7 @@ export function buildArStatement(
 
   const refundOwed = invoices
     .filter((invoice) => belongs(invoice))
-    .reduce((s, invoice) => s + invoiceRefundOwed(invoice, creditNotes), 0);
+    .reduce((s, invoice) => s + invoiceRefundOwed(invoice, creditNotes, ledger), 0);
 
   const unappliedCredits = roundMoney(
     clientCredits
@@ -158,11 +162,12 @@ export function buildClientsArQueue(
   invoices: SavedDocument[],
   creditNotes: SavedDocument[] = [],
   now = new Date(),
+  documents: SavedDocument[] = [],
 ): ClientArSummary[] {
   return clients
     .map((client) => ({
       client,
-      statement: buildArStatement(client, invoices, creditNotes, now),
+      statement: buildArStatement(client, invoices, creditNotes, now, documents),
     }))
     .filter((row) => row.statement.netDue > 0.005)
     .sort(

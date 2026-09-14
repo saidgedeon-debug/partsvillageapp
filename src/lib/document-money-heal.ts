@@ -63,12 +63,21 @@ function healDocArray(docs: unknown[]): unknown[] {
     if (!isPlainObject(item) || item.kind !== "invoice") return item;
     const id = typeof item.id === "string" ? item.id : "";
     if (!id) return item;
-    const paid = sumAffectingPaid(id, records);
-    const credits = creditsFor(id, records);
+    const hasReceipts = records.some(
+      (d) => d.kind === "receipt" && d.invoiceId === id && receiptAffectsBalance(d),
+    );
+    const fromReceipts = sumAffectingPaid(id, records);
     const prevPaid =
       typeof item.amountPaid === "number" && Number.isFinite(item.amountPaid)
         ? Math.max(0, item.amountPaid)
         : null;
+    const total = Number(item.total);
+    const t = Number.isFinite(total) ? total : 0;
+    // Never wipe a legacy paid invoice that has no receipt rows.
+    const paid = hasReceipts
+      ? fromReceipts
+      : (prevPaid ?? (item.status === "Paid" ? t : 0));
+    const credits = creditsFor(id, records);
     const status = resolveStatus(item, paid, credits);
     if (prevPaid === paid && item.status === status) return item;
     return { ...item, amountPaid: paid, status };

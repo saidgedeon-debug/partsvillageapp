@@ -285,7 +285,7 @@ export function CreateInvoiceDialog({
     if (isEdit && editing) {
       if (isInvoice) {
         const paidFromReceipts = affectingReceiptsPaid(editing.id, documents);
-        const paidFloor = Math.max(paidFromReceipts, invoiceAmountPaid(editing));
+        const paidFloor = Math.max(paidFromReceipts, invoiceAmountPaid(editing, documents));
         if (docTotal + 0.005 < paidFloor) {
           toast.error(
             `Cannot reduce this invoice below payments already received (${currency(paidFloor)}). Record a credit or return instead.`,

@@ -49,15 +49,15 @@ function ClientsPage() {
   const { owed: owedOnly } = Route.useSearch();
   const { query } = useSearch();
   const { clients } = useParties();
-  const { invoices, creditNotes } = useDocuments();
+  const { invoices, creditNotes, documents } = useDocuments();
   const { machinesByClient, ordersByClient } = useFleet();
   const navigate = useNavigate();
   const [addOpen, setAddOpen] = useState(false);
   const q = query.trim().toLowerCase();
 
   const arQueue = useMemo(
-    () => buildClientsArQueue(clients, invoices, creditNotes),
-    [clients, invoices, creditNotes],
+    () => buildClientsArQueue(clients, invoices, creditNotes, new Date(), documents),
+    [clients, invoices, creditNotes, documents],
   );
 
   const arByClientId = useMemo(() => {

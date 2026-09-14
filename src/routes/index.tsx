@@ -73,7 +73,7 @@ function Index() {
 
   const paidSales = useMemo(() => {
     const invoiceIds = new Set(invoices.map((i) => i.id));
-    const invoicePaid = invoices.reduce((s, i) => s + invoiceAmountPaid(i), 0);
+    const invoicePaid = invoices.reduce((s, i) => s + invoiceAmountPaid(i, documents), 0);
     const unmatchedPaidOrders = orders
       .filter((o) => {
         if (o.status !== "Paid") return false;
@@ -82,7 +82,7 @@ function Index() {
       })
       .reduce((s, o) => s + o.lines.reduce((ls, l) => ls + l.qty * l.unitPrice, 0), 0);
     return invoicePaid + unmatchedPaidOrders;
-  }, [invoices, orders]);
+  }, [invoices, orders, documents]);
 
   const activeQuotes = useMemo(
     () => quotations.filter((q) => q.status === "Sent" || q.status === "Draft").length,
@@ -135,14 +135,14 @@ function Index() {
     const spend = new Map<string, number>();
     for (const inv of invoices) {
       const name = inv.partyName || "Unknown";
-      spend.set(name, (spend.get(name) ?? 0) + invoiceAmountPaid(inv));
+      spend.set(name, (spend.get(name) ?? 0) + invoiceAmountPaid(inv, documents));
     }
     return [...spend.entries()]
       .map(([name, total]) => ({ name, total }))
       .filter((row) => row.total > 0)
       .sort((a, b) => b.total - a.total)
       .slice(0, 6);
-  }, [invoices]);
+  }, [invoices, documents]);
 
   const lowStockParts = useMemo(
     () =>
@@ -157,8 +157,8 @@ function Index() {
   const drawerTotal = drawer.cash + drawer.omt + drawer.whish;
 
   const arQueue = useMemo(
-    () => buildClientsArQueue(clients, invoices, creditNotes),
-    [clients, invoices, creditNotes],
+    () => buildClientsArQueue(clients, invoices, creditNotes, new Date(), documents),
+    [clients, invoices, creditNotes, documents],
   );
   const arTotal = useMemo(
     () => arQueue.reduce((sum, row) => sum + row.statement.netDue, 0),

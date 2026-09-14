@@ -125,7 +125,7 @@ export function CreateReturnDialog({
   clientId,
   onRecorded,
 }: Props) {
-  const { invoices, creditNotes, recordInvoiceReturn } = useDocuments();
+  const { invoices, creditNotes, documents, recordInvoiceReturn } = useDocuments();
   const { adjustPartQuantity, getPart } = useInventory();
   const { getClient } = useParties();
   const [submitting, setSubmitting] = useState(false);
@@ -283,7 +283,7 @@ export function CreateReturnDialog({
       }
 
       let allowRefundOverage = false;
-      const remaining = invoiceRemaining(selected, creditNotes);
+      const remaining = invoiceRemaining(selected, creditNotes, documents);
       if (creditPreview > remaining + 0.005) {
         const ok = await confirmAction({
           title: "Credit exceeds remaining balance",

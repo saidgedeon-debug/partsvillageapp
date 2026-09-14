@@ -121,6 +121,7 @@ function DocumentsPage() {
     invoices,
     receipts,
     creditNotes,
+    documents,
     inquiries,
     updateDocumentStatus,
     updateDocument,
@@ -641,7 +642,7 @@ function DocumentsPage() {
                     {iv.lines.map((l) => l.partNumber).join(", ")}
                   </span>,
                   <span key="t" className="font-semibold">
-                    {currency(invoiceAmountPaid(iv))}
+                    {currency(invoiceAmountPaid(iv, documents))}
                     <span className="font-normal text-muted-foreground">
                       {" "}
                       / {currency(iv.total)}
@@ -653,7 +654,7 @@ function DocumentsPage() {
                     options={["Paid", "Partial", "Unpaid", "Overdue"]}
                     onChange={(s) => {
                       if (s === "Paid" || s === "Partial") {
-                        const remaining = invoiceRemaining(iv, creditNotes);
+                        const remaining = invoiceRemaining(iv, creditNotes, documents);
                         if (remaining > 0.005) {
                           toast.message(
                             "Record a receipt with Pay to mark this paid. Status follows real payments.",
@@ -715,7 +716,7 @@ function DocumentsPage() {
                     </SelectContent>
                   </Select>,
                   <div key="o" className="flex flex-wrap items-center justify-end gap-1.5">
-                    {invoiceRemaining(iv, creditNotes) > 0.005 ? (
+                    {invoiceRemaining(iv, creditNotes, documents) > 0.005 ? (
                       <Button
                         type="button"
                         size="sm"
@@ -777,7 +778,7 @@ function DocumentsPage() {
                           icon: Pencil,
                           onSelect: () => openEditDocument(iv),
                         },
-                        ...(invoiceAmountPaid(iv) <= 0.005 &&
+                        ...(invoiceAmountPaid(iv, documents) <= 0.005 &&
                         !creditNotes.some((c) => c.invoiceId === iv.id) &&
                         !receipts.some((r) => r.invoiceId === iv.id)
                           ? [
@@ -797,7 +798,7 @@ function DocumentsPage() {
                               },
                             ]
                           : []),
-                        ...(invoiceRemaining(iv, creditNotes) <= 0.005
+                        ...(invoiceRemaining(iv, creditNotes, documents) <= 0.005
                           ? [
                               {
                                 label: "Create receipt",

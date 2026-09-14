@@ -37,13 +37,13 @@ export const Route = createFileRoute("/collections")({
 
 function CollectionsPage() {
   const { clients } = useParties();
-  const { invoices, creditNotes } = useDocuments();
+  const { invoices, creditNotes, documents } = useDocuments();
   const today = localTodayIso();
 
   const rows = useMemo(() => {
     return clients
       .map((client) => {
-        const statement = buildArStatement(client, invoices, creditNotes);
+        const statement = buildArStatement(client, invoices, creditNotes, new Date(), documents);
         const overdue = statement.days31To60 + statement.days61Plus;
         const promised = (client.promisedPayDate ?? "").trim();
         const promisedOverdue = Boolean(promised && promised < today);
@@ -73,7 +73,7 @@ function CollectionsPage() {
       promised: string;
       flag: "broken-promise" | "due-soon" | "overdue";
     }>;
-  }, [clients, invoices, creditNotes, today]);
+  }, [clients, invoices, creditNotes, documents, today]);
 
   const blast = () => {
     let n = 0;
