@@ -43,6 +43,7 @@ import logo from "@/assets/parts-village-logo-clear.png";
 import { BackupDialog } from "@/components/app/backup-dialog";
 import { CloudSyncButton } from "@/components/app/cloud-sync-button";
 import { clearOperatorUnlock } from "@/components/app/operator-unlock-gate";
+import { useShopChat } from "@/components/app/shop-chat";
 import { useShareInbox } from "@/components/app/share-inbox-context";
 import { useCloudHealth, usePendingSyncCount } from "@/lib/cloud-store";
 import { Button } from "@/components/ui/button";
@@ -94,6 +95,7 @@ export function AppSidebar() {
   const cloudHealth = useCloudHealth();
   const pendingSync = usePendingSyncCount();
   const [backupOpen, setBackupOpen] = useState(false);
+  const { setOpen: setChatOpen } = useShopChat();
 
   const isActive = (item: NavItem) => {
     if (item.owed) return pathname === "/clients" && owedOnly;
@@ -173,6 +175,19 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="space-y-1 border-t border-sidebar-border p-2">
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="h-11 w-full justify-start gap-2 px-2 font-semibold text-sidebar-foreground md:h-8"
+          onClick={() => {
+            setChatOpen(true);
+            go();
+          }}
+        >
+          <MessageCircle className="h-3.5 w-3.5" />
+          {!collapsed && <span>ChatGPT</span>}
+        </Button>
         <CloudSyncButton className="h-11 w-full justify-start md:h-8" />
         <Button
           type="button"

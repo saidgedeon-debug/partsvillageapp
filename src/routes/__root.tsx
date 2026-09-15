@@ -35,6 +35,7 @@ import { PreOrdersProvider } from "@/components/app/preorders-context";
 import { DocumentTypeDialog } from "@/components/app/document-type-dialog";
 import { CartSheet } from "@/components/app/cart-sheet";
 import { CheckoutDialog } from "@/components/app/checkout-dialog";
+import { ShopChat, ShopChatProvider } from "@/components/app/shop-chat";
 import { Toaster } from "@/components/ui/sonner";
 import { registerShareServiceWorker } from "@/lib/share-target";
 
@@ -191,23 +192,26 @@ function RootComponent() {
                               <ShareInboxProvider>
                                 <PreOrdersProvider>
                                   <CartProvider>
-                                    <SidebarProvider>
-                                      <div className="flex min-h-dvh w-full max-w-[100vw] overflow-x-clip bg-background">
-                                        <AppSidebar />
-                                        <SidebarInset className="min-w-0 max-w-full overflow-x-clip mobile-nav-pad">
-                                          <OfflineBanner />
-                                          <BackupReminderBanner />
-                                          <CloudSyncBanner />
-                                          <Outlet />
-                                        </SidebarInset>
-                                        <MobileBottomNav />
-                                      </div>
-                                      <DocumentTypeDialog />
-                                      <CartSheet />
-                                      <CheckoutDialog />
-                                      <Toaster />
-                                      <CloudConflictToaster />
-                                    </SidebarProvider>
+                                    <ShopChatProvider>
+                                      <SidebarProvider>
+                                        <div className="flex min-h-dvh w-full max-w-[100vw] overflow-x-clip bg-background">
+                                          <AppSidebar />
+                                          <SidebarInset className="min-w-0 max-w-full overflow-x-clip mobile-nav-pad">
+                                            <OfflineBanner />
+                                            <BackupReminderBanner />
+                                            <CloudSyncBanner />
+                                            <Outlet />
+                                          </SidebarInset>
+                                          <MobileBottomNav />
+                                        </div>
+                                        <DocumentTypeDialog />
+                                        <CartSheet />
+                                        <CheckoutDialog />
+                                        <ShopChat />
+                                        <Toaster />
+                                        <CloudConflictToaster />
+                                      </SidebarProvider>
+                                    </ShopChatProvider>
                                   </CartProvider>
                                 </PreOrdersProvider>
                               </ShareInboxProvider>
