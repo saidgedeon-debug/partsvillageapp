@@ -22,7 +22,7 @@ import {
   Printer,
   MapPin,
   PackageCheck,
-  UserRound,
+  Wallet,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -53,6 +53,7 @@ type NavItem = {
   url: string;
   icon: typeof LayoutDashboard;
   exact?: boolean;
+  owed?: boolean;
 };
 
 const items: NavItem[] = [
@@ -63,7 +64,7 @@ const items: NavItem[] = [
   { title: "Stock map", url: "/stock-map", icon: MapPin },
   { title: "Counter", url: "/counter", icon: Smartphone },
   { title: "Daily close", url: "/daily-close", icon: Banknote },
-  { title: "Shift", url: "/shift", icon: UserRound },
+  { title: "Client dues", url: "/clients", icon: Wallet, owed: true },
   { title: "Delivery", url: "/delivery-board", icon: PackageCheck },
   { title: "Insights", url: "/insights", icon: TrendingUp },
   { title: "Collections", url: "/collections", icon: MessageCircle },
@@ -82,8 +83,12 @@ const items: NavItem[] = [
 export function AppSidebar() {
   const { state, setOpenMobile, isMobile } = useSidebar();
   const collapsed = state === "collapsed";
-  const { pathname } = useRouterState({
-    select: (r) => ({ pathname: r.location.pathname }),
+  const { pathname, owedOnly } = useRouterState({
+    select: (r) => {
+      const search = r.location.search as { owed?: boolean | string };
+      const owed = search.owed === true || search.owed === "1" || search.owed === "true";
+      return { pathname: r.location.pathname, owedOnly: owed };
+    },
   });
   const { pendingCount } = useShareInbox();
   const cloudHealth = useCloudHealth();
@@ -91,8 +96,12 @@ export function AppSidebar() {
   const [backupOpen, setBackupOpen] = useState(false);
 
   const isActive = (item: NavItem) => {
+    if (item.owed) return pathname === "/clients" && owedOnly;
     if (item.exact) return pathname === item.url;
     const path = item.url.split("?")[0];
+    if (path === "/clients") {
+      return (pathname === "/clients" && !owedOnly) || pathname.startsWith("/clients/");
+    }
     return pathname === path || pathname.startsWith(path + "/");
   };
 
@@ -131,9 +140,18 @@ export function AppSidebar() {
                     asChild
                     isActive={isActive(item)}
                     tooltip={item.title}
-                    className="h-11 md:h-8"
+                    className={
+                      item.owed
+                        ? "h-11 font-semibold md:h-8"
+                        : "h-11 md:h-8"
+                    }
                   >
-                    <Link to={item.url} className="flex items-center gap-2" onClick={go}>
+                    <Link
+                      to={item.url}
+                      search={item.url === "/clients" ? (item.owed ? { owed: true } : {}) : undefined}
+                      className="flex items-center gap-2"
+                      onClick={go}
+                    >
                       <item.icon className="h-4 w-4" />
                       {!collapsed && (
                         <span className="flex flex-1 items-center justify-between gap-2">
