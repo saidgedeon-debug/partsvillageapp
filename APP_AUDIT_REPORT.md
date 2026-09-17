@@ -2233,9 +2233,17 @@ needed to verify later stages exists first. **No code has been changed. Awaiting
 3. **`SEC-003`** — Make the rate limiter **fail closed** and increment atomically via a Postgres
    function.
 4. **`SEC-005`** — Make `part-photos` private and serve signed URLs (pending Q12).
+4a. **`UX-002`** — Fix the portal crash, and do it here rather than in Stage 3c where it originally
+   sat. It is a P0, the fix is small (wrap the portal branch of `__root.tsx` in the providers its
+   tree already requires, or stop `PageHeader` from calling `useCart` on the portal), and until it
+   ships the only page you share with the outside world hands every visitor a React stack trace.
+   Pair it with **`SEC-004`** from Stage 3c, since a portal nobody can open is also a portal whose
+   token handling has never been exercised, and add an error boundary so the next failure shows a
+   message instead of a trace.
 
 *Verify:* re-run the rate-limit probe from §14 and confirm rotated-IP attempts now lock out; confirm
-unauthenticated server-function calls return 401.
+unauthenticated server-function calls return 401; load `/portal` with no params, an invalid token,
+and a valid token and confirm all three render something a customer can read.
 
 ### Stage 1 — Stop financial and stock data loss (no schema change required)
 
@@ -2264,11 +2272,18 @@ codebase.
 12. **`RPT-001`** — Rebuild "paid sales" from one source; subtract credit notes; stop reading the
     zombie `orders` collection (pending Q10).
 13. **`FIN-004`** — Consolidate on one subtotal function used by UI, PDF, and ratio.
-14. **`RPT-002`** — Single low-stock definition shared by the dashboard and `/low-stock`.
+14. **`RPT-002`** — Single low-stock definition shared by the dashboard and `/low-stock`, and remove
+    the `.slice(0, 8)` that makes the dashboard count saturate. This moved from P2 to P1 once the
+    figures were reconciled by hand: the dashboard said 8 where the data held 136, and a
+    reorder decision made from the dashboard alone would miss 128 parts.
 15. **`RPT-003`** — Group revenue by client id, not name.
 16. **`FIN-003`** — Add payment terms and `dueDate`; derive `Overdue`; age against due date (Q4).
 17. **`FIN-007`** — Backfill receipts, then remove the status-based paid fallback.
-18. **`FUN-005`** — Reject `NaN`/`Infinity` at input boundaries instead of coercing to 0.
+18. **`FUN-005`** — Reject `NaN`/`Infinity` on the import and programmatic boundaries. The part form
+    itself is already guarded, so this is narrower than first thought.
+18aa. **`FUN-006`** — Add the missing `<Outlet />` to `fleet.tsx`. One line, and it restores a whole
+    page that is currently written, bundled, and unreachable. Worth doing early precisely because it
+    is so cheap relative to the functionality it returns.
 18a. **`CUS-001`** — Refuse to delete a client with unpaid invoices; add an `archived` flag for the
     tidy-up case so the receivable stays on the books. Before shipping, **check production for
     clients already deleted this way** — orphaned invoices are detectable by scanning the documents
@@ -2295,53 +2310,66 @@ These are all in two files and are independent of everything above, so they can 
 23. **`PDF-009`** — Remove the 12-entry payment-history cap.
 24. **`PDF-002`** — Add the date and customer to download filenames, including the statement's.
 25. **`PDF-010`** / **`PDF-013`** — Signature area, standing terms (Q13), and column alignment.
+25a. **`PDF-014`** — Size the Arabic canvas from the measured glyph box instead of the
+    `fontPx × 1.45` heuristic. One function (`renderArabicPng`), and every Arabic document benefits.
+25b. **`PDF-015`** — Stop rasterising Arabic if you can: the Amiri TTF is already in the bundle, so
+    registering it with jsPDF gives selectable Arabic at a fraction of the size, and makes `PDF-014`
+    moot. If rasterising stays, drop the redundant solid-colour RGB plane and let jsPDF compress the
+    mask.
+25c. **`PRN-001`** — Add a short `@media print` block, or state in the UI that printing goes through
+    *Download PDF*. Either is acceptable; silently printing the sidebar is not.
 
 *Verify:* re-run the rendering harness described in §13 and assert no drawn text exceeds the page or
-the footer reserve.
+the footer reserve; assert every Arabic raster has zero ink on its outermost row and column; assert a
+print-emulated `/documents` snapshot contains no sidebar navigation text.
 
 ### Stage 3c — Customer-facing portal, and on-screen readability
 
-The portal item is urgent for a different reason from everything above: it is the one surface your
-customers see, and right now they see a blank page. The readability items are grouped with it because
-they are almost all single-line theme or utility-class changes.
+`UX-002` and `SEC-004` have moved up to Stage 0, since the portal is a P0. What is left here is
+on-screen readability, which is almost all single-line theme or utility-class changes.
 
-25a. **`UX-002`** — Fix the portal crash. It fails identically on the local build and on production,
-    so no customer has been able to use it. Add an error boundary around the portal route as well,
-    so the next failure shows a message instead of white space.
-25b. **`SEC-004`** — Move portal tokens out of query strings, make expiry **fail closed**, and remove
-    the `Math.random()` fallback in favour of `crypto.getRandomValues`. Ship with 25a, since both are
-    in the portal path and the token change is what makes the fixed portal safe to circulate.
-25c. **`UX-005`** / **`UX-006`** / **`UX-011`** — Darken the accent colour used for money and stock
+26a. **`UX-005`** / **`UX-006`** / **`UX-011`** — Darken the accent colour used for money and stock
     figures to reach 4.5:1, raise border tokens to 3:1, and give the focus ring its own high-contrast
     colour at a consistent 2 px. These are token edits in one theme file and fix the largest number
     of measured samples per line changed.
-25d. **`UX-003`** — Replace `overflow-x: clip` with `auto` on the scroll containers. `clip` is what
-    makes 991 px of `/stock-map` permanently unreachable rather than merely off-screen.
-25e. **`UX-004`** / **`UX-008`** — Move the table un-stack breakpoint above 768 px, and keep column
-    labels in the stacked view.
-25f. **`UX-007`** — Give form validation an inline message, `aria-invalid`, and focus movement, rather
+26b. **`UX-003`** — Replace `overflow-x: clip` with `auto` on the scroll containers. `clip` is what
+    makes 230 px of `/stock-map` and 237 px of the dashboard permanently unreachable at phone width
+    rather than merely off-screen. Scope this to the three measured route/width cases; the other 57
+    clipping samples are intentional `truncate` ellipsis and should be left alone.
+26c. **`UX-004`** / **`UX-008`** — Move the table un-stack breakpoint above 768 px, and keep column
+    labels in the stacked view. This, not `UX-003`, is what makes `/documents` unusable on a tablet.
+26d. **`UX-007`** — Give form validation an inline message, `aria-invalid`, and focus movement, rather
     than a toast that disappears. This is the one item in this stage that is more than a token change,
-    and it is also the one that most affects daily data entry.
-25g. **`UX-009`** / **`UX-018`** — Add a skip link and make the backup reminder dismissible, which
+    and it is also the one that most affects daily data entry. Fold in **`FUN-007`** while you are
+    there: an `isSubmitting` guard on the same dialogs stops three clicks producing three success
+    messages.
+26e. **`UX-009`** / **`UX-018`** — Add a skip link and make the backup reminder dismissible, which
     together remove most of the 23 tab stops standing before the first in-content control.
+26f. **`STK-010`** / **`STK-009`** — Route the inline quantity cell through the same validation the
+    Add/Edit dialog already gets right, so negative and non-numeric input is rejected with a visible
+    message rather than silently discarded, and so a fraction resolves the same way in both controls.
+26g. **`STK-011`** / **`STK-012`** — Require a full-token match before a part enters the search
+    results and label the 500-row cap honestly; make the inventory column headers real `<th>`
+    buttons that sort, for every category rather than only O-Rings.
+26h. **`UX-019`** — Give `/fleet` a primary action in its empty state.
 
 *Verify:* re-run the measurement pass from §12 at 375 / 768 / 1440 px and confirm the contrast ratios,
-the reachable width on `/stock-map`, and the tab-stop count before first content.
+the reachable width on `/stock-map` and the dashboard, and the tab-stop count before first content.
 
 ### Stage 4 — Quality gates (cheap, prevents regression)
 
-26. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
-27. Run `npm run format` once to clear 977 formatting errors, then enforce it.
-28. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
-29. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
-30. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
+27. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
+28. Run `npm run format` once to clear 977 formatting errors, then enforce it.
+29. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
+30. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
+31. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
     requirement.
-31. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
+32. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
     untrusted files.
 
 ### Stage 5 — Close the remaining verification gaps
 
-32. Most of what this stage originally called for has since been done: the interactive CRUD
+33. Most of what this stage originally called for has since been done: the interactive CRUD
     edge-case matrix, Arabic PDF rendering, browser print output, XSS in the DOM, offline and
     reconnect, runtime timings, and the dashboard reconciliation are all now measured (§17). What
     remains genuinely needs hardware or a live environment — physical paper margins, barcode
@@ -2350,8 +2378,11 @@ the reachable width on `/stock-map`, and the tab-stop count before first content
 
 ### Stage 6 — The architectural decision (largest change; needs your call)
 
-33. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
+34. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
     into real tables with foreign keys, unique constraints, indexes, transactions, and pagination.
+    The measurement that makes this concrete: one navigation to `/inventory` costs **11 whole-blob
+    reads over 10 keys**, so the cost of opening any page already scales with total business history
+    rather than with what the page shows.
 
     This is invasive: it touches every data context, every route that reads them, the merge layer,
     and the migration history, and it needs a careful data migration out of the JSON blobs. But

@@ -39,27 +39,29 @@ measurement inline.
 
 | Status | Count | Share |
 |---|---|---|
-| Pass | 195 | 41% |
-| Fail | 219 | 46% |
+| Pass | 199 | 42% |
+| Fail | 216 | 46% |
 | Blocked | 8 | 2% |
 | Not Verified | 49 | 10% |
-| **Total test cases** | **471** | |
+| **Total test cases** | **472** | |
 
 Four things to keep in mind when reading these totals:
 
-- **The 219 failures map to 96 distinct issues**, not 219 problems. A single root cause fails many
-  test cases — `UX-003` (`overflow-x: clip`) accounts for eleven rows, `STK-002` (no stock audit
-  trail) for eight, and `FIN-001`, `FIN-002`, `CUS-001`, `RPT-002`, `UX-005`, and `UX-008` for six
-  each.
+- **The 216 failures map to 96 distinct issues**, not 216 problems. A single root cause fails many
+  test cases — `STK-002` (no stock audit trail) accounts for eight rows, `RPT-002` (the low-stock
+  disagreement) for seven, and `FIN-001`, `FIN-002`, `CUS-001`, and `UX-003` for six each.
 - **Sections 13 and 14 were executed, not read.** Section 13's 51 cases come from running the
   application's own PDF builders and parsing the resulting page content streams — plus, in the
   second pass, clicking *Share PDF* in the live app and decoding the Arabic rasters out of the
-  downloaded file — so every position is a measurement in millimetres or pixels. Section 14's 84
+  downloaded file — so every position is a measurement in millimetres or pixels. Section 14's 85
   cases come from driving the running app in headless Chrome across 26 routes at three widths.
-  Together they are 135 of the 471 cases and they are the strongest evidence in this checklist.
-- **42 of section 14's 84 cases pass**, which is worth stating as plainly as the failures: focus is
-  trapped correctly in dialogs, every field in the "Add part" form is labelled, the offline banner
-  works and clears on reconnect, and the destructive confirmation defaults to Cancel.
+  Together they are 136 of the 472 cases and they are the strongest evidence in this checklist.
+- **46 of section 14's 85 cases pass**, which is worth stating as plainly as the failures: no page
+  makes the document scroll sideways at any width, focus is trapped correctly in dialogs, every
+  field in the "Add part" form is labelled, the offline banner works and clears on reconnect, and
+  the destructive confirmation defaults to Cancel. Four of those passes are **corrections**: the
+  second pass's overflow re-measurement showed `/documents` and `/counter` clip with `truncate`
+  (still scrollable) rather than with `clip`, so they are not unreachable-content defects.
 - **The 49 remaining unverified cases are concentrated** in per-form edge cases for the quotation,
   invoice, payment, and client forms (sections 7–9, 11) and in things this environment cannot reach:
   physical printing and scanning hardware, a platform authenticator for WebAuthn, and the production
@@ -81,7 +83,7 @@ Four things to keep in mind when reading these totals:
 | 11. Customers and suppliers | 28 | 7 | 14 | 0 | 7 |
 | 12. Reports and dashboard | 24 | 2 | 17 | 0 | 5 |
 | 13. PDF and printing | 51 | 25 | 22 | 1 | 3 |
-| 14. Design, responsive, accessibility | 84 | 42 | 41 | 0 | 1 |
+| 14. Design, responsive, accessibility | 85 | 46 | 38 | 0 | 1 |
 | 15. Security behaviour | 14 | 6 | 5 | 3 | 0 |
 | 16. Performance and reliability | 23 | 8 | 13 | 0 | 2 |
 | 17. Route coverage | 29 | 7 | 21 | 0 | 1 |
@@ -507,12 +509,13 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Design | all 26 routes | Layout captured and measured at 768 px | Captured | 26 samples with screenshots | Runtime | **Pass** | — |
 | Design | all 26 routes | Layout captured and measured at 1440 px | Captured | 27 samples with screenshots | Runtime | **Pass** | — |
 | Design | 1440 px, all routes | Nothing overflows its container on desktop | 0 overflow | 0, except `/inventory`'s deliberate horizontal scroller | Runtime | **Pass** | — |
-| Design | `/stock-map` | Off-container content reachable at 375 px | Reachable | **991 px** clipped; page scroll and `scrollLeft` on every ancestor both fail | Runtime | **Fail** | `UX-003` |
-| Design | `/documents` | Status control and Open button reachable at 768 px | Reachable | **160 px** clipped — the row's primary action cannot be reached | Runtime | **Fail** | `UX-003` |
-| Design | `/reorder` | Reason column reachable at 768 px | Reachable | **218 px** clipped | Runtime | **Fail** | `UX-003` |
-| Design | `/` | Dashboard card columns reachable at 375 px | Reachable | **266 px** clipped (Total, Status) | Runtime | **Fail** | `UX-003` |
-| Design | `/` | Dashboard card columns reachable at 768 px | Reachable | **108 px** clipped | Runtime | **Fail** | `UX-003` |
-| Design | `/counter` | Long part-name button fits at 375 px | Fits | **85 px** clipped | Runtime | **Fail** | `UX-003` |
+| Design | all 21 operator routes | Document itself never scrolls sideways | No sideways page scroll | **0 of 63** route/width samples make the document scroll sideways — the goal of commit `2562f87` is met | Runtime | **Pass** | — |
+| Design | `/stock-map` | Off-container content reachable at 375 px | Reachable | **230 px** unreachable; `scrollWidth − clientWidth > 0` but `scrollLeft` refuses to move on every ancestor. *(Re-measured: the first pass reported 991 px.)* | Runtime | **Fail** | `UX-003` |
+| Design | `/` | Dashboard card columns reachable at 375 px | Reachable | **237 px** unreachable inside `div.flex-1.space-y-6.p-4.md:p-6` (`overflow-x: clip`) | Runtime | **Fail** | `UX-003` |
+| Design | `/reorder` | Reason column reachable at 768 px | Reachable | **159 px** unreachable in the page container | Runtime | **Fail** | `UX-003` |
+| Design | `/documents` | Status control and Open button reachable at 768 px | Reachable | **Corrected:** the clipping here is `overflow-x: hidden` on `truncate` elements and **remains programmatically scrollable**, so it is text truncation rather than unreachable content. `UX-004` (512 px content area) is the real defect on this route | Runtime | **Pass** | — |
+| Design | `/counter` | Long part-name button fits at 375 px | Fits | **Corrected:** `truncate` ellipsis, still scrollable — not an unreachable-content case | Runtime | **Pass** | — |
+| Design | all 21 operator routes | `truncate` ellipsis is distinguished from unreachable clipping | Distinguished | Of 60 clipping samples, **57 are `truncate`** (scrollable, intended) and **3 are genuinely unreachable** (`overflow-x: clip`) | Runtime | **Pass** | — |
 | Design | all | Content area stays usable where tables un-stack | ≥ ~700 px | 512 px at 768 px — the sidebar pins at 256 px exactly where tables expand | Runtime | **Fail** | `UX-004` |
 | Design | `/documents` | Table readable at 768 px | Readable | Parts column ~30 px; one quotation row ~1000 px tall; 23 clipped elements | Runtime | **Fail** | `UX-004` |
 | Design | `/documents` | Collapsing the sidebar restores the 768 px layout | Restores | Content 512 → **720 px**; clipped elements 23 → **0**; `/reorder` 120 → 9 | Runtime | **Pass** | `UX-004` |
@@ -642,19 +645,19 @@ rendered and say so.
 
 | Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
 |---|---|---|---|---|---|---|---|
-| Routes | `/` | Renders and measures cleanly at 3 widths | Clean | Renders; 16 formulas documented; 266 px clipped at 375 px, 108 px at 768 px | Runtime | **Fail** | `UX-003`, `RPT-001` |
+| Routes | `/` | Renders and measures cleanly at 3 widths | Clean | Renders; 16 formulas documented; **237 px unreachable at 375 px**; the low-stock KPI disagrees with `/low-stock` by 128 | Runtime | **Fail** | `UX-003`, `RPT-001`, `RPT-002` |
 | Routes | `/inventory` | Renders and measures cleanly at 3 widths | Clean | Renders with the virtualised table; low-stock qty at 2.66:1; first in-content tab stop is 23 | Runtime | **Fail** | `UX-005`, `UX-009` |
-| Routes | `/documents` | Renders and measures cleanly at 3 widths | Clean | Worst route measured: 23 clipped elements at 768 px, unlabelled stacked cards at 375 px | Runtime | **Fail** | `UX-003`, `UX-004`, `UX-008` |
+| Routes | `/documents` | Renders and measures cleanly at 3 widths | Clean | Worst route measured: 23 clipped elements at 768 px in a 512 px content area, unlabelled stacked cards at 375 px. The clipping is `truncate`, so `UX-004` rather than `UX-003` is the defect here | Runtime | **Fail** | `UX-004`, `UX-008` |
 | Routes | `/clients/` | Renders and measures cleanly at 3 widths | Clean | Renders; `h1` → `h3` skip; "Owes" badge at 4.48:1 | Runtime | **Fail** | `UX-014`, `UX-005` |
 | Routes | `/clients/$clientId` | Renders and measures cleanly at 3 widths | Clean | Rendered for `cl-alpha`; AR statement reachable; balance `$926.87` at 2.66:1 | Runtime | **Fail** | `UX-005`, `FIN-003` |
 | Routes | `/suppliers/` | Renders and measures cleanly at 3 widths | Clean | Renders; `h1` → `h3` skip | Runtime | **Fail** | `UX-014` |
 | Routes | `/suppliers/$supplierId` | Renders and measures cleanly at 3 widths | Clean | Renders; no route-specific runtime defect observed | Runtime | **Pass** | — |
 | Routes | `/low-stock` | Renders and measures cleanly at 3 widths | Clean | Renders; predicate differs from the dashboard; 416 of 424 targets under 40 × 40 at 375 px | Runtime | **Fail** | `RPT-002`, `UX-010` |
-| Routes | `/reorder` | Renders and measures cleanly at 3 widths | Clean | Renders; Reason column 218 px past the clip edge at 768 px | Runtime | **Fail** | `UX-003` |
+| Routes | `/reorder` | Renders and measures cleanly at 3 widths | Clean | Renders; Reason column **159 px** past the clip edge at 768 px | Runtime | **Fail** | `UX-003` |
 | Routes | `/stock-take` | Renders and measures cleanly at 3 widths | Clean | Renders; 2 stock mutation sites, neither logged | Runtime | **Fail** | `STK-002` |
-| Routes | `/stock-map` | Renders and measures cleanly at 3 widths | Clean | Renders; **991 px** unreachable at 375 px; search input unnamed | Runtime | **Fail** | `UX-003`, `UX-013` |
+| Routes | `/stock-map` | Renders and measures cleanly at 3 widths | Clean | Renders; **230 px** unreachable at 375 px (re-measured down from 991 px); search input unnamed | Runtime | **Fail** | `UX-003`, `UX-013` |
 | Routes | `/labels` | Renders and measures cleanly at 3 widths | Clean | Renders; 16 × 16 px row toggles; search input unnamed. Physical label printing is Blocked (§10) | Runtime | **Fail** | `UX-010`, `UX-013` |
-| Routes | `/counter` | Renders and measures cleanly at 3 widths | Clean | Renders; 85 px clipped at 375 px; part-number input unnamed | Runtime | **Fail** | `UX-003`, `UX-013` |
+| Routes | `/counter` | Renders and measures cleanly at 3 widths | Clean | Renders; the 85 px clipped at 375 px turned out to be `truncate` ellipsis and remains scrollable, so `UX-003` does not apply; part-number input unnamed | Runtime | **Fail** | `UX-013` |
 | Routes | `/collections` | Renders and measures cleanly at 3 widths | Clean | Renders; stacked view drops column labels at 375 px | Runtime | **Fail** | `UX-008` |
 | Routes | `/daily-close` | Renders and measures cleanly at 3 widths | Clean | Renders; drawer formula documented; no route-specific runtime defect | Runtime | **Pass** | — |
 | Routes | `/shift` | Renders and measures cleanly at 3 widths | Clean | Renders; scrolled to the bottom at 375 px with no bottom-nav overlap | Runtime | **Pass** | — |
