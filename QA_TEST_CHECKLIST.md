@@ -3,7 +3,15 @@
 **Companion to:** `APP_AUDIT_REPORT.md`
 **Audit date:** 2026-09-06 · **Commit:** `08f2a09`
 **Environment:** local production build (`vite preview`, `localhost:3000`) against a throwaway
-**mock Supabase** seeded with synthetic data. Production Supabase was never contacted.
+**mock Supabase** seeded with synthetic data. Production Supabase was never contacted. The only
+request made to the live deployment was a read-only, token-less `GET /portal` to confirm `UX-002`;
+it triggered no Supabase call of any kind.
+
+**On evidence that no longer exists as files.** Screenshots, harness scripts, and raw measurement
+JSON were written to scratch directories on the audit machine and do not persist beyond the run.
+Every figure in this checklist — ratios, pixel counts, tab-stop indices, millimetre positions — is
+therefore restated in the row itself and in the matching report finding, so no row depends on a file
+you cannot open.
 
 ## How to read the Status column
 
@@ -24,24 +32,30 @@
 
 | Status | Count | Share |
 |---|---|---|
-| Pass | 109 | 28% |
-| Fail | 145 | 38% |
-| Blocked | 10 | 3% |
-| Not Verified | 120 | 31% |
-| **Total test cases** | **384** | |
+| Pass | 168 | 38% |
+| Fail | 201 | 45% |
+| Blocked | 9 | 2% |
+| Not Verified | 67 | 15% |
+| **Total test cases** | **445** | |
 
-Three things to keep in mind when reading these totals:
+Four things to keep in mind when reading these totals:
 
-- **The 145 failures map to 67 distinct issues**, not 145 problems. A single root cause fails many
-  test cases — `STK-002` (no stock audit trail) alone accounts for eight rows, and `DAT-001` (no
-  database constraints) accounts for several more.
-- **The 120 unverified cases are concentrated** in section 14 (design/responsive/accessibility — 36
-  of 37 rows) and section 17 (route coverage, where routes were mapped from source but not driven
-  through a browser). See §17 of the audit report for the full unverified list.
-- **Section 13 (PDF and printing) is now rendered rather than read.** Its 39 cases were produced by
-  executing the application's own PDF builders and parsing the resulting page content streams, so
-  every position below is a measurement in millimetres. 18 of those 39 pass — including the one that
-  matters most, screen total exactly equalling PDF total across five discount scenarios.
+- **The 201 failures map to 89 distinct issues**, not 201 problems. A single root cause fails many
+  test cases — `STK-002` (no stock audit trail) alone accounts for eight rows, `UX-003`
+  (`overflow-x: clip`) for seven, and `DAT-001` (no database constraints) for several more.
+- **Sections 13 and 14 were executed, not read.** Section 13's 39 cases come from running the
+  application's own PDF builders and parsing the resulting page content streams, so every position
+  is a measurement in millimetres. Section 14's 83 cases come from driving the running app in
+  headless Chrome across 26 routes at three widths. Together they are 122 of the 445 cases and they
+  are the strongest evidence in this checklist.
+- **41 of section 14's 83 cases pass**, which is worth stating as plainly as the failures: no page
+  scrolls sideways at any width, focus is trapped correctly in dialogs, every field in the "Add part"
+  form is labelled, the offline banner works and clears on reconnect, and the destructive
+  confirmation defaults to Cancel.
+- **The 67 unverified cases are concentrated** in the interactive per-form edge cases (sections 7–11)
+  and in things this environment cannot reach: physical printing and scanning hardware, a platform
+  authenticator for WebAuthn, and the production Supabase project. §17 of the audit report lists all
+  of them individually.
 
 | Section | Cases | Pass | Fail | Blocked | Not Verified |
 |---|---|---|---|---|---|
@@ -54,14 +68,14 @@ Three things to keep in mind when reading these totals:
 | 7. Payments and multi-device merge | 22 | 6 | 8 | 0 | 8 |
 | 8. Quotations | 25 | 5 | 12 | 0 | 8 |
 | 9. Invoices | 27 | 10 | 8 | 0 | 9 |
-| 10. Inventory and stock | 40 | 8 | 14 | 3 | 15 |
+| 10. Inventory and stock | 52 | 16 | 19 | 3 | 14 |
 | 11. Customers and suppliers | 28 | 7 | 14 | 0 | 7 |
 | 12. Reports and dashboard | 23 | 2 | 15 | 0 | 6 |
 | 13. PDF and printing | 39 | 18 | 16 | 2 | 3 |
-| 14. Design, responsive, accessibility | 37 | 0 | 1 | 0 | 36 |
-| 15. Security behaviour | 13 | 3 | 5 | 3 | 2 |
-| 16. Performance and reliability | 20 | 2 | 11 | 0 | 7 |
-| 17. Route coverage | 27 | 1 | 7 | 1 | 18 |
+| 14. Design, responsive, accessibility | 83 | 41 | 40 | 0 | 2 |
+| 15. Security behaviour | 14 | 5 | 5 | 3 | 1 |
+| 16. Performance and reliability | 21 | 4 | 11 | 0 | 6 |
+| 17. Route coverage | 28 | 7 | 19 | 0 | 2 |
 
 ---
 
@@ -291,7 +305,10 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Inventory | `/stock-take` | Manual adjustment records a reason and user | Recorded | Not recorded | Source | **Fail** | `STK-002` |
 | Inventory | `/inventory` | Removing a catalog part preserves its values | Preserved or archived | Deletes the override; quantity and pricing snap back to catalog defaults | Source | **Fail** | `STK-007` |
 | Inventory | `/inventory` | Large catalogs render without freezing | Virtualised | `VirtualInventoryTable` in use | Source | **Pass** | — |
-| Inventory | `/inventory` | Negative stock is blocked or warned on manual edit | Blocked or warned | — | — | **Not Verified** | — |
+| Inventory | `/inventory` | Negative quantity, cost, or price cannot be stored | Impossible | `clampNonNeg` in `applyOverride`/`normalizePart`, `Math.max(0, …)` in `bulkUpdateParts`, and a zero clamp in `adjustPartQuantity` | Source | **Pass** | — |
+| Inventory | `/inventory` | Negative input is rejected rather than silently clamped | Rejected with a message | `-5` silently stores `0`, overwriting the real figure, with no warning and no movement log to recover from | Source | **Fail** | `STK-010` |
+| Inventory | `/inventory` | Negative-stock warning shown on a manual edit through the UI | Blocked or warned | The clamp is confirmed in source; the edit form was not driven | — | **Not Verified** | `STK-010` |
+| Inventory | `/inventory` | Fractional quantity preserved or rejected | Preserved or rejected | Silently rounded to whole units, so fractional stock drifts | Source | **Fail** | `STK-009` |
 | Inventory | `/inventory` | Search by description | Matches | — | — | **Not Verified** | — |
 | Inventory | `/inventory` | Search by part number | Matches | — | — | **Not Verified** | — |
 | Inventory | `/inventory` | Search with no matches shows an empty state | Empty state | — | — | **Not Verified** | — |
@@ -307,8 +324,17 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Inventory | `/inventory` | Machine compatibility | Present | `/fleet` and kits suggest support | Source | **Not Verified** | — |
 | Inventory | `/inventory` | Product image upload | Works | Requires a real Storage bucket | — | **Blocked** | — |
 | Inventory | `/inventory` | Creation / modification dates recorded | Present | No timestamps on parts | Source | **Fail** | `STK-002` |
-| Inventory | `/inventory` | Import from spreadsheet | Imported correctly | Requires the UI and a file | — | **Not Verified** | — |
-| Inventory | `/inventory` | Export to spreadsheet | Accurate | — | — | **Not Verified** | — |
+| Inventory | `/inventory` | Import matches part codes exactly | Exact match | `index.get(code.toLowerCase())` against `partNumber` plus every OEM cross-reference; a code containing `/` matches itself | Source | **Pass** | — |
+| Inventory | `/inventory` | The app's own export re-imports without corruption | Round trip is identity-safe | Export writes `"Part Code": p.partNumber` verbatim and the importer maps `"part code"` straight back | Source | **Pass** | — |
+| Inventory | `/inventory` | A dry run is shown before anything is written | Preview | Update/create/skip counts plus per-row `code · qty a→b · cost a→b · price a→b` | Source | **Pass** | — |
+| Inventory | `/inventory` | Skipped rows carry a reason | Reason given | `{ action: "skip", reason: "Missing part number" }` | Source | **Pass** | — |
+| Inventory | `/inventory` | Large drops require explicit confirmation | Confirmation | Any quantity or cost below 50% of current triggers a destructive confirm naming up to 5 codes | Source | **Pass** | — |
+| Inventory | `/inventory` | Blank cells do not erase existing data | Left untouched | `toNum("")` → `undefined`, and undefined fields are skipped on write | Source | **Pass** | — |
+| Inventory | `/inventory` | Export column set is complete | Complete | 14 columns including OEM, machine, location, notes | Source | **Pass** | — |
+| Inventory | `/inventory` | Duplicate rows for one part are summed or rejected | Summed or rejected | Silently last-wins; 10/7/3 leaves 3, and the toast reports "3 updated" for one part | Source | **Fail** | `IMP-002` |
+| Inventory | `/inventory` | Dry run lists every affected row | All rows or a count disclosure | `preview.slice(0, 30)`; on a 500-row file 470 rows apply unseen | Source | **Fail** | `IMP-003` |
+| Inventory | `src/lib/inventory-import.ts` | No unreachable importer with different matching rules | One matching rule | `parseInventoryExcelFile` is exported but never called, and truncates codes at the first separator | Source | **Fail** | `IMP-001` |
+| Inventory | `/inventory` | Import driven through the real dialog with a real file | Imported correctly | The path was traced end to end in source; a file was not uploaded through the browser | — | **Not Verified** | — |
 | Inventory | `/inventory` | Malformed import file handled safely | Rejected safely | `xlsx` has unfixed prototype-pollution and ReDoS advisories | Build | **Fail** | `DEP-001` |
 | Inventory | `/inventory` | Merging duplicate parts blends cost | Weighted blend | `blendedUnitCost` implemented | Source | **Pass** | — |
 | Inventory | `/labels` | Barcode scanning | Scans | Requires a camera | — | **Blocked** | — |
@@ -427,55 +453,108 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 
 ## 14. Design, responsive, and accessibility
 
-> Every row here is **Not Verified**. Phase 9 requires visual inspection of the running app, which
-> did not complete. Nothing is claimed either way. See §12 and §17 of the audit report.
+> **Executed against the running application, not read from source.** Headless Chrome over the
+> DevTools Protocol, operator gate unlocked, **26 routes × 375 / 768 / 1440 px = 79 samples** with a
+> full-page screenshot each (83 in total), plus measured layout geometry, colour contrast (all
+> `oklch()` values resolved to sRGB by canvas paint), accessible names, heading order, tap-target
+> sizes, a font-size census, and console errors. Keyboard, focus, dialog, destructive-confirmation,
+> offline, and mobile-drawer behaviour were driven with real key and click events. Screenshots and
+> raw JSON went to a scratch directory that does not survive the run, so every measurement is
+> restated inline here and in §12 of the report.
 
 | Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
 |---|---|---|---|---|---|---|---|
-| Design | all | Layout at 375 px (mobile) | No overflow, all controls reachable | — | — | **Not Verified** | — |
-| Design | all | Layout at 768 px (tablet) | Correct layout | — | — | **Not Verified** | — |
-| Design | all | Layout at 1440 px (desktop) | Correct layout | — | — | **Not Verified** | — |
-| Design | all | No horizontal page scrolling | None | Commit `2562f87` addressed this previously | Source | **Not Verified** | — |
-| Design | all | Brand colours consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Typography and font sizes readable | Readable | — | — | **Not Verified** | — |
-| Design | all | Spacing and alignment consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Button sizes and hierarchy consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Icons consistent in size and style | Consistent | — | — | **Not Verified** | — |
-| Design | all | Card styling consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Table styling consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Form styling consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Modal styling consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Navigation works at every width | Works | — | — | **Not Verified** | — |
-| Design | all | Sidebar collapse behaviour | Correct | — | — | **Not Verified** | — |
-| Design | all | Mobile menu opens and closes | Works | — | — | **Not Verified** | — |
-| Design | all | Long part numbers do not break layout | Truncate or wrap | — | — | **Not Verified** | — |
-| Design | all | Long descriptions do not break layout | Truncate or wrap | — | — | **Not Verified** | — |
-| Design | all | Empty states present and helpful | Present | — | — | **Not Verified** | — |
-| Design | all | Loading states present | Present | — | — | **Not Verified** | — |
-| Design | all | Error states present | Present | — | — | **Not Verified** | — |
-| Design | all | Success messages appear | Present | `toast` used throughout | Source | **Not Verified** | — |
-| Design | all | Disabled controls visually distinct | Distinct | — | — | **Not Verified** | — |
-| Design | all | Confirmation dialogs on destructive actions | Present | `confirmAction` used with a `destructive` flag | Source | **Not Verified** | — |
-| Design | all | Destructive warnings name the consequence | Explicit | — | — | **Not Verified** | — |
-| Design | all | Form validation messages are clear | Clear | — | — | **Not Verified** | — |
+| Design | all 26 routes | No page-level horizontal scroll at 375 px | `scrollWidth == innerWidth` | Holds on all 26 routes | Runtime | **Pass** | — |
+| Design | all 26 routes | No page-level horizontal scroll at 768 px | `scrollWidth == innerWidth` | Holds on all 26 routes | Runtime | **Pass** | — |
+| Design | all 26 routes | No page-level horizontal scroll at 1440 px | `scrollWidth == innerWidth` | Holds on all 26 routes | Runtime | **Pass** | — |
+| Design | all 26 routes | Layout captured and measured at 375 px | Captured | 26 samples with screenshots | Runtime | **Pass** | — |
+| Design | all 26 routes | Layout captured and measured at 768 px | Captured | 26 samples with screenshots | Runtime | **Pass** | — |
+| Design | all 26 routes | Layout captured and measured at 1440 px | Captured | 27 samples with screenshots | Runtime | **Pass** | — |
+| Design | 1440 px, all routes | Nothing overflows its container on desktop | 0 overflow | 0, except `/inventory`'s deliberate horizontal scroller | Runtime | **Pass** | — |
+| Design | `/stock-map` | Off-container content reachable at 375 px | Reachable | **991 px** clipped; page scroll and `scrollLeft` on every ancestor both fail | Runtime | **Fail** | `UX-003` |
+| Design | `/documents` | Status control and Open button reachable at 768 px | Reachable | **160 px** clipped — the row's primary action cannot be reached | Runtime | **Fail** | `UX-003` |
+| Design | `/reorder` | Reason column reachable at 768 px | Reachable | **218 px** clipped | Runtime | **Fail** | `UX-003` |
+| Design | `/` | Dashboard card columns reachable at 375 px | Reachable | **266 px** clipped (Total, Status) | Runtime | **Fail** | `UX-003` |
+| Design | `/` | Dashboard card columns reachable at 768 px | Reachable | **108 px** clipped | Runtime | **Fail** | `UX-003` |
+| Design | `/counter` | Long part-name button fits at 375 px | Fits | **85 px** clipped | Runtime | **Fail** | `UX-003` |
+| Design | all | Content area stays usable where tables un-stack | ≥ ~700 px | 512 px at 768 px — the sidebar pins at 256 px exactly where tables expand | Runtime | **Fail** | `UX-004` |
+| Design | `/documents` | Table readable at 768 px | Readable | Parts column ~30 px; one quotation row ~1000 px tall; 23 clipped elements | Runtime | **Fail** | `UX-004` |
+| Design | `/documents` | Collapsing the sidebar restores the 768 px layout | Restores | Content 512 → **720 px**; clipped elements 23 → **0**; `/reorder` 120 → 9 | Runtime | **Pass** | `UX-004` |
+| Design | all | Long part numbers do not break layout | Wrap or truncate | They wrap, but at 768 px inflate a single row to ~1000 px | Runtime | **Fail** | `UX-004` |
+| Design | `/documents` 375 px | Long part list truncated with an indicator | "+N more" | Cut mid-list, with no ellipsis and no count | Runtime | **Fail** | `UX-008` |
+| Design | 6 stacked-table routes | Stacked mobile view keeps column labels | Labelled | `thead` hidden by `max-md:hidden`, with no substitute label | Runtime | **Fail** | `UX-008` |
+| Design | all | Navigation works at every width | Works | Pinned sidebar ≥ 768 px; drawer plus bottom nav < 768 px | Runtime | **Pass** | — |
+| Design | all | Sidebar collapse toggle behaves correctly | Correct | Toggles cleanly and content reflows | Runtime | **Pass** | — |
+| Design | 375 px | Mobile drawer opens and closes | Works | 320 px sheet over a 375 px viewport, 21 links, no inner scroll, Escape closes | Runtime | **Pass** | — |
+| Design | 375 px | Mobile drawer has an accessible name | Named | Present | Runtime | **Pass** | — |
+| Design | 375 px | Bottom nav does not cover page content | No overlap | `mobile-nav-pad` 60 px; scrolled to the bottom of `/clients`, `/documents`, `/shift`, `/suppliers` — 0 overlaps | Runtime | **Pass** | — |
+| Design | all | Zoom is not blocked | Allowed | `maximum-scale=5` | Runtime | **Pass** | — |
+| Design | all | Typography readable | 14–16 px body | 12 px dominant (3,863 nodes); 335 nodes at 10 px, 169 at 11 px | Runtime | **Fail** | `UX-012` |
+| Design | 1440 px, all routes | Button geometry consistent | A small deliberate set | **17** height/font/radius combinations, 11 heights, 4 radii | Runtime | **Fail** | `UX-017` |
+| Design | `/fleet`, `/china-shipments` | Empty state offers a way forward | Primary action | Neither offers any create action | Runtime | **Fail** | `UX-019` |
+| Design | `/pre-orders`, `/share-inbox` | Empty state offers a way forward | Primary action | Both correct ("New pre-order", "Upload photo / PDF") | Runtime | **Pass** | — |
+| Design | all 26 routes | Loading state present during data load | Skeleton or spinner | `skeleton: 0`, `spinner: 0` on every route after unlock | Runtime | **Fail** | `UX-020` |
+| Design | unknown route | 404 state present and helpful | Proper 404 | "404 / Page not found / … / Go home" | Runtime | **Pass** | — |
+| Design | `/portal` | Error state is fit for an external audience | Friendly message | Raw developer string `useCart must be used within CartProvider` shown to customers | Runtime | **Fail** | `UX-002` |
+| Design | `/portal` | Portal renders the client statement | Renders | Error boundary at all three widths, locally **and in production** | Runtime | **Fail** | `UX-002` |
+| Design | all | Success messages appear after an action | Present | Sonner toasts observed | Runtime | **Pass** | — |
+| Design | `/clients` | Destructive action confirms before acting | Confirms | `role="alertdialog"`, default focus on **Cancel**, destructive styling on Delete | Runtime | **Pass** | — |
+| Design | `/clients` | Cancelling a delete leaves the record intact | Intact | Record intact after cancel | Runtime | **Pass** | — |
+| Design | `/clients` | Destructive warning names the consequence | Explicit | Names the client, but not the $6,000 of AR that disappears with it | Runtime | **Fail** | `CUS-001` |
+| Design | Add part dialog | Validation shows an inline message | Inline and persistent | `inlineErrors: []` — a disappearing toast only | Runtime | **Fail** | `UX-007` |
+| Design | Add part dialog | Invalid field is marked | `aria-invalid` set | Set on nothing | Runtime | **Fail** | `UX-007` |
+| Design | Add part dialog | Focus moves to the first invalid field | Moves | `firstInvalidFocused: null` | Runtime | **Fail** | `UX-007` |
+| Design | Add part dialog | Required fields carry `required` | Marked | 0 of 14 fields | Runtime | **Fail** | `UX-007` |
+| Design | all | Date formatting consistent | One format | ISO `YYYY-MM-DD` everywhere except the backup banner (`10/21/2026`) | Runtime | **Fail** | `UX-016` |
+| Design | all | Currency formatting consistent | One formatter | 166 amounts at 2 dp, 12 at 0 dp | Runtime | **Fail** | `UX-016` |
+| Design | `/china-shipments` | `formatMoneyWithUsd` zero-decimal output seen on screen | Observed | The seed held no shipment records, so the divergence is source-confirmed only | — | **Not Verified** | `UX-016` |
 | Design | all | Terminology consistent and clean English | Consistent | "Monthly sales" actually shows receipts | Source | **Fail** | `RPT-004` |
-| Design | all | Date formatting consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Currency formatting consistent | Consistent | — | — | **Not Verified** | — |
-| Design | all | Number formatting consistent | Consistent | — | — | **Not Verified** | — |
-| A11y | all | Keyboard navigation reaches every control | Reachable | — | — | **Not Verified** | — |
-| A11y | all | Focus indicators visible | Visible | — | — | **Not Verified** | — |
-| A11y | modals | Escape closes the modal | Closes | — | — | **Not Verified** | — |
-| A11y | modals | Focus is trapped in the modal | Trapped | — | — | **Not Verified** | — |
-| A11y | all | Colour contrast meets WCAG AA | Meets AA | — | — | **Not Verified** | — |
-| A11y | all | Accessibility labels on icon buttons | Labelled | — | — | **Not Verified** | — |
-| A11y | all | Screen-reader landmarks | Present | — | — | **Not Verified** | — |
+| Design | all 26 routes | Backup banner does not dominate every page | Once per session | Renders on all 26 routes at all widths; ~100 px of an 812 px phone viewport | Runtime | **Fail** | `UX-018` |
+| A11y | all routes | Skip link present | Present | `a[href^="#"]` returns nothing on any route | Runtime | **Fail** | `UX-009` |
+| A11y | `/inventory` | Page content reached in few tab stops | Few | First in-content control is tab stop **23**; stops 1–22 are sidebar links | Runtime | **Fail** | `UX-009` |
+| A11y | all | Keyboard navigation reaches every control | Reachable | Tab walk reached sidebar and in-content controls in order | Runtime | **Pass** | — |
+| A11y | all | Focus indicators visible | Visible | `box-shadow: <accent> 0 0 0 Npx` on every focusable; correctly matches `:focus-visible` | Runtime | **Pass** | — |
+| A11y | all | Focus ring meets 3:1 (WCAG 2.4.11) | ≥ 3:1 | **2.51:1** | Runtime | **Fail** | `UX-011` |
+| A11y | all | Focus ring width consistent | Consistent | 2 px on sidebar links, 1 px on in-content controls | Runtime | **Fail** | `UX-011` |
+| A11y | Add part dialog | Escape closes the modal | Closes | Closes | Runtime | **Pass** | — |
+| A11y | Add part dialog | Focus is trapped in the modal | Trapped | Held across **30 consecutive Tab presses** | Runtime | **Pass** | — |
+| A11y | Add part dialog | Focus moves into the dialog on open | Moves | Lands on the first field | Runtime | **Pass** | — |
+| A11y | Add part dialog | Focus returns to the opener on close | Returns | Returns | Runtime | **Pass** | — |
+| A11y | Add part dialog | Body scroll restored on close | Restored | Restored | Runtime | **Pass** | — |
+| A11y | Add part dialog | Dialog has a role and an accessible name | Present | `role="dialog"` plus `aria-labelledby` and `aria-describedby` | Runtime | **Pass** | — |
+| A11y | Add part dialog | Dialog scrolls internally when taller than the viewport | Scrolls | Scrolls internally | Runtime | **Pass** | — |
+| A11y | Add part dialog | Background inert for assistive technology | `aria-modal` or `inert` | Neither; the app shell reports `ariaHidden: null, inert: false` | Runtime | **Fail** | `UX-015` |
+| A11y | Add part dialog | All fields labelled | Labelled | 14 of 14 have real `<label>` elements | Runtime | **Pass** | — |
+| A11y | Add part dialog | Numeric fields request a numeric keyboard | `inputMode` set | `numeric` / `decimal` set | Runtime | **Pass** | — |
+| A11y | 23 routes | Text contrast meets 4.5:1 | ≥ 4.5:1 | Accent money and stock figures measure **2.52–2.66:1** | Runtime | **Fail** | `UX-005` |
+| A11y | `/clients` | "Owes" badge meets 4.5:1 | ≥ 4.5:1 | **4.48:1** — a marginal fail | Runtime | **Fail** | `UX-005` |
+| A11y | 23 routes | Body and muted text pass on the standard surfaces | Pass | `foreground` and `muted-foreground` pass; most routes have 0 text failures | Runtime | **Pass** | — |
+| A11y | 23 routes | Non-text contrast meets 3:1 (WCAG 1.4.11) | ≥ 3:1 | Borders measure **1.27–1.34:1**; 13 distinct failing pairs | Runtime | **Fail** | `UX-006` |
+| A11y | all | Form controls have accessible names | Named | 5 inputs unnamed; 5 more rely on placeholder text alone | Runtime | **Fail** | `UX-013` |
+| A11y | all 27 samples | Every route has an `h1` | Present | 27 of 27 | Runtime | **Pass** | — |
+| A11y | `/clients`, `/suppliers` | Heading levels do not skip | No skip | `h1` → `h3`, across 6 samples | Runtime | **Fail** | `UX-014` |
+| A11y | all | `<html lang>` is set | Set | `lang="en"` on every route | Runtime | **Pass** | — |
+| A11y | all | Distinct, meaningful `<title>` per route | Distinct | 21 distinct titles | Runtime | **Pass** | — |
+| A11y | all | No duplicate DOM ids | 0 | 0 | Runtime | **Pass** | — |
+| A11y | all | Every `<img>` has `alt` | All | 0 missing | Runtime | **Pass** | — |
+| A11y | 375 px | Interactive targets ≥ 24 × 24 (WCAG 2.5.8) | ≥ 24 × 24 | `/labels` row toggles are **16 × 16 px** | Runtime | **Fail** | `UX-010` |
+| A11y | 1440 px | Controls meet the 44 px touch guideline | 44 px | 32 px dominant (495 instances); `/low-stock` has 416 of 424 under 40 × 40 at 375 px | Runtime | **Fail** | `UX-010` |
+| A11y | 375 px | Hamburger and bottom nav meet 44 px | ≥ 44 px | Hamburger 44 × 44; bottom-nav items 75 × 56 | Runtime | **Pass** | — |
+| A11y | all | Landmark structure present | `main` plus `nav` | `<main>` and a sidebar `<nav>` present on every sample | Runtime | **Pass** | — |
+| A11y | all | Screen-reader announcement order and phrasing | Correct | Structure was measured programmatically; no screen reader was run | — | **Not Verified** | — |
+| Reliability | `/documents` | Offline banner appears when the network drops | Appears | "You are offline — Working from the last cached shop data. Edits save on this device until you reconnect." | Runtime | **Pass** | — |
+| Reliability | `/documents` | Offline banner clears on reconnect | Clears | Cleared automatically | Runtime | **Pass** | — |
+| Reliability | 26 operator routes | No uncaught console errors | None | Clean on every operator route; `/portal` throws | Runtime | **Fail** | `UX-002` |
+| Security | `/portal` | Portal load makes no unauthenticated data request | None | Production GET with no token: 34 static assets and **zero** Supabase calls | Runtime | **Pass** | — |
+| Performance | `/portal` | Portal ships only what it renders | Minimal bundle | Pulls `inventory-context`, the catalog taxonomies, and `jspdf.es.min` — 34 requests | Runtime | **Fail** | `UX-021` |
 
 ## 15. Security behaviour
 
 | Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
 |---|---|---|---|---|---|---|---|
-| Security | all | Stored XSS payload is escaped on screen | Rendered as literal text | React escapes by default; one benign `dangerouslySetInnerHTML` (chart CSS) | Source | **Not Verified** | `UX-001` |
-| Security | all | XSS payload escaped in the PDF | Literal text | — | — | **Not Verified** | — |
+| Security | `/documents`, `/delivery-board`, `/counter` | Stored XSS payload is escaped on screen | Rendered as literal text | Seeded `<b>test</b>` part name rendered as **literal text** on all three routes | Runtime | **Pass** | `UX-001` |
+| Security | all | Absence of an injected element asserted in the DOM tree | No such node | Literal rendering was observed; the DOM tree was not separately asserted | Runtime | **Not Verified** | — |
+| Security | PDF | XSS payload escaped in the PDF | Literal text | Rendered PDF content stream contains the payload as literal text | Harness | **Pass** | — |
 | Security | all | SQL injection payload is inert | Stored as text | All access via PostgREST with parameterised filters; no raw SQL | Source | **Pass** | — |
 | Security | `src/` | No `innerHTML` / `eval` / `new Function` | None | None found | Source | **Pass** | — |
 | Security | `src/` | `dangerouslySetInnerHTML` usage reviewed | Safe | One instance, developer-controlled chart CSS | Source | **Pass** | `UX-001` |
@@ -508,45 +587,50 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Performance | `/inventory` | Search responsiveness on a full catalog | Responsive | — | — | **Not Verified** | — |
 | Performance | — | No duplicate network requests | None | — | — | **Not Verified** | — |
 | Performance | — | No memory leak over a long session | Stable | — | — | **Not Verified** | — |
-| Reliability | `/counter` | Offline operation | Works offline | — | — | **Not Verified** | — |
-| Reliability | — | Reconnect syncs queued changes | Synced | Sync-queue code exists | Source | **Not Verified** | — |
+| Reliability | `/documents` | Offline operation | Works offline | Network forced offline: the app kept working from cached shop data and said so | Runtime | **Pass** | — |
+| Reliability | — | Reconnect clears the offline state | Cleared | Banner cleared automatically on reconnect | Runtime | **Pass** | — |
+| Reliability | — | Reconnect syncs queued changes to the server | Synced | Banner clearing was observed; the queued-write round trip to Supabase was not driven | Source | **Not Verified** | — |
 | Reliability | — | Behaviour on simulated network failure | Graceful | — | — | **Not Verified** | — |
 | Reliability | — | Behaviour on database failure | Graceful | Rate limiter fails **open** on store errors | Source | **Fail** | `SEC-003` |
 
 ## 17. Route coverage
 
-Every registered route, with the depth of verification reached. "Mapped" means the route's purpose,
-data dependencies, and CRUD behaviour were established from source (§3 of the report).
+Every registered route. Each route's purpose, data dependencies, and CRUD behaviour were first
+established from source (§3 of the report), then the route was **loaded in a real browser at 375 /
+768 / 1440 px** and measured. `Pass` here means the route rendered at all three widths with no
+runtime defect observed **on that page**; `Fail` names the defects that were. Two routes could not be
+rendered and say so.
 
 | Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
 |---|---|---|---|---|---|---|---|
-| Routes | `/` | Dashboard loads and formulas mapped | Mapped | Mapped; 16 formulas documented; rendered values not transcribed | Source | **Not Verified** | `RPT-001`…`004` |
-| Routes | `/inventory` | Mapped and CRUD reviewed | Mapped | Mapped; 8 findings | Source | **Not Verified** | `STK-002`, `STK-005` |
-| Routes | `/documents` | Mapped and flows reviewed | Mapped | Mapped; conversion, payment, revert reviewed in depth | Source | **Not Verified** | `STK-001`, `FUN-001` |
-| Routes | `/clients/` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/clients/$clientId` | Mapped | Mapped | Mapped; AR statement reviewed | Source | **Not Verified** | `FIN-003` |
-| Routes | `/suppliers/` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/suppliers/$supplierId` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/low-stock` | Mapped | Mapped | Mapped; predicate compared with the dashboard | Source | **Fail** | `RPT-002` |
-| Routes | `/reorder` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/stock-take` | Mapped | Mapped | Mapped; 2 stock mutation sites | Source | **Fail** | `STK-002` |
-| Routes | `/stock-map` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/labels` | Mapped | Mapped | Mapped | Source | **Blocked** | — |
-| Routes | `/counter` | Mapped | Mapped | Mapped; offline claim untested | Source | **Not Verified** | — |
-| Routes | `/collections` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/daily-close` | Mapped | Mapped | Mapped; drawer formula documented | Source | **Not Verified** | — |
-| Routes | `/shift` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/delivery-board` | Mapped | Mapped | Mapped; type error found | Source | **Fail** | `FUN-004` |
-| Routes | `/pre-orders` | Mapped | Mapped | Mapped; 1 stock mutation site | Source | **Fail** | `STK-002` |
-| Routes | `/china-shipments` | Mapped | Mapped | Mapped; Titus sync reviewed | Source | **Fail** | `SEC-002` |
-| Routes | `/fleet` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/fleet/$machineId` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/insights` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/search` | Mapped | Mapped | Mapped | Source | **Not Verified** | — |
-| Routes | `/share-inbox` | Mapped | Mapped | Mapped | Source | **Not Verified** | `SEC-007` |
-| Routes | `/portal` | Mapped and auth reviewed | Mapped | Mapped; token model reviewed in depth | Source | **Fail** | `SEC-004` |
-| Routes | `/share` | Mapped | Mapped | Mapped; service-worker POST handler reviewed | Source | **Fail** | `SEC-007` |
-| Routes | `__root` | Layout and gates reviewed | Reviewed | `CloudGate` + `OperatorUnlockGate` confirmed | Source | **Pass** | — |
+| Routes | `/` | Renders and measures cleanly at 3 widths | Clean | Renders; 16 formulas documented; 266 px clipped at 375 px, 108 px at 768 px | Runtime | **Fail** | `UX-003`, `RPT-001` |
+| Routes | `/inventory` | Renders and measures cleanly at 3 widths | Clean | Renders with the virtualised table; low-stock qty at 2.66:1; first in-content tab stop is 23 | Runtime | **Fail** | `UX-005`, `UX-009` |
+| Routes | `/documents` | Renders and measures cleanly at 3 widths | Clean | Worst route measured: 23 clipped elements at 768 px, unlabelled stacked cards at 375 px | Runtime | **Fail** | `UX-003`, `UX-004`, `UX-008` |
+| Routes | `/clients/` | Renders and measures cleanly at 3 widths | Clean | Renders; `h1` → `h3` skip; "Owes" badge at 4.48:1 | Runtime | **Fail** | `UX-014`, `UX-005` |
+| Routes | `/clients/$clientId` | Renders and measures cleanly at 3 widths | Clean | Rendered for `cl-alpha`; AR statement reachable; balance `$926.87` at 2.66:1 | Runtime | **Fail** | `UX-005`, `FIN-003` |
+| Routes | `/suppliers/` | Renders and measures cleanly at 3 widths | Clean | Renders; `h1` → `h3` skip | Runtime | **Fail** | `UX-014` |
+| Routes | `/suppliers/$supplierId` | Renders and measures cleanly at 3 widths | Clean | Renders; no route-specific runtime defect observed | Runtime | **Pass** | — |
+| Routes | `/low-stock` | Renders and measures cleanly at 3 widths | Clean | Renders; predicate differs from the dashboard; 416 of 424 targets under 40 × 40 at 375 px | Runtime | **Fail** | `RPT-002`, `UX-010` |
+| Routes | `/reorder` | Renders and measures cleanly at 3 widths | Clean | Renders; Reason column 218 px past the clip edge at 768 px | Runtime | **Fail** | `UX-003` |
+| Routes | `/stock-take` | Renders and measures cleanly at 3 widths | Clean | Renders; 2 stock mutation sites, neither logged | Runtime | **Fail** | `STK-002` |
+| Routes | `/stock-map` | Renders and measures cleanly at 3 widths | Clean | Renders; **991 px** unreachable at 375 px; search input unnamed | Runtime | **Fail** | `UX-003`, `UX-013` |
+| Routes | `/labels` | Renders and measures cleanly at 3 widths | Clean | Renders; 16 × 16 px row toggles; search input unnamed. Physical label printing is Blocked (§10) | Runtime | **Fail** | `UX-010`, `UX-013` |
+| Routes | `/counter` | Renders and measures cleanly at 3 widths | Clean | Renders; 85 px clipped at 375 px; part-number input unnamed | Runtime | **Fail** | `UX-003`, `UX-013` |
+| Routes | `/collections` | Renders and measures cleanly at 3 widths | Clean | Renders; stacked view drops column labels at 375 px | Runtime | **Fail** | `UX-008` |
+| Routes | `/daily-close` | Renders and measures cleanly at 3 widths | Clean | Renders; drawer formula documented; no route-specific runtime defect | Runtime | **Pass** | — |
+| Routes | `/shift` | Renders and measures cleanly at 3 widths | Clean | Renders; scrolled to the bottom at 375 px with no bottom-nav overlap | Runtime | **Pass** | — |
+| Routes | `/delivery-board` | Renders and measures cleanly at 3 widths | Clean | Renders; 10–11 px text on part-number lines; carries the shipped type error | Runtime | **Fail** | `FUN-004`, `UX-012` |
+| Routes | `/pre-orders` | Renders and measures cleanly at 3 widths | Clean | Renders; empty state correct; stacked labels dropped; 1 unlogged stock site | Runtime | **Fail** | `STK-002`, `UX-008` |
+| Routes | `/china-shipments` | Renders and measures cleanly at 3 widths | Clean | Renders empty ("0 shown · 0 total") with no create action; Titus sync unauthenticated | Runtime | **Fail** | `SEC-002`, `UX-019` |
+| Routes | `/fleet` | Renders and measures cleanly at 3 widths | Clean | Renders "No machines yet" with no create action; search input unnamed | Runtime | **Fail** | `UX-019`, `UX-013` |
+| Routes | `/fleet/$machineId` | Renders with a seeded machine | Renders | **Never rendered** — the seed contained no machines, so the detail route had no valid id | — | **Not Verified** | — |
+| Routes | `/insights` | Renders and measures cleanly at 3 widths | Clean | Renders; margin figure at 2.66:1; stacked labels dropped | Runtime | **Fail** | `UX-005`, `UX-008` |
+| Routes | `/search` | Renders and measures cleanly at 3 widths | Clean | Renders; no route-specific runtime defect observed | Runtime | **Pass** | — |
+| Routes | `/share-inbox` | Renders and measures cleanly at 3 widths | Clean | Renders; empty state correctly offers "Upload photo / PDF" | Runtime | **Pass** | — |
+| Routes | `/portal` | Renders the client statement | Statement | **Crashes on every load** at every width, locally and in production; ships 34 assets including `jspdf` | Runtime | **Fail** | `UX-002`, `SEC-004`, `UX-021` |
+| Routes | `/share` | Accepts a shared file | Accepts | Server action reached only by the Web Share Target; needs an installed PWA | — | **Not Verified** | `SEC-007` |
+| Routes | unknown path | 404 fallback renders | Proper 404 | "404 / Page not found / … / Go home" | Runtime | **Pass** | — |
+| Routes | `__root` | Layout, gates, and offline banner | Correct | `CloudGate` + `OperatorUnlockGate` confirmed by unlocking through the real UI; offline banner verified | Runtime | **Pass** | — |
 
 ---
 
@@ -566,4 +650,10 @@ Ordered to match the repair stages in §19 of the audit report.
 | 8 | Dashboard and `/low-stock` return the same set, including zero-quantity parts | `RPT-002` |
 | 9 | Unauthenticated GET of a `part-photos` object returns 403 | `SEC-005` |
 | 10 | Rate limiter refuses unlock when the store is unavailable | `SEC-003` |
-| 11 | Complete the full Phase 9 and Phase 10 passes — 78 cases above are still unverified | §17 |
+| 11 | `/portal` renders a statement with no params, an invalid token, and a valid token | `UX-002` |
+| 12 | Every route at 375 / 768 / 1440 px: no element sits outside an ancestor that can actually scroll | `UX-003` |
+| 13 | Content area ≥ ~700 px at every width where tables render un-stacked | `UX-004` |
+| 14 | Contrast assertion over the rendered theme: text pairs ≥ 4.5:1, border and ring pairs ≥ 3:1 | `UX-005`, `UX-006`, `UX-011` |
+| 15 | Each dialog submitted empty shows an inline message, sets `aria-invalid`, and focuses the field | `UX-007` |
+| 16 | A three-row duplicate import file totals correctly or is rejected, and reports 1 part not 3 | `IMP-002` |
+| 17 | Re-run the two passes that could not complete here: Arabic PDF rendering and browser `window.print()` output, plus the per-form CRUD edge-case matrix | §17 items 1–2 |
