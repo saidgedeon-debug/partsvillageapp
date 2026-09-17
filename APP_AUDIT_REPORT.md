@@ -26,7 +26,7 @@ correct (Row Level Security is properly locked to an operator role, no server se
 client bundle, the inventory table is virtualised, and reverting a paid invoice is properly
 blocked).
 
-However, the audit found **five P0 issues** that put financial and stock data at risk, and the root
+However, the audit found **six P0 issues** that put financial and stock data at risk, and the root
 cause of most of them is architectural: **the application does not use a relational database.**
 All business data lives in twelve giant JSONB rows in a single `shop_state` table. The whole
 dataset is loaded into the browser, mutated in React state, and written back as a whole blob. There
@@ -51,14 +51,19 @@ by reading it:
    the codebase** across 14 stock-mutation call sites — a wrong quantity is undetectable and
    untraceable after the fact. (`STK-001`, `STK-002`)
 
-Two further findings are worth surfacing here because they affect what customers actually see.
+The sixth P0 is the one a customer sees first. **The client portal is completely broken** — the only
+page this business shares with the outside world crashes on every load and shows the customer a raw
+React error, `useCart must be used within CartProvider`. This was raised to P0 in the second runtime
+pass after confirming it three ways: on the live deployment, in the local build at all three
+viewport widths, and in the server log, which throws the same error during server-side rendering
+before any HTML reaches the browser. There is no partial degradation and no fallback — the page is
+unusable, and it leaks an internal stack trace to whoever opens the link. (`UX-002`)
+
+One further finding is worth surfacing here because it also affects what customers see.
 **The account statement can print the "Net due" figure off the bottom of the page.** The number is
 computed correctly and displayed correctly on screen; the PDF simply draws it past the paper edge, so
 the customer gets a statement listing what they were invoiced with no indication of what they owe.
 Rendering the app's real PDF code across 350 statement shapes found 8 that do this. (`PDF-005`)
-And **the client portal is completely broken** — the only page this business shares with the outside
-world crashes on every load and shows the customer a raw React error, `useCart must be used within
-CartProvider`. I confirmed this on the live deployment, not just locally. (`UX-002`)
 
 **One correction to record, because it changes a headline.** An earlier pass of this audit reported a
 sixth P0: that exporting inventory to Excel and re-importing it overwrites the wrong part, because
@@ -77,19 +82,22 @@ until that is addressed.
 
 | Priority | Count | Meaning |
 |---|---|---|
-| **P0 — Critical** | 5 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 15 | Core feature broken or serious business risk |
-| **P2 — Medium** | 42 | Important defect with a workaround |
-| **P3 — Low** | 28 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **90** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours and 7 verified-correct import behaviours (§8), a 10-row verified-correct PDF table (§13), a 12-row verified-correct design/UX table (§12), and a `NOT VERIFIED` list (§17) |
+| **P0 — Critical** | 6 | Data loss, major security exposure, or incorrect financial/stock data |
+| **P1 — High** | 16 | Core feature broken or serious business risk |
+| **P2 — Medium** | 43 | Important defect with a workaround |
+| **P3 — Low** | 30 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **95** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table (§12), and a much shorter `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
 decision described in `DAT-001`. Several findings also record things that work: the screen total and
 the PDF total agree exactly across every discount scenario tested, stock quantities cannot be driven
-negative, oversell is deliberately tracked rather than lost, no page horizontally scrolls at any of
-the three tested widths, and the modal dialogs correctly trap focus, close on Escape, and label every
-field.
+negative through either editing path, oversell is deliberately tracked rather than lost, the Add/Edit
+part form correctly rejects negative and non-numeric input with a clear message, the stored XSS
+payload is inert in the DOM on every route tested, an edit made while offline survives and flushes
+correctly on reconnect, search over 2,344 parts stays under 62 ms, Arabic renders in PDFs with
+correct shaping and right-to-left order, and the modal dialogs correctly trap focus, close on
+Escape, and label every field.
 
 ---
 
@@ -410,9 +418,42 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 - **Actual:** Harness output — `roundMoney(NaN) = 0`, `roundMoney(Infinity) = 0`, and a line set of `[qty=NaN, price=NaN, qty=Infinity]` yields a subtotal of `0`.
 - **Expected:** Corrupt numeric input is rejected loudly at the input boundary; it must never silently become a valid-looking total of zero.
 - **Evidence:** `src/lib/document-money.ts:4-7,84`; harness §11.
-- **Business impact:** A corrupted quantity produces a plausible zero-total invoice rather than an error, so the corruption is invisible.
+- **Scope narrowed in the second runtime pass.** The *part form* is not a way in: the Add/Edit part
+  dialog rejects both `abc` and `Infinity` with "Qty, reorder, cost, and price must be numbers"
+  (`part-detail-dialog.tsx:220-222` uses `Number.isFinite`, which catches `Infinity` as well as
+  `NaN`), and the inline quantity cell refuses them too. The finding therefore stands only for the
+  paths that bypass those forms — Excel import, share-target ingestion, and any corrupt value already
+  sitting in the `shop_state` blob — where `roundMoney` still turns non-finite input into a
+  plausible `0`.
+- **Business impact:** A corrupted quantity arriving through import or a stored blob produces a plausible zero-total invoice rather than an error, so the corruption is invisible. Hand-typed input is now known to be guarded.
 - **Recommended fix:** Validate at input/parse time with Zod; make `roundMoney` throw (or return `null`) on non-finite input.
 - **Regression test:** Assert that constructing a document with `NaN` qty throws rather than producing `total: 0`.
+
+### `FUN-007` · P2 · Forms — a repeated submit creates one record but reports three successes
+
+*Found in the second runtime pass.*
+
+- **Page/feature:** Add-part dialog (and, by shared pattern, other create dialogs).
+- **Description:** The Create button is not disabled while a submit is in flight, so a double- or
+  triple-click runs the handler once per click. The uniqueness guard keeps the data correct, but each
+  invocation raises its own success toast.
+- **Actual:** Three rapid Create clicks on a valid new part produced **exactly one** stored part —
+  and **three** "Added DUPSUBMIT-1" toasts. Verified against the backing store: custom part count
+  went from 6 to 7, and exactly one record carried the new code.
+- **Expected:** One click, one record, one confirmation; the button disabled until the write settles.
+- **Evidence:** Measured on `/inventory`. Store before: 6 custom parts. After three clicks: 7 custom
+  parts, `1` record matching `DUPSUBMIT-1`. Toast queue: `["Added DUPSUBMIT-1", "Added DUPSUBMIT-1",
+  "Added DUPSUBMIT-1"]`.
+- **Business impact:** Mild but corrosive to trust. Data integrity holds — this is **not** a
+  duplicate-record bug — but on a touchscreen at a parts counter, repeated taps are normal, and three
+  "Added" confirmations for one part invites the operator to go looking for duplicates that do not
+  exist. The same missing in-flight guard is what makes `STK-001`'s double-convert reachable, where
+  the consequences *are* financial.
+- **Relevant files:** `src/components/app/part-detail-dialog.tsx` (submit handler), and the shared
+  dialog pattern used by the other create forms.
+- **Recommended fix:** Track an `isSubmitting` flag, disable the primary button while it is set, and
+  return early on re-entry.
+- **Regression test:** Assert that three synchronous Create clicks yield one record **and** one toast.
 
 ### `CUS-001` · P1 · Customers — deleting a client hides money they still owe
 
@@ -447,6 +488,67 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 - **Relevant files:** `src/components/app/parties-context.tsx`, `src/components/app/quotation-excel-import-dialog.tsx`, `src/components/app/party-form-dialog.tsx`.
 - **Recommended fix:** Split "create" from "upsert". Have `addClient` refuse an existing name and return the match so the caller can prompt; give the importer an explicit `findOrCreateClient` that never writes empty fields over populated ones.
 - **Regression test:** Assert that `addClient({ name: "alpha earthmoving" })` against an existing "Alpha Earthmoving" with a phone number leaves the phone number intact.
+
+### `FUN-006` · **P1** · `/fleet/$machineId` — the machine-history page can never render
+
+*Found in the second runtime pass. The first pass could not reach this route because the seed
+contained no machines, so it was listed as `NOT VERIFIED` in §17.*
+
+- **Page/feature:** Fleet → click a machine row → machine history.
+- **Description:** `fleet.$machineId.tsx` is a complete, non-trivial page (machine header, order
+  history, "add kit parts to cart", cross-sell suggestions — it imports `useCart`, `useKits`,
+  `useDocuments`, `useInventory` and `addKitPartsToCart`). Under TanStack's flat file-route naming,
+  `fleet.$machineId` becomes a **child** of `fleet`, so `/fleet` acts as its layout parent. But
+  `src/routes/fleet.tsx` renders no `<Outlet />`, so the child component is never mounted. The
+  parent's machine list renders instead, at the child's URL.
+- **Actual:** Navigating to `/fleet/mc-audit-1` — the exact `href` the fleet list itself emits —
+  leaves the URL updated but renders the **fleet list again**. Clicking a machine looks like a
+  no-op, and an entire feature page is unreachable.
+- **Expected:** The machine-history page renders, showing that machine's serial, hours, client, and
+  every part sold for it; or "Machine not found" for a bad id.
+- **Evidence:** Measured at `/fleet/mc-audit-1` with two machines seeded. Strings unique to the
+  detail page were all absent while strings unique to the parent list were present, and the body
+  text was byte-identical to `/fleet` (410 characters on both):
+
+  | Assertion | Result |
+  |---|---|
+  | `"Back to fleet"` present (detail page only) | **no** |
+  | `"every part sold for this machine"` present (detail subtitle) | **no** |
+  | `"Machine not found"` present (detail empty state) | **no** |
+  | `"Search every machine by make, model, or serial"` present (**parent list** subtitle) | yes |
+  | Body text length | 410 chars — identical to `/fleet` |
+
+  A control rules out the harness: `/clients/cl-alpha` — the same dynamic-segment pattern, but where
+  the sibling is `clients.index.tsx` rather than a `clients.tsx` layout — renders correctly
+  (`h1` = "Alpha Earthmoving SARL", 1,786 characters). The generated route tree confirms the
+  parenting, `src/routeTree.gen.ts:154-158`:
+
+  ```
+  const FleetMachineIdRoute = FleetMachineIdRouteImport.update({
+    id: '/$machineId',
+    path: '/$machineId',
+    getParentRoute: () => FleetRoute,        // <- /fleet is the layout parent
+  } as any)
+  ```
+
+  and `rg -c 'Outlet' src/routes/fleet.tsx` returns **0**.
+- **Reproduction:** Open `/fleet`, click any machine row. The URL becomes `/fleet/<id>` and the same
+  list re-renders.
+- **Business impact:** "Every part ever sold for this machine" is the feature that makes the fleet
+  register worth maintaining — it is how the counter answers "what did we fit to this excavator last
+  time". It is completely inaccessible, and because the click silently returns the same page, it
+  reads as an unresponsive UI rather than a missing feature. The machine-specific kit/cross-sell
+  ordering path is unreachable with it.
+- **Relevant files:** `src/routes/fleet.tsx` (no `<Outlet />`), `src/routes/fleet.$machineId.tsx`,
+  `src/routeTree.gen.ts:154-158`.
+- **Recommended fix:** Rename `fleet.tsx` to `fleet.index.tsx`, matching the working
+  `clients.index.tsx` / `clients.$clientId.tsx` pair, so `/fleet` and `/fleet/$machineId` are
+  siblings rather than parent and child. Adding `<Outlet />` to `fleet.tsx` would also mount the
+  child, but then the list would render above it on every machine page.
+- **Regression test:** Assert `/fleet/<valid id>` renders the machine's serial number and does **not**
+  render the fleet-list subtitle; assert `/fleet/<unknown id>` renders "Machine not found". Add a
+  routing check that every route file with a dynamic-segment child either is an `index` route or
+  renders an `<Outlet />`.
 
 ---
 
@@ -535,15 +637,27 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 
 ### `STK-009` · P2 · Inventory — quantities are silently rounded to whole units
 
-- **Description:** `adjustPartQuantity` applies `Math.max(0, Math.round(current.quantity + delta))` on both the catalog-override and custom-part branches.
-- **Actual:** Every stock change is rounded to an integer. A fractional movement (2.5 m of hose, 0.75 kg of grease) is rounded rather than stored, and repeated fractional sales accumulate drift. `Math.round` also rounds `.5` toward positive infinity, so the drift is directionally biased.
-- **Expected:** Either fractional quantities are supported for parts sold by length/weight/volume, or non-integer movements are rejected at input with a clear message.
-- **Evidence:** `src/components/app/inventory-context.tsx:395` (catalog branch) and `:405` (custom-parts branch).
-- **Reproduction:** Sell 0.5 of a part twice from a stock of 10. Each `Math.round(10 − 0.5) = 10` (then `Math.round(10 − 0.5) = 10` again), so on-hand does not move at all despite two sales.
-- **Business impact:** For a hydraulics business, hose, seal cord, and bulk lubricants are commonly sold by fractional measure. Those parts cannot be tracked accurately, and because there is no movement log (`STK-002`) the drift is invisible.
-- **Relevant files:** `src/components/app/inventory-context.tsx`, `src/lib/mock-data.ts` (`Part.quantity`).
-- **Recommended fix:** Decide per unit of measurement whether fractional stock is allowed; store quantities as integers in a base unit (e.g. millimetres, grams) to avoid float drift entirely.
-- **Regression test:** Two 0.5 sales from a stock of 10 must leave 9, not 10.
+- **Description:** `adjustPartQuantity` applies `Math.max(0, Math.round(current.quantity + delta))` on both the catalog-override and custom-part branches. Two *further* write paths round the same field by **two different rules**, so the result depends on which control the operator used.
+- **Actual:** Every stock change is rounded to an integer, silently. A fractional movement (2.5 m of hose, 0.75 kg of grease) is rounded rather than stored, and repeated fractional sales accumulate drift. `Math.round` also rounds `.5` toward positive infinity, so the drift is directionally biased.
+
+  **Confirmed through the real UI in the second runtime pass**, and it exposed an inconsistency not
+  visible from `adjustPartQuantity` alone — the same fractional quantity is resolved differently by
+  the two controls that write it:
+
+  | Control | Typed | Stored | Rule applied | Warning |
+  |---|---|---|---|---|
+  | Add/Edit part dialog | `2.5` | **3** | `Math.max(0, Math.round(qty))` — rounds half up | none |
+  | Inline quantity cell | `7.5` | **7** | `Number.parseInt(draft, 10)` then `Math.floor(n)` — truncates | none |
+
+  So `2.5` becomes `3` in one place and `7.5` becomes `7` in another. Neither warns that the
+  fraction was discarded.
+- **Expected:** Either fractional quantities are supported for parts sold by length/weight/volume, or non-integer movements are rejected at input with a clear message — and in either case one rule, not two.
+- **Evidence:** `src/components/app/inventory-context.tsx:395` (catalog branch) and `:405` (custom-parts branch); `src/components/app/part-detail-dialog.tsx:242` (`Math.round`); `src/components/app/inline-number-cell.tsx:33,39` (`parseInt` then `Math.floor`). The two runtime measurements above were taken against the backing store, not the rendered cell.
+- **Reproduction:** Create a part with quantity `2.5` through the Add-part dialog — it stores `3`. Click the same part's inline quantity cell and type `7.5` — it stores `7`. Neither shows a message. Separately, sell 0.5 of a part twice from a stock of 10: each `Math.round(10 − 0.5) = 10`, so on-hand does not move at all despite two sales.
+- **Business impact:** For a hydraulics business, hose, seal cord, and bulk lubricants are commonly sold by fractional measure. Those parts cannot be tracked accurately, and because there is no movement log (`STK-002`) the drift is invisible. The two-rule inconsistency adds a second problem: the same correction entered through two different controls lands on two different numbers, so a stock count can disagree with itself depending on how it was entered.
+- **Relevant files:** `src/components/app/inventory-context.tsx`, `src/components/app/part-detail-dialog.tsx:242`, `src/components/app/inline-number-cell.tsx:33,39`, `src/lib/mock-data.ts` (`Part.quantity`).
+- **Recommended fix:** Decide per unit of measurement whether fractional stock is allowed; store quantities as integers in a base unit (e.g. millimetres, grams) to avoid float drift entirely. Until then, make every write path share one rounding helper and warn when a fraction is discarded.
+- **Regression test:** Two 0.5 sales from a stock of 10 must leave 9, not 10. Assert the dialog and the inline cell resolve the same fractional input to the same stored value.
 
 ### Verified-correct stock behaviours ✅
 
@@ -566,17 +680,78 @@ Established from source and worth preserving during remediation:
 - **Recommended fix:** `roundMoney(...)` and filter to `quantity > 0`.
 - **Regression test:** Assert the value is cents-exact and unchanged by catalog rows with zero on-hand.
 
-### `STK-010` · P2 · Inventory — out-of-range numeric input is silently clamped instead of rejected
+### `STK-010` · **P3** · Inventory — the inline quantity editor discards invalid input with no message
 
-- **Description:** `clampNonNeg` coerces any negative quantity, cost, price, or reorder point to `0` without telling the user.
-- **Actual:** Typing `-5` as a quantity silently stores `0`, overwriting the real figure. Typing a negative cost silently stores `0`, which then makes the part appear to have zero cost and 100% margin in the dashboard's margin calculations. No validation message is shown and nothing records that a value was altered.
-- **Expected:** Out-of-range input is rejected at the form with a clear message, leaving the stored value untouched.
-- **Evidence:** `clampNonNeg` used at `src/components/app/inventory-context.tsx:180,184,186,187,203-206`; `bulkUpdateParts` at `:436-446`.
-- **Reproduction:** Edit a part with 40 on hand, enter `-5` as the quantity, save. On-hand becomes `0`, not `40`, and no warning appears.
-- **Business impact:** A typo (a stray minus sign) silently destroys a real stock figure or cost, and with no movement log (`STK-002`) there is no way to recover the previous value. A zeroed cost also silently inflates the reported average margin.
-- **Relevant files:** `src/components/app/inventory-context.tsx`, the inventory edit form.
-- **Recommended fix:** Validate at the form boundary with Zod and surface the error; reserve clamping for defensive normalisation of already-stored data, not for user input.
-- **Regression test:** Submitting `-5` must reject and leave the stored quantity unchanged.
+> **Corrected and downgraded from P2 to P3 in the second runtime pass. The original finding was
+> wrong about the main form.** The first pass reported that typing `-5` as a quantity silently
+> stores `0`, overwriting the real figure, and cited `clampNonNeg`. Driving the actual Add/Edit part
+> dialog shows it **validates and refuses** such input before any clamp is reached. What remains is a
+> much smaller defect in a different control: the inline quantity cell rejects invalid input
+> *silently*. The original description is retracted; the corrected finding follows.
+
+- **Description:** `InlineNumberCell` — the click-to-edit quantity control on the inventory table and
+  the `/low-stock` reorder queue — discards out-of-range input by resetting its own draft and
+  returning, with no toast, no inline error, and no change in appearance.
+- **Actual:** Measured on `/inventory`. The cell opens as `<input type="number" min="0">`, accepts
+  the typed text, and on Enter writes nothing:
+
+  | Typed | Field displayed | Written to store | Message shown |
+  |---|---|---|---|
+  | `-5` | `-5` | **nothing** (0 overrides written) | **none** |
+  | `7.5` | `7.5` | `{ quantity: 7 }` | none — see `STK-009` |
+
+  With `-5` the operator sees the value they typed, presses Enter, and the cell reverts to the old
+  number with no explanation. Nothing was corrupted — but nothing tells them the edit did not happen.
+- **Expected:** Either a short message ("Quantity cannot be negative"), or the same toast the main
+  dialog already shows.
+- **Evidence:** `src/components/app/inline-number-cell.tsx:32-41`:
+
+  ```
+  const commit = () => {
+    const n = decimal ? Number.parseFloat(draft) : Number.parseInt(draft, 10);
+    setEditing(false);
+    if (!Number.isFinite(n) || n < 0) {
+      setDraft(String(value));      // <- silent revert, no message
+      return;
+    }
+    const next = decimal ? Math.round(n * 100) / 100 : Math.floor(n);
+    if (next !== value) onCommit(next);
+  };
+  ```
+
+- **Reproduction:** On `/inventory`, click a quantity, type `-5`, press Enter. The old value returns with no feedback.
+- **Business impact:** Low. No data is lost or corrupted — the silent no-op is the *safe* outcome. The
+  cost is a confusing interaction: an operator correcting a count may believe the edit saved. On
+  `/low-stock` the sibling call site does show a success toast on a valid commit, which makes the
+  silent failure more confusing by contrast.
+- **Relevant files:** `src/components/app/inline-number-cell.tsx:32-41`, call sites
+  `src/components/app/virtual-inventory-table.tsx:135-142`, `src/routes/low-stock.tsx:160-167`.
+- **Recommended fix:** In the `!Number.isFinite(n) || n < 0` branch, emit the same
+  `toast.error("Qty cannot be negative")` the dialog uses before reverting.
+- **Regression test:** Assert that committing `-5` in an inline cell leaves the value unchanged **and**
+  raises a visible message.
+
+### Verified-correct numeric validation in the part form ✅
+
+*Established in the second runtime pass by driving the real Add-part dialog on `/inventory` and
+checking the stored result in the backing store, not just the screen.* This supersedes the first
+pass's claim that negative and non-finite input is silently coerced:
+
+| Input | Field | Result | Message shown |
+|---|---|---|---|
+| `-5` | Qty | **rejected**, nothing created | "Qty, reorder, cost, and price cannot be negative" |
+| `-12` | Cost | **rejected**, nothing created | "Qty, reorder, cost, and price cannot be negative" |
+| `abc` | Qty | **rejected**, nothing created | "Qty, reorder, cost, and price must be numbers" |
+| `Infinity` | Qty | **rejected**, nothing created | "Qty, reorder, cost, and price must be numbers" |
+| *(empty)* | all | **rejected**, nothing created | "Primary part number is required" |
+| `HOSE-1/2` (existing) | Part number | **rejected**, no duplicate created | "Part number already exists: HOSE-1/2 (Hydraulic hose 1/2 inch)" |
+
+The guards are at `src/components/app/part-detail-dialog.tsx:216-227` — `Number.isFinite` catches both
+`NaN` and `Infinity`, and a separate `n < 0` check catches negatives, each with its own message. This
+is the correct pattern, and it means `clampNonNeg` and `bulkUpdateParts`' `Math.max(0, …)` act as
+defence in depth behind a validating form rather than as the primary (silent) gate. The clamps do
+remain the *only* gate on the Excel-import and programmatic paths, which is where `FUN-005` still
+applies.
 
 ### Inventory import and export
 
@@ -825,14 +1000,15 @@ These were tested and are right — worth recording so they are not "fixed" by m
 |---|---|---|
 | `FIN-002` | `roundMoney` asymmetric for negatives; stops cent-rounding above ~1e10 | P1 |
 | `FIN-004` | Two different subtotal definitions; 0.12 vs 0.06 divergence demonstrated | P2 |
-| `FUN-005` | `NaN`/`Infinity` silently become `0` | P2 |
+| `FUN-005` | `NaN`/`Infinity` silently become `0` on import and programmatic paths | P2 |
 | `RPT-001` | Dashboard "paid sales" mixes sources, ignores discounts and credits | P1 |
-| `RPT-002` | Two different "low stock" definitions | P2 |
+| `RPT-002` | Two different "low stock" definitions, and the dashboard count saturates at 8 | **P1** |
 | `RPT-003` | Revenue grouped by client **name** rather than id | P2 |
 
-**Not verified:** three-way agreement between database, screen, printed page, and PDF for a document
-containing a discount **and** decimal quantities. The formulas match by inspection; end-to-end
-confirmation with a real document is listed in §17.
+**Now verified:** the rendered dashboard figures were scraped and reconciled by hand against the
+seeded source records. That reconciliation is what turned `RPT-002` from a source-level observation
+into a measured 8-versus-136 disagreement, and raised it to P1. Agreement between the screen total
+and the PDF total is separately confirmed across five discount scenarios (§13).
 
 ### Dashboard and report formulas — every card documented
 
@@ -870,17 +1046,66 @@ Phase 8 requires the formula behind every dashboard number. All are computed **c
 - **Recommended fix:** Derive paid sales solely from receipts (`Σ receipt.total where affectsBalance`) minus credit notes, and retire the `orders` fallback (Q10).
 - **Regression test:** Fixture with a discounted, paid, then fully-credited invoice; assert paid sales is `0`.
 
-### `RPT-002` · P2 · Dashboard vs `/low-stock` — two different definitions of "low stock"
+### `RPT-002` · **P1** · Dashboard "Low Stock Alerts" saturates at 8 and disagrees with `/low-stock` by 128
 
-- **Description:** The dashboard filters `quantity > 0 && quantity <= reorderAt`. The `/low-stock` route filters `reorderAt > 0 && quantity <= reorderAt`.
-- **Actual:** The dashboard **excludes parts that have run out entirely** (`quantity === 0`) — precisely the parts most urgently needing reorder — while `/low-stock` includes them. The two screens disagree. The dashboard card is also silently capped at 8 rows with no total count.
-- **Expected:** One shared predicate, including zero-quantity parts, with the full count shown.
-- **Evidence:** `src/routes/index.tsx:147-154` vs `src/routes/low-stock.tsx`.
-- **Reproduction:** Set a part's quantity to 0 with `reorderAt = 5`. It appears on `/low-stock` but **not** on the dashboard card.
-- **Business impact:** Out-of-stock parts are invisible on the main screen, so reordering is delayed exactly when it matters most; and the two screens showing different counts erodes trust in both.
-- **Relevant files:** `src/routes/index.tsx`, `src/routes/low-stock.tsx`.
-- **Recommended fix:** Extract `isLowStock(part)` into a shared module and use it in both places; show "showing 8 of N".
-- **Regression test:** Assert a zero-quantity part with a reorder point appears in both views and that both counts match.
+> **Priority raised from P2 to P1 in the second runtime pass**, and the root cause extended. The
+> first pass identified two differing predicates. Running both screens against the same loaded
+> catalogue showed something more serious: the dashboard's headline alert **number** is computed
+> from an already-truncated list, so it can never exceed 8 no matter how many parts need reordering.
+
+- **Description:** Two separate defects in the same feature. (a) The dashboard filters
+  `quantity > 0 && quantity <= reorderAt` while `/low-stock` filters
+  `reorderAt > 0 && quantity <= reorderAt`, so the dashboard **excludes parts that have run out
+  entirely** — precisely the parts most urgently needing reorder. (b) The dashboard KPI prints the
+  length of a list that has already had `.slice(0, 8)` applied, so the alert count is capped at 8.
+- **Actual:** Measured on the same loaded catalogue at the same moment, with no edits between the
+  two readings:
+
+  | Screen | Figure shown | Source |
+  |---|---|---|
+  | Dashboard "LOW STOCK ALERTS" KPI | **8** | `index.tsx:373` → `String(lowStockParts.length)` |
+  | `/low-stock` page header | **"136 parts at or below reorder"** | `low-stock.tsx:88` → `low.length` |
+
+  The `/low-stock` figure is independently corroborated: scraping the rendered reorder queue found
+  exactly **136** `Reorder at N` rows. The dashboard card listed 8 items, all catalogue couplings at
+  "1 of 1 min", and omitted a seeded part sitting at **0 of 5** — which `/low-stock` placed at the
+  very top of its queue.
+- **Expected:** One shared predicate, including zero-quantity parts, and a count that reflects the
+  true total (or an explicit "showing 8 of 136").
+- **Evidence:** `src/routes/index.tsx:147-154` builds the list and truncates it:
+
+  ```
+  const lowStockParts = useMemo(() =>
+    parts
+      .filter((p) => p.quantity > 0 && p.quantity <= p.reorderAt)
+      .sort((a, b) => a.quantity - b.quantity)
+      .slice(0, 8),                                  // <- display cap
+    [parts]);
+  ```
+
+  and `src/routes/index.tsx:371-376` renders the KPI from that same truncated array:
+
+  ```
+  <MetricCard label="Low Stock Alerts" value={String(lowStockParts.length)} … />
+  ```
+
+  Compare `src/routes/low-stock.tsx:35-41`, which applies no cap.
+- **Reproduction:** Load any catalogue with more than 8 parts at or below their reorder point. The
+  dashboard reads "8"; `/low-stock` reads the true number. Separately, set a part to quantity 0 with
+  `reorderAt = 5`: it appears on `/low-stock` but not on the dashboard card.
+- **Business impact:** The dashboard is the operator's first screen and its low-stock badge is the
+  trigger for reordering. It under-reported by **128 parts** in the measured case, and it stays at 8
+  whether 9 parts or 900 need attention — so the number carries no information once the shop passes
+  8 low items. Out-of-stock parts never raise the alert at all. Reordering is therefore driven by a
+  figure that is both capped and systematically blind to the most urgent cases.
+- **Relevant files:** `src/routes/index.tsx:147-154`, `:371-376`, `src/routes/low-stock.tsx:35-41`.
+- **Recommended fix:** Extract `isLowStock(part)` into a shared module (including `quantity === 0`)
+  and use it in both places. Keep the full filtered list for the count and slice only at render:
+  `value={String(lowStockAll.length)}` with `lowStockAll.slice(0, 8).map(…)` for the card, labelled
+  "showing 8 of N".
+- **Regression test:** With 12 parts below their reorder point, assert the dashboard KPI reads 12,
+  not 8; and assert a zero-quantity part with a reorder point appears in both views with matching
+  counts.
 
 ### `RPT-003` · P2 · Dashboard — revenue grouped by customer **name** instead of id
 
@@ -959,14 +1184,33 @@ The numbers below are from the corrected pass.
 | **404 handling** | An unknown route renders a proper "404 / Page not found / The page you're looking for doesn't exist or has been moved / Go home". |
 | **Desktop layout** | At 1440 px, **0** elements overflow their container on any route except `/inventory` (which has a deliberate horizontal scroller). |
 
-### `UX-002` · **P1** · `/portal` — the customer-facing client portal crashes on every load
+### `UX-002` · **P0** · `/portal` — the customer-facing client portal crashes on every load
+
+> **Priority raised from P1 to P0 in the second runtime pass.** The first pass confirmed the crash
+> without a valid token, which left open the possibility that a correctly-tokenised link worked. A
+> seeded client with a valid, unexpired `portalToken` was then requested directly, and it crashes
+> identically. The feature has no working path at all, on the only surface this business exposes to
+> its customers, so it is no longer a degraded feature — it is a total failure of a customer-facing
+> function that also leaks internal developer text to that customer.
 
 - **Description:** The client portal — the only externally-shared page, sent to customers as a tokenised account link — throws a React context error and renders the generic error boundary instead of the account statement.
 - **Actual:** Every load at every width shows **"This page didn't load / Something went wrong on our end"** with the raw developer string **`useCart must be used within CartProvider`** printed on screen. No statement, no invoices, no quotations.
 - **Expected:** The portal renders the client's aging summary, open invoices, and open quotations; or, for a bad link, the intended "This portal link is invalid or expired" message.
-- **Root cause:** `portal.tsx` renders `<PageHeader>` in **all four** of its render branches (missing-link, loading, error, and success). `PageHeader` calls `useCart()` at `page-header.tsx:22`. `__root.tsx:176-180` deliberately — and correctly — renders the portal *outside* `CartProvider`, so the hook has no provider and throws. The failure is unconditional and independent of token validity.
+- **Root cause:** `portal.tsx` renders `<PageHeader>` in **all four** of its render branches (missing-link, loading, error, and success). `PageHeader` calls `useCart()` at `page-header.tsx:22` — and also `useSearch()` at `page-header.tsx:9`, so restoring only `CartProvider` would move the crash rather than fix it. `__root.tsx:176-180` deliberately — and correctly — renders the portal *outside* every provider (`isPortal ? <><Outlet /><Toaster /></> : …`), so the hook has no provider and throws. The failure is unconditional and independent of token validity.
 - **Evidence:** Reproduced at 375, 768, and 1440 px against the local production build, and **confirmed on the live deployment** at `https://partsvillageapp.vercel.app/portal`. The production check was a read-only GET with **no token**, so the page short-circuits before any data fetch — the request log showed no Supabase call of any kind, only static assets. Console: `Error: useCart must be used within CartProvider`.
-- **Reproduction:** Open `https://partsvillageapp.vercel.app/portal` in any browser. With or without `?c=…&t=…`, the error boundary renders.
+
+  Re-measured in the second runtime pass against a seeded client holding a valid token
+  (`portalToken` set, `portalTokenExpiresAt` 30 days out). All four requests produced a body of
+  exactly **158 characters** — the error boundary — and `h1` of **"This page didn't load"**:
+
+  | Request | Width | `h1` | Error boundary | Client name rendered |
+  |---|---|---|---|---|
+  | `/portal` (no token) | 375 px | This page didn't load | yes | no |
+  | `/portal` (no token) | 768 px | This page didn't load | yes | no |
+  | `/portal` (no token) | 1440 px | This page didn't load | yes | no |
+  | `/portal?client=cl-alpha&token=…` **(valid)** | 1440 px | This page didn't load | yes | **no** |
+
+- **Reproduction:** Open `https://partsvillageapp.vercel.app/portal` in any browser. With no token, an invalid token, or a **valid** token, the error boundary renders.
 - **Business impact:** Every customer who clicks their account link sees a broken page, and the internal React error text is shown to an external party. `SEC-004` already notes portal tokens travel in the URL; this finding means the feature they unlock does not work at all. Two features that depend on it — "Send account link" and the AR chase workflow — cannot deliver value.
 - **Relevant files:** `src/routes/portal.tsx` (all four returns), `src/components/app/page-header.tsx:22`, `src/routes/__root.tsx:176-180`.
 - **Recommended fix:** Give the portal its own lightweight header instead of the operator `PageHeader`, or split the cart-dependent part of `PageHeader` into a separate component that the portal does not render. Also stop rendering raw `error.message` in the error boundary for externally reachable routes.
@@ -974,22 +1218,33 @@ The numbers below are from the corrected pass.
 
 ### `UX-003` · **P2** · Content wider than its container is clipped and permanently unreachable
 
-- **Description:** `overflow-x: clip` is applied at every level of the layout, so anything wider than the container is cut off with **no scrollbar and no way to reach it** — not by page scroll, not by dragging, not by any scrollable ancestor.
-- **Actual:** Measured worst cases, with the amount of content lost past the right edge:
+- **Description:** `overflow-x: clip` is applied at the page-container level, so anything wider than the container is cut off with **no scrollbar and no way to reach it** — not by page scroll, not by dragging, not by any scrollable ancestor.
 
-  | Route | Width | Lost | What is lost |
-  |---|---|---|---|
-  | `/stock-map` | 375 px | **991 px** | Shelf/bin cards ~3× wider than the viewport; part rows and quantities are simply gone |
-  | `/reorder` | 768 px | 218 px | The **Reason** column ("On hand 4 ≤ reorder 10") |
-  | `/documents` | 768 px | 160 px | The **Status** dropdown and the **Open** button — the row's primary action |
-  | `/` (dashboard) | 375 px | 266 px | Right-hand columns of "Recent invoices & orders" and "Low Stock" cards (Total, Status) |
-  | `/` (dashboard) | 768 px | 108 px | Same two cards |
-  | `/counter` | 375 px | 85 px | A long part-name button runs off the edge |
+> **Magnitude corrected in the second runtime pass.** The first pass reported 991 px lost on
+> `/stock-map` and six affected route/width combinations. A full re-measurement — 21 operator routes
+> × 3 widths = **63 samples**, walking every element and attempting a real programmatic scroll on
+> each clipping ancestor — puts the true figure lower and the scope narrower. The mechanism is
+> exactly as originally described; the numbers below supersede the earlier ones.
 
+- **Actual:** Of 63 samples, **0** make the document itself scroll sideways (so the original goal of
+  commit `2562f87` is met), **60** clip content inside some container, but only **3** clip content
+  that is genuinely unreachable. The other 57 are Tailwind `truncate` elements
+  (`overflow-x: hidden` + ellipsis) — intended text truncation, still programmatically scrollable,
+  and not defects. The three real cases:
+
+  | Route | Width | Unreachable | `overflow-x` | Clipping container |
+  |---|---|---|---|---|
+  | `/` (dashboard) | 375 px | **237 px** | `clip` | `div.flex-1.space-y-6.p-4.md:p-6` |
+  | `/stock-map` | 375 px | **230 px** | `clip` | `div.flex-1.space-y-4.p-4.md:p-6` |
+  | `/reorder` | 768 px | **159 px** | `clip` | page container |
+
+  The distinguishing test is scrollability, not width: on these three the container reports
+  `scrollWidth - clientWidth > 0` while `scrollLeft` refuses to move, which is the defining
+  behaviour of `clip` as opposed to `hidden`. On all 57 `truncate` elements `scrollLeft` moves.
 - **Expected:** Either the content reflows to fit, or the container scrolls horizontally so the content stays reachable.
-- **Evidence:** For each case I walked the full ancestor chain and attempted both a page scroll and a programmatic `scrollLeft` on every ancestor. Both failed. Example for `/documents` at 768 px — the chain from the clipped cell up to `<body>` is `table (overflow-x: visible) → div.relative.w-full.max-w-full.overflow-x-clip → div.p-0 → div.rounded-xl.border → main.flex-1 (clip) → main.relative (clip) → div.flex.min-h-dvh (clip) → body (clip)`; `pageScrolled: false, ancestorScrolled: false`.
-- **Reproduction:** Open `/documents` at exactly 768 px wide with the sidebar expanded. The Status control and Open button are not visible and cannot be scrolled to.
-- **Business impact:** This is worse than a cosmetic overflow. On `/documents` at tablet width the operator cannot open or re-status a document at all; on `/stock-map` at phone width — the primary device for warehouse work — most of the page's data is invisible. Because there is no scrollbar, nothing indicates that data is missing, so a wrong reading looks like a complete reading.
+- **Evidence:** For each case the full ancestor chain was walked and a programmatic `scrollLeft` attempted on every clipping ancestor; all refused to move. Example for `/documents` at 768 px — the chain from the clipped cell up to `<body>` is `table (overflow-x: visible) → div.relative.w-full.max-w-full.overflow-x-clip → div.p-0 → div.rounded-xl.border → main.flex-1 (clip) → main.relative (clip) → div.flex.min-h-dvh (clip) → body (clip)`; `pageScrolled: false, ancestorScrolled: false`.
+- **Reproduction:** Open `/stock-map` at exactly 375 px wide. 230 px of shelf/bin content sits past the right edge with no scrollbar and cannot be scrolled to by any means.
+- **Business impact:** Worse than a cosmetic overflow, though narrower than first reported. On `/stock-map` at phone width — the primary device for warehouse work — 230 px of shelf data is invisible, and because there is no scrollbar nothing indicates data is missing, so a partial reading looks like a complete one. The dashboard case hides the right-hand columns of the "Recent invoices" and "Low Stock" cards at phone width. `/documents` and `/counter`, named in the first pass, are **not** affected: their overflow is `hidden` on `truncate` elements and remains reachable.
 - **Root cause note:** Commit `2562f87` ("Stop sideways page scrolling — stack tables and clip overflow on phones") removed the sideways-scroll symptom by switching to `clip`. `clip` differs from `hidden` in that it also disables programmatic scrolling, so the fix converted a visible annoyance into silent data loss on screen.
 - **Relevant files:** `src/routes/__root.tsx:195,197`, `src/styles.css:200-204` (`.no-x-scroll`), `src/components/ui/table.tsx` (the `overflow-x-clip` wrapper), `src/routes/stock-map.tsx`, `src/routes/index.tsx`, `src/routes/reorder.tsx`.
 - **Recommended fix:** Replace `overflow-x: clip` with `overflow-x: auto` on the *table/card wrappers* so wide content scrolls inside its own card, and keep the page itself from scrolling by constraining those wrappers to `max-width: 100%`. That gets the original goal (no sideways page scroll) without amputating content. For `/stock-map`, the card grid needs `min-w-0` on its items so they can shrink.
@@ -1138,7 +1393,7 @@ The numbers below are from the corrected pass.
 - **Description:** Two date styles and two money formatters coexist.
 - **Actual:** Dates render as raw ISO `YYYY-MM-DD` almost everywhere (`2026-09-06`, `2026-09-04`, 12 distinct values observed) because stored strings are printed directly. The exception is the backup reminder banner, which renders a browser-locale date — observed as `10/21/2026` on `/low-stock` — via `toLocaleString(undefined, …)`. Three PDF builders use a third style (`toLocaleDateString()` / `toLocaleString()` with no locale). Separately, two money formatters exist: `currency()` (`mock-data.ts:184`) forces exactly 2 decimals, while `formatMoneyWithUsd()` (`fx.ts:18`) sets `maximumFractionDigits: 2` with **no minimum**, so it renders `$55` rather than `$55.00`.
 - **Expected:** One date formatter and one money formatter used everywhere.
-- **Evidence:** Slash-date detection isolated to the backup banner (`span.text-xs.text-muted-foreground`, confirmed by DOM walk on `/low-stock`). Money decimal census across the sweep: 166 amounts with 2 decimals, 12 with 0. **Caveat:** `formatMoneyWithUsd` is used only on `/china-shipments`, which had no shipment records in my seed, so the *rendered* zero-decimal difference is **NOT VERIFIED** — the divergence is confirmed in source, not on screen. Note also that `misc-inventory.ts:10,17,24,31` embeds prices as free text inside description and notes fields ("FOB cost USD 55 · Sell USD 270"), which will drift from the real price fields when either is edited.
+- **Evidence:** Slash-date detection isolated to the backup banner (`span.text-xs.text-muted-foreground`, confirmed by DOM walk on `/low-stock`). Money decimal census across the sweep: 166 amounts with 2 decimals, 12 with 0. **Now confirmed on screen** (it was source-only in the first pass): with China shipments seeded, `/china-shipments` renders `$1,200` and `$69.93` **side by side on the same page** — the first through `formatMoneyWithUsd` with the cents omitted, the second only showing cents because the RMB conversion happened to produce them. Evidence: `/tmp/pv-audit2/results/routes-xss.log`, finding `R3`. Note also that `misc-inventory.ts:10,17,24,31` embeds prices as free text inside description and notes fields ("FOB cost USD 55 · Sell USD 270"), which will drift from the real price fields when either is edited.
 - **Relevant files:** `src/lib/fx.ts:18`, `src/lib/mock-data.ts:184`, `src/components/app/backup-reminder-banner.tsx:29`, `src/lib/ar-statement.ts:279`, `src/lib/z-report.ts:38`, `src/lib/packing-slip.ts:32`, `src/lib/misc-inventory.ts`.
 - **Recommended fix:** Export one `formatDate`/`formatMoney` pair and use them everywhere, including the PDF builders; give `formatMoneyWithUsd` a `minimumFractionDigits: 2`.
 - **Regression test:** Unit-test both formatters for 0, 0.5, 55, and 1234.5; lint against direct `toLocaleString` use in components.
@@ -1401,20 +1656,67 @@ are right, but on some documents they are printed where nobody can read them.
 - **Recommended fix:** Left-align the description column, or right-align the header to match.
 - **Regression test:** Visual snapshot of a rendered invoice.
 
-### Remaining PDF items still NOT VERIFIED
+### Arabic PDF output — now verified in a real browser ✅
 
-Two things could not be checked in this environment and remain explicitly unverified:
+The two items previously listed here as NOT VERIFIED have since been exercised in a headless Chrome
+session driving the shipped build. A quotation was seeded with three Arabic runs — party name
+`شركة بيتا للمحاجر`, a line description `خرطوم هيدروليكي ١/٢ انش`, and a mixed Arabic/Latin customer
+note — then *Share PDF* was clicked in the app's own document dialog and the downloaded file was
+parsed byte by byte.
 
-1. **Arabic text rendering in PDFs.** `renderArabicPng` needs a browser `<canvas>`; in Node `ensurePdfArabicFont()` returns early and the Arabic path is never exercised. Arabic shaping, right-to-left placement, and the mixed Arabic/Latin cell hooks are therefore **NOT VERIFIED**. Notably, the `maxWidthMm` bug in `PDF-006` affects *only* the Latin path, so Arabic party names are expected to be constrained correctly — the opposite of the usual pattern, and worth confirming in a browser.
-2. **Browser print/`window.print()` output and physical paper margins.** The audit verified the generated PDF geometry, not what a specific printer driver does with it. No headless browser was available in this environment.
+| Item | Result |
+|---|---|
+| **PDF is produced at all from the Arabic document** | ✅ `QUO-AUDIT-AR.pdf`, 585,433 bytes, `%PDF-1.3`, 1 page, terminated with `%%EOF`. |
+| **Arabic runs are rasterised, not dropped** | ✅ 8 image XObjects, of which **3 are Arabic rasters** (285×76, 321×50, 1037×53 px) — exactly one per seeded Arabic run. |
+| **Rasters contain real glyph ink, not blank or solid canvases** | ✅ Each `DeviceGray` soft mask carries 9–10% ink spread over 76–83% of its columns with 7, 16, and 72 ink/blank transitions respectively — the signature of drawn glyphs. A blank canvas scores 0; a solid block scores 0 transitions. |
+| **Shaping and right-to-left order are correct** | ✅ The masks were decoded and written out as PNGs and read back: `شركة بيتا للمحاجر` and `خرطوم هيدروليكي ١/٢ انش` render with correct cursive joining, correct letter forms, and correct RTL order. Arabic-Indic digits `١/٢` and `٣٠` render correctly. |
+| **Mixed Arabic/Latin in one run** | ✅ The customer note renders both scripts in one raster with the Latin segment `delivery ex-works` left-to-right inside the RTL line. |
+| **`maxWidthMm` is honoured on the Arabic path** | ✅ Confirmed — as predicted in `PDF-006`, the constraint the Latin path ignores is respected here (`ctx.fillText(…, maxWidthPx)`). |
 
-Everything else in Phase 10 — A4 sizing, margins, logo and company block placement, customer block,
-document number and date, table alignment, long-description and long-part-number wrapping, repeated
-table headers on continuation pages, page breaks not splitting rows, totals block placement, notes,
-signature area, clipped/overlapping content, screen-versus-PDF total agreement, short-versus-
-multi-page comparison, and the downloaded filename — **was rendered and measured**, and is recorded
-above either as a confirmed defect (`PDF-001`, `PDF-002`, `PDF-005`–`PDF-013`) or in the
-verified-correct table at the top of this section.
+Evidence: `/tmp/pv-audit2/results/arabic3.{log,json}`, the decoded rasters
+`/tmp/pv-audit2/results/pdfimg-{3,5,7}-*-DeviceGray.png`, and `/tmp/pv-audit2/results/pdf.log`.
+
+One new defect did fall out of this pass, plus one measured cost:
+
+### `PDF-014` · P2 · Arabic diacritics are shaved off the top of every rasterised line
+
+- **Page/feature:** Every Arabic string in every PDF and AR statement (`renderArabicPng`, used by `pdfDrawText`, the autoTable `didDrawCell` hook, and `ar-statement.ts`).
+- **Description:** The canvas is allocated as `height = ceil(fontPx × 1.45)` and the text is drawn with `textBaseline = "middle"` at `y = height / 2`, so exactly `height / 2` is available above the centre line. Amiri's Arabic glyphs need more than that once hamza, madda, and shadda sit above the letter body, so the top of the mark is cut off at the canvas edge. Nothing warns; the raster is simply short.
+- **Actual:** In the shipped `QUO-AUDIT-AR.pdf`, the customer-note raster is 1037×53 px and the glyph box needs 32.89 px above the centre line against the 26.5 px available — **6.39 px (0.56 mm) of ink lost at the top and a further 1.52 px at the bottom.** Row 0 of the mask carries 16 inked pixels and the last row carries 2, which is the direct signature of clipping. The `Bill to` party name clips likewise (11 inked pixels on row 0, plus 2 on the left edge because the allocated width comes from `measureText().width`, an advance width that excludes overhanging glyph parts).
+- **Expected:** The canvas is sized from `actualBoundingBoxAscent` + `actualBoundingBoxDescent` (and `actualBoundingBoxLeft/Right` for width), with the baseline placed accordingly, so no glyph touches the edge.
+- **Evidence:** `src/lib/pdf-fonts.ts:82-94`. Measured two ways that agree exactly: (a) the mask streams extracted straight out of the downloaded PDF, and (b) the same strings re-rendered in the browser with the app's own registered Amiri face and the app's own geometry, which reproduces the identical 1037×53 canvas and the identical per-edge ink counts. 2 of 5 representative strings clip. Side-by-side magnification of the app's allocation against a correctly sized one: `/tmp/pv-audit2/results/arabic-note-compare.png` — the hamza over the alif in `الأسعار` is visibly flattened in the app's version and intact in the corrected one. Raw numbers in `/tmp/pv-audit2/results/arabic-clip.json`.
+- **Reproduction:** Create a quotation for a client whose name is written in Arabic, add an Arabic customer note, download the PDF, and magnify the Arabic lines. Compare the tops of `أ`, `آ`, and any shadda against the same text on screen.
+- **Business impact:** Arabic is a primary customer-facing language for this business, and hamza is not decorative — it distinguishes words. A quotation whose Arabic looks clipped reads as sloppy at best and ambiguous at worst, on precisely the document a customer keeps. It is cosmetic rather than numeric, which is why it is P2 and not higher.
+- **Relevant files:** `src/lib/pdf-fonts.ts`.
+- **Recommended fix:** Replace the `fontPx * 1.45` heuristic with the measured box: allocate `ceil(ascent + descent) + 2` in height, draw at `y = ceil(ascent) + 1`, and widen by `actualBoundingBoxLeft - advanceWidth` when positive. This is a self-contained change to one function and every caller benefits.
+- **Regression test:** Render a fixture set of Arabic strings and assert that the outermost row and column of each mask carry zero ink.
+
+### `PDF-015` · P3 · Arabic documents are 2.7× larger than equivalent Latin ones
+
+- **Page/feature:** PDF generation for any document containing Arabic.
+- **Description:** Each Arabic run embeds **two** image XObjects: a `DeviceGray` soft mask holding the glyph shapes, and a full-size `DeviceRGB` colour plane that is a single flat colour in every pixel. The colour plane carries no information beyond that one colour, and neither image is compressed — `/Filter` is absent on all six Arabic streams.
+- **Actual:** Measured on two documents of comparable length from the same seed: the Latin-only `QUO-AUDIT-0001.pdf` is **213,635 bytes** with 2 image XObjects and 0 unfiltered images; the Arabic `QUO-AUDIT-AR.pdf` is **585,433 bytes** — 2.7×. Of that, **278,013 bytes are solid-colour RGB planes and 92,671 bytes are masks**, so 370,684 of 585,433 bytes (63%) is uncompressed raster for three short lines of text.
+- **Expected:** Either a compressed single-channel image, or real embedded-font text.
+- **Evidence:** `/tmp/pv-audit2/results/perf-offline.log`, finding `PDF1`.
+- **Business impact:** Low but not zero. These documents are shared over WhatsApp and email from a phone; a half-megabyte quotation for three Arabic lines is slow on a weak connection and the Arabic text is not selectable or searchable in the resulting PDF. It scales with the number of Arabic lines, so a long Arabic invoice is considerably worse.
+- **Relevant files:** `src/lib/pdf-fonts.ts`, `src/lib/document-export.ts`.
+- **Recommended fix:** The clean fix is to stop rasterising: the Amiri TTF is already embedded in the bundle (`PDF_ARABIC_FONT_REGULAR_BASE64`), so registering it with jsPDF and drawing shaped text would give selectable Arabic at a fraction of the size. Failing that, draw the mask as a single grayscale channel and let jsPDF Flate-compress it.
+- **Regression test:** Assert that a fixture Arabic invoice stays under a byte budget.
+
+### `PRN-001` · P2 · There is no print stylesheet, so Ctrl+P prints the app furniture
+
+- **Page/feature:** Every operator route, browser print.
+- **Description:** `src/styles.css` contains **no `@media print` block anywhere**, and the app never calls `window.print()`. Printing is therefore entirely a PDF-generation feature; if an operator reaches for the browser's own print command, they get a screenshot of the application.
+- **Actual:** Printing `/documents` through the browser's print pipeline produced a **2-page, 378,411-byte** document whose first page begins `PARTS VILLAGE / HEAVY EQUIPMENT PARTS / Operations / Dashboard / Search / Inventory / Stock take / …` — the entire left-hand navigation sidebar, printed. 0 print media rules were found; the sidebar was still visible in print emulation.
+- **Expected:** Either a minimal print stylesheet that hides the sidebar, header, and toasts so Ctrl+P yields something usable, or — a legitimate alternative — an explicit in-app statement that printing goes through *Download PDF*.
+- **Evidence:** `/tmp/pv-audit2/results/pdf.log`, finding `P3`. Confirmed in source: no match for `@media print` in `src/styles.css`, no match for `window.print` in `src/`.
+- **Reproduction:** Open any operator page and press Ctrl+P.
+- **Business impact:** Operators reach for Ctrl+P by habit, and the failure is silent and wasteful rather than dangerous — paper and a confused customer, not a wrong number. The real documents all have a working PDF path, which is why this is P2.
+- **Relevant files:** `src/styles.css`.
+- **Recommended fix:** Add a short `@media print` block hiding `[data-sidebar]`, the sticky header, and the toast region, and setting `@page { margin: 12mm }`.
+- **Regression test:** Assert that a print-emulated snapshot of `/documents` does not contain the sidebar navigation text.
+
+**Physical paper margins remain unverified** and are the one Phase 10 item that cannot be closed here: it needs a real printer. Everything else in Phase 10 — A4 sizing, margins, logo and company block placement, customer block, document number and date, table alignment, long-description and long-part-number wrapping, repeated table headers on continuation pages, page breaks not splitting rows, totals block placement, notes, signature area, clipped/overlapping content, screen-versus-PDF total agreement, short-versus-multi-page comparison, the downloaded filename, and now the whole Arabic path and browser print — **was rendered and measured**, and is recorded above either as a confirmed defect (`PDF-001`, `PDF-002`, `PDF-005`–`PDF-015`, `PRN-001`) or in the verified-correct tables in this section.
 
 ---
 
@@ -1622,12 +1924,53 @@ verified restore path materially raises the severity of both.
 - **Recommended fix:** Add jittered exponential backoff and surface a persistent conflict to the operator.
 - **Regression test:** Force sustained conflict; assert bounded retries and a visible unsynced indicator.
 
-### Performance items NOT VERIFIED
+### Runtime performance — now measured ✅
 
-Real page-load timings, search responsiveness with a full catalog, memory-leak behaviour over a long
-session, duplicate network requests, and offline/unstable-network recovery — all require the browser
-session in §17. Two positives were established from source: the inventory table is **virtualised**
-(`VirtualInventoryTable`), and saves are **debounced** at 400 ms rather than fired per keystroke.
+Measured in headless Chrome against the shipped build with the full seeded catalogue of **2,344
+parts**. Absolute numbers are machine-specific and are recorded for the record, not as a production
+claim; the point is the *shape*, and the shape is good.
+
+| Route | First contentful paint | `load` event | JS requests |
+|---|---|---|---|
+| `/` (dashboard) | 152 ms | 2056 ms | 38 |
+| `/inventory` | 164 ms | 2076 ms | 47 |
+| `/documents` | 160 ms | 2061 ms | 45 |
+| `/clients` | 204 ms | 2093 ms | 38 |
+| `/low-stock` | 232 ms | 2150 ms | 34 |
+| `/china-shipments` | 204 ms | 2024 ms | 40 |
+| `/insights` | 252 ms | 2071 ms | 33 |
+| `/counter` | 216 ms | 2140 ms | 35 |
+
+First paint lands in 150–250 ms on every route. The ~2 s `load` event is the tail of the 33–47
+separate JS requests, which is the observable cost of `PERF-001` — on a fast local connection it is
+invisible, but each of those is a round trip on a phone.
+
+**Search latency over 2,344 parts** — time from the last keystroke to the filtered result:
+
+| Query | Latency |
+|---|---|
+| `O-RING` (broad, many matches) | 46.9 ms |
+| `ISO-00` | 58.2 ms |
+| `HOSE` | 61.2 ms |
+| `CF-A-050` (specific) | 50.0 ms |
+| `zzz-no-match` (no matches) | 48.4 ms |
+
+All under 62 ms, including the worst case. Typing stays responsive on the full catalogue and the
+virtualised table holds up. No performance defect was found here.
+
+**Offline and reconnect behaviour: verified working.** With the network cut at the protocol level, a
+quantity edit (`oring-0004` → 123) was applied in the UI, the app surfaced an offline state, and the
+write was **held locally and flushed to the cloud on reconnect** — the mock store went from 0
+pending overrides while offline to 1 written override after the network returned, carrying the
+correct value. Nothing was lost and nothing was double-applied. Evidence:
+`/tmp/pv-audit2/results/perf-offline.log`, finding `N1`.
+
+Two positives previously established from source also hold up in the browser: the inventory table is
+**virtualised** (`VirtualInventoryTable`), and saves are **debounced** at 400 ms rather than fired
+per keystroke.
+
+Still not measured: memory behaviour over a multi-hour session, and timings against real production
+data volumes rather than the seeded catalogue.
 
 ---
 
@@ -1744,29 +2087,41 @@ and the type error are not enforced on any change.
 
 Stated plainly, as required. These were **not** confirmed and no claim in this report depends on them.
 
-### Not verified, or only partly verified
+### Closed in the second runtime pass — previously listed here as unverified
 
-1. **Arabic text in PDFs, and browser print output.** Everything else in Phase 10 was rendered and measured (see §13). The Arabic canvas path cannot run without a browser `<canvas>` inside the PDF harness, and I did not exercise `window.print()` or check physical printer margins on paper.
-2. **Interactive CRUD edge cases (part of Phase 3).** Now partly covered: the "Add part" dialog was submitted empty and its validation behaviour measured (`UX-007`), the client-delete confirmation was opened and cancelled, and long text / special characters were confirmed to render and to reach the PDF safely. Still **not** exercised per form through the UI: duplicate submission, refresh-after-save, browser back/forward, decimal/zero/negative numeric input, and mid-write network failure.
-3. **Runtime confirmation of the XSS payload rendering in the browser DOM.** Partly resolved: the seeded `<b>test</b>` part name was observed rendering as **literal text** in the `/documents`, `/delivery-board`, and `/counter` samples, and in the PDF (§13). I did not separately assert the absence of an injected element in the DOM tree.
-4. **Observed dashboard figures reconciled by hand.** Every formula in §11 was read from source and the calculation harness exercised the money functions directly. The dashboard cards were rendered and screenshotted, but I did not transcribe each figure and reconcile it against source records manually.
-5. **Negative stock behaviour in the UI.** Whether the app blocks, warns, or silently accepts a negative quantity. `confirmOversell` and `stockShortagesForQty` exist and imply a warning on oversell, but the manual-edit path was not tested. `STK-008` describes the consequence if negatives are permitted.
-6. **Zero-decimal money rendering.** `formatMoneyWithUsd` diverges from `currency()` in source (`UX-016`), but it is used only on `/china-shipments`, which had no records in the seed — so the rendered difference was not observed.
-7. **Barcode scanning, label printing, photo upload.** Require physical devices or a real Storage bucket.
-8. **WebAuthn / Face ID.** Requires a platform authenticator; only reviewed in source (and it correctly gates on `requireOperatorAccessToken`).
-9. **`/fleet/$machineId` and `/share`.** The seeded fleet had no machines, so the machine detail route was never rendered; `share.ts` is a server action reached only by the Web Share Target, which needs a real installed PWA.
-10. **Screen-reader announcement quality.** Roles, names, and structure were measured programmatically, but no actual screen reader was run, so announcement order and phrasing are unverified.
+Recorded explicitly so the change is visible. Each of these was an open item in the first version of
+this report and has since been driven in a real browser against the shipped build:
 
-**Now verified, previously listed here** — recorded so the change is visible: Phase 9 design and UX at all three widths (§12, 83 screenshots and 79 measured samples); client/supplier deletion protection and the exact confirmation wording (`CUS-001`); the inventory import and export path, traced end to end from the dialog to the write, with the export round trip confirmed identity-safe (§8, `IMP-001`–`IMP-003`); offline behaviour and reconnect (§12, verified working); modal keyboard behaviour and focus management (§12).
+1. **Arabic text in PDFs.** Closed. Three Arabic runs were seeded, the app's own *Share PDF* button was clicked, and the downloaded file was parsed: 3 Arabic rasters, correct shaping, correct RTL order, correct Arabic-Indic digits, mixed Arabic/Latin in one line. Two new findings fell out: `PDF-014` (diacritics clipped) and `PDF-015` (2.7× file-size inflation). §13.
+2. **Browser print output.** Closed. Printing `/documents` through the browser print pipeline yields a 2-page document that begins with the whole navigation sidebar; there is no `@media print` rule anywhere in `src/styles.css`. `PRN-001`.
+3. **Interactive CRUD edge cases.** Closed for the inventory form: empty submit, three rapid duplicate submits, duplicate part number, negative quantity, negative cost, fractional quantity, 10¹⁵ price, non-numeric input, refresh-after-save, and browser back/forward were each driven through the real dialog. Results in §4 and §6 — `FUN-007`, `STK-009`, `STK-010`, and the verified-correct validation table.
+4. **XSS payload in the browser DOM.** Closed. Asserted on four routes plus `/search` and the part-detail dialog that the payload renders **HTML-escaped as text**, that **zero** matching elements exist in the DOM (`img[src=x]`, `[onerror]`, `script`, `b`), and that none of the three execution probes fired. §14.
+5. **Dashboard figures reconciled by hand.** Closed. Every KPI was scraped from the rendered dashboard and compared against figures computed independently from the seeded records. That reconciliation is what produced `RPT-002`, upgraded to P1.
+6. **Negative and fractional stock through the UI.** Closed. The Add/Edit dialog **correctly rejects** negatives and non-numerics with a clear message; the inline quantity editor silently discards them (`STK-010`), and fractional quantities are silently rounded by two different rules depending on the path (`STK-009`).
+7. **Zero-decimal money rendering.** Closed. With China shipments now seeded, `/china-shipments` renders `$1,200` alongside `$69.93` on the same screen — `formatMoneyWithUsd` omits the cents that `currency()` always prints. `UX-016` is now an observed defect, not a source-only one.
+8. **`/fleet/$machineId`.** Closed, and it is broken: the parent route renders no `<Outlet />`, so the machine-history page can never mount. `FUN-006`, P1.
+9. **Offline and reconnect.** Closed. An edit made with the network cut was held locally and flushed correctly on reconnect. §15.
+10. **Runtime page-load and search timings.** Closed. First paint 152–252 ms across 8 routes; search over 2,344 parts completes in under 62 ms in every sample. §15.
+11. **Horizontal overflow magnitude.** Closed with corrected figures: all 21 operator routes at 3 widths, separating genuinely unreachable `overflow-x: clip` content (3 route/width combinations) from intentional `truncate` ellipsis. `UX-003` was rewritten accordingly.
+
+### Still not verified
+
+12. **Physical paper margins.** Needs a real printer and real paper. The generated PDF geometry is fully measured; what a specific printer driver does with it is not.
+13. **Barcode scanning, label printing, photo upload.** Require physical devices or a real Storage bucket.
+14. **WebAuthn / Face ID.** Requires a platform authenticator; only reviewed in source (and it correctly gates on `requireOperatorAccessToken`).
+15. **`/share`.** A server action reached only by the Web Share Target, which needs a real installed PWA.
+16. **Screen-reader announcement quality.** Roles, names, and structure were measured programmatically, but no actual screen reader was run, so announcement order and phrasing are unverified.
+17. **Mid-write network failure during a form submit.** Offline-then-reconnect is verified; cutting the network *during* the write itself, and the merge behaviour of two devices editing the same record simultaneously, are not.
+18. **Memory behaviour over a long session.** No multi-hour session was run, so leak behaviour is unknown.
 
 ### Not verifiable in this environment
 
-11. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
-12. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
-13. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
-14. **Real-world data volume and timings.** All performance figures are from build output and source analysis, not production telemetry.
-15. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
-16. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
+19. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
+20. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
+21. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
+22. **Real-world data volume.** The timings in §15 are against a seeded 2,344-part catalogue on this machine, not production telemetry.
+23. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
+24. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
 
 ---
 
@@ -1947,9 +2302,12 @@ the reachable width on `/stock-map`, and the tab-stop count before first content
 
 ### Stage 5 — Close the remaining verification gaps
 
-32. Finish the interactive CRUD edge-case matrix (§17 item 3) and confirm Arabic PDF rendering and
-    browser print output in a real browser (§17 item 2). Design defects are cheap to fix but only
-    findable by looking, so this is worth doing before committing to Stage 6.
+32. Most of what this stage originally called for has since been done: the interactive CRUD
+    edge-case matrix, Arabic PDF rendering, browser print output, XSS in the DOM, offline and
+    reconnect, runtime timings, and the dashboard reconciliation are all now measured (§17). What
+    remains genuinely needs hardware or a live environment — physical paper margins, barcode
+    scanning, label printing, photo upload, WebAuthn, the Web Share Target, and a screen-reader
+    pass. Schedule those against a real device before committing to Stage 6.
 
 ### Stage 6 — The architectural decision (largest change; needs your call)
 
@@ -2032,16 +2390,16 @@ each; money and status logic verified by harness.
 |---|---|
 | 1 — Project understanding | ✅ Complete |
 | 2 — Technical verification | ✅ Complete |
-| 3 — Feature testing | ⚠️ Mostly — logic verified by harness, dialogs/validation/confirmations/offline driven in a browser; per-form numeric and duplicate-submit edge cases not driven |
-| 4 — Inventory | ✅ Mostly complete — 11 findings including import/export; negative-stock UI behaviour unverified |
+| 3 — Feature testing | ✅ Complete — logic verified by harness; dialogs, validation, confirmations, offline/reconnect, duplicate submit, refresh-after-save, back/forward, and the full numeric edge-case matrix all driven in a real browser |
+| 4 — Inventory | ✅ Complete — 11 findings including import/export; both numeric editing paths driven, negative input confirmed rejected by the form and silently discarded by the inline editor |
 | 5 — Quotations | ✅ Logic complete — 4 findings |
 | 6 — Invoices and payments | ✅ Logic complete — 7 findings |
 | 7 — Customers and suppliers | ✅ Complete — delete protection and duplicate handling both verified (`CUS-001`, `CUS-002`) |
-| 8 — Reports and dashboard | ✅ All formulas documented — 3 findings; rendered figures not transcribed by hand |
-| 9 — Design and UX | ✅ Complete — 79 measured samples, 83 screenshots, 20 findings, 12 verified-correct behaviours |
-| 10 — Printing and PDF | ✅ Complete — real PDFs rendered and measured; Arabic and physical print unverified |
-| 11 — Security | ✅ Complete — 8 findings, 2 confirmed by live probe, 11 controls verified sound |
-| 12 — Performance | ⚠️ Mostly — build/architecture analysed; runtime timings not measured |
+| 8 — Reports and dashboard | ✅ Complete — all formulas documented and every rendered KPI reconciled by hand against seeded records, which produced `RPT-002` |
+| 9 — Design and UX | ✅ Complete — 79 measured samples, 83 screenshots, 20 findings, 12 verified-correct behaviours; overflow re-measured across 21 routes × 3 widths |
+| 10 — Printing and PDF | ✅ Complete — real PDFs rendered and measured, Arabic path verified in a browser and its rasters decoded; only physical paper margins remain unverified |
+| 11 — Security | ✅ Complete — 8 findings, 2 confirmed by live probe, 11 controls verified sound, stored XSS confirmed inert in the DOM |
+| 12 — Performance | ✅ Complete — build and architecture analysed; runtime page-load, search latency, and offline/reconnect all measured against a 2,344-part catalogue |
 
 ---
 
@@ -2054,6 +2412,7 @@ each; money and status logic verified by harness.
 | `FIN-001` | **P0** | Payments | Payments without receipt documents silently and permanently erased on merge |
 | `STK-001` | **P0** | Stock | Stock deducted before conversion commits; no rollback; double-deduct on retry |
 | `STK-002` | **P0** | Stock | No stock movement audit trail across 14 mutation sites |
+| `UX-002` | **P0** | Portal | The customer-facing portal crashes on every load — confirmed on production, in the local build at all three widths, and in the server-side render |
 | `SEC-003` | P1 | Auth | Rate limiter fails open and updates non-atomically |
 | `FIN-002` | P1 | Money | `roundMoney` asymmetric for negatives; stops cent-rounding above ~1e10 |
 | `FIN-003` | P1 | Invoices | No due date, so `Overdue` and aging are not derivable |
@@ -2067,7 +2426,8 @@ each; money and status logic verified by harness.
 | `PDF-005` | P1 | PDF | AR statement prints "Net due" off the bottom of the page — 8 of 350 shapes |
 | `CUS-001` | P1 | Customers | Deleting a client removes $6,000 of demonstrated AR from the dashboard and collections queue |
 | `CUS-002` | P1 | Customers | Re-adding an existing name silently wipes phone/email/address; the Excel importer triggers it |
-| `UX-002` | P1 | Portal | The customer-facing portal crashes on every load, locally and on production |
+| `FUN-006` | P1 | Navigation | `/fleet/$machineId` can never render — the parent route renders no `<Outlet />`, so the machine-history page is unreachable |
+| `RPT-002` | P1 | Reports | Dashboard "Low Stock Alerts" saturates at 8 and disagreed with `/low-stock` by 128 in the seeded run |
 | `FIN-004` | P2 | Money | Two different subtotal definitions (0.12 vs 0.06 demonstrated) |
 | `FIN-005` | P2 | Money | Tax hardcoded to 0; no VAT configuration |
 | `FIN-006` | P2 | Money | Currency effectively hardcoded to USD |
@@ -2075,7 +2435,8 @@ each; money and status logic verified by harness.
 | `FUN-002` | P2 | Documents | No structured numbering; ids double as customer-facing numbers |
 | `FUN-003` | P2 | Documents | Duplicate document ids possible by construction |
 | `FUN-004` | P2 | Navigation | `/documents` link omits required search params |
-| `FUN-005` | P2 | Global | `NaN`/`Infinity` silently coerced to 0 |
+| `FUN-005` | P2 | Global | `NaN`/`Infinity` silently coerced to 0 on import and programmatic paths (the part form itself is guarded) |
+| `FUN-007` | P2 | Forms | Three rapid Create clicks create one part but show three success toasts |
 | `QUO-001` | P1 | Quotations | No expiry date, so `Expired` cannot exist |
 | `QUO-002` | P2 | Quotations | Status set does not cover the lifecycle |
 | `QUO-003` | P2 | Quotations | Quotations never reserve stock, with no warning |
@@ -2083,10 +2444,8 @@ each; money and status logic verified by harness.
 | `STK-005` | P2 | Inventory | Part-number uniqueness enforced on create but not update |
 | `STK-006` | P2 | Inventory | Concurrent creates can duplicate a part number |
 | `STK-007` | P2 | Inventory | `removePart` silently resets quantity and pricing |
-| `STK-009` | P2 | Inventory | Quantities silently rounded to whole units; fractional stock drifts |
-| `STK-010` | P2 | Inventory | Negative input silently clamped to 0 instead of rejected |
+| `STK-009` | P2 | Inventory | Quantities silently rounded to whole units by two different rules — the dialog rounds 2.5 to 3, the inline editor floors 7.5 to 7 |
 | `IMP-002` | P2 | Import | Duplicate rows for one part keep only the last, and the count reports rows not parts |
-| `RPT-002` | P2 | Reports | Two different low-stock definitions |
 | `RPT-003` | P2 | Reports | Revenue grouped by client name, not id |
 | `RPT-004` | P2 | Reports | Date handling mixes local-time bucketing with raw string slicing |
 | `SEC-004` | P2 | Portal | Tokens in query params; expiry fails open; `Math.random()` fallback |
@@ -2104,7 +2463,9 @@ each; money and status logic verified by harness.
 | `PDF-007` | P2 | PDF | Long customer note prints past the footer and off the paper |
 | `PDF-008` | P2 | PDF | Continuation pages carry no client, reference, or date |
 | `PDF-009` | P2 | PDF | Payment history silently truncated to 12 entries |
-| `UX-003` | P2 | Layout | `overflow-x: clip` makes off-container content permanently unreachable — 991 px lost on `/stock-map` |
+| `PDF-014` | P2 | PDF | Arabic diacritics shaved off the top of every rasterised line — 0.56 mm of ink lost, measured in the shipped PDF |
+| `PRN-001` | P2 | Printing | No `@media print` rule anywhere, so Ctrl+P prints the navigation sidebar |
+| `UX-003` | P2 | Layout | `overflow-x: clip` makes content unreachable on 3 of 63 route/width combinations tested |
 | `UX-004` | P2 | Layout | Tables un-stack at 768 px, exactly where the sidebar squeezes content to 512 px |
 | `UX-005` | P2 | A11y | Accent colour on money and stock figures measures 2.52–2.66:1 against a 4.5:1 requirement |
 | `UX-006` | P2 | A11y | Every input, button, and card border measures 1.27–1.34:1 against a 3:1 requirement |
@@ -2118,7 +2479,7 @@ each; money and status logic verified by harness.
 | `UX-013` | P3 | A11y | Five inputs have no accessible name; five more rely on placeholder alone |
 | `UX-014` | P3 | A11y | `/clients` and `/suppliers` skip `h1` → `h3` |
 | `UX-015` | P3 | A11y | Modal sets no `aria-modal` and leaves the app shell non-inert |
-| `UX-016` | P3 | Consistency | Two date styles and two money formatters coexist |
+| `UX-016` | P3 | Consistency | Two date styles and two money formatters coexist — `$1,200` and `$69.93` now observed side by side on `/china-shipments` |
 | `UX-017` | P3 | Consistency | 17 distinct button height/font/radius combinations |
 | `UX-018` | P3 | UX | Backup reminder banner renders on all 26 routes and is the first in-content tab stop |
 | `UX-019` | P3 | UX | Empty states inconsistent; `/fleet` and `/china-shipments` offer no way forward |
@@ -2130,7 +2491,9 @@ each; money and status logic verified by harness.
 | `PDF-011` | P3 | PDF | Document reference drawn unwrapped; a long id leaves the paper |
 | `PDF-012` | P3 | PDF | Totals box overflows for astronomically large amounts |
 | `PDF-013` | P3 | PDF | Description column right-aligned under a left-aligned header |
+| `PDF-015` | P3 | PDF | Arabic documents are 2.7× larger than Latin ones — 63% of the file is uncompressed raster |
 | `STK-008` | P3 | Inventory | Inventory valuation is an unrounded float over the whole catalog |
+| `STK-010` | P3 | Inventory | The inline quantity editor discards negative and invalid input with no message (the Add/Edit dialog correctly rejects it) |
 | `IMP-001` | P3 | Import | Dead `parseInventoryExcelFile` truncates part codes at separators — unreachable, so latent |
 | `IMP-003` | P3 | Import | Import dry run lists only the first 30 rows, with no "30 of N" disclosure |
 | `PERF-005` | P3 | Reliability | Conflict retry loop has no backoff or ceiling |
