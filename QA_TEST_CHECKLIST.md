@@ -13,6 +13,13 @@ Every figure in this checklist — ratios, pixel counts, tab-stop indices, milli
 therefore restated in the row itself and in the matching report finding, so no row depends on a file
 you cannot open.
 
+**Two runtime passes are recorded here.** The first drove the app across 26 routes at three widths
+and executed the PDF builders directly. The second closed the gaps the first left open: the Arabic
+PDF path, browser print, the inventory form's full numeric and duplicate-submit matrix, XSS in the
+DOM, the dashboard reconciliation, `/fleet/$machineId`, `/china-shipments`, offline-and-reconnect,
+and runtime timings. Rows changed by the second pass carry a `Runtime` method and restate the
+measurement inline.
+
 ## How to read the Status column
 
 | Status | Meaning |
@@ -32,35 +39,37 @@ you cannot open.
 
 | Status | Count | Share |
 |---|---|---|
-| Pass | 168 | 38% |
-| Fail | 201 | 45% |
-| Blocked | 9 | 2% |
-| Not Verified | 67 | 15% |
-| **Total test cases** | **445** | |
+| Pass | 195 | 41% |
+| Fail | 219 | 46% |
+| Blocked | 8 | 2% |
+| Not Verified | 49 | 10% |
+| **Total test cases** | **471** | |
 
 Four things to keep in mind when reading these totals:
 
-- **The 201 failures map to 89 distinct issues**, not 201 problems. A single root cause fails many
-  test cases — `STK-002` (no stock audit trail) alone accounts for eight rows, `UX-003`
-  (`overflow-x: clip`) for seven, and `DAT-001` (no database constraints) for several more.
-- **Sections 13 and 14 were executed, not read.** Section 13's 39 cases come from running the
-  application's own PDF builders and parsing the resulting page content streams, so every position
-  is a measurement in millimetres. Section 14's 83 cases come from driving the running app in
-  headless Chrome across 26 routes at three widths. Together they are 122 of the 445 cases and they
-  are the strongest evidence in this checklist.
-- **41 of section 14's 83 cases pass**, which is worth stating as plainly as the failures: no page
-  scrolls sideways at any width, focus is trapped correctly in dialogs, every field in the "Add part"
-  form is labelled, the offline banner works and clears on reconnect, and the destructive
-  confirmation defaults to Cancel.
-- **The 67 unverified cases are concentrated** in the interactive per-form edge cases (sections 7–11)
-  and in things this environment cannot reach: physical printing and scanning hardware, a platform
-  authenticator for WebAuthn, and the production Supabase project. §17 of the audit report lists all
-  of them individually.
+- **The 219 failures map to 96 distinct issues**, not 219 problems. A single root cause fails many
+  test cases — `UX-003` (`overflow-x: clip`) accounts for eleven rows, `STK-002` (no stock audit
+  trail) for eight, and `FIN-001`, `FIN-002`, `CUS-001`, `RPT-002`, `UX-005`, and `UX-008` for six
+  each.
+- **Sections 13 and 14 were executed, not read.** Section 13's 51 cases come from running the
+  application's own PDF builders and parsing the resulting page content streams — plus, in the
+  second pass, clicking *Share PDF* in the live app and decoding the Arabic rasters out of the
+  downloaded file — so every position is a measurement in millimetres or pixels. Section 14's 84
+  cases come from driving the running app in headless Chrome across 26 routes at three widths.
+  Together they are 135 of the 471 cases and they are the strongest evidence in this checklist.
+- **42 of section 14's 84 cases pass**, which is worth stating as plainly as the failures: focus is
+  trapped correctly in dialogs, every field in the "Add part" form is labelled, the offline banner
+  works and clears on reconnect, and the destructive confirmation defaults to Cancel.
+- **The 49 remaining unverified cases are concentrated** in per-form edge cases for the quotation,
+  invoice, payment, and client forms (sections 7–9, 11) and in things this environment cannot reach:
+  physical printing and scanning hardware, a platform authenticator for WebAuthn, and the production
+  Supabase project. §17 of the audit report lists all of them individually. The second runtime pass
+  cut this number from 67 to 49 and drove the inventory form's matrix to completion.
 
 | Section | Cases | Pass | Fail | Blocked | Not Verified |
 |---|---|---|---|---|---|
 | 1. Environment, build, tooling | 13 | 3 | 10 | 0 | 0 |
-| 2. Authentication and access control | 15 | 10 | 3 | 1 | 1 |
+| 2. Authentication and access control | 16 | 12 | 3 | 1 | 0 |
 | 3. Server function authorisation | 9 | 7 | 2 | 0 | 0 |
 | 4. Database, RLS, storage | 14 | 8 | 6 | 0 | 0 |
 | 5. Secrets and client exposure | 7 | 6 | 1 | 0 | 0 |
@@ -68,14 +77,14 @@ Four things to keep in mind when reading these totals:
 | 7. Payments and multi-device merge | 22 | 6 | 8 | 0 | 8 |
 | 8. Quotations | 25 | 5 | 12 | 0 | 8 |
 | 9. Invoices | 27 | 10 | 8 | 0 | 9 |
-| 10. Inventory and stock | 52 | 16 | 19 | 3 | 14 |
+| 10. Inventory and stock | 60 | 28 | 24 | 3 | 5 |
 | 11. Customers and suppliers | 28 | 7 | 14 | 0 | 7 |
-| 12. Reports and dashboard | 23 | 2 | 15 | 0 | 6 |
-| 13. PDF and printing | 39 | 18 | 16 | 2 | 3 |
-| 14. Design, responsive, accessibility | 83 | 41 | 40 | 0 | 2 |
-| 15. Security behaviour | 14 | 5 | 5 | 3 | 1 |
-| 16. Performance and reliability | 21 | 4 | 11 | 0 | 6 |
-| 17. Route coverage | 28 | 7 | 19 | 0 | 2 |
+| 12. Reports and dashboard | 24 | 2 | 17 | 0 | 5 |
+| 13. PDF and printing | 51 | 25 | 22 | 1 | 3 |
+| 14. Design, responsive, accessibility | 84 | 42 | 41 | 0 | 1 |
+| 15. Security behaviour | 14 | 6 | 5 | 3 | 0 |
+| 16. Performance and reliability | 23 | 8 | 13 | 0 | 2 |
+| 17. Route coverage | 29 | 7 | 21 | 0 | 1 |
 
 ---
 
@@ -113,7 +122,8 @@ Four things to keep in mind when reading these totals:
 | Auth | — | Rate limiter fails closed on store error | Unlock refused | Returns `{ok:true}` on any error — fails **open** | Source | **Fail** | `SEC-003` |
 | Auth | — | Failure counter increments atomically | Concurrent failures all counted | Non-atomic load-then-save; a burst counts as ~1 | Source | **Fail** | `SEC-003` |
 | Auth | — | Session expiry is enforced | Session expires | `jwt_expiry = 3600`; absolute + session unlock flags in browser storage | Source | **Pass** | — |
-| Auth | `/` | Unlock survives reload within session | Stays unlocked | `sessionStorage`/`localStorage` flags present | Source | **Not Verified** | — |
+| Auth | `/` | Unlock survives reload within session | Stays unlocked | Confirmed across dozens of hard navigations and reloads in the runtime passes: the PIN gate did not reappear and `#operator-pin` stayed absent | Runtime | **Pass** | — |
+| Auth | all | Browser back and forward stay unlocked and render | Unlocked, correct route | Back → `/clients` (`h1` "Clients CRM", 1072 chars), forward → `/documents` (`h1` "Documents", 903 chars), gate absent both times, no console errors | Runtime | **Pass** | — |
 | Auth | — | WebAuthn register requires operator token | Rejected without token | `requireOperatorAccessToken` enforced | Source | **Pass** | — |
 | Auth | — | Face ID / WebAuthn end-to-end | Enrol and unlock | Requires a platform authenticator | — | **Blocked** | — |
 
@@ -279,9 +289,9 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Invoices | `/documents` | Zero-value line | Handled | — | — | **Not Verified** | — |
 | Invoices | `/documents` | Negative line price | Rejected or handled | — | — | **Not Verified** | — |
 | Invoices | `/documents` | Multiple currencies | Supported | Currency effectively hardcoded to USD | Source | **Fail** | `FIN-006` |
-| Invoices | `/documents` | Refresh after saving shows the same data | Consistent | — | — | **Not Verified** | — |
-| Invoices | `/documents` | Browser back/forward preserves state | Consistent | — | — | **Not Verified** | — |
-| Invoices | `/documents` | Duplicate submission of the invoice form | One invoice | — | — | **Not Verified** | — |
+| Invoices | `/documents` | Refresh after saving shows the same data | Consistent | Driven on the **inventory** form, where it passes; the invoice form itself was not submitted through the UI | — | **Not Verified** | — |
+| Invoices | `/documents` | Browser back/forward preserves state | Consistent | Route-level back/forward verified (see §2); the invoice editor's own in-progress state was not | — | **Not Verified** | — |
+| Invoices | `/documents` | Duplicate submission of the invoice form | One invoice, one message | Driven on the **inventory** form, where it creates one record but emits three success toasts (`FUN-007`); the invoice form is expected to share the pattern but was not driven | — | **Not Verified** | `FUN-007` |
 
 ## 10. Inventory and stock
 
@@ -306,19 +316,27 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Inventory | `/inventory` | Removing a catalog part preserves its values | Preserved or archived | Deletes the override; quantity and pricing snap back to catalog defaults | Source | **Fail** | `STK-007` |
 | Inventory | `/inventory` | Large catalogs render without freezing | Virtualised | `VirtualInventoryTable` in use | Source | **Pass** | — |
 | Inventory | `/inventory` | Negative quantity, cost, or price cannot be stored | Impossible | `clampNonNeg` in `applyOverride`/`normalizePart`, `Math.max(0, …)` in `bulkUpdateParts`, and a zero clamp in `adjustPartQuantity` | Source | **Pass** | — |
-| Inventory | `/inventory` | Negative input is rejected rather than silently clamped | Rejected with a message | `-5` silently stores `0`, overwriting the real figure, with no warning and no movement log to recover from | Source | **Fail** | `STK-010` |
-| Inventory | `/inventory` | Negative-stock warning shown on a manual edit through the UI | Blocked or warned | The clamp is confirmed in source; the edit form was not driven | — | **Not Verified** | `STK-010` |
-| Inventory | `/inventory` | Fractional quantity preserved or rejected | Preserved or rejected | Silently rounded to whole units, so fractional stock drifts | Source | **Fail** | `STK-009` |
-| Inventory | `/inventory` | Search by description | Matches | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Search by part number | Matches | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Search with no matches shows an empty state | Empty state | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Sorting by each column | Correct order | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Category and brand filters | Filtered | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Create a part with required fields empty | Validation shown | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Price with many decimal places | Rounded predictably | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Very large price value | Handled | `roundMoney` misbehaves above ~1e10 | Harness | **Fail** | `FIN-002` |
-| Inventory | `/inventory` | 300+ character description does not break layout | No overflow | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Special characters and Unicode in fields | Preserved | Seeded Unicode/quote payloads; rendering not observed | — | **Not Verified** | — |
+| Inventory | `/inventory` | Negative qty rejected with a message in the Add/Edit dialog | Rejected with a message | Typed `-5`; **nothing was created** and the toast read `Qty, reorder, cost, and price cannot be negative` | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Negative cost rejected with a message in the Add/Edit dialog | Rejected with a message | Typed `-12`; nothing created, same clear message | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Non-numeric qty rejected with a message | Rejected with a message | Typed `abc`; nothing created, toast read `Qty, reorder, cost, and price must be numbers` | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Negative input rejected in the inline quantity cell | Rejected with a message | Silently discarded and reverted to the previous value with no message at all | Runtime | **Fail** | `STK-010` |
+| Inventory | `/inventory` | Fractional quantity preserved or rejected — Add/Edit dialog | Preserved or rejected | Typed `2.5`, **stored `3`** (`Math.round`), no warning | Runtime | **Fail** | `STK-009` |
+| Inventory | `/inventory` | Fractional quantity preserved or rejected — inline cell | Preserved or rejected, same rule as the dialog | Typed `7.5`, **stored `7`** (`parseInt` then `Math.floor`) — a different rule from the dialog, no warning | Runtime | **Fail** | `STK-009` |
+| Inventory | `/inventory` | Search by part number | Matches | `HOSE-1/2` and `XSS-001` both return the intended part **as the first row** | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Search by description | Matches | `hydraulic` matches parts by description text, not only by code | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Search result count reflects real matches | Count is accurate | `HOSE-1/2` (one real match) reports **`500 of 2344 parts`** — the render cap read as a match count | Runtime | **Fail** | `STK-011` |
+| Inventory | `/inventory` | Arabic-Indic digits normalised in search | Normalised | `٠-٩` and `۰-۹` mapped to ASCII before matching, so `١/٢` finds `1/2` | Source | **Pass** | — |
+| Inventory | `/inventory` | Search with no matches shows an empty state | Empty state | `0 of 2344 parts` plus `No parts match "zzzz-definitely-not-a-part".` | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Sorting by each column | Correct order | **0 `<th>` elements, 0 `aria-sort`, 0 clickable headers** among 172 controls; the only sort toggle applies to O-Rings alone | Runtime | **Fail** | `STK-012` |
+| Inventory | `/inventory` | Category and brand filters | Filtered | Category chips plus quick filters (low stock, zero cost, no photo, favourites, seals-in-stock) all present and applied | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Create a part with required fields empty | Validation shown | Blocked, but as a **transient toast only** — no inline error, no `aria-invalid`; focus stayed on `part-number` | Runtime | **Fail** | `UX-007` |
+| Inventory | `/inventory` | Three rapid Create clicks create one part | One part, one message | One part created — but **three "Added DUPSUBMIT-1" toasts** appeared | Runtime | **Fail** | `FUN-007` |
+| Inventory | `/inventory` | Duplicate part number rejected on create | Rejected, dialog stays open | `Part number already exists: HOSE-1/2 (Hydraulic hose 1/2 inch)`; count unchanged at 7, dialog stayed open | Runtime | **Pass** | — |
+| Inventory | `/inventory` | New part survives a full page reload | Persists | Present in the backing store before and after a hard reload | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Price with many decimal places | Rounded predictably | Not driven with a many-decimal price; only integer and 10¹⁵ cases were entered | — | **Not Verified** | — |
+| Inventory | `/inventory` | Very large price value | Handled | `roundMoney` misbehaves above ~1e10; `1000000000000000` was accepted and stored verbatim with no upper bound | Runtime | **Fail** | `FIN-002` |
+| Inventory | `/inventory` | 300+ character description does not break layout | No overflow | With a 300-char description and a 108-char client name seeded, `/inventory` keeps `scrollWidth === clientWidth` at 1440 px | Runtime | **Pass** | — |
+| Inventory | `/inventory` | Special characters and Unicode in fields | Preserved | `<b>test</b><img src=x onerror=…>` round-tripped and rendered as literal text; Arabic part names preserved through to the PDF | Runtime | **Pass** | — |
 | Inventory | `/inventory` | Unit of measurement field | Present | — | — | **Not Verified** | — |
 | Inventory | `/inventory` | Warehouse / shelf location | Present | `/stock-map` and `box_number` suggest support | Source | **Not Verified** | — |
 | Inventory | `/inventory` | Machine compatibility | Present | `/fleet` and kits suggest support | Source | **Not Verified** | — |
@@ -394,7 +412,8 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Reports | `/` | AR total equals the sum of client statements | Equal | `Σ netDue`, floored at 0 per invoice | Source | **Pass** | — |
 | Reports | `/` | Cards capped at 8 disclose the total | "8 of N" shown | Silent `.slice(0, 8)` on five cards | Source | **Fail** | `RPT-002` |
 | Reports | `/` | Cancelled and draft documents excluded | Excluded | Neither status exists | Source | **Fail** | `QUO-002` |
-| Reports | `/` | Rendered card values match source records | Match | — | — | **Not Verified** | — |
+| Reports | `/` | Rendered card values match source records | Match | Every KPI was scraped and reconciled by hand against the seeded records; **"Low Stock Alerts" showed 8 where the source data holds 136** | Runtime | **Fail** | `RPT-002` |
+| Reports | `/low-stock` | Dashboard low-stock count agrees with the low-stock page | Same number | Dashboard 8 (capped by `.slice(0,8)`, zero-qty parts excluded) vs `/low-stock` 136 — a 128-part disagreement | Runtime | **Fail** | `RPT-002` |
 | Reports | `/insights` | Sales board figures are accurate | Accurate | — | — | **Not Verified** | — |
 | Reports | `/daily-close` | Drawer total matches receipts | Matches | Unrounded `cash + omt + whish` | Source | **Not Verified** | — |
 | Reports | `/collections` | Promise-to-pay list is accurate | Accurate | — | — | **Not Verified** | — |
@@ -403,11 +422,16 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 
 ## 13. PDF and printing
 
-> **Method note.** These rows are `Rendered`: the application's own `buildPdf()` and
-> `downloadStatementPdf()` were loaded through Vite's SSR module loader and executed, 16 document
-> fixtures plus a 350-shape AR statement sweep were produced, and the resulting PDF content streams
-> were parsed to recover the position, font size, and text of every drawn string. Positions below are
-> measured in millimetres on a 210 × 297 mm page with a 14 mm margin and the footer rule at y = 281.
+> **Method note.** Two methods appear in this section.
+> `Rendered` rows come from loading the application's own `buildPdf()` and `downloadStatementPdf()`
+> through Vite's SSR module loader and executing them: 16 document fixtures plus a 350-shape AR
+> statement sweep were produced, and the resulting PDF content streams were parsed to recover the
+> position, font size, and text of every drawn string. Positions are in millimetres on a
+> 210 × 297 mm page with a 14 mm margin and the footer rule at y = 281.
+> `Runtime` rows come from the second pass: a document containing Arabic was opened in the running
+> app, *Share PDF* was clicked, and the **downloaded file** was parsed — image XObjects extracted,
+> soft masks decoded to PNG and inspected, and glyph ink measured per row and column. Browser print
+> output was captured through the print pipeline on the same session.
 
 | Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
 |---|---|---|---|---|---|---|---|
@@ -445,11 +469,23 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | PDF | `/documents` | One shared totals routine | Single source | Three near-duplicate blocks recompute totals | Source | **Fail** | `PDF-003` |
 | PDF | — | Fonts and logo are lazily loaded | Lazy | 709 KB of base64 embedded in source and bundled | Build | **Fail** | `PDF-004` |
 | PDF | `/documents` | Currency symbol correct throughout | Correct | USD hardcoded | Rendered | **Fail** | `FIN-006` |
-| PDF | `/documents` | Arabic / RTL text shapes correctly | Correct glyphs | `renderArabicPng` needs a browser `<canvas>`; the Arabic path never executes in Node | — | **Blocked** | — |
+| PDF | `/documents` | A PDF is produced from a document containing Arabic | Valid PDF | *Share PDF* clicked in the app's own dialog → `QUO-AUDIT-AR.pdf`, 585,433 bytes, `%PDF-1.3`, 1 page, `%%EOF` present | Runtime | **Pass** | — |
+| PDF | `/documents` | Arabic runs reach the PDF rather than being dropped | Present | **3 Arabic rasters** (285×76, 321×50, 1037×53 px) — exactly one per seeded Arabic run, among 8 image XObjects | Runtime | **Pass** | — |
+| PDF | `/documents` | Arabic rasters contain real glyph ink, not blank canvases | Ink present | Each soft mask carries 9–10% ink over 76–83% of its columns with 7 / 16 / 72 ink-blank transitions — a blank canvas scores 0 | Runtime | **Pass** | — |
+| PDF | `/documents` | Arabic / RTL text shapes correctly | Correct glyphs | Masks decoded to PNG and read back: `شركة بيتا للمحاجر` and `خرطوم هيدروليكي ١/٢ انش` show correct cursive joining, correct letter forms, correct RTL order | Runtime | **Pass** | — |
+| PDF | `/documents` | Arabic-Indic digits render correctly | Correct | `١/٢` and `٣٠` render correctly inside the Arabic runs | Runtime | **Pass** | — |
+| PDF | `/documents` | Mixed Arabic and Latin in one line | Both scripts correct | The customer note renders both in one raster, with `delivery ex-works` left-to-right inside the RTL line | Runtime | **Pass** | — |
+| PDF | `/documents` | `maxWidthMm` honoured on the Arabic path | Constrained | Honoured — `ctx.fillText(…, maxWidthPx)`; this is the constraint the Latin path ignores under `PDF-006` | Runtime | **Pass** | — |
+| PDF | `/documents` | Arabic glyphs are not clipped by the canvas they are drawn on | No clipping | Canvas is `ceil(fontPx × 1.45)` tall with a middle baseline: the customer-note run needs 32.89 px above centre and has 26.5 — **6.39 px (0.56 mm) of ink lost at the top**, 16 inked pixels sitting on row 0 | Runtime | **Fail** | `PDF-014` |
+| PDF | `/documents` | Arabic documents are not disproportionately large | Comparable size | Latin `QUO-AUDIT-0001.pdf` 213,635 bytes vs Arabic 585,433 bytes — **2.7×**; 370,684 bytes (63%) is uncompressed raster, incl. solid-colour RGB planes with no `/Filter` | Runtime | **Fail** | `PDF-015` |
+| PDF | `/documents` | Arabic text in the PDF is selectable and searchable | Selectable | Rasterised as images, so the Arabic is neither selectable nor searchable | Runtime | **Fail** | `PDF-015` |
 | PDF | `/documents` | Packing slip output | Correct | `downloadPackingSlip` exists (`src/lib/packing-slip.ts`, A4) | Source | **Not Verified** | — |
 | PDF | `/labels` | Part label output (57 × 32 mm stock) | Correct | `part-label.ts` uses a 57 × 32 mm landscape format | Source | **Not Verified** | — |
 | PDF | `/daily-close` | Z-report output | Correct | `z-report.ts` uses A4 | Source | **Not Verified** | — |
-| Print | all | Browser print stylesheet / `window.print()` | Clean output | No headless browser available in this environment | — | **Blocked** | — |
+| Print | all | A print stylesheet exists | `@media print` rules present | **0 print media rules** — `src/styles.css` contains no `@media print` block anywhere | Runtime | **Fail** | `PRN-001` |
+| Print | `/documents` | Browser print output is a clean document | App chrome hidden | Printed to a 2-page, 378,411-byte document whose first page begins `PARTS VILLAGE / … / Operations / Dashboard / Search / Inventory / …` — the whole navigation sidebar | Runtime | **Fail** | `PRN-001` |
+| Print | all | `window.print()` wired to a document view | Wired or deliberately absent | Never called anywhere in `src/`; printing is PDF-generation only, which is a defensible design but is not stated in the UI | Source | **Fail** | `PRN-001` |
+| Print | — | Physical paper margins on a real printer | Correct on paper | Needs a real printer and real paper | — | **Blocked** | — |
 
 ## 14. Design, responsive, and accessibility
 
@@ -491,7 +527,8 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Design | all | Zoom is not blocked | Allowed | `maximum-scale=5` | Runtime | **Pass** | — |
 | Design | all | Typography readable | 14–16 px body | 12 px dominant (3,863 nodes); 335 nodes at 10 px, 169 at 11 px | Runtime | **Fail** | `UX-012` |
 | Design | 1440 px, all routes | Button geometry consistent | A small deliberate set | **17** height/font/radius combinations, 11 heights, 4 radii | Runtime | **Fail** | `UX-017` |
-| Design | `/fleet`, `/china-shipments` | Empty state offers a way forward | Primary action | Neither offers any create action | Runtime | **Fail** | `UX-019` |
+| Design | `/fleet` | Empty state offers a way forward | Primary action | "No machines yet" with no create action anywhere on the page; the description points at the client page but nothing is clickable | Runtime | **Fail** | `UX-019` |
+| Design | `/china-shipments` | Empty state offers a way forward | Primary action | **Correction to the first pass:** "New shipment" is rendered unconditionally in the toolbar and the empty state names it — this route is correct | Source | **Pass** | — |
 | Design | `/pre-orders`, `/share-inbox` | Empty state offers a way forward | Primary action | Both correct ("New pre-order", "Upload photo / PDF") | Runtime | **Pass** | — |
 | Design | all 26 routes | Loading state present during data load | Skeleton or spinner | `skeleton: 0`, `spinner: 0` on every route after unlock | Runtime | **Fail** | `UX-020` |
 | Design | unknown route | 404 state present and helpful | Proper 404 | "404 / Page not found / … / Go home" | Runtime | **Pass** | — |
@@ -507,7 +544,7 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Design | Add part dialog | Required fields carry `required` | Marked | 0 of 14 fields | Runtime | **Fail** | `UX-007` |
 | Design | all | Date formatting consistent | One format | ISO `YYYY-MM-DD` everywhere except the backup banner (`10/21/2026`) | Runtime | **Fail** | `UX-016` |
 | Design | all | Currency formatting consistent | One formatter | 166 amounts at 2 dp, 12 at 0 dp | Runtime | **Fail** | `UX-016` |
-| Design | `/china-shipments` | `formatMoneyWithUsd` zero-decimal output seen on screen | Observed | The seed held no shipment records, so the divergence is source-confirmed only | — | **Not Verified** | `UX-016` |
+| Design | `/china-shipments` | `formatMoneyWithUsd` zero-decimal output seen on screen | One money format app-wide | With shipments seeded, **`$1,200` and `$69.93` render side by side on the same page** | Runtime | **Fail** | `UX-016` |
 | Design | all | Terminology consistent and clean English | Consistent | "Monthly sales" actually shows receipts | Source | **Fail** | `RPT-004` |
 | Design | all 26 routes | Backup banner does not dominate every page | Once per session | Renders on all 26 routes at all widths; ~100 px of an 812 px phone viewport | Runtime | **Fail** | `UX-018` |
 | A11y | all routes | Skip link present | Present | `a[href^="#"]` returns nothing on any route | Runtime | **Fail** | `UX-009` |
@@ -553,7 +590,7 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
 |---|---|---|---|---|---|---|---|
 | Security | `/documents`, `/delivery-board`, `/counter` | Stored XSS payload is escaped on screen | Rendered as literal text | Seeded `<b>test</b>` part name rendered as **literal text** on all three routes | Runtime | **Pass** | `UX-001` |
-| Security | all | Absence of an injected element asserted in the DOM tree | No such node | Literal rendering was observed; the DOM tree was not separately asserted | Runtime | **Not Verified** | — |
+| Security | all | Absence of an injected element asserted in the DOM tree | No such node | Asserted on `/documents`, `/inventory`, `/counter`, `/delivery-board`, `/search`, and the part-detail dialog: **0** `img[src=x]`, **0** `[onerror]`, **0** `script` with the probe, **0** injected `<b>`; all three execution probes stayed false and the payload rendered HTML-escaped as text | Runtime | **Pass** | — |
 | Security | PDF | XSS payload escaped in the PDF | Literal text | Rendered PDF content stream contains the payload as literal text | Harness | **Pass** | — |
 | Security | all | SQL injection payload is inert | Stored as text | All access via PostgREST with parameterised filters; no raw SQL | Source | **Pass** | — |
 | Security | `src/` | No `innerHTML` / `eval` / `new Function` | None | None found | Source | **Pass** | — |
@@ -583,14 +620,16 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Reliability | — | Conflict retries back off | Backoff | No backoff or attempt ceiling | Source | **Fail** | `PERF-005` |
 | Reliability | — | Partial failure leaves no inconsistent state | Atomic | Multi-step flows are non-atomic | Source | **Fail** | `DAT-001` |
 | Reliability | — | Concurrent stock updates cannot corrupt quantity | Safe | Numeric-delta merge helps, but `STK-001` bypasses it | Harness | **Fail** | `STK-001` |
-| Performance | — | Real page-load timings | Within budget | — | — | **Not Verified** | — |
-| Performance | `/inventory` | Search responsiveness on a full catalog | Responsive | — | — | **Not Verified** | — |
-| Performance | — | No duplicate network requests | None | — | — | **Not Verified** | — |
-| Performance | — | No memory leak over a long session | Stable | — | — | **Not Verified** | — |
+| Performance | — | Real page-load timings | Within budget | First contentful paint **152–252 ms** across 8 routes; `load` event 2024–2150 ms, the tail being 33–47 separate JS requests | Runtime | **Pass** | — |
+| Performance | `/inventory` | Search responsiveness on a full catalog | Responsive | Over **2,344 parts**: 46.9 / 58.2 / 61.2 / 50.0 / 48.4 ms for five queries including the no-match case — worst case under 62 ms | Runtime | **Pass** | — |
+| Performance | — | No duplicate network requests | None | 70 GETs on a fresh `/inventory` load across 69 distinct URLs; `key=eq.inventory` was fetched **twice** | Runtime | **Fail** | `PERF-002` |
+| Performance | `/inventory` | One navigation costs a bounded number of data reads | Bounded | **11 `shop_state` GETs over 10 keys, plus a preflight each — 24 requests to one table per page load** | Runtime | **Fail** | `PERF-002` |
+| Performance | — | No memory leak over a long session | Stable | No multi-hour session was run | — | **Not Verified** | — |
 | Reliability | `/documents` | Offline operation | Works offline | Network forced offline: the app kept working from cached shop data and said so | Runtime | **Pass** | — |
 | Reliability | — | Reconnect clears the offline state | Cleared | Banner cleared automatically on reconnect | Runtime | **Pass** | — |
-| Reliability | — | Reconnect syncs queued changes to the server | Synced | Banner clearing was observed; the queued-write round trip to Supabase was not driven | Source | **Not Verified** | — |
-| Reliability | — | Behaviour on simulated network failure | Graceful | — | — | **Not Verified** | — |
+| Reliability | `/inventory` | Reconnect syncs queued changes to the server | Synced | Edit made offline (`oring-0004` → 123) was held locally, then **written to the backing store on reconnect** with the correct value — 0 overrides while offline, 1 after | Runtime | **Pass** | — |
+| Reliability | — | Behaviour on simulated network failure | Graceful | Network cut at the protocol level: no crash, no data loss, no double-apply; the offline state surfaced and cleared correctly | Runtime | **Pass** | — |
+| Reliability | — | Behaviour when the network drops mid-write | Graceful | Offline-then-reconnect is covered above, but cutting the network *during* the write itself was not driven | — | **Not Verified** | — |
 | Reliability | — | Behaviour on database failure | Graceful | Rate limiter fails **open** on store errors | Source | **Fail** | `SEC-003` |
 
 ## 17. Route coverage
@@ -621,9 +660,10 @@ rendered and say so.
 | Routes | `/shift` | Renders and measures cleanly at 3 widths | Clean | Renders; scrolled to the bottom at 375 px with no bottom-nav overlap | Runtime | **Pass** | — |
 | Routes | `/delivery-board` | Renders and measures cleanly at 3 widths | Clean | Renders; 10–11 px text on part-number lines; carries the shipped type error | Runtime | **Fail** | `FUN-004`, `UX-012` |
 | Routes | `/pre-orders` | Renders and measures cleanly at 3 widths | Clean | Renders; empty state correct; stacked labels dropped; 1 unlogged stock site | Runtime | **Fail** | `STK-002`, `UX-008` |
-| Routes | `/china-shipments` | Renders and measures cleanly at 3 widths | Clean | Renders empty ("0 shown · 0 total") with no create action; Titus sync unauthenticated | Runtime | **Fail** | `SEC-002`, `UX-019` |
+| Routes | `/china-shipments` | Renders and measures cleanly at 3 widths | Clean | Renders; Titus sync unauthenticated. **Correction:** the first pass recorded "no create action" here — that was wrong, "New shipment" is rendered unconditionally and the empty state names it, so `UX-019` no longer applies to this route | Runtime | **Fail** | `SEC-002` |
 | Routes | `/fleet` | Renders and measures cleanly at 3 widths | Clean | Renders "No machines yet" with no create action; search input unnamed | Runtime | **Fail** | `UX-019`, `UX-013` |
-| Routes | `/fleet/$machineId` | Renders with a seeded machine | Renders | **Never rendered** — the seed contained no machines, so the detail route had no valid id | — | **Not Verified** | — |
+| Routes | `/fleet/$machineId` | Renders with a seeded machine | Machine detail with serial, hours, and order history | Two machines seeded and linked from `/fleet`; navigating to `/fleet/mc-audit-1` renders the **`/fleet` list again**, byte-identical (same `h1`, same 410-character body) — the parent route renders no `<Outlet />`, so the detail component never mounts | Runtime | **Fail** | `FUN-006` |
+| Routes | `/china-shipments` | Renders with seeded shipments | Shipment list | 2 shipments render with status, ETD/ETA, and costs — and exposed the `UX-016` money inconsistency | Runtime | **Fail** | `UX-016` |
 | Routes | `/insights` | Renders and measures cleanly at 3 widths | Clean | Renders; margin figure at 2.66:1; stacked labels dropped | Runtime | **Fail** | `UX-005`, `UX-008` |
 | Routes | `/search` | Renders and measures cleanly at 3 widths | Clean | Renders; no route-specific runtime defect observed | Runtime | **Pass** | — |
 | Routes | `/share-inbox` | Renders and measures cleanly at 3 widths | Clean | Renders; empty state correctly offers "Upload photo / PDF" | Runtime | **Pass** | — |
@@ -656,4 +696,14 @@ Ordered to match the repair stages in §19 of the audit report.
 | 14 | Contrast assertion over the rendered theme: text pairs ≥ 4.5:1, border and ring pairs ≥ 3:1 | `UX-005`, `UX-006`, `UX-011` |
 | 15 | Each dialog submitted empty shows an inline message, sets `aria-invalid`, and focuses the field | `UX-007` |
 | 16 | A three-row duplicate import file totals correctly or is rejected, and reports 1 part not 3 | `IMP-002` |
-| 17 | Re-run the two passes that could not complete here: Arabic PDF rendering and browser `window.print()` output, plus the per-form CRUD edge-case matrix | §17 items 1–2 |
+| 17 | `/fleet/mc-*` renders machine detail, not the `/fleet` list — assert the detail body differs from the list body | `FUN-006` |
+| 18 | Three rapid Create clicks yield one record **and one** success message | `FUN-007` |
+| 19 | The inline quantity cell rejects `-5` and `abc` with a visible message, and resolves `7.5` the same way the dialog resolves `2.5` | `STK-010`, `STK-009` |
+| 20 | Every Arabic raster in a generated PDF has zero ink on its outermost row and column | `PDF-014` |
+| 21 | A fixture Arabic invoice stays within a byte budget, and its Arabic text is selectable | `PDF-015` |
+| 22 | A print-emulated snapshot of `/documents` contains no sidebar navigation text | `PRN-001` |
+| 23 | Searching an exact unique part number returns exactly one row, with and without separators in the code | `STK-011` |
+| 24 | Clicking each inventory column header reorders rows and sets `aria-sort` | `STK-012` |
+| 25 | `/fleet` empty state renders a primary action | `UX-019` |
+| 26 | One navigation reads each `shop_state` key at most once | `PERF-002` |
+| 27 | Run the passes that need hardware or a live environment: physical paper margins, barcode scanning, label printing, photo upload, WebAuthn, the Web Share Target, and a screen-reader pass | §17 items 12–18 |

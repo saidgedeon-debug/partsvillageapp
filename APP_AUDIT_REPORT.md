@@ -85,8 +85,8 @@ until that is addressed.
 | **P0 — Critical** | 6 | Data loss, major security exposure, or incorrect financial/stock data |
 | **P1 — High** | 16 | Core feature broken or serious business risk |
 | **P2 — Medium** | 43 | Important defect with a workaround |
-| **P3 — Low** | 30 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **95** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table (§12), and a much shorter `NOT VERIFIED` list (§17) |
+| **P3 — Low** | 32 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **97** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours, 6 verified-correct search behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table (§12), and a much shorter `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
@@ -658,6 +658,44 @@ contained no machines, so it was listed as `NOT VERIFIED` in §17.*
 - **Relevant files:** `src/components/app/inventory-context.tsx`, `src/components/app/part-detail-dialog.tsx:242`, `src/components/app/inline-number-cell.tsx:33,39`, `src/lib/mock-data.ts` (`Part.quantity`).
 - **Recommended fix:** Decide per unit of measurement whether fractional stock is allowed; store quantities as integers in a base unit (e.g. millimetres, grams) to avoid float drift entirely. Until then, make every write path share one rounding helper and warn when a fraction is discarded.
 - **Regression test:** Two 0.5 sales from a stock of 10 must leave 9, not 10. Assert the dialog and the inline cell resolve the same fractional input to the same stored value.
+
+### `STK-011` · P3 · Inventory search reports a capped result count as if it were the match count
+
+- **Page/feature:** `/inventory` search box.
+- **Description:** `rankByFuzzyScore` is called with a limit of `Math.min(list.length, 500)`, so the result set is hard-capped at 500. Separately, `scoreFuzzyMatch` awards a partial score of `round(hits / queryTokens × 400)` when only *some* query tokens match, and `normalizeSearchText` strips `/` to a space — so a query like `HOSE-1/2` becomes the two tokens `hose-1` and `2`, and every part whose text contains a `2` scores 200 and enters the result set. The count under the box then reads as though 500 parts matched.
+- **Actual:** Measured against the 2,344-part catalogue: `HOSE-1/2` (one part actually bears that code) shows **"500 of 2344 parts"**; `HOSE` shows 174; `hydraulic` shows 500; `XSS-001` and `ZERO-QTY-1`, which contain no separator that splits into a common token, correctly show **1**. In every case the genuine match is ranked first, so the feature is usable — the defect is the count and the length of the tail.
+- **Expected:** The count reflects real matches, and typing a complete unique part number narrows to that part.
+- **Evidence:** `src/lib/fuzzy-search.ts:11` (`/` falls outside the kept character class), `:38-45` (partial-token scoring), `src/routes/inventory.tsx:398-416` (the 500 cap). Runtime measurements in `/tmp/pv-audit2/results/search-behaviour.json`.
+- **Reproduction:** Open `/inventory`, type a part number containing a `/`, and read the count line.
+- **Business impact:** Low. Exact-match-first ranking means the operator finds the part immediately, so this costs a moment of doubt rather than a wrong answer. It matters more on a phone, where 500 rows of tail is a lot of scrolling past the thing you wanted.
+- **Relevant files:** `src/lib/fuzzy-search.ts`, `src/routes/inventory.tsx`.
+- **Recommended fix:** Require a minimum score (say ≥ 400, i.e. all query tokens hit) before a part enters the list, keep the 500 cap purely as a render guard, and label the count "showing first 500 of N matches" when it bites.
+- **Regression test:** Assert that searching an exact unique part number returns exactly one row, for codes with and without separators.
+
+### `STK-012` · P3 · The inventory table cannot be sorted by the columns it displays
+
+- **Page/feature:** `/inventory`.
+- **Description:** The table renders a header row reading `Photo · Code · Description · OEM · Machine · Page · Category · Qty · Cost · Price · Actions`, but those headers are plain `<div>`s: there is **no `<th>` element and no `aria-sort` attribute anywhere on the page**, and none of them responds to a click. The only sort control is a two-option toggle (`size` / `box`), and `sortParts` is reached with the operator's chosen mode **only when the active category is O-Rings** — `isORings ? sortMode : "box"` — so every other category is forced to box order.
+- **Actual:** Confirmed at runtime: 0 `<th>` elements, 0 `aria-sort` attributes, 0 clickable headers among 172 controls on the page. There is no way to list the catalogue by quantity, by cost, by price, or alphabetically by code.
+- **Expected:** Clicking a column header sorts by that column, for any category.
+- **Evidence:** `src/routes/inventory.tsx:170-190` (`sortParts` handles only `box` and inside-diameter order), `:433` (`isORings ? sortMode : "box"`), `src/components/app/virtual-inventory-table.tsx` (header row is div-based). Runtime DOM census in `/tmp/pv-audit2/results/final-gaps2.json`.
+- **Reproduction:** Open `/inventory` on any non-O-Ring category and try to sort by Qty or Price.
+- **Business impact:** Low individually, but it removes the obvious way to answer everyday questions — what is my most expensive stock, what is nearly out, what has no cost recorded. Some of that is recoverable through the quick filters (`low-stock`, `zero-cost`) and the dedicated `/low-stock` and `/reorder` pages, which is why this is P3 rather than higher. The missing `<th>` semantics also mean a screen reader cannot announce column context, which compounds `UX-008`.
+- **Relevant files:** `src/routes/inventory.tsx`, `src/components/app/virtual-inventory-table.tsx`.
+- **Recommended fix:** Add a sort key to the table state, make the header cells buttons that set it, and render them as real `<th>` elements with `aria-sort`. Apply the chosen sort for every category, not only O-Rings.
+- **Regression test:** Assert that clicking each header reorders rows and sets `aria-sort` correctly.
+
+### Verified-correct search and filter behaviour ✅
+
+Driven at runtime against the 2,344-part catalogue, and worth recording because search is the single
+most-used feature in the app:
+
+- **Search matches on far more than the part number.** The haystack spans all part numbers, name, description, category, subcategory, box number, location, inside diameter, cross-section, notes, and machine compatibility. Searching `hydraulic` returns parts whose *description* matches, not just their code.
+- **Exact matches rank first.** `scoreFuzzyMatch` scores an exact normalised match 1000, a prefix match 800, and a substring match 600, well above any partial-token score. In every query tested the intended part was the first row.
+- **Arabic and Eastern Arabic-Indic digits are normalised** before matching (`٠-٩` and `۰-۹` → ASCII), so an operator can search `١/٢` and find `1/2`. For a Lebanese parts counter that is the right call and it is easy to miss.
+- **A no-match query shows a real empty state, not a blank table.** Searching `zzzz-definitely-not-a-part` renders `No parts match "zzzz-definitely-not-a-part".` and the count drops to `0 of 2344 parts`.
+- **Categorical filters exist and work** — category chips plus quick filters for low stock, zero cost, no photo, favourites, and seals-in-stock.
+- **Long seeded strings do not widen the page.** With a 108-character client name and a 300-character description in the data, `/inventory` still reports `scrollWidth === clientWidth` at 1440 px.
 
 ### Verified-correct stock behaviours ✅
 
@@ -1421,11 +1459,12 @@ The numbers below are from the corrected pass.
 ### `UX-019` · P3 · Empty states are inconsistent, and some offer no way forward
 
 - **Description:** Pages with no records vary in whether they suggest an action.
-- **Actual:** `/fleet` shows "No machines yet" with **no create action** on the page (the only buttons are the banner's "Later"/"Backup now" and the sidebar toggle). `/pre-orders` and `/share-inbox` do it properly, offering "New pre-order" / "Generate Supplier Order List" and "Upload photo / PDF". `/china-shipments` shows "0 shown · 0 total" plus empty tab counters "All (0) Titus (0) Other (0)" but no create action.
+- **Actual:** `/fleet` shows "No machines yet" with **no create action anywhere on the page** — `fleet.tsx` imports `EmptyState` and no `Button` at all, so the only buttons present are the backup banner's and the sidebar toggle. Its description text does at least say where to go ("Add machines from a client page, then find them here by serial"), but there is nothing to click. `/pre-orders` and `/share-inbox` do it properly, offering "New pre-order" / "Generate Supplier Order List" and "Upload photo / PDF".
+- **Correction to an earlier version of this finding.** I previously reported that `/china-shipments` also had no create action. **That was wrong.** Re-checking the source shows the "New shipment" button is rendered unconditionally in the page toolbar inside `<main>`, and the empty state even names it — "Add one when you place an order with New shipment." The second runtime pass confirmed the button is present. The first pass's button inventory on that route missed it. `/china-shipments` is therefore an example of an empty state done *correctly*, and the finding now applies to `/fleet` only.
 - **Expected:** A consistent empty state: what this page is for, and the primary action to populate it.
-- **Evidence:** Inventory of the buttons present inside `<main>` on each empty page.
-- **Relevant files:** `src/components/app/empty-state.tsx` (exists but is not used consistently), `src/routes/fleet.tsx`, `src/routes/china-shipments.tsx`.
-- **Recommended fix:** Route all empty states through `EmptyState` with a mandatory primary action.
+- **Evidence:** `src/routes/fleet.tsx:64-74` (no `Button` import, no action prop on `EmptyState`); contrast `src/routes/china-shipments.tsx:279-290` (unconditional "New shipment") and `:379-399` (empty state naming it).
+- **Relevant files:** `src/components/app/empty-state.tsx` (exists but is not used consistently), `src/routes/fleet.tsx`.
+- **Recommended fix:** Give `/fleet` a primary action — either an "Add machine" button that opens the client picker, or a link to the client page. Consider making the `action` prop on `EmptyState` required so this cannot recur.
 - **Regression test:** Assert every empty state renders a primary action.
 
 ### `UX-020` · P3 · There are no loading states anywhere
@@ -1888,10 +1927,10 @@ verified restore path materially raises the severity of both.
 ### `PERF-002` · P1 · Whole-blob read/write amplification with no pagination at the data layer
 
 - **Description:** Each `shop_state` key is one row holding one JSON document. Any change to any document rewrites the **entire** `documents` blob; reading one invoice loads **all** of them.
-- **Actual:** The browser holds the complete business dataset in memory. Writes are whole-blob upserts debounced at 400 ms. There is no server-side filtering, projection, or pagination — those concepts do not exist in this model.
+- **Actual:** The browser holds the complete business dataset in memory. Writes are whole-blob upserts debounced at 400 ms. There is no server-side filtering, projection, or pagination — those concepts do not exist in this model. **Now measured:** a single navigation to `/inventory` issues **11 `shop_state` reads** covering 10 distinct keys (`inventory`, `documents`, `parties`, `fleet`, `shipments`, `kits`, `cart`, `pre-orders`, `share-inbox`, `prefs`), each one fetching a whole blob — plus a preflight `OPTIONS` for every one of them, for 24 requests to that one table per page load. The `inventory` key was fetched **twice** in the same navigation, which is the only genuinely duplicated request on the page.
 - **Expected:** Query and write only the rows involved.
-- **Evidence:** `src/lib/cloud-store.ts` (`useCloudState`, `saveShopState`); `supabase/migrations/20260719123000_online_shop_state.sql`.
-- **Business impact:** Cost grows with total history, not with what is on screen. After a few years of documents, every page load transfers and parses the entire ledger and every keystroke-triggered save rewrites it. Also the root cause of `PERF-003` and of the merge-based data loss in `FIN-001`.
+- **Evidence:** `src/lib/cloud-store.ts` (`useCloudState`, `saveShopState`); `supabase/migrations/20260719123000_online_shop_state.sql`. Request census in `/tmp/pv-audit2/results/final-gaps2.json` (`S7`, `S8`): 70 GETs on a fresh `/inventory` load, 69 distinct URLs, the one repeat being `key=eq.inventory`.
+- **Business impact:** Cost grows with total history, not with what is on screen. After a few years of documents, every page load transfers and parses the entire ledger and every keystroke-triggered save rewrites it. The measured 11-reads-per-navigation makes the scaling concrete: each of those reads grows with the size of its blob, so the cost of opening *any* page rises with the total volume of business ever done, regardless of what that page shows. Also the root cause of `PERF-003` and of the merge-based data loss in `FIN-001`.
 - **Recommended fix:** Normalise the high-growth collections (`documents`, `inventory`) into real tables with indexes and pagination. If the blob model is retained, at minimum shard `documents` by period (e.g. `documents-2026-08`) to bound each blob.
 - **Regression test:** Seed 10,000 documents; assert page load transfer and time stay within budget.
 
@@ -2482,7 +2521,7 @@ each; money and status logic verified by harness.
 | `UX-016` | P3 | Consistency | Two date styles and two money formatters coexist — `$1,200` and `$69.93` now observed side by side on `/china-shipments` |
 | `UX-017` | P3 | Consistency | 17 distinct button height/font/radius combinations |
 | `UX-018` | P3 | UX | Backup reminder banner renders on all 26 routes and is the first in-content tab stop |
-| `UX-019` | P3 | UX | Empty states inconsistent; `/fleet` and `/china-shipments` offer no way forward |
+| `UX-019` | P3 | UX | `/fleet` has no create action at all (corrected: `/china-shipments` does, and was wrongly listed here in the first pass) |
 | `UX-020` | P3 | UX | No skeleton or spinner anywhere after unlock |
 | `UX-021` | P3 | Performance | Public portal downloads inventory, cart, and PDF modules — 34 asset requests |
 | `PDF-003` | P3 | PDF | Three near-duplicate PDF total blocks |
@@ -2494,6 +2533,8 @@ each; money and status logic verified by harness.
 | `PDF-015` | P3 | PDF | Arabic documents are 2.7× larger than Latin ones — 63% of the file is uncompressed raster |
 | `STK-008` | P3 | Inventory | Inventory valuation is an unrounded float over the whole catalog |
 | `STK-010` | P3 | Inventory | The inline quantity editor discards negative and invalid input with no message (the Add/Edit dialog correctly rejects it) |
+| `STK-011` | P3 | Inventory | Search reports a 500-row cap as if it were the match count; `HOSE-1/2` shows "500 of 2344" for one real match |
+| `STK-012` | P3 | Inventory | No `<th>`, no `aria-sort`, no clickable headers — the catalogue cannot be sorted by Qty, Cost, Price, or Code |
 | `IMP-001` | P3 | Import | Dead `parseInventoryExcelFile` truncates part codes at separators — unreachable, so latent |
 | `IMP-003` | P3 | Import | Import dry run lists only the first 30 rows, with no "30 of N" disclosure |
 | `PERF-005` | P3 | Reliability | Conflict retry loop has no backoff or ceiling |
