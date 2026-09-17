@@ -1,7 +1,7 @@
 # Parts Village — Full Application Audit Report
 
 **Audit type:** Read-only audit. No application code, schema, or production data was modified.
-**Audit date:** 2026-09-06
+**Audit date:** 2026-09-06, with a second runtime pass on 2026-09-17
 **Commit audited:** `08f2a09` ("Remove all Kafu supplier, catalog leftovers, and data files.")
 **Branch:** `cursor/full-application-audit-33f7`
 **Live deployment:** https://partsvillageapp.vercel.app
@@ -10,7 +10,16 @@
 > throwaway **mock Supabase** on localhost seeded with synthetic data, created purely for this audit
 > outside the repository. No environment-variable values, keys, PINs, or connection strings appear in
 > this report. Only `APP_AUDIT_REPORT.md` and `QA_TEST_CHECKLIST.md` were created. `package.json`,
-> `package-lock.json`, and all application code are byte-for-byte unchanged.
+> `package-lock.json`, `src/routeTree.gen.ts`, and all application code are byte-for-byte unchanged —
+> `git diff` between the merge base and this branch touches nothing but the two report files.
+
+> **Two passes are recorded here.** The first pass established the findings. The second closed the
+> items it had to leave open — Arabic PDF rendering, browser print, the inventory form's full
+> numeric and duplicate-submit matrix, XSS in the DOM, the dashboard reconciliation,
+> `/fleet/$machineId`, `/china-shipments`, offline-and-reconnect, and runtime timings — and in doing
+> so it **corrected five earlier findings**, two upward and three downward. Every correction is
+> stated in place rather than quietly edited, so the reasoning is auditable. See §17 for the full
+> before/after list.
 
 ---
 
