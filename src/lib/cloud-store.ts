@@ -8,8 +8,10 @@ import {
 } from "react";
 
 import { emitCloudConflict } from "@/lib/cloud-conflict";
+import { formatCloudError, isRetryableCloudError, sameInstant } from "@/lib/cloud-error";
 import { healDocumentsAmountPaid } from "@/lib/document-money-heal";
 import { adoptUnsyncedLocalItems, mergeShopStateValue } from "@/lib/shop-state-merge";
+import { prepareShopStateValue } from "@/lib/shop-state-photos";
 import { parseShopStateValue } from "@/lib/shop-state-schema";
 import { isSupabaseConfigured, requireSupabase } from "@/lib/supabase";
 
@@ -174,6 +176,38 @@ export async function fetchShopState<T>(key: ShopStateKey, fallback: T): Promise
   return parsed.value;
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function ensureOperatorSession(): Promise<void> {
+  const sb = requireSupabase();
+  const { data, error } = await sb.auth.getSession();
+  if (error) throw error;
+  if (!data.session) {
+    throw new Error("Shop session expired — unlock with PIN, then tap Sync");
+  }
+  const expMs = (data.session.expires_at ?? 0) * 1000;
+  if (expMs - Date.now() > 90_000) return;
+  const refreshed = await sb.auth.refreshSession();
+  if (refreshed.error || !refreshed.data.session) {
+    throw new Error("Shop session expired — unlock with PIN, then tap Sync");
+  }
+}
+
+async function fetchShopStateUpdatedAt(key: ShopStateKey): Promise<string | null> {
+  const sb = requireSupabase();
+  const { data, error } = await sb
+    .from("shop_state")
+    .select("updated_at")
+    .eq("key", key)
+    .maybeSingle();
+  if (error) throw error;
+  return (data?.updated_at as string | null | undefined) ?? null;
+}
+
 /** Read value + updated_at for optimistic concurrency. */
 async function fetchShopStateRow<T>(
   key: ShopStateKey,
@@ -191,6 +225,25 @@ async function fetchShopStateRow<T>(
   };
 }
 
+async function upsertShopState(
+  key: ShopStateKey,
+  value: unknown,
+): Promise<string> {
+  const sb = requireSupabase();
+  const updatedAt = new Date().toISOString();
+  const { data, error } = await sb
+    .from("shop_state")
+    .upsert({
+      key,
+      value: value as never,
+      updated_at: updatedAt,
+    })
+    .select("updated_at")
+    .maybeSingle();
+  if (error) throw error;
+  return (data?.updated_at as string | null | undefined) || updatedAt;
+}
+
 /**
  * Upsert shop_state JSON value.
  * When `expectedUpdatedAt` is set, refuses to overwrite a newer remote revision
@@ -201,23 +254,32 @@ export async function saveShopState(
   value: unknown,
   expectedUpdatedAt?: string | null,
 ): Promise<{ saved: boolean; updatedAt: string | null }> {
-  const sb = requireSupabase();
+  await ensureOperatorSession();
 
   if (expectedUpdatedAt) {
-    const remote = await fetchShopStateRow(key);
-    if (remote.updatedAt && remote.updatedAt !== expectedUpdatedAt) {
-      return { saved: false, updatedAt: remote.updatedAt };
+    const remoteAt = await fetchShopStateUpdatedAt(key);
+    if (remoteAt && !sameInstant(remoteAt, expectedUpdatedAt)) {
+      return { saved: false, updatedAt: remoteAt };
     }
   }
 
-  const updatedAt = new Date().toISOString();
-  const { error } = await sb.from("shop_state").upsert({
-    key,
-    value: value as never,
-    updated_at: updatedAt,
-  });
-  if (error) throw error;
-  return { saved: true, updatedAt };
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const updatedAt = await upsertShopState(key, value);
+      return { saved: true, updatedAt };
+    } catch (error) {
+      lastError = error;
+      if (!isRetryableCloudError(error) || attempt === 2) throw error;
+      await sleep(400 * 2 ** attempt);
+      try {
+        await ensureOperatorSession();
+      } catch {
+        throw error;
+      }
+    }
+  }
+  throw lastError;
 }
 
 /**
@@ -298,6 +360,7 @@ export function useCloudState<T>(
   const dirtyRef = useRef(false);
   const savingRef = useRef(false);
   const pendingRetryRef = useRef(false);
+  const failCountRef = useRef(0);
   const savingWaitersRef = useRef<Array<() => void>>([]);
   const readyRef = useRef(false);
   const persistNowRef = useRef<() => Promise<void>>(async () => {});
@@ -390,7 +453,7 @@ export function useCloudState<T>(
             setValueState(cached);
             setReady(true);
             const msg =
-              (e instanceof Error ? e.message : "Cloud unreachable") +
+              formatCloudError(e, "Cloud unreachable") +
               " — using offline cache. Changes save locally until sync returns.";
             setError(msg);
             setLastCloudError(msg);
@@ -400,7 +463,7 @@ export function useCloudState<T>(
         } catch {
           // ignore parse errors
         }
-        const msg = e instanceof Error ? e.message : "Failed to load cloud data";
+        const msg = formatCloudError(e, "Failed to load cloud data");
         setError(msg);
         setLastCloudError(msg);
         setCloudHealth(key, "error");
@@ -432,6 +495,14 @@ export function useCloudState<T>(
     writeCache(snapshot);
 
     try {
+      const prepared = (await prepareShopStateValue(key, snapshot)) as T;
+      if (prepared !== snapshot) {
+        snapshot = prepared;
+        skipSave.current = true;
+        setValueState(prepared);
+        writeCache(prepared);
+      }
+
       let expected = baseUpdatedAtRef.current;
       if (!expected) {
         const remote = await fetchShopStateRow<T>(key);
@@ -457,6 +528,7 @@ export function useCloudState<T>(
       const result = await saveShopState(key, snapshot, expected);
       if (result.saved) {
         wrote = true;
+        failCountRef.current = 0;
         baseUpdatedAtRef.current = result.updatedAt;
         baseValueRef.current = snapshot;
         if (
@@ -480,21 +552,23 @@ export function useCloudState<T>(
           remoteValue,
           mergeFieldKey,
         ) as T;
+        const preparedMerged = (await prepareShopStateValue(key, merged)) as T;
         baseValueRef.current = remoteValue;
         baseUpdatedAtRef.current = remote.updatedAt;
         skipSave.current = true;
-        setValueState(merged);
+        setValueState(preparedMerged);
         dirtyRef.current = true;
         setPendingKey(key, true);
         emitCloudConflict(key);
-        const forced = await saveShopState(key, merged, remote.updatedAt);
+        const forced = await saveShopState(key, preparedMerged, remote.updatedAt);
         if (forced.saved) {
           wrote = true;
+          failCountRef.current = 0;
           baseUpdatedAtRef.current = forced.updatedAt;
-          baseValueRef.current = merged;
+          baseValueRef.current = preparedMerged;
           if (
-            valueRef.current === merged ||
-            JSON.stringify(valueRef.current) === JSON.stringify(merged)
+            valueRef.current === preparedMerged ||
+            JSON.stringify(valueRef.current) === JSON.stringify(preparedMerged)
           ) {
             dirtyRef.current = false;
             setPendingKey(key, false);
@@ -502,7 +576,7 @@ export function useCloudState<T>(
           setError(null);
           setLastCloudError(null);
           setCloudHealth(key, "synced");
-          writeCache(merged);
+          writeCache(preparedMerged);
         } else {
           baseUpdatedAtRef.current = forced.updatedAt;
           pendingRetryRef.current = true;
@@ -513,11 +587,13 @@ export function useCloudState<T>(
       console.error(`Failed to save ${key}`, e);
       writeCache(snapshot);
       const msg =
-        (e instanceof Error ? e.message : `Failed to save ${key}`) +
+        formatCloudError(e, `Failed to save ${key}`) +
         " — saved offline; will sync when connection returns.";
       setError(msg);
       setLastCloudError(msg);
       setCloudHealth(key, "error");
+      failCountRef.current += 1;
+      if (isRetryableCloudError(e)) pendingRetryRef.current = true;
     } finally {
       savingRef.current = false;
       const waiters = savingWaitersRef.current.splice(0);
@@ -525,9 +601,12 @@ export function useCloudState<T>(
       const retry = pendingRetryRef.current || (wrote && dirtyRef.current);
       if (retry && waiters.length === 0) {
         pendingRetryRef.current = false;
+        const delay = failCountRef.current > 0
+          ? Math.min(30_000, 2_000 * 2 ** Math.min(failCountRef.current - 1, 4))
+          : 50;
         window.setTimeout(() => {
           void persistNowRef.current();
-        }, 50);
+        }, delay);
       }
     }
   };
@@ -565,12 +644,22 @@ export function useCloudState<T>(
   const pullRemote = async (force = false) => {
     if (!readyRef.current || !isSupabaseConfigured) return;
     try {
+      if (!force) {
+        const remoteAt = await fetchShopStateUpdatedAt(key);
+        if (
+          remoteAt &&
+          sameInstant(remoteAt, baseUpdatedAtRef.current) &&
+          !dirtyRef.current
+        ) {
+          return;
+        }
+      }
       const remote = await fetchShopStateRow<T>(key);
       if (remote.value == null) return;
       if (
         !force &&
         remote.updatedAt &&
-        remote.updatedAt === baseUpdatedAtRef.current &&
+        sameInstant(remote.updatedAt, baseUpdatedAtRef.current) &&
         !dirtyRef.current
       ) {
         return;

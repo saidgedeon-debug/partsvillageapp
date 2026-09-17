@@ -27,13 +27,17 @@ function extForMime(mime: string): string {
   return "jpg";
 }
 
+function safeFolder(folder: string): string {
+  return (folder || "file").replace(/[^a-zA-Z0-9/_-]/g, "-").replace(/\/+/g, "/").slice(0, 80);
+}
+
 /**
- * Upload a compressed part photo data URL to Supabase Storage when configured.
+ * Upload a compressed photo data URL to Supabase Storage when configured.
  * Returns a public URL on success, otherwise the original dataUrl (local fallback).
  */
-export async function uploadPartImageDataUrl(
+export async function uploadShopImageDataUrl(
   dataUrl: string,
-  partId: string,
+  folder: string,
 ): Promise<string> {
   if (!dataUrl.startsWith("data:") || !isSupabaseConfigured || !supabase) {
     return dataUrl;
@@ -42,7 +46,7 @@ export async function uploadPartImageDataUrl(
   const blob = dataUrlToBlob(dataUrl);
   if (!blob) return dataUrl;
 
-  const safePart = (partId || "part").replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 64);
+  const safePart = safeFolder(folder);
   const ext = extForMime(blob.type || "image/jpeg");
   const path = `${safePart}/${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
@@ -77,4 +81,12 @@ export async function uploadPartImageDataUrl(
   } catch {
     return dataUrl;
   }
+}
+
+/** Upload a compressed part photo data URL to Supabase Storage when configured. */
+export async function uploadPartImageDataUrl(
+  dataUrl: string,
+  partId: string,
+): Promise<string> {
+  return uploadShopImageDataUrl(dataUrl, `parts/${partId || "part"}`);
 }

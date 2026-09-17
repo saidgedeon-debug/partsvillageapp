@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { compressImageToDataUrl } from "@/lib/image-compress";
 import { oemNumbersOf, partDescriptionOf, type Part } from "@/lib/mock-data";
+import { uploadPartImageDataUrl } from "@/lib/part-image-storage";
 
 export const Route = createFileRoute("/stock-take")({
   head: () => ({
@@ -129,13 +130,14 @@ function StockTakePage() {
     setPhotoBusy(true);
     try {
       const dataUrl = await compressImageToDataUrl(file);
+      const hosted = await uploadPartImageDataUrl(dataUrl, matched.id);
       const existing =
         matched.imageUrls?.length
           ? matched.imageUrls
           : matched.imageUrl
             ? [matched.imageUrl]
             : [];
-      const next = [...existing, dataUrl].slice(0, 8);
+      const next = [...existing, hosted].slice(0, 8);
       updatePart(matched.id, { imageUrl: next[0], imageUrls: next });
       pushLog(matched, matched.quantity, matched.quantity, "photo");
       toast.success(`${matched.partNumber}: photo saved — scan next`);

@@ -35,6 +35,7 @@ import { currency } from "@/lib/mock-data";
 import { localTodayIso } from "@/lib/date-local";
 import { invoiceDiscountRatio, roundMoney } from "@/lib/document-money";
 import { compressImageToDataUrl } from "@/lib/image-compress";
+import { uploadShopImageDataUrl } from "@/lib/part-image-storage";
 import { lineQtyByPart, physicalRestockCap } from "@/lib/stock-sale";
 import { cn } from "@/lib/utils";
 
@@ -297,6 +298,12 @@ export function CreateReturnDialog({
 
       setSubmitting(true);
 
+      const hostedPhotos = photos.length
+        ? await Promise.all(
+            photos.map((photo) => uploadShopImageDataUrl(photo, `returns/${selected.id}`)),
+          )
+        : [];
+
       const creditNote = recordInvoiceReturn({
         invoiceId: selected.id,
         lines,
@@ -305,7 +312,7 @@ export function CreateReturnDialog({
         date: returnDate,
         note: note.trim() || undefined,
         allowRefundOverage,
-        imageUrls: photos.length ? photos : undefined,
+        imageUrls: hostedPhotos.length ? hostedPhotos : undefined,
       });
 
       for (const { partId, qty } of restockPairs) {
