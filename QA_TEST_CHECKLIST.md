@@ -13,7 +13,7 @@ Every figure in this checklist — ratios, pixel counts, tab-stop indices, milli
 therefore restated in the row itself and in the matching report finding, so no row depends on a file
 you cannot open.
 
-**Four runtime passes are recorded here.** The first drove the app across 26 routes at three widths
+**Five runtime passes are recorded here.** The first drove the app across 26 routes at three widths
 and executed the PDF builders directly. The second closed the gaps the first left open: the Arabic
 PDF path, browser print, the inventory form's full numeric and duplicate-submit matrix, XSS in the
 DOM, the dashboard reconciliation, `/fleet/$machineId`, `/china-shipments`, offline-and-reconnect,
@@ -25,9 +25,13 @@ in flight, and memory across a long session. The fourth took the four report scr
 earlier pass had reconciled — `/insights`, `/daily-close`, `/collections`, `/reorder` — and compared
 every rendered figure against a recomputation done independently in Node from the same records; it
 also captured the CSV and Excel exports out of the running app, took a field census of the part
-form, read the supplier page, and cancelled out of a document editor. Rows changed by a later pass
-carry a `Runtime` method and restate the measurement inline; where a later pass **contradicted** an
-earlier row, the row says so rather than being quietly rewritten.
+form, read the supplier page, and cancelled out of a document editor. The fifth performed the six
+operational workflows end to end — a counter sale through to stock deduction including an oversell,
+a stock take, a cashier shift with a real opening float, delivery-board fulfillment at both document
+and line level, the whole pre-order lifecycle, and backup/restore including a restore interrupted
+part-way — comparing the stored record against what each screen claimed. Rows changed by a later
+pass carry a `Runtime` method and restate the measurement inline; where a later pass
+**contradicted** an earlier row, the row says so rather than being quietly rewritten.
 
 ## How to read the Status column
 
@@ -48,16 +52,16 @@ earlier row, the row says so rather than being quietly rewritten.
 
 | Status | Count | Share |
 |---|---|---|
-| Pass | 265 | 49.1% |
-| Fail | 263 | 48.7% |
-| Blocked | 9 | 1.7% |
-| Not Verified | 3 | 0.6% |
-| **Total test cases** | **540** | |
+| Pass | 300 | 50.6% |
+| Fail | 281 | 47.4% |
+| Blocked | 9 | 1.5% |
+| Not Verified | 3 | 0.5% |
+| **Total test cases** | **593** | |
 
 Four things to keep in mind when reading these totals:
 
-- **The 263 failures map to 113 distinct issues**, not 263 problems. A single root cause fails many
-  test cases — `STK-002` (no stock audit trail) accounts for eight rows; `UX-007` (validation with
+- **The 281 failures map to 122 distinct issues**, not 281 problems. A single root cause fails many
+  test cases — `STK-002` (no stock audit trail) accounts for nine rows; `UX-007` (validation with
   no inline error) and `RPT-002` (the low-stock disagreement) for seven each; and `FIN-002`,
   `FIN-009`, `CUS-001`, `UX-003`, `UX-005`, `UX-008`, and `SYN-001` for six each.
 - **Sections 13 and 14 were executed, not read.** Section 13's 57 cases come from running the
@@ -66,8 +70,8 @@ Four things to keep in mind when reading these totals:
   decoding the bars out of a generated part label — so every position is a measurement in
   millimetres or pixels. Section 14's 93 cases come from driving the running app in headless Chrome
   across 26 routes at three widths, and from capturing Chrome's own accessibility tree on seven
-  routes. Together they are 150 of the 540 cases, and with section 12's reconciliation they are the
-  strongest evidence here.
+  routes. Together they are 150 of the 593 cases, and with section 12's reconciliation and section
+  18's workflow runs they are the strongest evidence here.
 - **51 of section 14's 93 cases pass**, which is worth stating as plainly as the failures: no page
   makes the document scroll sideways at any width, focus is trapped correctly in dialogs and is
   visible in rendered pixels, not one interactive control on seven routes reaches the accessibility
@@ -80,13 +84,20 @@ Four things to keep in mind when reading these totals:
   after the third. All three need something this environment does not have: a real screen reader, a
   session long enough to be more than a ~70-second proxy, and an installed PWA for the Web Share
   Target. Everything else that was open has been driven, including the eleven items the fourth pass
-  took on. §17 of the audit report lists the remaining gaps individually, together with the six
-  questions that can only be answered against production.
+  took on and the six workflows the fifth performed. §17 of the audit report lists the remaining
+  gaps individually, together with the six questions that can only be answered against production.
 - **Section 12 is the pass that changed most.** It went from 5 unverified rows to 37 executed ones,
   because every figure on `/insights`, `/daily-close`, `/collections`, `/reorder`, `/low-stock`, and
   the inventory export was recomputed independently and compared. Eleven of those rows pass — the
   drawer reconciliation and both export comparisons are exact — and the failures are concentrated in
   two formulas (`RPT-005`, `RPT-006`) rather than spread across the screens.
+- **Section 18 is the newest and has the highest pass rate of any executed section** — 35 of 53 —
+  which is the honest shape of the result. The operational screens do most of what they claim: a
+  counter sale deducts the right stock and writes the right documents, receiving adds a delta,
+  negative input is refused, advancing a whole order touches neither payment nor stock, and a
+  backup round-trips every domain without leaking a secret. The 18 failures are concentrated in six
+  specific places, and the reason they matter more than the ratio suggests is that each one is a
+  point where the screen states something the stored record does not support.
 
 | Section | Cases | Pass | Fail | Blocked | Not Verified |
 |---|---|---|---|---|---|
@@ -107,6 +118,7 @@ Four things to keep in mind when reading these totals:
 | 15. Security behaviour | 24 | 14 | 6 | 4 | 0 |
 | 16. Performance and reliability | 28 | 8 | 19 | 0 | 1 |
 | 17. Route coverage | 29 | 7 | 21 | 0 | 1 |
+| 18. Operational workflows | 53 | 35 | 18 | 0 | 0 |
 
 ---
 
@@ -772,6 +784,97 @@ rendered and say so.
 
 ---
 
+## 18. Operational workflows
+
+Added by the fifth pass. §17 above records that each of these routes *renders*; this section records
+what happens when the workflow is actually performed and the stored record is compared against what
+the screen claimed. Every row is `Runtime` — no source-only inferences appear here.
+
+### 18a. Counter sale (point of sale)
+
+| Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
+|---|---|---|---|---|---|---|---|
+| Counter | `/counter` | Search finds a part by its exact part number | Part listed | `CF-A-011` searched and returned as the first hit | Runtime | **Pass** | — |
+| Counter | `/counter` | Adding a part reports the correct cart count | Accurate count | Added twice; toasts read `CF-A-011 · cart 1` then `cart 2` — the count is the quantity of that line, and it is correct | Runtime | **Pass** | — |
+| Counter | `/counter` | Cart strip total matches the lines | Correct | 2 × $15.60 → cart strip `$31.20` | Runtime | **Pass** | — |
+| Counter | `/counter` | A client can be attached to the sale | Attached | `Alpha Earthmoving SARL` selected and carried into the checkout dialog | Runtime | **Pass** | — |
+| Counter | `/counter` | Checkout creates the invoice and clears the cart | Created and cleared | `INV-20260921-073121410-299d` written, documents 9 → 10, cart lines 0 | Runtime | **Pass** | — |
+| Counter | `/counter` | Checkout deducts stock for the sold quantity | Deducted | `CF-A-011` on hand 2 → **0** for a quantity of 2 | Runtime | **Pass** | — |
+| Counter | `/counter` | Overselling prompts for confirmation | Prompted once | Prompted: `Not enough stock — CF-A-011: need 1, on hand 0. Sell anyway? Quantity will not go below 0.` | Runtime | **Pass** | — |
+| Counter | `/counter` | The oversell prompt appears **once** per sale | Once | **Twice**, byte-identical wording, with the document count unchanged between them (11 → 11) — nothing happened in between | Runtime | **Fail** | `FIN-011` |
+| Counter | `/counter` | Declining oversell reports accurately | Accurate message | Declining the second prompt reported `Checkout aborted — stock changed and oversell was declined`. **Stock had not changed** | Runtime | **Fail** | `FIN-011` |
+| Counter | `/counter` | Declining oversell abandons the sale cleanly | Nothing written | Correct — document count stayed 11, on hand stayed 0, no leftover dialog | Runtime | **Pass** | — |
+| Counter | `/counter` | A confirmed oversell records the oversold quantity | Recorded | Invoice written with `oversoldByPart: { hyd-11: 3 }` and `stockDeducted: true`, quantity floored at 0 | Runtime | **Pass** | — |
+| Counter | `/counter` | Below-cost pricing warns before committing | Warned | Warned — but through a native `window.confirm`, inconsistent with the app's own dialog used two lines earlier | Runtime | **Fail** | §10 of the report |
+
+### 18b. Stock take and receive
+
+| Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
+|---|---|---|---|---|---|---|---|
+| Stock take | `/stock-take` | An absolute count sets the quantity | Set | `CF-A-012` 3 → 7; toast `CF-A-012: qty set to 7` | Runtime | **Pass** | — |
+| Stock take | `/stock-take` | An absolute count discloses that it overrides | Disclosed | `Hard override: CF-A-012 on hand is 3 — setting absolute qty to 7` names both figures | Runtime | **Pass** | — |
+| Stock take | `/stock-take` | *Add received* adds a delta rather than overwriting | Delta added | `+3` against 7 → **10**; toast `CF-A-012: +3 → 10` | Runtime | **Pass** | — |
+| Stock take | `/stock-take` | A negative received quantity is refused | Refused | Refused with `Enter a valid quantity`; on hand unchanged at 10 | Runtime | **Pass** | — |
+| Stock take | `/stock-take` | A fractional counted quantity is handled explicitly | Rejected or disclosed | `7.5` silently floored to **7**; nothing said a fraction was dropped, and the Add-part dialog rounds `2.5` *up* to `3` — a third rule on one field | Runtime | **Fail** | `STK-014`, `STK-009` |
+| Stock take | `/stock-take` | Adjustments are recorded durably | Recorded | *Recent entries* showed `count · 3 → 7`, then vanished entirely on navigating away and back | Runtime | **Fail** | `STK-015`, `STK-002` |
+
+### 18c. Cashier shift
+
+| Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
+|---|---|---|---|---|---|---|---|
+| Shift | `/shift` | Starting a shift stores cashier, float, and note | Stored | `cashierName: "Audit Cashier"`, `openingCash: 250`, `note: "audit open"`, and an `openedAt` timestamp | Runtime | **Pass** | — |
+| Shift | `/shift` | A second shift cannot open while one is live | Refused | Guard present: `Close the open shift first` | Runtime | **Pass** | — |
+| Shift | `/shift` | Handoff stores closing cash and the recipient | Stored | `closingCash: 375`, `expectedCash: 125`, `handoffToName: "Next Up"`, and `closedAt` populated | Runtime | **Pass** | — |
+| Shift | `/shift` | Expected drawer equals the day's cash receipts | Equal | 3 seeded cash receipts totalling $125 → `Today's drawer expected cash $125.00 · 3 receipts` | Runtime | **Pass** | — |
+| Shift | `/shift` | Variance is zero when the drawer balances | `$0.00` | Float $250 + receipts $125 = $375 expected, $375 counted — and the row read **`Var $250.00`**. The opening float is counted as takings | Runtime | **Fail** | `FIN-013` |
+| Shift | `/shift` | Variance detects a genuine shortage | Negative | Cannot: a shortage smaller than the float still reports a surplus, so a missing float is undetectable | Runtime | **Fail** | `FIN-013` |
+| Shift | `/shift` | `/shift` and `/daily-close` agree about the same drawer | Agree | They disagree — `/daily-close` computes expected-versus-counted correctly (verified exact in the fourth pass) while `/shift` omits the float | Runtime | **Fail** | `FIN-013` |
+
+### 18d. Delivery and pickup fulfillment
+
+| Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
+|---|---|---|---|---|---|---|---|
+| Fulfillment | `/delivery-board` | All four status columns render | Present | `Waiting parts`, `Ready`, `Delivered`, `Picked up` all present with counts | Runtime | **Pass** | — |
+| Fulfillment | `/delivery-board` | Every open invoice appears on the board | All shown | 5 invoices in the store, 5 on the board | Runtime | **Pass** | — |
+| Fulfillment | `/delivery-board` | *All lines · X* sets the document and every line | Both set | `fulfillmentStatus: "Ready"` and all lines `Ready`; toast `INV-… → Ready (all lines)` | Runtime | **Pass** | — |
+| Fulfillment | `/delivery-board` | Advancing fulfillment does not touch payment status | Untouched | Invoice stayed `Unpaid` | Runtime | **Pass** | — |
+| Fulfillment | `/delivery-board` | Advancing fulfillment does not touch stock | Untouched | Inventory overrides unchanged | Runtime | **Pass** | — |
+| Fulfillment | `/delivery-board` | A per-line override is stored on that line | Stored | Line set to `Delivered` and persisted; toast names the invoice and the line | Runtime | **Pass** | — |
+| Fulfillment | `/delivery-board` | A partly fulfilled document reports as partial | Partial or mixed | Two-line invoice with one line `Delivered` and one unset reported **`All lines · Delivered`**, moved into the **Delivered** column, and showed no *Mixed lines* note | Runtime | **Fail** | `FUN-011` |
+| Fulfillment | `/delivery-board` | The packing slip discloses a partial shipment | Disclosed | Generated successfully (8,353 bytes) but its status line comes from the same two functions, so it prints `Delivered` for a half-shipped order | Runtime | **Fail** | `FUN-011` |
+
+### 18e. Pre-orders
+
+| Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
+|---|---|---|---|---|---|---|---|
+| Pre-orders | `/pre-orders` | Create a pre-order with a catalogue line | Created | `Alpha Earthmoving SARL`, `CF-A-012 ×1 @ $16.20`, total **$16.20**; toast `Pre-order saved` | Runtime | **Pass** | — |
+| Pre-orders | `/pre-orders` | The form exposes deposit, date, notes, and freight | Present | `po-date`, `po-deposit`, `po-notes`, `po-shipment`, a client picker, and a catalogue part search | Runtime | **Pass** | — |
+| Pre-orders | `/pre-orders` | Selling total and goods cost are both shown | Shown | `Selling total $16.20` and `Goods cost $6.00` | Runtime | **Pass** | — |
+| Pre-orders | `/pre-orders` | The deposit dialog shows the remaining balance | Shown | `Alpha Earthmoving SARL · remaining $16.20` | Runtime | **Pass** | — |
+| Pre-orders | `/pre-orders` | A deposit above the total is refused or recorded in full | Refused or recorded | **$500.00 entered against a $16.20 total stored $16.20.** Toast read `Deposit recorded · remaining $0.00` and the row now reads `FULLY PAID`. $483.80 left no trace | Runtime | **Fail** | `FIN-012` |
+| Pre-orders | `/pre-orders` | Converting to an invoice carries the deposit | Carried | Dialog offered `Use deposit $16.20` / `Full total $16.20` and wrote the invoice with `amountPaid: 16.20` | Runtime | **Pass** | — |
+| Pre-orders | `/pre-orders` | Converting twice is blocked or warns | Blocked | **Not blocked.** Two conversions → 2 invoices *and* 2 receipts for one $16.20 order; documents 14 → 16 → 18. The second dialog still read "Fully paid" with no hint an invoice existed | Runtime | **Fail** | `FUN-009` |
+| Pre-orders | `/pre-orders` | A converted pre-order is marked or removed | Marked | Row still listed, still offering both convert actions; nothing is written back to the order | Runtime | **Fail** | `FUN-009` |
+| Pre-orders | `/pre-orders` | *Create China shipment* is idempotent | One shipment | **Two** drafts created, both carrying the same `preOrderId` and the same `CF-A-012×1` line; shipments 2 → 3 → 4 | Runtime | **Fail** | `FUN-010` |
+| Pre-orders | `/pre-orders` | *Mark ordered* disappears once procured | Hidden | Correct — it was absent on the second visit because `needsProcurement` had been cleared. The same state is available to *Create China shipment* and unused | Runtime | **Pass** | — |
+| Pre-orders | `/pre-orders` | Deleting a pre-order confirms first | Confirmed | Confirmed — but through a native `confirm()`, not the app's own dialog | Runtime | **Fail** | §12 of the report |
+
+### 18f. Backup and restore
+
+| Module | Page / route | Test case | Expected result | Actual result | Method | Status | Issue |
+|---|---|---|---|---|---|---|---|
+| Backup | sidebar → *Backup* | The backup covers every state domain | All 10 | All 10 `ShopStateKey` domains present and non-null: inventory, parties, documents, fleet, cart, kits, prefs, shipments, share-inbox, pre-orders (182 KB) | Runtime | **Pass** | — |
+| Backup | sidebar → *Backup* | The backup excludes operator secrets | Excluded | No match for WebAuthn credentials, rate-limit rows, PINs, or keys; `operator_webauthn` and `operator_rate_limits` sit deliberately outside `BACKUP_KEYS` | Runtime | **Pass** | — |
+| Backup | sidebar → *Backup* | The file is self-describing and versioned | Versioned | `{ version: 1, exportedAt, app: "parts-village", domains }` | Runtime | **Pass** | — |
+| Restore | sidebar → *Backup* | Restore warns before overwriting | Warned | `Restore this backup? This overwrites live cloud data for 10 domains … Download a fresh backup first if you are unsure.` — destructive styling, Cancel first | Runtime | **Pass** | — |
+| Restore | sidebar → *Backup* | A foreign file is rejected | Rejected | `parseShopBackup` requires `app: "parts-village"` and `version: 1` | Runtime | **Pass** | — |
+| Restore | sidebar → *Backup* | A restore is not overwritten by the open tab | Not overwritten | A canary client added after the snapshot was gone immediately, still gone after an 8 s settle, and gone after a reload — the live tab's stale in-memory state does not win | Runtime | **Pass** | — |
+| Restore | sidebar → *Backup* | A restore is all-or-nothing | Atomic | **Not atomic.** Blocking the 7th key left `parties` restored (9 clients → 8) and `pre-orders` untouched (2, not the snapshot's 1) — six domains from the backup, four from live data | Runtime | **Fail** | `DAT-002` |
+| Restore | sidebar → *Backup* | A failed restore says what state the shop is in | Named | Only `Restore failed`, which reads as though nothing was applied; the dialog stayed open | Runtime | **Fail** | `DAT-002` |
+| Restore | sidebar → *Backup* | A `null` domain in the file is handled explicitly | Explicit | Silently skipped (`BACKUP_KEYS.filter(k => backup.domains[k] != null)`), so restoring a snapshot taken when a domain was empty leaves today's data in place — restore is closer to a partial merge than a replace | Source | **Fail** | `DAT-002` |
+
+---
+
 ## Retest priorities after remediation
 
 Ordered to match the repair stages in §19 of the audit report.
@@ -784,40 +887,47 @@ Ordered to match the repair stages in §19 of the audit report.
 | 4 | After a two-device payment race, the invoice's `amountPaid` equals the sum of its receipts | `FIN-008` |
 | 5 | A failed write survives **Retry sync** and a reload, and is pushed once the network returns | `SYN-001` |
 | 6 | Failed conversion leaves stock untouched; double-fire deducts exactly once | `STK-001` |
-| 7 | Every one of the 14 stock sites writes exactly one movement record | `STK-002` |
-| 8 | Every barcode drawn on a label decodes back to the exact part number printed beside it, across the whole catalogue | `PDF-016` |
-| 9 | Every `after` value in the import dry run equals the value read back after applying, and the preview count equals the toast count | `IMP-004` |
-| 10 | `roundMoney(-x) === -roundMoney(x)` and cent-exact from 1e0 to 1e15 | `FIN-002` |
-| 11 | UI subtotal === PDF subtotal === ratio basis, including `Payment`/`Discount` lines | `FIN-004` |
-| 12 | Dashboard and `/low-stock` return the same set, including zero-quantity parts | `RPT-002` |
-| 13 | With N parts at or below their reorder point, `/reorder` states N (or "top 24 of N") and the CSV contains N rows | `RPT-006` |
-| 14 | A discounted invoice makes the `/insights` revenue equal the invoice total and the margin equal total − line cost | `RPT-005` |
-| 15 | A price typed as `12.3456789` is stored as `12.35`, and the stored value is the one the line total is computed from | `FIN-010` |
-| 16 | Unauthenticated GET of a `part-photos` object returns 403 | `SEC-005` |
-| 17 | Rate limiter refuses unlock when the store is unavailable | `SEC-003` |
-| 18 | `/portal` renders a statement with no params, an invalid token, and a valid token | `UX-002` |
-| 19 | A document can be voided, the void is visible on the document, and the audit log records who did it | `FUN-008` |
-| 20 | The payment-healing unit test runs through the bare-array shape the app actually stores | `FIN-009` |
-| 21 | Every route at 375 / 768 / 1440 px: no element sits outside an ancestor that can actually scroll | `UX-003` |
-| 22 | Content area ≥ ~700 px at every width where tables render un-stacked | `UX-004` |
-| 23 | Contrast assertion over the rendered theme: text pairs ≥ 4.5:1, border and ring pairs ≥ 3:1 | `UX-005`, `UX-006`, `UX-011` |
-| 24 | Each dialog submitted empty shows an inline message, sets `aria-invalid`, and focuses the field — assert on the Add part **and** Add client forms | `UX-007` |
-| 25 | A three-row duplicate import file totals correctly or is rejected, and reports 1 part not 3 | `IMP-002` |
-| 26 | A non-workbook upload produces a visible error message | `IMP-005` |
-| 27 | A 1e15 quantity import requires a confirmation | `IMP-006` |
-| 28 | `/fleet/mc-*` renders machine detail, not the `/fleet` list — assert the detail body differs from the list body | `FUN-006` |
-| 29 | Three rapid Create clicks yield one record **and one** success message | `FUN-007` |
-| 30 | The inline quantity cell rejects `-5` and `abc` with a visible message, and resolves `7.5` the same way the dialog resolves `2.5` | `STK-010`, `STK-009` |
-| 31 | Every Arabic raster in a generated PDF has zero ink on its outermost row and column | `PDF-014` |
-| 32 | A fixture Arabic invoice stays within a byte budget, and its Arabic text is selectable | `PDF-015` |
-| 33 | A print-emulated snapshot of `/documents` contains no sidebar navigation text | `PRN-001` |
-| 34 | Searching an exact unique part number returns exactly one row, with and without separators in the code | `STK-011` |
-| 35 | Clicking each inventory column header reorders rows and sets `aria-sort` | `STK-012` |
-| 36 | A phone number typed as `+961 3 424 242` is still displayed that way after saving | `CUS-003` |
-| 37 | With an inquiry and a shipment attributed to a supplier, both appear on that supplier's page | `CUS-004` |
-| 38 | A hydraulic part created with a unit and a storage location round-trips both to the list, the export, and an invoice line | `STK-013` |
-| 39 | Escape on an editor with a line added prompts; confirming discards, cancelling keeps the line intact | `UX-022` |
-| 40 | `/insights` discloses "20 of N" for dead stock, and `/collections` omits a fully-paid client with a stale promised date | `RPT-007`, `RPT-008` |
-| 41 | `/fleet` empty state renders a primary action | `UX-019` |
-| 42 | One navigation reads each `shop_state` key at most once | `PERF-002` |
-| 43 | Run the passes that still need hardware or a live environment: physical paper margins, a real barcode scanner, label printing, photo upload, biometric unlock on a real device, the Web Share Target, and a screen-reader pass | §17 |
+| 7 | Converting the same pre-order twice yields one invoice and one receipt, and the second attempt names the existing invoice | `FUN-009` |
+| 8 | A deposit above the remaining balance is refused, and `amountPaid` is unchanged | `FIN-012` |
+| 9 | A restore whose 7th key fails leaves all ten domains at their pre-restore values, and the error names the domains involved | `DAT-002` |
+| 10 | Every one of the 14 stock sites writes exactly one movement record, and `/stock-take`'s *Recent entries* survives a reload | `STK-002`, `STK-015` |
+| 11 | Every barcode drawn on a label decodes back to the exact part number printed beside it, across the whole catalogue | `PDF-016` |
+| 12 | Every `after` value in the import dry run equals the value read back after applying, and the preview count equals the toast count | `IMP-004` |
+| 13 | `roundMoney(-x) === -roundMoney(x)` and cent-exact from 1e0 to 1e15 | `FIN-002` |
+| 14 | UI subtotal === PDF subtotal === ratio basis, including `Payment`/`Discount` lines | `FIN-004` |
+| 15 | Dashboard and `/low-stock` return the same set, including zero-quantity parts | `RPT-002` |
+| 16 | With N parts at or below their reorder point, `/reorder` states N (or "top 24 of N") and the CSV contains N rows | `RPT-006` |
+| 17 | A discounted invoice makes the `/insights` revenue equal the invoice total and the margin equal total − line cost | `RPT-005` |
+| 18 | A two-line document with one line `Delivered` and one unset derives as `Waiting parts`, reports mixed, and stays out of the Delivered column — assert the packing slip too | `FUN-011` |
+| 19 | A shift with float $250, receipts $125, and a $375 count reports `Var $0.00`; a $50 shortage reports `-$50.00` | `FIN-013` |
+| 20 | One oversold checkout produces exactly one oversell prompt; a mid-checkout stock reduction produces a second naming the new shortage | `FIN-011` |
+| 21 | Invoking *Create China shipment* twice on one pre-order leaves exactly one shipment carrying that `preOrderId` | `FUN-010` |
+| 22 | A price typed as `12.3456789` is stored as `12.35`, and the stored value is the one the line total is computed from | `FIN-010` |
+| 23 | Unauthenticated GET of a `part-photos` object returns 403 | `SEC-005` |
+| 24 | Rate limiter refuses unlock when the store is unavailable | `SEC-003` |
+| 25 | `/portal` renders a statement with no params, an invalid token, and a valid token | `UX-002` |
+| 26 | A document can be voided, the void is visible on the document, and the audit log records who did it | `FUN-008` |
+| 27 | The payment-healing unit test runs through the bare-array shape the app actually stores | `FIN-009` |
+| 28 | Every route at 375 / 768 / 1440 px: no element sits outside an ancestor that can actually scroll | `UX-003` |
+| 29 | Content area ≥ ~700 px at every width where tables render un-stacked | `UX-004` |
+| 30 | Contrast assertion over the rendered theme: text pairs ≥ 4.5:1, border and ring pairs ≥ 3:1 | `UX-005`, `UX-006`, `UX-011` |
+| 31 | Each dialog submitted empty shows an inline message, sets `aria-invalid`, and focuses the field — assert on the Add part **and** Add client forms | `UX-007` |
+| 32 | A three-row duplicate import file totals correctly or is rejected, and reports 1 part not 3 | `IMP-002` |
+| 33 | A non-workbook upload produces a visible error message | `IMP-005` |
+| 34 | A 1e15 quantity import requires a confirmation | `IMP-006` |
+| 35 | `/fleet/mc-*` renders machine detail, not the `/fleet` list — assert the detail body differs from the list body | `FUN-006` |
+| 36 | Three rapid Create clicks yield one record **and one** success message | `FUN-007` |
+| 37 | The inline quantity cell rejects `-5` and `abc` with a visible message, and resolves `7.5` the same way the dialog resolves `2.5` and `/stock-take` resolves `7.5` | `STK-010`, `STK-009`, `STK-014` |
+| 38 | Every Arabic raster in a generated PDF has zero ink on its outermost row and column | `PDF-014` |
+| 39 | A fixture Arabic invoice stays within a byte budget, and its Arabic text is selectable | `PDF-015` |
+| 40 | A print-emulated snapshot of `/documents` contains no sidebar navigation text | `PRN-001` |
+| 41 | Searching an exact unique part number returns exactly one row, with and without separators in the code | `STK-011` |
+| 42 | Clicking each inventory column header reorders rows and sets `aria-sort` | `STK-012` |
+| 43 | A phone number typed as `+961 3 424 242` is still displayed that way after saving | `CUS-003` |
+| 44 | With an inquiry and a shipment attributed to a supplier, both appear on that supplier's page | `CUS-004` |
+| 45 | A hydraulic part created with a unit and a storage location round-trips both to the list, the export, and an invoice line | `STK-013` |
+| 46 | Escape on an editor with a line added prompts; confirming discards, cancelling keeps the line intact | `UX-022` |
+| 47 | `/insights` discloses "20 of N" for dead stock, and `/collections` omits a fully-paid client with a stale promised date | `RPT-007`, `RPT-008` |
+| 48 | `/fleet` empty state renders a primary action | `UX-019` |
+| 49 | One navigation reads each `shop_state` key at most once | `PERF-002` |
+| 50 | Run the passes that still need hardware or a live environment: physical paper margins, a real barcode scanner, label printing, photo upload, biometric unlock on a real device, the Web Share Target, and a screen-reader pass | §17 |

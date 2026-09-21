@@ -1,7 +1,7 @@
 # Parts Village — Full Application Audit Report
 
 **Audit type:** Read-only audit. No application code, schema, or production data was modified.
-**Audit date:** 2026-09-06, with a second runtime pass on 2026-09-17 and a third and fourth on 2026-09-21
+**Audit date:** 2026-09-06, with a second runtime pass on 2026-09-17 and a third, fourth, and fifth on 2026-09-21
 **Commit audited:** `08f2a09` ("Remove all Kafu supplier, catalog leftovers, and data files.")
 **Branch:** `cursor/full-application-audit-33f7`
 **Live deployment:** https://partsvillageapp.vercel.app
@@ -13,7 +13,7 @@
 > `package-lock.json`, `src/routeTree.gen.ts`, and all application code are byte-for-byte unchanged —
 > `git diff` between the merge base and this branch touches nothing but the two report files.
 
-> **Four passes are recorded here.** The first established the findings. The second closed the
+> **Five passes are recorded here.** The first established the findings. The second closed the
 > items it had to leave open — Arabic PDF rendering, browser print, the inventory form's full
 > numeric and duplicate-submit matrix, XSS in the DOM, the dashboard reconciliation,
 > `/fleet/$machineId`, `/china-shipments`, offline-and-reconnect, and runtime timings — and in doing
@@ -38,6 +38,18 @@
 > also recorded an eight-row reconciliation in which every figure those screens display was
 > reproduced exactly from the underlying records, so where a number is wrong it is the formula that
 > is wrong, not the rendering.
+>
+> The fifth pass drove the six operational pages that earlier passes had only rendered or read —
+> `/counter` end to end including an oversell, `/stock-take`, `/shift`, `/delivery-board`,
+> `/pre-orders`, and backup/restore. These are the screens the shop actually spends its day in, and
+> they turned out to hold the densest cluster of untested logic in the application. It added **eight
+> findings** — six P1 (`FUN-009`, `FUN-011`, `FIN-011`, `FIN-012`, `FIN-013`, `DAT-002`), one P2
+> (`FUN-010`) and two P3 (`STK-014`, `STK-015`). Everything still open in §17 now needs hardware, a
+> real installed PWA, a screen reader, or access to production.
+> Three of the six P1s are ways the same shop can count one payment twice, report a surplus it does
+> not have, or ship half an order believing it shipped all of it, and none of them is visible from
+> reading the code alone: each was found by performing the workflow and then comparing the stored
+> record against what the screen claimed.
 >
 > Every correction is stated in place rather than quietly edited, so the reasoning is auditable.
 > See §17 for the full before/after list.
@@ -109,6 +121,31 @@ computed correctly and displayed correctly on screen; the PDF simply draws it pa
 the customer gets a statement listing what they were invoiced with no indication of what they owe.
 Rendering the app's real PDF code across 350 statement shapes found 8 that do this. (`PDF-005`)
 
+**The daily operational screens are the weakest part of the application.** The fifth pass performed
+the shop's actual workflows — take a sale at the counter, count stock, hand off a shift, mark an
+order delivered, take a deposit on a pre-order — and compared the stored record against what each
+screen claimed. Four results stand out, and none of them is apparent from reading the code:
+
+- **A pre-order can be invoiced repeatedly, and each pass books the deposit again as cash.**
+  Converting one $16.20 pre-order twice produced two invoices *and two receipts* for a single $16.20
+  payment taken once. Because receipts drive the cash drawer and the daily close, the day's expected
+  cash is overstated by the deposit, and `FUN-008` means neither duplicate can be voided. (`FUN-009`)
+- **A partly delivered order is reported as fully delivered.** Setting one line of a two-line
+  invoice to `Delivered` makes the card read **"All lines · Delivered"**, moves it into the Delivered
+  column, and prints `Delivered` on the packing slip that travels with the goods — because the
+  derive function discards lines whose status is unset instead of treating them as outstanding. The
+  error only ever over-reports progress, so nothing on screen invites a second look. (`FUN-011`)
+- **Shift cash variance cannot detect missing cash.** The variance omits the opening float, so a
+  drawer that balanced to the cent ($250 float, $125 taken, $375 counted) reported a **$250
+  surplus**. Every shift shows a phantom surplus equal to the float, so a real shortage is invisible
+  until it exceeds it. (`FIN-013`)
+- **Restore can leave the shop holding two different points in time.** The restore loop writes ten
+  domains one at a time with no transaction. Interrupting it after the sixth left `inventory`,
+  `parties`, and `documents` replaced from the backup while `pre-orders` and `shipments` kept live
+  data — reported to the operator as nothing more than `Restore failed`, which reads as though
+  nothing was applied. This is the recovery path of last resort, used when the shop is already in
+  trouble. (`DAT-002`)
+
 **Two corrections to record, because each changes a headline.**
 
 The first concerns `FIN-001` itself, the highest-severity finding in this report. The first two
@@ -140,10 +177,10 @@ until that is addressed.
 | Priority | Count | Meaning |
 |---|---|---|
 | **P0 — Critical** | 8 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 20 | Core feature broken or serious business risk |
-| **P2 — Medium** | 48 | Important defect with a workaround |
-| **P3 — Low** | 38 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **114** | Plus 11 controls verified sound and a 7-row verified WebAuthn table (§14), 5 verified-correct stock behaviours, 6 verified-correct search behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table, a 3-row verified document-output table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table plus a 7-route accessibility-tree table (§12), an 8-row reconciliation of the report screens against their own records (§11), and a much shorter `NOT VERIFIED` list (§17) |
+| **P1 — High** | 26 | Core feature broken or serious business risk |
+| **P2 — Medium** | 49 | Important defect with a workaround |
+| **P3 — Low** | 40 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **123** | Plus 11 controls verified sound and a 7-row verified WebAuthn table (§14), 5 verified-correct stock behaviours, 6 verified-correct search behaviours, 7 verified-correct import behaviours and a 3-row verified stock-take table (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table, a 3-row verified document-output table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table plus a 7-route accessibility-tree table (§12), an 8-row reconciliation of the report screens against their own records and a 5-row verified backup/restore table (§11), and a much shorter `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
@@ -155,7 +192,11 @@ payload is inert in the DOM on every route tested, search over 2,344 parts stays
 Arabic renders in PDFs with correct shaping and right-to-left order, the modal dialogs correctly
 trap focus, close on Escape, and label every field, Face ID enrolment and unlock work end to end
 with a captured assertion correctly refused on replay, every interactive control on seven routes
-exposes an accessible name, and 48 navigations produced no memory leak.
+exposes an accessible name, and 48 navigations produced no memory leak. The fifth pass adds more of
+the same: a counter sale deducts exactly the right stock and writes the right documents, the
+delivery board's whole-order advance is correct and touches neither payment nor stock, stock-take's
+received-delta and negative-input handling are both right, and a backup round-trips all ten domains
+without leaking an operator secret and survives being restored under a live tab.
 
 ---
 
@@ -541,6 +582,71 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 - **Recommended fix:** Add a `Void` action that sets a `voidedAt` / `voidReason` and excludes the document from AR, revenue, and statements while keeping it visible and numbered. Warn about linked receipts and credit notes before voiding, and block voiding an invoice that has payments until those are reversed. Delete `removeDocument` or wire it to the void path, so the dead API stops implying the capability exists.
 - **Regression test:** Assert a voided invoice disappears from AR totals, the dashboard cards, and the client statement while remaining listed in `/documents`; assert voiding an invoice with receipts is refused.
 
+### `FUN-009` · **P1** · Pre-orders — the same pre-order can be invoiced over and over, and each pass books the deposit again as fresh cash
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** `/pre-orders` → row menu → *Create invoice* / *Create invoice + receipt*.
+- **Description:** `PreorderConvertDialog.submit()` builds an invoice, optionally a receipt, and a customer order record, then closes. It never marks the pre-order as converted, never stores the resulting invoice id on it, and never removes it from the list. The menu item stays enabled forever, and nothing anywhere checks whether an invoice already exists for that pre-order.
+- **Actual** — one pre-order for **$16.20** with a **$16.20** deposit already collected, converted twice through the row menu with no intervening change:
+
+  | Conversion | Invoice created | Receipt created | Menu still offers *Create invoice* |
+  |---|---|---|---|
+  | First | `INV-20260921-074945672-wnfn` · $16.20 · `amountPaid` $16.20 | `RCP-20260921-074945672-c66n` · $16.20 | yes |
+  | Second | `INV-20260921-074953955-85gx` · $16.20 · `amountPaid` $16.20 | `RCP-20260921-074953955-nfvk` · $16.20 | yes |
+
+  The document count went 14 → 16 → 18. The shop now holds **two invoices and two receipts for one $16.20 order**, so revenue reads $32.40 and cash received reads $32.40 against a single $16.20 payment that was taken once. Both conversion dialogs were byte-identical, the second still announcing *"Deposit on pre-order: $16.20 · Fully paid"* with no hint that an invoice already existed.
+- **Expected:** A pre-order that has been invoiced is marked as such, the action is disabled or warns, and re-running it cannot mint a second receipt for a deposit that was collected once.
+- **Evidence:** `src/components/app/preorder-convert-dialog.tsx:112-229` — `submit()` writes the invoice, the optional receipt (`:184-195`) and the order record (`:200-216`), then calls `onOpenChange(false)`; there is no write back to the pre-order and no pre-check. The row menu at `src/routes/pre-orders.tsx:239-256` renders both convert items unconditionally. The invoice does carry `internalNote: "From pre-order ${order.id}"` (`:181`), so the link needed to detect a repeat is already recorded and simply never read. Runtime capture: `/tmp/pv-audit3/results/ops6.json`.
+- **Reproduction:** Create a pre-order, record a deposit, choose *Create invoice + receipt* and confirm. Return to `/pre-orders` — the row is still there. Choose *Create invoice + receipt* again. A second invoice and a second receipt appear.
+- **Business impact:** This double-counts both revenue and cash. The duplicate receipt is the more damaging half: receipts drive the cash drawer, the daily close, and `/collections`, so a single deposit taken once is reported as two payments, and the day's expected cash is overstated by the deposit amount. The customer also appears to owe nothing on an invoice they never agreed to. With `FUN-008` (nothing can delete or void a document) the duplicate cannot be removed — only edited down to zero, which leaves a $0.00 invoice and a live receipt still inflating the drawer. Two clicks in the same menu, with no warning at any point, are enough to cause it.
+- **Relevant files:** `src/components/app/preorder-convert-dialog.tsx`, `src/routes/pre-orders.tsx`, `src/components/app/preorders-context.tsx`.
+- **Recommended fix:** Record the conversion on the pre-order (`invoiceId`, `convertedAt`) inside the same commit as the invoice, and have the row menu disable or re-label both convert items once it is set. Guard `submit()` itself so a second call for an already-converted order is refused rather than relying on the menu. If re-invoicing is a legitimate need (partial shipments), require the operator to choose which lines, and never re-create a receipt for a deposit already receipted.
+- **Regression test:** Assert that converting the same pre-order twice produces one invoice and one receipt, and that the second attempt is refused with a message naming the existing invoice.
+
+### `FUN-010` · P2 · Pre-orders — *Create China shipment* is not idempotent, so one order can be received into stock twice
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** `/pre-orders` → row menu → *Create China shipment*.
+- **Description:** `createShipmentFromOrder` calls `addShipment({ …, preOrderId: order.id })` and sets `needsProcurement: false`. The menu item is rendered unconditionally, and `preOrderId` is never used to detect an existing shipment.
+- **Actual:** Invoking it twice on the same pre-order produced two independent shipment drafts, both carrying the same `preOrderId` and the same line:
+
+  | Shipment id | Title | Lines |
+  |---|---|---|
+  | `ship-muay3ehx-ctglq` | Pre-order · Alpha Earthmoving SARL | `CF-A-012×1` |
+  | `ship-muay391t-sbrah` | Pre-order · Alpha Earthmoving SARL | `CF-A-012×1` |
+
+  The shipment count went 2 → 3 → 4. Notably the app **does** notice the first one in a different place: *Mark ordered* disappeared from the menu on the second visit, because `needsProcurement` had been cleared. So the state that would let it suppress the duplicate is present and used for one menu item but not the other.
+- **Expected:** Once a shipment exists for a pre-order, the action is disabled, or it navigates to the existing draft instead of creating another.
+- **Evidence:** `src/routes/pre-orders.tsx:85-109` (`createShipmentFromOrder`, no pre-check) and `:257-260` (menu item rendered unconditionally, unlike *Mark ordered* at `:269-278` which is guarded). `preOrderId` is written at `:104` and read only by `src/components/app/shipment-receive-dialog.tsx:86-87` for reservation mapping, never for deduplication. Runtime capture: `/tmp/pv-audit3/results/ops6.json`.
+- **Reproduction:** Open a pre-order's row menu, choose *Create China shipment*, return to `/pre-orders`, and choose it again. Two drafts exist under `/china-shipments`.
+- **Business impact:** Receiving is where this costs money. Each draft carries the full ordered quantity, so receiving both adds the goods to stock twice for one purchase — inflating on-hand quantities and, because landed cost is allocated per shipment, corrupting unit costs and therefore margins. The reservation logic in the receive dialog also matches on `preOrderId`, so it will reserve the customer's quantity against each draft. With no stock movement audit trail (`STK-002`) the duplicate receipt is untraceable afterwards. Severity is P2 rather than P1 only because both drafts are visible on `/china-shipments` and an operator may notice before receiving.
+- **Relevant files:** `src/routes/pre-orders.tsx`, `src/components/app/shipments-context.tsx`, `src/components/app/shipment-receive-dialog.tsx`.
+- **Recommended fix:** Look up `shipments.find(s => s.preOrderId === order.id)` before creating. If one exists, navigate to it and tell the operator, rather than adding another. Guard the same way `Mark ordered` already is.
+- **Regression test:** Assert that invoking the action twice on one pre-order leaves exactly one shipment carrying that `preOrderId`.
+
+### `FUN-011` · **P1** · Delivery board — a partly delivered order is reported as fully delivered
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** `/delivery-board`, `/documents` fulfillment column, and the packing slip PDF.
+- **Description:** `deriveDocFulfillment` and `fulfillmentIsMixed` both build their status set with `.filter(Boolean)`, which **discards lines whose status has not been set**. A line left at the default `—` is therefore not counted as disagreeing, so a document whose only set status is `Delivered` is derived as `Delivered` no matter how many lines are still untouched. `fulfillmentIsMixed` returns `false` for the same reason, suppressing the *Mixed lines* note that exists precisely to flag this case.
+- **Actual** — a two-line invoice, first line set to `Delivered` through the board's own per-line control, second line left at `—`:
+
+  | | Line `CF-A-011` ×2 | Line `CF-A-012` ×2 | Document status | Board column | "Mixed lines" note |
+  |---|---|---|---|---|---|
+  | Stored | `Delivered` | *(unset)* | `Delivered` | Delivered | absent |
+
+  The card's own document-level control reads **"All lines · Delivered"** — an explicit claim about all lines — while the line beneath it still shows `—`. The invoice moved into the **Delivered** column (count 2). The packing slip generated from that card printed successfully (8,353 bytes) and its status line is driven by the same two functions, so it prints `Status: Delivered` with no mixed marker.
+- **Expected:** An unset line is treated as not yet fulfilled. A document with any unset or differing line reads as mixed or as the least-advanced status, and the *Mixed lines* note appears.
+- **Evidence:** `src/lib/fulfillment.ts:26-38` — `deriveDocFulfillment` filters unset statuses out of the set, so `set.size === 1` for the case above and it returns `Delivered`; `:40-47` — `fulfillmentIsMixed` filters identically, so `set.size > 1` is false. The comment at `:34` shows the intent was to prefer the least-advanced status, which is exactly what the filter defeats. Consumers: `src/routes/delivery-board.tsx:130,142,153-165`, `src/routes/documents.tsx:669-710`, `src/lib/packing-slip.ts:28-30`. Runtime captures: `/tmp/pv-audit3/results/ops9.json`, `/tmp/pv-audit3/results/ops11.json`.
+- **Reproduction:** Create an invoice with two lines. On `/delivery-board`, set only the first line to `Delivered`. The card's status control changes to "All lines · Delivered", the card moves to the Delivered column, and no mixed note appears.
+- **Business impact:** This is the board's single job — telling the shop what has gone out and what has not. Half an order is reported as shipped, so the remaining parts are never picked, the customer is told their order is complete, and the printed packing slip that travels with the goods agrees. The failure is silent and points the wrong way: it always over-reports progress, never under-reports it, so nothing about the screen invites a second look. It is also easy to trigger, because per-line marking is the feature the page advertises in its own subtitle ("Mark some lines Ready and others Waiting on the same invoice").
+- **Relevant files:** `src/lib/fulfillment.ts`, `src/routes/delivery-board.tsx`, `src/routes/documents.tsx`, `src/lib/packing-slip.ts`.
+- **Recommended fix:** Treat an unset line as `Waiting parts` when deriving, rather than dropping it: build the set over `lines.map(l => l.fulfillmentStatus ?? "Waiting parts")`. Apply the same default in `fulfillmentIsMixed` so a partly-marked document reports as mixed. Add unit tests for the unset-line cases, which the current tests do not cover.
+- **Regression test:** Assert that a two-line document with one line `Delivered` and one unset derives as `Waiting parts`, reports mixed, and does not appear in the Delivered column.
+
 ### `CUS-001` · P1 · Customers — deleting a client hides money they still owe
 
 - **Page/feature:** `/clients/$clientId` → Delete.
@@ -816,6 +922,42 @@ location", and "machine compatibility" items left open in §17.*
 - **Relevant files:** `src/lib/mock-data.ts`, `src/components/app/part-detail-dialog.tsx`, `src/components/app/inventory-context.tsx`.
 - **Recommended fix:** Add `unit?: string` defaulting to "pcs", surface it beside Qty in the form, the table, and the document line; render the location input for every category.
 - **Regression test:** Create a hydraulic part with a location and a unit and assert both round-trip to the list, the export, and an invoice line.
+
+### `STK-014` · P3 · `/stock-take` — a fractional counted quantity is floored without a word
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** `/stock-take` → *Set counted qty* → **Apply**.
+- **Description:** The counted-quantity field accepts decimals and the apply path floors them. This is a third rounding rule on the same field, alongside the two `STK-009` already records.
+- **Actual:** With `CF-A-012` on hand at 3, entering a counted quantity of **`7.5`** stored **7**. The toasts read `CF-A-012: qty set to 7` and `Hard override: CF-A-012 on hand is 3 — setting absolute qty to 7`, so the resulting figure *is* announced — but nothing says a fraction was entered and discarded, and `7.5` floors to `7` here while the Add-part dialog rounds `2.5` up to `3`.
+- **Expected:** One rounding rule across all three write paths, and a message when a fraction is dropped.
+- **Evidence:** Runtime capture `/tmp/pv-audit3/results/ops1.json` (`afterFractionalCount`: typed `7.5`, stored `7`). See `STK-009` for the other two rules.
+- **Business impact:** Low, and lower than `STK-009` because the stock-take toast states the value that was stored, so an attentive operator sees `7` and can correct it. It matters as the third disagreeing rule on one field: a count of the same shelf lands on a different number depending on which screen was used.
+- **Relevant files:** `src/routes/stock-take.tsx`, `src/components/app/inventory-context.tsx`.
+- **Recommended fix:** Route all three paths through one shared quantity-normalisation helper, and surface a note when the input was not a whole number.
+- **Regression test:** Assert that `7.5` entered on `/stock-take`, in the part dialog, and in the inline cell all produce the same stored quantity.
+
+### `STK-015` · P3 · `/stock-take` — the adjustment log is component state and is lost on navigation
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** `/stock-take` → *Recent entries*.
+- **Description:** The page keeps a running list of the adjustments made in the current session and renders it under *Recent entries*. It is React state only — nothing writes it to `shop_state` or anywhere else.
+- **Actual:** After applying a count, *Recent entries* showed `count · 3 → 7`. Navigating to `/inventory` and back left the section gone entirely (`hasRecentEntries: false`); the page returned to its empty state with no history of the adjustment just made.
+- **Expected:** Stock adjustments are recorded durably, with who, when, from, and to.
+- **Evidence:** Runtime capture `/tmp/pv-audit3/results/ops1.json` (`logBeforeLeaving: true`, `logAfterReturning.hasRecentEntries: false`); `src/routes/stock-take.tsx` holds the entries in `useState` with no persistence call.
+- **Business impact:** Low as a standalone defect — but it is the closest thing the app has to a stock movement trail, and its transience is why `STK-002` (no movement log anywhere) is P0-adjacent. The on-screen list looks like a record and is not one, so an operator who relies on it to check their own work during a count loses it the moment they leave the page to look something up.
+- **Relevant files:** `src/routes/stock-take.tsx`.
+- **Recommended fix:** Fold this into the `STK-002` movement log rather than fixing it separately: write each adjustment to a durable `stock_movements` record and render *Recent entries* from that, filtered to the current session.
+- **Regression test:** Assert that an adjustment made on `/stock-take` is still listed after navigating away and back, and after a reload.
+
+**What `/stock-take` gets right ✅** — driven at runtime:
+
+| Check | Result |
+|---|---|
+| *Add received* adds a delta rather than overwriting | ✅ `+3` against 7 on hand stored **10**, toast `CF-A-012: +3 → 10` |
+| A negative received quantity is refused | ✅ Rejected with `Enter a valid quantity`; on-hand unchanged at 10 |
+| An absolute count discloses that it overrides | ✅ `Hard override: CF-A-012 on hand is 3 — setting absolute qty to 7` names both the old and new figure |
 
 ### Verified-correct search and filter behaviour ✅
 
@@ -1252,6 +1394,50 @@ fractional quantities are silently rounded (`STK-009`), and negative values are 
 - **Recommended fix:** Apply `roundMoney` to `cost` and `price` in `normalizePart`/`applyOverride`, the same place `clampNonNeg` already runs, and mirror it in the bulk import (`IMP-004`).
 - **Regression test:** Store `12.3456789` and assert the persisted value is `12.35`.
 
+### `FIN-011` · **P1** · Checkout asks for the same oversell twice, and declining the second time blames a stock change that did not happen
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** `/counter` → *Checkout* → *Create & close*, for any invoice that oversells.
+- **Description:** `submit()` confirms oversell at `:170`, then at `:200` recomputes `stockShortagesForQty(needed, getPart, skipCreated)` from **the same `needed` map and the same `getPart`** and confirms again. The second check is clearly meant to catch stock that moved while the operator was reading the first prompt, but because it re-derives the shortages from the unchanged inputs rather than diffing against what was already confirmed, it always fires whenever the first one did.
+- **Actual** — one line, `CF-A-011` ×1, on hand 0, driven through the real dialog:
+
+  | Step | What the app showed |
+  |---|---|
+  | Click *Create & close* | `Not enough stock — CF-A-011: need 1, on hand 0. Sell anyway? Quantity will not go below 0.` |
+  | Click *Sell anyway* | **the identical prompt again**, same wording, same two buttons |
+  | Click *Cancel* on the second | `Checkout aborted — stock changed and oversell was declined` |
+
+  The two prompts were byte-identical and the document count was unchanged between them (11 → 11), so nothing happened in between and no stock had moved. A second run with ×3 needed the *Sell anyway* button pressed twice before the sale completed, after which the invoice was written correctly with `oversoldByPart: { hyd-11: 3 }`.
+- **Expected:** One confirmation per sale. A second prompt only if the shortage genuinely grew while the first was open, and worded to say what changed.
+- **Evidence:** `src/components/app/checkout-dialog.tsx:169-174` (first `confirmOversell`) and `:199-208` (second `confirmOversell` over the same inputs, with the misleading toast at `:203`). Runtime captures: `/tmp/pv-audit3/results/counter8.json` (five prompts recorded across one sale, the first two being the duplicate oversell pair) and `/tmp/pv-audit3/results/counter9.json` (`sameWordingTwice: true`, `docsBetweenPrompts: 11`).
+- **Reproduction:** Drive a part's on-hand quantity to 0, add it to the counter cart, attach a client, and check out with *Deduct stock* on. Confirm the oversell once — the same prompt returns.
+- **Business impact:** The duplicate prompt teaches the operator that the oversell warning is noise to be clicked through, which defeats the one guard standing between a rushed sale and a negative-stock commitment. The misleading toast is the worse half: an operator who declines the second prompt is told the shop's stock *changed underneath them*, so the natural response is to go and re-count a part that never moved. The sale is correctly abandoned, so no data is corrupted — the cost is wasted time and an eroded warning.
+- **Relevant files:** `src/components/app/checkout-dialog.tsx`, `src/lib/stock-sale.ts`.
+- **Recommended fix:** Capture the shortage set confirmed at `:170` and, at `:200`, prompt only if the recomputed set is strictly larger (new parts, or a bigger gap on an existing one). Reword that second prompt to state the change, and drop the "stock changed" toast when nothing did. The same double-confirm shape exists in `preorder-convert-dialog.tsx:150-155`, which calls `confirmOversell` once — worth confirming it is not reachable twice by the same route.
+- **Regression test:** Assert that one oversold checkout produces exactly one `confirmOversell` call, and that a mid-checkout stock reduction produces a second call whose message names the new shortage.
+
+### `FIN-012` · **P1** · Pre-order deposits larger than the order total are silently discarded
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** `/pre-orders` → *Deposit* → *Record deposit*.
+- **Description:** `recordDeposit` computes `Math.min(order.total, roundMoney(order.amountPaid + add))`. Anything above the total is dropped. There is no validation on the way in, no warning, and the success toast reports the clamped result as though it were the amount taken.
+- **Actual** — a pre-order totalling **$16.20**, with **$500.00** entered as the deposit:
+
+  | | Entered | Stored `amountPaid` | Toast | Row now reads |
+  |---|---|---|---|---|
+  | Result | $500.00 | **$16.20** | `Deposit recorded · remaining $0.00` | `$16.20 · $16.20 · $0.00 · FULLY PAID` |
+
+  **$483.80 of the customer's money left no trace anywhere in the application.** The dialog had shown "remaining $16.20" before submission, so the app knew the figure was far too large and accepted it anyway.
+- **Expected:** Either refuse an amount above the remaining balance with a message naming the remaining figure, or accept it and record the excess as change due or as a customer credit. Silently keeping part of it is the one behaviour that cannot be right.
+- **Evidence:** `src/components/app/preorders-context.tsx:145-165` — `recordDeposit` clamps with `Math.min(order.total, …)` and returns the clamped order, which `src/routes/pre-orders.tsx:358-373` then uses to build the toast, so the message is derived from the truncated value rather than the input. `updateOrder` clamps the same way at `:110-113`. No caller validates against `preOrderRemaining` first.
+- **Reproduction:** Create a pre-order for a small total, click *Deposit*, enter an amount well above the total, and save. The toast reports success and the row shows FULLY PAID.
+- **Business impact:** A customer paying a round number against an odd total — $500 against $483.80, or the common case of paying for several orders at once — has the difference deleted. Nothing in the app records that more cash came in than was applied, so the drawer will be over at close with no explanation, and the `/shift` and `/daily-close` variance figures are the only place it surfaces. Because those figures are themselves wrong (`FIN-013`), the discrepancy is likely to be absorbed unnoticed. A typo has the same effect in reverse: entering `500` for `50.00` looks successful and silently records the total.
+- **Relevant files:** `src/components/app/preorders-context.tsx`, `src/routes/pre-orders.tsx`.
+- **Recommended fix:** Validate in the dialog before calling: if `amount > preOrderRemaining(order) + 0.005`, refuse and name the remaining balance. If overpayment is a real scenario for this shop, add an explicit change-due or credit field rather than clamping (see §18).
+- **Regression test:** Assert that recording a deposit above the remaining balance is refused and leaves `amountPaid` unchanged.
+
 ---
 
 ## 11. Calculation issues
@@ -1502,6 +1688,58 @@ against an independent recomputation from the same records, not merely read:
 | `/low-stock` | The headline count equals the catalogue under the page's own predicate | ✅ **171** on screen, 171 in the exported workbook |
 | `/reorder` | The CSV export matches the rendered table | ✅ 24 rows, identical part number, quantity, reason, and category in both |
 | `/inventory` | The Excel export matches the screen | ✅ **2,404 rows** for a headline of "2404 of 2404 parts", one `Inventory` sheet, all 14 columns present |
+
+### `FIN-013` · **P1** · `/shift` — the cash variance ignores the opening float, so every shift reports a surplus it does not have
+
+*Found in the fifth runtime pass.*
+
+- **Description:** `ShiftRow` computes the variance as `shift.closingCash - shift.expectedCash`, and `expectedCash` is only the day's receipts (`computeDrawerExpected`). The opening float is stored on the shift (`openingCash`) and displayed on the row, but is left out of the comparison — so the float is counted as if it were takings.
+- **Actual** — a controlled shift where the drawer balanced to the cent:
+
+  | Opening float | Cash receipts during shift | Counted at close | True variance | **App shows** |
+  |---|---|---|---|---|
+  | $250.00 | $125.00 | $375.00 | **$0.00** | **`Var $250.00`** |
+
+  The stored shift holds `openingCash: 250`, `expectedCash: 125`, `closingCash: 375`, and the row renders `Open $250.00 · Close $375.00 · Var $250.00 · to Next Up`. A second run with no receipts at all showed `Open $250.00 · Close $300.00 · Var $300.00`, where the true surplus was $50. In both cases the reported variance is the true variance plus the float.
+- **Expected:** `closingCash - (openingCash + expectedCash)`, so a drawer that balances reads `$0.00`.
+- **Evidence:** `src/routes/shift.tsx:198-200` (the subtraction) and `:217` (the rendered `Var` string); `expectedCash` is set from `computeDrawerExpected` at `:73`, and `src/lib/drawer-radar.ts` correctly returns only the day's receipts — the function is right, the caller omits a term. Runtime captures: `/tmp/pv-audit3/results/ops1.json`, `/tmp/pv-audit3/results/ops2.json`.
+- **Reproduction:** Start a shift with an opening float of $250. Take $125 in cash receipts. Count $375 at close and hand off. The row reports a $250 surplus.
+- **Business impact:** Shift variance exists to detect cash going missing, and this makes it structurally unable to. Every shift shows a phantom surplus equal to the float, so a real shortage is invisible until it exceeds the float — a cashier could remove the entire float and the shift would still report as balanced or over. Because the error is constant and always positive, it looks like a harmless quirk rather than a fault, so the figure is likely to be trusted and then ignored. It also masks `FIN-012`'s discarded overpayments, which would otherwise show up here as a genuine surplus. Note that `/daily-close` computes its own expected-versus-counted figures separately and correctly (verified exact in the fourth pass), so the two screens disagree about the same drawer.
+- **Relevant files:** `src/routes/shift.tsx`, `src/lib/drawer-radar.ts`, `src/components/app/prefs-context.tsx`.
+- **Recommended fix:** Change the variance to `closingCash - (openingCash + expectedCash)` and label the row so the three terms are legible (`Open`, `Took`, `Close`, `Var`). Store the float in the expected figure at handoff time if the stored value is meant to be self-contained, and add a unit test with a non-zero float — the current tests use zero, which is why this passes.
+- **Regression test:** Assert that a shift with float $250, receipts $125, and a $375 count reports a variance of `$0.00`, and that a $50 shortage reports `-$50.00`.
+
+### `DAT-002` · **P1** · Restore is not atomic — a failure part-way leaves the shop holding two different points in time, reported only as "Restore failed"
+
+*Found in the fifth runtime pass.*
+
+- **Page/feature:** Sidebar → *Backup* → *Restore from file…*.
+- **Description:** `restoreBackup` loops over the ten backup keys and awaits `saveShopState(key, …)` one at a time. There is no transaction and no rollback, and `saveShopState` throws on failure, so the loop stops at the first error with the earlier keys already committed. The single `catch` then shows `Restore failed` — a message that describes the operation, not the state it left behind.
+- **Actual** — the shop diverged from its snapshot in two domains, then restored with writes to the 7th key (`prefs`) blocked:
+
+  | Domain | Position in `BACKUP_KEYS` | Diverged before restore | After the failed restore |
+  |---|---|---|---|
+  | `parties` | 2nd | 9 clients (canary added) | **8 clients — restored** |
+  | `pre-orders` | 10th | 2 pre-orders (canary added) | **2 pre-orders — not restored** |
+
+  Six of the ten domains — `inventory`, `parties`, `documents`, `fleet`, `cart`, `kits` — were overwritten with backup data; the remaining four kept live data. The only feedback was a toast reading **`Restore failed`**, and the dialog stayed open as though nothing had happened.
+- **Expected:** Either all ten domains are replaced or none are, or the failure names exactly which domains were written so the operator knows what state they are in.
+- **Evidence:** `src/components/app/backup-dialog.tsx:48-74` — the sequential `for … await saveShopState` at `:62-64` with the generic `catch` at `:68-70`; `BACKUP_KEYS` order in `src/lib/shop-backup.ts:3-14`. `saveShopState` (`src/lib/cloud-store.ts:161-183`) is called without `expectedUpdatedAt`, so each key is an unconditional overwrite with no per-key result reported back. Runtime captures: `/tmp/pv-audit3/results/ops12.json` (failure on the 2nd key) and `/tmp/pv-audit3/results/ops13.json` (`hybrid: true`).
+- **Reproduction:** Take a backup, change data, then restore while the connection drops part-way through (or any single key's write fails). Compare each domain against the backup — some match it and some do not.
+- **Business impact:** Restore is the recovery path of last resort, used precisely when the shop is already in trouble, and this is the moment it produces a state that exists in no backup: stock levels from one point in time against invoices from another, or inventory restored while pre-orders and shipments are not. "Restore failed" actively misleads, because the reasonable reading is that nothing was applied, so the operator is unlikely to check. Recovery requires re-running the restore, which works only if the failing key succeeds on the retry. `SYN-001` makes the triggering condition ordinary rather than exotic: writes do fail on this app's own network path, and the first six keys include every domain that matters.
+- **Relevant files:** `src/components/app/backup-dialog.tsx`, `src/lib/shop-backup.ts`, `src/lib/cloud-store.ts`.
+- **Recommended fix:** Make restore server-side and transactional — one RPC that replaces all ten rows in a single statement. Short of that, fetch every current value first and roll back the keys already written when a later one fails, and report per-key outcomes in the error so the operator knows what landed. Also note that keys whose backup value is `null` are skipped entirely (`:54`), so restoring a snapshot taken when a domain was empty leaves today's data in place rather than clearing it — restore is closer to a partial merge than a replace.
+- **Regression test:** Assert that a restore whose 7th key fails leaves all ten domains at their pre-restore values, and that the error names the domains involved.
+
+**What backup and restore get right ✅**
+
+| Check | Result |
+|---|---|
+| Backup covers every domain | ✅ All 10 `ShopStateKey` domains present, none `null`; 182 KB for the seeded shop |
+| Backup excludes operator secrets | ✅ No match for WebAuthn credentials, rate-limit rows, PINs, or keys in the file; the `operator_webauthn` and `operator_rate_limits` rows are deliberately outside `BACKUP_KEYS` |
+| Restore is gated | ✅ Destructive confirm naming the domain count, with *Download a fresh backup first if you are unsure* |
+| Restore rejects a foreign file | ✅ `parseShopBackup` requires `app: "parts-village"` and `version: 1` |
+| Restore is not clobbered by the open app | ✅ A canary client added after the snapshot was gone immediately, still gone after an 8 s settle, and gone after a reload — the live tab's stale in-memory state does not overwrite the restored data |
 
 ### `DAT-001` · P1 · Architecture — no transactional integrity or database-enforced constraints
 
@@ -2608,6 +2846,11 @@ credits/remaining (4), phone normalisation (5), and shop-state merge (7). Nothin
 | Dashboard formulas | **none** | Every card against hand-computed fixtures (`RPT-001`…`RPT-003`) |
 | Report screens | **none** | Sales board revenue net of document discounts; reorder count equals the qualifying set, not the cap; dead-stock and chase-list membership (`RPT-005`…`RPT-008`) |
 | Money entered vs money stored | **none** | A price typed with more than two decimals is stored rounded, so the stored value is the displayed value (`FIN-010`) |
+| Pre-order lifecycle | **none** | Converting twice yields one invoice and one receipt; shipment creation is idempotent per pre-order; a deposit above the remaining balance is refused (`FUN-009`, `FUN-010`, `FIN-012`) |
+| Fulfillment derivation | **none** | A two-line document with one line set and one unset derives as the least-advanced status and reports mixed — the unset-line cases the current code silently drops (`FUN-011`) |
+| Shift cash reconciliation | **none** | Variance with a non-zero opening float; a balanced drawer reads `$0.00`; a shortage reads negative (`FIN-013`) |
+| Oversell confirmation | **none** | One prompt per oversold checkout; a second prompt only when the shortage grew mid-checkout (`FIN-011`) |
+| Backup and restore | **none** | Round-trip every domain; a failure on any key leaves all ten at their pre-restore values; a foreign file is rejected; a `null` domain in the file is handled explicitly (`DAT-002`) |
 | Authentication | **none** | Rate-limit lockout incl. spoofed `X-Forwarded-For`; fail-closed (`SEC-001`, `SEC-003`) |
 | Server-function authorisation | **none** | Every `createServerFn` rejects unauthenticated calls (`SEC-002`) |
 | Portal tokens | **none** | Expiry incl. missing/malformed; revocation; cross-client isolation (`SEC-004`) |
@@ -2625,10 +2868,11 @@ and the type error are not enforced on any change.
 
 Stated plainly, as required. These were **not** confirmed and no claim in this report depends on them.
 
-Twenty-seven items that appeared in earlier versions of this list have since been closed, and the
+Thirty-two items that appeared in earlier versions of this list have since been closed, and the
 list is kept in full rather than edited down so the change is auditable. What remains is **six items
 that need hardware, a real installed PWA, a screen reader, or a longer session than a harness can
-simulate**, and **six that cannot be answered from inside this environment at all**.
+simulate**, and **six that cannot be answered from inside this environment at all**. Nothing
+testable is left open.
 
 ### Closed in the second runtime pass — previously listed here as unverified
 
@@ -2669,23 +2913,37 @@ this report and has since been driven in a real browser against the shipped buil
 26. **Decimal precision on money entered by hand.** Closed. A price of `12.3456789` and a cost of `3.005` were typed in, stored verbatim, and displayed rounded — the stored number and the shown number are different (`FIN-010`).
 27. **Cancelling out of a document editor.** Closed. Escape discards a part-built quotation immediately, with no confirmation and no draft, though it correctly saves nothing (`UX-022`).
 
+### Closed in the fifth runtime pass — the operational workflows
+
+These were not listed above as unverified items, because earlier passes had *rendered* each page and
+read its source; what had never happened was performing the workflow and then comparing the stored
+record against what the screen claimed. Doing that is what the fifth pass consisted of, and it is
+where the six new P1s came from.
+
+28. **A counter sale from search to receipt.** Closed. A part was searched, added twice (the toast count is accurate — `CF-A-011 · cart 1`), a client attached, the cart strip total checked, and checkout completed: stock went to 0, the invoice and receipt were written, and the cart cleared. The one defect is the oversell guard, which asks twice and then reports a stock change that never happened (`FIN-011`).
+29. **Stock take, count and receive.** Closed. Absolute count, received delta, negative input, fractional input, and log persistence were each driven. Three behaviours are correct (table in §8); two are not (`STK-014`, `STK-015`).
+30. **A cashier shift with a real float.** Closed with a controlled scenario whose correct answer was zero: float $250, receipts $125, counted $375. The app reported a $250 surplus (`FIN-013`).
+31. **Delivery-board fulfillment, document-level and per-line.** Closed. Advancing the whole document is correct, sets every line, leaves payment status and stock untouched, and reports accurately. Per-line marking does not (`FUN-011`).
+32. **The pre-order lifecycle.** Closed end to end: create with a catalogue line, record a deposit, convert to an invoice with a receipt, and create a China shipment — each repeated to test idempotency. Three defects (`FUN-009`, `FIN-012`, `FUN-010`).
+33. **The application's own backup and restore.** Closed, and distinct from item 42 below, which is about the Supabase backup tier. The exported file, its domain coverage, its exclusion of operator secrets, the restore confirmation, a foreign-file rejection, a happy-path restore against a live tab, and a restore interrupted part-way were all driven. Five behaviours are correct (table in §11); the interrupted case leaves a hybrid shop (`DAT-002`).
+
 ### Still not verified
 
-28. **Physical paper margins.** Needs a real printer and real paper. The generated PDF geometry is fully measured; what a specific printer driver does with it is not.
-29. **Scanning a printed label with real hardware, and photo upload to a real bucket.** The label's barcode payload was decoded from the PDF and shown not to resolve in the app's own lookup (`PDF-016`); whether a given physical scanner reads those bars at 0.28 mm module width is a separate question needing hardware.
-30. **`/share`.** A server action reached only by the Web Share Target, which needs a real installed PWA.
-31. **Screen-reader announcement quality.** The accessibility tree is now measured (§12), but no actual screen reader was run, so announcement *order and phrasing* remain unverified.
-32. **Two real browsers racing each other.** The third pass drove a genuine three-way merge by committing a second writer straight against the backend while a browser held a staged payment, which is what produced `FIN-008` — but both writers were not full browser sessions, so UI-level race conditions (two operators pressing *Record payment* at the same instant) remain inferred rather than observed.
-33. **A genuinely multi-hour session.** The memory result above is a ~70-second proxy.
+34. **Physical paper margins.** Needs a real printer and real paper. The generated PDF geometry is fully measured; what a specific printer driver does with it is not.
+35. **Scanning a printed label with real hardware, and photo upload to a real bucket.** The label's barcode payload was decoded from the PDF and shown not to resolve in the app's own lookup (`PDF-016`); whether a given physical scanner reads those bars at 0.28 mm module width is a separate question needing hardware.
+36. **`/share`.** A server action reached only by the Web Share Target, which needs a real installed PWA.
+37. **Screen-reader announcement quality.** The accessibility tree is now measured (§12), but no actual screen reader was run, so announcement *order and phrasing* remain unverified.
+38. **Two real browsers racing each other.** The third pass drove a genuine three-way merge by committing a second writer straight against the backend while a browser held a staged payment, which is what produced `FIN-008` — but both writers were not full browser sessions, so UI-level race conditions (two operators pressing *Record payment* at the same instant) remain inferred rather than observed.
+39. **A genuinely multi-hour session.** The memory result above is a ~70-second proxy.
 
 ### Not verifiable in this environment
 
-34. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
-35. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
-36. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
-37. **Real-world data volume.** The timings in §15 are against a seeded 2,344-part catalogue on this machine, not production telemetry.
-38. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
-39. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
+40. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
+41. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
+42. **Supabase's own backup tier.** Which tier the project is on, what its retention window is, and whether a database-level restore has ever been rehearsed (§18 Q5). The application's own backup and restore feature *was* tested — item 33 above and the table in §11.
+43. **Real-world data volume.** The timings in §15 are against a seeded 2,344-part catalogue on this machine, not production telemetry.
+44. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
+45. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
 
 ---
 
@@ -2798,87 +3056,125 @@ and a valid token and confirm all three render something a customer can read.
     already shows becomes true. Until the queue exists, change the wording to match reality rather
     than promising a sync that does not happen. *Belongs in this stage because it is silent loss of
     operator work triggered by ordinary use, and the first half is a one-line change.*
+11. **`FUN-009`** — Write `invoiceId` and `convertedAt` onto the pre-order in the same commit that
+    creates the invoice, guard `PreorderConvertDialog.submit()` against an already-converted order,
+    and disable both convert menu items once the flag is set. *In this stage because the duplicate
+    **receipt** is live financial data: it inflates the cash drawer and the daily close for a payment
+    taken once, and `FUN-008` means it cannot be removed afterwards.* Audit existing data for
+    invoices sharing a `From pre-order …` note before deploying.
+12. **`FIN-012`** — Validate the deposit against `preOrderRemaining(order)` in the dialog and refuse
+    an over-payment, naming the remaining balance. Remove the `Math.min(order.total, …)` clamp from
+    `recordDeposit` and `updateOrder` so the context can no longer silently truncate, and decide
+    with Q14 below whether genuine overpayment becomes change due or a customer credit.
+13. **`DAT-002`** — Stop restore leaving the shop between two points in time. The correct fix is one
+    server-side RPC that replaces all ten rows in a single statement; the interim fix is to read
+    every current value first and roll back the keys already written when a later one fails. Either
+    way, report per-key outcomes instead of a bare `Restore failed`, and handle a `null` domain in
+    the file explicitly rather than skipping it. *In this stage because it is the recovery path —
+    it is used when the shop is already in trouble, and `SYN-001` makes the trigger ordinary.*
 
-*Verify:* add the regression tests from §16 for each; these five are the highest-value tests in the
+*Verify:* add the regression tests from §16 for each; these eight are the highest-value tests in the
 codebase.
 
 ### Stage 2 — Establish traceability (prerequisite for trusting anything else)
 
-11. **`STK-002`** — Add an append-only stock movement log. Route all 14 sites through one
+14. **`STK-002`** — Add an append-only stock movement log. Route all 14 sites through one
     `recordMovement()` helper and make `adjustPartQuantity` private. Surface history on the part page.
-12. **`STK-003`** — Record phantom/document-created stock as an explicit goods-in movement.
-13. Add a **document/payment audit log** on the same pattern, so `FIN-001`-class events are visible.
+15. **`STK-003`** — Record phantom/document-created stock as an explicit goods-in movement.
+16. **`STK-015`** — Fold `/stock-take`'s *Recent entries* into the same log rather than fixing it
+    separately: render it from the durable movement records, filtered to the current session, so the
+    list stops looking like a record it is not.
+17. Add a **document/payment audit log** on the same pattern, so `FIN-001`-class events are visible.
     Give it a `void` entry as well, so `FUN-008` can be fixed by voiding rather than deleting.
 
 *Why here:* without this, you cannot confirm the Stage 1 fixes actually worked in production.
 
 ### Stage 3 — Correctness of what the business sees
 
-14. **`RPT-001`** — Rebuild "paid sales" from one source; subtract credit notes; stop reading the
+18. **`RPT-001`** — Rebuild "paid sales" from one source; subtract credit notes; stop reading the
     zombie `orders` collection (pending Q10).
-15. **`FIN-004`** — Consolidate on one subtotal function used by UI, PDF, and ratio.
-16. **`RPT-002`** — Single low-stock definition shared by the dashboard and `/low-stock`, and remove
+19. **`FIN-004`** — Consolidate on one subtotal function used by UI, PDF, and ratio.
+20. **`RPT-002`** — Single low-stock definition shared by the dashboard and `/low-stock`, and remove
     the `.slice(0, 8)` that makes the dashboard count saturate. This moved from P2 to P1 once the
     figures were reconciled by hand: the dashboard said 8 where the data held 136, and a
     reorder decision made from the dashboard alone would miss 128 parts.
-17. **`RPT-006`** — Do this alongside `RPT-002`; they are the same defect on two screens, and this
+21. **`RPT-006`** — Do this alongside `RPT-002`; they are the same defect on two screens, and this
     is the one that spends money. Pass the full reorder list to `/reorder` and paginate the table,
     keep the cap only on the WhatsApp message body where the "and N more" line already exists and
     would then be true, and make the CSV carry every candidate. In the seeded run the page offered
     24 parts where 171 were at or below their reorder point. *Pair the fix with a sweep for the
     remaining silent `.slice()` caps — `RPT-007` covers three more on `/insights` — and adopt one
     convention: either show everything or print "showing X of N".*
-18. **`RPT-003`** — Group revenue by client id, not name.
-19. **`RPT-005`** — Apportion the document-level discount across lines in `buildWeeklySalesBoard`
+22. **`RPT-003`** — Group revenue by client id, not name.
+23. **`RPT-005`** — Apportion the document-level discount across lines in `buildWeeklySalesBoard`
     (or scale line revenue by the invoice's discount ratio) using the shared money helper rather
     than a third private formula, so the sales board reconciles with what the customer was charged.
     Same root cause as `RPT-001`, different screen and function, so fix both in one change.
-20. **`RPT-007`** / **`RPT-008`** — Return the full arrays from `sales-board.ts` with a `total`
+24. **`RPT-007`** / **`RPT-008`** — Return the full arrays from `sales-board.ts` with a `total`
     alongside and render "showing 20 of N"; require `netDue > 0.005` before a promise-based row
     enters the `/collections` chase list, and clear `promisedPayDate` when a balance reaches zero so
     the bulk WhatsApp action cannot message someone who has already paid.
-21. **`FIN-003`** — Add payment terms and `dueDate`; derive `Overdue`; age against due date (Q4).
-22. **`FIN-007`** — Backfill receipts, then remove the status-based paid fallback.
-23. **`FIN-010`** — Apply `roundMoney` to `cost` and `price` where `clampNonNeg` already runs, so a
+25. **`FUN-011`** — Treat an unset line as `Waiting parts` when deriving a document's fulfillment,
+    rather than dropping it from the set: `lines.map(l => l.fulfillmentStatus ?? "Waiting parts")` in
+    both `deriveDocFulfillment` and `fulfillmentIsMixed`. Two lines in one file, and it corrects the
+    board, the `/documents` column, and the printed packing slip at once. *Do this early — it is the
+    cheapest P1 in the report and the board's whole purpose depends on it.*
+26. **`FIN-013`** — Change the shift variance to `closingCash - (openingCash + expectedCash)` and
+    label the row so the three terms are legible. Add a test with a non-zero float; the current
+    tests use zero, which is why this passes today. Existing closed shifts will need re-reading
+    rather than re-computing, since only the stored `expectedCash` is available.
+27. **`FIN-011`** — Capture the shortage set confirmed by the first `confirmOversell` and prompt a
+    second time only if the recomputed set is strictly larger, wording that prompt to state what
+    changed. Drop the "stock changed" toast when nothing did.
+28. **`FUN-010`** — Look up `shipments.find(s => s.preOrderId === order.id)` before creating a
+    shipment; navigate to the existing draft instead of adding another. Guard it the way *Mark
+    ordered* on the same menu already is.
+29. **`FIN-003`** — Add payment terms and `dueDate`; derive `Overdue`; age against due date (Q4).
+30. **`FIN-007`** — Backfill receipts, then remove the status-based paid fallback.
+31. **`FIN-010`** — Apply `roundMoney` to `cost` and `price` where `clampNonNeg` already runs, so a
     price typed as `12.3456789` is stored as the `12.35` the screen shows. Mirror it in the bulk
     import alongside `IMP-004`, and decide what to do about values already stored at sub-cent
     precision (rounding them on next write is the least invasive option).
-24. **`FUN-005`** — Reject `NaN`/`Infinity` on the import and programmatic boundaries. The part form
+32. **`FUN-005`** — Reject `NaN`/`Infinity` on the import and programmatic boundaries. The part form
     itself is already guarded, so this is narrower than first thought.
-25. **`FUN-006`** — Add the missing `<Outlet />` to `fleet.tsx`. One line, and it restores a whole
+33. **`FUN-006`** — Add the missing `<Outlet />` to `fleet.tsx`. One line, and it restores a whole
     page that is currently written, bundled, and unreachable. Worth doing early precisely because it
     is so cheap relative to the functionality it returns.
-26. **`CUS-001`** — Refuse to delete a client with unpaid invoices; add an `archived` flag for the
+34. **`CUS-001`** — Refuse to delete a client with unpaid invoices; add an `archived` flag for the
     tidy-up case so the receivable stays on the books. Before shipping, **check production for
     clients already deleted this way** — orphaned invoices are detectable by scanning the documents
     blob for `partyId` values with no matching client.
-27. **`CUS-002`** — Split create from upsert so a duplicate name prompts instead of overwriting, and
+35. **`CUS-002`** — Split create from upsert so a duplicate name prompts instead of overwriting, and
     stop the Excel importer writing empty contact fields over populated ones.
-28. **`CUS-004`** — Take the cheap half now and leave the rest to a product decision: list the
+36. **`CUS-004`** — Take the cheap half now and leave the rest to a product decision: list the
     inquiries, pre-orders, and China shipments already attributable to a supplier on that
     supplier's page, so the record stops being contact details alone and so `CUS-001`'s deletion
     guard has something to warn about. A true payables balance needs a purchase-document type
     (§18) and should wait for that answer.
-29. **`FUN-008`** — Add a `Void` action for quotations and invoices that sets `voidedAt` and a
+37. **`FUN-008`** — Add a `Void` action for quotations and invoices that sets `voidedAt` and a
     reason, excludes the document from AR, revenue, and statements, and keeps it listed and numbered.
     Block voiding an invoice that carries payments until those are reversed, and warn about linked
     receipts and credit notes. Delete the unused `removeDocument` or point it at the void path.
     *Sequenced here because it depends on the audit log from Stage 2 to be worth having, but it is a
     genuine functional gap today: a mistaken invoice cannot be taken off the books by any means.*
-30. **`IMP-004`** — Make the dry run tell the truth. Extract one `normalizePartPatch()` applying the
+38. **`IMP-004`** — Make the dry run tell the truth. Extract one `normalizePartPatch()` applying the
     clamp and rounding rules, and have both the preview and `bulkUpdateParts` call it, so `after` is
     literally what gets stored. Turn an unparseable non-empty cell into a skip with a reason naming
     the column, and strip thousands separators before `Number()` so comma-formatted prices stop being
     silently discarded. *This is the P1 of the import group: the dry run is the only safeguard before
     a bulk write over the whole catalogue, and today it shows values that are not the ones applied.*
-31. **`IMP-002`** — Group import preview rows by resolved part id so duplicate rows are either summed
+39. **`IMP-002`** — Group import preview rows by resolved part id so duplicate rows are either summed
     or rejected by name, and count distinct parts in the result toast rather than rows. Pair this with
     **`IMP-001`** (delete the unreachable `parseInventoryExcelFile` so there is only one matching rule
     in the codebase), **`IMP-003`** (drop the 30-row preview cap — the container already scrolls),
     **`IMP-005`** (branch on the parse result so an unreadable file says so instead of rendering a
     dead dialog), and **`IMP-006`** (extend the existing >50% confirmation to cover large increases).
     All of these are small and confined to three files.
-32. **`STK-013`** — Add `unit?: string` to `Part`, default it to "pcs", and surface it beside Qty in
+40. **`STK-014`** — Route `/stock-take`, the part dialog, and the inline cell through one shared
+    quantity-normalisation helper so the same fractional input lands on the same number everywhere,
+    and say so when a fraction is discarded. Pair with `STK-009`, which is the same defect on the
+    other two paths.
+41. **`STK-013`** — Add `unit?: string` to `Part`, default it to "pcs", and surface it beside Qty in
     the form, the table, the export, and the document line; render the storage-location input for
     every category rather than only o-rings/seals and filters. Schedule this before any move to
     selling hose by the metre, because retrofitting a unit onto quantities already recorded without
@@ -2888,25 +3184,25 @@ codebase.
 
 These are all in two files and are independent of everything above, so they can ship on their own.
 
-33. **`PDF-005`** — Add the missing page-fit guard to the AR statement's total block. This is the one
+42. **`PDF-005`** — Add the missing page-fit guard to the AR statement's total block. This is the one
     P1 in the group: a customer-facing statement can omit the net due entirely.
-34. **`PDF-007`** — Measure the customer note's real height and paginate it.
-35. **`PDF-006`** / **`PDF-011`** — Honour `maxWidthMm` in `pdfDrawText`'s Latin branch; one fix
+43. **`PDF-007`** — Measure the customer note's real height and paginate it.
+44. **`PDF-006`** / **`PDF-011`** — Honour `maxWidthMm` in `pdfDrawText`'s Latin branch; one fix
     resolves both the overflowing client name and the overflowing reference.
-36. **`PDF-008`** / **`PDF-001`** — Move the document header into `didDrawPage`, extend the footer
+45. **`PDF-008`** / **`PDF-001`** — Move the document header into `didDrawPage`, extend the footer
     loop to the statement builder, and stamp "Page X of Y".
-37. **`PDF-009`** — Remove the 12-entry payment-history cap.
-38. **`PDF-002`** — Add the date and customer to download filenames, including the statement's.
-39. **`PDF-010`** / **`PDF-013`** — Signature area, standing terms (Q13), and column alignment.
-40. **`PDF-014`** — Size the Arabic canvas from the measured glyph box instead of the
+46. **`PDF-009`** — Remove the 12-entry payment-history cap.
+47. **`PDF-002`** — Add the date and customer to download filenames, including the statement's.
+48. **`PDF-010`** / **`PDF-013`** — Signature area, standing terms (Q13), and column alignment.
+49. **`PDF-014`** — Size the Arabic canvas from the measured glyph box instead of the
     `fontPx × 1.45` heuristic. One function (`renderArabicPng`), and every Arabic document benefits.
-41. **`PDF-015`** — Stop rasterising Arabic if you can: the Amiri TTF is already in the bundle, so
+50. **`PDF-015`** — Stop rasterising Arabic if you can: the Amiri TTF is already in the bundle, so
     registering it with jsPDF gives selectable Arabic at a fraction of the size, and makes `PDF-014`
     moot. If rasterising stays, drop the redundant solid-colour RGB plane and let jsPDF compress the
     mask.
-42. **`PRN-001`** — Add a short `@media print` block, or state in the UI that printing goes through
+51. **`PRN-001`** — Add a short `@media print` block, or state in the UI that printing goes through
     *Download PDF*. Either is acceptable; silently printing the sidebar is not.
-43. **`PDF-016`** — Make the label barcode encode the part number it prints. Add the four missing
+52. **`PDF-016`** — Make the label barcode encode the part number it prints. Add the four missing
     standard Code 39 characters (`$ / + %`) to the table, remove the character filter, and raise or
     drop the 14-character cap that silently truncates 53 catalogue parts. For anything still
     unencodable in Code 39 — `*` is the start/stop guard and genuinely cannot appear in the payload,
@@ -2925,33 +3221,33 @@ generated label for every catalogue part, asserting the payload equals the print
 `UX-002` and `SEC-004` have moved up to Stage 0, since the portal is a P0. What is left here is
 on-screen readability, which is almost all single-line theme or utility-class changes.
 
-44. **`UX-005`** / **`UX-006`** / **`UX-011`** — Darken the accent colour used for money and stock
+53. **`UX-005`** / **`UX-006`** / **`UX-011`** — Darken the accent colour used for money and stock
     figures to reach 4.5:1, raise border tokens to 3:1, and give the focus ring its own high-contrast
     colour at a consistent 2 px. These are token edits in one theme file and fix the largest number
     of measured samples per line changed.
-45. **`UX-003`** — Replace `overflow-x: clip` with `auto` on the scroll containers. `clip` is what
+54. **`UX-003`** — Replace `overflow-x: clip` with `auto` on the scroll containers. `clip` is what
     makes 230 px of `/stock-map` and 237 px of the dashboard permanently unreachable at phone width
     rather than merely off-screen. Scope this to the three measured route/width cases; the other 57
     clipping samples are intentional `truncate` ellipsis and should be left alone.
-46. **`UX-004`** / **`UX-008`** — Move the table un-stack breakpoint above 768 px, and keep column
+55. **`UX-004`** / **`UX-008`** — Move the table un-stack breakpoint above 768 px, and keep column
     labels in the stacked view. This, not `UX-003`, is what makes `/documents` unusable on a tablet.
-47. **`UX-007`** — Give form validation an inline message, `aria-invalid`, and focus movement, rather
+56. **`UX-007`** — Give form validation an inline message, `aria-invalid`, and focus movement, rather
     than a toast that disappears. This is the one item in this stage that is more than a token change,
     and it is also the one that most affects daily data entry. Fold in **`FUN-007`** while you are
     there: an `isSubmitting` guard on the same dialogs stops three clicks producing three success
     messages.
-48. **`UX-009`** / **`UX-018`** — Add a skip link and make the backup reminder dismissible, which
+57. **`UX-009`** / **`UX-018`** — Add a skip link and make the backup reminder dismissible, which
     together remove most of the 23 tab stops standing before the first in-content control.
-49. **`STK-010`** / **`STK-009`** — Route the inline quantity cell through the same validation the
+58. **`STK-010`** / **`STK-009`** — Route the inline quantity cell through the same validation the
     Add/Edit dialog already gets right, so negative and non-numeric input is rejected with a visible
     message rather than silently discarded, and so a fraction resolves the same way in both controls.
-50. **`STK-011`** / **`STK-012`** — Require a full-token match before a part enters the search
+59. **`STK-011`** / **`STK-012`** — Require a full-token match before a part enters the search
     results and label the 500-row cap honestly; make the inventory column headers real `<th>`
     buttons that sort, for every category rather than only O-Rings.
-51. **`UX-019`** — Give `/fleet` a primary action in its empty state.
-52. **`CUS-003`** — Keep the phone number as the operator typed it and derive the `wa.me` digits at
+60. **`UX-019`** — Give `/fleet` a primary action in its empty state.
+61. **`CUS-003`** — Keep the phone number as the operator typed it and derive the `wa.me` digits at
     the point each link is built, which is what three of the four call sites already do.
-53. **`UX-022`** — Route the document editor's `onOpenChange(false)` through the `confirmAction`
+62. **`UX-022`** — Route the document editor's `onOpenChange(false)` through the `confirmAction`
     component the app already uses correctly for deletes, so Escape on a part-built quotation
     prompts instead of discarding. Cheap, and it removes the only way to lose counter work that
     the operator can see happening.
@@ -2961,33 +3257,35 @@ the reachable width on `/stock-map` and the dashboard, and the tab-stop count be
 
 ### Stage 4 — Quality gates (cheap, prevents regression)
 
-54. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
-55. Run `npm run format` once to clear 977 formatting errors, then enforce it.
-56. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
-57. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
-58. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
+63. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
+64. Run `npm run format` once to clear 977 formatting errors, then enforce it.
+65. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
+66. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
+67. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
     requirement.
-59. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
+68. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
     untrusted files.
 
 ### Stage 5 — Close the remaining verification gaps
 
-60. Nearly everything this stage originally called for has since been done. Twenty-seven items that
-    were once listed as unverified are now measured: the interactive CRUD edge-case matrix, Arabic
-    PDF rendering, browser print output, XSS in the DOM, offline and reconnect, runtime timings, the
-    dashboard reconciliation, real `.xlsx` uploads, the accessibility tree, WebAuthn against a
-    virtual authenticator, a write failed in flight, long-session memory, the payment and document
-    editors, and the four report screens reconciled against their own records (§17). **Six items
-    remain**, and each needs something this environment does not have: physical paper and a printer,
-    a barcode scanner, a real storage bucket, an installed PWA for the Web Share Target, a screen
-    reader, and a session long enough to be more than a proxy. A seventh — two full browsers racing
-    each other through the UI — is worth adding to that list, because the merge race behind `FIN-008`
-    was driven one level below the interface. Schedule these against real devices before committing
-    to Stage 6, since Stage 6 changes the data layer all of them sit on.
+69. Nothing testable is left open. Thirty-two items that were once listed as unverified are now
+    measured: the interactive CRUD edge-case matrix, Arabic PDF rendering, browser print output, XSS
+    in the DOM, offline and reconnect, runtime timings, the dashboard reconciliation, real `.xlsx`
+    uploads, the accessibility tree, WebAuthn against a virtual authenticator, a write failed in
+    flight, long-session memory, the payment and document editors, the four report screens
+    reconciled against their own records, and — in the fifth pass — the six operational workflows
+    performed end to end: a counter sale, a stock take, a shift with a real float, delivery-board
+    fulfillment, the pre-order lifecycle, and backup/restore including an interrupted one (§17).
+    **Six items remain**, and each needs something this environment does not have: physical paper
+    and a printer, a barcode scanner, a real storage bucket, an installed PWA for the Web Share
+    Target, a screen reader, and a session long enough to be more than a proxy. A seventh — two full
+    browsers racing each other through the UI — is worth adding to that list, because the merge race
+    behind `FIN-008` was driven one level below the interface. Schedule these against real devices
+    before committing to Stage 6, since Stage 6 changes the data layer all of them sit on.
 
 ### Stage 6 — The architectural decision (largest change; needs your call)
 
-61. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
+70. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
     into real tables with foreign keys, unique constraints, indexes, transactions, and pagination.
     The measurement that makes this concrete: one navigation to `/inventory` costs **11 whole-blob
     reads over 10 keys**, so the cost of opening any page already scales with total business history
@@ -3052,6 +3350,12 @@ each; money and status logic verified by harness.
 |---|---|
 | Quotation → invoice conversion | ✅ Source-verified; **2 defects** (`STK-001`, `FUN-001`) |
 | Invoice → quotation revert | ✅ Source-verified; **1 race** (`STK-004`) |
+| Counter sale, end to end | ✅ Runtime-verified — search, add to cart, attach a client, cart total, checkout, stock deduction, document and receipt creation all correct; the oversell guard **prompts twice and then blames a stock change that did not happen** (`FIN-011`, P1) |
+| Stock take and receive | ✅ Runtime-verified — receive adds a delta correctly, negatives are refused, an absolute count discloses the override; fractions are floored silently (`STK-014`) and the on-screen log is not persisted (`STK-015`) |
+| Cashier shift start and handoff | ✅ Runtime-verified with a controlled float and seeded receipts — the record stores correctly but **the variance omits the opening float, so a balanced drawer reports a surplus** (`FIN-013`, P1) |
+| Delivery / pickup fulfillment | ✅ Runtime-verified — whole-document advance is correct and touches neither payment status nor stock; **per-line marking reports a partly delivered order as fully delivered** (`FUN-011`, P1) |
+| Pre-order → deposit → invoice → shipment | ✅ Runtime-verified end to end — **three defects**: repeat conversion mints duplicate invoices *and* duplicate receipts (`FUN-009`, P1), an overpaid deposit is silently discarded (`FIN-012`, P1), and shipment creation is not idempotent (`FUN-010`) |
+| Backup and restore | ✅ Runtime-verified — the file covers all 10 domains, excludes operator secrets, is gated by a destructive confirm, and a restore survives the open tab's stale state; but **an interrupted restore leaves the shop holding two points in time** (`DAT-002`, P1) |
 | Payment / receipt → balance and status | ✅ Runtime-verified through the real *Record payment* and *Delete receipt* dialogs; 7 behaviours correct, **1 P0** (`FIN-001`) |
 | Credit note / return → stock and balance | ✅ Source-verified; **1 defect** (`FIN-002` residue) |
 | Stock deduction and restoration | ✅ Source-verified; **2 P0** (`STK-001`, `STK-002`) |
@@ -3077,16 +3381,16 @@ each; money and status logic verified by harness.
 |---|---|
 | 1 — Project understanding | ✅ Complete |
 | 2 — Technical verification | ✅ Complete |
-| 3 — Feature testing | ✅ Complete — logic verified by harness; dialogs, validation, confirmations, offline/reconnect, duplicate submit, refresh-after-save, back/forward, and the full numeric edge-case matrix all driven in a real browser |
-| 4 — Inventory | ✅ Complete — 13 stock findings plus the 6 import/export ones; both numeric editing paths driven, negative input confirmed rejected by the form and silently discarded by the inline editor, and the part form's field list captured from the live DOM (`STK-013`, `FIN-010`) |
+| 3 — Feature testing | ✅ Complete — logic verified by harness; dialogs, validation, confirmations, offline/reconnect, duplicate submit, refresh-after-save, back/forward, and the full numeric edge-case matrix all driven in a real browser, plus the six operational workflows (counter, stock take, shift, delivery board, pre-orders, backup/restore) performed end to end in the fifth pass |
+| 4 — Inventory | ✅ Complete — 15 stock findings plus the 6 import/export ones; both numeric editing paths driven, negative input confirmed rejected by the form and silently discarded by the inline editor, the part form's field list captured from the live DOM (`STK-013`, `FIN-010`), and `/stock-take` driven through count, receive, and negative-input paths (`STK-014`, `STK-015`) |
 | 5 — Quotations | ✅ Complete — create, edit, discounts, persistence, and conversion all driven through the real dialogs; 4 findings plus `FUN-008` |
-| 6 — Invoices and payments | ✅ Complete — the payment dialog's full matrix and a genuine two-device race driven at runtime; 9 findings, 2 of them P0 |
+| 6 — Invoices and payments | ✅ Complete — the payment dialog's full matrix, a genuine two-device race, a counter sale through to stock deduction, and the pre-order deposit and conversion paths all driven at runtime; 13 findings, 2 of them P0 |
 | 7 — Customers and suppliers | ✅ Complete — create, edit, email validation, and search driven at runtime; delete protection and duplicate handling verified (`CUS-001`…`CUS-003`). The supplier side is the weaker half and the audit says so: it holds contact details and nothing else (`CUS-004`) |
 | 8 — Reports and dashboard | ✅ Complete — all formulas documented, and every rendered figure on the dashboard and on `/insights`, `/daily-close`, `/collections`, `/reorder`, and `/low-stock` reconciled against an independent recomputation from the same records. That reconciliation produced `RPT-002`, `RPT-005`, `RPT-006`, `RPT-007`, and `RPT-008`, and cleared `/daily-close` and the exports |
 | 9 — Design and UX | ✅ Complete — 79 measured samples, 83 screenshots, 22 findings, 12 verified-correct behaviours; overflow re-measured across 21 routes × 3 widths |
 | 10 — Printing and PDF | ✅ Complete — every document type rendered and measured, including the packing slip, part label, and Z-report; Arabic rasters decoded; label barcode decoded back to characters (`PDF-016`); only physical paper margins remain unverified |
 | 11 — Security | ✅ Complete — 8 findings, 2 confirmed by live probe, 11 controls verified sound, stored XSS confirmed inert in the DOM, WebAuthn exercised end to end against a virtual authenticator including a refused replay |
-| 12 — Performance and reliability | ✅ Complete — build and architecture analysed; page-load, search latency, long-session memory, and a write failed mid-flight all measured against a 2,344-part catalogue. The mid-flight test produced `SYN-001`, the pass's only P0 |
+| 12 — Performance and reliability | ✅ Complete — build and architecture analysed; page-load, search latency, long-session memory, a write failed mid-flight, and a restore interrupted part-way all measured against a 2,344-part catalogue. The mid-flight test produced `SYN-001`, the pass's only P0; the interrupted restore produced `DAT-002` |
 
 ---
 
@@ -3121,6 +3425,12 @@ each; money and status logic verified by harness.
 | `IMP-004` | P1 | Import | The dry run states values that are not the ones applied, and comma-formatted prices are silently discarded |
 | `FUN-008` | P1 | Documents | Nothing in the app can delete or void a document; `removeDocument` is exported and never called |
 | `RPT-006` | P1 | Reports | `/reorder` presents a hard cap of 24 as a count — 24 parts offered where 171 were at or below their reorder point, and the CSV and WhatsApp PO inherit it |
+| `FUN-009` | P1 | Pre-orders | The same pre-order can be invoiced repeatedly; two conversions produced two invoices **and two receipts** for one $16.20 deposit taken once |
+| `FUN-011` | P1 | Fulfillment | A partly delivered order reports as fully delivered — the derive function drops unset lines, so "All lines · Delivered" and the printed packing slip both claim a shipment that half happened |
+| `FIN-011` | P1 | Counter | Checkout asks for the same oversell twice, and declining the second time reports a stock change that did not happen |
+| `FIN-012` | P1 | Pre-orders | A deposit above the order total is silently clamped — $500 against a $16.20 total stored $16.20 and reported success; $483.80 left no trace |
+| `FIN-013` | P1 | Shifts | Cash variance omits the opening float, so a drawer that balanced to the cent reported a $250 surplus — a real shortage is invisible until it exceeds the float |
+| `DAT-002` | P1 | Data integrity | Restore writes ten domains with no transaction; interrupting it left six replaced from the backup and four live, reported only as `Restore failed` |
 | `FIN-004` | P2 | Money | Two different subtotal definitions (0.12 vs 0.06 demonstrated) |
 | `FIN-005` | P2 | Money | Tax hardcoded to 0; no VAT configuration |
 | `FIN-006` | P2 | Money | Currency effectively hardcoded to USD |
@@ -3141,6 +3451,7 @@ each; money and status logic verified by harness.
 | `STK-007` | P2 | Inventory | `removePart` silently resets quantity and pricing |
 | `STK-009` | P2 | Inventory | Quantities silently rounded to whole units by two different rules — the dialog rounds 2.5 to 3, the inline editor floors 7.5 to 7 |
 | `IMP-002` | P2 | Import | Duplicate rows for one part keep only the last, and the count reports rows not parts |
+| `FUN-010` | P2 | Pre-orders | *Create China shipment* is not idempotent — two drafts carrying the same `preOrderId`, so receiving both adds the goods to stock twice |
 | `IMP-005` | P2 | Import | An unreadable workbook produces no error at all — the catch is unreachable because `XLSX.read` does not throw |
 | `RPT-003` | P2 | Reports | Revenue grouped by client name, not id |
 | `RPT-004` | P2 | Reports | Date handling mixes local-time bucketing with raw string slicing |
@@ -3199,6 +3510,8 @@ each; money and status logic verified by harness.
 | `STK-011` | P3 | Inventory | Search reports a 500-row cap as if it were the match count; `HOSE-1/2` shows "500 of 2344" for one real match |
 | `STK-012` | P3 | Inventory | No `<th>`, no `aria-sort`, no clickable headers — the catalogue cannot be sorted by Qty, Cost, Price, or Code |
 | `STK-013` | P3 | Inventory | No unit of measure on a part, and the storage-location input renders for only two of the categories |
+| `STK-014` | P3 | Stock take | A fractional counted quantity is floored without a word — `7.5` stored as `7`, a third rounding rule on the same field |
+| `STK-015` | P3 | Stock take | The *Recent entries* adjustment log is component state and disappears on navigation, so the nearest thing to a movement trail is not one |
 | `IMP-001` | P3 | Import | Dead `parseInventoryExcelFile` truncates part codes at separators — unreachable, so latent |
 | `IMP-003` | P3 | Import | Import dry run lists only the first 30 rows, with no "30 of N" disclosure |
 | `IMP-006` | P3 | Import | No upper bound on imported quantity, cost, or price; the >50% guard checks drops only |
