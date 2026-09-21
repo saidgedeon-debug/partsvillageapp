@@ -13,7 +13,7 @@ Every figure in this checklist — ratios, pixel counts, tab-stop indices, milli
 therefore restated in the row itself and in the matching report finding, so no row depends on a file
 you cannot open.
 
-**Three runtime passes are recorded here.** The first drove the app across 26 routes at three widths
+**Four runtime passes are recorded here.** The first drove the app across 26 routes at three widths
 and executed the PDF builders directly. The second closed the gaps the first left open: the Arabic
 PDF path, browser print, the inventory form's full numeric and duplicate-submit matrix, XSS in the
 DOM, the dashboard reconciliation, `/fleet/$machineId`, `/china-shipments`, offline-and-reconnect,
@@ -21,16 +21,20 @@ and runtime timings. The third drove the remaining forms and flows to completion
 genuine two-device payment race, quotation and invoice CRUD, client CRUD and search, real `.xlsx`
 uploads through the import dialog, the packing slip / part label / Z-report PDFs, the full
 accessibility tree on seven routes, WebAuthn against a virtual authenticator, a write failed while
-in flight, and memory across a long session. Rows changed by a later pass carry a `Runtime` method
-and restate the measurement inline; where a later pass **contradicted** an earlier row, the row says
-so rather than being quietly rewritten.
+in flight, and memory across a long session. The fourth took the four report screens that no
+earlier pass had reconciled — `/insights`, `/daily-close`, `/collections`, `/reorder` — and compared
+every rendered figure against a recomputation done independently in Node from the same records; it
+also captured the CSV and Excel exports out of the running app, took a field census of the part
+form, read the supplier page, and cancelled out of a document editor. Rows changed by a later pass
+carry a `Runtime` method and restate the measurement inline; where a later pass **contradicted** an
+earlier row, the row says so rather than being quietly rewritten.
 
 ## How to read the Status column
 
 | Status | Meaning |
 |---|---|
 | **Pass** | Executed and behaved correctly. |
-| **Fail** | Executed and behaved incorrectly. A linked issue ID always accompanies this. |
+| **Fail** | Executed and behaved incorrectly. A linked issue ID accompanies this, or a report section where the result is discussed without being filed as a numbered finding. |
 | **Blocked** | Could not be executed because the environment cannot support it (no device, no production access). |
 | **Not Verified** | Not executed in this audit run. **No claim is made either way.** |
 
@@ -44,15 +48,15 @@ so rather than being quietly rewritten.
 
 | Status | Count | Share |
 |---|---|---|
-| Pass | 253 | 48.7% |
-| Fail | 244 | 46.9% |
+| Pass | 265 | 49.1% |
+| Fail | 263 | 48.7% |
 | Blocked | 9 | 1.7% |
-| Not Verified | 14 | 2.7% |
-| **Total test cases** | **520** | |
+| Not Verified | 3 | 0.6% |
+| **Total test cases** | **540** | |
 
 Four things to keep in mind when reading these totals:
 
-- **The 244 failures map to 105 distinct issues**, not 244 problems. A single root cause fails many
+- **The 263 failures map to 113 distinct issues**, not 263 problems. A single root cause fails many
   test cases — `STK-002` (no stock audit trail) accounts for eight rows; `UX-007` (validation with
   no inline error) and `RPT-002` (the low-stock disagreement) for seven each; and `FIN-002`,
   `FIN-009`, `CUS-001`, `UX-003`, `UX-005`, `UX-008`, and `SYN-001` for six each.
@@ -62,7 +66,8 @@ Four things to keep in mind when reading these totals:
   decoding the bars out of a generated part label — so every position is a measurement in
   millimetres or pixels. Section 14's 93 cases come from driving the running app in headless Chrome
   across 26 routes at three widths, and from capturing Chrome's own accessibility tree on seven
-  routes. Together they are 150 of the 520 cases and they are the strongest evidence here.
+  routes. Together they are 150 of the 540 cases, and with section 12's reconciliation they are the
+  strongest evidence here.
 - **51 of section 14's 93 cases pass**, which is worth stating as plainly as the failures: no page
   makes the document scroll sideways at any width, focus is trapped correctly in dialogs and is
   visible in rendered pixels, not one interactive control on seven routes reaches the accessibility
@@ -71,13 +76,17 @@ Four things to keep in mind when reading these totals:
   **corrections**: the second pass's overflow re-measurement showed `/documents` and `/counter` clip
   with `truncate` (still scrollable) rather than with `clip`, so they are not unreachable-content
   defects.
-- **Only 14 unverified cases remain**, down from 67 after the first pass and 49 after the second.
-  They are: five report screens whose *correct* figures are not defined anywhere (`/insights`,
-  `/daily-close`, `/collections`, `/reorder`, exported report accuracy), three inventory fields
-  whose existence is a product question (unit of measure, shelf location, machine compatibility),
-  supplier payables, a many-decimal price, cancelling out of the quotation editor, and three things
-  this environment cannot reach at all — a real screen reader, a multi-hour session, and an
-  installed PWA for the Web Share Target. §17 of the audit report lists every one individually.
+- **Three unverified cases remain**, down from 67 after the first pass, 49 after the second, and 14
+  after the third. All three need something this environment does not have: a real screen reader, a
+  session long enough to be more than a ~70-second proxy, and an installed PWA for the Web Share
+  Target. Everything else that was open has been driven, including the eleven items the fourth pass
+  took on. §17 of the audit report lists the remaining gaps individually, together with the six
+  questions that can only be answered against production.
+- **Section 12 is the pass that changed most.** It went from 5 unverified rows to 37 executed ones,
+  because every figure on `/insights`, `/daily-close`, `/collections`, `/reorder`, `/low-stock`, and
+  the inventory export was recomputed independently and compared. Eleven of those rows pass — the
+  drawer reconciliation and both export comparisons are exact — and the failures are concentrated in
+  two formulas (`RPT-005`, `RPT-006`) rather than spread across the screens.
 
 | Section | Cases | Pass | Fail | Blocked | Not Verified |
 |---|---|---|---|---|---|
@@ -88,11 +97,11 @@ Four things to keep in mind when reading these totals:
 | 5. Secrets and client exposure | 7 | 6 | 1 | 0 | 0 |
 | 6. Money and calculation | 25 | 13 | 12 | 0 | 0 |
 | 7. Payments and multi-device merge | 27 | 15 | 12 | 0 | 0 |
-| 8. Quotations | 30 | 14 | 15 | 0 | 1 |
+| 8. Quotations | 32 | 15 | 17 | 0 | 0 |
 | 9. Invoices | 27 | 18 | 9 | 0 | 0 |
-| 10. Inventory and stock | 68 | 32 | 29 | 3 | 4 |
-| 11. Customers and suppliers | 29 | 12 | 16 | 0 | 1 |
-| 12. Reports and dashboard | 24 | 2 | 17 | 0 | 5 |
+| 10. Inventory and stock | 71 | 34 | 34 | 3 | 0 |
+| 11. Customers and suppliers | 31 | 12 | 19 | 0 | 0 |
+| 12. Reports and dashboard | 37 | 11 | 26 | 0 | 0 |
 | 13. PDF and printing | 57 | 31 | 25 | 1 | 0 |
 | 14. Design, responsive, accessibility | 93 | 51 | 41 | 0 | 1 |
 | 15. Security behaviour | 24 | 14 | 6 | 4 | 0 |
@@ -287,7 +296,9 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Quotations | `/documents` | Document-level fixed-amount discount applies | Applied | $66.00 less $6 → `$60.00`; the discount row renders `−$6.00` | Runtime | **Pass** | — |
 | Quotations | `/documents` | The discount persists on the saved document | Stored | Saved as `discountType: amount, discountValue: 6, total: 60` | Runtime | **Pass** | — |
 | Quotations | `/documents` | Custom (non-catalog) line items | Accepted | *New product* creates the part, adds stock for the sold qty, then deducts it on save — driven on the invoice form (§9) | Runtime | **Pass** | — |
-| Quotations | `/documents` | Cancel out of the editor | No changes saved | Not driven; Escape-to-close was verified on the Add-part dialog only | — | **Not Verified** | — |
+| Quotations | `/documents` | Cancel out of the editor saves nothing | No changes saved | Correct: a quotation was built with a client and a line, Escape closed it, and the document count stayed at **21 before and after** | Runtime | **Pass** | — |
+| Quotations | `/documents` | Discarding a part-written document asks first | Confirmation shown | The dialog closes immediately — `alertdialog` count **0** — and the work is gone; the app's own `confirmAction` component is used for deletes but not here | Runtime | **Fail** | `UX-022` |
+| Quotations | `/documents` | A discarded draft can be recovered | Draft offered on reopen | Reopening *New Quotation* presents an empty form; there is no draft anywhere | Runtime | **Fail** | `UX-022` |
 | Quotations | `/documents` | Notes and terms appear on output | Present | The customer note reaches the PDF (verified in §13); there is no structured terms block to check | Rendered | **Fail** | `PDF-010` |
 
 ## 9. Invoices
@@ -362,13 +373,16 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Inventory | `/inventory` | Three rapid Create clicks create one part | One part, one message | One part created — but **three "Added DUPSUBMIT-1" toasts** appeared | Runtime | **Fail** | `FUN-007` |
 | Inventory | `/inventory` | Duplicate part number rejected on create | Rejected, dialog stays open | `Part number already exists: HOSE-1/2 (Hydraulic hose 1/2 inch)`; count unchanged at 7, dialog stayed open | Runtime | **Pass** | — |
 | Inventory | `/inventory` | New part survives a full page reload | Persists | Present in the backing store before and after a hard reload | Runtime | **Pass** | — |
-| Inventory | `/inventory` | Price with many decimal places | Rounded predictably | Not driven with a many-decimal price; only integer and 10¹⁵ cases were entered | — | **Not Verified** | — |
+| Inventory | `/inventory` | Price with many decimal places | Rounded predictably | `12.3456789` typed into *Selling price* was accepted with no warning and **stored as `12.3456789`**, while the list renders `12.35`; a 100-unit line then totals $1,234.57 where the screen implies $1,235.00 | Runtime | **Fail** | `FIN-010` |
+| Inventory | `/inventory` | Cost with many decimal places | Rounded predictably | `3.005` stored verbatim, displayed as `3.01` | Runtime | **Fail** | `FIN-010` |
+| Inventory | `/inventory` | Money input is normalised the way quantity is | Consistent | Quantity is forced to a whole number on entry, cost and price are not — the same dialog treats its numeric fields by two different rules | Runtime | **Fail** | `FIN-010` |
 | Inventory | `/inventory` | Very large price value | Handled | `roundMoney` misbehaves above ~1e10; `1000000000000000` was accepted and stored verbatim with no upper bound | Runtime | **Fail** | `FIN-002` |
 | Inventory | `/inventory` | 300+ character description does not break layout | No overflow | With a 300-char description and a 108-char client name seeded, `/inventory` keeps `scrollWidth === clientWidth` at 1440 px | Runtime | **Pass** | — |
 | Inventory | `/inventory` | Special characters and Unicode in fields | Preserved | `<b>test</b><img src=x onerror=…>` round-tripped and rendered as literal text; Arabic part names preserved through to the PDF | Runtime | **Pass** | — |
-| Inventory | `/inventory` | Unit of measurement field | Present | — | — | **Not Verified** | — |
-| Inventory | `/inventory` | Warehouse / shelf location | Present | `/stock-map` and `box_number` suggest support | Source | **Not Verified** | — |
-| Inventory | `/inventory` | Machine compatibility | Present | `/fleet` and kits suggest support | Source | **Not Verified** | — |
+| Inventory | `/inventory` | Unit of measurement field | Present | Absent. The *Add part* dialog's twelve labelled fields were read off the live DOM and none is a unit; `Part` has no `unit` property. Every quantity is implicitly "each", including hose sold by the metre | Runtime | **Fail** | `STK-013` |
+| Inventory | `/inventory` | Warehouse / shelf location | Present | Conditional: a `Box` input renders only for o-ring/seal categories and a `Stand` input only for Filters, so a hydraulic part cannot be given a location at all — though the export has a `Box` column and `/stock-map` exists to display one | Runtime | **Fail** | `STK-013` |
+| Inventory | `/inventory` | Machine compatibility | Present | Present and correct — `part-compat` in the form, exported as the `Machine` column | Runtime | **Pass** | — |
+| Inventory | `/inventory` | The part form's field list, captured from the live DOM | Recorded | Primary part number · Cross-reference part numbers · Machine compatibility · Category · Description / name · Qty · Cost · Selling price · Reorder at · Replaces / supersession codes · Notes · Photo URL or upload | Runtime | **Pass** | — |
 | Inventory | `/inventory` | Product image upload | Works | Requires a real Storage bucket | — | **Blocked** | — |
 | Inventory | `/inventory` | Creation / modification dates recorded | Present | No timestamps on parts | Source | **Fail** | `STK-002` |
 | Inventory | `/inventory` | Import driven through the real dialog with a real file | Imported correctly | Four `.xlsx` fixtures uploaded through *More* → *Upload Excel* over CDP (`DOM.setFileInputFiles`) and applied; overrides read back out of the store afterwards | Runtime | **Pass** | — |
@@ -413,7 +427,9 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Parties | `/documents` | Quotation Excel import preserves an existing client's contacts | Preserved | `addClient({name, notes})` blanks every contact field | Source | **Fail** | `CUS-002` |
 | Parties | `/clients/` | Duplicate name keeps documents correctly linked | Linked | Existing `id` is preserved, so documents stay attached | Source | **Pass** | — |
 | Parties | `/clients/` | Client balance matches source documents | Matches | `netDue = total − paid − credits`; distorted by `FIN-001`/`FIN-003` | Source | **Fail** | `FIN-001` |
-| Parties | `/suppliers/` | Supplier balances tracked | Tracked | Inquiries link to suppliers; no payables ledger | Source | **Not Verified** | — |
+| Parties | `/suppliers/` | Supplier balances tracked | Tracked | None exist. `/suppliers/sp-ningbo` renders the name, *All suppliers* / *Edit details* / *Delete*, and a Contact card — **zero money figures on the page**, and nothing matching balance, owed, payable, order, purchase, or inquiry | Runtime | **Fail** | `CUS-004` |
+| Parties | `/suppliers/$supplierId` | Purchase history is reachable from the supplier | Reachable | Inquiries do carry a supplier and `/china-shipments` tracks costs, but neither is linked from the supplier page and neither is summed | Runtime | **Fail** | `CUS-004` |
+| Parties | `/suppliers/` | The list shows something beyond contact details | More than contacts | "2 of 2 suppliers", each row a name plus a contact line | Runtime | **Fail** | `CUS-004` |
 | Parties | `/clients/` | Create a client | Saved | Created through *Add client* and listed immediately; count 5 → 6 | Runtime | **Pass** | — |
 | Parties | `/clients/` | Edit a client | Persists | *Edit details* → changed phone and notes → stored as `9613555111` / `AUDIT edited note` and re-rendered | Runtime | **Pass** | — |
 | Parties | `/clients/` | Email format validation | Validated | `party-form-dialog.tsx:86` rejects a malformed address with `Enter a valid email address` before saving | Source | **Pass** | — |
@@ -452,11 +468,25 @@ Executed against the application's real `src/lib/document-money.ts` and `documen
 | Reports | `/` | Cancelled and draft documents excluded | Excluded | Neither status exists | Source | **Fail** | `QUO-002` |
 | Reports | `/` | Rendered card values match source records | Match | Every KPI was scraped and reconciled by hand against the seeded records; **"Low Stock Alerts" showed 8 where the source data holds 136** | Runtime | **Fail** | `RPT-002` |
 | Reports | `/low-stock` | Dashboard low-stock count agrees with the low-stock page | Same number | Dashboard 8 (capped by `.slice(0,8)`, zero-qty parts excluded) vs `/low-stock` 136 — a 128-part disagreement | Runtime | **Fail** | `RPT-002` |
-| Reports | `/insights` | Sales board figures are accurate | Accurate | — | — | **Not Verified** | — |
-| Reports | `/daily-close` | Drawer total matches receipts | Matches | Unrounded `cash + omt + whish` | Source | **Not Verified** | — |
-| Reports | `/collections` | Promise-to-pay list is accurate | Accurate | — | — | **Not Verified** | — |
-| Reports | `/reorder` | Reorder suggestions are correct | Correct | — | — | **Not Verified** | — |
-| Reports | — | Exported report accuracy | Matches screen | — | — | **Not Verified** | — |
+| Reports | `/insights` | Rendered figures equal a recomputation from the same records | Equal | Exact on all four: revenue `$130.00`, margin `$58.00`, top movers `CF-A-011 × 3 = $30.00` and `CF-A-012 × 1 = $100.00`, margin winners `$40.00` and `$18.00`. The screen renders its formula faithfully | Runtime | **Pass** | — |
+| Reports | `/insights` | Sales board revenue nets off document discounts | Net of discount | One invoice in the window, invoiced **$117.00** after a 10% document discount, reported as **$130.00** — `buildWeeklySalesBoard` sums `unitPrice × qty` and never reads `discountKind`/`discountValue` | Runtime | **Fail** | `RPT-005` |
+| Reports | `/insights` | Margin reflects what was actually charged | Charged amount | `$58.00` against a true `$45.00`, overstated by 29% — cost is exact while revenue is gross | Runtime | **Fail** | `RPT-005` |
+| Reports | `/insights` | Dead stock list discloses its cap | "20 of N" | Exactly 20 rows rendered against **55 qualifying parts** in the app's own exported catalogue; no disclosure | Runtime | **Fail** | `RPT-007` |
+| Reports | `/insights` | Top movers and margin winners disclose their caps | Disclosed | Both `.slice(0, 15)` with nothing on screen to say so | Source | **Fail** | `RPT-007` |
+| Reports | `/insights` | The priced-only filter on dead stock is disclosed | Disclosed | `p.cost > 0 \|\| p.price > 0` silently excludes **1,633 of the 1,697 parts holding stock**; defensible (they cannot be valued) but unstated | Source | **Fail** | `RPT-007` |
+| Reports | `/daily-close` | Expected drawer equals the day's receipts by method | Equal | Exact: **Cash $115.00, OMT $30.00, Whish $20.00**, matching an independent recomputation of the seeded receipts | Runtime | **Pass** | — |
+| Reports | `/daily-close` | Receipt count matches | Matches | "5 receipts" on screen, 5 in the data | Runtime | **Pass** | — |
+| Reports | `/daily-close` | A receipt dated yesterday is excluded from today | Excluded | A $999 Cash receipt dated 2026-09-20 moved no figure on 2026-09-21 | Runtime | **Pass** | — |
+| Reports | `/daily-close` | A receipt flagged as not affecting the balance is excluded | Excluded | A $777 receipt with `affectsBalance: false` moved no figure | Runtime | **Pass** | — |
+| Reports | `/collections` | Every row's flag, promised date, overdue, and net due equal a recomputation | Equal | Exact on all three rows, including `$500.00`/`$500.00` for a plain debtor and `$150.00`/`$557.00` for a client carrying a credit note | Runtime | **Pass** | — |
+| Reports | `/collections` | Only clients who owe something appear | Only debtors | A client with **no open invoices** and a promised date five days old renders as **"Promise broken · $0.00 overdue · $0.00 net due"** | Runtime | **Fail** | `RPT-008` |
+| Reports | `/collections` | *Message all with phone* skips clients who owe nothing | Skipped | The bulk action iterates every rendered row, so the $0.00 row is messaged with the rest | Source | **Fail** | `RPT-008` |
+| Reports | `/reorder` | The stated count is the number of qualifying parts | True count | Subtitle reads **"24 parts to consider"**, which is `.slice(0, 24)` applied first — `/low-stock` reports **171 at or below reorder** on the same data, and 871 parts match the reorder page's own `quantity <= reorderAt` test in the exported workbook | Runtime | **Fail** | `RPT-006` |
+| Reports | `/reorder` | The truncation is disclosed somewhere on the page | Disclosed | Nothing on screen says 24 is a limit; the WhatsApp PO's "…and N more (see CSV)" line only fires above 40 and so can never appear | Runtime | **Fail** | `RPT-006` |
+| Reports | `/reorder` | The CSV export carries every candidate | All candidates | 24 rows, the same truncated array the table renders | Runtime | **Fail** | `RPT-006` |
+| Reports | `/reorder` | The CSV export matches what is on screen | Matches | 24 rows in both, identical part number, quantity, reason, and category, header `partNumber,name,qty,reason,category` | Runtime | **Pass** | — |
+| Reports | `/low-stock` | The headline count equals the catalogue under the page's own predicate | Equal | **171** on screen, 171 in the workbook the app exported | Runtime | **Pass** | — |
+| Reports | `/inventory` | The Excel export matches the screen | Matches | **2,404 rows** against a headline of "2404 of 2404 parts", one `Inventory` sheet, all 14 columns present, 1.43 MB | Runtime | **Pass** | — |
 
 ## 13. PDF and printing
 
@@ -760,27 +790,34 @@ Ordered to match the repair stages in §19 of the audit report.
 | 10 | `roundMoney(-x) === -roundMoney(x)` and cent-exact from 1e0 to 1e15 | `FIN-002` |
 | 11 | UI subtotal === PDF subtotal === ratio basis, including `Payment`/`Discount` lines | `FIN-004` |
 | 12 | Dashboard and `/low-stock` return the same set, including zero-quantity parts | `RPT-002` |
-| 13 | Unauthenticated GET of a `part-photos` object returns 403 | `SEC-005` |
-| 14 | Rate limiter refuses unlock when the store is unavailable | `SEC-003` |
-| 15 | `/portal` renders a statement with no params, an invalid token, and a valid token | `UX-002` |
-| 16 | A document can be voided, the void is visible on the document, and the audit log records who did it | `FUN-008` |
-| 17 | The payment-healing unit test runs through the bare-array shape the app actually stores | `FIN-009` |
-| 18 | Every route at 375 / 768 / 1440 px: no element sits outside an ancestor that can actually scroll | `UX-003` |
-| 19 | Content area ≥ ~700 px at every width where tables render un-stacked | `UX-004` |
-| 20 | Contrast assertion over the rendered theme: text pairs ≥ 4.5:1, border and ring pairs ≥ 3:1 | `UX-005`, `UX-006`, `UX-011` |
-| 21 | Each dialog submitted empty shows an inline message, sets `aria-invalid`, and focuses the field — assert on the Add part **and** Add client forms | `UX-007` |
-| 22 | A three-row duplicate import file totals correctly or is rejected, and reports 1 part not 3 | `IMP-002` |
-| 23 | A non-workbook upload produces a visible error message | `IMP-005` |
-| 24 | A 1e15 quantity import requires a confirmation | `IMP-006` |
-| 25 | `/fleet/mc-*` renders machine detail, not the `/fleet` list — assert the detail body differs from the list body | `FUN-006` |
-| 26 | Three rapid Create clicks yield one record **and one** success message | `FUN-007` |
-| 27 | The inline quantity cell rejects `-5` and `abc` with a visible message, and resolves `7.5` the same way the dialog resolves `2.5` | `STK-010`, `STK-009` |
-| 28 | Every Arabic raster in a generated PDF has zero ink on its outermost row and column | `PDF-014` |
-| 29 | A fixture Arabic invoice stays within a byte budget, and its Arabic text is selectable | `PDF-015` |
-| 30 | A print-emulated snapshot of `/documents` contains no sidebar navigation text | `PRN-001` |
-| 31 | Searching an exact unique part number returns exactly one row, with and without separators in the code | `STK-011` |
-| 32 | Clicking each inventory column header reorders rows and sets `aria-sort` | `STK-012` |
-| 33 | A phone number typed as `+961 3 424 242` is still displayed that way after saving | `CUS-003` |
-| 34 | `/fleet` empty state renders a primary action | `UX-019` |
-| 35 | One navigation reads each `shop_state` key at most once | `PERF-002` |
-| 36 | Run the passes that still need hardware or a live environment: physical paper margins, a real barcode scanner, label printing, photo upload, biometric unlock on a real device, the Web Share Target, and a screen-reader pass | §17 |
+| 13 | With N parts at or below their reorder point, `/reorder` states N (or "top 24 of N") and the CSV contains N rows | `RPT-006` |
+| 14 | A discounted invoice makes the `/insights` revenue equal the invoice total and the margin equal total − line cost | `RPT-005` |
+| 15 | A price typed as `12.3456789` is stored as `12.35`, and the stored value is the one the line total is computed from | `FIN-010` |
+| 16 | Unauthenticated GET of a `part-photos` object returns 403 | `SEC-005` |
+| 17 | Rate limiter refuses unlock when the store is unavailable | `SEC-003` |
+| 18 | `/portal` renders a statement with no params, an invalid token, and a valid token | `UX-002` |
+| 19 | A document can be voided, the void is visible on the document, and the audit log records who did it | `FUN-008` |
+| 20 | The payment-healing unit test runs through the bare-array shape the app actually stores | `FIN-009` |
+| 21 | Every route at 375 / 768 / 1440 px: no element sits outside an ancestor that can actually scroll | `UX-003` |
+| 22 | Content area ≥ ~700 px at every width where tables render un-stacked | `UX-004` |
+| 23 | Contrast assertion over the rendered theme: text pairs ≥ 4.5:1, border and ring pairs ≥ 3:1 | `UX-005`, `UX-006`, `UX-011` |
+| 24 | Each dialog submitted empty shows an inline message, sets `aria-invalid`, and focuses the field — assert on the Add part **and** Add client forms | `UX-007` |
+| 25 | A three-row duplicate import file totals correctly or is rejected, and reports 1 part not 3 | `IMP-002` |
+| 26 | A non-workbook upload produces a visible error message | `IMP-005` |
+| 27 | A 1e15 quantity import requires a confirmation | `IMP-006` |
+| 28 | `/fleet/mc-*` renders machine detail, not the `/fleet` list — assert the detail body differs from the list body | `FUN-006` |
+| 29 | Three rapid Create clicks yield one record **and one** success message | `FUN-007` |
+| 30 | The inline quantity cell rejects `-5` and `abc` with a visible message, and resolves `7.5` the same way the dialog resolves `2.5` | `STK-010`, `STK-009` |
+| 31 | Every Arabic raster in a generated PDF has zero ink on its outermost row and column | `PDF-014` |
+| 32 | A fixture Arabic invoice stays within a byte budget, and its Arabic text is selectable | `PDF-015` |
+| 33 | A print-emulated snapshot of `/documents` contains no sidebar navigation text | `PRN-001` |
+| 34 | Searching an exact unique part number returns exactly one row, with and without separators in the code | `STK-011` |
+| 35 | Clicking each inventory column header reorders rows and sets `aria-sort` | `STK-012` |
+| 36 | A phone number typed as `+961 3 424 242` is still displayed that way after saving | `CUS-003` |
+| 37 | With an inquiry and a shipment attributed to a supplier, both appear on that supplier's page | `CUS-004` |
+| 38 | A hydraulic part created with a unit and a storage location round-trips both to the list, the export, and an invoice line | `STK-013` |
+| 39 | Escape on an editor with a line added prompts; confirming discards, cancelling keeps the line intact | `UX-022` |
+| 40 | `/insights` discloses "20 of N" for dead stock, and `/collections` omits a fully-paid client with a stale promised date | `RPT-007`, `RPT-008` |
+| 41 | `/fleet` empty state renders a primary action | `UX-019` |
+| 42 | One navigation reads each `shop_state` key at most once | `PERF-002` |
+| 43 | Run the passes that still need hardware or a live environment: physical paper margins, a real barcode scanner, label printing, photo upload, biometric unlock on a real device, the Web Share Target, and a screen-reader pass | §17 |

@@ -1,7 +1,7 @@
 # Parts Village — Full Application Audit Report
 
 **Audit type:** Read-only audit. No application code, schema, or production data was modified.
-**Audit date:** 2026-09-06, with a second runtime pass on 2026-09-17 and a third on 2026-09-21
+**Audit date:** 2026-09-06, with a second runtime pass on 2026-09-17 and a third and fourth on 2026-09-21
 **Commit audited:** `08f2a09` ("Remove all Kafu supplier, catalog leftovers, and data files.")
 **Branch:** `cursor/full-application-audit-33f7`
 **Live deployment:** https://partsvillageapp.vercel.app
@@ -13,7 +13,7 @@
 > `package-lock.json`, `src/routeTree.gen.ts`, and all application code are byte-for-byte unchanged —
 > `git diff` between the merge base and this branch touches nothing but the two report files.
 
-> **Three passes are recorded here.** The first established the findings. The second closed the
+> **Four passes are recorded here.** The first established the findings. The second closed the
 > items it had to leave open — Arabic PDF rendering, browser print, the inventory form's full
 > numeric and duplicate-submit matrix, XSS in the DOM, the dashboard reconciliation,
 > `/fleet/$machineId`, `/china-shipments`, offline-and-reconnect, and runtime timings — and in doing
@@ -28,6 +28,17 @@
 > **corrected three earlier results**. Two of those corrections matter: offline-and-reconnect was
 > recorded in pass two as working, and it works only if the operator keeps editing; and `FIN-001`,
 > the highest-severity finding in the report, named the wrong code path in both earlier passes.
+>
+> The fourth pass took on the four report screens (`/insights`, `/daily-close`, `/collections`,
+> `/reorder`) that no earlier pass had reconciled, plus export accuracy, the supplier page, the
+> part form's missing fields, and cancelling out of a document editor. Each screen's rendered
+> figures were compared against an independent recomputation from the same records. It added
+> **eight findings** — one P1 (`RPT-006`), three P2 (`RPT-005`, `CUS-004`, `FIN-010`) and four P3
+> (`RPT-007`, `RPT-008`, `STK-013`, `UX-022`) — and closed eleven previously unverified items. It
+> also recorded an eight-row reconciliation in which every figure those screens display was
+> reproduced exactly from the underlying records, so where a number is wrong it is the formula that
+> is wrong, not the rendering.
+>
 > Every correction is stated in place rather than quietly edited, so the reasoning is auditable.
 > See §17 for the full before/after list.
 
@@ -129,10 +140,10 @@ until that is addressed.
 | Priority | Count | Meaning |
 |---|---|---|
 | **P0 — Critical** | 8 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 19 | Core feature broken or serious business risk |
-| **P2 — Medium** | 45 | Important defect with a workaround |
-| **P3 — Low** | 34 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **106** | Plus 11 controls verified sound and a 7-row verified WebAuthn table (§14), 5 verified-correct stock behaviours, 6 verified-correct search behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table, a 3-row verified document-output table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table plus a 7-route accessibility-tree table (§12), and a much shorter `NOT VERIFIED` list (§17) |
+| **P1 — High** | 20 | Core feature broken or serious business risk |
+| **P2 — Medium** | 48 | Important defect with a workaround |
+| **P3 — Low** | 38 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **114** | Plus 11 controls verified sound and a 7-row verified WebAuthn table (§14), 5 verified-correct stock behaviours, 6 verified-correct search behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table, a 3-row verified document-output table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table plus a 7-route accessibility-tree table (§12), an 8-row reconciliation of the report screens against their own records (§11), and a much shorter `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
@@ -578,6 +589,20 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 - **Recommended fix:** Store the entered value in `phone`, validate it with `normalizePhoneE164`, and keep the normalised digits in a separate derived field (or compute them at the point each `wa.me` link is built, which is what `ar-statement.ts`, `document-export.ts`, and `daily-digest.ts` already do).
 - **Regression test:** Save `+961 3 424 242` and assert the client list renders it as typed while the WhatsApp link still resolves to `wa.me/9613424242`.
 
+### `CUS-004` · P2 · Suppliers have no balance, no purchase history, and no payables anywhere
+
+*Found in the fourth runtime pass, which was checking the "supplier balances tracked" item left open in §17.*
+
+- **Page/feature:** `/suppliers`, `/suppliers/$supplierId`.
+- **Description:** A supplier record is contact details and nothing else. There is no payables ledger, no purchase history, and no link from a supplier to the inquiries, pre-orders, or China shipments raised against them.
+- **Actual:** `/suppliers/sp-ningbo` renders exactly: the name, "Saved supplier", *All suppliers* / *Edit details* / *Delete*, and a Contact card with email, phone, address, and lead time. **Zero money figures appear on the page**, and nothing matching balance, owed, payable, order, purchase, or inquiry. The list page is the same: name plus contact line. Inquiries do carry a supplier, and `/china-shipments` tracks costs, but neither is reachable from the supplier and neither is summed.
+- **Expected:** At minimum, the documents raised against a supplier listed on their page; ideally a payables balance, since the shop buys on credit from China.
+- **Evidence:** `src/routes/suppliers.$supplierId.tsx` in full — the component renders one `Contact` card and nothing else; no import of `useDocuments`. Runtime capture in `/tmp/pv-audit3/results/gaps.json`.
+- **Business impact:** The money side of the business is only half modelled: receivables have a statement, an aging report, and a chase list, while payables have nothing at all. The shop cannot answer "what do I owe Ningbo" from the app, and a supplier deletion warns about nothing because there is nothing linked to warn about (`CUS-001`).
+- **Relevant files:** `src/routes/suppliers.$supplierId.tsx`, `src/routes/suppliers.index.tsx`, `src/components/app/documents-context.tsx`.
+- **Recommended fix:** Start with the cheap half — list the inquiries, pre-orders, and shipments already attributable to the supplier on their detail page. A payables balance needs a purchase-document type and is a product decision (§18).
+- **Regression test:** With an inquiry and a shipment attributed to a supplier, assert both appear on that supplier's page.
+
 ### `FUN-006` · **P1** · `/fleet/$machineId` — the machine-history page can never render
 
 *Found in the second runtime pass. The first pass could not reach this route because the seed
@@ -773,6 +798,24 @@ contained no machines, so it was listed as `NOT VERIFIED` in §17.*
 - **Relevant files:** `src/routes/inventory.tsx`, `src/components/app/virtual-inventory-table.tsx`.
 - **Recommended fix:** Add a sort key to the table state, make the header cells buttons that set it, and render them as real `<th>` elements with `aria-sort`. Apply the chosen sort for every category, not only O-Rings.
 - **Regression test:** Assert that clicking each header reorders rows and sets `aria-sort` correctly.
+
+### `STK-013` · P3 · Inventory — no unit of measure, and the storage-location field appears for only two categories
+
+*Found in the fourth runtime pass, which was checking the "unit of measurement", "warehouse / shelf
+location", and "machine compatibility" items left open in §17.*
+
+- **Page/feature:** *Add part* dialog (`/inventory` → **Add item**), and the `Part` type behind it.
+- **Description:** The part record has no unit field, and its location field is conditional on category.
+- **Actual** — the dialog's twelve labelled fields, captured from the live DOM: *Primary part number · Cross-reference part numbers · Machine compatibility · Category · Description / name · Qty · Cost · Selling price · Reorder at · Replaces / supersession codes · Notes · Photo URL or upload*. Two consequences:
+  - **No unit of measure**, and no `unit` field on `Part`. Every quantity is implicitly "each". The catalogue sells hose, which is bought and cut by the metre, and o-rings, which arrive in bags — "Qty 12" cannot distinguish 12 metres from 12 bags from 12 pieces, and the reorder maths, the valuation, and the invoice line all inherit the ambiguity.
+  - **Location is category-conditional.** A `Box` input renders only for o-ring/seal categories and a `Stand` input only for Filters, so a hydraulic part cannot be given a location at all — even though the export has a `Box` column and `/stock-map` exists to display locations.
+  - **Machine compatibility is present and correct** (`part-compat`, exported as the `Machine` column) — recorded here because it was open in §17 alongside the other two.
+- **Expected:** A unit field on the part record, used wherever a quantity is shown; and one location field available for every category.
+- **Evidence:** Runtime field census in `/tmp/pv-audit3/results/gaps2.json`; `src/lib/mock-data.ts:1-40` (`Part` has no `unit`); `src/components/app/part-detail-dialog.tsx:613-621` (Box behind `showSealFields`), `:594-601` (filter Stand).
+- **Business impact:** Low today because the shop knows its own conventions, but it is the kind of gap that makes a second user — or a stock count by someone else — unreliable, and it blocks selling by length, which a hose business eventually needs.
+- **Relevant files:** `src/lib/mock-data.ts`, `src/components/app/part-detail-dialog.tsx`, `src/components/app/inventory-context.tsx`.
+- **Recommended fix:** Add `unit?: string` defaulting to "pcs", surface it beside Qty in the form, the table, and the document line; render the location input for every category.
+- **Regression test:** Create a hydraulic part with a location and a unit and assert both round-trip to the list, the export, and an invoice line.
 
 ### Verified-correct search and filter behaviour ✅
 
@@ -1190,6 +1233,25 @@ fractional quantities are silently rounded (`STK-009`), and negative values are 
 - **Recommended fix:** Fix the function before reconnecting it. Make `healDocArray` raise `amountPaid` toward the receipt sum and never lower it, flagging `prevPaid > receiptSum` for review instead of overwriting; then pass the `fieldKey` through from `cloud-store.ts`. Rewrite the unit test to feed a bare array.
 - **Regression test:** Assert the heal is invoked for the bare-array shape; assert `heal([{total: 1000, amountPaid: 750}])` leaves 750 in place and raises a reconciliation flag.
 
+### `FIN-010` · P2 · Prices and costs are stored with sub-cent precision that the screen never shows
+
+- **Description:** The part form accepts any number of decimal places and stores the value verbatim. Every display path rounds to two, so the stored price and the shown price are different numbers, and line totals are computed from the stored one.
+- **Actual behaviour** — typed into the *Add part* dialog and read back out of the store:
+
+  | Field | Typed | Stored | Shown on `/inventory` |
+  |---|---|---|---|
+  | Selling price | `12.3456789` | **12.3456789** | `12.35` |
+  | Cost | `3.005` | **3.005** | `3.01` |
+
+  Nothing warned, and no rounding happened on entry. A line of 100 units then totals `roundMoney(100 × 12.3456789)` = **$1,234.57**, while an operator reading `12.35` off the screen expects $1,235.00 — a 43-cent gap on one line that grows with quantity, and the invoice gives no way to see where it came from. Quantity, by contrast, *is* forced to a whole number on entry (`STK-009`), so the two fields disagree about whether input is normalised.
+- **Expected:** Round money to cents at the point of entry (or reject more than two decimals), so the stored value is the value shown.
+- **Evidence:** `src/components/app/part-detail-dialog.tsx` numeric handling (no `roundMoney` on `cost`/`price`, unlike the `Math.round` applied to `quantity`); `roundMoney` in `src/lib/document-money.ts` is applied to computed totals, never to stored inputs. Harness: `/tmp/pv-audit3/results/gaps2.json`.
+- **Reproduction:** Add a part priced `12.3456789`; the list shows `12.35`; the stored JSON holds `12.3456789`.
+- **Business impact:** Small per line and invisible, which is what makes it awkward: a customer recomputing the invoice from the printed unit price gets a different total, and the shop cannot explain the difference from anything on screen. It also feeds `STK-008`'s unrounded inventory valuation.
+- **Relevant files:** `src/components/app/part-detail-dialog.tsx`, `src/components/app/inventory-context.tsx`.
+- **Recommended fix:** Apply `roundMoney` to `cost` and `price` in `normalizePart`/`applyOverride`, the same place `clampNonNeg` already runs, and mirror it in the bulk import (`IMP-004`).
+- **Regression test:** Store `12.3456789` and assert the persisted value is `12.35`.
+
 ---
 
 ## 11. Calculation issues
@@ -1364,6 +1426,82 @@ Phase 8 requires the formula behind every dashboard number. All are computed **c
 - **Relevant files:** `src/routes/index.tsx`, `src/lib/ar-statement.ts`.
 - **Recommended fix:** Store timestamps as UTC ISO, define the business timezone in `prefs`, and convert once at the reporting boundary.
 - **Regression test:** Fixtures either side of a month boundary in a non-UTC zone; assert consistent attribution across dashboard, P&L, and AR aging.
+
+### `RPT-006` · **P1** · `/reorder` — "24 parts to consider" is a hard cap, not a count
+
+- **Page/feature:** `/reorder`, the page the weekly China purchase order is drafted from.
+- **Description:** `buildReorderSuggestions(parts, invoices, limit = 24)` ends in `.slice(0, limit)`. The page then renders `${suggestions.length} parts to consider` — the length *after* the slice — so the cap is presented as the total. The CSV export, the *Copy part numbers* action, and the WhatsApp PO draft all consume the same truncated array.
+- **Actual behaviour** — measured against the catalogue the app itself exported:
+
+  | Source | Count |
+  |---|---|
+  | `/reorder` subtitle, rows rendered, and CSV rows | **24** |
+  | `/low-stock` headline on the same data | **171 parts at or below reorder** |
+  | Parts matching the reorder page's own inclusion test (`quantity <= reorderAt`) in the exported workbook | **871** |
+
+  Nothing on the page says 24 is a limit. The *WhatsApp China PO* body even reads `…and N more (see CSV)` when `suggestions.length > 40` — a disclosure that can never fire, because the array is capped at 24 two steps earlier.
+- **Expected:** Either show every candidate (paginated or scrolled), or state the truncation — "showing the top 24 of 171" — and make the export carry the full list even when the screen does not.
+- **Evidence:** `src/lib/demand-forecast.ts:82,105` (`limit = 24`, `.slice(0, limit)`); `src/routes/reorder.tsx:169` (`${suggestions.length} part…to consider`), `:88-114` (CSV built from the same array), `:135` (the unreachable "and N more"). Harness: `/tmp/pv-audit3/results/reports2.json`, `reports-recon.json`.
+- **Reproduction:** Open `/reorder` and read the subtitle, then open `/low-stock` and read its headline. Export the CSV and count its rows.
+- **Business impact:** This is the restock list. Ordering from it means ordering 24 lines when 171 parts are at or below their reorder point — a silent 86% under-order, repeated weekly, with no indication anything was left out. It is the same defect class as `RPT-002` but on the page that drives money out the door.
+- **Relevant files:** `src/lib/demand-forecast.ts`, `src/routes/reorder.tsx`.
+- **Recommended fix:** Pass the full list to the page and paginate the table; keep a cap only on the WhatsApp message body, where the "and N more" line already exists and would then be true.
+- **Regression test:** With N parts below their reorder point, assert the page states N (or "top 24 of N") and that the CSV contains N rows.
+
+### `RPT-005` · P2 · `/insights` — the sales board's revenue and margin ignore document discounts
+
+- **Description:** `buildWeeklySalesBoard` sums `unitPrice × qty` per line and never reads the document-level discount, so a discounted invoice is reported at its pre-discount value. The same omission inflates margin, because cost is exact while revenue is not.
+- **Actual behaviour** — one invoice in the week, three units at $10 (cost $4) plus one at $100 (cost $60), with a 10% document discount, so the customer is invoiced **$117.00**:
+
+  | Figure | Board shows | Actually invoiced |
+  |---|---|---|
+  | Revenue | **$130.00** | $117.00 |
+  | Margin | **$58.00** | $45.00 |
+
+  Both figures were reproduced exactly by an independent recomputation from the same records, so this is the formula, not a rendering bug. Margin is overstated by 29%.
+- **Expected:** Apply the same discount the invoice, the screen, and the PDF apply — the board should reconcile with what the customer was actually charged.
+- **Evidence:** `src/lib/sales-board.ts:74-76` (`prev.revenue += unitPrice * qty`), with no reference to `discountKind`/`discountValue`; contrast `src/lib/document-money.ts:89`, which the invoice itself uses. Harness: `/tmp/pv-audit3/results/reports.json`.
+- **Reproduction:** Issue an invoice dated today with a 10% document discount and open `/insights`.
+- **Business impact:** "What sold this week" is the screen used to judge whether the week was good. It reports gross of discounts while the bank account is net of them, and the margin figure — the one a pricing decision would be based on — is overstated by the whole discount. Same root cause as `RPT-001` on the dashboard, different screen and a different function.
+- **Relevant files:** `src/lib/sales-board.ts`, `src/routes/insights.tsx`.
+- **Recommended fix:** Apportion the document discount across lines (or scale the line revenue by the invoice's discount ratio) using the shared helper rather than a third private formula.
+- **Regression test:** A discounted invoice must make the board's revenue equal the invoice total, and margin equal total − line cost.
+
+### `RPT-007` · P3 · `/insights` — dead stock is capped at 20 rows with no disclosure
+
+- **Description:** `deadStock` ends in `.slice(0, 20)`; top movers and margin winners are capped at 15 each. None of the three caps is stated on screen.
+- **Actual:** The card renders exactly 20 rows. In the app's own exported catalogue, **55 parts** hold stock, carry a cost or a price, and have never appeared on an invoice — so at least 35 qualifying parts are silently omitted, and parts sold more than 60 days ago add to that. Separately, the filter `p.cost > 0 || p.price > 0` excludes **1,633 of the 1,697 parts that hold stock** because they carry no cost or price at all; that is defensible (they cannot be valued) but it is not stated either.
+- **Expected:** "20 of 55" on the card, or a scrollable list.
+- **Evidence:** `src/lib/sales-board.ts:101,105,122` (three slices), `:108` (the priced filter); `/tmp/pv-audit3/results/reports-recon.json`.
+- **Business impact:** Low on its own. Dead stock is a clean-up list, and the top 20 by age is a reasonable starting point — but an operator working the list to completion will believe they are done.
+- **Relevant files:** `src/lib/sales-board.ts`, `src/routes/insights.tsx`.
+- **Recommended fix:** Return the full arrays with a `total` alongside, and render "showing 20 of N".
+- **Regression test:** Assert the rendered count and the disclosed total agree with the qualifying set.
+
+### `RPT-008` · P3 · `/collections` — clients who owe nothing are listed as broken promises
+
+- **Description:** The chase list includes any client whose `promisedPayDate` is in the past, regardless of whether they still owe anything.
+- **Actual:** A client with no open invoices at all and a promised-pay date five days old renders as **"Promise broken" with `$0.00` overdue and `$0.00` net due**, and the *Message all with phone* button will send them a chase message. Confirmed in the browser; the row is real, not a rounding artefact.
+- **Expected:** A promised date only matters while something is owed; clear or ignore it once the balance reaches zero.
+- **Evidence:** `src/routes/collections.tsx:53` (`if (overdue <= 0.005 && !promisedOverdue && !dueSoon) return null;` — `promisedOverdue` alone keeps the row), `:78-86` (the bulk WhatsApp action iterates every row). Harness: `/tmp/pv-audit3/results/reports2.json`, `reports-recon.json`.
+- **Business impact:** Chasing a customer who has already paid is the kind of mistake that costs goodwill, and the bulk-message button makes it one tap away. Low severity only because the $0.00 is visible on the row if the operator reads it.
+- **Relevant files:** `src/routes/collections.tsx`.
+- **Recommended fix:** Require `netDue > 0.005` for the promise-based rows, and clear `promisedPayDate` when a client's balance reaches zero.
+- **Regression test:** A fully-paid client with a stale promised date must not appear in the chase list.
+
+**What `/insights`, `/daily-close`, and `/collections` get right ✅** — each screen was reconciled
+against an independent recomputation from the same records, not merely read:
+
+| Screen | Check | Result |
+|---|---|---|
+| `/insights` | Rendered revenue, margin, top movers, and margin winners equal a recomputation from the same invoices | ✅ Exact: `$130.00` / `$58.00`, `CF-A-011 × 3 = $30.00`, `CF-A-012 × 1 = $100.00`, margin winners `$40.00` and `$18.00`. The figures are what the formula says; `RPT-005` is about the formula |
+| `/daily-close` | Expected drawer equals the day's receipts by method | ✅ Exact: Cash **$115.00**, OMT **$30.00**, Whish **$20.00**, "5 receipts" |
+| `/daily-close` | A receipt dated yesterday is excluded from today | ✅ A $999 Cash receipt dated yesterday did not move any figure |
+| `/daily-close` | A receipt marked as not affecting the balance is excluded | ✅ A $777 `affectsBalance: false` receipt did not move any figure |
+| `/collections` | Every row's flag, promised date, overdue, and net due equal a faithful recomputation | ✅ Exact on all three rows, including a `$500.00` / `$500.00` debtor and a `$150.00` / `$557.00` client with a credit note |
+| `/low-stock` | The headline count equals the catalogue under the page's own predicate | ✅ **171** on screen, 171 in the exported workbook |
+| `/reorder` | The CSV export matches the rendered table | ✅ 24 rows, identical part number, quantity, reason, and category in both |
+| `/inventory` | The Excel export matches the screen | ✅ **2,404 rows** for a headline of "2404 of 2404 parts", one `Inventory` sheet, all 14 columns present |
 
 ### `DAT-001` · P1 · Architecture — no transactional integrity or database-enforced constraints
 
@@ -1723,6 +1861,21 @@ originally measured. Evidence: `/tmp/pv-audit3/results/a11y.json`, `a11y2.json`,
 - **Relevant files:** `src/routes/portal.tsx` (its imports pull `PageHeader`, which pulls the cart and inventory graph), `src/routes/__root.tsx`.
 - **Recommended fix:** Fixing `UX-002` by giving the portal a standalone header removes most of this graph at the same time.
 - **Regression test:** Assert the portal's asset manifest excludes inventory, cart, and PDF modules.
+
+### `UX-022` · P3 · A half-written document is discarded by Escape with no confirmation
+
+*Found in the fourth runtime pass, which was checking the "cancel out of the editor" item left open
+in §17.*
+
+- **Page/feature:** `/documents` → *New Quotation* (and the other document editors, which share the dialog).
+- **Description:** The editor is a plain dialog. Escape — and a click on the overlay — closes it immediately, discarding whatever has been entered. There is no "discard this quotation?" prompt and no draft to come back to.
+- **Actual:** Built a quotation with a client selected and a line added, then pressed Escape. The dialog closed at once with **no alert dialog** (`alertdialog` count 0), nothing was saved (21 documents before, 21 after — correct), and reopening *New Quotation* presented an **empty form**: the work was gone. The behaviour is right in one respect and risky in the other — an abandoned draft must not be saved, but losing a twenty-line quotation to a stray Escape key has no undo.
+- **Expected:** Confirm before discarding a non-empty editor, or keep a local draft that the next open offers to restore. The app already has a destructive-confirmation component (`confirmAction`, used correctly for deletes) to reuse.
+- **Evidence:** Runtime capture in `/tmp/pv-audit3/results/gaps.json` (`editorCancel`): draft contents before Escape, zero dialogs and zero alert dialogs after, document count unchanged, and the reopened editor with no line.
+- **Business impact:** Low frequency, high annoyance. Quotations at a parts counter are built while a customer waits; rebuilding one from scratch is the kind of loss that pushes people back to paper. Related to `SYN-001` in character — work the operator believes is in progress is not durable — but far smaller, because nothing is falsely promised.
+- **Relevant files:** `src/components/app/create-quotation-dialog.tsx`, `src/components/app/create-invoice-dialog.tsx`, `src/components/ui/dialog.tsx`.
+- **Recommended fix:** Intercept `onOpenChange(false)` when the editor is dirty and route it through `confirmAction`, or persist the in-progress document to `localStorage` and offer to restore it.
+- **Regression test:** With a line added, Escape must prompt; confirming discards, cancelling keeps the editor open with the line intact.
 
 ### `UX-001` · P3 · `dangerouslySetInnerHTML` in the chart component
 
@@ -2453,6 +2606,8 @@ credits/remaining (4), phone normalisation (5), and shop-state merge (7). Nothin
 | Discounts and tax | **none** | Percent/amount, clamping, tax on discounted net, historical rate (`FIN-005`) |
 | AR statement / aging | **none** | Bucket boundaries; due-date vs invoice-date; credit application (`FIN-003`) |
 | Dashboard formulas | **none** | Every card against hand-computed fixtures (`RPT-001`…`RPT-003`) |
+| Report screens | **none** | Sales board revenue net of document discounts; reorder count equals the qualifying set, not the cap; dead-stock and chase-list membership (`RPT-005`…`RPT-008`) |
+| Money entered vs money stored | **none** | A price typed with more than two decimals is stored rounded, so the stored value is the displayed value (`FIN-010`) |
 | Authentication | **none** | Rate-limit lockout incl. spoofed `X-Forwarded-For`; fail-closed (`SEC-001`, `SEC-003`) |
 | Server-function authorisation | **none** | Every `createServerFn` rejects unauthenticated calls (`SEC-002`) |
 | Portal tokens | **none** | Expiry incl. missing/malformed; revocation; cross-client isolation (`SEC-004`) |
@@ -2469,6 +2624,11 @@ and the type error are not enforced on any change.
 ## 17. Unverified areas
 
 Stated plainly, as required. These were **not** confirmed and no claim in this report depends on them.
+
+Twenty-seven items that appeared in earlier versions of this list have since been closed, and the
+list is kept in full rather than edited down so the change is auditable. What remains is **six items
+that need hardware, a real installed PWA, a screen reader, or a longer session than a harness can
+simulate**, and **six that cannot be answered from inside this environment at all**.
 
 ### Closed in the second runtime pass — previously listed here as unverified
 
@@ -2500,23 +2660,32 @@ this report and has since been driven in a real browser against the shipped buil
 20. **Quotation and invoice CRUD through the UI.** Closed. Create, edit, line-level and document-level discounts, persistence across a reload, zero-value and negative lines, very large totals, duplicate submit, and back/forward with an editor open were all driven. Most pass; the gap found is that **no document can be deleted or voided at all** (`FUN-008`). §7.
 21. **Client CRUD, search, and validation.** Closed. Create, edit-and-persist, email-format validation, the clients-page filters, and the `/search` route were driven. Email validation works. The phone field rewrites what the operator typed (`CUS-003`). §7.
 
+### Closed in the fourth runtime pass — previously listed here as unverified
+
+22. **The four report screens reconciled against their own records.** Closed, and this is the pass's main result. `/insights`, `/daily-close`, `/collections`, and `/reorder` were each seeded with records whose correct answer was computed independently in Node, then the rendered figures were scraped and compared. Every screen displays exactly what its formula produces (the eight-row table in §11), so two of the formulas are wrong rather than two of the screens: the sales board reports revenue gross of document discounts (`RPT-005`) and the reorder page presents a 24-row cap as a count (`RPT-006`, P1). `/daily-close` is correct in every case tested, including the two exclusion rules.
+23. **Export accuracy.** Closed. The inventory Excel export (2,404 rows, 14 columns, one sheet) and the reorder CSV were captured from the running app by intercepting `URL.createObjectURL`, and both match the screen row for row. The `/low-stock` headline of 171 was confirmed against the exported catalogue under the page's own predicate.
+24. **Supplier balances and purchase history.** Closed, and there are none — a supplier record is contact details only, with no money figure anywhere on the page and no link to the inquiries or shipments raised against them (`CUS-004`).
+25. **Unit of measure, storage location, and machine compatibility on a part.** Closed by a field census of the live *Add part* dialog. Machine compatibility exists and works; there is no unit field at all, and the location input renders for only two categories (`STK-013`).
+26. **Decimal precision on money entered by hand.** Closed. A price of `12.3456789` and a cost of `3.005` were typed in, stored verbatim, and displayed rounded — the stored number and the shown number are different (`FIN-010`).
+27. **Cancelling out of a document editor.** Closed. Escape discards a part-built quotation immediately, with no confirmation and no draft, though it correctly saves nothing (`UX-022`).
+
 ### Still not verified
 
-18. **Physical paper margins.** Needs a real printer and real paper. The generated PDF geometry is fully measured; what a specific printer driver does with it is not.
-19. **Scanning a printed label with real hardware, and photo upload to a real bucket.** The label's barcode payload was decoded from the PDF and shown not to resolve in the app's own lookup (`PDF-016`); whether a given physical scanner reads those bars at 0.28 mm module width is a separate question needing hardware.
-20. **`/share`.** A server action reached only by the Web Share Target, which needs a real installed PWA.
-21. **Screen-reader announcement quality.** The accessibility tree is now measured (§12), but no actual screen reader was run, so announcement *order and phrasing* remain unverified.
-22. **Two devices editing the same record simultaneously.** The merge function was exercised directly, but a genuine two-browser race was not driven.
-23. **A genuinely multi-hour session.** The memory result above is a ~70-second proxy.
+28. **Physical paper margins.** Needs a real printer and real paper. The generated PDF geometry is fully measured; what a specific printer driver does with it is not.
+29. **Scanning a printed label with real hardware, and photo upload to a real bucket.** The label's barcode payload was decoded from the PDF and shown not to resolve in the app's own lookup (`PDF-016`); whether a given physical scanner reads those bars at 0.28 mm module width is a separate question needing hardware.
+30. **`/share`.** A server action reached only by the Web Share Target, which needs a real installed PWA.
+31. **Screen-reader announcement quality.** The accessibility tree is now measured (§12), but no actual screen reader was run, so announcement *order and phrasing* remain unverified.
+32. **Two real browsers racing each other.** The third pass drove a genuine three-way merge by committing a second writer straight against the backend while a browser held a staged payment, which is what produced `FIN-008` — but both writers were not full browser sessions, so UI-level race conditions (two operators pressing *Record payment* at the same instant) remain inferred rather than observed.
+33. **A genuinely multi-hour session.** The memory result above is a ~70-second proxy.
 
 ### Not verifiable in this environment
 
-24. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
-25. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
-26. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
-27. **Real-world data volume.** The timings in §15 are against a seeded 2,344-part catalogue on this machine, not production telemetry.
-28. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
-29. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
+34. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
+35. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
+36. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
+37. **Real-world data volume.** The timings in §15 are against a seeded 2,344-part catalogue on this machine, not production telemetry.
+38. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
+39. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
 
 ---
 
@@ -2589,7 +2758,7 @@ needed to verify later stages exists first. **No code has been changed. Awaiting
 3. **`SEC-003`** — Make the rate limiter **fail closed** and increment atomically via a Postgres
    function.
 4. **`SEC-005`** — Make `part-photos` private and serve signed URLs (pending Q12).
-4a. **`UX-002`** — Fix the portal crash, and do it here rather than in Stage 3c where it originally
+5. **`UX-002`** — Fix the portal crash, and do it here rather than in Stage 3c where it originally
    sat. It is a P0, the fix is small (wrap the portal branch of `__root.tsx` in the providers its
    tree already requires, or stop `PageHeader` from calling `useCart` on the portal), and until it
    ships the only page you share with the outside world hands every visitor a React stack trace.
@@ -2603,7 +2772,7 @@ and a valid token and confirm all three render something a customer can read.
 
 ### Stage 1 — Stop financial and stock data loss (no schema change required)
 
-5. **`FIN-001`, `FIN-008`, `FIN-009` — do these three together, in this order.** They are one
+6. **`FIN-001`, `FIN-008`, `FIN-009` — do these three together, in this order.** They are one
    tangle and fixing any one alone makes another worse.
    - First, **`FIN-009`**: make `healDocumentsAmountPaid` non-destructive — raise `amountPaid`
      toward the receipt sum, never lower it, and flag `prevPaid > receiptSum` for review. Rewrite
@@ -2618,97 +2787,126 @@ and a valid token and confirm all three render something a customer can read.
      the confirmation wording so it matches what the action does.
    - **Back up the `documents` blob before deploying**, then audit for invoices whose `amountPaid`
      already disagrees with their receipts — those are the ones damaged so far.
-6. **`STK-001`** — Reorder `convertQuoteToInvoice` to commit the document *before* deducting stock,
+7. **`STK-001`** — Reorder `convertQuoteToInvoice` to commit the document *before* deducting stock,
    make the deduction idempotent on `invoice.stockDeducted`, and add a re-entrancy guard.
-7. **`STK-004`** — Move revert validation ahead of the stock restore.
-8. **`FIN-002`** — Make `roundMoney` symmetric and correct at large magnitudes.
-8a. **`SYN-001`** — Two changes, both small and independent. First, guard the load effect with
-   `if (dirtyRef.current) return;` so a refetch can never overwrite unsaved local state — that alone
-   stops both the Retry and the reload data loss. Second, persist the pending write (key, value,
-   base `updated_at`) when a save fails and replay it on load and on Retry, so the message the app
-   already shows becomes true. Until the queue exists, change the wording to match reality rather
-   than promising a sync that does not happen. *Belongs in this stage because it is silent loss of
-   operator work triggered by ordinary use, and the first half is a one-line change.*
+8. **`STK-004`** — Move revert validation ahead of the stock restore.
+9. **`FIN-002`** — Make `roundMoney` symmetric and correct at large magnitudes.
+10. **`SYN-001`** — Two changes, both small and independent. First, guard the load effect with
+    `if (dirtyRef.current) return;` so a refetch can never overwrite unsaved local state — that alone
+    stops both the Retry and the reload data loss. Second, persist the pending write (key, value,
+    base `updated_at`) when a save fails and replay it on load and on Retry, so the message the app
+    already shows becomes true. Until the queue exists, change the wording to match reality rather
+    than promising a sync that does not happen. *Belongs in this stage because it is silent loss of
+    operator work triggered by ordinary use, and the first half is a one-line change.*
 
 *Verify:* add the regression tests from §16 for each; these five are the highest-value tests in the
 codebase.
 
 ### Stage 2 — Establish traceability (prerequisite for trusting anything else)
 
-9. **`STK-002`** — Add an append-only stock movement log. Route all 14 sites through one
-   `recordMovement()` helper and make `adjustPartQuantity` private. Surface history on the part page.
-10. **`STK-003`** — Record phantom/document-created stock as an explicit goods-in movement.
-11. Add a **document/payment audit log** on the same pattern, so `FIN-001`-class events are visible.
+11. **`STK-002`** — Add an append-only stock movement log. Route all 14 sites through one
+    `recordMovement()` helper and make `adjustPartQuantity` private. Surface history on the part page.
+12. **`STK-003`** — Record phantom/document-created stock as an explicit goods-in movement.
+13. Add a **document/payment audit log** on the same pattern, so `FIN-001`-class events are visible.
     Give it a `void` entry as well, so `FUN-008` can be fixed by voiding rather than deleting.
 
 *Why here:* without this, you cannot confirm the Stage 1 fixes actually worked in production.
 
 ### Stage 3 — Correctness of what the business sees
 
-12. **`RPT-001`** — Rebuild "paid sales" from one source; subtract credit notes; stop reading the
+14. **`RPT-001`** — Rebuild "paid sales" from one source; subtract credit notes; stop reading the
     zombie `orders` collection (pending Q10).
-13. **`FIN-004`** — Consolidate on one subtotal function used by UI, PDF, and ratio.
-14. **`RPT-002`** — Single low-stock definition shared by the dashboard and `/low-stock`, and remove
+15. **`FIN-004`** — Consolidate on one subtotal function used by UI, PDF, and ratio.
+16. **`RPT-002`** — Single low-stock definition shared by the dashboard and `/low-stock`, and remove
     the `.slice(0, 8)` that makes the dashboard count saturate. This moved from P2 to P1 once the
     figures were reconciled by hand: the dashboard said 8 where the data held 136, and a
     reorder decision made from the dashboard alone would miss 128 parts.
-15. **`RPT-003`** — Group revenue by client id, not name.
-16. **`FIN-003`** — Add payment terms and `dueDate`; derive `Overdue`; age against due date (Q4).
-17. **`FIN-007`** — Backfill receipts, then remove the status-based paid fallback.
-18. **`FUN-005`** — Reject `NaN`/`Infinity` on the import and programmatic boundaries. The part form
+17. **`RPT-006`** — Do this alongside `RPT-002`; they are the same defect on two screens, and this
+    is the one that spends money. Pass the full reorder list to `/reorder` and paginate the table,
+    keep the cap only on the WhatsApp message body where the "and N more" line already exists and
+    would then be true, and make the CSV carry every candidate. In the seeded run the page offered
+    24 parts where 171 were at or below their reorder point. *Pair the fix with a sweep for the
+    remaining silent `.slice()` caps — `RPT-007` covers three more on `/insights` — and adopt one
+    convention: either show everything or print "showing X of N".*
+18. **`RPT-003`** — Group revenue by client id, not name.
+19. **`RPT-005`** — Apportion the document-level discount across lines in `buildWeeklySalesBoard`
+    (or scale line revenue by the invoice's discount ratio) using the shared money helper rather
+    than a third private formula, so the sales board reconciles with what the customer was charged.
+    Same root cause as `RPT-001`, different screen and function, so fix both in one change.
+20. **`RPT-007`** / **`RPT-008`** — Return the full arrays from `sales-board.ts` with a `total`
+    alongside and render "showing 20 of N"; require `netDue > 0.005` before a promise-based row
+    enters the `/collections` chase list, and clear `promisedPayDate` when a balance reaches zero so
+    the bulk WhatsApp action cannot message someone who has already paid.
+21. **`FIN-003`** — Add payment terms and `dueDate`; derive `Overdue`; age against due date (Q4).
+22. **`FIN-007`** — Backfill receipts, then remove the status-based paid fallback.
+23. **`FIN-010`** — Apply `roundMoney` to `cost` and `price` where `clampNonNeg` already runs, so a
+    price typed as `12.3456789` is stored as the `12.35` the screen shows. Mirror it in the bulk
+    import alongside `IMP-004`, and decide what to do about values already stored at sub-cent
+    precision (rounding them on next write is the least invasive option).
+24. **`FUN-005`** — Reject `NaN`/`Infinity` on the import and programmatic boundaries. The part form
     itself is already guarded, so this is narrower than first thought.
-18aa. **`FUN-006`** — Add the missing `<Outlet />` to `fleet.tsx`. One line, and it restores a whole
+25. **`FUN-006`** — Add the missing `<Outlet />` to `fleet.tsx`. One line, and it restores a whole
     page that is currently written, bundled, and unreachable. Worth doing early precisely because it
     is so cheap relative to the functionality it returns.
-18a. **`CUS-001`** — Refuse to delete a client with unpaid invoices; add an `archived` flag for the
+26. **`CUS-001`** — Refuse to delete a client with unpaid invoices; add an `archived` flag for the
     tidy-up case so the receivable stays on the books. Before shipping, **check production for
     clients already deleted this way** — orphaned invoices are detectable by scanning the documents
     blob for `partyId` values with no matching client.
-18b. **`CUS-002`** — Split create from upsert so a duplicate name prompts instead of overwriting, and
+27. **`CUS-002`** — Split create from upsert so a duplicate name prompts instead of overwriting, and
     stop the Excel importer writing empty contact fields over populated ones.
-18b-i. **`FUN-008`** — Add a `Void` action for quotations and invoices that sets `voidedAt` and a
+28. **`CUS-004`** — Take the cheap half now and leave the rest to a product decision: list the
+    inquiries, pre-orders, and China shipments already attributable to a supplier on that
+    supplier's page, so the record stops being contact details alone and so `CUS-001`'s deletion
+    guard has something to warn about. A true payables balance needs a purchase-document type
+    (§18) and should wait for that answer.
+29. **`FUN-008`** — Add a `Void` action for quotations and invoices that sets `voidedAt` and a
     reason, excludes the document from AR, revenue, and statements, and keeps it listed and numbered.
     Block voiding an invoice that carries payments until those are reversed, and warn about linked
     receipts and credit notes. Delete the unused `removeDocument` or point it at the void path.
     *Sequenced here because it depends on the audit log from Stage 2 to be worth having, but it is a
     genuine functional gap today: a mistaken invoice cannot be taken off the books by any means.*
-18c. **`IMP-004`** — Make the dry run tell the truth. Extract one `normalizePartPatch()` applying the
+30. **`IMP-004`** — Make the dry run tell the truth. Extract one `normalizePartPatch()` applying the
     clamp and rounding rules, and have both the preview and `bulkUpdateParts` call it, so `after` is
     literally what gets stored. Turn an unparseable non-empty cell into a skip with a reason naming
     the column, and strip thousands separators before `Number()` so comma-formatted prices stop being
     silently discarded. *This is the P1 of the import group: the dry run is the only safeguard before
     a bulk write over the whole catalogue, and today it shows values that are not the ones applied.*
-18d. **`IMP-002`** — Group import preview rows by resolved part id so duplicate rows are either summed
+31. **`IMP-002`** — Group import preview rows by resolved part id so duplicate rows are either summed
     or rejected by name, and count distinct parts in the result toast rather than rows. Pair this with
     **`IMP-001`** (delete the unreachable `parseInventoryExcelFile` so there is only one matching rule
     in the codebase), **`IMP-003`** (drop the 30-row preview cap — the container already scrolls),
     **`IMP-005`** (branch on the parse result so an unreadable file says so instead of rendering a
     dead dialog), and **`IMP-006`** (extend the existing >50% confirmation to cover large increases).
     All of these are small and confined to three files.
+32. **`STK-013`** — Add `unit?: string` to `Part`, default it to "pcs", and surface it beside Qty in
+    the form, the table, the export, and the document line; render the storage-location input for
+    every category rather than only o-rings/seals and filters. Schedule this before any move to
+    selling hose by the metre, because retrofitting a unit onto quantities already recorded without
+    one means guessing what each historical number meant.
 
 ### Stage 3b — Customer-facing documents (small, self-contained, high visibility)
 
 These are all in two files and are independent of everything above, so they can ship on their own.
 
-19. **`PDF-005`** — Add the missing page-fit guard to the AR statement's total block. This is the one
+33. **`PDF-005`** — Add the missing page-fit guard to the AR statement's total block. This is the one
     P1 in the group: a customer-facing statement can omit the net due entirely.
-20. **`PDF-007`** — Measure the customer note's real height and paginate it.
-21. **`PDF-006`** / **`PDF-011`** — Honour `maxWidthMm` in `pdfDrawText`'s Latin branch; one fix
+34. **`PDF-007`** — Measure the customer note's real height and paginate it.
+35. **`PDF-006`** / **`PDF-011`** — Honour `maxWidthMm` in `pdfDrawText`'s Latin branch; one fix
     resolves both the overflowing client name and the overflowing reference.
-22. **`PDF-008`** / **`PDF-001`** — Move the document header into `didDrawPage`, extend the footer
+36. **`PDF-008`** / **`PDF-001`** — Move the document header into `didDrawPage`, extend the footer
     loop to the statement builder, and stamp "Page X of Y".
-23. **`PDF-009`** — Remove the 12-entry payment-history cap.
-24. **`PDF-002`** — Add the date and customer to download filenames, including the statement's.
-25. **`PDF-010`** / **`PDF-013`** — Signature area, standing terms (Q13), and column alignment.
-25a. **`PDF-014`** — Size the Arabic canvas from the measured glyph box instead of the
+37. **`PDF-009`** — Remove the 12-entry payment-history cap.
+38. **`PDF-002`** — Add the date and customer to download filenames, including the statement's.
+39. **`PDF-010`** / **`PDF-013`** — Signature area, standing terms (Q13), and column alignment.
+40. **`PDF-014`** — Size the Arabic canvas from the measured glyph box instead of the
     `fontPx × 1.45` heuristic. One function (`renderArabicPng`), and every Arabic document benefits.
-25b. **`PDF-015`** — Stop rasterising Arabic if you can: the Amiri TTF is already in the bundle, so
+41. **`PDF-015`** — Stop rasterising Arabic if you can: the Amiri TTF is already in the bundle, so
     registering it with jsPDF gives selectable Arabic at a fraction of the size, and makes `PDF-014`
     moot. If rasterising stays, drop the redundant solid-colour RGB plane and let jsPDF compress the
     mask.
-25c. **`PRN-001`** — Add a short `@media print` block, or state in the UI that printing goes through
+42. **`PRN-001`** — Add a short `@media print` block, or state in the UI that printing goes through
     *Download PDF*. Either is acceptable; silently printing the sidebar is not.
-25d. **`PDF-016`** — Make the label barcode encode the part number it prints. Add the four missing
+43. **`PDF-016`** — Make the label barcode encode the part number it prints. Add the four missing
     standard Code 39 characters (`$ / + %`) to the table, remove the character filter, and raise or
     drop the 14-character cap that silently truncates 53 catalogue parts. For anything still
     unencodable in Code 39 — `*` is the start/stop guard and genuinely cannot appear in the payload,
@@ -2727,59 +2925,69 @@ generated label for every catalogue part, asserting the payload equals the print
 `UX-002` and `SEC-004` have moved up to Stage 0, since the portal is a P0. What is left here is
 on-screen readability, which is almost all single-line theme or utility-class changes.
 
-26a. **`UX-005`** / **`UX-006`** / **`UX-011`** — Darken the accent colour used for money and stock
+44. **`UX-005`** / **`UX-006`** / **`UX-011`** — Darken the accent colour used for money and stock
     figures to reach 4.5:1, raise border tokens to 3:1, and give the focus ring its own high-contrast
     colour at a consistent 2 px. These are token edits in one theme file and fix the largest number
     of measured samples per line changed.
-26b. **`UX-003`** — Replace `overflow-x: clip` with `auto` on the scroll containers. `clip` is what
+45. **`UX-003`** — Replace `overflow-x: clip` with `auto` on the scroll containers. `clip` is what
     makes 230 px of `/stock-map` and 237 px of the dashboard permanently unreachable at phone width
     rather than merely off-screen. Scope this to the three measured route/width cases; the other 57
     clipping samples are intentional `truncate` ellipsis and should be left alone.
-26c. **`UX-004`** / **`UX-008`** — Move the table un-stack breakpoint above 768 px, and keep column
+46. **`UX-004`** / **`UX-008`** — Move the table un-stack breakpoint above 768 px, and keep column
     labels in the stacked view. This, not `UX-003`, is what makes `/documents` unusable on a tablet.
-26d. **`UX-007`** — Give form validation an inline message, `aria-invalid`, and focus movement, rather
+47. **`UX-007`** — Give form validation an inline message, `aria-invalid`, and focus movement, rather
     than a toast that disappears. This is the one item in this stage that is more than a token change,
     and it is also the one that most affects daily data entry. Fold in **`FUN-007`** while you are
     there: an `isSubmitting` guard on the same dialogs stops three clicks producing three success
     messages.
-26e. **`UX-009`** / **`UX-018`** — Add a skip link and make the backup reminder dismissible, which
+48. **`UX-009`** / **`UX-018`** — Add a skip link and make the backup reminder dismissible, which
     together remove most of the 23 tab stops standing before the first in-content control.
-26f. **`STK-010`** / **`STK-009`** — Route the inline quantity cell through the same validation the
+49. **`STK-010`** / **`STK-009`** — Route the inline quantity cell through the same validation the
     Add/Edit dialog already gets right, so negative and non-numeric input is rejected with a visible
     message rather than silently discarded, and so a fraction resolves the same way in both controls.
-26g. **`STK-011`** / **`STK-012`** — Require a full-token match before a part enters the search
+50. **`STK-011`** / **`STK-012`** — Require a full-token match before a part enters the search
     results and label the 500-row cap honestly; make the inventory column headers real `<th>`
     buttons that sort, for every category rather than only O-Rings.
-26h. **`UX-019`** — Give `/fleet` a primary action in its empty state.
-26i. **`CUS-003`** — Keep the phone number as the operator typed it and derive the `wa.me` digits at
+51. **`UX-019`** — Give `/fleet` a primary action in its empty state.
+52. **`CUS-003`** — Keep the phone number as the operator typed it and derive the `wa.me` digits at
     the point each link is built, which is what three of the four call sites already do.
+53. **`UX-022`** — Route the document editor's `onOpenChange(false)` through the `confirmAction`
+    component the app already uses correctly for deletes, so Escape on a part-built quotation
+    prompts instead of discarding. Cheap, and it removes the only way to lose counter work that
+    the operator can see happening.
 
 *Verify:* re-run the measurement pass from §12 at 375 / 768 / 1440 px and confirm the contrast ratios,
 the reachable width on `/stock-map` and the dashboard, and the tab-stop count before first content.
 
 ### Stage 4 — Quality gates (cheap, prevents regression)
 
-27. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
-28. Run `npm run format` once to clear 977 formatting errors, then enforce it.
-29. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
-30. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
-31. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
+54. **`BLD-001`** — Add a `typecheck` script and fix the `delivery-board.tsx` error (`FUN-004`).
+55. Run `npm run format` once to clear 977 formatting errors, then enforce it.
+56. **`PERF-004`** — Fix the 35 `exhaustive-deps` warnings, starting with the six context files.
+57. **Add CI** running typecheck, lint, and tests. Nothing is currently enforced.
+58. **`DEP-002`** — Resync `package-lock.json` so `npm ci` works; resolve the `@zxing` Node-24 engine
     requirement.
-32. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
+59. **`DEP-001`** — Patch the six fixable advisories; decide on `xlsx`, which has no fix and parses
     untrusted files.
 
 ### Stage 5 — Close the remaining verification gaps
 
-33. Most of what this stage originally called for has since been done: the interactive CRUD
-    edge-case matrix, Arabic PDF rendering, browser print output, XSS in the DOM, offline and
-    reconnect, runtime timings, and the dashboard reconciliation are all now measured (§17). What
-    remains genuinely needs hardware or a live environment — physical paper margins, barcode
-    scanning, label printing, photo upload, WebAuthn, the Web Share Target, and a screen-reader
-    pass. Schedule those against a real device before committing to Stage 6.
+60. Nearly everything this stage originally called for has since been done. Twenty-seven items that
+    were once listed as unverified are now measured: the interactive CRUD edge-case matrix, Arabic
+    PDF rendering, browser print output, XSS in the DOM, offline and reconnect, runtime timings, the
+    dashboard reconciliation, real `.xlsx` uploads, the accessibility tree, WebAuthn against a
+    virtual authenticator, a write failed in flight, long-session memory, the payment and document
+    editors, and the four report screens reconciled against their own records (§17). **Six items
+    remain**, and each needs something this environment does not have: physical paper and a printer,
+    a barcode scanner, a real storage bucket, an installed PWA for the Web Share Target, a screen
+    reader, and a session long enough to be more than a proxy. A seventh — two full browsers racing
+    each other through the UI — is worth adding to that list, because the merge race behind `FIN-008`
+    was driven one level below the interface. Schedule these against real devices before committing
+    to Stage 6, since Stage 6 changes the data layer all of them sit on.
 
 ### Stage 6 — The architectural decision (largest change; needs your call)
 
-34. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
+61. **`PERF-002` / `PERF-003` / `DAT-001`** — Decide whether to normalise `documents` and `inventory`
     into real tables with foreign keys, unique constraints, indexes, transactions, and pagination.
     The measurement that makes this concrete: one navigation to `/inventory` costs **11 whole-blob
     reads over 10 keys**, so the cost of opening any page already scales with total business history
@@ -2848,16 +3056,18 @@ each; money and status logic verified by harness.
 | Credit note / return → stock and balance | ✅ Source-verified; **1 defect** (`FIN-002` residue) |
 | Stock deduction and restoration | ✅ Source-verified; **2 P0** (`STK-001`, `STK-002`) |
 | Multi-device merge and conflict resolution | ✅ Runtime-verified with a genuine two-writer race; **1 P0 + 1 P2** (`FIN-008`, `FIN-009`) |
-| Document lifecycle (create, edit, convert, delete) | ✅ Runtime-verified through the real dialogs; create/edit/convert correct, **deletion does not exist** (`FUN-008`, P1) |
+| Document lifecycle (create, edit, convert, delete) | ✅ Runtime-verified through the real dialogs; create/edit/convert correct, **deletion does not exist** (`FUN-008`, P1), and cancelling discards without asking (`UX-022`) |
 | Operator unlock | ✅ Runtime-verified through the real UI; **1 P0** (`SEC-001`) |
 | Client portal | ✅ Runtime-verified locally **and on production**; **completely broken** (`UX-002`) plus `SEC-004` |
-| Dashboard and report calculations | ✅ Formulas documented (§11); **3 defects** (`RPT-001`…`003`) |
+| Dashboard and report calculations | ✅ Formulas documented (§11) and every figure on the dashboard, `/insights`, `/daily-close`, `/collections`, `/reorder`, and `/low-stock` reconciled against an independent recomputation; **7 defects** (`RPT-001`…`003`, `RPT-005`…`008`), `/daily-close` correct throughout |
+| Exports (Excel, CSV) | ✅ Captured from the running app and compared row for row against the screen — inventory 2,404 rows / 14 columns and the reorder CSV both match |
+| Supplier records | ✅ Runtime-verified; contact details only — **no balance, history, or payables exist** (`CUS-004`) |
 | PDF generation | ✅ Rendered and measured (§13), now including the packing slip, part label, and Z-report; **14 defects** |
 | Import / export | ✅ Driven with real `.xlsx` uploads through the actual dialog (§8); 7 behaviours correct, **1 P1 + 2 P2 + 3 P3** (`IMP-001`…`006`) |
 | Offline behaviour and recovery | ✅ Runtime-verified, including a write failed in flight; the banner is correct but **both recovery paths destroy the edit** (`SYN-001`, P0) |
 | Biometric unlock (WebAuthn) | ✅ Runtime-verified against a virtual authenticator — enrol, unlock, counter tracking, and replay refusal all correct |
 | Share target | ⚠️ Source-verified; needs an installed PWA to exercise |
-| Responsive layout, contrast, keyboard, modals | ✅ Runtime-measured at 3 widths (§12); **20 findings**, 12 behaviours verified correct |
+| Responsive layout, contrast, keyboard, modals | ✅ Runtime-measured at 3 widths (§12); **22 findings**, 12 behaviours verified correct |
 | Accessibility tree | ✅ Full Chrome AX tree captured on 7 routes; 0 unnamed controls, `h1` + `main` everywhere, focus visibility confirmed by pixel diff |
 | Long-session memory | ✅ 48 navigations + 6 dialog cycles; no leak indicated |
 
@@ -2868,12 +3078,12 @@ each; money and status logic verified by harness.
 | 1 — Project understanding | ✅ Complete |
 | 2 — Technical verification | ✅ Complete |
 | 3 — Feature testing | ✅ Complete — logic verified by harness; dialogs, validation, confirmations, offline/reconnect, duplicate submit, refresh-after-save, back/forward, and the full numeric edge-case matrix all driven in a real browser |
-| 4 — Inventory | ✅ Complete — 11 findings including import/export; both numeric editing paths driven, negative input confirmed rejected by the form and silently discarded by the inline editor |
+| 4 — Inventory | ✅ Complete — 13 stock findings plus the 6 import/export ones; both numeric editing paths driven, negative input confirmed rejected by the form and silently discarded by the inline editor, and the part form's field list captured from the live DOM (`STK-013`, `FIN-010`) |
 | 5 — Quotations | ✅ Complete — create, edit, discounts, persistence, and conversion all driven through the real dialogs; 4 findings plus `FUN-008` |
 | 6 — Invoices and payments | ✅ Complete — the payment dialog's full matrix and a genuine two-device race driven at runtime; 9 findings, 2 of them P0 |
-| 7 — Customers and suppliers | ✅ Complete — create, edit, email validation, and search driven at runtime; delete protection and duplicate handling verified (`CUS-001`, `CUS-002`, `CUS-003`) |
-| 8 — Reports and dashboard | ✅ Complete — all formulas documented and every rendered KPI reconciled by hand against seeded records, which produced `RPT-002` |
-| 9 — Design and UX | ✅ Complete — 79 measured samples, 83 screenshots, 20 findings, 12 verified-correct behaviours; overflow re-measured across 21 routes × 3 widths |
+| 7 — Customers and suppliers | ✅ Complete — create, edit, email validation, and search driven at runtime; delete protection and duplicate handling verified (`CUS-001`…`CUS-003`). The supplier side is the weaker half and the audit says so: it holds contact details and nothing else (`CUS-004`) |
+| 8 — Reports and dashboard | ✅ Complete — all formulas documented, and every rendered figure on the dashboard and on `/insights`, `/daily-close`, `/collections`, `/reorder`, and `/low-stock` reconciled against an independent recomputation from the same records. That reconciliation produced `RPT-002`, `RPT-005`, `RPT-006`, `RPT-007`, and `RPT-008`, and cleared `/daily-close` and the exports |
+| 9 — Design and UX | ✅ Complete — 79 measured samples, 83 screenshots, 22 findings, 12 verified-correct behaviours; overflow re-measured across 21 routes × 3 widths |
 | 10 — Printing and PDF | ✅ Complete — every document type rendered and measured, including the packing slip, part label, and Z-report; Arabic rasters decoded; label barcode decoded back to characters (`PDF-016`); only physical paper margins remain unverified |
 | 11 — Security | ✅ Complete — 8 findings, 2 confirmed by live probe, 11 controls verified sound, stored XSS confirmed inert in the DOM, WebAuthn exercised end to end against a virtual authenticator including a refused replay |
 | 12 — Performance and reliability | ✅ Complete — build and architecture analysed; page-load, search latency, long-session memory, and a write failed mid-flight all measured against a 2,344-part catalogue. The mid-flight test produced `SYN-001`, the pass's only P0 |
@@ -2910,6 +3120,7 @@ each; money and status logic verified by harness.
 | `PDF-016` | P1 | Labels | The printed barcode encodes a different part number than the text beside it, for 229 of 1,760 catalogue parts; the app's own scanner cannot resolve it |
 | `IMP-004` | P1 | Import | The dry run states values that are not the ones applied, and comma-formatted prices are silently discarded |
 | `FUN-008` | P1 | Documents | Nothing in the app can delete or void a document; `removeDocument` is exported and never called |
+| `RPT-006` | P1 | Reports | `/reorder` presents a hard cap of 24 as a count — 24 parts offered where 171 were at or below their reorder point, and the CSV and WhatsApp PO inherit it |
 | `FIN-004` | P2 | Money | Two different subtotal definitions (0.12 vs 0.06 demonstrated) |
 | `FIN-005` | P2 | Money | Tax hardcoded to 0; no VAT configuration |
 | `FIN-006` | P2 | Money | Currency effectively hardcoded to USD |
@@ -2920,6 +3131,7 @@ each; money and status logic verified by harness.
 | `FUN-005` | P2 | Global | `NaN`/`Infinity` silently coerced to 0 on import and programmatic paths (the part form itself is guarded) |
 | `FUN-007` | P2 | Forms | Three rapid Create clicks create one part but show three success toasts (Add-part dialog only; the invoice form is clean) |
 | `FIN-009` | P2 | Payments | The merge's payment-healing code cannot run, and its unit test passes through a `{documents: […]}` shape the app never stores |
+| `FIN-010` | P2 | Money | Prices and costs are stored at sub-cent precision and displayed rounded — `12.3456789` stored, `12.35` shown, line totals computed from the former |
 | `QUO-001` | P1 | Quotations | No expiry date, so `Expired` cannot exist |
 | `QUO-002` | P2 | Quotations | Status set does not cover the lifecycle |
 | `QUO-003` | P2 | Quotations | Quotations never reserve stock, with no warning |
@@ -2932,6 +3144,8 @@ each; money and status logic verified by harness.
 | `IMP-005` | P2 | Import | An unreadable workbook produces no error at all — the catch is unreachable because `XLSX.read` does not throw |
 | `RPT-003` | P2 | Reports | Revenue grouped by client name, not id |
 | `RPT-004` | P2 | Reports | Date handling mixes local-time bucketing with raw string slicing |
+| `RPT-005` | P2 | Reports | The `/insights` sales board reports revenue gross of document discounts — $130.00 shown against $117.00 invoiced, with margin overstated by 29% |
+| `CUS-004` | P2 | Suppliers | A supplier is contact details only — no payables balance, no purchase history, and no link to the inquiries or shipments raised against them |
 | `SEC-004` | P2 | Portal | Tokens in query params; expiry fails open; `Math.random()` fallback |
 | `SEC-005` | P2 | Storage | `part-photos` bucket world-readable |
 | `SEC-006` | P2 | Secrets | Third-party password in plaintext browser storage |
@@ -2969,6 +3183,9 @@ each; money and status logic verified by harness.
 | `UX-019` | P3 | UX | `/fleet` has no create action at all (corrected: `/china-shipments` does, and was wrongly listed here in the first pass) |
 | `UX-020` | P3 | UX | No skeleton or spinner anywhere after unlock |
 | `UX-021` | P3 | Performance | Public portal downloads inventory, cart, and PDF modules — 34 asset requests |
+| `UX-022` | P3 | UX | Escape discards a part-written document with no confirmation and no draft to return to |
+| `RPT-007` | P3 | Reports | `/insights` dead stock is capped at 20 rows, and top movers and margin winners at 15, with none of the three caps disclosed |
+| `RPT-008` | P3 | Reports | `/collections` lists clients who owe nothing as "Promise broken", and the bulk WhatsApp button will chase them |
 | `PDF-003` | P3 | PDF | Three near-duplicate PDF total blocks |
 | `PDF-004` | P3 | PDF | 709 KB of base64 assets in source |
 | `PDF-010` | P3 | PDF | No signature area and no standing terms block |
@@ -2981,6 +3198,7 @@ each; money and status logic verified by harness.
 | `STK-010` | P3 | Inventory | The inline quantity editor discards negative and invalid input with no message (the Add/Edit dialog correctly rejects it) |
 | `STK-011` | P3 | Inventory | Search reports a 500-row cap as if it were the match count; `HOSE-1/2` shows "500 of 2344" for one real match |
 | `STK-012` | P3 | Inventory | No `<th>`, no `aria-sort`, no clickable headers — the catalogue cannot be sorted by Qty, Cost, Price, or Code |
+| `STK-013` | P3 | Inventory | No unit of measure on a part, and the storage-location input renders for only two of the categories |
 | `IMP-001` | P3 | Import | Dead `parseInventoryExcelFile` truncates part codes at separators — unreachable, so latent |
 | `IMP-003` | P3 | Import | Import dry run lists only the first 30 rows, with no "30 of N" disclosure |
 | `IMP-006` | P3 | Import | No upper bound on imported quantity, cost, or price; the >50% guard checks drops only |
