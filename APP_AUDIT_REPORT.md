@@ -1,7 +1,7 @@
 # Parts Village — Full Application Audit Report
 
 **Audit type:** Read-only audit. No application code, schema, or production data was modified.
-**Audit date:** 2026-09-06, with a second runtime pass on 2026-09-17
+**Audit date:** 2026-09-06, with a second runtime pass on 2026-09-17 and a third on 2026-09-21
 **Commit audited:** `08f2a09` ("Remove all Kafu supplier, catalog leftovers, and data files.")
 **Branch:** `cursor/full-application-audit-33f7`
 **Live deployment:** https://partsvillageapp.vercel.app
@@ -13,13 +13,23 @@
 > `package-lock.json`, `src/routeTree.gen.ts`, and all application code are byte-for-byte unchanged —
 > `git diff` between the merge base and this branch touches nothing but the two report files.
 
-> **Two passes are recorded here.** The first pass established the findings. The second closed the
+> **Three passes are recorded here.** The first established the findings. The second closed the
 > items it had to leave open — Arabic PDF rendering, browser print, the inventory form's full
 > numeric and duplicate-submit matrix, XSS in the DOM, the dashboard reconciliation,
 > `/fleet/$machineId`, `/china-shipments`, offline-and-reconnect, and runtime timings — and in doing
-> so it **corrected five earlier findings**, two upward and three downward. Every correction is
-> stated in place rather than quietly edited, so the reasoning is auditable. See §17 for the full
-> before/after list.
+> so it **corrected five earlier findings**, two upward and three downward.
+>
+> The third pass closed the remaining `NOT VERIFIED` items that were testable at all: the packing
+> slip, part label, and Z-report PDFs; real `.xlsx` uploads through the import dialog; the full
+> accessibility tree on seven routes; WebAuthn against a virtual authenticator; a write failed
+> while in flight; memory across a long session; the payment, quotation, invoice, and client forms
+> driven to completion; and a genuine two-device payment race. It added **nine findings** — two P0
+> (`SYN-001`, `FIN-008`), three P1 (`PDF-016`, `IMP-004`, `FUN-008`), two P2 and two P3 — and
+> **corrected three earlier results**. Two of those corrections matter: offline-and-reconnect was
+> recorded in pass two as working, and it works only if the operator keeps editing; and `FIN-001`,
+> the highest-severity finding in the report, named the wrong code path in both earlier passes.
+> Every correction is stated in place rather than quietly edited, so the reasoning is auditable.
+> See §17 for the full before/after list.
 
 ---
 
@@ -35,7 +45,7 @@ correct (Row Level Security is properly locked to an operator role, no server se
 client bundle, the inventory table is virtualised, and reverting a paid invoice is properly
 blocked).
 
-However, the audit found **six P0 issues** that put financial and stock data at risk, and the root
+However, the audit found **eight P0 issues** that put financial and stock data at risk, and the root
 cause of most of them is architectural: **the application does not use a relational database.**
 All business data lives in twelve giant JSONB rows in a single `shop_state` table. The whole
 dataset is loaded into the browser, mutated in React state, and written back as a whole blob. There
@@ -50,17 +60,21 @@ by reading it:
    `X-Forwarded-For` header on each request. I demonstrated 12 consecutive failed PIN attempts with
    zero throttling, then successful entry — against a control run that correctly locked out after 4
    attempts from a fixed IP. The PIN is the only thing protecting all business data. (`SEC-001`)
-2. **Recorded payments can be silently erased.** A merge function recomputes every invoice's
-   `amountPaid` from linked receipt documents and overwrites whatever was there. Running the app's
-   real function over seeded data flipped a fully-paid invoice to `amountPaid: 0, status: "Unpaid"`,
-   permanently and without warning. (`FIN-001`)
+2. **Recorded payments can be silently erased, and incoming ones silently ignored.** Deleting a
+   receipt does not subtract that receipt — it overwrites the invoice's `amountPaid` with the sum of
+   whatever receipts remain, so any paid amount not backed by a receipt document is destroyed.
+   Driven through the app's own Delete button: an invoice at **$125 paid dropped to $0 and `Unpaid`
+   on deleting a $25 receipt**, while the confirmation dialog promised it would put $25.00 back on
+   the balance. Separately, when two devices take payments at once the merge keeps both receipts but
+   credits only one: **$65 of receipts against an invoice recording $40 paid**. (`FIN-001`,
+   `FIN-008`)
 3. **Stock is deducted before the quotation→invoice conversion commits, and is never rolled back
    if the conversion fails.** A repeated or concurrent conversion deducts stock twice while creating
    only one invoice. Combined with `STK-002` — there is **no stock movement audit trail anywhere in
    the codebase** across 14 stock-mutation call sites — a wrong quantity is undetectable and
    untraceable after the fact. (`STK-001`, `STK-002`)
 
-The sixth P0 is the one a customer sees first. **The client portal is completely broken** — the only
+The next P0 is the one a customer sees first. **The client portal is completely broken** — the only
 page this business shares with the outside world crashes on every load and shows the customer a raw
 React error, `useCart must be used within CartProvider`. This was raised to P0 in the second runtime
 pass after confirming it three ways: on the live deployment, in the local build at all three
@@ -68,19 +82,42 @@ viewport widths, and in the server log, which throws the same error during serve
 before any HTML reaches the browser. There is no partial degradation and no fallback — the page is
 unusable, and it leaks an internal stack trace to whoever opens the link. (`UX-002`)
 
+The last P0 was found in the third pass, and it is the one most likely to be met on an ordinary
+day. **When a save fails, the app tells the operator the edit is "saved offline; will sync when
+connection returns" — and then destroys it.** Pressing the app's own *Retry sync* button re-reads
+the server and overwrites the pending edit; reloading the tab does the same, because the pending
+queue is an in-memory `Map` that does not survive a refresh. Driven against the running app on one
+part with a known starting quantity of 4444: an edit to 5,555 was reverted to 4,444 by *Retry sync*,
+and an edit to 6,666 was reverted to 4,444 by a reload. The only path that preserves the change is
+to carry on editing the same data, which works by accident rather than by design. A false assurance
+of durability is worse than an honest failure, because the operator stops watching. (`SYN-001`)
+
 One further finding is worth surfacing here because it also affects what customers see.
 **The account statement can print the "Net due" figure off the bottom of the page.** The number is
 computed correctly and displayed correctly on screen; the PDF simply draws it past the paper edge, so
 the customer gets a statement listing what they were invoiced with no indication of what they owe.
 Rendering the app's real PDF code across 350 statement shapes found 8 that do this. (`PDF-005`)
 
-**One correction to record, because it changes a headline.** An earlier pass of this audit reported a
-sixth P0: that exporting inventory to Excel and re-importing it overwrites the wrong part, because
-part codes are truncated at the first `/`. That truncation is real, but it lives in
-`parseInventoryExcelFile`, which is **exported and never called anywhere in the application**. The
-live Upload-Excel path (`ExcelImportDialog` → `buildInventoryImportPreview`) matches part codes
-exactly and round-trips the app's own export file correctly. The finding is retained as `IMP-001` at
-**P3** — a latent trap in dead code, not a live data-corruption bug. See §8.
+**Two corrections to record, because each changes a headline.**
+
+The first concerns `FIN-001` itself, the highest-severity finding in this report. The first two
+passes said payments are erased during a **multi-device merge**, on the strength of running the
+merge's healing function directly. Driving the running app found no erasure on any merge — because
+that function never executes. `mergeShopStateValue` heals its array branch only when it is handed a
+`fieldKey` of `"documents"`, and the two call sites in `cloud-store.ts` pass no `fieldKey` at all;
+the object branch that would otherwise catch it needs a wrapper shape the `documents` row does not
+have. So the protection is dead code, and the project's own unit test passes only because it
+constructs that wrapper shape by hand (`FIN-009`). Searching for where the erasure *does* happen
+found it in **receipt deletion**, on a single device with no concurrency involved — which makes it
+easier to hit than originally described, not harder. `FIN-001` stays P0 with a corrected code path,
+and the absence of healing turned out to be a second P0 in its own right (`FIN-008`).
+
+The second: an earlier pass reported a P0 that exporting inventory to Excel and re-importing it
+overwrites the wrong part, because part codes are truncated at the first `/`. That truncation is
+real, but it lives in `parseInventoryExcelFile`, which is **exported and never called anywhere in
+the application**. The live Upload-Excel path (`ExcelImportDialog` → `buildInventoryImportPreview`)
+matches part codes exactly and round-trips the app's own export file correctly. The finding is
+retained as `IMP-001` at **P3** — a latent trap in dead code, not a live data-corruption bug. See §8.
 
 **Recommendation.** Do not treat this as a list of bugs to patch individually. Fix the contained P0s
 first (they are small, local changes), then decide on the architectural question in §18, because
@@ -91,11 +128,11 @@ until that is addressed.
 
 | Priority | Count | Meaning |
 |---|---|---|
-| **P0 — Critical** | 6 | Data loss, major security exposure, or incorrect financial/stock data |
-| **P1 — High** | 16 | Core feature broken or serious business risk |
-| **P2 — Medium** | 43 | Important defect with a workaround |
-| **P3 — Low** | 32 | Minor defect, visual inconsistency, or improvement |
-| **Total** | **97** | Plus 11 controls verified sound (§14), 5 verified-correct stock behaviours, 6 verified-correct search behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table (§12), and a much shorter `NOT VERIFIED` list (§17) |
+| **P0 — Critical** | 8 | Data loss, major security exposure, or incorrect financial/stock data |
+| **P1 — High** | 19 | Core feature broken or serious business risk |
+| **P2 — Medium** | 45 | Important defect with a workaround |
+| **P3 — Low** | 34 | Minor defect, visual inconsistency, or improvement |
+| **Total** | **106** | Plus 11 controls verified sound and a 7-row verified WebAuthn table (§14), 5 verified-correct stock behaviours, 6 verified-correct search behaviours and 7 verified-correct import behaviours (§8), a verified-correct numeric-validation table (§6), a 10-row verified-correct PDF table, a 3-row verified document-output table and a 6-row verified-correct Arabic table (§13), a 12-row verified-correct design/UX table plus a 7-route accessibility-tree table (§12), and a much shorter `NOT VERIFIED` list (§17) |
 
 Note that the count is not a measure of quality on its own: 977 of the 985 lint errors are pure
 formatting, and roughly a third of the P2 findings are consequences of the single architectural
@@ -103,10 +140,11 @@ decision described in `DAT-001`. Several findings also record things that work: 
 the PDF total agree exactly across every discount scenario tested, stock quantities cannot be driven
 negative through either editing path, oversell is deliberately tracked rather than lost, the Add/Edit
 part form correctly rejects negative and non-numeric input with a clear message, the stored XSS
-payload is inert in the DOM on every route tested, an edit made while offline survives and flushes
-correctly on reconnect, search over 2,344 parts stays under 62 ms, Arabic renders in PDFs with
-correct shaping and right-to-left order, and the modal dialogs correctly trap focus, close on
-Escape, and label every field.
+payload is inert in the DOM on every route tested, search over 2,344 parts stays under 62 ms,
+Arabic renders in PDFs with correct shaping and right-to-left order, the modal dialogs correctly
+trap focus, close on Escape, and label every field, Face ID enrolment and unlock work end to end
+with a captured assertion correctly refused on replay, every interactive control on seven routes
+exposes an accessible name, and 48 navigations produced no memory leak.
 
 ---
 
@@ -458,11 +496,39 @@ statements, authentication, rate limiting, the portal, or PDF totals.
   "Added" confirmations for one part invites the operator to go looking for duplicates that do not
   exist. The same missing in-flight guard is what makes `STK-001`'s double-convert reachable, where
   the consequences *are* financial.
-- **Relevant files:** `src/components/app/part-detail-dialog.tsx` (submit handler), and the shared
-  dialog pattern used by the other create forms.
+- **Relevant files:** `src/components/app/part-detail-dialog.tsx` (submit handler).
+- **Scope narrowed in the third runtime pass.** The second pass assumed the other create dialogs
+  shared the pattern. They do not: three rapid clicks on *Create invoice* produced **one** invoice
+  and **zero** duplicate toasts, so the invoice form is clean and this finding is specific to the
+  Add-part dialog. `STK-001`'s double-convert remains reachable for its own reason — stock is
+  deducted before the conversion commits — not because of this toast defect.
 - **Recommended fix:** Track an `isSubmitting` flag, disable the primary button while it is set, and
   return early on re-entry.
 - **Regression test:** Assert that three synchronous Create clicks yield one record **and** one toast.
+
+### `FUN-008` · **P1** · Documents — nothing in the application can delete or void a document
+
+*Found in the third runtime pass.*
+
+- **Page/feature:** `/documents` — quotations, invoices, credit notes, supplier inquiries.
+- **Description:** Every document row offers the same actions, and none of them removes anything. The context exposes a `removeDocument(id)` function, and **no component in the codebase calls it**. The only delete in the documents UI is *Delete receipt*, which removes a payment, not a document.
+- **Actual** — the full action set the app offers, read off the live row menus:
+
+  | Document | Actions offered |
+  |---|---|
+  | Quotation | Edit · Convert to invoice · Share PDF · Download |
+  | Invoice | Packing slip · Edit · Revert to quotation · Return parts · Share PDF · Download |
+
+  A quotation raised by mistake can only be edited or converted. An invoice raised against the wrong
+  customer, or for the wrong amount, can be edited but never cancelled — and once it carries a
+  payment, a receipt, or a credit note, *Revert to quotation* is refused too, so it is permanent.
+- **Expected:** A mistaken document can be voided, with the void recorded rather than the row erased, and with a warning about what it is linked to.
+- **Evidence:** `src/components/app/documents-context.tsx:324,431-434,1733,1756` — `removeDocument` is declared, implemented, and exported on the context value, and a repository-wide search for a call site returns nothing. The only `Delete` in `src/routes/documents.tsx` is the receipt delete at `:895-916` and `:940-956`. Row menus captured at runtime: `/tmp/pv-audit3/results/quotation2.json`.
+- **Reproduction:** Open `/documents`, create a quotation, then open its row menu. There is no delete. Convert it to an invoice and open that row menu. There is no delete there either.
+- **Business impact:** Errors are permanent and visible forever. A wrong invoice keeps inflating accounts receivable, the dashboard revenue cards, and the customer's statement, with no way to take it off the books — the only workaround is to edit it down to zero, which leaves a $0.00 invoice in the customer's history and still no record of why. Combined with `QUO-002` (no `Cancelled` or `Void` status exists) there is no correct way to represent a cancelled sale at all. `FUN-001` compounds it from the other side: conversion deletes the quotation automatically, so the app deletes documents the operator did not ask it to and refuses to delete the ones they do.
+- **Relevant files:** `src/components/app/documents-context.tsx`, `src/routes/documents.tsx`, `src/routes/clients.$clientId.tsx`.
+- **Recommended fix:** Add a `Void` action that sets a `voidedAt` / `voidReason` and excludes the document from AR, revenue, and statements while keeping it visible and numbered. Warn about linked receipts and credit notes before voiding, and block voiding an invoice that has payments until those are reversed. Delete `removeDocument` or wire it to the void path, so the dead API stops implying the capability exists.
+- **Regression test:** Assert a voided invoice disappears from AR totals, the dashboard cards, and the client statement while remaining listed in `/documents`; assert voiding an invoice with receipts is refused.
 
 ### `CUS-001` · P1 · Customers — deleting a client hides money they still owe
 
@@ -497,6 +563,20 @@ statements, authentication, rate limiting, the portal, or PDF totals.
 - **Relevant files:** `src/components/app/parties-context.tsx`, `src/components/app/quotation-excel-import-dialog.tsx`, `src/components/app/party-form-dialog.tsx`.
 - **Recommended fix:** Split "create" from "upsert". Have `addClient` refuse an existing name and return the match so the caller can prompt; give the importer an explicit `findOrCreateClient` that never writes empty fields over populated ones.
 - **Regression test:** Assert that `addClient({ name: "alpha earthmoving" })` against an existing "Alpha Earthmoving" with a phone number leaves the phone number intact.
+
+### `CUS-003` · P3 · Customers — the phone number the operator types is replaced with an unformatted digit string
+
+*Found in the third runtime pass.*
+
+- **Page/feature:** Add / edit client and supplier (`party-form-dialog`), and every screen that displays a party's phone.
+- **Description:** The form stores the output of `normalizePhoneE164`, which is not E.164 — it strips the `+`, all spaces, and all punctuation, because its real job is to build `wa.me/<digits>` links. That wa.me-shaped string is then what the record holds and what every screen renders.
+- **Actual:** Typed `+961 3 424 242` into the Phone field and saved. Stored value: `9613424242`. The clients list, the client detail header, and the party picker all display `9613424242`. The error message shown when the field is invalid asks for *"a valid mobile with country code (e.g. +961 71 000 000)"* — the exact format the app then refuses to keep.
+- **Expected:** Keep the operator's input (or a consistently formatted version of it) for display, and derive the digit string only where a `wa.me` URL is being built.
+- **Evidence:** `src/components/app/party-form-dialog.tsx:90-99` assigns `phone = normalizePhoneE164(phoneRaw)` into the payload; `src/lib/phone.ts` and its own tests confirm the `+` is dropped (`normalizePhoneE164("+96171000000") === "96171000000"`); `src/components/app/parties-context.tsx:123` stores it verbatim. Runtime: `/tmp/pv-audit3/results/phone.json`.
+- **Business impact:** Cosmetic, but it degrades the thing operators read aloud and dial. A ten-digit run with no country-code separator is harder to read back to a customer and harder to scan in a list, and it silently discards deliberate formatting. Nothing is lost that cannot be reconstructed.
+- **Relevant files:** `src/components/app/party-form-dialog.tsx`, `src/lib/phone.ts`, `src/components/app/parties-context.tsx`.
+- **Recommended fix:** Store the entered value in `phone`, validate it with `normalizePhoneE164`, and keep the normalised digits in a separate derived field (or compute them at the point each `wa.me` link is built, which is what `ar-statement.ts`, `document-export.ts`, and `daily-digest.ts` already do).
+- **Regression test:** Save `+961 3 424 242` and assert the client list renders it as typed while the WhatsApp link still resolves to `wa.me/9613424242`.
 
 ### `FUN-006` · **P1** · `/fleet/$machineId` — the machine-history page can never render
 
@@ -851,9 +931,63 @@ applies.
 - **Recommended fix:** Remove the `.slice(0, 30)` — the list already scrolls — or add the count disclosure.
 - **Regression test:** Assert every preview row is reachable, or that the disclosure names the true total.
 
+### `IMP-004` · **P1** · Inventory import — the dry run states values that are not the ones applied
+
+- **Page/feature:** `/inventory` → *More* → *Upload Excel* → the "Dry run" panel → *Apply import*.
+- **Description:** The preview is computed by `buildInventoryImportPreview`, which reports `after = value ?? existing`; the write is performed by `bulkUpdateParts`, which independently clamps with `Math.max(0, …)` and rounds with `Math.round`. The two never consult each other, so the panel the operator approves is not a statement of what will happen. The row count disagrees too: the preview counts every matched row, while the write skips rows whose fields are all unparseable.
+- **Actual behaviour** — real `.xlsx` files uploaded through the dialog with `DOM.setFileInputFiles`, then the resulting overrides read back out of the store:
+
+  | Sheet row | Dry run promised | Actually written | |
+  |---|---|---|---|
+  | `AS568-012`, qty `-5`, cost `-3`, price `-1` | `qty 0→-5 · cost 0→-3 · price 0→-1` | `quantity 0, cost 0, price 0` | clamped, not as shown |
+  | `AS568-015`, qty `2.7` | `qty 3→2.7` | `quantity 3` | rounded, not as shown |
+  | `AS568-013`, qty `abc`, cost `n/a`, price `1,234.56` | listed as an **UPDATE** | no override written at all | counted but not applied |
+  | — summary — | `6 updates · 0 new parts · 1 skipped` | toast: `5 updated · 0 created · 1 skipped` | count disagrees |
+- **The comma case is the one that will bite.** `Number("1,234.56")` is `NaN`, so `toNum` returns `undefined` and the price is left untouched. The row is still presented as an UPDATE with `price 0→0`, so nothing signals that the price column was discarded. Any supplier sheet using thousands separators — the default in Excel for most locales — imports its quantities and silently keeps the old prices.
+- **Expected:** The preview is generated by the same function that performs the write, so `after` is literally what will be stored; unparseable cells are reported as skips with a reason naming the column; and the summary count matches the toast.
+- **Evidence:** `src/lib/inventory-import.ts:101-105` (`after = quantity ?? existing.quantity`, unclamped and unrounded) versus `src/components/app/inventory-context.tsx:436-447` (`Math.max(0, Math.round(u.quantity))`); `:448` (`if (Object.keys(patch).length === 0) continue;` — the row that makes 6 become 5); `src/lib/inventory-import.ts:150-154` (`toNum` returns `undefined` for `NaN`). Harness: `/tmp/pv-audit3/results/import2.json`, `import3.json`; fixtures in `/tmp/pv-audit3/fixtures/`.
+- **Reproduction:** Build a sheet with columns `Part Code, Name, Qty, Cost, Price` and rows `AS568-012 / -5 / -3 / -1`, `AS568-015 / 2.7 / … `, `AS568-013 / abc / n/a / 1,234.56`. Upload it, read the dry run, apply, then inspect the parts.
+- **Business impact:** The dry run is the only safeguard before a bulk write over the whole catalogue, and the >50% drop confirmation quotes the same wrong numbers. An operator who reads the preview carefully and approves it still gets something else. The silently-dropped comma prices are the worst case, because the import reports success and the old prices stay in place — the shop then quotes from stale costs believing it just updated them.
+- **Relevant files:** `src/lib/inventory-import.ts`, `src/components/app/inventory-context.tsx`, `src/components/app/excel-import-dialog.tsx`.
+- **Recommended fix:** Have `buildInventoryImportPreview` apply the identical clamp/round rules (better: extract one `normalizePartPatch()` used by both), and turn an unparseable non-empty cell into a `skip` with reason `"Price 1,234.56 is not a number"` rather than a silent `undefined`. Strip thousands separators before `Number()`.
+- **Regression test:** For a fixture covering negative, fractional, and comma-formatted cells, assert that every `after` value in the preview equals the value read back from the store after applying, and that the preview's update count equals the toast's.
+
+### `IMP-005` · P2 · Inventory import — an unreadable workbook produces no error message at all
+
+- **Description:** `onFile` wraps the parse in `try/catch` and shows `toast.error("Could not read that Excel file")` on throw. But `XLSX.read` does not throw for a file that is not a workbook — it returns a book with one empty sheet — so the catch never runs.
+- **Actual:** A plain-text file renamed `.xlsx` was uploaded through the dialog. The filename appeared on the button, **no toast of any kind was shown**, no mapping controls rendered, no dry run appeared, and *Apply import* was left disabled. Confirmed directly: `XLSX.read(<plain text>)` returns `SheetNames: ["Sheet1"]` with zero rows rather than throwing.
+- **Expected:** "That file has no readable rows" — distinguishing a corrupt file, an empty sheet, and a sheet whose headers could not be mapped.
+- **Evidence:** `src/components/app/excel-import-dialog.tsx:45-60` (the unreachable catch), `:147` (`headers.length ? … : null`, which renders nothing when the parse yields no headers). Harness: `/tmp/pv-audit3/results/import.json`, case "Plain text renamed .xlsx".
+- **Business impact:** Low-moderate. Nothing is corrupted — the disabled button is a real safeguard — but the operator gets a dead dialog with no explanation and no way to tell a bad file from a mapping problem.
+- **Relevant files:** `src/components/app/excel-import-dialog.tsx`.
+- **Recommended fix:** After parsing, branch on the result: no sheets or no rows → "No readable rows in that file"; rows but no recognisable part-code column → "Could not find a part code column — pick one below" with the mapping controls still shown.
+- **Regression test:** Upload a non-workbook and assert a visible error message.
+
+### `IMP-006` · P3 · Inventory import — no upper bound on imported quantity, cost, or price
+
+- **Description:** `bulkUpdateParts` guards the lower bound (`Math.max(0, …)`) and rejects non-finite values, but has no ceiling. The >50% confirmation only inspects *drops*, so an implausible increase passes with no prompt at all.
+- **Actual:** A row with quantity, cost, and price all set to `1e15` imported cleanly and wrote `quantity: 1000000000000000, cost: 1000000000000000, price: 1000000000000000` with no warning. A misplaced keystroke or a mis-parsed cell therefore lands directly in stock valuation, which `STK-008` already computes as an unrounded float across the whole catalogue.
+- **Expected:** A plausibility ceiling that prompts the same way a large drop does — "quantity increases by more than 10×" is the symmetrical check.
+- **Evidence:** `src/components/app/inventory-context.tsx:436-447` (no upper clamp); `src/components/app/excel-import-dialog.tsx:71-84` (`qtyDrop` / `costDrop` test `<` only). Harness: `/tmp/pv-audit3/results/import3.json`.
+- **Business impact:** Low on its own, but it feeds the valuation and reorder figures, and there is no stock-movement trail (`STK-002`) to reconstruct what the value was before.
+- **Relevant files:** `src/components/app/inventory-context.tsx`, `src/components/app/excel-import-dialog.tsx`.
+- **Recommended fix:** Extend the existing confirmation to large increases as well as large drops, and reject absurd magnitudes outright.
+- **Regression test:** Import a 1e15 quantity and assert a confirmation is required.
+
+**The import path was driven with real files.** Four `.xlsx` fixtures were uploaded through the
+actual dialog over CDP (`DOM.setFileInputFiles`) rather than reasoned about from source. What the
+live path gets right, now runtime-confirmed: headers are detected and auto-mapped (`Part Code`,
+`Name`, `Qty`, `Cost`, `Price`), a row with no part code is reported as `SKIP · — · Missing part
+number`, new codes are offered as `CREATE`, blank cells leave existing values untouched, *Apply
+import* stays disabled until a part-number column is mapped, and the **>50% drop confirmation fires
+correctly** — the edge-case file triggered *"3 large drop(s) detected — Quantity or cost drops by
+more than 50% (HOSE-1/2, AS568-012, AS568-015). Apply anyway?"*. A part code containing `/` matched
+exactly as documented. Evidence: `/tmp/pv-audit3/results/import.json`, `import2.json`, `import3.json`.
+
 **Still open from §8 for the import path:** the bulk write records no stock movement (`STK-002`),
 fractional quantities are silently rounded (`STK-009`), and negative values are silently clamped
-(`STK-010`). Those are properties of `bulkUpdateParts`, not of the importer, and are listed above.
+(`STK-010`). Those are properties of `bulkUpdateParts`, not of the importer, and are listed above —
+`IMP-004` is what makes them dangerous, because the dry run does not disclose either behaviour.
 
 ---
 
@@ -903,28 +1037,37 @@ fractional quantities are silently rounded (`STK-009`), and negative values are 
 
 ## 10. Invoice and payment issues
 
-### `FIN-001` · **P0** · Payments recorded without a receipt document are silently and permanently erased
+### `FIN-001` · **P0** · Deleting one receipt erases every payment on that invoice that has no receipt document
 
-- **Description:** `healDocumentsAmountPaid` runs on **every** three-way merge of the `documents` blob and unconditionally overwrites each invoice's `amountPaid` with the sum of linked receipts, and recomputes `status` from that.
-- **Actual behaviour** — output of the app's real function over seeded data:
-  ```
-  [REWRITTEN] INV-20260610-100000000-dddd  total=33
-              amountPaid: undefined -> 0        <<< CHANGED
-              status:     "Paid"     -> "Unpaid" <<< CHANGED
+> **Corrected in the third runtime pass. The defect is real and stays P0, but the code path named in
+> the first two passes was wrong.** Those passes said the erasure happens during a multi-device
+> *merge*, on the strength of running `healDocumentsAmountPaid` directly in a harness. Driving the
+> running app showed no such erasure on any merge — because that function never executes (see
+> `FIN-009`). Hunting for the real path found it in receipt deletion, where it fires on a **single
+> device with no concurrency at all**, which makes it easier to hit than originally described. The
+> harness evidence for the merge claim is retained under `FIN-009`; the runtime-confirmed finding
+> follows.
 
-  Targeted demo — manual amountPaid with no receipt document:
-    before: {"total":1000,"amountPaid":750,"status":"Partial"}
-    after : {"total":1000,"amountPaid":0,"status":"Unpaid"}
-  ```
-  A second merge produces an identical result, so **the loss is permanent, not transient**. The user
-  sees a generic sync-conflict notice, never "a payment was removed".
-- **Expected:** A merge must never destroy financial data. Divergence between `amountPaid` and the receipt sum should be surfaced for reconciliation, never silently resolved by deleting the payment.
-- **Evidence:** `src/lib/document-money-heal.ts:60-76` (unconditional `{ ...item, amountPaid: paid, status }`); invoked from `src/lib/shop-state-merge.ts:122,129,150,157`; merge triggered at `src/lib/cloud-store.ts:383` on the "remote moved ahead" path.
-- **Reproduction:** Take any invoice whose `amountPaid` is not backed by receipt documents (a legacy record, a manual adjustment, or a receipt deleted while keeping the paid amount). Open the app on two devices, edit on both to force a merge. The invoice returns as `amountPaid: 0, status: "Unpaid"`.
-- **Business impact:** **Highest-severity finding.** Customers who have paid are re-invoiced and re-chased; accounts receivable is overstated; there is no audit trail (`STK-002` applies to money too) so the loss is unattributable. Any invoice migrated from before receipts existed is destroyed on first concurrent edit.
-- **Relevant files:** `src/lib/document-money-heal.ts`, `src/lib/shop-state-merge.ts`, `src/lib/cloud-store.ts`, `src/components/app/documents-context.tsx` (`invoiceAmountPaid`).
-- **Recommended fix:** Make healing **non-destructive**: only ever *raise* `amountPaid` toward the receipt sum, never lower it. When `prevPaid > receiptSum`, keep the stored value and flag the invoice for review. Better: make receipts the single source of truth and remove the denormalised `amountPaid` entirely, backfilling receipts for legacy paid invoices first.
-- **Regression test:** `heal([{total:1000, amountPaid:750, status:"Partial"}])` must not reduce `amountPaid`; and a legacy `status:"Paid"` invoice with no receipts must not become `Unpaid`.
+- **Description:** `deleteInvoicePayment` recomputes the invoice's `amountPaid` as the sum of the receipts that *remain* and writes that over whatever was stored — rather than subtracting the deleted receipt's own amount. Any portion of `amountPaid` that has no matching receipt document (a legacy record, a manual adjustment, an opening balance, a payment entered before receipts existed) is destroyed as a side effect of deleting an unrelated receipt.
+- **Actual behaviour** — driven through the app's own *Delete* button on `/documents`:
+
+  | Scenario | Before | Receipt deleted | `amountPaid` after | Should be |
+  |---|---|---|---|---|
+  | Every payment has a receipt | $150 paid = receipts $100 + $50 | $50 | **$100**, `Partial` | $100 ✔ |
+  | $100 of paid is unbacked | $125 paid = $100 unbacked + receipt $25 | $25 | **$0**, `Unpaid` | $100 ✘ |
+
+  The second row is a $100 loss caused by deleting a $25 receipt. The confirmation dialog the
+  operator reads first says the opposite of what happens: *"This removes the payment and puts the
+  amount back on the invoice balance"* — naming the $25.00 receipt — and then puts $125 back on the
+  balance. The same behaviour appeared independently while testing ordinary payment entry: an
+  invoice at $125 paid dropped to `$0 / Unpaid` on deleting a $25 receipt.
+- **Expected:** Deleting a receipt reduces `amountPaid` by that receipt's amount. Money that is not backed by a receipt is either preserved or surfaced for reconciliation — never silently deleted by an unrelated action.
+- **Evidence:** `src/components/app/documents-context.tsx:1107-1113` — `const paidAfter = affectingReceiptsPaid(invoice.id, next)` followed by `{ ...invoice, amountPaid: paidAfter, status }`, with no reference to `receipt.total` and no comparison against the previous value. Confirm text built by `deleteReceiptConfirmMessage` at `:199-203`. Delete buttons at `src/routes/documents.tsx:904` and `:952`, and `src/routes/clients.$clientId.tsx:963`. Harness: `/tmp/pv-audit3/results/receipt-delete.json`, `payments.json`.
+- **Reproduction:** Open an invoice whose `amountPaid` is partly unbacked — seed `{total: 324, amountPaid: 100, status: "Partial"}` with no receipt, which is what a pre-receipts or hand-adjusted invoice looks like. Record a $25 payment through *Pay*; the invoice reads $125 paid. Delete that $25 receipt and confirm. The invoice reads **$0 paid, Unpaid**.
+- **Business impact:** **Highest-severity finding.** A customer who has paid is re-invoiced and re-chased for money the business already holds; accounts receivable is overstated by the erased amount. It needs no concurrency and no second device — one operator correcting one mistyped receipt is enough. There is no audit trail (`STK-002` applies to money too), so the loss is silent and unattributable, and the confirmation text actively reassures the operator that only the named amount is affected.
+- **Relevant files:** `src/components/app/documents-context.tsx` (`deleteInvoicePayment`, `affectingReceiptsPaid`, `invoiceAmountPaid`), `src/routes/documents.tsx`, `src/routes/clients.$clientId.tsx`.
+- **Recommended fix:** Subtract the deleted receipt: `amountPaid = max(0, prevPaid − receipt.total)`. Where `prevPaid > Σ receipts`, keep the excess and flag the invoice for reconciliation rather than dropping it. The durable fix is to make receipts the single source of truth and remove the denormalised `amountPaid` — but only after backfilling receipts for every invoice that carries unbacked paid amounts, or that migration destroys the same money in one step.
+- **Regression test:** Seed `{total: 324, amountPaid: 100}` with no receipts, add a $25 receipt, delete it, and assert `amountPaid === 100` and `status === "Partial"`. Separately assert the fully-backed case still resolves to $100.
 
 ### `FIN-002` · P1 · `roundMoney` is asymmetric for negatives and stops rounding above ~1e10
 
@@ -999,9 +1142,53 @@ fractional quantities are silently rounded (`STK-009`), and negative values are 
 - **Actual:** `return Math.max(0, inv.amountPaid)` hides a negative (corrupt) value; the status fallback means an invoice manually marked `Paid` counts as fully paid revenue with **no payment record at all**.
 - **Expected:** Negative `amountPaid` is an error to surface; paid amounts derive from receipts, not from a status string.
 - **Evidence:** `src/components/app/documents-context.tsx:176-183`.
-- **Business impact:** Revenue can be recognised with no payment evidence; combined with `FIN-001`, such invoices are exactly the ones silently reset to `Unpaid` later.
+- **Business impact:** Revenue can be recognised with no payment evidence; combined with `FIN-001`, such invoices are exactly the ones whose unbacked balance is erased by an unrelated receipt deletion.
 - **Recommended fix:** Remove the status fallback after backfilling receipts; log rather than clamp negatives.
 - **Regression test:** Assert an invoice with `status:"Paid"` and no receipts reports `0` paid and is flagged for reconciliation.
+
+### `FIN-008` · **P0** · A payment taken on a second device is merged in but never credited to the invoice
+
+- **Description:** When two devices touch the `documents` blob at once, the three-way merge keeps **both** receipts but leaves the invoice's `amountPaid` at whatever the local device wrote. The incoming payment survives as paperwork and vanishes from the balance. The code that exists to prevent exactly this — `healDocumentsAmountPaid`, which recomputes `amountPaid` from the surviving receipts — is never reached on the real merge path (`FIN-009`).
+- **Actual behaviour** — driven twice against the running app, device B writing straight to the backend while device A held a staged payment, then committing device A so the save had to merge:
+
+  | | Device A | Device B | After merge |
+  |---|---|---|---|
+  | Receipts on `INV-AUDIT-0001` | $40 | $25 | **both present, $65 total** |
+  | Invoice `amountPaid` | 40 | 25 | **40** |
+  | Invoice status | — | — | `Partial` |
+  | On screen | — | — | `$40.00 / $330.00` |
+
+  The app confirmed the merge itself: *"Cloud updated — review payments / documents · Another device
+  or tab changed shop data. Your edits were merged."* The customer's $25 is filed and not counted.
+  The same run also carried two invoices with unbacked `amountPaid` (`Paid` with no receipt, and a
+  manual `450`); both came through the merge **untouched**, which is the same absence of healing seen
+  from the other side.
+- **Expected:** After a merge, an invoice's recorded payment equals the sum of the receipts attached to it. A payment that survives as a document must be reflected in the balance.
+- **Evidence:** `src/lib/cloud-store.ts:383` and `:466` call `mergeShopStateValue(base, local, remote)` with **no `fieldKey`**; `src/lib/shop-state-merge.ts:122` heals only `if (fieldKey === "documents")`, so on the array branch the merged documents are returned unhealed. The stored shape is a bare array — `documentsShopStateSchema = z.array(idRow)` (`src/lib/shop-state-schema.ts:25`) and `useCloudState<SavedDocument[]>("documents", …, [])` (`src/components/app/documents-context.tsx:371-376`) — so the object branch at `:126-131` never applies either. Harness: `/tmp/pv-audit3/results/heal-runtime.json`, `concurrent-pay.json`, `heal-reachability.json`.
+- **Reproduction:** Open the same invoice on two devices. On A, open *Pay* and enter an amount but do not save yet. On B, record a different amount and let it sync. Save on A. Both receipts are listed; the invoice balance reflects only A's.
+- **Business impact:** Under-recording cash in the one situation this shop is built for — a counter device and an office device open at once. The invoice shows an outstanding balance the customer has already settled, so they are chased for it, and the daily drawer reconciles against receipts that the invoice ledger does not agree with. Unlike `FIN-001` the money is still visible on the receipt, so it is recoverable by hand — but only if someone notices, and nothing points it out.
+- **Relevant files:** `src/lib/cloud-store.ts`, `src/lib/shop-state-merge.ts`, `src/lib/document-money-heal.ts`, `src/lib/shop-state-schema.ts`.
+- **Recommended fix:** Pass the key through — `mergeShopStateValue(base, local, remote, key)` at both call sites in `cloud-store.ts`. **Do not ship that one-liner on its own:** it activates a heal function that is destructive in the other direction and would erase every unbacked `amountPaid` in the database on the next merge (`FIN-009`). Make the heal non-lowering first, then wire it up.
+- **Regression test:** Merge a documents array where local and remote each add a receipt to the same invoice; assert the invoice's `amountPaid` equals the sum of both. Run the assertion against a bare array, which is the shape the app stores.
+
+### `FIN-009` · P2 · The merge's payment-healing code cannot run, and its unit test passes through a shape the app never stores
+
+- **Description:** `healDocumentsAmountPaid` is written, wired into the merge at four points, and covered by a unit test — and none of it executes. `mergeShopStateValue` heals the array branch only when `fieldKey === "documents"`, but `cloud-store.ts` calls it with no `fieldKey`, and the object branch requires a wrapper object that the `documents` row is not. The project's own test asserts the healed result by constructing `{ documents: [...] }`, a shape that exists nowhere in the application, so the suite reports the protection as working.
+- **Actual behaviour** — the same merge inputs (two receipts totalling $65 on one invoice) through both shapes:
+
+  | Input shape | Used by | `amountPaid` after merge | Receipts after merge |
+  |---|---|---|---|
+  | `{ documents: [...] }` | `shop-state-merge.test.ts:36` | **65** — healed | $40 + $25 |
+  | bare array | `shop_state.documents`, the real store | **40** — not healed | $40 + $25 |
+  | bare array + `fieldKey: "documents"` | nothing | 65 — healed | $40 + $25 |
+
+  The second row is what the application does. The first row is what the test suite checks.
+- **Expected:** Safety code either runs or is deleted, and a test exercises the shape the code is deployed against.
+- **Evidence:** `src/lib/shop-state-merge.ts:122,129,149-158`; `src/lib/cloud-store.ts:383,466`; `src/lib/shop-state-schema.ts:25`; `src/lib/shop-state-merge.test.ts:36-70`. Harness: `/tmp/pv-audit3/results/heal-reachability.json`. Confirmed at runtime three ways in one merge — receipts uncredited, a legacy `Paid` invoice with no receipt untouched, a manual `amountPaid: 450` untouched (`heal-runtime.json`).
+- **Business impact:** Two ways. First, a false sense of safety: a green test suite reports that merged payments are reconciled when they are not, which is why `FIN-008` went unnoticed. Second, a trap in the obvious fix — the function is destructive by design (`{ ...item, amountPaid: paid, status }` with no floor at the previous value), so enabling it without changing it converts a live under-crediting bug into a live erasure bug across the entire document history at once. Running it over seeded data flips `{total: 1000, amountPaid: 750, status: "Partial"}` to `{amountPaid: 0, status: "Unpaid"}`, and a second pass reproduces the same result, so that loss would be permanent.
+- **Relevant files:** `src/lib/shop-state-merge.ts`, `src/lib/document-money-heal.ts`, `src/lib/shop-state-merge.test.ts`, `src/lib/cloud-store.ts`.
+- **Recommended fix:** Fix the function before reconnecting it. Make `healDocArray` raise `amountPaid` toward the receipt sum and never lower it, flagging `prevPaid > receiptSum` for review instead of overwriting; then pass the `fieldKey` through from `cloud-store.ts`. Rewrite the unit test to feed a bare array.
+- **Regression test:** Assert the heal is invoked for the bare-array shape; assert `heal([{total: 1000, amountPaid: 750}])` leaves 750 in place and raises a reconciliation flag.
 
 ---
 
@@ -1231,6 +1418,45 @@ The numbers below are from the corrected pass.
 | **404 handling** | An unknown route renders a proper "404 / Page not found / The page you're looking for doesn't exist or has been moved / Go home". |
 | **Desktop layout** | At 1440 px, **0** elements overflow their container on any route except `/inventory` (which has a deliberate horizontal scroller). |
 
+#### The accessibility tree as a screen reader sees it ✅
+
+The checklist previously carried "screen-reader announcement order and phrasing" as NOT VERIFIED. No
+screen reader was run — that remains true and no claim is made about phrasing — but Chrome's own
+accessibility tree, which is the tree AT products consume, was captured in full
+(`Accessibility.getFullAXTree`) on seven routes and audited structurally:
+
+| Route | AX nodes | Interactive nodes | Unnamed interactive | `<h1>` | `main` landmark | Heading skips |
+|---|---|---|---|---|---|---|
+| `/` | 833 | — | **0** | ✅ | ✅ | none |
+| `/inventory` | 1,138 | — | **0** | ✅ | ✅ | none |
+| `/documents` | 339 | — | **0** | ✅ | ✅ | none |
+| `/clients` | 324 | — | **0** | ✅ | ✅ | `h1 → h3` |
+| `/insights` | 555 | — | **0** | ✅ | ✅ | none |
+| `/daily-close` | 272 | — | **0** | ✅ | ✅ | none |
+| `/counter` | 185 | — | **0** | ✅ | ✅ | none |
+
+Every button, link, textbox, combobox, checkbox, tab, and menu item on all seven routes resolves to
+a non-empty accessible name — there are no anonymous controls for a screen reader to read out as
+"button". Note this does not contradict `UX-013`: Chrome falls back to the placeholder when no label
+exists, so those inputs do get *a* name, just a fragile one. The single `h1 → h3` skip on `/clients`
+is the `UX-014` instance.
+
+**Focus visibility, measured by pixels rather than by CSS.** A computed-style check is unreliable
+here because Tailwind paints the ring through `box-shadow`, so each control was screenshotted
+unfocused, focused via a real keyboard path, and screenshotted again. The sidebar link changed 9.2%
+of its pixels, a primary button 6.2%, and the search input 3.9% — all clearly visible amber rings.
+Focus is genuinely visible (WCAG 2.4.7 is met); `UX-011` is about the ring's *contrast ratio*, which
+is a separate and still-open question.
+
+**What the tree confirms is missing** is error state. Submitting the *Add client* dialog empty was
+correctly rejected — the dialog stayed open and no client was created — but the AX tree afterwards
+contained **zero** `alert` nodes, **zero** nodes with `aria-invalid`, and **zero** nodes with
+`aria-required`, and none of the seven inputs carried `required`, `aria-invalid`, or
+`aria-describedby`. The only feedback was the toast "Enter a client name" in the polite
+notifications region, which names the problem but is not associated with the field and does not
+move focus. This is a second confirmed instance of `UX-007`, on a different form from the one
+originally measured. Evidence: `/tmp/pv-audit3/results/a11y.json`, `a11y2.json`, `focus-pixels.json`.
+
 ### `UX-002` · **P0** · `/portal` — the customer-facing client portal crashes on every load
 
 > **Priority raised from P1 to P0 in the second runtime pass.** The first pass confirmed the crash
@@ -1347,6 +1573,7 @@ The numbers below are from the corrected pass.
 - **Actual:** The dialog stays open; `aria-invalid` is set on nothing; no field is marked or highlighted; focus does not move; **no `required` attribute exists on any of the 14 fields**. The only feedback is a Sonner toast reading "Primary part number is required", which disappears on its own. On a form that scrolls internally, the offending field may not even be on screen when the toast appears.
 - **Expected:** The invalid field is marked (`aria-invalid`, visible message adjacent to the field), focus moves to it, and the message persists until corrected.
 - **Evidence:** Measured after a real click on **Create** with an empty form: `{ dialogStillOpen: true, inlineErrors: [], firstInvalidFocused: null, toasts: ["Primary part number is required"] }`. Field inventory confirms `required: false` on all 14.
+- **Confirmed on a second form.** The *Add client* dialog behaves identically: clicking **Create client** with every field empty was correctly rejected (dialog stayed open, no client created), but the accessibility tree afterwards held **zero** `alert` nodes, **zero** nodes with `aria-invalid`, and **zero** nodes with `aria-required`, and none of its seven inputs carried `required` or `aria-describedby`. The sole feedback was the toast "Enter a client name" in the polite notifications region. The visible `Name *` marker is decoration — it is never exposed programmatically. Harness: `/tmp/pv-audit3/results/a11y2.json`.
 - **Business impact:** WCAG 3.3.1 (Error Identification) and 3.3.2 (Labels or Instructions) are not met. Practically, the operator is told something is wrong but not where, and the notice vanishes.
 - **Relevant files:** `src/components/app/part-detail-dialog.tsx`, `src/components/app/party-form-dialog.tsx`, and the other `*-dialog.tsx` forms (the project already depends on `react-hook-form` + `@hookform/resolvers` + `zod`, which are not used for this).
 - **Recommended fix:** Wire these dialogs to the `react-hook-form` + `zod` stack already installed, and render `FormMessage` per field. Keep the toast as a summary if desired.
@@ -1363,12 +1590,12 @@ The numbers below are from the corrected pass.
 - **Recommended fix:** Emit a `data-label` on each `TableCell` and render it via `::before` in the stacked breakpoint, or give the mobile breakpoint a purpose-built card with explicit labels.
 - **Regression test:** At 375 px assert every stacked cell has a non-empty visible label.
 
-### `UX-009` · **P2** · No skip link, and 23 tab stops before reaching page content
+### `UX-009` · **P2** · No skip link, and 23 sidebar tab stops before reaching page content
 
 - **Description:** Keyboard users must traverse the entire sidebar on every page before reaching the page itself.
-- **Actual:** Measured with real Tab key events on `/inventory`: the first focusable element inside `<main>` is tab stop **23**. There is **no** skip link (`document.querySelector('a[href^="#"]')` returns nothing on every route). The same 22 sidebar links are re-traversed on every navigation.
+- **Actual:** Measured with real Tab key events from a fresh load with no prior mouse click (a click moves the sequential focus navigation starting point and would understate the count). Stops **1–23 are all sidebar controls** — 21 page links plus `Backup` and `Lock` — so the first non-navigation stop is **24**. There is **no** skip link: `document.querySelectorAll("a[href^='#']")` returns an empty list on every route. The same 23 stops are re-traversed on every navigation.
 - **Expected:** A "Skip to main content" link as the first focusable element.
-- **Evidence:** Tab walk recorded stops 1–22 as sidebar links (`Dashboard`, `Search`, `Inventory`, …), with stop 23 the first in-content control ("Later", from the backup banner). Confirmed on `/`, `/inventory`, `/documents`, `/clients`.
+- **Evidence:** Full tab trail recorded identically on `/`, `/inventory`, and `/documents`: `1:Dashboard … 23:Lock`, then `24:Later` and `25:Backup now` (the backup reminder, `UX-018`), then `26:Toggle Sidebar` — the first genuine page control. With the reminder dismissed, the first non-navigation stop is 24. Harness: `/tmp/pv-audit3/results/tabcount2.json`. An earlier pass recorded this as "tab stop 23"; the precise figure is 23 sidebar stops with the first non-navigation stop at 24.
 - **Business impact:** WCAG 2.4.1 (Bypass Blocks). For a single-operator app this is efficiency rather than access, but it makes keyboard-only operation of the counter impractical.
 - **Relevant files:** `src/routes/__root.tsx` (add the link before `<AppSidebar />`), `src/components/app/app-sidebar.tsx`.
 - **Recommended fix:** Add a visually-hidden-until-focused `<a href="#main-content">Skip to main content</a>` as the first child of the layout, and `id="main-content"` on `SidebarInset`.
@@ -1535,8 +1762,21 @@ inspection. The harness lives outside the repository (`/tmp/pdf-audit/`) and gen
 | **Supplier inquiry without costs** | ✅ Correctly omits all money columns and prints no total. |
 
 The screen-versus-PDF total agreement is worth calling out: it is the single most important
-requirement in this section and it holds. The defects below are all **layout** defects — the numbers
-are right, but on some documents they are printed where nobody can read them.
+requirement in this section and it holds. Most defects below are **layout** defects — the numbers
+are right, but on some documents they are printed where nobody can read them. The exception is
+`PDF-016`, where the barcode on the part label encodes something other than the part number printed
+beside it.
+
+**The three remaining document types were rendered from the running app and parsed.** All three
+were previously NOT VERIFIED:
+
+| Document | Result |
+|---|---|
+| **Packing slip** (`/documents` → *Packing slip*) | ✅ 6,956 bytes, 1 page, A4 (210 × 297 mm). Carries the invoice number, date, customer, and the `Part # / Description / Box / Size / Qty / Status` grid, plus *Picked by / Checked by / Customer sign* lines. Correctly prints **no money at all** — the right choice for a warehouse document. |
+| **Part label** (`/labels` → *Print*) | ⚠️ Geometry is correct: **57.0 × 32.0 mm**, 1 page, matching the stated label stock, with shop name, part number, and price (`TBD` when unpriced). The **barcode content is wrong** — see `PDF-016`. |
+| **Z-report** (`/daily-close` → *Print Z-report*) | ✅ 6,180 bytes, 1 page, A4. Business day, receipt count, and a `Method / Expected / Counted / Variance` table over Cash, OMT, and Whish with a TOTAL row, plus cashier and manager signature lines. Figures matched the (empty) drawer state at the time of printing. |
+
+Evidence: `/tmp/pv-audit3/results/pdfs.json`, `labels3.json`, `labels-seal.json`.
 
 ### `PDF-005` · **P1** · AR statement — "Net due" can be printed off the bottom of the page
 
@@ -1703,6 +1943,34 @@ are right, but on some documents they are printed where nobody can read them.
 - **Business impact:** Cosmetic, but it is the most visible typographic inconsistency on the customer-facing document, and it makes long wrapped descriptions harder to scan.
 - **Recommended fix:** Left-align the description column, or right-align the header to match.
 - **Regression test:** Visual snapshot of a rendered invoice.
+
+### `PDF-016` · **P1** · `/labels` — the printed barcode encodes a different part number than the text beside it, and the app's own scanner cannot read it
+
+- **Page/feature:** Label print station (`/labels`) → *Print*, producing the 57 × 32 mm part label.
+- **Description:** `drawCode39` strips every character outside `[A-Z0-9\-.\s]` from the part number before encoding, then truncates to 14 characters — while the human-readable line on the same label prints the part number in full. The two therefore disagree. The stripping is not a Code 39 limitation: `/` is a standard Code 39 character that the app's own `CODE39` table simply omits.
+- **Actual behaviour** — a label was printed from the running app and the bars in the generated PDF were decoded back to characters:
+  ```
+  seal-label.pdf   57.0 × 32.0 mm, 1 page
+  printed text  : ["PARTS VILLAGE", "WR70*64*20", "TBD"]
+  decoded bars  : *WR706420*   ->  payload "WR706420"
+  ```
+  The same mismatch on the audit's custom part: text `HOSE-1/2`, bars decode to `HOSE-12`.
+- **Blast radius:** Across the eight shipped catalogue modules, **229 of 1,760 part numbers (13%) print a barcode that differs from their own label text** — 179 from `*` used as a dimension separator throughout the seals catalogue (`WR70*64*20`), 3 from `/`, 4 from parentheses, and 53 from the 14-character truncation. No two catalogue parts collapse onto the same payload, so a scan cannot resolve to the *wrong* part; it resolves to *nothing*.
+- **The scanner cannot read the app's own label.** `PartScanDialog.handleCode` resolves a scanned code by **exact** case-insensitive match against `partNumbersOf(part)`, falling back to a substring filter for typed input. `WR706420` is neither an exact match nor a substring of `wr70*64*20`, so scanning the printed label opens nothing. Driven through the real UI, typing each barcode payload into inventory search found the part in **0 of 3** affected cases and 1 of 1 control cases:
+
+  | Part number | Barcode payload | Scanning the label finds it? | Typing the part number finds it? |
+  |---|---|---|---|
+  | `WR70*64*20` | `WR706420` | ❌ | ✅ |
+  | `WR75*70*10` | `WR757010` | ❌ | ✅ |
+  | `HOSE-1/2` | `HOSE-12` | ❌ | ✅ |
+  | `AS568-010` (control) | `AS568-010` | ✅ | ✅ |
+- **Expected:** The barcode encodes exactly what is printed beside it, or — where a character genuinely cannot be encoded — the label refuses to print rather than shipping a mismatch.
+- **Evidence:** `src/lib/part-label.ts:59` (`text.toUpperCase().replace(/[^A-Z0-9\-.\s]/g, "").slice(0, 14)`), `:8-49` (the `CODE39` table, missing `$ / + %`), `:110` (`drawCode39(pdf, part.partNumber, …)`); `src/components/app/part-scan-dialog.tsx:57-68` (exact-match resolution). Harness: `/tmp/pv-audit3/results/labels-seal.json`, `barcode-blast.json`, `barcode-collide.json`, `barcode-scan.json`, and the decoded PDFs `seal-label.pdf` / `part-label.pdf`.
+- **Reproduction:** Go to `/labels`, search `WR70*64*20`, tick it, press *Print*. The label shows `WR70*64*20` under a barcode that encodes `WR706420`. Scan that barcode into the part scan dialog — nothing opens.
+- **Business impact:** The label station exists to make parts scannable ("Barcode + box # + price"), and for 13% of the catalogue — including most of the seals range — it produces a label that the shop's own software rejects. Staff fall back to typing, which is the workflow the barcode was meant to replace, and the failure is invisible until someone is at the shelf with a scanner.
+- **Relevant files:** `src/lib/part-label.ts`, `src/components/app/part-scan-dialog.tsx`.
+- **Recommended fix:** Add `$ / + %` to the `CODE39` table so the standard's full character set is available, and encode the part number unmodified. For anything still unencodable, either switch that label to Code 128 (which covers all of ASCII and is denser) or fail loudly. Raise or remove the 14-character cap — 53 catalogue parts exceed it today. Independently, make the scanner's lookup tolerant so a legacy label still resolves.
+- **Regression test:** For every catalogue part number, assert `decode(barcodeOf(pn)) === pn.toUpperCase()`; and assert the scan dialog resolves each part from its own printed payload.
 
 ### Arabic PDF output — now verified in a real browser ✅
 
@@ -1893,6 +2161,32 @@ Genuinely good, and worth protecting during remediation:
 | **Signup** | ✅ Disabled (`enable_signup = false` in `config.toml`). |
 | **`.env` handling** | ✅ Gitignored; no credential files committed. |
 
+### WebAuthn / Face ID unlock — now exercised against a virtual authenticator ✅
+
+Previously NOT VERIFIED because it needs biometric hardware. Driven end to end with a CDP virtual
+authenticator (`WebAuthn.addVirtualAuthenticator`, CTAP2.1, internal transport, resident key, user
+verification on), against the shipped build:
+
+| Step | Result |
+|---|---|
+| **Platform authenticator detected** | ✅ `isUserVerifyingPlatformAuthenticatorAvailable()` → `true`, and the gate offered biometric unlock. |
+| **Enrolment requires an existing operator session** | ✅ The prompt appears only after a successful PIN unlock, and `beginFaceIdRegister` rejects any call without a valid operator access token. |
+| **Registration** | ✅ A resident credential was created for `rpId: localhost` with `signCount: 1`, and the app reported *"Biometrics enabled for this device"*. |
+| **Unlock with the passkey** | ✅ Succeeded; the gate cleared and the credential's signature counter advanced 1 → 2. |
+| **Replay of a captured assertion** | ✅ **Rejected.** The `finishFaceIdUnlock` HTTP request was captured verbatim off the wire and re-POSTed. The server returned `{ ok: false, error: "Face ID challenge expired — try again" }` and **no `access_token`** — `takeChallenge` deletes the challenge on first use, so the second presentation finds nothing. |
+| **Unknown credential** | ✅ `finishFaceIdUnlock` looks the credential up by `response.id` and returns "Unknown Face ID credential" when it is not in the store. |
+| **Counter tracking** | ✅ The stored counter is advanced from `verification.authenticationInfo.newCounter` after each success, which is what SimpleWebAuthn needs to detect a cloned authenticator. |
+
+The origin/RP handling is also sound: `rpFromHeaders` pins to `WEBAUTHN_RP_ID` / `WEBAUTHN_ORIGIN`
+when both are set, and otherwise falls back to the production host rather than trusting an arbitrary
+`x-forwarded-host` — the correct default, and notably **not** the mistake made in `SEC-001`, where
+`x-forwarded-for` *is* trusted. Evidence: `/tmp/pv-audit3/results/webauthn2.json`.
+
+One cosmetic note rather than a finding: enrolment is offered through a native `window.confirm()`
+(`operator-unlock-gate.tsx:253`) rather than the app's own dialog, so it is unstyled and is
+suppressed outright in some embedded browser contexts, where the operator would never be offered
+biometric unlock at all.
+
 ### Dependency vulnerabilities (catalogued as `DEP-001` in §15)
 
 `npm audit` (read-only; nothing upgraded): **5 high, 2 moderate, 0 critical** across 549 dependencies.
@@ -1972,6 +2266,26 @@ verified restore path materially raises the severity of both.
 - **Recommended fix:** Add jittered exponential backoff and surface a persistent conflict to the operator.
 - **Regression test:** Force sustained conflict; assert bounded retries and a visible unsynced indicator.
 
+### `SYN-001` · **P0** · An edit the app says is "saved offline" is destroyed by its own Retry button and by a reload
+
+- **Description:** When a write fails, the app keeps the edit on screen, writes it to `localStorage`, and shows a toast reading **"Cloud sync issue · 1 waiting — Failed to save inventory — saved offline; will sync when connection returns."** with a **Retry sync** action. That promise does not hold. `retryCloudSync()` does not re-send anything: it increments `retryToken`, which is a dependency of the *load* effect, so the app re-reads the cloud and then unconditionally overwrites the local state with what the server has — discarding the pending edit and clearing the dirty flag that was the only record of it. A reload does the same thing, because the load effect also runs on mount and the pending map is in-memory only.
+- **Actual behaviour** — one part (`AS568-010` / `oring-0002`), cloud quantity **4444**, writes rejected with 503 mid-flight, then each recovery path exercised in turn:
+
+  | Recovery path | On screen while failing | After recovery — UI | After recovery — cloud | Outcome |
+  |---|---|---|---|---|
+  | Press **Retry sync** | 5,555 | **4,444** | 4444 | edit destroyed |
+  | **Reload** the tab | 6,666 | **4,444** | 4444 | edit destroyed |
+  | Keep editing the same blob | 7,777 | 7,778 | 7778 | survives, incidentally |
+
+  The third row is the only path that works, and it works by accident: the next edit re-runs the save effect and ships the whole blob, which happens to carry the earlier change. Nothing is flushed by reconnecting alone — after the network returned with no further action, the cloud still held 4444.
+- **Expected:** "Will sync when connection returns" must mean a pending write is durably queued and replayed. At minimum, Retry must *push* pending local edits rather than pull over them, and a reload must not silently discard unsynced work.
+- **Evidence:** `src/lib/cloud-store.ts:105-112` (`retryCloudSync` only bumps `retryToken`); `:236` (`const retry = useCloudRetryToken()`); `:339` (load effect deps `[key, retry]`); `:286-303` — on every load it runs `dirtyRef.current = false; setPendingKey(key, false); setValueState(accepted); localStorage.setItem(localStorageKey, JSON.stringify(accepted))` with **no check of `dirtyRef.current`**; `:36` (`const pendingByKey = new Map()` — in-memory, so a reload starts with zero pending); `:430-432` (the "saved offline; will sync when connection returns" string). Harness: `/tmp/pv-audit3/results/resilience5.json`, `resilience3.json`.
+- **Reproduction:** Open `/inventory`, search `AS568-010`, note the quantity. Make the server reject writes. Edit the quantity and press Enter — the new value stays on screen and the offline toast appears. Restore the network, then either press **Retry sync** or reload the page. The quantity reverts to the old value and the edit is gone, with no warning.
+- **Business impact:** Silent loss of operator work with an explicit false assurance of durability, which is worse than an honest failure — the operator is told to stop worrying and then loses a stock count, a cost, or a price. The affordance most likely to be used after a connection problem (the app's own Retry button) is the one that destroys the data. Closing the tab at the end of a shift does the same. Because there is no stock-movement audit trail (`STK-002`), the loss leaves no trace.
+- **Relevant files:** `src/lib/cloud-store.ts`, `src/components/app/cloud-sync-banner.tsx`, `src/components/app/cloud-conflict-toaster.tsx`.
+- **Recommended fix:** Persist pending writes (key → value → base `updated_at`) to `localStorage` or IndexedDB at the moment a save fails, and replay that queue on load and on Retry **before** accepting a cloud value. Guard the load effect with `if (dirtyRef.current) return;` so a refetch can never overwrite unsaved local state. Until a durable queue exists, change the message to the truth — "not saved; keep this tab open" — so the operator is not misled.
+- **Regression test:** Fail a write, assert the pending edit is in persistent storage; reload; assert the edit is still present and is pushed once the network returns. Separately assert that clicking Retry with a dirty state issues a **save** request, not a load.
+
 ### Runtime performance — now measured ✅
 
 Measured in headless Chrome against the shipped build with the full seeded catalogue of **2,344
@@ -2006,19 +2320,39 @@ invisible, but each of those is a round trip on a phone.
 All under 62 ms, including the worst case. Typing stays responsive on the full catalogue and the
 virtualised table holds up. No performance defect was found here.
 
-**Offline and reconnect behaviour: verified working.** With the network cut at the protocol level, a
-quantity edit (`oring-0004` → 123) was applied in the UI, the app surfaced an offline state, and the
-write was **held locally and flushed to the cloud on reconnect** — the mock store went from 0
-pending overrides while offline to 1 written override after the network returned, carrying the
-correct value. Nothing was lost and nothing was double-applied. Evidence:
-`/tmp/pv-audit2/results/perf-offline.log`, finding `N1`.
+**Offline and reconnect behaviour: works only if you keep editing.** With the network cut at the
+protocol level, a quantity edit (`oring-0004` → 123) was applied in the UI, the app surfaced an
+offline state, and the write reached the cloud after the network returned, carrying the correct
+value — nothing lost, nothing double-applied (`/tmp/pv-audit2/results/perf-offline.log`, finding
+`N1`).
+
+A second pass established **why** that worked, and it is narrower than it looked. The write is not
+queued and replayed; it is carried along by the *next* save of the same blob. Continue editing and
+the pending change ships with the following write. Stop, and it never ships: after reconnecting with
+no further action the cloud still held the pre-edit value. Take either recovery action the app
+offers — its **Retry sync** button, or a reload — and the pending edit is **destroyed**. That is
+`SYN-001` above, and it is the more important half of this result.
 
 Two positives previously established from source also hold up in the browser: the inventory table is
 **virtualised** (`VirtualInventoryTable`), and saves are **debounced** at 400 ms rather than fired
 per keystroke.
 
-Still not measured: memory behaviour over a multi-hour session, and timings against real production
-data volumes rather than the seeded catalogue.
+**Memory over a long session: no leak found.** 48 client-side navigations across seven routes plus
+six dialog open/close cycles in a single page lifetime, forcing garbage collection before each
+sample:
+
+| After | JS heap | DOM nodes | Event listeners | Documents |
+|---|---|---|---|---|
+| 8 navigations | 15.70 MB | 765 | 501 | 2 |
+| 24 navigations | 15.98 MB | 765 | 502 | 2 |
+| 48 navigations | 16.81 MB | 765 | 505 | 2 |
+
+The heap grew 1.11 MB (7.1%) and flattened; DOM node count did not move at all; listeners grew by
+four across 48 navigations; no detached documents accumulated. Nothing here suggests a leak.
+Evidence: `/tmp/pv-audit3/results/memory.json`.
+
+Still not measured: a genuinely multi-hour session (this is a ~70-second proxy), and timings against
+real production data volumes rather than the seeded catalogue.
 
 ---
 
@@ -2112,7 +2446,8 @@ credits/remaining (4), phone normalisation (5), and shop-state merge (7). Nothin
 | Stock movements | **none** | Every one of the 14 mutation sites; movement-sum equals on-hand; no change without a record (`STK-002`) |
 | Quote → invoice conversion | **none** | Rollback on failure; double-click/concurrent idempotency; quotation preserved; stock delta exactly once (`STK-001`, `FUN-001`) |
 | Invoice revert | **none** | Guards for payments/receipts/credits; stock restore only after commit (`STK-004`) |
-| Payment healing | 1 (happy path) | `amountPaid` never reduced; legacy `Paid` invoices survive; idempotency (`FIN-001`) |
+| Payment healing | 1, and it tests a shape the app never stores | Heal the **bare array** the app actually stores, not a `{documents: […]}` wrapper; `amountPaid` never reduced; legacy `Paid` invoices survive; idempotency (`FIN-008`, `FIN-009`) |
+| Receipt deletion | **none** | Deleting a receipt subtracts that receipt only; unbacked `amountPaid` is preserved (`FIN-001`) |
 | `roundMoney` | 2 | Negative symmetry; large magnitudes; cent-exactness (`FIN-002`) |
 | Subtotal consistency | **none** | UI === PDF === ratio basis, incl. `Payment`/`Discount` lines (`FIN-004`) |
 | Discounts and tax | **none** | Percent/amount, clamping, tax on discounted net, historical rate (`FIN-005`) |
@@ -2148,28 +2483,40 @@ this report and has since been driven in a real browser against the shipped buil
 6. **Negative and fractional stock through the UI.** Closed. The Add/Edit dialog **correctly rejects** negatives and non-numerics with a clear message; the inline quantity editor silently discards them (`STK-010`), and fractional quantities are silently rounded by two different rules depending on the path (`STK-009`).
 7. **Zero-decimal money rendering.** Closed. With China shipments now seeded, `/china-shipments` renders `$1,200` alongside `$69.93` on the same screen — `formatMoneyWithUsd` omits the cents that `currency()` always prints. `UX-016` is now an observed defect, not a source-only one.
 8. **`/fleet/$machineId`.** Closed, and it is broken: the parent route renders no `<Outlet />`, so the machine-history page can never mount. `FUN-006`, P1.
-9. **Offline and reconnect.** Closed. An edit made with the network cut was held locally and flushed correctly on reconnect. §15.
+9. **Offline and reconnect.** Closed, and the result changed on re-examination. An edit made with the network cut does reach the cloud — but only if you keep editing the same data. Neither of the app's recovery affordances works, and both destroy the edit. `SYN-001`, P0. §15.
 10. **Runtime page-load and search timings.** Closed. First paint 152–252 ms across 8 routes; search over 2,344 parts completes in under 62 ms in every sample. §15.
 11. **Horizontal overflow magnitude.** Closed with corrected figures: all 21 operator routes at 3 widths, separating genuinely unreachable `overflow-x: clip` content (3 route/width combinations) from intentional `truncate` ellipsis. `UX-003` was rewritten accordingly.
 
+### Closed in the third runtime pass — previously listed here as unverified
+
+12. **Packing slip, part label, and Z-report PDFs.** Closed. All three were generated from the running app and parsed. The packing slip and Z-report are correct; the part label is the right physical size but its barcode encodes the wrong value — `PDF-016`, P1. §13.
+13. **Excel import driven with real files.** Closed. Four `.xlsx` fixtures were uploaded through the actual dialog over CDP. The dry run is shown to misstate what will be applied (`IMP-004`, P1), an unreadable workbook produces no error (`IMP-005`), and there is no upper bound on imported values (`IMP-006`). §8.
+14. **WebAuthn / Face ID.** Closed with a CDP virtual authenticator. Enrolment, unlock, and counter tracking all work; a captured assertion replayed verbatim is correctly refused. §14.
+15. **Mid-write network failure.** Closed. The write was held open for 3 s and then failed with the request in flight. This is what produced `SYN-001`. §15.
+16. **Memory over a long session.** Closed as far as a short harness can. 48 navigations plus 6 dialog cycles: heap +7.1% and flattening, DOM nodes unchanged, +4 listeners, no detached documents. No leak indicated. §15.
+17. **Accessibility tree.** Closed structurally. The full Chrome AX tree was captured on seven routes: zero unnamed interactive controls, an `h1` and a `main` landmark everywhere, one `h1 → h3` skip. Focus visibility was confirmed by pixel diff rather than by CSS inspection. §12.
+18. **Payment entry edge cases.** Closed. Partial, multiple, overpayment, zero, negative, double-submit, method recording, and receipt deletion were each driven through the real *Record payment* dialog. Seven of the eight behave correctly; deleting a receipt does not, which is what relocated `FIN-001` to its real code path. §10.
+19. **Two devices editing the same record simultaneously.** Closed. A second writer was driven straight against the backend while the browser held a staged payment, so committing forced a genuine three-way merge — confirmed by the app's own "Your edits were merged" notice. This produced `FIN-008` and the reachability evidence for `FIN-009`. §10.
+20. **Quotation and invoice CRUD through the UI.** Closed. Create, edit, line-level and document-level discounts, persistence across a reload, zero-value and negative lines, very large totals, duplicate submit, and back/forward with an editor open were all driven. Most pass; the gap found is that **no document can be deleted or voided at all** (`FUN-008`). §7.
+21. **Client CRUD, search, and validation.** Closed. Create, edit-and-persist, email-format validation, the clients-page filters, and the `/search` route were driven. Email validation works. The phone field rewrites what the operator typed (`CUS-003`). §7.
+
 ### Still not verified
 
-12. **Physical paper margins.** Needs a real printer and real paper. The generated PDF geometry is fully measured; what a specific printer driver does with it is not.
-13. **Barcode scanning, label printing, photo upload.** Require physical devices or a real Storage bucket.
-14. **WebAuthn / Face ID.** Requires a platform authenticator; only reviewed in source (and it correctly gates on `requireOperatorAccessToken`).
-15. **`/share`.** A server action reached only by the Web Share Target, which needs a real installed PWA.
-16. **Screen-reader announcement quality.** Roles, names, and structure were measured programmatically, but no actual screen reader was run, so announcement order and phrasing are unverified.
-17. **Mid-write network failure during a form submit.** Offline-then-reconnect is verified; cutting the network *during* the write itself, and the merge behaviour of two devices editing the same record simultaneously, are not.
-18. **Memory behaviour over a long session.** No multi-hour session was run, so leak behaviour is unknown.
+18. **Physical paper margins.** Needs a real printer and real paper. The generated PDF geometry is fully measured; what a specific printer driver does with it is not.
+19. **Scanning a printed label with real hardware, and photo upload to a real bucket.** The label's barcode payload was decoded from the PDF and shown not to resolve in the app's own lookup (`PDF-016`); whether a given physical scanner reads those bars at 0.28 mm module width is a separate question needing hardware.
+20. **`/share`.** A server action reached only by the Web Share Target, which needs a real installed PWA.
+21. **Screen-reader announcement quality.** The accessibility tree is now measured (§12), but no actual screen reader was run, so announcement *order and phrasing* remain unverified.
+22. **Two devices editing the same record simultaneously.** The merge function was exercised directly, but a genuine two-browser race was not driven.
+23. **A genuinely multi-hour session.** The memory result above is a ~70-second proxy.
 
 ### Not verifiable in this environment
 
-19. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
-20. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
-21. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
-22. **Real-world data volume.** The timings in §15 are against a seeded 2,344-part catalogue on this machine, not production telemetry.
-23. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
-24. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
+24. **Production Supabase state.** Whether the migrations in the repository are actually applied to the live project, whether the `part-photos` bucket is public in production, and whether other keys or policies exist. Everything in §14 is derived from repository migrations.
+25. **Whether Vercel sanitises `X-Forwarded-For`.** Determines the live exploitability of `SEC-001` (§18 Q6). The code defect stands regardless.
+26. **Backup and restore.** Supabase backup tier and whether a restore has ever been tested (§18 Q5).
+27. **Real-world data volume.** The timings in §15 are against a seeded 2,344-part catalogue on this machine, not production telemetry.
+28. **Titus integration end-to-end.** Deliberately not exercised: it posts credentials to a live third-party site.
+29. **Production behaviour beyond the portal.** The only production request this audit made was a read-only, token-less GET of `/portal` to confirm `UX-002` (34 static-asset requests, zero Supabase calls). Everything else in this report was measured against the local build and the mock backend.
 
 ---
 
@@ -2256,15 +2603,34 @@ and a valid token and confirm all three render something a customer can read.
 
 ### Stage 1 — Stop financial and stock data loss (no schema change required)
 
-5. **`FIN-001`** — Make `healDocumentsAmountPaid` non-destructive: never lower `amountPaid`; flag
-   divergence for review instead. **Back up the `documents` blob before deploying**, then audit for
-   invoices already damaged by past merges.
+5. **`FIN-001`, `FIN-008`, `FIN-009` — do these three together, in this order.** They are one
+   tangle and fixing any one alone makes another worse.
+   - First, **`FIN-009`**: make `healDocumentsAmountPaid` non-destructive — raise `amountPaid`
+     toward the receipt sum, never lower it, and flag `prevPaid > receiptSum` for review. Rewrite
+     its unit test to feed the **bare array** the app actually stores, so the suite stops passing on
+     a shape that never occurs.
+   - Then **`FIN-008`**: pass the key through at both `mergeShopStateValue` call sites in
+     `cloud-store.ts`, so merged receipts are finally credited. *Do not do this before the step
+     above* — wiring up the current function would erase every unbacked `amountPaid` in the
+     database on the next merge.
+   - Then **`FIN-001`**: change `deleteInvoicePayment` to subtract the deleted receipt
+     (`max(0, prevPaid − receipt.total)`) instead of overwriting with the remaining sum, and correct
+     the confirmation wording so it matches what the action does.
+   - **Back up the `documents` blob before deploying**, then audit for invoices whose `amountPaid`
+     already disagrees with their receipts — those are the ones damaged so far.
 6. **`STK-001`** — Reorder `convertQuoteToInvoice` to commit the document *before* deducting stock,
    make the deduction idempotent on `invoice.stockDeducted`, and add a re-entrancy guard.
 7. **`STK-004`** — Move revert validation ahead of the stock restore.
 8. **`FIN-002`** — Make `roundMoney` symmetric and correct at large magnitudes.
+8a. **`SYN-001`** — Two changes, both small and independent. First, guard the load effect with
+   `if (dirtyRef.current) return;` so a refetch can never overwrite unsaved local state — that alone
+   stops both the Retry and the reload data loss. Second, persist the pending write (key, value,
+   base `updated_at`) when a save fails and replay it on load and on Retry, so the message the app
+   already shows becomes true. Until the queue exists, change the wording to match reality rather
+   than promising a sync that does not happen. *Belongs in this stage because it is silent loss of
+   operator work triggered by ordinary use, and the first half is a one-line change.*
 
-*Verify:* add the regression tests from §16 for each; these four are the highest-value tests in the
+*Verify:* add the regression tests from §16 for each; these five are the highest-value tests in the
 codebase.
 
 ### Stage 2 — Establish traceability (prerequisite for trusting anything else)
@@ -2273,6 +2639,7 @@ codebase.
    `recordMovement()` helper and make `adjustPartQuantity` private. Surface history on the part page.
 10. **`STK-003`** — Record phantom/document-created stock as an explicit goods-in movement.
 11. Add a **document/payment audit log** on the same pattern, so `FIN-001`-class events are visible.
+    Give it a `void` entry as well, so `FUN-008` can be fixed by voiding rather than deleting.
 
 *Why here:* without this, you cannot confirm the Stage 1 fixes actually worked in production.
 
@@ -2299,11 +2666,25 @@ codebase.
     blob for `partyId` values with no matching client.
 18b. **`CUS-002`** — Split create from upsert so a duplicate name prompts instead of overwriting, and
     stop the Excel importer writing empty contact fields over populated ones.
-18c. **`IMP-002`** — Group import preview rows by resolved part id so duplicate rows are either summed
+18b-i. **`FUN-008`** — Add a `Void` action for quotations and invoices that sets `voidedAt` and a
+    reason, excludes the document from AR, revenue, and statements, and keeps it listed and numbered.
+    Block voiding an invoice that carries payments until those are reversed, and warn about linked
+    receipts and credit notes. Delete the unused `removeDocument` or point it at the void path.
+    *Sequenced here because it depends on the audit log from Stage 2 to be worth having, but it is a
+    genuine functional gap today: a mistaken invoice cannot be taken off the books by any means.*
+18c. **`IMP-004`** — Make the dry run tell the truth. Extract one `normalizePartPatch()` applying the
+    clamp and rounding rules, and have both the preview and `bulkUpdateParts` call it, so `after` is
+    literally what gets stored. Turn an unparseable non-empty cell into a skip with a reason naming
+    the column, and strip thousands separators before `Number()` so comma-formatted prices stop being
+    silently discarded. *This is the P1 of the import group: the dry run is the only safeguard before
+    a bulk write over the whole catalogue, and today it shows values that are not the ones applied.*
+18d. **`IMP-002`** — Group import preview rows by resolved part id so duplicate rows are either summed
     or rejected by name, and count distinct parts in the result toast rather than rows. Pair this with
     **`IMP-001`** (delete the unreachable `parseInventoryExcelFile` so there is only one matching rule
-    in the codebase) and **`IMP-003`** (drop the 30-row preview cap — the container already scrolls).
-    All three are small and confined to three files.
+    in the codebase), **`IMP-003`** (drop the 30-row preview cap — the container already scrolls),
+    **`IMP-005`** (branch on the parse result so an unreadable file says so instead of rendering a
+    dead dialog), and **`IMP-006`** (extend the existing >50% confirmation to cover large increases).
+    All of these are small and confined to three files.
 
 ### Stage 3b — Customer-facing documents (small, self-contained, high visibility)
 
@@ -2327,10 +2708,19 @@ These are all in two files and are independent of everything above, so they can 
     mask.
 25c. **`PRN-001`** — Add a short `@media print` block, or state in the UI that printing goes through
     *Download PDF*. Either is acceptable; silently printing the sidebar is not.
+25d. **`PDF-016`** — Make the label barcode encode the part number it prints. Add the four missing
+    standard Code 39 characters (`$ / + %`) to the table, remove the character filter, and raise or
+    drop the 14-character cap that silently truncates 53 catalogue parts. For anything still
+    unencodable in Code 39 — `*` is the start/stop guard and genuinely cannot appear in the payload,
+    which is what breaks the 179 seal part numbers — switch the label to Code 128, which covers all
+    of ASCII and is denser at the same physical width. Separately, make the scan lookup tolerant so
+    labels already printed and stuck on bins still resolve. *This is the P1 of the group: 13% of the
+    catalogue currently carries a label the shop's own scanner rejects.*
 
 *Verify:* re-run the rendering harness described in §13 and assert no drawn text exceeds the page or
 the footer reserve; assert every Arabic raster has zero ink on its outermost row and column; assert a
-print-emulated `/documents` snapshot contains no sidebar navigation text.
+print-emulated `/documents` snapshot contains no sidebar navigation text; and decode the bars of a
+generated label for every catalogue part, asserting the payload equals the printed part number.
 
 ### Stage 3c — Customer-facing portal, and on-screen readability
 
@@ -2361,6 +2751,8 @@ on-screen readability, which is almost all single-line theme or utility-class ch
     results and label the 500-row cap honestly; make the inventory column headers real `<th>`
     buttons that sort, for every category rather than only O-Rings.
 26h. **`UX-019`** — Give `/fleet` a primary action in its empty state.
+26i. **`CUS-003`** — Keep the phone number as the operator typed it and derive the `wa.me` digits at
+    the point each link is built, which is what three of the four call sites already do.
 
 *Verify:* re-run the measurement pass from §12 at 375 / 768 / 1440 px and confirm the contrast ratios,
 the reachable width on `/stock-map` and the dashboard, and the tab-stop count before first content.
@@ -2395,8 +2787,10 @@ the reachable width on `/stock-map` and the dashboard, and the tab-stop count be
 
     This is invasive: it touches every data context, every route that reads them, the merge layer,
     and the migration history, and it needs a careful data migration out of the JSON blobs. But
-    `FIN-001`, `STK-001`, `STK-006`, `FUN-003`, `PERF-002`, and `PERF-003` are all symptoms of the
-    current model, and client-side patches to each will keep regressing. A middle path, if a full
+    `FIN-001`, `FIN-008`, `STK-001`, `STK-006`, `FUN-003`, `PERF-002`, and `PERF-003` are all
+    symptoms of the current model, and client-side patches to each will keep regressing. `FIN-008`
+    is the clearest illustration: a hand-written JSON merge is being asked to preserve a financial
+    invariant that a `sum(receipts)` view or a trigger would maintain for free. A middle path, if a full
     migration is too much: keep the blob model but shard `documents` by period and move the
     genuinely transactional operations (conversion, payment, stock movement) into server-side
     Postgres functions so they become atomic.
@@ -2433,10 +2827,10 @@ tables (8) confirmed dead and revoked.
 |---|---|---|
 | `unlockOperator` | PIN + rate limit | ✅ Runtime probe — **rate limit bypassable** (`SEC-001`); also driven through the real unlock UI |
 | `fetchPortalStatement` | Portal token + rate limit | ✅ Source review (`SEC-004`); **never reached at runtime — its only caller crashes first** (`UX-002`) |
-| `beginFaceIdRegister` | `requireOperatorAccessToken` | ✅ Source review |
-| `finishFaceIdRegister` | `requireOperatorAccessToken` | ✅ Source review |
-| `beginFaceIdUnlock` | Pre-auth by design | ✅ Source review |
-| `finishFaceIdUnlock` | Pre-auth by design | ✅ Source review |
+| `beginFaceIdRegister` | `requireOperatorAccessToken` | ✅ Runtime — enrolment driven against a CDP virtual authenticator |
+| `finishFaceIdRegister` | `requireOperatorAccessToken` | ✅ Runtime — a resident credential was registered and stored |
+| `beginFaceIdUnlock` | Pre-auth by design | ✅ Runtime — options issued, unlock succeeded |
+| `finishFaceIdUnlock` | Pre-auth by design | ✅ Runtime — unlock succeeded; **a captured assertion replayed verbatim was correctly refused** |
 | `syncTitusOrders` | **none** | ❌ Runtime probe — **unauthenticated** (`SEC-002`) |
 
 ### Document types — 5/5
@@ -2450,18 +2844,22 @@ each; money and status logic verified by harness.
 |---|---|
 | Quotation → invoice conversion | ✅ Source-verified; **2 defects** (`STK-001`, `FUN-001`) |
 | Invoice → quotation revert | ✅ Source-verified; **1 race** (`STK-004`) |
-| Payment / receipt → balance and status | ✅ Harness-verified; **1 P0** (`FIN-001`) |
+| Payment / receipt → balance and status | ✅ Runtime-verified through the real *Record payment* and *Delete receipt* dialogs; 7 behaviours correct, **1 P0** (`FIN-001`) |
 | Credit note / return → stock and balance | ✅ Source-verified; **1 defect** (`FIN-002` residue) |
 | Stock deduction and restoration | ✅ Source-verified; **2 P0** (`STK-001`, `STK-002`) |
-| Multi-device merge and conflict resolution | ✅ Harness-verified; **1 P0** (`FIN-001`) |
+| Multi-device merge and conflict resolution | ✅ Runtime-verified with a genuine two-writer race; **1 P0 + 1 P2** (`FIN-008`, `FIN-009`) |
+| Document lifecycle (create, edit, convert, delete) | ✅ Runtime-verified through the real dialogs; create/edit/convert correct, **deletion does not exist** (`FUN-008`, P1) |
 | Operator unlock | ✅ Runtime-verified through the real UI; **1 P0** (`SEC-001`) |
 | Client portal | ✅ Runtime-verified locally **and on production**; **completely broken** (`UX-002`) plus `SEC-004` |
 | Dashboard and report calculations | ✅ Formulas documented (§11); **3 defects** (`RPT-001`…`003`) |
-| PDF generation | ✅ Rendered and measured (§13); **13 defects** |
-| Import / export | ✅ Live path source-verified end to end (§8); 7 behaviours correct, **1 P2 + 2 P3** (`IMP-001`…`003`) |
-| Offline behaviour | ✅ Runtime-verified working — banner appears offline and clears on reconnect |
+| PDF generation | ✅ Rendered and measured (§13), now including the packing slip, part label, and Z-report; **14 defects** |
+| Import / export | ✅ Driven with real `.xlsx` uploads through the actual dialog (§8); 7 behaviours correct, **1 P1 + 2 P2 + 3 P3** (`IMP-001`…`006`) |
+| Offline behaviour and recovery | ✅ Runtime-verified, including a write failed in flight; the banner is correct but **both recovery paths destroy the edit** (`SYN-001`, P0) |
+| Biometric unlock (WebAuthn) | ✅ Runtime-verified against a virtual authenticator — enrol, unlock, counter tracking, and replay refusal all correct |
 | Share target | ⚠️ Source-verified; needs an installed PWA to exercise |
 | Responsive layout, contrast, keyboard, modals | ✅ Runtime-measured at 3 widths (§12); **20 findings**, 12 behaviours verified correct |
+| Accessibility tree | ✅ Full Chrome AX tree captured on 7 routes; 0 unnamed controls, `h1` + `main` everywhere, focus visibility confirmed by pixel diff |
+| Long-session memory | ✅ 48 navigations + 6 dialog cycles; no leak indicated |
 
 ### Honest scorecard by phase
 
@@ -2471,14 +2869,14 @@ each; money and status logic verified by harness.
 | 2 — Technical verification | ✅ Complete |
 | 3 — Feature testing | ✅ Complete — logic verified by harness; dialogs, validation, confirmations, offline/reconnect, duplicate submit, refresh-after-save, back/forward, and the full numeric edge-case matrix all driven in a real browser |
 | 4 — Inventory | ✅ Complete — 11 findings including import/export; both numeric editing paths driven, negative input confirmed rejected by the form and silently discarded by the inline editor |
-| 5 — Quotations | ✅ Logic complete — 4 findings |
-| 6 — Invoices and payments | ✅ Logic complete — 7 findings |
-| 7 — Customers and suppliers | ✅ Complete — delete protection and duplicate handling both verified (`CUS-001`, `CUS-002`) |
+| 5 — Quotations | ✅ Complete — create, edit, discounts, persistence, and conversion all driven through the real dialogs; 4 findings plus `FUN-008` |
+| 6 — Invoices and payments | ✅ Complete — the payment dialog's full matrix and a genuine two-device race driven at runtime; 9 findings, 2 of them P0 |
+| 7 — Customers and suppliers | ✅ Complete — create, edit, email validation, and search driven at runtime; delete protection and duplicate handling verified (`CUS-001`, `CUS-002`, `CUS-003`) |
 | 8 — Reports and dashboard | ✅ Complete — all formulas documented and every rendered KPI reconciled by hand against seeded records, which produced `RPT-002` |
 | 9 — Design and UX | ✅ Complete — 79 measured samples, 83 screenshots, 20 findings, 12 verified-correct behaviours; overflow re-measured across 21 routes × 3 widths |
-| 10 — Printing and PDF | ✅ Complete — real PDFs rendered and measured, Arabic path verified in a browser and its rasters decoded; only physical paper margins remain unverified |
-| 11 — Security | ✅ Complete — 8 findings, 2 confirmed by live probe, 11 controls verified sound, stored XSS confirmed inert in the DOM |
-| 12 — Performance | ✅ Complete — build and architecture analysed; runtime page-load, search latency, and offline/reconnect all measured against a 2,344-part catalogue |
+| 10 — Printing and PDF | ✅ Complete — every document type rendered and measured, including the packing slip, part label, and Z-report; Arabic rasters decoded; label barcode decoded back to characters (`PDF-016`); only physical paper margins remain unverified |
+| 11 — Security | ✅ Complete — 8 findings, 2 confirmed by live probe, 11 controls verified sound, stored XSS confirmed inert in the DOM, WebAuthn exercised end to end against a virtual authenticator including a refused replay |
+| 12 — Performance and reliability | ✅ Complete — build and architecture analysed; page-load, search latency, long-session memory, and a write failed mid-flight all measured against a 2,344-part catalogue. The mid-flight test produced `SYN-001`, the pass's only P0 |
 
 ---
 
@@ -2488,10 +2886,12 @@ each; money and status logic verified by harness.
 |---|---|---|---|
 | `SEC-001` | **P0** | Auth | PIN lockout bypassed by spoofing `X-Forwarded-For` — demonstrated |
 | `SEC-002` | **P0** | Auth | `syncTitusOrders` unauthenticated; relays credentials to a third party |
-| `FIN-001` | **P0** | Payments | Payments without receipt documents silently and permanently erased on merge |
+| `FIN-001` | **P0** | Payments | Deleting a receipt overwrites `amountPaid` with the remaining receipt sum, erasing every unbacked payment — $125 paid became $0 on deleting a $25 receipt |
+| `FIN-008` | **P0** | Payments | A payment taken on a second device merges in as a receipt but is never credited — $65 of receipts against an invoice recording $40 paid |
 | `STK-001` | **P0** | Stock | Stock deducted before conversion commits; no rollback; double-deduct on retry |
 | `STK-002` | **P0** | Stock | No stock movement audit trail across 14 mutation sites |
 | `UX-002` | **P0** | Portal | The customer-facing portal crashes on every load — confirmed on production, in the local build at all three widths, and in the server-side render |
+| `SYN-001` | **P0** | Sync | An edit the app reports as "saved offline; will sync when connection returns" is destroyed by its own *Retry sync* button and by a reload |
 | `SEC-003` | P1 | Auth | Rate limiter fails open and updates non-atomically |
 | `FIN-002` | P1 | Money | `roundMoney` asymmetric for negatives; stops cent-rounding above ~1e10 |
 | `FIN-003` | P1 | Invoices | No due date, so `Overdue` and aging are not derivable |
@@ -2507,6 +2907,9 @@ each; money and status logic verified by harness.
 | `CUS-002` | P1 | Customers | Re-adding an existing name silently wipes phone/email/address; the Excel importer triggers it |
 | `FUN-006` | P1 | Navigation | `/fleet/$machineId` can never render — the parent route renders no `<Outlet />`, so the machine-history page is unreachable |
 | `RPT-002` | P1 | Reports | Dashboard "Low Stock Alerts" saturates at 8 and disagreed with `/low-stock` by 128 in the seeded run |
+| `PDF-016` | P1 | Labels | The printed barcode encodes a different part number than the text beside it, for 229 of 1,760 catalogue parts; the app's own scanner cannot resolve it |
+| `IMP-004` | P1 | Import | The dry run states values that are not the ones applied, and comma-formatted prices are silently discarded |
+| `FUN-008` | P1 | Documents | Nothing in the app can delete or void a document; `removeDocument` is exported and never called |
 | `FIN-004` | P2 | Money | Two different subtotal definitions (0.12 vs 0.06 demonstrated) |
 | `FIN-005` | P2 | Money | Tax hardcoded to 0; no VAT configuration |
 | `FIN-006` | P2 | Money | Currency effectively hardcoded to USD |
@@ -2515,7 +2918,8 @@ each; money and status logic verified by harness.
 | `FUN-003` | P2 | Documents | Duplicate document ids possible by construction |
 | `FUN-004` | P2 | Navigation | `/documents` link omits required search params |
 | `FUN-005` | P2 | Global | `NaN`/`Infinity` silently coerced to 0 on import and programmatic paths (the part form itself is guarded) |
-| `FUN-007` | P2 | Forms | Three rapid Create clicks create one part but show three success toasts |
+| `FUN-007` | P2 | Forms | Three rapid Create clicks create one part but show three success toasts (Add-part dialog only; the invoice form is clean) |
+| `FIN-009` | P2 | Payments | The merge's payment-healing code cannot run, and its unit test passes through a `{documents: […]}` shape the app never stores |
 | `QUO-001` | P1 | Quotations | No expiry date, so `Expired` cannot exist |
 | `QUO-002` | P2 | Quotations | Status set does not cover the lifecycle |
 | `QUO-003` | P2 | Quotations | Quotations never reserve stock, with no warning |
@@ -2525,6 +2929,7 @@ each; money and status logic verified by harness.
 | `STK-007` | P2 | Inventory | `removePart` silently resets quantity and pricing |
 | `STK-009` | P2 | Inventory | Quantities silently rounded to whole units by two different rules — the dialog rounds 2.5 to 3, the inline editor floors 7.5 to 7 |
 | `IMP-002` | P2 | Import | Duplicate rows for one part keep only the last, and the count reports rows not parts |
+| `IMP-005` | P2 | Import | An unreadable workbook produces no error at all — the catch is unreachable because `XLSX.read` does not throw |
 | `RPT-003` | P2 | Reports | Revenue grouped by client name, not id |
 | `RPT-004` | P2 | Reports | Date handling mixes local-time bucketing with raw string slicing |
 | `SEC-004` | P2 | Portal | Tokens in query params; expiry fails open; `Math.random()` fallback |
@@ -2571,12 +2976,14 @@ each; money and status logic verified by harness.
 | `PDF-012` | P3 | PDF | Totals box overflows for astronomically large amounts |
 | `PDF-013` | P3 | PDF | Description column right-aligned under a left-aligned header |
 | `PDF-015` | P3 | PDF | Arabic documents are 2.7× larger than Latin ones — 63% of the file is uncompressed raster |
+| `CUS-003` | P3 | Customers | The phone number the operator types is replaced with an unformatted digit string — `+961 3 424 242` is stored and displayed as `9613424242` |
 | `STK-008` | P3 | Inventory | Inventory valuation is an unrounded float over the whole catalog |
 | `STK-010` | P3 | Inventory | The inline quantity editor discards negative and invalid input with no message (the Add/Edit dialog correctly rejects it) |
 | `STK-011` | P3 | Inventory | Search reports a 500-row cap as if it were the match count; `HOSE-1/2` shows "500 of 2344" for one real match |
 | `STK-012` | P3 | Inventory | No `<th>`, no `aria-sort`, no clickable headers — the catalogue cannot be sorted by Qty, Cost, Price, or Code |
 | `IMP-001` | P3 | Import | Dead `parseInventoryExcelFile` truncates part codes at separators — unreachable, so latent |
 | `IMP-003` | P3 | Import | Import dry run lists only the first 30 rows, with no "30 of N" disclosure |
+| `IMP-006` | P3 | Import | No upper bound on imported quantity, cost, or price; the >50% guard checks drops only |
 | `PERF-005` | P3 | Reliability | Conflict retry loop has no backoff or ceiling |
 | `BLD-002` | P3 | Build | Dev server logs `node:crypto` externalisation error from a server module |
 | `DEP-002` | P3 | Deps | `package-lock.json` out of sync; `npm ci` fails |
