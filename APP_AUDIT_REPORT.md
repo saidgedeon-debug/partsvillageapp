@@ -2260,7 +2260,7 @@ verified restore path materially raises the severity of both.
 ### `PERF-005` · P3 · Optimistic-concurrency retry loop can thrash
 
 - **Description:** On a version conflict, `cloud-store` fetches the remote value, merges, and retries the save. If the save still races, it leaves the state dirty for the next debounce to retry, with no backoff or attempt ceiling.
-- **Actual:** Two actively-used devices can ping-pong merge-and-save cycles, each rewriting the whole blob — and each cycle runs `healDocumentsAmountPaid` (`FIN-001`).
+- **Actual:** Two actively-used devices can ping-pong merge-and-save cycles, each rewriting the whole blob — and each cycle re-runs the document merge that under-credits payments (`FIN-008`).
 - **Expected:** Exponential backoff with a retry cap and a clear "unsynced" state.
 - **Evidence:** `src/lib/cloud-store.ts:375-420` (`else` branch: "Still racing — leave dirty").
 - **Recommended fix:** Add jittered exponential backoff and surface a persistent conflict to the operator.
